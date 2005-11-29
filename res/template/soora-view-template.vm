@@ -1,0 +1,37 @@
+#**
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * @version 1
+ *#
+
+#set( $BISM_PATH = "res/image/bism290.gif" )
+
+#macro(putBismillah)
+	#if ($SOORA != 9) ##&& $SOORA != 1) #** not a good idea! *#
+	<img src="$BISM_PATH">
+	#end
+#end
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<base href="file:///$APP_PATH/">
+	<link rel="stylesheet" type="text/css" href="res/template/css/style.css">
+	<script src="res/template/js/utils.js" language="javascript" type="text/javascript"></script>
+<title>$TITLE</title>
+</head>
+<body dir="rtl">
+<table class="main">
+	<tr><td class="barTop" align="center">
+	#putBismillah()
+	</td></tr>
+
+	<tr><td class="quran">
+	#parse ("res/template/aya-template.vm")
+	</td></tr>
+
+	<tr><td class="barBottom">&nbsp;</td></tr>
+</table>
+</body>
+</html>

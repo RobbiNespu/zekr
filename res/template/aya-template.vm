@@ -1,0 +1,50 @@
+#**
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * @version 1
+ *#
+
+#set ($INLINE = "INLINE")
+#set ($BLOCK = "BLOCK")
+
+#set ($MINOR = 0)
+#set ($MAJOR = 1)
+
+#set ($RPAREN = "&#64831;")
+#set ($LPAREN = "&#64830;")
+
+#foreach ($AYA in $AYA_LIST)
+	#set($AYA_NUM = $velocityCount)
+	#foreach ($JOZ in $JOZ_LIST)
+		#if ($JOZ.AyaNumber == $AYA_NUM)
+			<nobr><span style="color: red;" title="$JOZ">[$JOZ.Index]</span></nobr>
+		#end
+	#end
+	<a name="#${AYA_NUM}">
+	#if ($LAYOUT == $BLOCK)
+		<div class="aya" id="${SOORA}_${AYA_NUM}">
+	#elseif ($LAYOUT == $INLINE)
+		<span class="aya" id="${SOORA}_${AYA_NUM}">
+	#end
+			$AYA
+			<span title="${SOORA_NAME} - ${AYA_NUM}">
+				<nobr><span class="ayaSign">$RPAREN</span>$AYA_NUM<span class="ayaSign">$LPAREN</span></nobr>
+			</span>
+			#foreach ($SUJDA in $SUJDA_LIST)
+				#if ($SUJDA.AyaNumber == $AYA_NUM)
+					#if ($SUJDA.Type == $MINOR)
+						<span id="minor" class="sujda" title="$SUJDA">&nbsp;*&nbsp;</span>
+					#elseif ($SUJDA.Type == $MAJOR)
+						<span id="major" class="sujda" title="$SUJDA">&nbsp;**&nbsp;</span>
+					#end
+				#end
+			#end
+	#if ($LAYOUT == $BLOCK)
+		</div>
+	#elseif ($LAYOUT == $INLINE)
+		</span>
+	#end
+	</a>
+#end

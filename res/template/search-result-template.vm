@@ -1,0 +1,30 @@
+#**
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * @version 1
+ *#
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<base href="file:///$APP_PATH/">
+	<link rel="stylesheet" type="text/css" href="res/template/css/style.css">
+	<script src="res/template/js/utils.js" language="javascript" type="text/javascript"></script>
+<title>$TITLE</title>
+</head>
+<body dir="rtl">
+<table class="main">
+	<tr><td class="barTop" align="center">
+		<div style="font-family: Tahoma">$TITLE</div>
+	</td></tr>
+
+	<tr><td class="quran">
+	#parse ("res/template/aya-result-template.vm")
+	</td></tr>
+
+	<tr><td class="barBottom">&nbsp;</td></tr>
+</table>
+</body>
+</html>
