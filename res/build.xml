@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     Mar 22, 2005 12:29:01 AM                                                        
+     Zekr    
+     The Zekr Project
+     Mohsen                                                                
+     ====================================================================== -->
+
+<project name="Zekr" default="release">
+	<description>
+            The Zekr Project
+    </description>
+
+	<!-- Constants -->
+	<property name="EXPORT_PRJ" value="zekr0_1_0.jar" />
+	<property name="EXPORT_SRC" value="zekr-src.jar" />
+	<property name="EXPORT_BIN" value="zekr.jar" />
+	<property name="DIST_DIR" value="../dist" />
+	
+	<target name="default" depends="depends" description="--> The Zekr Project">
+
+		<javac srcdir="../src" destdir="../bin/d"
+    			debug="off" compiler="gcj" fork="true">
+			<classpath id="r1">
+				<fileset dir="../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+
+		</javac>
+	</target>
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="depends">
+	</target>
+
+	<target name="build">
+		<property name="binaryName" value="Zekr.exe"/>
+
+		<echo message="compiling   .java -> .o"/>
+		<apply failonerror="true" executable="gcj.exe" dest="../bin/d">
+			<arg value="-fCLASSPATH=../bin/d/"/>
+			<arg value="-O9"/>
+			<arg value="-g"/>
+			<arg value="-c"/>
+			<srcfile/>
+			<arg value="-o"/>
+			<targetfile/>
+			<fileset dir="../src/">
+				<include name="org/quran/engine/xml/*.java"/>
+			</fileset>
+			<mapper type="glob" from="*.java" to="*.o"/>
+		</apply>
+
+		<echo message="linking        .o -> ${binaryname}"/>
+		<uptodate property="linked" targetfile="../bin/d//${binaryName}">
+			<srcfiles dir="../bin/d/" includes="../bin/d/**/*.o" excludes="*.o"/>
+		</uptodate>
+		<antcall target="link"/>
+
+	</target>
+
+	<target name="link" unless="linked">
+		<apply failonerror="true" executable="gcj" parallel="true">
+			<fileset dir="../bin/d/" includes="../bin/d/**/*.o" excludes="*.o"/>
+			<arg value="-fCLASSPATH=libgcj.jar"/>
+			<arg value="--main=net.sf.zekr.ZekrMain"/>
+			<arg line="-o ../bin/d/${binaryname}"/>
+			<srcfile/>
+			<arg line="${linkflags}"/>
+		</apply>
+	</target>
+	
+	
+	<target name="release">
+		<jar destfile="${DIST_DIR}/${EXPORT_PRJ}" description="developers snapshot">
+			<fileset dir="../">
+				<exclude name="**/*${EXPORT_PRJ}" />
+				<exclude name="**/CVS/*" />
+			</fileset>
+		</jar>
+		<jar destfile="${DIST_DIR}/${EXPORT_SRC}" basedir="../src">
+			<exclude name="**/*JustTest.java" />
+			<exclude name="**/*DebugMain.java" />
+		</jar>
+		<jar destfile="${DIST_DIR}/${EXPORT_BIN}" basedir="../bin" defaultexcludes="true">
+			<exclude name="**/*JustTest.class" />
+			<exclude name="**/*DebugMain.class" />
+			<exclude name="**/CVS/*" />
+		</jar>
+	</target>
+
+</project>
+

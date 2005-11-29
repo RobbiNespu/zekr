@@ -1,0 +1,92 @@
+/*
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * Author:         Mohsen Saboorian
+ * @version 1
+ */
+html,body {
+	padding: 0;
+	direction: rtl;
+}
+
+body {
+	font: 13px Badr, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
+	/*buttonface*/ /*rgb(210, 235, 255)*/
+	background: buttonface url('../../image/zekr.png') no-repeat fixed
+		center;
+	color: rgb(30, 40, 70);
+	margin: 0 5% 0 5%;
+}
+
+table.main {
+	height: 100%;
+	width: 100%;
+}
+
+td.barTop {
+	height: 40px;
+}
+
+td.barBottom {
+	height: 40px;
+}
+
+td.quran {
+	font: 21px "Traditional Arabic", Badr, Nazanin, Tahoma, Verdana,
+		Helvetica, Arial, Sans-serif;
+	vertical-align: top;
+	border-left: 1px solid rgb(190, 220, 255);
+	border-right: 1px solid rgb(190, 220, 255);
+	border-top: 3px double rgb(140, 150, 250);
+	border-bottom: 3px double rgb(140, 150, 250);
+	padding: 7 8;
+	text-align: justify;
+	line-height: 150%;
+}
+
+div.aya {
+	/*border-top: 1px solid rgb(100, 200, 250);*/
+	border-bottom: 1px dashed rgb(100, 200, 250);
+	padding-right: 10px;
+	padding-left: 10px;
+	margin: 3px 0 3px 0;
+}
+
+
+span.sujda#minor {
+	color: rgb(200, 40, 40);
+	border: 1px rgb(200, 40, 40) solid;
+}
+
+span.sujda#major {
+	color: rgb(240, 10, 10);
+	border: 1px rgb(200, 40, 40) solid;
+}
+
+span.ayaSign {
+	font: 20px Andalus, Traditional Arabic, Arial Unicode MS, Terafik,
+		Tahoma, Helvetica, Arial, Sans-serif;
+}
+
+span.jozSign {
+	font: 20px Andalus, Traditional Arabic, Arial Unicode MS, Terafik,
+		Tahoma, Helvetica, Arial, Sans-serif;
+	color: rgb(200, 40, 40);
+}
+
+div.searchResult.odd {
+	background: transparent;
+}
+
+div.searchResult.even {
+	background-color: rgb(170, 190, 255);
+}
+
+span.searchResult.highlight {
+	color: red;
+	background: transparent;
+}
+
+

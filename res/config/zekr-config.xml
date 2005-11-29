@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<language current="fa" default="en">
+		<pack file="farsi.xml" id="fa" lName="Farsi" name="فارسی"/>
+		<pack file="english.xml" id="en" lName="English" name="English"/>
+		<pack file="indonesian.xml" id="id" lName="Bahasa Indonesia" name="Bahasa Indonesia"/>
+	</language>
+
+	<quran>
+		<file file="text/quran-1256.txt" id="QURAN_ARABIC_TEXT"/>
+		<file file="config/quran-text-config.xml" id="QURAN_CONFIG"/>
+		<file file="text/quran-properties.xml" id="QURAN_DETAIL"/>
+	</quran>
+	
+	<view>
+		<item id="TEXT_LAYOUT" value="BLOCK"/>
+	</view>
+</config>

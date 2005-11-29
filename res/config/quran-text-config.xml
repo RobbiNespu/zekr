@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Not all of the attributes are applied
+	TODO: Delete some unnecessary nodes	
+	-->
+<config name="Quran Text Source Configuration" author="Mohsen Saboorian">
+	<text-file charset="cp1256" dir="rtl" lineBreak="unix" />
+	<text-notation>
+		<soora>
+			<title exist="true" startString="~" endString="\n">
+				<sign leftString=")" rightString="(" value="{DIGIT}" />
+			</title>
+			<bismillah exist="true" startString="" endString="\n" />
+		</soora>
+
+		<aya>
+			<sign leftString="}" rightString="{" value="{DIGIT}" />
+		</aya>
+
+		<joz>
+			<sign leftString="]" rightString="[" value="{DIGIT}" />
+		</joz>
+
+		<sujda>
+			<sign leftString="]" rightString="[" type="minor" value="." />
+			<sign leftString="]" rightString="[" type="major" value=".." />
+		</sujda>
+
+	</text-notation>
+</config>

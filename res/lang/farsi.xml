@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language id="fa" locale="IR" direction="rtl">
+	<header name="فارسی" creator="Zekr Team" version="0.1" />
+	<word>
+		<common>
+			<text id="OK"       value="قبول" />
+			<text id="CANCEL"   value="لغو" />
+			<text id="YES"      value="بله" />
+			<text id="NO"       value="خیر" />
+			<text id="APPLY"    value="اعمال" />
+			<text id="START"    value="آغاز" />
+			<text id="RESET"    value="خالی کردن" />
+			<text id="NEW"      value="جدید" />
+			<text id="HELP"     value="کمک" />
+			<text id="EDIT"     value="ویرایش" />
+			<text id="SEARCH"   value="جستجو" />
+			<text id="GOTO"     value="رفتن به" />
+			<text id="VIEW"     value="نمایش" />
+			<text id="CLOSE"    value="بستن" />
+			<text id="INSERT"   value="درج" />
+			<text id="DETAILS"  value="جزئیات" />
+			<text id="MORE"     value="بیشتر" />
+			<text id="NEXT"     value="بعدی" />
+			<text id="PREVIOUS" value="قبلی" />
+			<text id="REFRESH"  value="تجدید" />
+			<text id="UPDATE"   value="به‌روز" />
+			<text id="SHOW"     value="نمایش" />
+			<text id="NAME"     value="نام" />
+			<text id="VALUE"    value="مقدار" />
+			<text id="NUMBER"   value="شماره" />
+			<text id="OPTION"   value="انتخاب" />
+			<text id="FILE"     value="فایل" />
+			<text id="RELOAD"   value="بازخوانی" />
+			<text id="TYPE"     value="نوع" />
+			<text id="MESSAGE"  value="پیام" />
+			<text id="BLOCK"    value="بلوک" />
+			<text id="LINE_BY_LINE" value="خط به خط" />
+			<text id="AND"      value="و" />
+			<text id="COMMA"    value="،" />
+			<text id="SYNCHRONOUS" value="همگام" />
+			<text id="ERROR"    value="خطا" />
+			<text id="LANGUAGE" value="زبان" />
+			<text id="ABOUT"    value="درباره" />
+			<text id="PRINT"    value="چاپ" />
+			<text id="HOMEPAGE" value="خانه" />
+
+			<text id="EXIT"     value="خروج" />
+		</common>
+		<special>
+			<text id="QURAN"    value="قرآن" />
+			<text id="SOORA"    value="سوره" />
+			<text id="AYA"      value="آیه" />
+			<text id="SUJDA"    value="سجده" />
+			<text id="JOZ"      value="جزء" />
+			<text id="MAKKI"    value="مکّی" />
+			<text id="MADANI"   value="مدنی" />
+			<text id="DESCENT"  value="محل نزول" />
+			<text id="AYA_COUNT"  value="تعداد آیات" />
+			<text id="MINOR_SUJDA" value="سجده مستحب" />
+			<text id="MAJOR_SUJDA" value="سجده واجب" />
+		</special>
+	</word>
+
+	<message>
+		<inform>
+			<text id="SEARCH_FINISHED" value="جستجو پایان یافت" />
+			<text id="SEARCH_RESULT_TITLE" value="نتیجه‌ی جستجو برای «{1}»" />
+		</inform>
+		<confirm>
+			<text id="YES_NO" value="آیا مطمئن هستید؟" />
+		</confirm>
+		<error>
+			<text id="GENERAL_ERROR" value="وقوع خطای ناخواسته در برنامه" />
+		</error>
+		<tooltip>
+		</tooltip>
+	</message>
+
+	<forms>
+		<global>
+			<text id="APP_NAME" value="ذکر" />
+			<text id="APP_FULL_NAME" value="پروژه‌ی قرآنی ذکر" />
+			<text id="FORM_TITLE" value="ذکر" />
+			<text id="COPYRIGHT_DISCLAIMER" value="این برنامه بصورت رایگان و به امید اینکه مفید باشد در اختیار شما قرار گرفته است، ولی بدون هیچگونه ضمانت." />
+		</global>
+		<form id="QURAN_FORM">
+			<text id="TITLE" value="ذکر" />
+			<text id="SEARCH_NOT_AVAILABLE" value="این امکان در نگارش کنونی موجود نیست، برای جستجو بر روی صفحه‌ی قرآن کلیک کنید و ctrl + f را بزنید." />
+		</form>
+	</forms>
+</language>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc destdir="../doc/api" access="private" source="1.4" use="true" 
+        	notree="false" nonavbar="false" noindex="false" 
+        	splitindex="true" author="true" version="true" 
+        	nodeprecatedlist="false" nodeprecated="false" 
+        	packagenames="net.sf.zekr.engine.log,net.sf.zekr.common.runtime,net.sf.zekr.engine.language,net.sf.zekr.common.config,net.sf.zekr.common.resource.dynamic,net.sf.zekr.engine.xml,net.sf.zekr.engine.template,net.sf.zekr.common.resource,net.sf.zekr.common.util,net.sf.zekr.ui,net.sf.zekr" 
+        	sourcepath="../src" classpath="." doctitle="The Zekr Project"/>
+    </target>
+</project>
