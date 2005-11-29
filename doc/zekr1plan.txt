@@ -1,0 +1,15 @@
+                           In the name of Allah
+Zekr 1.0 plan
+
+History:
+23-3-2005 creation
+
+Main features:
+	+ Translations for Farsi, and English
+	+ Print capability
+	+ Save as (export): html, pdf (opt.)
+	+ Advanced search
+	+ Statistical analysis
+	+ Tarteel system (opt.)
+	+ Grammatical analysis
+	+ .exe installer for MS Windows

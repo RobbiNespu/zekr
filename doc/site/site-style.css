@@ -1,0 +1,147 @@
+body {
+	font-family: Trebuchet MS, Georgia, Tahoma, Arial, Helvetica, Sans-Serif;
+	font-style: normal;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+.right#right {
+	padding: 20;
+	border: 1px solid silver;
+}
+
+div.header {
+	border-bottom-width:1;
+	border-bottom-style:dashed;
+	border-bottom-color:Gray;
+}
+
+/******************/
+
+fieldset { /* IE is nicer this way! */
+	border-width:;
+	border-color:;
+	border-style:;
+	text-align: justify;
+}
+
+legend {
+	border-style: dashed;
+	border-width: 1px;
+	border-color: gray;
+	margin-bottom: 10px;
+	color: rgb(50, 110, 250);
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.footer {
+	font-family: Courier New, Courier;
+	font-style: normal;
+	font-size: 10pt;
+	color: rgb(130, 130, 130);
+}
+
+span.lastUpdate {
+	color: rgb(110, 110, 110);
+	font-family: Courier New, Courier;
+	font-style: normal;
+	font-size: 10pt;
+}
+
+a:link { 
+	color: rgb(20, 150, 240);
+	text-decoration: none;
+	background: transparent;
+}
+
+a:visited { 
+	color: rgb(100, 90, 200);
+	text-decoration: none;
+	background: transparent;
+}
+
+a:hover { 
+	color: red;
+	text-decoration:underline;
+}
+
+h1 {
+	border-bottom: 1px solid buttonface;
+	
+}
+
+li {
+	margin-bottom:2px;
+}
+
+tt {
+	font-size: 15px;
+	font-family: Andale Mono, Courier new, Courier;
+}
+
+dfn {
+	font-family: Courier new, Courier, Andale Mono;
+	background-color: rgb(250, 245, 245);
+	font-style: normal;
+}
+
+img {
+	border-width: 0px
+}
+
+acronym {
+	border-bottom: 1px dashed silver;
+	cursor: help;
+}
+
+/*  Menu Definition  */
+.menuItem {
+	border: 1px solid rgb(200, 200, 200);
+}
+
+.menuItem a {
+	padding:          4px;
+	margin:           1px;
+	border:           1px solid rgb(230, 230, 230);
+	color:            blue;
+	display:          block;
+	text-decoration:  none;
+	background-color: transparent;
+	text-align:       left;
+}
+
+.menuItem a:link {
+	padding:          4px;
+	margin:           1px;
+	border:           1px solid rgb(230, 230, 230);
+	color:            rgb(100, 140, 250);
+	display:          block;
+	text-decoration:  none;
+	background-color: transparent;
+	text-align:       left;
+}
+
+.menuItem a:visited {
+	color:            rgb(100, 140, 250);
+}
+
+.menuItem a:hover { 
+	border:           1px solid black;
+	color:            black;
+	text-decoration:  none;
+	background:       rgb(245, 245, 245);
+}
+/* -------------------- */
+
+/*  FAQ  */
+div.question {
+	color: rgb(100, 100, 250);
+}
+
+div.answer {
+	padding-left: 40px;
+	padding-bottom: 20px;
+	color: black;
+}
+/* ----- */

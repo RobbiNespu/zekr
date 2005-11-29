@@ -1,0 +1,29 @@
+                           In the name of Allah
+Zekr release notes
+
+Ver 0.1.0a2, 25-3-05
+	Zekr is distributed under GNU GPL 2.0 (see [zekr]/license.txt).
+	This release consists of 5 third party jar file libirary:
+	commons-collections.jar (Apache Software License, Version 1.1)
+	"log4j-1.2.8.jar" (Apache Software License, Version 1.1)
+	"velocity-1.4.jar" (Apache License, Version 2.0)
+	"xml-apis.jar" (Apache Software License, Version 1.1)
+	"swt-win32.jar" version 3.116 (Common Public License Version 1.0)
+	"swt-win32-3116.dll" (Common Public License Version 1.0)
+	Most of icons in [zekr]/res/image/icon are under LGPL. For more details
+	on icons license see http://artist.kde.org/new/license.html.
+	
+	Zekr root directory (say [zekr]) contains:
+	lib - third party libraries
+	dist - source and binary distribution
+	res - resources (icons, xmls, etc.)
+	doc - Zekr documentations
+	run.bat - executable script for Win32
+
+Ver 0.1.0, 11-8-05
+	Bugfixes/New features:
+	+ Problem with run.bat (JAVA_HOME)
+	+ Enter (Return) will work in Quran Form (soora/aya selection)
+	+ Localized hint for joz numbers
+	+ Splash screen has title and well as icons
+	+ 

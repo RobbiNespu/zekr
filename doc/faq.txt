@@ -1,0 +1,78 @@
+                           In the name of Allah
+Zekr 0.1.0 FAQ
+This is Frequently Asked Questions for the Zekr project.
+
+[General]
+What is Zekr?
+	Zekr is an open platform for working on the Holly Quran. For more details
+	see a list of features here {{link to features}}. Also you can find answers
+	to your questions about the Holly Quran here {{link to Quran FAQ}}.
+
+What does Zekr mean?
+	Zekr is a name for the Holly Quran (in Quran terms). Linguistically, it means "note",
+	"reminder" or "message". More clearly, Quran is a reminder for the human morality.
+
+Where is the homepage?
+	The main homepage for zekr is http://siahe.com/zekr, which is updated with the latest
+	builds of Zekr. There is also a secondary home page on the leading hosting service for open source
+	projects: sourceforge.net. The url is http://zekr.sourceforge.net. It may not update as
+	fast as siahe.com. Conventionally package naming is of the form net.sf.zekr.*.
+
+How can I contribute?
+	See the page here {{link to contribution form [quranic resources, feature requests, donations, language pack]}}.
+
+Who develops it?
+	Zekr is originally written and being developed by Mohsen Saboorian {{link to khorshid}}.
+	There are other	people working on it:
+	+ Amir K. Dezfuli (Quran Linguistics, Grammatical System)
+	+ Mohammad Taha Karami (Consultant)
+	Special Thanks to
+	+ Mohammad Mehdi Saboorian (Technical consultant) {{link to homepage}}
+
+Why are you working on Zekr?
+	There is not a really nice and standard platform for Quran related topics. There are some software
+	which are fully commercial, others are free-commercial but no source code available.
+	I didn't find such standard and up to date platform. If you know one, tell us {{link to contact form}}.
+
+Which license is Zekr distributed under?
+	For now, GNU GPL. You can find more information about licenses at release notes page {{link to release note page}}.
+
+Where can I more information?
+	You can contact us by following contact link {{link to contact}} of Zekr homepage.
+
+[Developer]
+What is Zekr written in?
+	Zekr is written in Java (JDK 1.4+ compliant). It is developed in Eclipse
+	platform (3.0 to 3.1M4) {{link to eclipse.org}}.
+
+Which GUI library is used?
+	Zekr is fully developed on SWT (Standard Widget Toolkit) {{link to swt home}}. Since it is not
+	included in the standard Sun's JDK, you need to have swt-win32-xxxx.dll for Win32 machines or
+	libswt-gtk-xxxx.so/libswt-pi-gtk-xxxx.so for your Linux/GTK platforms. There is also a platform
+	specific jar file on the project's lib directory named swt.jar.
+
+[Install]
+I downloaded Zekr. Now, what should I do?
+	Please note that there are two releases for each version of zekr for any platforms. One is
+	"sa" (standalone) version which is a large (~5MB) file. If you downloaded this file, you can
+	unpack and run it either if you don't have a JRE (Java Runtime Environment) installed on
+	your computer. It's quite easy , just run the zekr.exe file located on the root installation
+	path.
+	There is also another smaller version available which is only proper for IT professionals!
+	It is just a jar file + .bat/.sh files for running it on JRE.
+	
+	For now there is only platform independent jar file available. You may easily run Zekr under
+	Win32 platform by running run.bat at the root installation directory. In order to run Zekr,
+	you must have JRE 1.4 or later, and have java.exe in your path environment variable.
+
+I've seen an XP style screenshot of Zekr, but my copy is not in XP theme. What should I do?
+	It is mainly about the GUI toolkit used for Zekr (SWT). It supports XP theme, but you should
+	do something manually. Get ready? Let's go:
+	Make sure where the java.exe in your path is. Some probabilities are:
+	[Windows]/system32/java.exe
+	[JAVA_HOME]/bin/java.exe
+	[Program Files]/java/j2re1.4.x/bin/java.exe
+	You should copy the file java.exe.manifest (located at [zekr]/res) near the java.exe.
+	That's all.
+	
+
