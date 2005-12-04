@@ -16,6 +16,7 @@ import net.sf.zekr.common.resource.dynamic.QuranHTMLRepository;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 
+import org.apache.velocity.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionEvent;
@@ -234,11 +235,11 @@ public class QuranForm extends BaseForm {
 		nextAya.setLayoutData(gridData);
 		nextSoora.setLayoutData(gridData);
 
-		prevSoora.setImage(new Image(display, resource.getString("icon.prevPrev")));
-		nextAya.setImage(new Image(display, resource.getString("icon.next")));
-		prevAya.setImage(new Image(display, resource.getString("icon.prev")));
-		nextSoora.setImage(new Image(display, resource.getString("icon.nextNext")));
-
+		int l = langEngine.getSWTDirection();
+		prevSoora.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.nextNext") : resource.getString("icon.prevPrev")));
+		prevAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.next") : resource.getString("icon.prev")));
+		nextAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prev") : resource.getString("icon.next")));
+		nextSoora.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prevPrev") : resource.getString("icon.nextNext")));
 
 		detailGroup = new Group(group, SWT.NONE);
 		detailGroup.setText(langEngine.getMeaning("DETAILS") + ":");
@@ -267,7 +268,8 @@ public class QuranForm extends BaseForm {
 			public void widgetSelected(SelectionEvent e) {
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
-				find();
+				if (!"".equals(searchText.getText()))
+					find();
 			}
 		});
 
@@ -277,7 +279,8 @@ public class QuranForm extends BaseForm {
 			public void widgetSelected(SelectionEvent e) {
 //				quranBrowser.execute("findAll(\"" + searchText.getText() + "\");");
 //				notAvailable();
-				find();
+				if (!"".equals(searchText.getText()))
+					find();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
