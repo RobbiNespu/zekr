@@ -11,6 +11,7 @@ package net.sf.zekr.engine.template;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +57,7 @@ public class SearchResultTemplate {
 	 * @return a map of locations to 
 	 */
 	private Map refineResult(Map result) {
-		Map ret = new HashMap(result.size());
+		Map ret = new LinkedHashMap(result.size());
 		List l;
 		for (Iterator iter = result.keySet().iterator(); iter.hasNext();) {
 			int pre = 0;
@@ -72,7 +73,6 @@ public class SearchResultTemplate {
 				if (i < post)
 					continue;
 				pre = aya.substring(0, i + 1).lastIndexOf(' ');
-//				if (pre == -1) pre = -1;
 
 				l.add(new String(aya.substring(post + 1, pre + 1)));
 

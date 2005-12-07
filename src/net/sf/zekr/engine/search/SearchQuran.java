@@ -11,6 +11,7 @@ package net.sf.zekr.engine.search;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +23,7 @@ import net.sf.zekr.common.util.IQuranText;
 import net.sf.zekr.common.util.QuranLocation;
 
 public class SearchQuran {
-	public static final int MAX_SEARCH_RESULT = 100; // TODO: move this to xml file
+	public static final int MAX_SEARCH_RESULT = 200; // TODO: move this to xml file
 
 	IQuranText quran;
 
@@ -43,19 +44,15 @@ public class SearchQuran {
 
 		return ret;
 	}
-	
-	public void makeRestriction() {
-		// TODO: to be implemented
-	}
 
 	public Map findAll(String keyword) {
-		Map ret = new HashMap();
+		Map ret = new LinkedHashMap();
 		String aya;
 		int ayaNum;
 		List l;
 		for (int i = 1; i <= 114; i++) {
 			ayaNum = quran.getSoora(i).length;
-			for (int j = 1; j <= ayaNum; j++) {
+			for (int j = 1; j <= ayaNum; j++) { 
 				aya = quran.get(i, j);
 				if ((l = find(aya, keyword)) != null) {
 					ret.put(SearchUtils.getKey(i, j), l);
@@ -78,7 +75,7 @@ public class SearchQuran {
 //			SearchQuran sq = new SearchQuran(qt);
 //			Map m = sq.findAll("Öó");
 //			System.out.println(m);
-			Map m = new HashMap();
+			Map m = new LinkedHashMap();
 			m.put("Mohsen", "saboorian");
 			m.put("Ali", "Alavi");
 			m.put("Mazaher", "Tahmasbi");
@@ -88,7 +85,7 @@ public class SearchQuran {
 			
 //			for (Iterator iter = m.entrySet().iterator(); iter.hasNext();) {
 			Set set = m.entrySet();
-			for (int j = 0; j < set.toArray().length; j++) {
+			for (int j = 0; j < set.size(); j++) {
 				System.out.println(set.toArray()[j]);
 			}				
 //				Entry ent = (Entry) iter.next();

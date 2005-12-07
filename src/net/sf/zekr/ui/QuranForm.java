@@ -46,7 +46,7 @@ import org.eclipse.swt.widgets.Text;
  */
 public class QuranForm extends BaseForm {
 	// Form widgets:
-	private Group group;
+	private Composite body;
 	private Browser quranBrowser;
 	private Combo sooraSelector;
 	private Combo ayaSelector;
@@ -116,12 +116,12 @@ public class QuranForm extends BaseForm {
 		
 		GridLayout pageLayout = new GridLayout();
 		pageLayout.numColumns = 2;
-		group = new Group(shell, langEngine.getSWTDirection());
-		group.setLayout(pageLayout);
+		body = new Composite(shell, langEngine.getSWTDirection());
+		body.setLayout(pageLayout);
 //		shell.setLayout(pageLayout);
 
 
-		navGroup = new Group(group, SWT.NONE);
+		navGroup = new Group(body, SWT.NONE);
 		navGroup.setText(langEngine.getMeaning("OPTION") + ":");
 		gridLayout = new GridLayout(2, false);
 		navGroup.setLayout(gridLayout);
@@ -130,7 +130,7 @@ public class QuranForm extends BaseForm {
 //		gridData.widthHint = 170;
 		navGroup.setLayoutData(gridData);
 
-		quranBrowser = new Browser(group, SWT.BORDER);
+		quranBrowser = new Browser(body, SWT.BORDER);
 		quranBrowser.setUrl(QuranHTMLRepository.getUrl(1, 0, true));
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.verticalSpan = 3;
@@ -277,7 +277,7 @@ public class QuranForm extends BaseForm {
 			}
 		});
 		
-		detailGroup = new Group(group, SWT.NONE);
+		detailGroup = new Group(body, SWT.NONE);
 		detailGroup.setText(langEngine.getMeaning("DETAILS") + ":");
 		gridLayout = new GridLayout(1, true);
 		detailGroup.setLayout(gridLayout);
@@ -292,7 +292,7 @@ public class QuranForm extends BaseForm {
 		sooraTable = FormUtils.getTableForMap(detailGroup, sooraMap, langEngine.getMeaning("NAME"),
 			langEngine.getMeaning("VALUE"), gridData);
 
-		searchGroup = new Group(group, SWT.NONE);
+		searchGroup = new Group(body, SWT.NONE);
 		searchGroup.setText(langEngine.getMeaning("SEARCH"));
 		gridLayout = new GridLayout(2, false);
 		searchGroup.setLayout(gridLayout);
@@ -325,7 +325,7 @@ public class QuranForm extends BaseForm {
 		match = new Button(searchGroup, SWT.CHECK);
 		match.setText(langEngine.getMeaning("MATCH_DIACRITIC"));
 		match.setLayoutData(gridData);
-
+		
 	}
 
 	void apply() {

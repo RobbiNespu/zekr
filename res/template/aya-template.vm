@@ -30,7 +30,7 @@
 	#end
 			$AYA
 			<span title="${SOORA_NAME} - ${AYA_NUM}">
-				<nobr><span class="ayaSign">$RPAREN</span>$AYA_NUM<span class="ayaSign">$LPAREN</span></nobr>
+				<nobr><span class="ayaSign">$RPAREN$AYA_NUM$LPAREN</span></nobr>
 			</span>
 			#foreach ($SUJDA in $SUJDA_LIST)
 				#if ($SUJDA.AyaNumber == $AYA_NUM)

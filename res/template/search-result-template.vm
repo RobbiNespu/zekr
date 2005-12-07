@@ -12,6 +12,7 @@
 	<base href="file:///$APP_PATH/">
 	<link rel="stylesheet" type="text/css" href="res/template/css/style.css">
 	<script src="res/template/js/utils.js" language="javascript" type="text/javascript"></script>
+	<script src="res/template/js/search.js" language="javascript" type="text/javascript"></script>
 <title>$TITLE</title>
 </head>
 <body dir="rtl">

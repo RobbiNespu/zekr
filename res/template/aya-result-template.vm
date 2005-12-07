@@ -31,7 +31,7 @@
 				<span class="highlight">${AYA_SEGMENT}</span>
     		#end
     	#end
-		<nobr><span>$RPAREN$AYA.Key$LPAREN</span></nobr>
+			<span title="${AYA.Key}">$RPAREN${AYA.Key.SooraName}: ${AYA.Key.Aya}$LPAREN</span>
 		</div>
     #end
 </div>
