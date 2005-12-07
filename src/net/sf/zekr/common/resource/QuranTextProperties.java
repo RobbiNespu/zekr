@@ -14,6 +14,7 @@ import net.sf.zekr.common.config.ZekrConfigNaming;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -63,25 +64,25 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 	}
 
 	public String getSooraNumberLeftString() {
-		return XmlUtils.getAttr(reader.getNode(SOORA_SIGN), LEFT_STRING_ATTR);
+		return reader.getElement(SOORA_SIGN).getAttribute(LEFT_STRING_ATTR);
 	}
 
 	/**
 	 * @return the left aya delimiter string
 	 */
 	public String getAyaSignLeftString() {
-		return XmlUtils.getAttr(reader.getNode(AYA_SIGN), LEFT_STRING_ATTR);
+		return reader.getElement(AYA_SIGN).getAttribute(LEFT_STRING_ATTR);
 	}
 
 	/**
 	 * @return the right aya delimiter string
 	 */
 	public String getAyaSignRightString() {
-		return XmlUtils.getAttr(reader.getNode(AYA_SIGN), RIGHT_STRING_ATTR);
+		return reader.getElement(AYA_SIGN).getAttribute(RIGHT_STRING_ATTR);
 	}
 
 	public String getLineBreakString() {
-		String style = XmlUtils.getAttr(reader.getNode(TEXT_FILE), LINE_BREAK_ATTR);
+		String style = reader.getElement(TEXT_FILE).getAttribute(LINE_BREAK_ATTR);
 		if (style.equalsIgnoreCase("unix") || style.equalsIgnoreCase("linux"))
 			return "\n";
 		if (style.equalsIgnoreCase("pc") || style.equalsIgnoreCase("windows")
@@ -93,7 +94,7 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 	}
 
 	public String getCharset() {
-		return XmlUtils.getAttr(reader.getNode(TEXT_FILE), CHARSET_ATTR);
+		return reader.getElement(TEXT_FILE).getAttribute(CHARSET_ATTR);
 	}
 
 	public String getMinorSujdaSign() {
@@ -105,15 +106,15 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 	}
 
 	public String getJozRightString() {
-		return XmlUtils.getAttr(reader.getNode(JOZ_SIGN), RIGHT_STRING_ATTR);
+		return reader.getElement(JOZ_SIGN).getAttribute(RIGHT_STRING_ATTR);
 	}
 
 	public String getJozLeftString() {
-		return XmlUtils.getAttr(reader.getNode(JOZ_SIGN), LEFT_STRING_ATTR);
+		return reader.getElement(JOZ_SIGN).getAttribute(LEFT_STRING_ATTR);
 	}
 
 	public String getJozValue() {
-		return XmlUtils.getAttr(reader.getNode(JOZ_SIGN), VALUE_ATTR);
+		return reader.getElement(JOZ_SIGN).getAttribute(VALUE_ATTR);
 	}
 
 	/**
@@ -131,10 +132,10 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 	 * @return Vajib or Mustahab Sujda sign
 	 */
 	private String getSujdaSign(boolean type) {
-		Node node = XmlUtils.getNodeByNamedAttr(reader.getNodes(SUJDA_SIGN), SUJDA_TAG, TYPE_ATTR,
+		Element elem = XmlUtils.getElementByNamedAttr(reader.getNodes(SUJDA_SIGN), SUJDA_TAG, TYPE_ATTR,
 			type ? MAJOR_SUJDA : MINOR_SUJDA);
-		return XmlUtils.getAttr(node, RIGHT_STRING_ATTR) + XmlUtils.getAttr(node, VALUE_ATTR)
-				+ XmlUtils.getAttr(node, LEFT_STRING_ATTR);
+		return elem.getAttribute(RIGHT_STRING_ATTR) + elem.getAttribute(VALUE_ATTR)
+				+ elem.getAttribute(LEFT_STRING_ATTR);
 	}
 
 }

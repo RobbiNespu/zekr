@@ -11,6 +11,8 @@ package net.sf.zekr.engine.xml;
 
 import java.util.Iterator;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -83,13 +85,13 @@ public class XmlUtils {
 	 * @return the node with <code>attrName</code> equal to
 	 *         <code>attrValue</code>
 	 */
-	public static Node getNodeByNamedAttr(org.w3c.dom.NodeList nodeList, String tagName, String attrName,
+	public static Element getElementByNamedAttr(org.w3c.dom.NodeList nodeList, String tagName, String attrName,
 			String attrValue) {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
 			if (node.getNodeName().equalsIgnoreCase(tagName)
 					&& node.getAttributes().getNamedItem(attrName).getNodeValue().equals(attrValue))
-				return node;
+				return (Element) node;
 		}
 		return null;
 	}
@@ -110,10 +112,13 @@ public class XmlUtils {
 	 * @param value
 	 * @return updated element node
 	 */
-	public static Node setAttr(Node node, String attr, String value) {
-		node.getAttributes().getNamedItem(attr).setNodeValue(value);
-		return node;
+	public static void setAttr(Element element, String attr, String value) {
+		element.setAttribute(attr, value);
 	}
+	
+//	public static Node setOrCreateAttr(Element element, String attr, String value) {
+//		element.setA
+//	}
 
 
 	/**

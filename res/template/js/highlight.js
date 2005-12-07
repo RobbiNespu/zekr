@@ -9,6 +9,14 @@
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
 
+/*
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * version 1
+ */
+
 var isSafari = (navigator.userAgent.indexOf('Safari/') != -1)
 			|| (navigator.userAgent.indexOf('AppleWebKit/') != -1);
 var highlighted=false;

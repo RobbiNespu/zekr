@@ -58,6 +58,7 @@ public class ErrorForm extends BaseForm {
 		fl.marginWidth = 10;
 		fl.marginHeight = 10;
 		shell.setLayout(fl);
+		shell.setFocus();
 
 		Group errorGroup = new Group(shell, langEngine.getSWTDirection());
 		errorGroup.setLayout(errorLayout);
@@ -102,7 +103,6 @@ public class ErrorForm extends BaseForm {
 			}
 
 			public void keyReleased(KeyEvent e) {
-				System.out.println(e.keyCode);
 				if (e.keyCode == SWT.ESC)
 					close();
 			}

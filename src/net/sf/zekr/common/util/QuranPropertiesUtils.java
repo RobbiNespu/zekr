@@ -69,7 +69,7 @@ public class QuranPropertiesUtils {
 			QuranProperties props = QuranProperties.getInstance();
 			for (Iterator iter = props.getSooraList().iterator(); iter.hasNext();) {
 				SooraProperties element = (SooraProperties) iter.next();
-				sooraNames[element.getIndex() - 1] = element.getName();
+				sooraNames[element.getIndex() - 1] = element.getIndex() + " - " + element.getName();
 			}
 		}
 		return sooraNames;

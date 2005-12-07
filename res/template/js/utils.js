@@ -1,123 +1,192 @@
-function salam() {
-	alert("salam");
-}
+/*
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * version 1
+ */
 
-function highlightWordInNode(aWord, aNode) {
-	if (aNode.nodeType == 1){
-		var children = aNode.childNodes;
-		for(var i = 0; i < children.length; i++) {
-			highlightWordInNode(aWord, children[i]);
-		}
-    }
-	else if (aNode.nodeType == 3){
-		highlightWordInText(aWord, aNode);
+var SUKUN = String.fromCharCode(0x652);
+var SHADDA = String.fromCharCode(0x651);
+var KASRA = String.fromCharCode(0x650);
+var DAMMA = String.fromCharCode(0x64f);
+var FATHA = String.fromCharCode(0x64e);
+
+var KASRATAN = String.fromCharCode(0x64d);
+var DAMMATAN = String.fromCharCode(0x64c);
+var FATHATAN = String.fromCharCode(0x64b);
+
+var SUPERSCRIPT_ALEF = String.fromCharCode(0x670);
+
+var HAMZA = String.fromCharCode(0x621);
+var ALEF = String.fromCharCode(0x627);
+var ALEF_MADDA = String.fromCharCode(0x622);
+var ALEF_HAMZA_ABOVE = String.fromCharCode(0x623);
+var ALEF_HAMZA_BELOW = String.fromCharCode(0x625);
+
+var YEH_HAMZA_ABOVE = String.fromCharCode(0x626);
+var WAW_HAMZA_ABOVE = String.fromCharCode(0x624);
+var WAW = String.fromCharCode(0x648);
+
+var ALEF_MAKSURA = String.fromCharCode(0x649);
+var FARSI_YEH = String.fromCharCode(0x6cc);
+var ARABIC_YEH = String.fromCharCode(0x64a);
+
+var ARABIC_KAF = String.fromCharCode(0x643);
+var FARSI_KEHEH = String.fromCharCode(0x6a9);
+	
+function replaceAll(str, oldStr, newStr) {
+	var i = str.indexOf(oldStr);
+	var newLen = newStr.length;
+	while (i > -1) {
+		str = str.replace(oldStr, newStr);
+		i = str.indexOf(oldStr, i + newLen);
 	}
+	return str;
 }
 
 function arabicSimplify(str) {
-	var SUKUN = 0x652;
-	var SHADDA = 0x651;
-	var KASRA = 0x650;
-	var DAMMA = 0x64f;
-	var FATHA = 0x64e;
-
-	var KASRATAN = 0x64d;
-	var DAMMATAN = 0x64c;
-	var FATHATAN = 0x64b;
-
-	var SUPERSCRIPT_ALEF = 0x670;
-
-	var HAMZA = 0x621;
-	var ALEF = 0x627;
-	var ALEF_MADDA = 0x622;
-	var ALEF_HAMZA_ABOVE = 0x623;
-	var ALEF_HAMZA_BELOW = 0x625;
-	
-	var YEH_HAMZA_ABOVE = 0x626;
-	var WAW_HAMZA_ABOVE = 0x624;
-	var WAW = 0x648;
-	
-	var ALEF_MAKSURA = 0x649;
-	var FARSI_YEH = 0x6cc;
-	var ARABIC_YEH = 0x64a;
-
 	// diacritics removal
 	var arr = [SUKUN, SHADDA, KASRA, DAMMA, FATHA, KASRATAN, DAMMATAN, FATHATAN, SUPERSCRIPT_ALEF];
 	for (var i = 0; i < arr.length; i++) {
-		str.replace(arr[i], "");
+		str = replaceAll(str, arr[i], "");
 	}
 
 	// YEH replacement
-	str.replace(ALEF_MAKSURA, ARABIC_YEH);
-	str.replace(FARSI_YEH, ARABIC_YEH);
+	str = replaceAll(str, ALEF_MAKSURA, ARABIC_YEH);
+	str = replaceAll(str, FARSI_YEH, ARABIC_YEH);
+	str = replaceAll(str, FARSI_KEHEH, ARABIC_KAF);
+	return str;
 }
 
-function myIndexOf(src, key) {
-	return src.indexOf(key);
-//	s = arabicSimplify(src);
-//	k = arabicSimplify(key);
+function isDiac(ch) {
+	return (ch == SUKUN) || (ch == SHADDA) || (ch == KASRA) || (ch == DAMMA) || 
+	       (ch == FATHA) || (ch == KASRATAN) || (ch == DAMMATAN) || (ch == FATHATAN) || 
+	       (ch == SUPERSCRIPT_ALEF);
 }
 
-function highlightWordInText(aWord, textNode){
-	allText = new String(textNode.data);
-	allTextLowerCase = allText.toLowerCase();
-	index = myIndexOf(allTextLowerCase, aWord);
-	if (index >= 0){
-		// create a node to replace the textNode so we end up
-		// not changing number of children of textNode.parent
-		replacementNode = document.createElement("span");
-		textNode.parentNode.insertBefore(replacementNode, textNode);
-		while (index >= 0){
-			before = allText.substring(0, index);
-			newBefore = document.createTextNode(before);
-			replacementNode.appendChild(newBefore);
-			spanNode = document.createElement("span");
-			spanNode.style.background = "Highlight";
-			spanNode.style.color = "HighlightText";
-			replacementNode.appendChild(spanNode);
-			boldText = document.createTextNode(allText.substring(index, index + aWord.length));
-			spanNode.appendChild(boldText);
-			allText = allText.substring(index + aWord.length);
-			allTextLowerCase = allText.toLowerCase();
-			index = allTextLowerCase.indexOf(aWord);
+function highlightWordInNode(aWord, aNode, matchDiac) {
+	if (aNode.nodeType == 1){
+		var children = aNode.childNodes;
+		for(var i = 0; i < children.length; i++) {
+			highlightWordInNode(aWord, children[i], matchDiac);
 		}
-		newAfter=document.createTextNode(allText);
-		replacementNode.appendChild(newAfter);
-		textNode.parentNode.removeChild(textNode);
+    }
+	else if (aNode.nodeType == 3){
+		highlightWordInText(aWord, aNode, matchDiac);
 	}
 }
 
-var tRange = null;
-function find(str, findAll) {
-	if (str == "") return;
-	var strFound;
-	if (findAll) {
-		tRange = self.document.body.createTextRange();
-		/*
-		do {
-			strFound = tRange.findText(str);
-			if (strFound) {
-				tRange.select();
-				tRange.collapse(false);
-				alert("");
-			}
-		} while(strFound);
-		*/
-		highlightWordInNode(str, document.body);
-	} else {
-		if (tRange != null) {
-			tRange.collapse(false);
-			strFound = tRange.findText(str);
-			if (strFound) tRange.select();
+function indexOfIgnoreDiacritic(src, key) {
+	key = arabicSimplify(key);
+	var i = 0, k = 0, s = 0, start = -1;
+	if (key.length == 0)
+		return -1;
+	while(s < src.length) {
+		if (k == key.length)
+			break;
+
+		if (src.charAt(s) == key.charAt(k)) {
+			if (start == -1)
+				start = s;
+			s++; k++;
+		} else if (isDiac(src.charAt(s))) {
+			s++
+		} else {
+			s++;
+			k = 0;
+			start = -1;
 		}
-		if (tRange == null || strFound == 0) {
+	}
+	if (k == key.length) { // fully matched
+		spaceAfter = src.indexOf(" ", start);
+		spaceBefore = src.substring(0, start + 1).lastIndexOf(" ");
+		if (spaceBefore == -1) start = 0;
+		else start = spaceBefore + 1;
+		if (spaceAfter == -1) s = src.length;
+		else s = spaceAfter;
+		return {startIndex: start, endIndex: s};
+	}
+	return -1;
+}
+
+function indexOfMatchDiacritic(src, key) {
+	start = src.indexOf(key);
+	if (start == -1)
+		return -1;
+
+	spaceAfter = src.indexOf(" ", start);
+	spaceBefore = src.substring(0, start + 1).lastIndexOf(" ");
+	if (spaceBefore == -1) start = 0;
+	else start = spaceBefore + 1;
+	if (spaceAfter == -1) end = src.length;
+	else end = spaceAfter;
+	return {startIndex: start, endIndex: end};
+}
+
+function highlightWordInText(aWord, textNode, matchDiac){
+	allText = new String(textNode.data);
+	lower = allText.toLowerCase();
+	var myIndexOf;
+	if (matchDiac)
+		myIndexOf = indexOfMatchDiacritic;
+	else
+		myIndexOf = indexOfIgnoreDiacritic;
+
+	loc = myIndexOf(lower, aWord);
+	if (loc == -1) return;
+
+	// create a node to replace the textNode so we end up
+	// not changing number of children of textNode.parent
+	replacementNode = document.createElement("span");
+	textNode.parentNode.insertBefore(replacementNode, textNode);
+	while (loc != -1){
+		sIndex = loc.startIndex;
+		eIndex = loc.endIndex;
+		before = allText.substring(0, sIndex);
+		newBefore = document.createTextNode(before);
+		replacementNode.appendChild(newBefore);
+		spanNode = document.createElement("span");
+		spanNode.style.background = "Highlight";
+		spanNode.style.color = "HighlightText";
+		replacementNode.appendChild(spanNode);
+		boldText = document.createTextNode(allText.substring(sIndex, eIndex));
+		spanNode.appendChild(boldText);
+		allText = allText.substring(eIndex);
+		lower = allText.toLowerCase();
+		loc = myIndexOf(lower, aWord);
+	}
+	newAfter = document.createTextNode(allText);
+	replacementNode.appendChild(newAfter);
+	textNode.parentNode.removeChild(textNode);
+}
+
+function find(str, matchDiac) {
+	if (str == "") return;
+//	if (match) {
+	highlightWordInNode(str, document.body, matchDiac);
+/*	} else {
+		var strFound = null;
+		var tRange = null;
+		if (tRange == null || strFound == 0) { // first time
 			tRange = self.document.body.createTextRange();
 			strFound = tRange.findText(str);
-			if (strFound) tRange.select();
+			if (strFound) {
+				tRange.expand("word");
+			}
+		}
+		while(strFound) {
+			if (tRange != null) {
+				tRange.collapse(false);
+				strFound = tRange.findText(str);
+				if (strFound) {
+					tRange.expand("word");
+					tRange.select();
+				}
+					
+			}
 		}
 	}
+*/
 }
 
-function findAll(str) {
-	find(str, true);
-}

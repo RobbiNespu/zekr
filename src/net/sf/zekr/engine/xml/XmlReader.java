@@ -100,9 +100,13 @@ public class XmlReader {
 		return getNodes(nodeHierarchy).item(0);
 	}
 
+	public Element getElement(String elementHierarchy) {
+		return (Element) getNodes(elementHierarchy).item(0);
+	}
+	
 	public Node getNodeByAttr(String nodeHierarchy, String attrName, String attrValue) {
 		NodeList nodeList = getNodes(nodeHierarchy);
-		return XmlUtils.getNodeByNamedAttr(nodeList, nodeHierarchy, attrName, attrValue);
+		return XmlUtils.getElementByNamedAttr(nodeList, nodeHierarchy, attrName, attrValue);
 	}
 	
 	public Document getDocument() {

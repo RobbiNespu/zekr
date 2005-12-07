@@ -46,7 +46,7 @@ public class DebugMain {
 		try {
 			XmlReader reader = new XmlReader("src/net/sf/zekr/test1.xml");
 			Document d = reader.getDocument();
-			XmlUtils.setAttr(reader.getNode("node12"), "attr1", "abs");
+			XmlUtils.setAttr(reader.getElement("node12"), "attr1", "abs");
 			XmlWriter.writeXML(d, new File("src/net/sf/zekr/test1.xml"));
 		} catch (Exception e) {
 			e.printStackTrace();

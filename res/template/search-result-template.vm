@@ -17,7 +17,7 @@
 <body dir="rtl">
 <table class="main">
 	<tr><td class="barTop" align="center">
-		<div style="font-family: Tahoma">$TITLE</div>
+		<pre dir="$DIRECTION" style="font-family: Tahoma">$TITLE</pre>
 	</td></tr>
 
 	<tr><td class="quran">

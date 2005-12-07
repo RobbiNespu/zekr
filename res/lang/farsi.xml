@@ -43,6 +43,12 @@
 			<text id="ABOUT"    value="درباره" />
 			<text id="PRINT"    value="چاپ" />
 			<text id="HOMEPAGE" value="خانه" />
+			<text id="WHOLE_QURAN" value="تمامی قرآن" />
+			<text id="MATCH_DIACRITIC" value="مطابقت علائم" />
+			<text id="NEXT_AYA" value="آیه‌ی بعدی" />
+			<text id="NEXT_SOORA" value="سوره‌ی بعدی" />
+			<text id="PREV_AYA" value="آیه‌ی قبلی" />
+			<text id="PREV_SOORA" value="سوره‌ی قبلی" />
 
 			<text id="EXIT"     value="خروج" />
 		</common>

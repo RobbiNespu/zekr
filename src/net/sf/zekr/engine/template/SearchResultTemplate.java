@@ -41,6 +41,7 @@ public class SearchResultTemplate {
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] {keyword}));
 
 			engine.put("APP_PATH", RuntimeUtilities.RUNTIME_DIR.replaceAll("\\\\", "/"));
+			engine.put("DIRECTION", langEngine.getDirection());
 
 			ret = engine.getUpdated(ApplicationPath.SEARCH_RESULT_TEMPLATE);
 		} catch (Exception e) {

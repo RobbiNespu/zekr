@@ -26,4 +26,15 @@ Ver 0.1.0, 11-8-05
 	+ Enter (Return) will work in Quran Form (soora/aya selection)
 	+ Localized hint for joz numbers
 	+ Splash screen has title and well as icons
-	+ 
+
+Ver 0.2.0b1, 10-12-05
+	+ Search support
+		Diacritic matched/unmatched search through the current view
+		Diacritic search through the whole Quran
+	+ Language change menu
+	+ Print menu
+	+ Help menu
+	+ Configuration (layout, language, ...) is now saved in the xml file.
+
+
+	

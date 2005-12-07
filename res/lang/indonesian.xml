@@ -43,6 +43,12 @@
 			<text id="ABOUT"    value="Tentang Program" />
 			<text id="PRINT"    value="Print" />
 			<text id="HOMEPAGE" value="Homepage" />
+			<text id="WHOLE_QURAN" value="Whole Quran" />
+			<text id="MATCH_DIACRITIC" value="Match diacritic" />
+			<text id="NEXT_AYA" value="Next aya" />
+			<text id="NEXT_SOORA" value="Next soora" />
+			<text id="PREV_AYA" value="Previous aya" />
+			<text id="PREV_SOORA" value="Previous soora" />
 
 			<text id="EXIT"     value="Keluar" />
 		</common>

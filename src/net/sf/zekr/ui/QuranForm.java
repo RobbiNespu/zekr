@@ -19,6 +19,7 @@ import net.sf.zekr.engine.log.Logger;
 import org.apache.velocity.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -55,6 +56,8 @@ public class QuranForm extends BaseForm {
 	private Button applyButton;
 	private Button searchButton;
 	private Button sync;
+	private Button match;
+	private Button whole;
 	private Table sooraTable;
 	private Map sooraMap;
 	private Group navigationGroup;
@@ -143,24 +146,16 @@ public class QuranForm extends BaseForm {
 		sooraSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		sooraSelector.setItems(QuranPropertiesUtils.getSooraNames());
 		sooraSelector.setVisibleItemCount(10);
-		sooraSelector.addSelectionListener(new SelectionListener() {
+		sooraSelector.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				onSooraChanged();
+				if (sync.getSelection())
+					apply();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 				onSooraChanged();
 				apply();
-			}
-
-			private void onSooraChanged() {
-				ayaSelector
-					.setItems(QuranPropertiesUtils.getSooraAyas(sooraSelector.getSelectionIndex() + 1));
-				ayaSelector.select(0);// TODO
-				ayaChanged = false; // It must be set after ayaSelector.select
-
-				if (sync.getSelection())
-					apply();
 			}
 		});
 		sooraSelector.select(0);
@@ -172,7 +167,7 @@ public class QuranForm extends BaseForm {
 				| GridData.VERTICAL_ALIGN_BEGINNING));
 		ayaSelector.setItems(QuranPropertiesUtils.getSooraAyas(1));
 		ayaSelector.setVisibleItemCount(10);
-		ayaSelector.addSelectionListener(new SelectionListener() {
+		ayaSelector.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				ayaChanged = true;
 				if (sync.getSelection())
@@ -202,13 +197,9 @@ public class QuranForm extends BaseForm {
 
 		applyButton.setLayoutData(gridData);
 		applyButton.setText(langEngine.getMeaning("SHOW"));
-		applyButton.addSelectionListener(new SelectionListener() {
+		applyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// quranBrowser.setText(QuranViewTemplate.transformSoora(sooraSelector.getSelectionIndex()));
-				apply();
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e) {
 				apply();
 			}
 		});
@@ -241,6 +232,51 @@ public class QuranForm extends BaseForm {
 		nextAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prev") : resource.getString("icon.next")));
 		nextSoora.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prevPrev") : resource.getString("icon.nextNext")));
 
+		prevSoora.setToolTipText(langEngine.getMeaning("PREV_SOORA"));
+		prevAya.setToolTipText(langEngine.getMeaning("PREV_AYA"));
+		nextAya.setToolTipText(langEngine.getMeaning("NEXT_AYA"));
+		nextSoora.setToolTipText(langEngine.getMeaning("NEXT_SOORA"));
+
+		prevSoora.addSelectionListener(new SelectionAdapter(){
+			public void widgetSelected(SelectionEvent e) {
+				if (sooraSelector.getSelectionIndex() > 0) {
+					sooraSelector.select(sooraSelector.getSelectionIndex() - 1);
+					onSooraChanged();
+					apply();
+				}
+			}
+		});
+		
+		prevAya.addSelectionListener(new SelectionAdapter(){
+			public void widgetSelected(SelectionEvent e) {
+				if (ayaSelector.getSelectionIndex() > 0) {
+					ayaSelector.select(ayaSelector.getSelectionIndex() - 1);
+					ayaChanged = true;
+					apply();
+				}
+			}
+		});
+		
+		nextAya.addSelectionListener(new SelectionAdapter(){
+			public void widgetSelected(SelectionEvent e) {
+				if (ayaSelector.getSelectionIndex() < ayaSelector.getItemCount() - 1) {
+					ayaSelector.select(ayaSelector.getSelectionIndex() + 1);
+					ayaChanged = true;
+					apply();
+				}
+			}
+		});
+		
+		nextSoora.addSelectionListener(new SelectionAdapter(){
+			public void widgetSelected(SelectionEvent e) {
+				if (sooraSelector.getSelectionIndex() < sooraSelector.getItemCount() - 1) {
+					sooraSelector.select(sooraSelector.getSelectionIndex() + 1);
+					onSooraChanged();
+					apply();
+				}
+			}
+		});
+		
 		detailGroup = new Group(group, SWT.NONE);
 		detailGroup.setText(langEngine.getMeaning("DETAILS") + ":");
 		gridLayout = new GridLayout(1, true);
@@ -264,37 +300,32 @@ public class QuranForm extends BaseForm {
 		searchGroup.setLayoutData(gridData);
 		searchText = new Text(searchGroup, SWT.BORDER | SWT.RIGHT_TO_LEFT);
 		searchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		searchText.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-			}
+		searchText.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
-				if (!"".equals(searchText.getText()))
-					find();
+				find();
 			}
 		});
 
 		searchButton = new Button(searchGroup, SWT.PUSH);
 		searchButton.setText(langEngine.getMeaning("SEARCH"));
-		searchButton.addSelectionListener(new SelectionListener() {
+		searchButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-//				quranBrowser.execute("findAll(\"" + searchText.getText() + "\");");
-//				notAvailable();
-				if (!"".equals(searchText.getText()))
-					find();
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-//				quranBrowser.execute("find(\"" + searchText.getText() + "\");");
-//				notAvailable();
-			}
-
-			private void notAvailable() {
-				MessageBox mb = new MessageBox(shell, langEngine.getSWTDirection() | SWT.ICON_INFORMATION);
-				mb.setMessage(langEngine.getMeaningById(ID, "SEARCH_NOT_AVAILABLE"));
-				mb.setText(langEngine.getMeaning("MESSAGE"));
-				mb.open();
+				find();
 			}
 		});
+		
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 2;
+
+		whole = new Button(searchGroup, SWT.CHECK);
+		whole.setSelection(true);
+		whole.setText(langEngine.getMeaning("WHOLE_QURAN"));
+		whole.setLayoutData(gridData);
+
+		match = new Button(searchGroup, SWT.CHECK);
+		match.setText(langEngine.getMeaning("MATCH_DIACRITIC"));
+		match.setLayoutData(gridData);
+
 	}
 
 	void apply() {
@@ -307,10 +338,22 @@ public class QuranForm extends BaseForm {
 		quranBrowser.setUrl(QuranHTMLRepository.getUrl(sooraSelector.getSelectionIndex() + 1,
 			ayaChanged ? ayaSelector.getSelectionIndex() + 1 : 0));
 	}
-	
+
+	private void onSooraChanged() {
+		ayaSelector.setItems(QuranPropertiesUtils.getSooraAyas(sooraSelector.getSelectionIndex() + 1));
+		ayaSelector.select(0);
+		ayaChanged = false; // It must be set after ayaSelector.select
+	}
+
 	void find() {
-		quranBrowser.setUrl(
-				QuranHTMLRepository.getSearchUrl(searchText.getText()));		
+		String str = searchText.getText();
+		if (!"".equals(str.trim())) {
+			if (whole.getSelection()) {
+				quranBrowser.setUrl(QuranHTMLRepository.getSearchUrl(str));
+			} else {
+				quranBrowser.execute("find(\"" + str + "\", " + match.getSelection() + ");");
+			}
+		}
 	}
 
 	void recreate() {

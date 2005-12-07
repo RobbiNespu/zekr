@@ -33,6 +33,7 @@ import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 import net.sf.zekr.engine.xml.XmlWriter;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -57,16 +58,16 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	private static final Logger logger = Logger.getLogger(ApplicationConfig.class);
 	private static ApplicationConfig thisInstance;
 
-	Node langNode;
-	Node quranNode;
-	Node viewNode;
+	Element langElem;
+	Element quranElem;
+	Element viewElem;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
 		configReader = new XmlReader(ApplicationPath.CONFIG_FILE);
-		langNode = configReader.getNode(LANGUAGE_TAG);
-		quranNode = configReader.getNode(QURAN_TAG);
-		viewNode = configReader.getNode(VIEW_TAG);
+		langElem = configReader.getElement(LANGUAGE_TAG);
+		quranElem = configReader.getElement(QURAN_TAG);
+		viewElem = configReader.getElement(VIEW_TAG);
 		extractLangProp();
 		extractRuntimeConfig();
 	}
@@ -89,7 +90,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	 * RuntimeConfig bean.
 	 */
 	private void extractRuntimeConfig() {
-		runtimeConfig.setLanguage(XmlUtils.getAttr(langNode, ApplicationConfig.CURRENT_LANGUAGE_ATTR));
+		runtimeConfig.setLanguage(langElem.getAttribute(ApplicationConfig.CURRENT_LANGUAGE_ATTR));
 		runtimeConfig.setTextLayout(getQuranTextLayout());
 	}
 
@@ -99,9 +100,10 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	 */
 	private void extractLangProp() {
 		language = new Language();
+		boolean update = false;
 
 		logger.info("Loading language pack info.");
-		NodeList list = XmlUtils.getNodes(langNode, LANGUAGE_PACK_TAG);
+		NodeList list = XmlUtils.getNodes(langElem, LANGUAGE_PACK_TAG);
 		LanguagePack pack;
 		Node node;
 		for (Iterator iter = list.iterator(); iter.hasNext();) {
@@ -116,23 +118,34 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		}
 		logger.info("Available languages are: " + language.getLanguageMap().entrySet());
 
-		String currentLangId = XmlUtils.getAttr(langNode, CURRENT_LANGUAGE_ATTR);
-		String defaultLangId = XmlUtils.getAttr(langNode, DEFAULT_LANGUAGE_ATTR);
-		if (defaultLangId == null) 
-			logger.error("Default language pack should be set.");
+		String currentLangId = langElem.getAttribute(CURRENT_LANGUAGE_ATTR);
+		String defaultLangId = langElem.getAttribute(DEFAULT_LANGUAGE_ATTR);
+		if (!langElem.hasAttribute(defaultLangId)) {
+			logger.error("Can not find default language pack. will set default to \"en\".");
+			langElem.setAttribute(DEFAULT_LANGUAGE_ATTR, "en");
+			defaultLangId = "en";
+			update = true;
+		}
 		language.setDefaultLanguagePackId(defaultLangId);
-		if (currentLangId.equals(LanguageEngineNaming.UNDEFINED))
+		if (!langElem.hasAttribute(currentLangId)) {
 			currentLangId = RuntimeUtilities.USER_LANGUAGE;
-		Node langPackNode = XmlUtils.getNodeByNamedAttr(langNode.getChildNodes(), LANGUAGE_PACK_TAG, ID_ATTR, currentLangId);
+			logger.warn("Current language will be set to \"" + currentLangId + "\".");
+			langElem.setAttribute(CURRENT_LANGUAGE_ATTR, currentLangId);
+			update = true;
+		}
+		Node langPackNode = XmlUtils.getElementByNamedAttr(langElem.getChildNodes(), LANGUAGE_PACK_TAG, ID_ATTR, currentLangId);
 		if (langPackNode == null) { // language pack details not found
 			logger.error("Can not find the language pack with id=\"" + currentLangId + "\".");
 			logger.error("Will load the default language pack instead.");
-			langPackNode = XmlUtils.getNodeByNamedAttr(langNode.getChildNodes(),
+			langPackNode = XmlUtils.getElementByNamedAttr(langElem.getChildNodes(),
 					LANGUAGE_PACK_TAG, ID_ATTR, defaultLangId);
 			language.setActiveLanguagePack((LanguagePack) language.getLanguageMap().get(defaultLangId));
 		} else {
 			language.setActiveLanguagePack((LanguagePack) language.getLanguageMap().get(currentLangId));
 		}
+		
+		if (update)
+			updateFile();
 	}
 	
 	public Collection getAvailableLanguages() {
@@ -142,14 +155,14 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		Map langMap = language.getLanguageMap();
 		availableLanguages = new ArrayList();
 		for (Iterator iter = langMap.entrySet().iterator(); iter.hasNext();) {
-			Entry element = (Entry) iter.next();
-			availableLanguages.add(element.getValue());
+			Entry elem = (Entry) iter.next();
+			availableLanguages.add(elem.getValue());
 		}
 		return availableLanguages;
 	}
 
 	public Node getLanguageNode() {
-		return langNode;
+		return langElem;
 	}
 
 	/**
@@ -170,7 +183,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		XmlUtils.setAttr(langNode, CURRENT_LANGUAGE_ATTR, langId);
+		langElem.setAttribute(CURRENT_LANGUAGE_ATTR, langId);
 	}
 
 	/**
@@ -178,28 +191,28 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	 * @return
 	 */
 	public String getConfigFile(String id) {
-		Node node = XmlUtils.getNodeByNamedAttr(XmlUtils.getNodes(quranNode, QURAN_CONFIG_TAG),
+		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_CONFIG_TAG),
 			QURAN_CONFIG_TAG, ID_ATTR, id);
-		return ApplicationPath.RESOURCE_DIR + XmlUtils.getAttr(node, FILE_ATTR);
+		return ApplicationPath.RESOURCE_DIR + elem.getAttribute(FILE_ATTR);
 	}
 
 	public String getQuranText() {
-		Node node = XmlUtils.getNodeByNamedAttr(XmlUtils.getNodes(quranNode, QURAN_TEXT_TAG),
+		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_TEXT_TAG),
 			QURAN_TEXT_TAG, ID_ATTR, QURAN_ARABIC_TEXT_ID);
 
-		return ApplicationPath.RESOURCE_DIR + XmlUtils.getAttr(node, FILE_ATTR);
+		return ApplicationPath.RESOURCE_DIR + elem.getAttribute(FILE_ATTR);
 	}
 
 	public String getQuranTextLayout() {
-		Node node = XmlUtils.getNodeByNamedAttr(XmlUtils.getNodes(viewNode, ITEM_TAG), ITEM_TAG,
+		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, ITEM_TAG), ITEM_TAG,
 			ID_ATTR, TEXT_LAYOUT_ID);
-		return XmlUtils.getAttr(node, VALUE_ATTR);
+		return elem.getAttribute(VALUE_ATTR);
 	}
 	
 	public void setQuranTextLayout(String newLayout) {
-		Node n = XmlUtils.getNodeByNamedAttr(XmlUtils.getNodes(viewNode, ITEM_TAG), ITEM_TAG,
+		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, ITEM_TAG), ITEM_TAG,
 				ID_ATTR, TEXT_LAYOUT_ID);
-		XmlUtils.setAttr(n, VALUE_ATTR, newLayout);
+		elem.setAttribute(VALUE_ATTR, newLayout);
 	}
 
 	public RuntimeConfig getRuntimeConfig() {
