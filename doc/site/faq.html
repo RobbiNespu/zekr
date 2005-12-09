@@ -18,7 +18,7 @@
 <table width="100%" border="0">
 	<tr>
 		<td width="80%">
-		<h1>Zekr 0.1.0 FAQ</h1>
+		<h1>Zekr FAQ</h1>
 		</td>
 		<td align="right" width="20%"><a href="./"><img
 			src="img/zekr-logo-small.png" alt="Zekr logo"></td>
@@ -27,7 +27,6 @@
 <i> Frequently Asked Questions of the Zekr project. </i>
 <br>
 <br>
-<div>
 
 <h3>[General]</h3>
 <div class="question">What is Zekr?</div>
@@ -52,7 +51,7 @@ http://zekr.sourceforge.net</a>. It may not update as fast as siahe.com.
 Conventionally package naming is of the form net.sf.zekr.*.</div>
 
 <div class="question">How can I contribute?</div>
-<div class="answer">See the page <a href="contribution.html">here</a>.</div>
+<div class="answer">See the page <a href="participation.html">here</a>.</div>
 
 <div class="question">Who develops it?</div>
 <div class="answer">Zekr is originally written and being developed by <a
@@ -63,6 +62,12 @@ are other people working on it:
 	<li>Mohammad Taha Karami (Consultant)</li>
 	<li><a href="http://siahe.com/blogs/mohammad">Mohammad Mehdi
 	Saboorian</a> (Technical consultant)</li>
+</ul>
+These peoples also helped me with language packs and feedbacks:
+<ul>
+	<li>Muhammad Ijaz</li>
+	<li>Ari R. Fikri</li>
+	<li>Younes Moumen</li>
 </ul>
 </div>
 
@@ -85,7 +90,7 @@ about licenses at <a href="relnotes.html"> release notes</a> page.</div>
 <div class="question">What is Zekr written in?</div>
 <div class="answer">Zekr is written in Java (JDK 1.4+ compliant). It is
 developed in <a href="http://eclipse.org">Eclipse</a> platform (3.0 to
-3.1M4).</div>
+3.11).</div>
 
 <div class="question">Which GUI library is used?</div>
 <div class="answer">Zekr is fully developed on <a
@@ -109,20 +114,24 @@ professionals</i>!<br>
 
 <div class="question">I've seen an XP style screenshot of Zekr, but my
 copy is not in XP theme. What should I do?</div>
-<div class="answer">It is mainly about the GUI toolkit used for Zekr
+<div class="answer">
+<b>Note</b> that installer will try to put manifest files at proper
+locations from 0.1.0 release and there is no need to manually do that.
+If it steel seems like windows classic theme try the following:<br><br>
+
+It is mainly about the GUI toolkit used for Zekr
 (SWT). Zekr supports XP theme, but you should do something manually. Get
 ready? OK, let's go:<br>
-Make sure where the java.exe in your path is. Some probabilities are:
+Make sure where the javaw.exe in your path environment variable is. Some probabilities are:
 <ul>
-	<li><tt>[Windows]/system32/java.exe</tt></li>
-	<li><tt>[JAVA_HOME]/bin/java.exe</tt></li>
-	<li><tt>[Program Files]/java/j2re1.4.x/bin/java.exe</tt></li>
+	<li><tt>[Windows]/system32/javaw.exe</tt></li>
+	<li><tt>[JAVA_HOME]/bin/javaw.exe</tt></li>
+	<li><tt>[Program Files]/java/j2re1.4.x/bin/javaw.exe</tt></li>
 </ul>
-You should copy the file java.exe.manifest and also java.exe.manifest
-(located at <tt>[zekr]/res</tt>) near the java.exe and javaw.exe. That's all. <br>
-<b>Note</b> that installer will try to put manifest files at proper
-locations from 0.1.0 release and there is no need to manually do that.</div>
-
+You should copy the file <tt>javaw.exe.manifest</tt> (or <tt>java.exe.manifest</tt>
+if you want to start the application with java.exe
+located at <tt>[zekr]/res</tt>) near the java.exe and javaw.exe. That's all.
+</div>
 
 <div class="question">Which languages does Zekr support?</div>
 <div class="answer">Zekr has <i>Language Engine</i> for supporting
@@ -135,7 +144,7 @@ language pack for <i>Esperanto</i> language, we can make <tt>esperanto.xml</tt>
 near other packs, and change <tt>zekr-config.xml</tt> this way:<br>
 Before:<br>
 <pre>
-	&lt;language default="fa" current="UNDEFINED"&gt;
+	&lt;language default="fa" current=""&gt;
 		&lt;pack file="farsi.xml" id="fa" name="فارسی" /&gt;
 		&lt;pack file="english.xml" id="en" name="English" /&gt;
 	&lt;/language&gt;</pre> After:<br>
@@ -145,18 +154,18 @@ Before:<br>
 		&lt;pack file="english.xml" id="en" name="English" /&gt;
 		&lt;pack file="esperanto.xml" id="sp" name="Esperanto" /&gt;
 	&lt;/language&gt;</pre> Please note that when <tt>current</tt> is set
-to <tt>"UNDEFINED"</tt> (which is the default setting), Zekr tries to
-find the language pack equal to user's locale language (<tt>user.language</tt>
+to <tt>""</tt> so, Zekr tries to
+find the language pack equal to user's system locale (<tt>user.language</tt> JVM
 property). If it fails, it will use the <tt>default</tt> language pack
 isntead. <br>
 For now there are only two language packs available: Farsi and English.
 </div>
 
-<h3>[Install]</h3>
+<h3>[More!]</h3>
 <div class="question">Have more questions? <a href="contact.html">Ask us</a>!
 </div>
 
 <hr>
-Document last updated on 13-9-05
+Document last updated on 9-12-05
 </body>
 </html>

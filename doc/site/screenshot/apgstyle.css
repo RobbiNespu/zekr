@@ -1,0 +1,24 @@
+body {
+	background-color: rgb(200, 200, 250);
+	font: 1em Trebuchet MS, Garamond, Tahoma;
+}
+
+img {
+	border: 3px outset silver;
+	padding: 1px;
+}
+
+hr {
+	color: gray;
+	width: 80%;
+}
+
+td {
+	width: 90%;
+}
+
+.entryShortDesc {
+	font-style: italic;
+	padding-right: 30px;
+	padding-bottom: 30px;
+}
