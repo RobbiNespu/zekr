@@ -69,8 +69,9 @@
 
 	<message>
 		<inform>
-			<text id="SEARCH_FINISHED" value="جستجو پایان یافت" />
-			<text id="SEARCH_RESULT_TITLE" value="نتیجه‌ی جستجو برای «{1}»" />
+			<text id="SEARCH_RESULT_TITLE" value="نتیجه‌ی جستجو برای «{1}»:" />
+			<text id="SEARCH_RESULT_COUNT" value="{1} مورد در {2} آیه یافت شد." />
+			<text id="TOO_MANY_RESULT" value="نتیجه‌ی جستجو بیش از {1} آیه است." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="آیا مطمئن هستید؟" />

@@ -12,13 +12,13 @@
     </description>
 
 	<!-- Constants -->
-	<property name="EXPORT_PRJ" value="zekr0_1_0.jar" />
+	<property name="EXPORT_PRJ" value="zekr-020-devel.jar" />
+	<property name="EXPORT_RELEASE" value="zekr-020.jar" />
 	<property name="EXPORT_SRC" value="zekr-src.jar" />
 	<property name="EXPORT_BIN" value="zekr.jar" />
-	<property name="DIST_DIR" value="../dist" />
+	<property name="DIST_DIR" value="D:\Java\Programs\Zekr\dist\0.2.0\b1" />
 	
 	<target name="default" depends="depends" description="--> The Zekr Project">
-
 		<javac srcdir="../src" destdir="../bin/d"
     			debug="off" compiler="gcj" fork="true">
 			<classpath id="r1">
@@ -26,7 +26,6 @@
 					<include name="**/*.jar"/>
 				</fileset>
 			</classpath>
-
 		</javac>
 	</target>
 
@@ -40,7 +39,7 @@
 	<target name="build">
 		<property name="binaryName" value="Zekr.exe"/>
 
-		<echo message="compiling   .java -> .o"/>
+		<echo message="compiling .java -> .o"/>
 		<apply failonerror="true" executable="gcj.exe" dest="../bin/d">
 			<arg value="-fCLASSPATH=../bin/d/"/>
 			<arg value="-O9"/>
@@ -55,7 +54,7 @@
 			<mapper type="glob" from="*.java" to="*.o"/>
 		</apply>
 
-		<echo message="linking        .o -> ${binaryname}"/>
+		<echo message="linking .o -> ${binaryname}"/>
 		<uptodate property="linked" targetfile="../bin/d//${binaryName}">
 			<srcfiles dir="../bin/d/" includes="../bin/d/**/*.o" excludes="*.o"/>
 		</uptodate>
@@ -83,13 +82,26 @@
 			</fileset>
 		</jar>
 		<jar destfile="${DIST_DIR}/${EXPORT_SRC}" basedir="../src">
-			<exclude name="**/*JustTest.java" />
-			<exclude name="**/*DebugMain.java" />
 		</jar>
 		<jar destfile="${DIST_DIR}/${EXPORT_BIN}" basedir="../bin" defaultexcludes="true">
-			<exclude name="**/*JustTest.class" />
-			<exclude name="**/*DebugMain.class" />
 			<exclude name="**/CVS/*" />
+		</jar>
+		<jar destfile="${DIST_DIR}/${EXPORT_RELEASE}" description="release">
+			<fileset dir="../">
+				<exclude name="**/*${EXPORT_PRJ}" />
+				<exclude name="**/.*" />
+				<exclude name="**/.*/*" />
+				<exclude name="**/*.log*" />
+				<exclude name="misc/" />
+				<exclude name="src/" />
+				<exclude name="bin/" />
+				<exclude name="res/build.xml" />
+				<exclude name="res/javadoc.xml" />
+			</fileset>
+			<fileset dir="${DIST_DIR}">
+				<include name="dist/*" />
+			</fileset>
+			<filename />
 		</jar>
 	</target>
 

@@ -69,8 +69,9 @@
 
 	<message>
 		<inform>
-			<text id="SEARCH_FINISHED" value="Search finished." />
 			<text id="SEARCH_RESULT_TITLE" value="Search result for:&quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_COUNT" value="{1} results was found in {2} ayas." />
+			<text id="TOO_MANY_RESULT" value="Search result has more than {1} ayas" />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Are you sure?" />
