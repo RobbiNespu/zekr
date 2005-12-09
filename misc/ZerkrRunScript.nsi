@@ -1,9 +1,11 @@
 ;--------- CONFIGURATION ---------
 
 !define APP_NAME "The Zekr Project"
-!define APP_VER "0.1.0"
+!define APP_VER "0.2.0b1"
 !define CLASS_PATH "lib\log4j-1.2.8.jar;lib\swt-win32.jar;lib\commons-collections.jar;lib\velocity-1.4.jar;lib\xml-apis.jar;dist\zekr.jar"
 !define JRE_OPT "-Djava.library.path=lib"
+!define MAIN_CLASS "net.sf.zekr.ZekrMain"
+#SetCompressor /SOLID lzma
 
 ;Uncomment the next line to specify a splash screen bitmap.
 ;!define SPLASH_IMAGE "splash.bmp"
@@ -11,23 +13,23 @@
 
 Name "Zekr"
 Caption "${APP_NAME}"
-OutFile "launch.exe"
+OutFile "zekr.exe"
 Icon "..\res\image\icon\zekr01.ico"
 SilentInstall silent
 XPStyle on
 
-VIProductVersion 0.2.0.0b1
-VIAddVersionKey /lang=${LANG_ENGLISH} ProductName Zekr
+VIProductVersion 0.2.0.0
+VIAddVersionKey ProductName Zekr
 VIAddVersionKey ProductVersion "${APP_VER}"
-VIAddVersionKey /lang=${LANG_ENGLISH} OriginalFilename "zekr.exe"
-VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "Siahe.com"
-VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "http://siahe.com"
-VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "0.1.0"
-VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "The Zekr Open Quranic Project"
-VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "(C) 2004-2005 Mohsen Saboorian"
+VIAddVersionKey OriginalFilename "zekr.exe"
+VIAddVersionKey CompanyName "Siahe.com"
+VIAddVersionKey CompanyWebsite "http://siahe.com"
+VIAddVersionKey FileVersion "${APP_VER}"
+VIAddVersionKey FileDescription "The Zekr Open Quranic Project"
+VIAddVersionKey LegalCopyright "© 2004-2005 Mohsen Saboorian"
 
 ;InstallDirRegKey HKLM "${REGKEY}" Path
-;ShowUninstDetails show
+ShowUninstDetails hide
 
 !addplugindir .
 
@@ -63,15 +65,15 @@ Section ""
 ;  SetOutPath $TEMP
 ;  File "${JARFILE}"
 ;  StrCpy $R0 '$R0 -classpath "${CLASS_PATH}" ${JRE_OPT} net.sf.zekr.ZekrMain $R1'
-	StrCpy $R0 'javaw.exe -classpath ${JARFILE};${CLASS_PATH} ${JRE_OPT} net.sf.zekr.ZekrMain'
+    StrCpy $R0 'javaw.exe -classpath ${CLASS_PATH} ${JRE_OPT} ${MAIN_CLASS}'
   Exec "$R0"
   Quit
 
   NotFound:
   Sleep 800
   MessageBox MB_ICONEXCLAMATION|MB_YESNO \
-                    'Could not find a Java Runtime Environment installed on your computer. \
-                     $\nWithout it you cannot run "${APPNAME}". \
+                    'Could not find a Java Runtime Environment (JRE) installed on your computer. \
+                     $\nWithout it you cannot run "${APP_NAME}". \
                      $\n$\nWould you like to visit the Java website to download it?' \
                     IDNO +2
   ExecShell open "http://java.sun.com/getjava"
@@ -101,45 +103,5 @@ Function GetParameters
   Pop $R2
   Pop $R1
   Exch $R0
-FunctionEnd
-
-Function Stat
- 
-;        DWORD st_dev;
-;        WORD st_ino;
-;        WORD st_mode;
-;        WORD st_nlink;
-;        WORD st_uid;
-;        WORD st_gid;
-;        WORD spacer;
-;        DWORD st_rdev;
-;        INT st_size;
-;        DWORD st_atime;
-;        DWORD st_mtime;
-;        DWORD st_ctime;
-!define stSTAT '(i,&i2,&i2,&i2,&i2,&i2,&i2,i,i,i,i,i) i'
- 
-   System::Call '*${stSTAT} .r0' ; allocates memory for STAT struct and writes address to $0
-   System::Call 'msvcrt.dll::_stat(t "$EXEDIR\${FILE_NAME}", i r0) i .r1'
-;  MessageBox MB_OK "_stat returned $1"
-   MessageBox MB_OK "$EXEDIR\LocaleINFO.exe"
-   IntCmp $1 -1 exit
-   System::Call "*$0${stSTAT}(,,.r1,,,,,,.r2,.r3,.r4,.r5)"
-;   MessageBox MB_OK "st_mode=$1, st_size=$2, st_atime=$3, st_mtime=$4, st_ctime=$5"
-   System::Call 'msvcrt.dll::ctime(*i r3) t .r3'
-   System::Call 'msvcrt.dll::ctime(*i r4) t .r4'
-   System::Call 'msvcrt.dll::ctime(*i r5) t .r5'
-   StrCpy $6 "File"
-   IntOp $7 $1 & 0040000
-   IntCmp $7 0 isfile
-   StrCpy $6 "Directory"
-isfile:
-   StrCpy $8 "Read only"
-   IntOp $7 $1 & 0000200
-   IntCmp $7 0 rdonly
-   StrCpy $8 "Write permitted"
-rdonly:
-exit:
-   System::Free $0 ; free allocated memory
 FunctionEnd
 
