@@ -16,16 +16,13 @@ import net.sf.zekr.common.resource.dynamic.QuranHTMLRepository;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 
-import org.apache.velocity.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -34,7 +31,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
@@ -347,11 +343,15 @@ public class QuranForm extends BaseForm {
 
 	void find() {
 		String str = searchText.getText();
-		if (!"".equals(str.trim())) {
+		if (!"".equals(str.trim()) && str.indexOf('$') == -1 && str.indexOf('\\') == -1) {
 			if (whole.getSelection()) {
-				quranBrowser.setUrl(QuranHTMLRepository.getSearchUrl(str));
+				logger.info("Will search the whole Quran for \"" + str + "\" with dicritic match set to " + match.getSelection() + ".");
+				quranBrowser.setUrl(QuranHTMLRepository.getSearchUrl(str, match.getSelection()));
+				logger.info("End of search.");
 			} else {
+				logger.info("Start searching the current Quran view for \"" + str + "\" with dicritic match set to " + match.getSelection() + ".");
 				quranBrowser.execute("find(\"" + str + "\", " + match.getSelection() + ");");
+				logger.info("End of search.");
 			}
 		}
 	}

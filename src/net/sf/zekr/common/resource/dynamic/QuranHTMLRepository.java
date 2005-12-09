@@ -68,16 +68,17 @@ public class QuranHTMLRepository {
 		return file.getAbsolutePath() + ((aya == 0) ? "" : "#" + aya);
 	}
 	
-	public static String getSearchUrl(String keyword) {
+	public static String getSearchUrl(String keyword, boolean matchDiac) {
 		File file = new File(Naming.HTML_SEARCH_CACHE_DIR + File.separator + keyword.hashCode() + ".html");
 
 		try {
 			RandomAccessFile raf;
 //			 FIXME: no search cache for now
+			if (file.exists()) file.delete();
 			raf = new RandomAccessFile(file, "rw");
 			// Charset
 			SearchResultTemplate qrt = new SearchResultTemplate();
-			raf.write(qrt.transform(keyword).getBytes("UTF-8"));
+			raf.write(qrt.transform(keyword, matchDiac).getBytes("UTF-8"));
 			raf.close();
 		} catch (IOException e) {
 			Logger.getLogger(QuranHTMLRepository.class).log(e);

@@ -15,7 +15,6 @@ import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * This class consists of detail of the quran text file located at

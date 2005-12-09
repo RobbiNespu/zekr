@@ -38,7 +38,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "G:\Java\myJAVA\Zekr\dist\0.1.0\zekr0.1.0"
+!define BASE_APP "d:\Java\Programs\Zekr\dist\0.1.0\zekr0.1.0"
 
 Var StartMenuGroup
 Var JAVA_VER
@@ -86,15 +86,17 @@ InstallDir $PROGRAMFILES\Zekr
 CRCCheck on
 XPStyle on
 ShowInstDetails show
+Icon "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
 VIProductVersion 0.1.0.0
 VIAddVersionKey /lang=${LANG_ENGLISH} ProductName Zekr
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "${URL}"
-VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "0.1.0"
+VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion ${VERSION}
 VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "The Zekr Open Quranic Project"
 VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "(C) 2004-2005 Mohsen Saboorian"
 InstallDirRegKey HKLM "${REGKEY}" Path
+UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 ShowUninstDetails show
 
 # Installer sections
@@ -158,7 +160,7 @@ done${UNSECTION_ID}:
 
 # Uninstaller sections
 Section /o un.Main UNSEC0000
-    RMDir /r /REBOOTOK $INSTDIR\zekr_
+    RMDir /r /REBOOTOK $INSTDIR\Zekr
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
 

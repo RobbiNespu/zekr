@@ -17,7 +17,7 @@ import net.sf.zekr.engine.language.LanguageEngine;
  * @version 0.1
  */
 public class CollectionUtils {
-	public static String getLocalizeList(int[] array) {
+	public static String getLocalizedList(int[] array) {
 		StringBuffer ret = new StringBuffer();
 		LanguageEngine dict = ApplicationConfig.getInsatnce().getLanguageEngine();
 		String delim = dict.getMeaning("COMMA");

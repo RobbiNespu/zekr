@@ -19,8 +19,6 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -55,8 +53,6 @@ public class AboutForm extends BaseForm {
 		
 		shell.addKeyListener(new KeyAdapter(){
 			public void keyPressed(KeyEvent e) {
-				System.out.println(e.character);
-				System.out.println(e.keyCode);
 				if(e.character == SWT.ESC)
 					shell.close();
 			}
@@ -79,7 +75,7 @@ public class AboutForm extends BaseForm {
 		detailCom.setLayout(new RowLayout(SWT.VERTICAL));
 		Link link = new Link(detailCom, SWT.NONE);
 		String s = langEngine.getMeaning("APP_FULL_NAME")
-				+ ".\n\t<ahref=\"http://siahe.com/zekr\">http://www.siahe.com/zekr</a>\n\n"
+				+ ".\n\t<a href=\"http://siahe.com/zekr\">http://www.siahe.com/zekr</a>\n\n"
 				+ langEngine.getMeaning("COPYRIGHT_DISCLAIMER");
 		link.setText(s);
 		link.addSelectionListener(new SelectionListener() {
@@ -101,7 +97,6 @@ public class AboutForm extends BaseForm {
 			}
 
 			public void keyReleased(KeyEvent e) {
-				System.out.println(e.keyCode);
 				if (e.keyCode == SWT.ESC)
 					shell.close();
 			}

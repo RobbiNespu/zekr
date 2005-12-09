@@ -8,7 +8,6 @@
  */
 package net.sf.zekr.common.util;
 
-import net.sf.zekr.common.resource.QuranProperties;
 
 public interface IQuranLocation {
 	public int getAya();

@@ -11,7 +11,6 @@ package net.sf.zekr.engine.xml;
 
 import java.util.Iterator;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 

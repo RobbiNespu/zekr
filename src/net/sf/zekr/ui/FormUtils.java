@@ -12,9 +12,6 @@ package net.sf.zekr.ui;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.engine.language.LanguageEngineNaming;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;

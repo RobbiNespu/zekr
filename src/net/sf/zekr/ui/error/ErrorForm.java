@@ -10,7 +10,6 @@ package net.sf.zekr.ui.error;
 
 import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.ui.BaseForm;
-import net.sf.zekr.ui.FormUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -75,7 +74,7 @@ public class ErrorForm extends BaseForm {
 				| SWT.V_SCROLL);
 		errorDetail.setEditable(false);
 
-		StringBuffer buf = new StringBuffer(error.getMessage() + "\n");
+		StringBuffer buf = new StringBuffer(error.toString() + "\n");
 		StackTraceElement elements[] = error.getStackTrace();
 		for (int i = 0, n = elements.length; i < n; i++) {
 			buf.append("\t" + elements[i].toString() + "\n");

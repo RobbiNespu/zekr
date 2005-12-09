@@ -220,7 +220,7 @@ public class QuranPropertiesUtils {
 		} else if (jozList[0] != firstJoz) {
 			jozList = CollectionUtils.concat(new int[] { firstJoz }, jozList);
 		}
-		return CollectionUtils.getLocalizeList(jozList);
+		return CollectionUtils.getLocalizedList(jozList);
 	}
 
 }

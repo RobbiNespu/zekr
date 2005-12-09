@@ -19,13 +19,11 @@ import java.util.Map.Entry;
 
 import javax.xml.transform.TransformerException;
 
-import net.sf.zekr.common.resource.dynamic.QuranHTMLRepository;
 import net.sf.zekr.common.runtime.InitRuntime;
 import net.sf.zekr.common.runtime.RuntimeConfig;
 import net.sf.zekr.common.runtime.RuntimeUtilities;
 import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
-import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.NodeList;
@@ -120,14 +118,14 @@ public class ApplicationConfig extends ZekrConfigNaming {
 
 		String currentLangId = langElem.getAttribute(CURRENT_LANGUAGE_ATTR);
 		String defaultLangId = langElem.getAttribute(DEFAULT_LANGUAGE_ATTR);
-		if (!langElem.hasAttribute(defaultLangId)) {
+		if (!langElem.hasAttribute(DEFAULT_LANGUAGE_ATTR)) {
 			logger.error("Can not find default language pack. will set default to \"en\".");
 			langElem.setAttribute(DEFAULT_LANGUAGE_ATTR, "en");
 			defaultLangId = "en";
 			update = true;
 		}
 		language.setDefaultLanguagePackId(defaultLangId);
-		if (!langElem.hasAttribute(currentLangId)) {
+		if (!langElem.hasAttribute(CURRENT_LANGUAGE_ATTR)) {
 			currentLangId = RuntimeUtilities.USER_LANGUAGE;
 			logger.warn("Current language will be set to \"" + currentLangId + "\".");
 			langElem.setAttribute(CURRENT_LANGUAGE_ATTR, currentLangId);

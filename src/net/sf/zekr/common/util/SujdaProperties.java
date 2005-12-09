@@ -8,7 +8,6 @@
  */
 package net.sf.zekr.common.util;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.language.LanguageEngine;
 
 /**
