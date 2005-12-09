@@ -118,14 +118,14 @@ public class ApplicationConfig extends ZekrConfigNaming {
 
 		String currentLangId = langElem.getAttribute(CURRENT_LANGUAGE_ATTR);
 		String defaultLangId = langElem.getAttribute(DEFAULT_LANGUAGE_ATTR);
-		if (!langElem.hasAttribute(DEFAULT_LANGUAGE_ATTR)) {
-			logger.error("Can not find default language pack. will set default to \"en\".");
+		if ("".equals(langElem.getAttribute(DEFAULT_LANGUAGE_ATTR))) {
+			logger.warn("Can not find default language pack. will set default to \"en\".");
 			langElem.setAttribute(DEFAULT_LANGUAGE_ATTR, "en");
 			defaultLangId = "en";
 			update = true;
 		}
 		language.setDefaultLanguagePackId(defaultLangId);
-		if (!langElem.hasAttribute(CURRENT_LANGUAGE_ATTR)) {
+		if ("".equals(langElem.getAttribute(CURRENT_LANGUAGE_ATTR))) {
 			currentLangId = RuntimeUtilities.USER_LANGUAGE;
 			logger.warn("Current language will be set to \"" + currentLangId + "\".");
 			langElem.setAttribute(CURRENT_LANGUAGE_ATTR, currentLangId);

@@ -113,9 +113,6 @@ Section -post SEC0001
     WriteRegStr HKLM "${REGKEY}" Path $INSTDIR
     WriteRegStr HKLM "${REGKEY}" StartMenuGroup $StartMenuGroup
     WriteUninstaller $INSTDIR\uninstall.exe
-    SetOutPath $SMPROGRAMS\$StartMenuGroup
-    CreateShortCut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
-    CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Browse site.lnk" $INSTDIR\doc\site\index.html
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${RELEASE_VERSION}"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" Publisher "${COMPANY}"
@@ -124,13 +121,20 @@ Section -post SEC0001
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\uninstall.exe
     WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
     WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
+ 
+#    SetOutPath $SMPROGRAMS\$StartMenuGroup
+    SetOutPath "$INSTDIR\"
+    !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+        CreateDirectory "$SMPROGRAMS\$StartMenuGroup"
+        CreateShortCut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
+        CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Browse site.lnk" $INSTDIR\doc\site\index.html
+        CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Zekr.lnk" $INSTDIR\zekr.exe
+    !insertmacro MUI_STARTMENU_WRITE_END
 
     ; javaw.exe.manifest file copy
     SetOverwrite try
     SetOutPath $SYSDIR
     File "${BASE_APP}\res\javaw.exe.manifest"
-    MessageBox MB_OK $JRE_HOME
-    MessageBox MB_OK $JDK_HOME
     SetOutPath "$JRE_HOME\bin"
     File "${BASE_APP}\res\javaw.exe.manifest"
     SetOutPath "$JDK_HOME\bin"
@@ -171,7 +175,7 @@ SectionEnd
 
 # Installer functions
 Function .onInstSuccess
-    Exec $\"$INSTDIR\zekr.exe$\"
+#    Exec $\"$INSTDIR\zekr.exe$\"
 FunctionEnd
 
 !define GET_JAVA_URL "http://java.sun.com/getjava"
@@ -191,7 +195,7 @@ Function .onInit
     pop $2 ; micro version
 
     strcmp $0 "no" JavaNotInstalled
-        StrCpy $JAVA_VER "$0.$1.$2"
+        StrCpy $JAVA_VER "$0.$1"
         IntCmp 141 "$0$1$2" FoundCorrectJavaVer FoundCorrectJavaVer JavaVerNotCorrect
         FoundCorrectJavaVer:
             ReadRegStr $JRE_HOME HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$JAVA_VER" "JavaHome"
@@ -211,6 +215,7 @@ Function .onInit
     Abrt:
         Abort
     Done:
+    
     InitPluginsDir
     StrCpy $StartMenuGroup Zekr
     Push $R1
@@ -249,17 +254,18 @@ Function GetJavaVersion
   StrCmp $2 "" DetectTry2
   ReadRegStr $3 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "MicroVersion"
   StrCmp $3 "" DetectTry2
-  ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "UpdateVersion"
-  StrCmp $4 "" 0 GotFromUpdate
+#  ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "UpdateVersion"
+#  StrCmp $4 "" 0 GotFromUpdate
   ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
   Goto GotJRE
+
 DetectTry2:
   ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
   StrCmp $2 "" NoFound
   ReadRegStr $3 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "MicroVersion"
   StrCmp $3 "" NoFound
-  ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "UpdateVersion"
-  StrCmp $4 "" 0 GotFromUpdate
+#  ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "UpdateVersion"
+#  StrCmp $4 "" 0 GotFromUpdate
   ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
 GotJRE:
   ; calc build version
@@ -292,10 +298,10 @@ GoLoopingP:
 GetFromMicro:
   strcpy $4 $3
   goto GetFromPath
-GotFromUpdate:
+/*GotFromUpdate:
   push $4
   Exch 6
- 
+*/ 
 CalcMicro:
   Push $3 ; micro
   Exch 6
