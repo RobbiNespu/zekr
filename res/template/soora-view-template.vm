@@ -10,7 +10,7 @@
 
 #macro(putBismillah)
 	#if ($SOORA != 9) ##&& $SOORA != 1) #** not a good idea! *#
-	<img src="$BISM_PATH">
+	<img src="$BISM_PATH" alt="بسم الله الرحمن الرحیم">
 	#end
 #end
 <html>
@@ -19,6 +19,7 @@
 	<base href="file:///$APP_PATH/">
 	<link rel="stylesheet" type="text/css" href="res/template/css/style.css">
 	<script src="res/template/js/utils.js" language="javascript" type="text/javascript"></script>
+	<script src="res/template/js/search.js" language="javascript" type="text/javascript"></script>
 <title>$TITLE</title>
 </head>
 <body dir="rtl">
@@ -27,7 +28,7 @@
 	#putBismillah()
 	</td></tr>
 
-	<tr><td class="quran">
+	<tr><td id="quranSection" class="quran">
 	#parse ("res/template/aya-template.vm")
 	</td></tr>
 

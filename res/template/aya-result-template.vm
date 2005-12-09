@@ -12,15 +12,16 @@
 #set ($RPAREN = "&#64831;")
 #set ($LPAREN = "&#64830;")
 
-#macro (getCssClass $NUM)
-#if($NUM % 2 == 0)even#else odd#end
-#end
-
 
 <div class="searchResult">
     #foreach ($AYA in $AYA_LIST)
     	#set($AYA_NUM = $velocityCount)
-		<div class="#getCssClass($velocityCount)">
+		#if ($AYA_NUM % 2 == 0)
+			#set($ROW_CLASS = "even")
+		#else
+			#set($ROW_CLASS = "odd")
+		#end
+		<div class="$ROW_CLASS">
     	<span title="${AYA.Key}">
     		<span>($AYA_NUM)</span>
     	</span>
@@ -31,7 +32,7 @@
 				<span class="highlight">${AYA_SEGMENT}</span>
     		#end
     	#end
-			<span title="${AYA.Key}">$RPAREN${AYA.Key.SooraName}: ${AYA.Key.Aya}$LPAREN</span>
+			<span style="color: rgb(20, 20, 150)" title="${AYA.Key}">$RPAREN${AYA.Key.SooraName}: ${AYA.Key.Aya}$LPAREN</span>
 		</div>
     #end
 </div>

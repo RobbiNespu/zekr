@@ -8,7 +8,6 @@
  */
 html,body {
 	padding: 0;
-	direction: rtl;
 }
 
 body {
@@ -27,6 +26,14 @@ table.main {
 
 td.barTop {
 	height: 40px;
+}
+
+td.searchBarTop {
+	height: 50px;
+	font-size: 0.9em;
+	font-family: Tahoma, Arial, Sans-serif;
+	border: 1px dashed silver;
+	padding: 2px;
 }
 
 td.barBottom {
@@ -76,15 +83,26 @@ span.jozSign {
 	color: rgb(200, 40, 40);
 }
 
-div.searchResult.odd {
-	background: transparent;
+td.searchResult {
+	vertical-align: top;
+}
+div.searchResult {
+	font: 21px "Traditional Arabic", Badr, Nazanin, Tahoma, Verdana,
+		Helvetica, Arial, Sans-serif;
+	border: 5px solid rgb(200, 210, 240);
 }
 
-div.searchResult.even {
-	background-color: rgb(170, 190, 255);
+.searchResult div.odd {
+	margin-top: 1px;
 }
 
-span.searchResult.highlight {
+.searchResult div.even {
+	background-color: rgb(200, 210, 240);
+	margin-top: 1px;
+	margin-bottom: px;
+}
+
+.searchResult span.highlight {
 	color: red;
 	font-weight: bold;
 }

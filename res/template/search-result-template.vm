@@ -17,11 +17,23 @@
 </head>
 <body dir="rtl">
 <table class="main">
-	<tr><td class="barTop" align="center">
-		<pre dir="$DIRECTION" style="font-family: Tahoma">$TITLE</pre>
-	</td></tr>
+	#set ($ALIGN = "left")
+	#if ($DIRECTION == "rtl")
+		#set ($ALIGN = "right")
+	#end
+	<tr dir="$DIRECTION">
+		<td class="searchBarTop" align="$ALIGN">
+			$TITLE
+		</td>
+		<td class="searchBarTop" align="$ALIGN">
+			#if ($TOO_MANY_RESULT)
+			<i style="color: red">$TOO_MANY_RESULT</i> <br>
+			#end
+			$COUNT
+		</td>
+	</tr>
 
-	<tr><td class="quran">
+	<tr><td id="quranSection" colspan="2" class="searchResult">
 	#parse ("res/template/aya-result-template.vm")
 	</td></tr>
 

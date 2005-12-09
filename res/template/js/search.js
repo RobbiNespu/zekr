@@ -81,7 +81,7 @@ function highlightWordInNode(aWord, aNode, matchDiac) {
 
 function indexOfIgnoreDiacritic(src, key) {
 	key = arabicSimplify(key);
-	var i = 0, k = 0, s = 0, start = -1;
+	var k = 0, s = 0, start = -1;
 	if (key.length == 0)
 		return -1;
 	while(s < src.length) {
@@ -99,17 +99,17 @@ function indexOfIgnoreDiacritic(src, key) {
 				start = s;
 			s++;
 			k++;
-		} else if (isDiac(src.charAt(s))) {
-			s++
-		}else {
+		} else {
+			if (!isDiac(src.charAt(s))) {
+				k = 0;
+				start = -1;
+			}
 			s++;
-			k = 0;
-			start = -1;
 		}
 	}
 	if (k == key.length) { // fully matched
-		spaceAfter = src.indexOf(" ", start);
-		spaceBefore = src.substring(0, start + 1).lastIndexOf(" ");
+		spaceBefore = (key.charAt(0) != ' ') ? src.substring(0, start).lastIndexOf(' ') : start;
+		spaceAfter = (key.charAt(key.length - 1) != ' ') ? src.indexOf(' ', s) : s;
 		if (spaceBefore == -1) start = 0;
 		else start = spaceBefore + 1;
 		if (spaceAfter == -1) s = src.length;
@@ -124,8 +124,8 @@ function indexOfMatchDiacritic(src, key) {
 	if (start == -1)
 		return -1;
 
-	spaceAfter = src.indexOf(" ", start);
-	spaceBefore = src.substring(0, start + 1).lastIndexOf(" ");
+	spaceBefore = (key.charAt(0) != ' ') ? src.substring(0, start).lastIndexOf(' ') : start;
+	spaceAfter = (key.charAt(key.length - 1) != ' ') ? src.indexOf(' ', start + key.length) : start + key.length;
 	if (spaceBefore == -1) start = 0;
 	else start = spaceBefore + 1;
 	if (spaceAfter == -1) end = src.length;
@@ -172,30 +172,6 @@ function highlightWordInText(aWord, textNode, matchDiac){
 
 function find(str, matchDiac) {
 	if (str == "") return;
-//	if (match) {
-	highlightWordInNode(str, document.body, matchDiac);
-/*	} else {
-		var strFound = null;
-		var tRange = null;
-		if (tRange == null || strFound == 0) { // first time
-			tRange = self.document.body.createTextRange();
-			strFound = tRange.findText(str);
-			if (strFound) {
-				tRange.expand("word");
-			}
-		}
-		while(strFound) {
-			if (tRange != null) {
-				tRange.collapse(false);
-				strFound = tRange.findText(str);
-				if (strFound) {
-					tRange.expand("word");
-					tRange.select();
-				}
-					
-			}
-		}
-	}
-*/
+	highlightWordInNode(str, document.getElementById("quranSection"), matchDiac);
 }
 
