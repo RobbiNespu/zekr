@@ -33,3 +33,6 @@ Form view state
 	access to form's current state.
 	The naming convention is [main form .java class name] + "View": e.g.
 	QuranForm + View = QuranFormView*/
+
+How to profile:
+-agentlib:hprof=cpu=samples,depth=5,heap=sites,monitor=y,file=prof.txt

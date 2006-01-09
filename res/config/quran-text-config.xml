@@ -21,10 +21,10 @@
 			<sign leftString="]" rightString="[" value="{DIGIT}" />
 		</joz>
 
-		<sujda>
+		<sajda>
 			<sign leftString="]" rightString="[" type="minor" value="." />
 			<sign leftString="]" rightString="[" type="major" value=".." />
-		</sujda>
+		</sajda>
 
 	</text-notation>
 </config>

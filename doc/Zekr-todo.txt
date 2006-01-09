@@ -12,12 +12,16 @@ Zekr 0.2.0 (release)
 . + About menu
 . + Nullsoft installer for windows (copy manifest file into JAVA_HOME/bin)
 . + Simple option menu item (language, theme, layout, font/color choose)
-. + Advanced navigation capabilities: next/previous joz/soora
+  + Advanced navigation capabilities: next/previous joz/soora
 . + Quick navigation: entering soora number and aya number
 . + Simple search
 
 Zekr 0.3.0 (release)
   + Quran translations support
+  + Theme management
+
+Zekr 0.4.0 (release)
+  + Linux port
 
 Zekr 1.0.0
   + Translation system: easily adding different translations

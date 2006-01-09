@@ -45,7 +45,7 @@ Quran is a reminder for the human morality.</div>
 	href="http://siahe.com/zekr" title="Zekr main homapage">
 http://siahe.com/zekr</a>, which is updated with the latest builds of
 Zekr. There is also a secondary home page on the leading hosting service
-for open source projects: sourceforge.net. The url is <a
+for open source projects: sourceforge.net. The URL is <a
 	href="http://zekr.sourceforge.net" title="Zekr homapage">
 http://zekr.sourceforge.net</a>. It may not update as fast as siahe.com.
 Conventionally package naming is of the form net.sf.zekr.*.</div>
@@ -98,16 +98,16 @@ developed in <a href="http://eclipse.org">Eclipse</a> platform (3.0 to
 Since it is <b>not</b> included in the standard Sun's JDK, you need to
 have swt-win32-xxxx.dll for Win32 machines or <tt>libswt-gtk-xxxx.so</tt>/<tt>libswt-pi-gtk-xxxx.</tt>
 for your Linux/GTK platforms. There is also a platform specific jar file
-on the project's lib directory named <tt>swt-xxx.jar</tt>, wher xxx can
+on the project's lib directory named <tt>swt-xxx.jar</tt>, where xxx can
 be win32 or gtk!</div>
 
 <h3>[Install]</h3>
 <div class="question">I downloaded Zekr. Now, what should I do?</div>
 <div class="answer">Please note that there are two releases for each
-version of zekr for any platforms. One is installer based version. If
+version of Zekr for any platforms. One is installer based version. If
 you have downloaded this file, you can easily follow the installation
-steps and having <acronym title="Java Runtime Environment">JRE</acronym>
-<b>1.4.1+</b> installed on you computer, you can then run Zekr. There is also
+steps and having <b><acronym title="Java Runtime Environment">JRE</acronym>
+1.4.1+</b> installed on you computer, you can then run Zekr. There is also
 another version available as a zipped archive which is proper for <i>IT
 professionals</i>!<br>
 </div>
@@ -119,7 +119,7 @@ copy is not in XP theme. What should I do?</div>
 locations from 0.1.0 release and there is no need to manually do that.
 If it steel seems like windows classic theme try the following:<br><br>
 
-It is mainly about the GUI toolkit used for Zekr
+It is mainly about the <acronym title="Graphical User Interface">GUI</acronym> toolkit used for Zekr
 (SWT). Zekr supports XP theme, but you should do something manually. Get
 ready? OK, let's go:<br>
 Make sure where the javaw.exe in your path environment variable is. Some probabilities are:
@@ -136,29 +136,30 @@ located at <tt>[zekr]/res</tt>) near the java.exe and javaw.exe. That's all.
 <div class="question">Which languages does Zekr support?</div>
 <div class="answer">Zekr has <i>Language Engine</i> for supporting
 multiple languages. There are corresponding XML files for each language
-pack (located at <tt>[zekr]/res/lang</tt>). You can write your own
-language pack (e.g. <tt>[zekr]/res/lang/esperanto.xml</tt>) for Zekr,
-and add a new node to <tt>[zekr]/res/config/zekr-config.xml</tt>,
+pack (located at <tt>[zekr]/res/lang</tt>). You can 
+<a href="lang-notes.html">write your own language pack</a>
+(e.g. <tt>[zekr]/res/lang/esperanto.xml</tt>) for Zekr,
+and add a new element to <tt>[zekr]/res/config/zekr-config.xml</tt>,
 indicating the new language pack. For example if we want to write a new
 language pack for <i>Esperanto</i> language, we can make <tt>esperanto.xml</tt>
 near other packs, and change <tt>zekr-config.xml</tt> this way:<br>
 Before:<br>
 <pre>
 	&lt;language default="fa" current=""&gt;
-		&lt;pack file="farsi.xml" id="fa" name="فارسی" /&gt;
-		&lt;pack file="english.xml" id="en" name="English" /&gt;
+		&lt;pack file="farsi.xml" id="fa_IR" name="فارسی" /&gt;
+		&lt;pack file="english.xml" id="en_US" name="English" /&gt;
 	&lt;/language&gt;</pre> After:<br>
 <pre>
 	&lt;language default="fa" current="sp"&gt;
-		&lt;pack file="farsi.xml" id="fa" name="فارسی" /&gt;
-		&lt;pack file="english.xml" id="en" name="English" /&gt;
-		&lt;pack file="esperanto.xml" id="sp" name="Esperanto" /&gt;
+		&lt;pack file="farsi.xml" id="fa_IR" name="فارسی" /&gt;
+		&lt;pack file="english.xml" id="en_US" name="English" /&gt;
+		&lt;pack file="esperanto.xml" id="sp_XX" name="Esperanto" /&gt;
 	&lt;/language&gt;</pre> Please note that when <tt>current</tt> is set
 to <tt>""</tt> so, Zekr tries to
 find the language pack equal to user's system locale (<tt>user.language</tt> JVM
 property). If it fails, it will use the <tt>default</tt> language pack
-isntead. <br>
-For now there are only two language packs available: Farsi and English.
+instead. <br>
+For now there are 5 two language packs available: Farsi, Arabic, English, Indonesian, and French.
 </div>
 
 <h3>[More!]</h3>
@@ -166,6 +167,6 @@ For now there are only two language packs available: Farsi and English.
 </div>
 
 <hr>
-Document last updated on 9-12-05
+Document last updated on 24-12-05
 </body>
 </html>
