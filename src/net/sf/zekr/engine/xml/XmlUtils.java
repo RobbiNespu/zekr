@@ -17,7 +17,6 @@ import org.w3c.dom.Node;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.1
  */
 public class XmlUtils {

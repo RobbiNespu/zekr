@@ -28,25 +28,22 @@ public class ZekrMain {
 	static void startZekr() {
 		try {
 			logger.info("Starting The Zekr Project...");
+			SplashScreen splash = new SplashScreen(display);
+			splash.show();
 
 			InitRuntime runtime = new InitRuntime();
 			runtime.configureDirectories();
 
-			SplashScreen splash = new SplashScreen(display);
-			splash.show();
-
 			QuranForm quraForm = new QuranForm(display);
-
 			quraForm.show(750, 580);
-
 			splash.dispose(); // close splash screen
-
 			quraForm.loopForever();
-
 			quraForm.dispose();
 
 		} catch (Throwable t) {
 			logger.log(t);
+		} finally {
+			logger.info("Zekr is now down.\n");
 		}
 	}
 

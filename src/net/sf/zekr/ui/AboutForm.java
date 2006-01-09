@@ -35,6 +35,11 @@ import org.eclipse.swt.widgets.Shell;
  * @version 0.1
  */
 
+/**
+ * @author    Mohsen Saboorian
+ * @since	  Zekr 1.0
+ * @version   0.2
+ */
 public class AboutForm extends BaseForm {
 	private final static Logger logger = Logger.getLogger(AboutForm.class);
 

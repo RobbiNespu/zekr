@@ -25,9 +25,7 @@ import org.eclipse.swt.widgets.Shell;
  * @version 0.1
  */
 public class SplashScreen extends BaseForm {
-//	final ResourceManager resource = ResourceManager.getInstance();
 	final private String imagePath = resource.getString("image.splashScreen");
-//	private Shell splashShell = null;
 	private Image splashImage = null;
 
 	private static final Logger logger = Logger.getLogger(SplashScreen.class);

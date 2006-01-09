@@ -10,6 +10,7 @@
 package net.sf.zekr.ui;
 
 import java.util.Map;
+import java.util.TimerTask;
 
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.dynamic.QuranHTMLRepository;
@@ -18,8 +19,18 @@ import net.sf.zekr.engine.log.Logger;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.ProgressAdapter;
+import org.eclipse.swt.browser.ProgressEvent;
+import org.eclipse.swt.browser.ProgressListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
@@ -38,7 +49,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
+ * @version 0.2
  */
 public class QuranForm extends BaseForm {
 	// Form widgets:
@@ -64,16 +75,19 @@ public class QuranForm extends BaseForm {
 
 	private final String ID = "QURAN_FORM";
 
-	private final static Logger logger = Logger.getLogger(QuranForm.class);
+	private final Logger logger = Logger.getLogger(this.getClass());
 
 	private QuranProperties quranProp;
 	private PropertyGenerator widgetProp;
 
-	// Other global variables
-	/**
-	 * Specifies whether aya selector changed since a soora was selected.
-	 */
-	private boolean ayaChanged = false;
+	/** Specifies whether aya selector changed since a soora was selected. */
+	private boolean ayaChanged;
+
+	/** Specifies whether soora selector changed for making a new soora view. */
+	private boolean sooraChanged;
+
+	/** The current URL loaded in the browser */
+	private String url;
 
 	/**
 	 * @param display
@@ -81,8 +95,6 @@ public class QuranForm extends BaseForm {
 	public QuranForm(Display display) {
 		this.display = display;
 
-//		config = ApplicationConfig.getInsatnce();
-//		langEngine = config.getLanguageEngine();
 		widgetProp = new PropertyGenerator(config);
 		quranProp = QuranProperties.getInstance();
 		init();
@@ -96,7 +108,8 @@ public class QuranForm extends BaseForm {
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
 				new Image(display, resource.getString("icon.form32")) });
 		shell.setMenuBar(new QuranFormMenuFactory(this, shell).getQuranFormMenu());
-
+		ayaChanged = false;
+		sooraChanged = false;
 		makeFrame();
 	}
 
@@ -114,7 +127,6 @@ public class QuranForm extends BaseForm {
 		pageLayout.numColumns = 2;
 		body = new Composite(shell, langEngine.getSWTDirection());
 		body.setLayout(pageLayout);
-//		shell.setLayout(pageLayout);
 
 
 		navGroup = new Group(body, SWT.NONE);
@@ -127,7 +139,7 @@ public class QuranForm extends BaseForm {
 		navGroup.setLayoutData(gridData);
 
 		quranBrowser = new Browser(body, SWT.BORDER);
-		quranBrowser.setUrl(QuranHTMLRepository.getUrl(1, 0, true));
+		quranBrowser.setUrl(url = QuranHTMLRepository.getUrl(1, 0, true));
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.verticalSpan = 3;
 		quranBrowser.setLayoutData(gridData);
@@ -140,7 +152,7 @@ public class QuranForm extends BaseForm {
 		ayaSelector = new Combo(navGroup, SWT.NONE | SWT.READ_ONLY);
 
 		sooraSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		sooraSelector.setItems(QuranPropertiesUtils.getSooraNames());
+		sooraSelector.setItems(QuranPropertiesUtils.getIndexedSooraNames());
 		sooraSelector.setVisibleItemCount(10);
 		sooraSelector.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -312,33 +324,72 @@ public class QuranForm extends BaseForm {
 		
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
+		
+		KeyAdapter ka = new KeyAdapter(){
+			public void keyPressed(KeyEvent e) {
+				if (e.keyCode == 13) {
+					find();
+				}
+			}
+		};
 
 		whole = new Button(searchGroup, SWT.CHECK);
 		whole.setSelection(true);
 		whole.setText(langEngine.getMeaning("WHOLE_QURAN"));
 		whole.setLayoutData(gridData);
+		whole.addKeyListener(ka);
 
 		match = new Button(searchGroup, SWT.CHECK);
 		match.setText(langEngine.getMeaning("MATCH_DIACRITIC"));
 		match.setLayoutData(gridData);
-		
+		match.addKeyListener(ka);
+
 	}
 
 	void apply() {
+		logger.info("Start updating view...");
 		updateView();
 		sooraMap = QuranPropertiesUtils.getSooraPropMap(sooraSelector.getSelectionIndex() + 1);
 		FormUtils.updateTable(sooraTable, sooraMap);
+		logger.info("Updating view done.");
+		sooraChanged = false;
 	}
 
-	void updateView() {
-		quranBrowser.setUrl(QuranHTMLRepository.getUrl(sooraSelector.getSelectionIndex() + 1,
-			ayaChanged ? ayaSelector.getSelectionIndex() + 1 : 0));
+	private ProgressAdapter pl;
+	private void updateView() {
+		final int aya = ayaSelector.getSelectionIndex() + 1;
+		final int soora = sooraSelector.getSelectionIndex() + 1;
+
+		pl = new ProgressAdapter() {
+			public void completed(ProgressEvent event) {
+				if (ayaChanged) {
+					System.out.println(quranBrowser.execute("focusOnAya('" + soora + "_" + aya + "');"));
+				}
+				removeProgressListener(pl);
+			}
+			void removeProgressListener(ProgressListener pl) {
+				quranBrowser.removeProgressListener(pl);
+			}
+		};
+
+//		if (sooraChanged) {
+			quranBrowser.addProgressListener(pl);
+			quranBrowser.setUrl(url = QuranHTMLRepository.getUrl(soora, 0));
+//		} else {
+//			System.out.println("ayaChanged: " + ayaChanged);
+//			quranBrowser.addProgressListener(pl);
+//			quranBrowser.execute("window.location.reload(false);");
+//			quranBrowser.execute("window.location.href = window.location.href;");
+//			System.out.println("here: " + quranBrowser.execute("focusOnAya('" + soora + "_" + aya + "');"));
+//		}
+//		quranBrowser.setUrl(QuranHTMLRepository.getUrl(soora, ayaChanged ? aya - 1 : 0));
 	}
 
 	private void onSooraChanged() {
 		ayaSelector.setItems(QuranPropertiesUtils.getSooraAyas(sooraSelector.getSelectionIndex() + 1));
 		ayaSelector.select(0);
-		ayaChanged = false; // It must be set after ayaSelector.select
+		ayaChanged = false; // It must be set to true after ayaSelector.select
+		sooraChanged = true; // It must be set to false after apply()
 	}
 
 	void find() {
@@ -346,10 +397,10 @@ public class QuranForm extends BaseForm {
 		if (!"".equals(str.trim()) && str.indexOf('$') == -1 && str.indexOf('\\') == -1) {
 			if (whole.getSelection()) {
 				logger.info("Will search the whole Quran for \"" + str + "\" with dicritic match set to " + match.getSelection() + ".");
-				quranBrowser.setUrl(QuranHTMLRepository.getSearchUrl(str, match.getSelection()));
+				quranBrowser.setUrl(url = QuranHTMLRepository.getSearchUrl(str, match.getSelection()));
 				logger.info("End of search.");
 			} else {
-				logger.info("Start searching the current Quran view for \"" + str + "\" with dicritic match set to " + match.getSelection() + ".");
+				logger.info("Start searching the current Quran view for \"" + str + "\" with diacritic match set to " + match.getSelection() + ".");
 				quranBrowser.execute("find(\"" + str + "\", " + match.getSelection() + ");");
 				logger.info("End of search.");
 			}
@@ -358,8 +409,12 @@ public class QuranForm extends BaseForm {
 
 	void recreate() {
 		Point size = shell.getSize();
+		Point loc = shell.getLocation();
+		boolean mx = shell.getMaximized();
 		shell.close();
 		init();
+		shell.setLocation(loc);
+		shell.setMaximized(mx);
 		show(size.x, size.y);
 		loopForever();
 	}
@@ -388,7 +443,7 @@ public class QuranForm extends BaseForm {
 	public void dispose() {
 		logger.info("Disposing all resources...");
 		shell.dispose();
-		logger.info("Zekr will be closed now.\n");
+		logger.info("Zekr will be closed now.");
 	}
 
 	public Browser getQuranBrowser() {
@@ -397,6 +452,10 @@ public class QuranForm extends BaseForm {
 
 	public void setQuranBrowser(Browser quranBrowser) {
 		this.quranBrowser = quranBrowser;
+	}
+	
+	public String getUrl() {
+		return url;
 	}
 
 }

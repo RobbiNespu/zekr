@@ -8,7 +8,10 @@
  */
 package net.sf.zekr.ui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -25,9 +28,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -41,7 +46,7 @@ public class QuranFormMenuFactory {
 	LanguageEngine dict;
 	QuranForm form;
 	private final static ResourceManager resource = ResourceManager.getInstance();
-	private final static Logger logger = Logger.getLogger(QuranFormMenuFactory.class);
+	private final Logger logger = Logger.getLogger(this.getClass());
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.form = form;
@@ -63,7 +68,17 @@ public class QuranFormMenuFactory {
 		Menu fileMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		file.setMenu(fileMenu);
 
-		// add exit item
+		// save as...
+		MenuItem exportItem = new MenuItem(fileMenu, SWT.PUSH);
+		exportItem.setText("&" + dict.getMeaning("SAVE_AS") + "\tCtrl + S");
+		exportItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.export")));
+		exportItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				export();
+			}
+		});
+
+		// print
 		MenuItem printItem = new MenuItem(fileMenu, SWT.PUSH);
 		printItem.setText("&" + dict.getMeaning("PRINT") + "\tCtrl + P");
 		printItem.setAccelerator(SWT.CTRL + 'P');
@@ -74,6 +89,7 @@ public class QuranFormMenuFactory {
 			}
 		});
 
+		// add exit item
 		MenuItem exitItem = new MenuItem(fileMenu, SWT.PUSH);
 		exitItem.setText("&" + dict.getMeaning("EXIT") + "\tCtrl + Q");
 		exitItem.setAccelerator(SWT.CTRL + 'Q');
@@ -208,6 +224,41 @@ public class QuranFormMenuFactory {
 		return menu;
 	}
 
+	protected void export() {
+		FileDialog fd = new FileDialog(shell, SWT.SAVE);
+		fd.setFilterNames (new String [] {"HTML Files", "All Files (*.*)"});
+		fd.setFilterExtensions (new String [] {"*.html;*.htm", "*.*"}); // Windows wild cards
+
+		String res = fd.open();
+		if (res == null) return;
+		RandomAccessFile out = null;
+		RandomAccessFile in = null;
+		try {
+			File f = new File(res);
+			if (f.exists()) {
+				MessageBox mb = new MessageBox(fd.getParent(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+				mb.setMessage(dict.getMeaning("YES_NO"));
+				mb.setText("Save As");
+				if (mb.open() == SWT.NO) {
+					return;
+				}
+				if (!f.delete())
+					throw new IOException("Can not delete already existing file " + f);
+			}
+			out = new RandomAccessFile(res, "rw");
+			in = new RandomAccessFile(form.getUrl(), "r");
+
+			byte[] b = new byte[(int) in.length()];
+			in.read(b);
+			out.write(b);
+
+			in.close();
+			out.close();
+		} catch (IOException e) {
+			logger.error(e);
+		}
+	}
+
 	protected void about() {
 		AboutForm af = new AboutForm(form.display);
 		int x = form.shell.getLocation().x + form.shell.getSize().x / 2;
@@ -246,7 +297,9 @@ public class QuranFormMenuFactory {
 	}
 
 	private void recreateForm() {
+		logger.info("Recreating the form...");
 		form.recreate();
+		logger.info("Form recreation done.");
 	}
 
 }
