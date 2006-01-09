@@ -50,6 +50,27 @@ public class SearchUtils {
 		return new QuranLocation(sooraNum, ayaNum);
 	}
 
+
+	/**
+	 * Replace Farsi unicode <code>Yeh</code> with Arabic one, and so about
+	 * <code>Kaf</code> (Farsi <code>Keheh</code>).
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String replaceSimilarCharacters(String str) {
+		str = str.replaceAll(FARSI_YEH + "", ARABIC_YEH + "");
+		str = str.replaceAll(FARSI_KEHEH + "", ARABIC_KAF + "");
+		return str;
+	}
+
+	/**
+	 * Remove specific diacritics form the string. Also replaces incorrect charactrers
+	 * using <code>replaceSimilarCharacters</code>.
+	 * 
+	 * @param str
+	 * @return
+	 */
 	public static String arabicSimplify(String str) {
 		// diacritics removal
 		char[] arr = new char[] { SUKUN, SHADDA, KASRA, DAMMA, FATHA, KASRATAN, DAMMATAN, FATHATAN,
@@ -62,6 +83,7 @@ public class SearchUtils {
 		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + "");
 		str = str.replaceAll(ALEF_HAMZA_ABOVE + "", ALEF + "");
 		str = str.replaceAll(ALEF_HAMZA_BELOW + "", ALEF + "");
+		str = str.replaceAll(ALEF_MADDA + "", ALEF + "");
 
 		str = replaceSimilarCharacters(str);
 		return str;
@@ -78,8 +100,8 @@ public class SearchUtils {
 	 * This method will ignore diacritics on both <code>src</code> and <code>key</code>.
 	 * 
 	 * @param src source string to be searched on
-	 * @param key target string which is to search first occurrence of which on
-	 *            <code>src</code>
+	 * @param key non-<code>null</code> target string to be found the first occurrence of which on the
+	 *            <code>src</code> string
 	 * @return a <code>Range</code> object from the previous space character just before
 	 *         the <code>key</code> (or start of the source string if no space found) to
 	 *         the first space just after the <code>key</code> in <code>src</code> (or
@@ -102,7 +124,7 @@ public class SearchUtils {
 				s++;
 				k++;
 			} else if (target[k] == ALEF
-					&& (source[s] == ALEF_HAMZA_ABOVE || source[s] == ALEF_HAMZA_BELOW)) {
+					&& (source[s] == ALEF_HAMZA_ABOVE || source[s] == ALEF_HAMZA_BELOW || source[s] == ALEF_MADDA)) {
 				if (start == -1)
 					start = s;
 				s++;
@@ -129,12 +151,6 @@ public class SearchUtils {
 			return new Range(start, s);
 		}
 		return null;
-	}
-
-	public static String replaceSimilarCharacters(String str) {
-		str = str.replaceAll(FARSI_YEH + "", ARABIC_YEH + "");
-		str = str.replaceAll(FARSI_KEHEH + "", ARABIC_KAF + "");
-		return str;
 	}
 
 	/**
