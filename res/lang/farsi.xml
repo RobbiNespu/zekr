@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <language id="fa" locale="IR" direction="rtl">
-	<header name="فارسی" creator="Zekr Team" version="0.1" />
+	<header name="فارسی" creator="Zekr Team" version="0.2" />
 	<word>
 		<common>
 			<text id="OK"       value="قبول" />
@@ -11,6 +11,7 @@
 			<text id="START"    value="آغاز" />
 			<text id="RESET"    value="خالی کردن" />
 			<text id="NEW"      value="جدید" />
+			<text id="SAVE_AS"  value="ذخیره ..." />
 			<text id="HELP"     value="کمک" />
 			<text id="EDIT"     value="ویرایش" />
 			<text id="SEARCH"   value="جستجو" />
@@ -56,14 +57,14 @@
 			<text id="QURAN"    value="قرآن" />
 			<text id="SOORA"    value="سوره" />
 			<text id="AYA"      value="آیه" />
-			<text id="SUJDA"    value="سجده" />
+			<text id="SAJDA"    value="سجده" />
 			<text id="JOZ"      value="جزء" />
 			<text id="MAKKI"    value="مکّی" />
 			<text id="MADANI"   value="مدنی" />
 			<text id="DESCENT"  value="محل نزول" />
 			<text id="AYA_COUNT"  value="تعداد آیات" />
-			<text id="MINOR_SUJDA" value="سجده مستحب" />
-			<text id="MAJOR_SUJDA" value="سجده واجب" />
+			<text id="MINOR_SAJDA" value="سجده مستحب" />
+			<text id="MAJOR_SAJDA" value="سجده واجب" />
 		</special>
 	</word>
 

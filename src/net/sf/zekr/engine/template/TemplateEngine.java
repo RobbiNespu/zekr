@@ -24,7 +24,6 @@ import org.apache.velocity.app.Velocity;
  * An adapter class for velocity template engine.
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.1
  */
 public class TemplateEngine {

@@ -16,7 +16,7 @@ package net.sf.zekr.engine.template;
 interface QuranViewTemplateNaming {
 	public static final String AYA_LIST = "AYA_LIST";
 	public static final String JOZ_LIST = "JOZ_LIST";
-	public static final String SUJDA_LIST = "SUJDA_LIST";
+	public static final String SAJDA_LIST = "SAJDA_LIST";
 	public static final String APP_PATH = "APP_PATH";
 	public static final String SOORA_NUM = "SOORA";
 	public static final String SOORA_NAME = "SOORA_NAME";

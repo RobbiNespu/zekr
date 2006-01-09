@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language id="id" locale="ID" direction="ltr">
-	<header name="English" creator="Ari R. Fikri" version="0.2" />
+	<header name="Indonesian" creator="Ari R. Fikri" version="0.1" />
 	<word>
 		<common>
 			<text id="OK"       value="OK" />
 			<text id="CANCEL"   value="Batal" />
 			<text id="YES"      value="Ya" />
 			<text id="NO"       value="Tidak" />
-			<text id="APPLY"    value="Apply" />
+			<text id="APPLY"    value="Terapkan" />
 			<text id="START"    value="Mulai" />
 			<text id="RESET"    value="Reset" />
 			<text id="NEW"      value="Baru" />
-			<text id="HELP"     value="Bantuan" />
+			<text id="SAVE_AS"  value="Save As..."   />
+			<text id="HELP"     value="Pertolongan" />
 			<text id="EDIT"     value="Edit" />
 			<text id="SEARCH"   value="Cari" />
 			<text id="GOTO"     value="Ke .." />
@@ -19,21 +20,21 @@
 			<text id="CLOSE"    value="Tutup" />
 			<text id="INSERT"   value="Sisipkan" />
 			<text id="DETAILS"  value="Detail" />
-			<text id="MORE"     value="Lebih Bayak Lagi.." />
+			<text id="MORE"     value="Lagi.." />
 			<text id="NEXT"     value="Selanjutnya" />
 			<text id="PREVIOUS" value="Sebelumnya" />
 			<text id="REFRESH"  value="Refresh" />
-			<text id="UPDATE"   value="Update" />
+			<text id="UPDATE"   value="Perbaharui" />
 			<text id="SHOW"     value="Tampilkan" />
 			<text id="NAME"     value="Nama" />
-			<text id="VALUE"    value="Keterangan" />
-			<text id="NUMBER"   value="Surat Ke" />
-			<text id="OPTION"   value="Pilihan" />
+			<text id="VALUE"    value="Nilai" />
+			<text id="NUMBER"   value="Nomor" />
+			<text id="OPTION"   value="Opsi/Pilihan" />
 			<text id="FILE"     value="File" />
-			<text id="RELOAD"   value="Tampilkan Ulang" />
+			<text id="RELOAD"   value="Tampil Ulang" />
 			<text id="TYPE"     value="Tipe" />
 			<text id="MESSAGE"  value="Pesan" />
-			<text id="BLOCK"    value="Per Blok" />
+			<text id="BLOCK"    value="Blok" />
 			<text id="LINE_BY_LINE" value="Per Baris" />
 			<text id="AND"      value="dan" />
 			<text id="COMMA"    value="," />
@@ -42,13 +43,13 @@
 			<text id="LANGUAGE" value="Bahasa" />
 			<text id="ABOUT"    value="Tentang Program" />
 			<text id="PRINT"    value="Print" />
-			<text id="HOMEPAGE" value="Homepage" />
-			<text id="WHOLE_QURAN" value="Whole Quran" />
-			<text id="MATCH_DIACRITIC" value="Match diacritic" />
-			<text id="NEXT_AYA" value="Next aya" />
-			<text id="NEXT_SOORA" value="Next soora" />
-			<text id="PREV_AYA" value="Previous aya" />
-			<text id="PREV_SOORA" value="Previous soora" />
+			<text id="HOMEPAGE" value="Home page" />
+			<text id="WHOLE_QURAN" value="Quran Keseluruhan" />
+			<text id="MATCH_DIACRITIC" value="Pengenal ditemukan" />
+			<text id="NEXT_AYA" value="Ayat Selanjutnya" />
+			<text id="NEXT_SOORA" value="Surat Selanjutnya" />
+			<text id="PREV_AYA" value="Ayat Sebelumnya" />
+			<text id="PREV_SOORA" value="Surat Sebelumnya" />
 
 			<text id="EXIT"     value="Keluar" />
 		</common>
@@ -56,26 +57,28 @@
 			<text id="QURAN"    value="Quran" />
 			<text id="SOORA"    value="Surat" />
 			<text id="AYA"      value="Ayat" />
-			<text id="SUJDA"    value="Sujda" />
+			<text id="SAJDA"    value="Sujda" />
 			<text id="JOZ"      value="Juz" />
 			<text id="MAKKI"    value="Makkiah" />
 			<text id="MADANI"   value="Madaniah" />
-			<text id="DESCENT"  value="Descent" />
+			<text id="DESCENT"  value="Turun" />
 			<text id="AYA_COUNT"  value="Jumlah Ayat" />
-			<text id="MINOR_SUJDA" value="Minor sujda" />
-			<text id="MAJOR_SUJDA" value="Major sujda" />
+			<text id="MINOR_SAJDA" value="Sujda Minor" />
+			<text id="MAJOR_SAJDA" value="Sujda Mayor" />
 		</special>
 	</word>
 
 	<message>
 		<inform>
-			<text id="SEARCH_FINISHED" value="Pencarian Selesai" />
+			<text id="SEARCH_RESULT_TITLE" value="Hasil Pencarian untuk:&quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_COUNT" value="{1} hasil ditemukan di {2} ayat." />
+			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
 		</inform>
 		<confirm>
-			<text id="YES_NO" value="Anda yakin ?" />
+			<text id="YES_NO" value="Anda Yakin?" />
 		</confirm>
 		<error>
-			<text id="GENERAL_ERROR" value="Kesalahan yang Tidak Diharapkan Telah Terjadi" />
+			<text id="GENERAL_ERROR" value="Kesalahan yang tidak diharapkan telah terjadi" />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -86,11 +89,11 @@
 			<text id="APP_NAME" value="Zekr" />
 			<text id="APP_FULL_NAME" value="The Zekr Quranic Project" />
 			<text id="FORM_TITLE" value="Zekr" />
-			<text id="COPYRIGHT_DISCLAIMER" value="Program ini di distribusikan secara bebas dengan harapan dapat bermanfaat, tetapi tanpa jaminan apapun" />
+			<text id="COPYRIGHT_DISCLAIMER" value="Program ini didistribusikan secara bebas dengan harapan dapat bermanfaat, namun tanpa jaminan/garansi." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="SEARCH_NOT_AVAILABLE" value="Fungsi pencarian belum tersedia di versi ini. Klik di Tampilan Quran dan Tekan CTRL-F." />
+			<text id="SEARCH_NOT_AVAILABLE" value="Fitur pencarian belum ada di versi ini. Klik di tampilan Qur'an dan tekan CTRL + F." />
 		</form>
 	</forms>
 </language>

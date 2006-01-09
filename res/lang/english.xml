@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language id="en" locale="US" direction="ltr">
-	<header name="English" creator="Zekr Team" version="0.1" />
+	<header name="English" creator="Zekr Team" version="0.2" />
 	<word>
 		<common>
 			<text id="OK"       value="OK" />
@@ -11,6 +11,7 @@
 			<text id="START"    value="Start" />
 			<text id="RESET"    value="Reset" />
 			<text id="NEW"      value="New" />
+			<text id="SAVE_AS"  value="Save As..." />
 			<text id="HELP"     value="Help" />
 			<text id="EDIT"     value="Edit" />
 			<text id="SEARCH"   value="Search" />
@@ -20,7 +21,7 @@
 			<text id="INSERT"   value="Insert" />
 			<text id="DETAILS"  value="Details" />
 			<text id="MORE"     value="More" />
-			<text id="NEXT"     value="Nexr" />
+			<text id="NEXT"     value="Next" />
 			<text id="PREVIOUS" value="Previous" />
 			<text id="REFRESH"  value="Refresh" />
 			<text id="UPDATE"   value="Update" />
@@ -56,14 +57,14 @@
 			<text id="QURAN"    value="Quran" />
 			<text id="SOORA"    value="Soora" />
 			<text id="AYA"      value="Aya" />
-			<text id="SUJDA"    value="Sujda" />
+			<text id="SAJDA"    value="Sajda" />
 			<text id="JOZ"      value="Joz" />
 			<text id="MAKKI"    value="Makki" />
 			<text id="MADANI"   value="Madani" />
 			<text id="DESCENT"  value="Descent" />
 			<text id="AYA_COUNT"  value="Aya count" />
-			<text id="MINOR_SUJDA" value="Minor sujda" />
-			<text id="MAJOR_SUJDA" value="Major sujda" />
+			<text id="MINOR_SAJDA" value="Minor sajda" />
+			<text id="MAJOR_SAJDA" value="Major sajda" />
 		</special>
 	</word>
 
