@@ -30,14 +30,14 @@
 	#end
 			$AYA
 			<span title="${SOORA_NAME} - ${AYA_NUM}">
-				<nobr><span class="ayaSign">$RPAREN$AYA_NUM$LPAREN</span></nobr>
+				<nobr><span id="sign_${SOORA}_${AYA_NUM}" class="ayaSign">$RPAREN$AYA_NUM$LPAREN</span></nobr>
 			</span>
-			#foreach ($SUJDA in $SUJDA_LIST)
-				#if ($SUJDA.AyaNumber == $AYA_NUM)
-					#if ($SUJDA.Type == $MINOR)
-						<span id="minor" class="sujda" title="$SUJDA">&nbsp;*&nbsp;</span>
-					#elseif ($SUJDA.Type == $MAJOR)
-						<span id="major" class="sujda" title="$SUJDA">&nbsp;**&nbsp;</span>
+			#foreach ($SAJDA in $SAJDA_LIST)
+				#if ($SAJDA.AyaNumber == $AYA_NUM)
+					#if ($SAJDA.Type == $MINOR)
+						<span id="minor" class="sajda" title="$SAJDA">&nbsp;*&nbsp;</span>
+					#elseif ($SAJDA.Type == $MAJOR)
+						<span id="major" class="sajda" title="$SAJDA">&nbsp;**&nbsp;</span>
 					#end
 				#end
 			#end
