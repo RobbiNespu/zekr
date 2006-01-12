@@ -148,22 +148,22 @@
 		<joz index="29" sooraNumber="67" ayaNumber="1"/>
 		<joz index="30" sooraNumber="78" ayaNumber="1"/>
 	</joz-detail>
-	<sujda-detail>
-		<sujda index="1" sooraNumber="7" ayaNumber="206" type="minor"/>
-		<sujda index="2" sooraNumber="13" ayaNumber="15" type="minor"/>
-		<sujda index="3" sooraNumber="16" ayaNumber="50" type="minor"/>
-		<sujda index="4" sooraNumber="17" ayaNumber="109" type="minor"/>
-		<sujda index="5" sooraNumber="19" ayaNumber="58" type="minor"/>
-		<sujda index="6" sooraNumber="22" ayaNumber="18" type="minor"/>
-		<sujda index="7" sooraNumber="22" ayaNumber="77" type="minor"/>
-		<sujda index="8" sooraNumber="25" ayaNumber="60" type="minor"/>
-		<sujda index="9" sooraNumber="27" ayaNumber="26" type="minor"/>
-		<sujda index="11" sooraNumber="38" ayaNumber="24" type="minor"/>
-		<sujda index="14" sooraNumber="84" ayaNumber="21" type="minor"/>
+	<sajda-detail>
+		<sajda index="1" sooraNumber="7" ayaNumber="206" type="minor"/>
+		<sajda index="2" sooraNumber="13" ayaNumber="15" type="minor"/>
+		<sajda index="3" sooraNumber="16" ayaNumber="50" type="minor"/>
+		<sajda index="4" sooraNumber="17" ayaNumber="109" type="minor"/>
+		<sajda index="5" sooraNumber="19" ayaNumber="58" type="minor"/>
+		<sajda index="6" sooraNumber="22" ayaNumber="18" type="minor"/>
+		<sajda index="7" sooraNumber="22" ayaNumber="77" type="minor"/>
+		<sajda index="8" sooraNumber="25" ayaNumber="60" type="minor"/>
+		<sajda index="9" sooraNumber="27" ayaNumber="26" type="minor"/>
+		<sajda index="11" sooraNumber="38" ayaNumber="24" type="minor"/>
+		<sajda index="14" sooraNumber="84" ayaNumber="21" type="minor"/>
 
-		<sujda index="10" sooraNumber="32" ayaNumber="15" type="major"/> <!--سجدة-->
-		<sujda index="12" sooraNumber="41" ayaNumber="38" type="major"/> <!--فصلت-->
-		<sujda index="13" sooraNumber="53" ayaNumber="62" type="major"/> <!--نجم-->
-		<sujda index="15" sooraNumber="96" ayaNumber="19" type="major"/> <!--علق-->
-	</sujda-detail>
+		<sajda index="10" sooraNumber="32" ayaNumber="15" type="major"/> <!--سجدة-->
+		<sajda index="12" sooraNumber="41" ayaNumber="38" type="major"/> <!--فصلت-->
+		<sajda index="13" sooraNumber="53" ayaNumber="62" type="major"/> <!--نجم-->
+		<sajda index="15" sooraNumber="96" ayaNumber="19" type="major"/> <!--علق-->
+	</sajda-detail>
 </quran>

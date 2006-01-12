@@ -15,20 +15,20 @@ import net.sf.zekr.engine.language.LanguageEngine;
  * @since Zekr 1.0
  * @version 0.1
  */
-public class SujdaProperties {
+public class SajdaProperties {
 	public static final int MINOR = 0;
 	public static final int MAJOR = 1;
 
-	/** sujda soora number */
+	/** sajda soora number */
 	private int sooraNumber;
 
-	/** sujda aya number */
+	/** sajda aya number */
 	private int ayaNumber;
 
-	/** sujda type: MINOR or MAJOR */
+	/** sajda type: MINOR or MAJOR */
 	private int type;
 
-	/** sujda index (the absolute number of the sujda, counted from 1) */
+	/** sajda index (the absolute number of the sajda, counted from 1) */
 	private int index;
 
 	/**
@@ -93,6 +93,6 @@ public class SujdaProperties {
 	
 	public String toString(){
 		LanguageEngine l = LanguageEngine.getInstance();
-		return type == MINOR ? l.getMeaning("MINOR_SUJDA") : l.getMeaning("MAJOR_SUJDA");
+		return type == MINOR ? l.getMeaning("MINOR_SAJDA") : l.getMeaning("MAJOR_SAJDA");
 	}
 }

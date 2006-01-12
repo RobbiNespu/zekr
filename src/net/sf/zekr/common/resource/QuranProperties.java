@@ -12,8 +12,8 @@ import java.util.List;
 
 import net.sf.zekr.common.util.IQuranProperties;
 import net.sf.zekr.common.util.JozProperties;
+import net.sf.zekr.common.util.SajdaProperties;
 import net.sf.zekr.common.util.SooraProperties;
-import net.sf.zekr.common.util.SujdaProperties;
 
 /**
  * @author Mohsen Saboorian
@@ -42,8 +42,8 @@ public class QuranProperties implements IQuranProperties {
 		return quranPropsReader.jozProp;
 	}
 
-	public final List getSujdaList() {
-		return quranPropsReader.sujdaProp;
+	public final List getSajdaList() {
+		return quranPropsReader.sajdaProp;
 	}
 
 	/*
@@ -67,9 +67,9 @@ public class QuranProperties implements IQuranProperties {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.zekr.common.util.IQuranProperties#getSujda(int)
+	 * @see net.sf.zekr.common.util.IQuranProperties#getSajda(int)
 	 */
-	public SujdaProperties getSujda(int sujdaNum) {
-		return (SujdaProperties) quranPropsReader.sujdaProp.get(sujdaNum - 1);
+	public SajdaProperties getSajda(int sajdaNum) {
+		return (SajdaProperties) quranPropsReader.sajdaProp.get(sajdaNum - 1);
 	}
 }

@@ -29,7 +29,6 @@ import org.w3c.dom.Node;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.2
  */
 public class LanguageEngine extends LanguageEngineNaming {
@@ -67,8 +66,8 @@ public class LanguageEngine extends LanguageEngineNaming {
 		language = config.getLanguage();
 		packFile = new File(config.getLanguage().getPackPath());
 		if (!packFile.exists()) {
-			Logger.getLogger().warn("Can not find language pack \"" + language.getActiveLanguagePack() + "\".");
-			Logger.getLogger().warn("Will load the default language pack");
+			logger.warn("Can not find language pack \"" + language.getActiveLanguagePack() + "\".");
+			logger.warn("Will load the default language pack");
 			language.setActiveLanguagePack(language.getDefaultLanguagePack());
 		}
 		init();

@@ -26,6 +26,11 @@ import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.QuranSearch;
 import net.sf.zekr.engine.search.SearchUtils;
 
+/**
+ * @author    Mohsen Saboorian
+ * @since	  Zekr 1.0
+ * @version   0.2
+ */
 public class SearchResultTemplate {
 	IQuranText quran;
 	private final static Logger logger = Logger.getLogger(SearchResultTemplate.class);

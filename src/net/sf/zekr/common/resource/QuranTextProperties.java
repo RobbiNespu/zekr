@@ -24,7 +24,6 @@ import org.w3c.dom.Element;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.1
  */
 final public class QuranTextProperties extends QuranTextConfigNaming {
@@ -96,12 +95,12 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 		return reader.getElement(TEXT_FILE).getAttribute(CHARSET_ATTR);
 	}
 
-	public String getMinorSujdaSign() {
-		return getSujdaSign(false);
+	public String getMinorSajdaSign() {
+		return getSajdaSign(false);
 	}
 
-	public String getMajorSujdaSign() {
-		return getSujdaSign(true);
+	public String getMajorSajdaSign() {
+		return getSajdaSign(true);
 	}
 
 	public String getJozRightString() {
@@ -126,13 +125,13 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 
 	/**
 	 * @param type
-	 *            <code>true</code> is considered as <code>MAJOR_SUJDA</code> and
-	 *            <code>false</code> is considered as <code>MINOR_SUJDA</code>
-	 * @return Vajib or Mustahab Sujda sign
+	 *            <code>true</code> is considered as <code>MAJOR_SAJDA</code> and
+	 *            <code>false</code> is considered as <code>MINOR_SAJDA</code>
+	 * @return Vajib or Mustahab Sajda sign
 	 */
-	private String getSujdaSign(boolean type) {
-		Element elem = XmlUtils.getElementByNamedAttr(reader.getNodes(SUJDA_SIGN), SUJDA_TAG, TYPE_ATTR,
-			type ? MAJOR_SUJDA : MINOR_SUJDA);
+	private String getSajdaSign(boolean type) {
+		Element elem = XmlUtils.getElementByNamedAttr(reader.getNodes(SAJDA_SIGN), SAJDA_TAG, TYPE_ATTR,
+			type ? MAJOR_SAJDA : MINOR_SAJDA);
 		return elem.getAttribute(RIGHT_STRING_ATTR) + elem.getAttribute(VALUE_ATTR)
 				+ elem.getAttribute(LEFT_STRING_ATTR);
 	}

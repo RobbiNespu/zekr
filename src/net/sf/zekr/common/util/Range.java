@@ -8,6 +8,11 @@
  */
 package net.sf.zekr.common.util;
 
+/**
+ * @author    Mohsen Saboorian
+ * @since	  Zekr 1.0
+ * @version   0.2
+ */
 public class Range {
 	public int from, to;
 	public Range(int from, int to) {

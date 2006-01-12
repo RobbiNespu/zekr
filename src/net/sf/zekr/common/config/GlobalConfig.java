@@ -31,5 +31,5 @@ public class GlobalConfig {
 	/** Flag specifying if OS is Windows */
 	public static boolean isWindows = SWT.getPlatform().equalsIgnoreCase("win32");
 
-	public static final String HOME_PAGE = "http://siahe.com/zekr/index.html";
+	public static final String HOME_PAGE = "http://siahe.com/zekr";
 }

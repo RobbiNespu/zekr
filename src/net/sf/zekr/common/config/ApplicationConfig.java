@@ -53,7 +53,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	private Language language;
 	private ArrayList availableLanguages;
 
-	private static final Logger logger = Logger.getLogger(ApplicationConfig.class);
+	private final Logger logger = Logger.getLogger(this.getClass());
 	private static ApplicationConfig thisInstance;
 
 	Element langElem;
@@ -111,22 +111,21 @@ public class ApplicationConfig extends ZekrConfigNaming {
 			pack.setName(XmlUtils.getAttr(node, NAME_ATTR));
 			pack.setLatinName(XmlUtils.getAttr(node, LATIN_NAME_ATTR));
 			pack.setFile(XmlUtils.getAttr(node, FILE_ATTR));
-			pack.setIcon(XmlUtils.getAttr(node, ICON_ATTR));
 			language.getLanguageMap().put(pack.getId(), pack);
 		}
-		logger.info("Available languages are: " + language.getLanguageMap().entrySet());
+		logger.info("Available languages are: " + language.getLanguageMap().values());
 
 		String currentLangId = langElem.getAttribute(CURRENT_LANGUAGE_ATTR);
 		String defaultLangId = langElem.getAttribute(DEFAULT_LANGUAGE_ATTR);
 		if ("".equals(langElem.getAttribute(DEFAULT_LANGUAGE_ATTR))) {
 			logger.warn("Can not find default language pack. will set default to \"en\".");
-			langElem.setAttribute(DEFAULT_LANGUAGE_ATTR, "en");
-			defaultLangId = "en";
+			langElem.setAttribute(DEFAULT_LANGUAGE_ATTR, "en_US");
+			defaultLangId = "en_US";
 			update = true;
 		}
 		language.setDefaultLanguagePackId(defaultLangId);
 		if ("".equals(langElem.getAttribute(CURRENT_LANGUAGE_ATTR))) {
-			currentLangId = RuntimeUtilities.USER_LANGUAGE;
+			currentLangId = RuntimeUtilities.USER_LANGUAGE + "_" + RuntimeUtilities.USER_COUNTRY;
 			logger.warn("Current language will be set to \"" + currentLangId + "\".");
 			langElem.setAttribute(CURRENT_LANGUAGE_ATTR, currentLangId);
 			update = true;
@@ -174,6 +173,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	}
 	
 	public void setCurrentLanguage(String langId) {
+		logger.info("Set current language to " + langId);
 		language.setActiveLanguagePack(langId);
 		LanguageEngine.getInstance().reload();
 		try {
@@ -222,6 +222,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	}
 
 	public void updateFile() {
+		logger.info("Update XML configuration file.");
 		try {
 			XmlWriter.writeXML(configReader.getDocument(), new File(ApplicationPath.CONFIG_FILE));
 		} catch (TransformerException e) {

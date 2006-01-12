@@ -15,7 +15,6 @@ import org.apache.velocity.runtime.log.LogSystem;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.1
  */
 public class LogSystemImpl implements LogSystem {

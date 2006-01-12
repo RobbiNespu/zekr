@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<language id="ar" locale="MA" direction="rtl">
+	<header name="عربي" creator="يونس مومن" version="0.2" />
+	<word>
+		<common>
+			<text id="OK" value="قبول" />
+			<text id="CANCEL" value="الغاء" />
+			<text id="YES" value="نعم" />
+			<text id="NO" value="لا" />
+			<text id="APPLY" value="طبق" />
+			<text id="START" value="ابدأ" />
+			<text id="RESET" value="تجديد الاستمارة" />
+			<text id="NEW" value="جديد" />
+			<text id="SAVE_AS"  value="Save As..."   />
+			<text id="HELP" value="مساعدة" />
+			<text id="EDIT" value="نشر" />
+			<text id="SEARCH" value="بحث" />
+			<text id="GOTO" value="انتقال نحو" />
+			<text id="VIEW" value="تنسيق" />
+			<text id="CLOSE" value="خروج" />
+			<text id="INSERT" value="ادماج" />
+			<text id="DETAILS" value="جزئيات" />
+			<text id="MORE" value="أكثر" />
+			<text id="NEXT" value="لاحق" />
+			<text id="PREVIOUS" value="سابق" />
+			<text id="REFRESH" value="تجديد" />
+			<text id="UPDATE" value="اعادة التحميل" />
+			<text id="SHOW" value="أبرز" />
+			<text id="NAME" value="اسم" />
+			<text id="VALUE" value="قيمة" />
+			<text id="NUMBER" value="عدد" />
+			<text id="OPTION" value="خصائص" />
+			<text id="FILE" value="ملف" />
+			<text id="RELOAD" value="اعادة التحميل" />
+			<text id="TYPE" value="نوع" />
+			<text id="MESSAGE" value="رسالة" />
+			<text id="BLOCK" value="فقرة" />
+			<text id="LINE_BY_LINE" value="سطر بعد سطر" />
+			<text id="AND" value="و" />
+			<text id="COMMA" value="،" />
+			<text id="SYNCHRONOUS" value="متزامن" />
+			<text id="ERROR" value="خطأ" />
+			<text id="LANGUAGE" value="لغة" />
+			<text id="ABOUT" value="نبذة عن البرنامج" />
+			<text id="PRINT" value="نسخ" />
+			<text id="HOMEPAGE" value="صفحة الاستقبال" />
+			<text id="WHOLE_QURAN" value="كل القرآن" />
+			<text id="MATCH_DIACRITIC" value="استعمال الحركات" />
+			<text id="NEXT_AYA" value="الآية اللاحقة" />
+			<text id="NEXT_SOORA" value="السورة اللاحقة" />
+			<text id="PREV_AYA" value="الآية السابقة" />
+			<text id="PREV_SOORA" value="السورة السابقة" />
+			<text id="EXIT" value="خروج" />
+		</common>
+		<special>
+			<text id="QURAN" value="قرآن" />
+			<text id="SOORA" value="سورة" />
+			<text id="AYA" value="آية" />
+			<text id="SAJDA" value="سجدة" />
+			<text id="JOZ" value="جزء" />
+			<text id="MAKKI" value="مكي" />
+			<text id="MADANI" value="مدني" />
+			<text id="DESCENT" value="نزول" />
+			<text id="AYA_COUNT" value="عدد الآيات" />
+			<text id="MINOR_SAJDA" value="سجدة صغيرة" />
+			<text id="MAJOR_SAJDA" value="سجدة كبيرة" />
+		</special>
+	</word>
+	<message>
+		<inform>
+			<text id="SEARCH_RESULT_TITLE" value="نتيجة البحث ل: «{1}»" />
+			<text id="SEARCH_RESULT_COUNT" value="{1} وجدت نتائج في {2} آية" />
+			<text id="TOO_MANY_RESULT" value="حصلت نتائج في أكثر من {1} آية" />
+		</inform>
+		<confirm>
+			<text id="YES_NO" value="هل أنت متأكد؟" />
+		</confirm>
+		<error>
+			<text id="GENERAL_ERROR" value="خطأ غير متوقع" />
+		</error>
+		<tooltip></tooltip>
+	</message>
+	<forms>
+		<global>
+			<text id="APP_NAME" value="ذكر" />
+			<text id="APP_FULL_NAME" value="The Zekr Quranic Project" />
+			<text id="FORM_TITLE" value="ذكر" />
+			<text id="COPYRIGHT_DISCLAIMER"
+				value="هذا البرنامج يوزع مجانا في أمل أن يكون لكم نافعا، لكنه غير مصحوب بأية ضمانة." />
+		</global>
+		<form id="QURAN_FORM">
+			<text id="TITLE" value="ذكر" />
+			<text id="SEARCH_NOT_AVAILABLE"
+				value="Ctrl+F نظام البحث غير ملحق في هاته النسخة, الرجاء النقر على نافذة القرآن ثم الضغط على الزرين" />
+		</form>
+	</forms>
+</language>

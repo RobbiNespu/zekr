@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.engine.language;
 
+import java.io.File;
+
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.ResourceManager;
 
@@ -16,7 +18,7 @@ import net.sf.zekr.common.config.ResourceManager;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
+ * @version 0.2
  */
 public class LanguagePack {
 	String id;
@@ -61,11 +63,7 @@ public class LanguagePack {
 	}
 	
 	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
+		return id.substring(3).toLowerCase() + ".png";
 	}
 
 	/**
@@ -80,8 +78,9 @@ public class LanguagePack {
 	 */
 	public String getIconPath() {
 		ResourceManager res = ResourceManager.getInstance();
-		if (getIcon() == null) return res.getString("icon.flag.default");
-		return res.getString("icon.flag.baseDir") + getIcon();
+		if (new File(res.getString("icon.flag.baseDir") + getIcon()).exists())
+			return res.getString("icon.flag.baseDir") + getIcon();
+		return res.getString("icon.flag.default");
 	}
 
 	public String toString() {

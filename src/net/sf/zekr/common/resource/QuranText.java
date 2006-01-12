@@ -24,7 +24,6 @@ import net.sf.zekr.engine.log.Logger;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.1
  */
 public class QuranText implements IQuranText {
@@ -35,6 +34,8 @@ public class QuranText implements IQuranText {
 	/** The full quran text */
 	private String[][] quranText = new String[114][];
 	private ApplicationConfig appConfig = ApplicationConfig.getInsatnce();
+	private QuranTextProperties textProps = QuranTextProperties.getInstance();
+
 
 	/**
 	 * The private constructor, which loads the whole Quran text from file into memory (
@@ -84,7 +85,6 @@ public class QuranText implements IQuranText {
 
 	private String[] getAyas(String sooraText, int ayaCount) {
 		// QuranProperties quranProp = QuranProperties.getInstance();
-		QuranTextProperties textProps = QuranTextProperties.getInstance();
 		// int ayaCount =
 		// Integer.parseInt(quranProp.getSoora(sooraNum).getAyaCount(sooraNum));
 		String[] ayas = new String[ayaCount];

@@ -29,12 +29,13 @@ import net.sf.zekr.engine.language.LanguageEngine;
 public class QuranPropertiesUtils {
 	private static String[][] sooraAyas = new String[114][];
 	private static String[] sooraNames = new String[114];
+	private static String[] indexedSooraNames = new String[114];
 	private static List[] jozInside = new ArrayList[114];
-	private static List[] sujdaInside = new ArrayList[114];
+	private static List[] sajdaInside = new ArrayList[114];
 
-	public static int getSujdaType(String sujda) {
-		return QuranPropertiesNaming.MINOR_SUJDA.equalsIgnoreCase(sujda) ? SujdaProperties.MINOR
-				: SujdaProperties.MAJOR;
+	public static int getSajdaType(String sajda) {
+		return QuranPropertiesNaming.MINOR_SAJDA.equalsIgnoreCase(sajda) ? SajdaProperties.MINOR
+				: SajdaProperties.MAJOR;
 	}
 
 	public static boolean isMadani(String descent) {
@@ -42,9 +43,8 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param sooraNum
-	 *            soora number (counted from 1)
-	 * @return
+	 * @param sooraNum soora number (counted from 1)
+	 * @return a String array of aya numbers in a soora. e.g. ["1", "2", "3", ...]
 	 */
 	public static String[] getSooraAyas(int sooraNum) {
 		int ayas;
@@ -69,10 +69,21 @@ public class QuranPropertiesUtils {
 			QuranProperties props = QuranProperties.getInstance();
 			for (Iterator iter = props.getSooraList().iterator(); iter.hasNext();) {
 				SooraProperties element = (SooraProperties) iter.next();
-				sooraNames[element.getIndex() - 1] = element.getIndex() + " - " + element.getName();
+				sooraNames[element.getIndex() - 1] = element.getName();
 			}
 		}
 		return sooraNames;
+	}
+
+	public static String[] getIndexedSooraNames() {
+		if (indexedSooraNames[0] == null) { // not loaded yet
+			QuranProperties props = QuranProperties.getInstance();
+			for (Iterator iter = props.getSooraList().iterator(); iter.hasNext();) {
+				SooraProperties element = (SooraProperties) iter.next();
+				indexedSooraNames[element.getIndex() - 1] = element.getIndex() + " - " + element.getName();
+			}
+		}
+		return indexedSooraNames;
 	}
 
 	/**
@@ -80,8 +91,7 @@ public class QuranPropertiesUtils {
 	 * This method is the same as <code>getJozInside</code>, but with a different
 	 * return type.
 	 * 
-	 * @param sooraNum
-	 *            soora number (counted from 1)
+	 * @param sooraNum soora number (counted from 1)
 	 * @return a <code>List</code> of JozProperties
 	 */
 	public static List getJozInsideList(int sooraNum) {
@@ -106,8 +116,7 @@ public class QuranPropertiesUtils {
 	/**
 	 * If there is any joz start within the soora, it will be returned.
 	 * 
-	 * @param sooraNum
-	 *            soora number (counted from 1)
+	 * @param sooraNum soora number (counted from 1)
 	 * @return <code>int</code> array of joz numbers
 	 */
 	public static int[] getJozInside(int sooraNum) {
@@ -148,7 +157,7 @@ public class QuranPropertiesUtils {
 		while (iter.hasNext()) {
 			JozProperties joz2 = (JozProperties) iter.next();
 			if (sooraNum >= joz1.getSooraNumber() && sooraNum <= joz2.getSooraNumber()) {
-				if (joz2.getSooraNumber() == sooraNum && joz2.getAyaNumber() == 1) 
+				if (joz2.getSooraNumber() == sooraNum && joz2.getAyaNumber() == 1)
 					return joz2.getIndex();
 				return joz1.getIndex();
 			}
@@ -158,33 +167,31 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param sooraNum
-	 *            soora number (counted from 1)
-	 * @return <code>List</code> of <code>SujdaProperties</code> inside
+	 * @param sooraNum soora number (counted from 1)
+	 * @return <code>List</code> of <code>SajdaProperties</code> inside
 	 *         <code>sooraNum</code>
 	 */
-	public static List getSujdaInsideList(int sooraNum) {
-		if (sujdaInside[0] == null) { // not loaded yet
+	public static List getSajdaInsideList(int sooraNum) {
+		if (sajdaInside[0] == null) { // not loaded yet
 			QuranProperties props = QuranProperties.getInstance();
 			for (Iterator iter = props.getSooraList().iterator(); iter.hasNext();) {
 				SooraProperties soora = (SooraProperties) iter.next();
-				List sujdaList = new ArrayList();
-				List list = props.getSujdaList();
+				List sajdaList = new ArrayList();
+				List list = props.getSajdaList();
 
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-					SujdaProperties sujda = (SujdaProperties) iterator.next();
-					if (sujda.getSooraNumber() == soora.getIndex())
-						sujdaList.add(sujda);
+					SajdaProperties sajda = (SajdaProperties) iterator.next();
+					if (sajda.getSooraNumber() == soora.getIndex())
+						sajdaList.add(sajda);
 				}
-				sujdaInside[soora.getIndex() - 1] = sujdaList;
+				sajdaInside[soora.getIndex() - 1] = sajdaList;
 			}
 		}
-		return sujdaInside[sooraNum - 1];
+		return sajdaInside[sooraNum - 1];
 	}
 
 	/**
-	 * @param sooraNum
-	 *            soora number (counted from 1)
+	 * @param sooraNum soora number (counted from 1)
 	 * @return Soora properties as a <code>Map</code>
 	 */
 	public static Map getSooraPropMap(int sooraNum) {

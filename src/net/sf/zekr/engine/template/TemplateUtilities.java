@@ -27,13 +27,14 @@ import org.apache.velocity.app.Velocity;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.1
  */
 public class TemplateUtilities {
 	public static final String name = "";
 	VelocityContext context;
 	Template template;
+
+	private final static Logger logger = Logger.getLogger(TemplateUtilities.class);
 
 	public TemplateUtilities() {
 		BasicConfigurator.configure();
@@ -70,7 +71,7 @@ public class TemplateUtilities {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Logger.getLogger().error(e);
+			logger.error(e);
 		}
 	}
 

@@ -15,7 +15,6 @@ package net.sf.zekr.common.resource;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.1
  */
 public class QuranPropertiesNaming {
@@ -26,8 +25,8 @@ public class QuranPropertiesNaming {
 	public static final String JOZ_DETAIL_TAG = "joz-detail";
 	public static final String JOZ_TAG = JOZ_DETAIL_TAG + "." + "joz";
 
-	public static final String SUJDA_DETAIL_TAG = "sujda-detail";
-	public static final String SUJDA_TAG = SUJDA_DETAIL_TAG + "." + "sujda";
+	public static final String SAJDA_DETAIL_TAG = "sajda-detail";
+	public static final String SAJDA_TAG = SAJDA_DETAIL_TAG + "." + "sajda";
 
 	public static final String PARENT_NODE = "quran";
 	public static final String INDEX_ATTR = "index";
@@ -40,6 +39,6 @@ public class QuranPropertiesNaming {
 	
 	public static final String MAKKI = "MAKKI";
 	public static final String MADANI = "MADANI";
-	public static final String MINOR_SUJDA = "MINOR";
-	public static final String MAJOR_SUJDA = "MAJOR";
+	public static final String MINOR_SAJDA = "MINOR"; // Mustahab Sajda
+	public static final String MAJOR_SAJDA = "MAJOR"; // Vajib (obligatory) Sajda
 }

@@ -21,7 +21,6 @@ import net.sf.zekr.engine.template.SearchResultTemplate;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.1
  */
 public class QuranHTMLRepository {
@@ -59,7 +58,8 @@ public class QuranHTMLRepository {
 				// Charset
 				QuranViewTemplate qvt = new QuranViewTemplate();
 //				raf.write(qvt.transform(soora).getBytes("cp1256"));
-				raf.write(qvt.transform(soora).getBytes("UTF-8")); // TODO: replace with an application config property
+				String s = qvt.transform(soora);
+				raf.write(s.getBytes("UTF-8")); // TODO: replace with an application config property
 				raf.close();
 			}
 		} catch (IOException e) {

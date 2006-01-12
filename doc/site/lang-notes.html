@@ -1,0 +1,72 @@
+<html>
+
+<head>
+
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="keywords" content="Zekr, open source quranic project">
+<meta name="name" content="Zekr Documentation">
+
+<link href="site-style.css" type="text/css" rel="StyleSheet">
+
+<title>Notes for Language Pack Translators</title>
+
+</head>
+
+<body
+	style="background: url('img/zekr.jpg') fixed center center no-repeat">
+<table width="100%" border="0">
+	<tr>
+		<td width="80%">
+		<h1>Note for Language Pack Translators</h1>
+		</td>
+		<td align="right" width="20%">
+			<a href="./"><img src="img/zekr-logo-small.png" alt="Zekr logo">
+		</td>
+	</tr>
+</table>
+<i>
+This page contains a small tutorial plus some tips for language pack translators.
+</i>
+
+<br>
+<p>
+From <i>Zekr 0.1.0</i>, there is language pack support, which means that
+one can easily change the user interface language in his own language.
+</p>
+<p>
+Although this is quite easy to write a language pack, there are some
+tips that translators should take into consideration.
+The following are some tips about it:
+</p>
+<ul>
+  <li>Specify direction; Arabic like languages (Arabic, Farsi, Urdu) are 
+  written <i>right to left</i> unlike Roman characters (English, French).
+  </li>
+  <li>Specify your language ID and your country (e.g. &quot;en&quot;
+  as language ID and
+  &quot;US&quot; as the country). The latter should be written
+  in capital letters.
+  </li>
+  <li>Use UTF-8 compliant editors. Some good editors are: <b>Notepad</b>, 
+  <b>SCUniPad</b>, <b>Frontpage</b>, <b>MS Word</b>, <b>KWrite</b>, and etc.</li>
+  <li>Please check this page out periodically to see if there is a newer 
+  English (reference) language pack. Because the software is growing there
+  are bunch of new words and sentences with a minor release.
+  Here are some links to current language packs available on CVS. You can
+  download your own and see if there are new words waiting for the meaning!
+  New words are highlighted with 3 spaces after value attribute
+  and before closing the tag.
+  By default the English meaning is put for all 
+  language packs when a new word is added. Here is an example:
+  <pre>&lt;text id="QUESTION" value="Question"   /&gt;</pre>
+  </li>
+  <li>The current English language pack is 
+  <a href="http://cvs.sourceforge.net/viewcvs.py/*checkout*/zekr/Zekr/res/lang/english.xml?content-type=text%2Fplain">here</a>.
+  Other available language packs are <a href="http://cvs.sourceforge.net/viewcvs.py/zekr/Zekr/res/lang/">here</a>.
+  </li>
+</ul>
+
+
+</body>
+</html>

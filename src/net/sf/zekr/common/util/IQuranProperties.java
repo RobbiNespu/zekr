@@ -43,10 +43,10 @@ public interface IQuranProperties {
 	public JozProperties getJoz(int jozNum);
 
 	/**
-	 * @param sujdaNum
-	 *            sujda number (counted from 1)
-	 * @return <code>SujdaProperties</code> of the given sujda number.
+	 * @param sajdaNum
+	 *            sajda number (counted from 1)
+	 * @return <code>SajdaProperties</code> of the given sajda number.
 	 */
-	public SujdaProperties getSujda(int sujdaNum);
+	public SajdaProperties getSajda(int sajdaNum);
 	
 }

@@ -1,0 +1,26 @@
+Version 0.1.0 beta 1 - [25-3-05]
+Version 0.1.0 beta 2 - [29-3-05]
+
+Version 0.1.0 release - [13-9-05] (First stable release)
+	Nullsoft Installer (multilingual) support
+	Basic navigation over sooras and ayas
+	.exe launcher for windows systems
+	Soora ayas view layout: line-by-line, block
+	Display soora info (descent type, aya count, soora number, etc.)
+	Cache visited sooras in a local directory for faster retrieval
+
+Version 0.2.0 b1 - [9-12-05]
+	Print a Quran view
+	Search the whole Quran and also current view (a search result or a soora) with matching
+		and non-matching diacritics
+	Simple search statistics
+	Help menu: Zekr homepage, About
+	Change UI language when application is runnung through view menu
+
+Version 0.2.0 b2 - [24-12-05]
+	Simple Save as menu for exporting a single soora or a search result
+	Five language packs: Farsi, Arabic, English, French, Indonesian.
+	Aya navigation enhancement: choosing to show an aya will also displays some previous ays.
+	Country flag icon for each language
+
+Version 0.2.0 release - []

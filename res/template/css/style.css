@@ -53,8 +53,19 @@ td.quran {
 	line-height: 150%;
 }
 
+div.selectedAya {
+	border-bottom: 1px dashed rgb(100, 200, 250);
+	border-right: 4px solid rgb(150, 150, 150);
+	padding-right: 10px;
+	padding-left: 10px;
+	margin: 3px 0px 3px 0;
+}
+
+span.selectedAya {
+	color: rgb(0, 50, 250);
+}
+
 div.aya {
-	/*border-top: 1px solid rgb(100, 200, 250);*/
 	border-bottom: 1px dashed rgb(100, 200, 250);
 	padding-right: 10px;
 	padding-left: 10px;
@@ -62,19 +73,21 @@ div.aya {
 }
 
 
-span.sujda#minor {
+span.sajda#minor {
 	color: rgb(200, 40, 40);
 	border: 1px rgb(200, 40, 40) solid;
 }
 
-span.sujda#major {
+span.sajda#major {
 	color: rgb(240, 10, 10);
 	border: 1px rgb(200, 40, 40) solid;
 }
 
 span.ayaSign {
-	font: 21px Traditional Arabic, Andalus, Arial Unicode MS, Terafik,
-		Tahoma, Helvetica, Arial, Sans-serif;
+}
+
+span.selectedAyaSign {
+	font-weight: bold;
 }
 
 span.jozSign {

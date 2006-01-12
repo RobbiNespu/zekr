@@ -18,7 +18,6 @@ import net.sf.zekr.engine.log.Logger;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.2
  */
 public class Language {

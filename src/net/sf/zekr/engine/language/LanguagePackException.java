@@ -10,12 +10,12 @@
 package net.sf.zekr.engine.language;
 
 /**
- * @author    Mohsen Saboorian
- * @since	  Zekr 1.0
- * @see       TODO
- * @version   0.1
+ * @author Mohsen Saboorian
+ * @since Zekr 1.0
+ * @version 0.1
  */
 public class LanguagePackException extends Exception {
+	private static final long serialVersionUID = -7968091247753668046L;
 
 	public LanguagePackException() {
 		super();
@@ -25,7 +25,4 @@ public class LanguagePackException extends Exception {
 		super(msg);
 	}
 
-	/** What is it? */
-	private static final long serialVersionUID = 3617008650527715888L;
-	
 }

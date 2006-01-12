@@ -15,6 +15,11 @@ import java.util.Map;
 import net.sf.zekr.common.util.IQuranText;
 import net.sf.zekr.common.util.Range;
 
+/**
+ * @author Mohsen Saboorian
+ * @since Zekr 1.0
+ * @version 0.2
+ */
 public class QuranSearch {
 	IQuranText quran;
 	boolean match;
@@ -94,24 +99,24 @@ public class QuranSearch {
 	 */
 	public static void main(String[] args) {
 		try {
-//			 IQuranText qt = QuranText.getInstance();
-//			 QuranSearch sq = new QuranSearch(qt);
-//			 Map m = sq.findAll("÷Û");
-//			 Map m = sq.findAll("«·");
-//			 System.out.println(m);
-//			Map m = new LinkedHashMap();
-//			m.put("Mohsen", "saboorian");
-//			m.put("Ali", "Alavi");
-//			m.put("Mazaher", "Tahmasbi");
-//			m.put("Homayoun", "Ghadami");
-//			m.put("Mahsan", "Saharzade");
-//			m.put("gholeidoon", "garian");
-//
-//			// for (Iterator iter = m.entrySet().iterator(); iter.hasNext();) {
-//			Set set = m.entrySet();
-//			for (int j = 0; j < set.size(); j++) {
-//				System.out.println(set.toArray()[j]);
-//			}
+			// IQuranText qt = QuranText.getInstance();
+			// QuranSearch sq = new QuranSearch(qt);
+			// Map m = sq.findAll("÷Û");
+			// Map m = sq.findAll("«·");
+			// System.out.println(m);
+			// Map m = new LinkedHashMap();
+			// m.put("Mohsen", "saboorian");
+			// m.put("Ali", "Alavi");
+			// m.put("Mazaher", "Tahmasbi");
+			// m.put("Homayoun", "Ghadami");
+			// m.put("Mahsan", "Saharzade");
+			// m.put("gholeidoon", "garian");
+			//
+			// // for (Iterator iter = m.entrySet().iterator(); iter.hasNext();) {
+			// Set set = m.entrySet();
+			// for (int j = 0; j < set.size(); j++) {
+			// System.out.println(set.toArray()[j]);
+			// }
 			// Entry ent = (Entry) iter.next();
 			// String key = (String) ent.getKey();
 			// String value = (String) ent.getValue();
@@ -138,9 +143,11 @@ public class QuranSearch {
 
 abstract class Finder {
 	public abstract Range indexOf(String src, String key);
+
 	public Range indexOf(String src, String key, int off) {
 		Range r = indexOf(src.substring(off), key);
-		if (r == null) return null;
+		if (r == null)
+			return null;
 		return new Range(r.from + off, r.to + off);
 	}
 }

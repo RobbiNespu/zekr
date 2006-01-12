@@ -22,14 +22,14 @@ public class QuranTextConfigNaming {
 	public static final String BIMILLAH = "text-notation.soora.bismillah";
 	public static final String AYA_SIGN = "text-notation.aya.sign";
 	public static final String SOORA_SIGN = "text-notation.soora.title.sign";
-	public static final String SUJDA_SIGN = "text-notation.sujda.sign";
+	public static final String SAJDA_SIGN = "text-notation.sajda.sign";
 	public static final String JOZ_SIGN = "text-notation.joz.sign";
 
-	public static final String SUJDA_TAG = "sujda";
-	/** Mustahab sujda */
-	public static final String MINOR_SUJDA = "minor";
-	/** Vajib sujda */
-	public static final String MAJOR_SUJDA = "major";
+	public static final String SAJDA_TAG = "sajda";
+	/** Mustahab sajda */
+	public static final String MINOR_SAJDA = "minor";
+	/** Vajib sajda */
+	public static final String MAJOR_SAJDA = "major";
 
 	public static final String RIGHT_STRING_ATTR = "rightString";
 	public static final String LEFT_STRING_ATTR = "leftString";

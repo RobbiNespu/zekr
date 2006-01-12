@@ -19,7 +19,6 @@ public class ZekrConfigNaming {
 	public static final String NAME_ATTR = "name";
 	public static final String VALUE_ATTR = "value";
 	public static final String FILE_ATTR = "file";
-	public static final String ICON_ATTR = "icon";
 	public static final String ITEM_TAG = "item";
 
 	public static final String LANGUAGE_TAG = "language";

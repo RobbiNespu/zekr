@@ -52,12 +52,13 @@ function arabicSimplify(str) {
 		str = replaceAll(str, arr[i], "");
 	}
 
-	// YEH replacement
+	// Some replacement
 	str = replaceAll(str, ALEF_MAKSURA, ARABIC_YEH);
 	str = replaceAll(str, FARSI_YEH, ARABIC_YEH);
 	str = replaceAll(str, FARSI_KEHEH, ARABIC_KAF);
 	str = replaceAll(str, ALEF_HAMZA_ABOVE, ALEF);
 	str = replaceAll(str, ALEF_HAMZA_BELOW, ALEF);
+	str = replaceAll(str, ALEF_MADDA, ALEF);
 	return str;
 }
 
@@ -65,18 +66,6 @@ function isDiac(ch) {
 	return (ch == SUKUN) || (ch == SHADDA) || (ch == KASRA) || (ch == DAMMA) || 
 	       (ch == FATHA) || (ch == KASRATAN) || (ch == DAMMATAN) || (ch == FATHATAN) || 
 	       (ch == SUPERSCRIPT_ALEF);
-}
-
-function highlightWordInNode(aWord, aNode, matchDiac) {
-	if (aNode.nodeType == 1){
-		var children = aNode.childNodes;
-		for(var i = 0; i < children.length; i++) {
-			highlightWordInNode(aWord, children[i], matchDiac);
-		}
-    }
-	else if (aNode.nodeType == 3){
-		highlightWordInText(aWord, aNode, matchDiac);
-	}
 }
 
 function indexOfIgnoreDiacritic(src, key) {
@@ -94,7 +83,8 @@ function indexOfIgnoreDiacritic(src, key) {
 			s++; k++;
 		} else if(key.charAt(k) == ALEF &&
 		          (src.charAt(s) == ALEF_HAMZA_ABOVE || 
-		           src.charAt(s) == ALEF_HAMZA_BELOW)) {
+		           src.charAt(s) == ALEF_HAMZA_BELOW ||
+		           src.charAt(s) == ALEF_MADDA)) {
 			if (start == -1)
 				start = s;
 			s++;
@@ -131,6 +121,18 @@ function indexOfMatchDiacritic(src, key) {
 	if (spaceAfter == -1) end = src.length;
 	else end = spaceAfter;
 	return {startIndex: start, endIndex: end};
+}
+
+function highlightWordInNode(aWord, aNode, matchDiac) {
+	if (aNode.nodeType == 1){
+		var children = aNode.childNodes;
+		for(var i = 0; i < children.length; i++) {
+			highlightWordInNode(aWord, children[i], matchDiac);
+		}
+    }
+	else if (aNode.nodeType == 3){
+		highlightWordInText(aWord, aNode, matchDiac);
+	}
 }
 
 function highlightWordInText(aWord, textNode, matchDiac){

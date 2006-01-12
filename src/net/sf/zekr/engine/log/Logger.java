@@ -20,7 +20,6 @@ import org.apache.log4j.PropertyConfigurator;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see TODO
  * @version 0.1
  */
 /*

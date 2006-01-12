@@ -9,7 +9,7 @@
 package net.sf.zekr.common.util;
 
 /**
- * This class is the standard object for a soora of the Holy Quran
+ * This class is an hold attributes of a soora of the Holy Quran.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
