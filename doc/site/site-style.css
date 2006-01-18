@@ -1,13 +1,18 @@
 body {
 	font-family: Trebuchet MS, Georgia, Tahoma, Arial, Helvetica, Sans-Serif;
 	font-style: normal;
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: normal;
 }
 
 .right#right {
 	padding: 20;
 	border: 1px solid silver;
+	font: inherit;
+}
+
+td.right {
+	font-size: 15px;
 }
 
 div.header {
@@ -19,20 +24,19 @@ div.header {
 /******************/
 
 fieldset { /* IE is nicer this way! */
-	border-width:;
-	border-color:;
-	border-style:;
 	text-align: justify;
+	-moz-border-radius: 5px;
 }
 
 legend {
-	border-style: dashed;
+	border-style: solid;
 	border-width: 1px;
 	border-color: gray;
 	margin-bottom: 10px;
 	color: rgb(50, 110, 250);
 	text-transform: capitalize;
-	font-style: italic;
+	font-style: iralix;
+	-moz-border-radius: 8px;
 }
 
 .footer {
@@ -66,6 +70,11 @@ a:hover {
 	text-decoration:underline;
 }
 
+
+blockquote {
+	margin-top: 0px
+}
+
 h1 {
 	border-bottom: 1px solid buttonface;
 	
@@ -76,7 +85,7 @@ li {
 }
 
 tt {
-	font-size: 15px;
+	font-size: .95em;
 	font-family: Andale Mono, Courier new, Courier;
 }
 
@@ -98,6 +107,7 @@ acronym {
 /*  Menu Definition  */
 .menuItem {
 	border: 1px solid rgb(200, 200, 200);
+	font-size: 15px;
 }
 
 .menuItem a {

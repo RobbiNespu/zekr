@@ -63,11 +63,11 @@ are other people working on it:
 	<li><a href="http://siahe.com/blogs/mohammad">Mohammad Mehdi
 	Saboorian</a> (Technical consultant)</li>
 </ul>
-These peoples also helped me with language packs and feedbacks:
+These peoples also helped with language packs and useful feedbacks:
 <ul>
-	<li>Muhammad Ijaz</li>
 	<li>Ari R. Fikri</li>
 	<li>Younes Moumen</li>
+	<li>Riyad Preukschas</li>
 </ul>
 </div>
 
@@ -89,7 +89,7 @@ about licenses at <a href="relnotes.html"> release notes</a> page.</div>
 <h3>[Developer]</h3>
 <div class="question">What is Zekr written in?</div>
 <div class="answer">Zekr is written in Java (JDK 1.4+ compliant). It is
-developed in <a href="http://eclipse.org">Eclipse</a> platform (3.0 to
+developed in <a href="http://eclipse.org">Eclipse</a> platform (3.0 Mx to
 3.11).</div>
 
 <div class="question">Which GUI library is used?</div>
@@ -100,6 +100,30 @@ have swt-win32-xxxx.dll for Win32 machines or <tt>libswt-gtk-xxxx.so</tt>/<tt>li
 for your Linux/GTK platforms. There is also a platform specific jar file
 on the project's lib directory named <tt>swt-xxx.jar</tt>, where xxx can
 be win32 or gtk!</div>
+
+<div class="question">Where is the source code?</div>
+<div class="answer">
+Latest Zekr source code may always be available on SourceForge.net CVS. Use
+<a href="http://cvs.sourceforge.net/viewcvs.py/zekr">this</a> URL for web based CVS tree and 
+<a href="http://sourceforge.net/cvs/?group_id=128414">this one</a> for checkout instructions.
+</div>
+
+<div class="question">Linux</div>
+<div class="answer">TODO</div>
+
+<div class="question">Other platforms</div>
+<div class="answer">TODO</div>
+
+<div class="question">Why Java</div>
+<div class="answer">
+Simply because I know Java more than C++!<br>
+In adition it is cross platform, easy and open. I used 
+<a href="http://www.eclipse.org/swt">SWT</a> because it is a nice looking
+native widget toolkit and has a number of advantages over Swing (More fast, cool, and easy to code).
+</div>
+
+<div class="question">Common problems</div>
+<div class="answer">TODO</div>
 
 <h3>[Install]</h3>
 <div class="question">I downloaded Zekr. Now, what should I do?</div>
@@ -117,32 +141,32 @@ copy is not in XP theme. What should I do?</div>
 <div class="answer">
 <b>Note</b> that installer will try to put manifest files at proper
 locations from 0.1.0 release and there is no need to manually do that.
-If it steel seems like windows classic theme try the following:<br><br>
+If it still seems like windows classic theme try the following:<br><br>
 
 It is mainly about the <acronym title="Graphical User Interface">GUI</acronym> toolkit used for Zekr
 (SWT). Zekr supports XP theme, but you should do something manually. Get
 ready? OK, let's go:<br>
-Make sure where the javaw.exe in your path environment variable is. Some probabilities are:
+Make sure where the javaw.exe in your path environment variable is. Some possibilities are:
 <ul>
 	<li><tt>[Windows]/system32/javaw.exe</tt></li>
 	<li><tt>[JAVA_HOME]/bin/javaw.exe</tt></li>
 	<li><tt>[Program Files]/java/j2re1.4.x/bin/javaw.exe</tt></li>
 </ul>
-You should copy the file <tt>javaw.exe.manifest</tt> (or <tt>java.exe.manifest</tt>
-if you want to start the application with java.exe
-located at <tt>[zekr]/res</tt>) near the java.exe and javaw.exe. That's all.
+You should copy the file <tt>javaw.exe.manifest</tt> (or <tt>java.exe.manifest</tt> - located at <tt>[zekr]/res</tt> -
+if you want to start the application with java.exe) near the java.exe and javaw.exe. That's all.
 </div>
 
 <div class="question">Which languages does Zekr support?</div>
 <div class="answer">Zekr has <i>Language Engine</i> for supporting
-multiple languages. There are corresponding XML files for each language
+multiple languages. There are corresponding <acronym title="eXtensible Matkup Language">XML</acronym>
+files for each language
 pack (located at <tt>[zekr]/res/lang</tt>). You can 
 <a href="lang-notes.html">write your own language pack</a>
 (e.g. <tt>[zekr]/res/lang/esperanto.xml</tt>) for Zekr,
 and add a new element to <tt>[zekr]/res/config/zekr-config.xml</tt>,
-indicating the new language pack. For example if we want to write a new
-language pack for <i>Esperanto</i> language, we can make <tt>esperanto.xml</tt>
-near other packs, and change <tt>zekr-config.xml</tt> this way:<br>
+indicating the new language pack. For example if you want to write a new
+language pack for <i>Esperanto</i> language, make <tt>esperanto.xml</tt>
+near other XML language packs, and change <tt>zekr-config.xml</tt> this way:<br>
 Before:<br>
 <pre>
 	&lt;language default="fa" current=""&gt;
@@ -159,7 +183,8 @@ to <tt>""</tt> so, Zekr tries to
 find the language pack equal to user's system locale (<tt>user.language</tt> JVM
 property). If it fails, it will use the <tt>default</tt> language pack
 instead. <br>
-For now there are 5 two language packs available: Farsi, Arabic, English, Indonesian, and French.
+For now there are 6 language packs available (alphabetically): 
+Arabic, English, Farsi (AKA Persian), French, German, and Indonesian.
 </div>
 
 <h3>[More!]</h3>
@@ -167,6 +192,6 @@ For now there are 5 two language packs available: Farsi, Arabic, English, Indone
 </div>
 
 <hr>
-Document last updated on 24-12-05
+Document last updated on 21-1-06
 </body>
 </html>

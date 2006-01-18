@@ -15,13 +15,13 @@ import net.sf.zekr.engine.language.LanguageEngine;
  * @since Zekr 1.0
  * @version 0.1
  */
-public class JozProperties {
+public class JuzProperties {
 	private int index;
 
-	/** joz start soora number */
-	private int sooraNumber;
+	/** juz start sura number */
+	private int suraNumber;
 
-	/** joz start aya number */
+	/** juz start aya number */
 	private int ayaNumber;
 
 	/**
@@ -55,21 +55,21 @@ public class JozProperties {
 	}
 
 	/**
-	 * @return Returns the sooraNumber.
+	 * @return Returns the suraNumber.
 	 */
-	public int getSooraNumber() {
-		return sooraNumber;
+	public int getSuraNumber() {
+		return suraNumber;
 	}
 
 	/**
-	 * @param sooraNumber
-	 *            The sooraNumber to set.
+	 * @param suraNumber
+	 *            The suraNumber to set.
 	 */
-	public void setSooraNumber(int sooraNumber) {
-		this.sooraNumber = sooraNumber;
+	public void setSuraNumber(int suraNumber) {
+		this.suraNumber = suraNumber;
 	}
 
 	public String toString() {
-		return LanguageEngine.getInstance().getMeaning("JOZ") + ": " + getIndex();
+		return LanguageEngine.getInstance().getMeaning("JUZ") + ": " + getIndex();
 	}
 }

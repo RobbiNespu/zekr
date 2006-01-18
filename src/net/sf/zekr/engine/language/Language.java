@@ -28,7 +28,7 @@ public class Language {
 	private Map languageMap = new HashMap();
 	private String defaultPackId;
 
-	private final static Logger logger = Logger.getLogger(Language.class);
+//	private final static Logger logger = Logger.getLogger(Language.class);
 
 //	/**
 //	 * Instantiate a new language with current (last time set) language pack. If fails, will load

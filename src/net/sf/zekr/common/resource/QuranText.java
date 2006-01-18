@@ -65,30 +65,30 @@ public class QuranText implements IQuranText {
 	private void refineRawText() {
 		QuranTextProperties textProp = QuranTextProperties.getInstance();
 		QuranProperties quranProps = QuranProperties.getInstance();
-		StringTokenizer sooraTokenizer = new StringTokenizer(rawText, textProp.getLineBreakString());
-		String soora;
+		StringTokenizer suraTokenizer = new StringTokenizer(rawText, textProp.getLineBreakString());
+		String sura;
 
-		sooraTokenizer.nextToken(); // ignore soora title
-		// the first soora (Fatiha) has a Bismillah as its first aya.
-		soora = sooraTokenizer.nextToken() + " ";
-		soora += sooraTokenizer.nextToken();
-		quranText[0] = getAyas(soora, quranProps.getSoora(1).getAyaCount());
+		suraTokenizer.nextToken(); // ignore sura title
+		// the first sura (Fatiha) has a Bismillah as its first aya.
+		sura = suraTokenizer.nextToken() + " ";
+		sura += suraTokenizer.nextToken();
+		quranText[0] = getAyas(sura, quranProps.getSura(1).getAyaCount());
 
-		for (int i = 2; sooraTokenizer.hasMoreTokens(); i++) {
-			soora = sooraTokenizer.nextToken(); // ignore title
-			if (i != 9) // Soora Tawbah has no Bismillah
-				soora = sooraTokenizer.nextToken(); // ignore Bismillah
-			soora = sooraTokenizer.nextToken();
-			quranText[i - 1] = getAyas(soora, quranProps.getSoora(i).getAyaCount());
+		for (int i = 2; suraTokenizer.hasMoreTokens(); i++) {
+			sura = suraTokenizer.nextToken(); // ignore title
+			if (i != 9) // Sura Tawbah has no Bismillah
+				sura = suraTokenizer.nextToken(); // ignore Bismillah
+			sura = suraTokenizer.nextToken();
+			quranText[i - 1] = getAyas(sura, quranProps.getSura(i).getAyaCount());
 		}
 	}
 
-	private String[] getAyas(String sooraText, int ayaCount) {
+	private String[] getAyas(String suraText, int ayaCount) {
 		// QuranProperties quranProp = QuranProperties.getInstance();
 		// int ayaCount =
-		// Integer.parseInt(quranProp.getSoora(sooraNum).getAyaCount(sooraNum));
+		// Integer.parseInt(quranProp.getSura(suraNum).getAyaCount(suraNum));
 		String[] ayas = new String[ayaCount];
-		StringTokenizer ayaTokenizer = new StringTokenizer(sooraText, textProps.getAyaSignLeftString()
+		StringTokenizer ayaTokenizer = new StringTokenizer(suraText, textProps.getAyaSignLeftString()
 				+ textProps.getAyaSignRightString());
 		int i;
 		for (i = 0; ayaTokenizer.hasMoreTokens() && i < ayaCount; i++) {
@@ -107,17 +107,17 @@ public class QuranText implements IQuranText {
 	 * 
 	 * @see net.sf.zekr.common.util.IQuranText#get(int, int)
 	 */
-	public String get(int sooraNum, int ayaNum) {
-		return quranText[sooraNum - 1][ayaNum - 1];
+	public String get(int suraNum, int ayaNum) {
+		return quranText[suraNum - 1][ayaNum - 1];
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.zekr.common.util.IQuranText#getSoora(int)
+	 * @see net.sf.zekr.common.util.IQuranText#getSura(int)
 	 */
-	public String[] getSoora(int sooraNum) {
-		return quranText[sooraNum - 1];
+	public String[] getSura(int suraNum) {
+		return quranText[suraNum - 1];
 
 	}
 

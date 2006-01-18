@@ -19,8 +19,8 @@ public class SajdaProperties {
 	public static final int MINOR = 0;
 	public static final int MAJOR = 1;
 
-	/** sajda soora number */
-	private int sooraNumber;
+	/** sajda sura number */
+	private int suraNumber;
 
 	/** sajda aya number */
 	private int ayaNumber;
@@ -47,18 +47,18 @@ public class SajdaProperties {
 	}
 
 	/**
-	 * @return Returns the sooraNumber.
+	 * @return Returns the suraNumber.
 	 */
-	public int getSooraNumber() {
-		return sooraNumber;
+	public int getSuraNumber() {
+		return suraNumber;
 	}
 
 	/**
-	 * @param sooraNumber
-	 *            The sooraNumber to set.
+	 * @param suraNumber
+	 *            The suraNumber to set.
 	 */
-	public void setSooraNumber(int sooraNumber) {
-		this.sooraNumber = sooraNumber;
+	public void setSuraNumber(int suraNumber) {
+		this.suraNumber = suraNumber;
 	}
 
 	/**

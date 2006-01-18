@@ -47,24 +47,24 @@
 			<text id="WHOLE_QURAN" value="Quran Keseluruhan" />
 			<text id="MATCH_DIACRITIC" value="Pengenal ditemukan" />
 			<text id="NEXT_AYA" value="Ayat Selanjutnya" />
-			<text id="NEXT_SOORA" value="Surat Selanjutnya" />
+			<text id="NEXT_SURA" value="Surat Selanjutnya" />
 			<text id="PREV_AYA" value="Ayat Sebelumnya" />
-			<text id="PREV_SOORA" value="Surat Sebelumnya" />
+			<text id="PREV_SURA" value="Surat Sebelumnya" />
 
 			<text id="EXIT"     value="Keluar" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
-			<text id="SOORA"    value="Surat" />
+			<text id="SURA"    value="Surat" />
 			<text id="AYA"      value="Ayat" />
-			<text id="SAJDA"    value="Sujda" />
-			<text id="JOZ"      value="Juz" />
+			<text id="SAJDA"    value="Sajda" />
+			<text id="JUZ"      value="Juz" />
 			<text id="MAKKI"    value="Makkiah" />
 			<text id="MADANI"   value="Madaniah" />
 			<text id="DESCENT"  value="Turun" />
 			<text id="AYA_COUNT"  value="Jumlah Ayat" />
-			<text id="MINOR_SAJDA" value="Sujda Minor" />
-			<text id="MAJOR_SAJDA" value="Sujda Mayor" />
+			<text id="MINOR_SAJDA" value="Sajda Minor" />
+			<text id="MAJOR_SAJDA" value="Sajda Mayor" />
 		</special>
 	</word>
 
@@ -73,6 +73,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="Hasil Pencarian untuk:&quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} hasil ditemukan di {2} ayat." />
 			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists."   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Anda Yakin?" />

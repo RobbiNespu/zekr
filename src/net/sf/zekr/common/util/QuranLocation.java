@@ -12,7 +12,7 @@ import net.sf.zekr.common.resource.QuranProperties;
 
 /**
  * This data structure is the primitive structure of addressing somewhere in the Quran.
- * Addressing is possible by just having aya number and soora number. <br>
+ * Addressing is possible by just having aya number and sura number. <br>
  * Note that this class does not provide any range checkhing or explicit exception throwing
  * for performance purposes.
  * 
@@ -21,16 +21,16 @@ import net.sf.zekr.common.resource.QuranProperties;
  * @version 0.1
  */
 public class QuranLocation implements IQuranLocation {
-	private int soora;
+	private int sura;
 	private int aya;
 
 	/**
-	 * @param soora counted from 1
+	 * @param sura counted from 1
 	 * @param aya counted from 1
 	 */
-	public QuranLocation(int soora, int aya) {
+	public QuranLocation(int sura, int aya) {
 		setAya(aya);
-		setSoora(soora);
+		setSura(sura);
 	}
 
 	public int getAya() {
@@ -41,20 +41,20 @@ public class QuranLocation implements IQuranLocation {
 		this.aya = aya;
 	}
 
-	public int getSoora() {
-		return soora;
+	public int getSura() {
+		return sura;
 	}
 
-	public void setSoora(int soora) {
-		this.soora = soora;
+	public void setSura(int sura) {
+		this.sura = sura;
 	}
 
-	public String getSooraName() {
+	public String getSuraName() {
 		QuranProperties qp = QuranProperties.getInstance();
-		return qp.getSoora(soora).name;
+		return qp.getSura(sura).name;
 	}
 
 	public String toString() {
-		return new StringBuffer("" + soora).append("-").append(aya).toString();
+		return new StringBuffer("" + sura).append("-").append(aya).toString();
 	}
 }

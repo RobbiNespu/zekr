@@ -18,12 +18,12 @@ package net.sf.zekr.common.resource;
  */
 public class QuranTextConfigNaming {
 	public static final String TEXT_FILE = "text-file";
-	public static final String SOORA_TITLE = "text-notation.soora.title";
-	public static final String BIMILLAH = "text-notation.soora.bismillah";
+	public static final String SURA_TITLE = "text-notation.sura.title";
+	public static final String BIMILLAH = "text-notation.sura.bismillah";
 	public static final String AYA_SIGN = "text-notation.aya.sign";
-	public static final String SOORA_SIGN = "text-notation.soora.title.sign";
+	public static final String SURA_SIGN = "text-notation.sura.title.sign";
 	public static final String SAJDA_SIGN = "text-notation.sajda.sign";
-	public static final String JOZ_SIGN = "text-notation.joz.sign";
+	public static final String JUZ_SIGN = "text-notation.juz.sign";
 
 	public static final String SAJDA_TAG = "sajda";
 	/** Mustahab sajda */

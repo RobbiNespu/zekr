@@ -47,18 +47,18 @@
 			<text id="WHOLE_QURAN" value="تمامی قرآن" />
 			<text id="MATCH_DIACRITIC" value="مطابقت علائم" />
 			<text id="NEXT_AYA" value="آیه‌ی بعدی" />
-			<text id="NEXT_SOORA" value="سوره‌ی بعدی" />
+			<text id="NEXT_SURA" value="سوره‌ی بعدی" />
 			<text id="PREV_AYA" value="آیه‌ی قبلی" />
-			<text id="PREV_SOORA" value="سوره‌ی قبلی" />
+			<text id="PREV_SURA" value="سوره‌ی قبلی" />
 
 			<text id="EXIT"     value="خروج" />
 		</common>
 		<special>
 			<text id="QURAN"    value="قرآن" />
-			<text id="SOORA"    value="سوره" />
+			<text id="SURA"    value="سوره" />
 			<text id="AYA"      value="آیه" />
 			<text id="SAJDA"    value="سجده" />
-			<text id="JOZ"      value="جزء" />
+			<text id="JUZ"      value="جزء" />
 			<text id="MAKKI"    value="مکّی" />
 			<text id="MADANI"   value="مدنی" />
 			<text id="DESCENT"  value="محل نزول" />
@@ -73,6 +73,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="نتیجه‌ی جستجو برای «{1}»:" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} مورد در {2} آیه یافت شد." />
 			<text id="TOO_MANY_RESULT" value="نتیجه‌ی جستجو بیش از {1} آیه است." />
+			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="آیا مطمئن هستید؟" />

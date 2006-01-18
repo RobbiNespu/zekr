@@ -22,8 +22,13 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressAdapter;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
+import org.eclipse.swt.browser.StatusTextEvent;
+import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -55,9 +60,9 @@ public class QuranForm extends BaseForm {
 	// Form widgets:
 	private Composite body;
 	private Browser quranBrowser;
-	private Combo sooraSelector;
+	private Combo suraSelector;
 	private Combo ayaSelector;
-	private Label sooraLabel;
+	private Label suraLabel;
 	private Label ayaLabel;
 	private Text searchText;
 	private Button applyButton;
@@ -65,8 +70,8 @@ public class QuranForm extends BaseForm {
 	private Button sync;
 	private Button match;
 	private Button whole;
-	private Table sooraTable;
-	private Map sooraMap;
+	private Table suraTable;
+	private Map suraMap;
 	private Group navigationGroup;
 	private Group searchGroup;
 	private Group navGroup;
@@ -80,11 +85,11 @@ public class QuranForm extends BaseForm {
 	private QuranProperties quranProp;
 	private PropertyGenerator widgetProp;
 
-	/** Specifies whether aya selector changed since a soora was selected. */
+	/** Specifies whether aya selector changed since a sura was selected. */
 	private boolean ayaChanged;
 
-	/** Specifies whether soora selector changed for making a new soora view. */
-	private boolean sooraChanged;
+	/** Specifies whether sura selector changed for making a new sura view. */
+	private boolean suraChanged;
 
 	/** The current URL loaded in the browser */
 	private String url;
@@ -109,7 +114,7 @@ public class QuranForm extends BaseForm {
 				new Image(display, resource.getString("icon.form32")) });
 		shell.setMenuBar(new QuranFormMenuFactory(this, shell).getQuranFormMenu());
 		ayaChanged = false;
-		sooraChanged = false;
+		suraChanged = false;
 		makeFrame();
 	}
 
@@ -143,44 +148,63 @@ public class QuranForm extends BaseForm {
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.verticalSpan = 3;
 		quranBrowser.setLayoutData(gridData);
+		quranBrowser.addStatusTextListener(new StatusTextListener() {
+			public void changed(StatusTextEvent event) {
+				if (event.text != null && !"".equals(event.text)) {
+					doBrowserCallback(event.text);
+				}
+			}
+
+			private void doBrowserCallback(String message) {
+				if (message.startsWith("ZEKR::")) {
+					quranBrowser.execute("window.status='';"); // clear the status text
+					if (message.substring(6, 10).equals("GOTO")) {
+						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
+						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
+						logger.info("goto (" + sura + ", " + aya+ ")");
+						setQuranView(sura, aya);
+					}
+				}
+			}
+		});
 
 
-		sooraLabel = new Label(navGroup, SWT.NONE);
-		sooraLabel.setText(langEngine.getMeaning("SOORA") + ":");
+		suraLabel = new Label(navGroup, SWT.NONE);
+		suraLabel.setText(langEngine.getMeaning("SURA") + ":");
 
-		sooraSelector = new Combo(navGroup, SWT.NONE | SWT.READ_ONLY);
+		suraSelector = new Combo(navGroup, SWT.NONE | SWT.READ_ONLY);
 		ayaSelector = new Combo(navGroup, SWT.NONE | SWT.READ_ONLY);
 
-		sooraSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		sooraSelector.setItems(QuranPropertiesUtils.getIndexedSooraNames());
-		sooraSelector.setVisibleItemCount(10);
-		sooraSelector.addSelectionListener(new SelectionAdapter() {
+		suraSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		suraSelector.setItems(QuranPropertiesUtils.getIndexedSuraNames());
+		suraSelector.setVisibleItemCount(10);
+		suraSelector.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				onSooraChanged();
+				onSuraChanged();
 				if (sync.getSelection())
 					apply();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
-				onSooraChanged();
+				onSuraChanged();
 				apply();
 			}
 		});
-		sooraSelector.select(0);
+		suraSelector.select(0);
 
 		ayaLabel = new Label(navGroup, SWT.NONE);
 		ayaLabel.setText(langEngine.getMeaning("AYA") + ":");
 
 		ayaSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.VERTICAL_ALIGN_BEGINNING));
-		ayaSelector.setItems(QuranPropertiesUtils.getSooraAyas(1));
+		ayaSelector.setItems(QuranPropertiesUtils.getSuraAyas(1));
 		ayaSelector.setVisibleItemCount(10);
 		ayaSelector.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				ayaChanged = true;
 				if (sync.getSelection())
 					apply();
-				// quranBrowser.setUrl(QuranHTMLRepository.getUrl(sooraSelector.getSelectionIndex()
+				// quranBrowser.setUrl(QuranHTMLRepository.getUrl(suraSelector.getSelectionIndex()
 				// + 1,
 				// ayaSelector.getSelectionIndex() + 1));
 			}
@@ -207,7 +231,7 @@ public class QuranForm extends BaseForm {
 		applyButton.setText(langEngine.getMeaning("SHOW"));
 		applyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				// quranBrowser.setText(QuranViewTemplate.transformSoora(sooraSelector.getSelectionIndex()));
+				// quranBrowser.setText(QuranViewTemplate.transformSura(suraSelector.getSelectionIndex()));
 				apply();
 			}
 		});
@@ -223,33 +247,33 @@ public class QuranForm extends BaseForm {
 		navComposite.setLayout(gridLayout);
 
 		int style = SWT.PUSH | SWT.FLAT;
-		Button prevSoora = new Button(navComposite, style);
+		Button prevSura = new Button(navComposite, style);
 		Button prevAya = new Button(navComposite, style);
 		Button nextAya = new Button(navComposite, style);
-		Button nextSoora = new Button(navComposite, style);
+		Button nextSura = new Button(navComposite, style);
 		
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		prevAya.setLayoutData(gridData);
-		prevSoora.setLayoutData(gridData);
+		prevSura.setLayoutData(gridData);
 		nextAya.setLayoutData(gridData);
-		nextSoora.setLayoutData(gridData);
+		nextSura.setLayoutData(gridData);
 
 		int l = langEngine.getSWTDirection();
-		prevSoora.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.nextNext") : resource.getString("icon.prevPrev")));
+		prevSura.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.nextNext") : resource.getString("icon.prevPrev")));
 		prevAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.next") : resource.getString("icon.prev")));
 		nextAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prev") : resource.getString("icon.next")));
-		nextSoora.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prevPrev") : resource.getString("icon.nextNext")));
+		nextSura.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prevPrev") : resource.getString("icon.nextNext")));
 
-		prevSoora.setToolTipText(langEngine.getMeaning("PREV_SOORA"));
+		prevSura.setToolTipText(langEngine.getMeaning("PREV_SURA"));
 		prevAya.setToolTipText(langEngine.getMeaning("PREV_AYA"));
 		nextAya.setToolTipText(langEngine.getMeaning("NEXT_AYA"));
-		nextSoora.setToolTipText(langEngine.getMeaning("NEXT_SOORA"));
+		nextSura.setToolTipText(langEngine.getMeaning("NEXT_SURA"));
 
-		prevSoora.addSelectionListener(new SelectionAdapter(){
+		prevSura.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent e) {
-				if (sooraSelector.getSelectionIndex() > 0) {
-					sooraSelector.select(sooraSelector.getSelectionIndex() - 1);
-					onSooraChanged();
+				if (suraSelector.getSelectionIndex() > 0) {
+					suraSelector.select(suraSelector.getSelectionIndex() - 1);
+					onSuraChanged();
 					apply();
 				}
 			}
@@ -275,11 +299,11 @@ public class QuranForm extends BaseForm {
 			}
 		});
 		
-		nextSoora.addSelectionListener(new SelectionAdapter(){
+		nextSura.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent e) {
-				if (sooraSelector.getSelectionIndex() < sooraSelector.getItemCount() - 1) {
-					sooraSelector.select(sooraSelector.getSelectionIndex() + 1);
-					onSooraChanged();
+				if (suraSelector.getSelectionIndex() < suraSelector.getItemCount() - 1) {
+					suraSelector.select(suraSelector.getSelectionIndex() + 1);
+					onSuraChanged();
 					apply();
 				}
 			}
@@ -296,8 +320,8 @@ public class QuranForm extends BaseForm {
 
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.FILL_VERTICAL);
 		gridData.grabExcessVerticalSpace = true;
-		sooraMap = QuranPropertiesUtils.getSooraPropMap(sooraSelector.getSelectionIndex() + 1);
-		sooraTable = FormUtils.getTableForMap(detailGroup, sooraMap, langEngine.getMeaning("NAME"),
+		suraMap = QuranPropertiesUtils.getSuraPropMap(suraSelector.getSelectionIndex() + 1);
+		suraTable = FormUtils.getTableForMap(detailGroup, suraMap, langEngine.getMeaning("NAME"),
 			langEngine.getMeaning("VALUE"), gridData);
 
 		searchGroup = new Group(body, SWT.NONE);
@@ -349,21 +373,30 @@ public class QuranForm extends BaseForm {
 	void apply() {
 		logger.info("Start updating view...");
 		updateView();
-		sooraMap = QuranPropertiesUtils.getSooraPropMap(sooraSelector.getSelectionIndex() + 1);
-		FormUtils.updateTable(sooraTable, sooraMap);
+		suraMap = QuranPropertiesUtils.getSuraPropMap(suraSelector.getSelectionIndex() + 1);
+		FormUtils.updateTable(suraTable, suraMap);
 		logger.info("Updating view done.");
-		sooraChanged = false;
+		suraChanged = false;
 	}
+	
+	private void setQuranView(int sura, int aya) {
+		suraSelector.select(sura - 1);
+		onSuraChanged();
+		ayaSelector.select(aya - 1);
+		ayaChanged = true;
+		apply();
+	}
+
 
 	private ProgressAdapter pl;
 	private void updateView() {
 		final int aya = ayaSelector.getSelectionIndex() + 1;
-		final int soora = sooraSelector.getSelectionIndex() + 1;
+		final int sura = suraSelector.getSelectionIndex() + 1;
 
 		pl = new ProgressAdapter() {
 			public void completed(ProgressEvent event) {
 				if (ayaChanged) {
-					System.out.println(quranBrowser.execute("focusOnAya('" + soora + "_" + aya + "');"));
+					quranBrowser.execute("focusOnAya('" + sura + "_" + aya + "');");
 				}
 				removeProgressListener(pl);
 			}
@@ -371,25 +404,24 @@ public class QuranForm extends BaseForm {
 				quranBrowser.removeProgressListener(pl);
 			}
 		};
-
-//		if (sooraChanged) {
+//		if (suraChanged) {
 			quranBrowser.addProgressListener(pl);
-			quranBrowser.setUrl(url = QuranHTMLRepository.getUrl(soora, 0));
+			quranBrowser.setUrl(url = QuranHTMLRepository.getUrl(sura, 0));
 //		} else {
 //			System.out.println("ayaChanged: " + ayaChanged);
 //			quranBrowser.addProgressListener(pl);
 //			quranBrowser.execute("window.location.reload(false);");
 //			quranBrowser.execute("window.location.href = window.location.href;");
-//			System.out.println("here: " + quranBrowser.execute("focusOnAya('" + soora + "_" + aya + "');"));
+//			System.out.println("here: " + quranBrowser.execute("focusOnAya('" + sura + "_" + aya + "');"));
 //		}
-//		quranBrowser.setUrl(QuranHTMLRepository.getUrl(soora, ayaChanged ? aya - 1 : 0));
+//		quranBrowser.setUrl(QuranHTMLRepository.getUrl(sura, ayaChanged ? aya - 1 : 0));
 	}
 
-	private void onSooraChanged() {
-		ayaSelector.setItems(QuranPropertiesUtils.getSooraAyas(sooraSelector.getSelectionIndex() + 1));
+	private void onSuraChanged() {
+		ayaSelector.setItems(QuranPropertiesUtils.getSuraAyas(suraSelector.getSelectionIndex() + 1));
 		ayaSelector.select(0);
 		ayaChanged = false; // It must be set to true after ayaSelector.select
-		sooraChanged = true; // It must be set to false after apply()
+		suraChanged = true; // It must be set to false after apply()
 	}
 
 	void find() {

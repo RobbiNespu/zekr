@@ -184,7 +184,12 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	/**
-	 * TODO: add some doc here!
+	 * Will replace any pattern of {x} (when x is an integer number between 1 and
+	 * <code>strArray.length</code>) in <code>word</code> with corresponding item of
+	 * strArray (here <code>strArray[x]</code>).
+	 * 
+	 * @param word source
+	 * @param strArray replacement array of strings
 	 * @return
 	 */
 	public String getDynamicMeaning(String word, String[] strArray) {

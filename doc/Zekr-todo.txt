@@ -3,17 +3,17 @@
 Zekr 0.1.0 (release)
 . + Splash screen's logo swt form should have title (caption), as well as icon.
   + Colors should be customized for windows 2000 theme
-. + Localized hint for joz numbers (e.g. [1] Joz one).
+. + Localized hint for juz numbers (e.g. [1] Juz one).
 . + Problem with run.bat
   + A rather serious problem with caching data, when the access to this it denied
-. + Enter will work when changing soora/aya in the combo box
+. + Enter will work when changing sura/aya in the combo box
 
 Zekr 0.2.0 (release)
 . + About menu
 . + Nullsoft installer for windows (copy manifest file into JAVA_HOME/bin)
 . + Simple option menu item (language, theme, layout, font/color choose)
-  + Advanced navigation capabilities: next/previous joz/soora
-. + Quick navigation: entering soora number and aya number
+  + Advanced navigation capabilities: next/previous juz/sura
+. + Quick navigation: entering sura number and aya number
 . + Simple search
 
 Zekr 0.3.0 (release)

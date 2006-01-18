@@ -23,8 +23,8 @@ Ver 0.1.0a2, 25-3-05
 Ver 0.1.0, 11-8-05
 	Bugfixes/New features:
 	+ Problem with run.bat (JAVA_HOME)
-	+ Enter (Return) will work in Quran Form (soora/aya selection)
-	+ Localized hint for joz numbers
+	+ Enter (Return) will work in Quran Form (sura/aya selection)
+	+ Localized hint for juz numbers
 	+ Splash screen has title and well as icons
 
 Ver 0.2.0b1, 10-12-05

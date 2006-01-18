@@ -19,11 +19,11 @@ package net.sf.zekr.common.resource;
  */
 public class QuranPropertiesNaming {
 
-	public static final String SOORA_DETAIL_TAG = "soora-detail";
-	public static final String SOORA_TAG = SOORA_DETAIL_TAG + "." + "soora";
+	public static final String SURA_DETAIL_TAG = "sura-detail";
+	public static final String SURA_TAG = SURA_DETAIL_TAG + "." + "sura";
 
-	public static final String JOZ_DETAIL_TAG = "joz-detail";
-	public static final String JOZ_TAG = JOZ_DETAIL_TAG + "." + "joz";
+	public static final String JUZ_DETAIL_TAG = "juz-detail";
+	public static final String JUZ_TAG = JUZ_DETAIL_TAG + "." + "juz";
 
 	public static final String SAJDA_DETAIL_TAG = "sajda-detail";
 	public static final String SAJDA_TAG = SAJDA_DETAIL_TAG + "." + "sajda";
@@ -32,7 +32,7 @@ public class QuranPropertiesNaming {
 	public static final String INDEX_ATTR = "index";
 	public static final String AYA_COUNT_ATTR = "ayaCount";
 	public static final String AYA_NUM_ATTR = "ayaNumber";
-	public static final String SOORA_NUM_ATTR = "sooraNumber";
+	public static final String SURA_NUM_ATTR = "suraNumber";
 	public static final String DESCENT_ATTR = "descent";
 	public static final String TYPE_ATTR = "type";
 	public static final String NAME_ATTR = "name";

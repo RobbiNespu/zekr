@@ -11,9 +11,9 @@ package net.sf.zekr.common.resource;
 import java.util.List;
 
 import net.sf.zekr.common.util.IQuranProperties;
-import net.sf.zekr.common.util.JozProperties;
+import net.sf.zekr.common.util.JuzProperties;
 import net.sf.zekr.common.util.SajdaProperties;
-import net.sf.zekr.common.util.SooraProperties;
+import net.sf.zekr.common.util.SuraProperties;
 
 /**
  * @author Mohsen Saboorian
@@ -34,12 +34,12 @@ public class QuranProperties implements IQuranProperties {
 		return thisInstance;
 	}
 
-	public final List getSooraList() {
-		return quranPropsReader.sooraProp;
+	public final List getSuraList() {
+		return quranPropsReader.suraProp;
 	}
 
-	public final List getJozList() {
-		return quranPropsReader.jozProp;
+	public final List getJuzList() {
+		return quranPropsReader.juzProp;
 	}
 
 	public final List getSajdaList() {
@@ -49,19 +49,19 @@ public class QuranProperties implements IQuranProperties {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.zekr.common.util.IQuranProperties#getSoora(int)
+	 * @see net.sf.zekr.common.util.IQuranProperties#getSura(int)
 	 */
-	public SooraProperties getSoora(int sooraNum) {
-		return (SooraProperties) quranPropsReader.sooraProp.get(sooraNum - 1);
+	public SuraProperties getSura(int suraNum) {
+		return (SuraProperties) quranPropsReader.suraProp.get(suraNum - 1);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.sf.zekr.common.util.IQuranProperties#getJoz(int)
+	 * @see net.sf.zekr.common.util.IQuranProperties#getJuz(int)
 	 */
-	public JozProperties getJoz(int jozNum) {
-		return (JozProperties) quranPropsReader.jozProp.get(jozNum - 1);
+	public JuzProperties getJuz(int juzNum) {
+		return (JuzProperties) quranPropsReader.juzProp.get(juzNum - 1);
 	}
 
 	/*

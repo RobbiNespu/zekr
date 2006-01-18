@@ -27,7 +27,7 @@ import java.io.File;
 public class ApplicationPath {
 
 	// Directories
-	public static final String DIR_DELIM = File.separator;
+	public static final String DIR_DELIM = "/"; // Win32 will also work!
 	public static final String RESOURCE_DIR = "res" + DIR_DELIM;
 	public static final String IMAGE_DIR = RESOURCE_DIR + "image" + DIR_DELIM;
 	public static final String ICON_DIR = IMAGE_DIR + "icon" + DIR_DELIM;
@@ -59,7 +59,7 @@ public class ApplicationPath {
 //	 * because <code>Velocity.getTemplate()</code> works for directories added to
 //	 * <code>"file.resource.loader.path"</code> property.
 //	 */
-	public static final String SOORA_VIEW_TEMPLATE = TEMPLATE_DIR + "soora-view-template.vm";
+	public static final String SURA_VIEW_TEMPLATE = TEMPLATE_DIR + "sura-view-template.vm";
 	public static final String SEARCH_RESULT_TEMPLATE = TEMPLATE_DIR + "search-result-template.vm";
 
 	// Log4J Property Files

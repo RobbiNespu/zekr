@@ -47,18 +47,18 @@
 			<text id="WHOLE_QURAN" value="Whole Quran" />
 			<text id="MATCH_DIACRITIC" value="Match diacritic" />
 			<text id="NEXT_AYA" value="Next aya" />
-			<text id="NEXT_SOORA" value="Next soora" />
+			<text id="NEXT_SURA" value="Next sura" />
 			<text id="PREV_AYA" value="Previous aya" />
-			<text id="PREV_SOORA" value="Previous soora" />
+			<text id="PREV_SURA" value="Previous sura" />
 
 			<text id="EXIT"     value="Exit" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
-			<text id="SOORA"    value="Soora" />
+			<text id="SURA"    value="Sura" />
 			<text id="AYA"      value="Aya" />
 			<text id="SAJDA"    value="Sajda" />
-			<text id="JOZ"      value="Joz" />
+			<text id="JUZ"      value="Juz" />
 			<text id="MAKKI"    value="Makki" />
 			<text id="MADANI"   value="Madani" />
 			<text id="DESCENT"  value="Descent" />

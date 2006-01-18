@@ -9,13 +9,13 @@
 package net.sf.zekr.common.util;
 
 /**
- * This class is an hold attributes of a soora of the Holy Quran.
+ * This class is an hold attributes of a sura of the Holy Quran.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  * @version 0.1
  */
-public class SooraProperties {
+public class SuraProperties {
 	String name;
 	int ayaCount;
 	boolean madani;
@@ -37,7 +37,7 @@ public class SooraProperties {
 	}
 
 	/**
-	 * @return number of ayas in the soora
+	 * @return number of ayas in the sura
 	 */
 	public int getAyaCount() {
 		return ayaCount;
@@ -52,7 +52,7 @@ public class SooraProperties {
 	}
 
 	/**
-	 * @return <code>true</code> if <code>soora</code> is <i>madani </i> or
+	 * @return <code>true</code> if <code>sura</code> is <i>madani </i> or
 	 *         (otherwise) <code>false</code> if it is <i>makki </i>
 	 */
 	public boolean isMadani() {
@@ -68,7 +68,7 @@ public class SooraProperties {
 	}
 
 	/**
-	 * @return absolute soora number (counted from 1)
+	 * @return absolute sura number (counted from 1)
 	 */
 	public int getIndex() {
 		return index;

@@ -47,24 +47,24 @@
 			<text id="WHOLE_QURAN" value="Den ganzen Quran" />
 			<text id="MATCH_DIACRITIC" value="Diakritische Zeichen einbeziehen" />
 			<text id="NEXT_AYA" value="Nächste Aya" />
-			<text id="NEXT_SOORA" value="Nächste Sura" />
+			<text id="NEXT_SURA" value="Nächste Sura" />
 			<text id="PREV_AYA" value="Vorherige Aya" />
-			<text id="PREV_SOORA" value="Vorherige Sura" />
+			<text id="PREV_SURA" value="Vorherige Sura" />
 
 			<text id="EXIT"     value="Beenden" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
-			<text id="SOORA"    value="Sura" />
+			<text id="SURA"    value="Sura" />
 			<text id="AYA"      value="Aya" />
 			<text id="SAJDA"    value="Sajda" />
-			<text id="JOZ"      value="Juz" />
+			<text id="JUZ"      value="Juz" />
 			<text id="MAKKI"    value="Makki" />
 			<text id="MADANI"   value="Madani" />
 			<text id="DESCENT"  value="Geoffenbart" />
 			<text id="AYA_COUNT"  value="Ayaanzahl" />
-			<text id="MINOR_SAJDA" value="&quot;kleine&quot; Sajda" />
-			<text id="MAJOR_SAJDA" value="&quot;große&quot; Sajda" />
+			<text id="MINOR_SAJDA" value="Kleine sajda" />
+			<text id="MAJOR_SAJDA" value="Große sajda" />
 		</special>
 	</word>
 
@@ -72,7 +72,8 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Ergebnis der Suche nach: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="Es wurden {1} Übereinstimmungen in {2} Ayas gefunden." />
-			<text id="TOO_MANY_RESULT" value="Ergebnis der Suche hat mehr als {1} Ayas" />
+			<text id="TOO_MANY_RESULT" value="Ergebnis der Suche hat mehr als {1} Ayas." />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists."   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Sind Sie sicher?" />

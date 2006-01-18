@@ -6,20 +6,20 @@
 <config name="Quran Text Source Configuration" author="Mohsen Saboorian">
 	<text-file charset="cp1256" dir="rtl" lineBreak="unix" />
 	<text-notation>
-		<soora>
+		<sura>
 			<title exist="true" startString="~" endString="\n">
 				<sign leftString=")" rightString="(" value="{DIGIT}" />
 			</title>
 			<bismillah exist="true" startString="" endString="\n" />
-		</soora>
+		</sura>
 
 		<aya>
 			<sign leftString="}" rightString="{" value="{DIGIT}" />
 		</aya>
 
-		<joz>
+		<juz>
 			<sign leftString="]" rightString="[" value="{DIGIT}" />
-		</joz>
+		</juz>
 
 		<sajda>
 			<sign leftString="]" rightString="[" type="minor" value="." />

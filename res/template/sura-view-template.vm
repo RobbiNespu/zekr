@@ -9,7 +9,7 @@
 #set( $BISM_PATH = "res/image/bism290.gif" )
 
 #macro(putBismillah)
-	#if ($SOORA != 9) ##&& $SOORA != 1) #** not a good idea! *#
+	#if ($SURA_NUM != 9) ##&& $SURA != 1) #** not a good idea! *#
 	<img src="$BISM_PATH" alt="بسم الله الرحمن الرحیم">
 	#end
 #end

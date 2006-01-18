@@ -18,29 +18,29 @@ package net.sf.zekr.common.util;
  */
 public interface IQuranProperties {
 
-	// public String getSooraName(int sooraNum);
+	// public String getSuraName(int suraNum);
 
-	// public String getAyaCount(int sooraNum);
+	// public String getAyaCount(int suraNum);
 
-	// public String[] getSooraNames();
+	// public String[] getSuraNames();
 
 	// public String[] getAyaCounts();
 
-	// public String[] getSooraAyasItem(int sooraNum);
+	// public String[] getSuraAyasItem(int suraNum);
 
 	/**
-	 * @param sooraNum
-	 *            soora number (counted from 1)
-	 * @return <code>SooraProperties</code> of the given soora number
+	 * @param suraNum
+	 *            sura number (counted from 1)
+	 * @return <code>SuraProperties</code> of the given sura number
 	 */
-	public SooraProperties getSoora(int sooraNum);
+	public SuraProperties getSura(int suraNum);
 
 	/**
-	 * @param jozNum
-	 *            joz number (counted from 1)
-	 * @return <code>JozProperties</code> of the given joz number
+	 * @param juzNum
+	 *            juz number (counted from 1)
+	 * @return <code>JuzProperties</code> of the given juz number
 	 */
-	public JozProperties getJoz(int jozNum);
+	public JuzProperties getJuz(int juzNum);
 
 	/**
 	 * @param sajdaNum

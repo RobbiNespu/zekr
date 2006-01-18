@@ -42,12 +42,12 @@ public class SearchUtils {
 	final public static char FARSI_KEHEH = 0x6a9;
 
 	/**
-	 * @param sooraNum 1-based sora number
+	 * @param suraNum 1-based sora number
 	 * @param ayaNum 1-based aya number
-	 * @return <code>sooraNum + "-" + ayaNum</code>
+	 * @return <code>suraNum + "-" + ayaNum</code>
 	 */
-	public static QuranLocation getKey(int sooraNum, int ayaNum) {
-		return new QuranLocation(sooraNum, ayaNum);
+	public static QuranLocation getKey(int suraNum, int ayaNum) {
+		return new QuranLocation(suraNum, ayaNum);
 	}
 
 

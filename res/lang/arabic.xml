@@ -47,17 +47,17 @@
 			<text id="WHOLE_QURAN" value="كل القرآن" />
 			<text id="MATCH_DIACRITIC" value="استعمال الحركات" />
 			<text id="NEXT_AYA" value="الآية اللاحقة" />
-			<text id="NEXT_SOORA" value="السورة اللاحقة" />
+			<text id="NEXT_SURA" value="السورة اللاحقة" />
 			<text id="PREV_AYA" value="الآية السابقة" />
-			<text id="PREV_SOORA" value="السورة السابقة" />
+			<text id="PREV_SURA" value="السورة السابقة" />
 			<text id="EXIT" value="خروج" />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
-			<text id="SOORA" value="سورة" />
+			<text id="SURA" value="سورة" />
 			<text id="AYA" value="آية" />
 			<text id="SAJDA" value="سجدة" />
-			<text id="JOZ" value="جزء" />
+			<text id="JUZ" value="جزء" />
 			<text id="MAKKI" value="مكي" />
 			<text id="MADANI" value="مدني" />
 			<text id="DESCENT" value="نزول" />
@@ -71,6 +71,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="نتيجة البحث ل: «{1}»" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} وجدت نتائج في {2} آية" />
 			<text id="TOO_MANY_RESULT" value="حصلت نتائج في أكثر من {1} آية" />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists."   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="هل أنت متأكد؟" />

@@ -108,12 +108,12 @@ public class QuranFormMenuFactory {
 		Menu viewMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		view.setMenu(viewMenu);
 
-		MenuItem sooraReloadItem = new MenuItem(viewMenu, SWT.PUSH);
-		sooraReloadItem.setText("&" + dict.getMeaning("RELOAD") + "\tCtrl + R");
-		sooraReloadItem.setAccelerator(SWT.CTRL + 'R');
-		sooraReloadItem.setImage(new Image(shell.getDisplay(), resource
+		MenuItem suraReloadItem = new MenuItem(viewMenu, SWT.PUSH);
+		suraReloadItem.setText("&" + dict.getMeaning("RELOAD") + "\tCtrl + R");
+		suraReloadItem.setAccelerator(SWT.CTRL + 'R');
+		suraReloadItem.setImage(new Image(shell.getDisplay(), resource
 				.getString("icon.menu.reload")));
-		sooraReloadItem.addListener(SWT.Selection, new Listener() {
+		suraReloadItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				reload();
 			}

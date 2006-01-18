@@ -32,7 +32,8 @@
 				<span class="highlight">${AYA_SEGMENT}</span>
     		#end
     	#end
-			<span style="color: rgb(20, 20, 150)" title="${AYA.Key}">$RPAREN${AYA.Key.SooraName}: ${AYA.Key.Aya}$LPAREN</span>
+			<a class="ayaSign" onclick="gotoView('${AYA.Key}')" href="javascript:void(0)"
+				title="${AYA.Key}">$RPAREN${AYA.Key.SuraName}: ${AYA.Key.Aya}$LPAREN</a>
 		</div>
     #end
 </div>

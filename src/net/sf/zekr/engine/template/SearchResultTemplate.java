@@ -85,7 +85,7 @@ public class SearchResultTemplate {
 			QuranLocation loc = (QuranLocation) iter.next();
 			List list = (List) result.get(loc);
 			l = new ArrayList();
-			String aya = quran.get(loc.getSoora(), loc.getAya());
+			String aya = quran.get(loc.getSura(), loc.getAya());
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				Range range = (Range) iterator.next();
 				if (range.from < post)

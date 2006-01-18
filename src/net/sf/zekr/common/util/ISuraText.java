@@ -9,17 +9,17 @@
 package net.sf.zekr.common.util;
 
 /**
- * This is the standard interface for a soora text. Sooras in any language (translation)
+ * This is the standard interface for a sura text. Suras in any language (translation)
  * may extend or implement this class.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  * @version 0.1
  */
-public interface ISooraText {
+public interface ISuraText {
 	/**
 	 * @param ayaNum
-	 * @return aya #<code>ayaNum</code> in the soora
+	 * @return aya #<code>ayaNum</code> in the sura
 	 */
 	public String getAya(int ayaNum);
 }

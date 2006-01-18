@@ -4,14 +4,14 @@ Zekr Notes. Rev. 0.1
 Quran Text File Spec.
 	All the XML file specifications are applicable to the text file, and 
 	should be changed from a file to file.
-	Each Quran Text File should have 3 lines for every sooras, so the file
+	Each Quran Text File should have 3 lines for every suras, so the file
 	MUST have exactly 114*3=342 lines plus an optional line break at the
 	end of the 342th line.
-	The first line of a soora is its title, consisting of the name, number
+	The first line of a sura is its title, consisting of the name, number
 	and some optional informations. The second line always should hava a
-	Bismillah..., and the third line is the whole soora.
+	Bismillah..., and the third line is the whole sura.
 	
-	Joz sign must be located at the start of a Joz of the Quran.
+	Juz sign must be located at the start of a juz of the Quran.
 
 XML files:
 	Zekr should have a class named as *Naming.java (e.g. LanguageNaming.java)
@@ -21,7 +21,7 @@ XML files:
 	
 Arrays!
    Each array in the source code is counted from 0. So all array reletad
-   entities - such as ayas, or sooras - are stored in an array from index 0.
+   entities - such as ayas, or suras - are stored in an array from index 0.
    There only a small transformation will be done in the view layer
    (input or output).
 /*

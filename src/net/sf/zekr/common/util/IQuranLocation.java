@@ -12,7 +12,7 @@ package net.sf.zekr.common.util;
 public interface IQuranLocation {
 	public int getAya();
 	public void setAya(int aya);
-	public int getSoora();
-	public void setSoora(int soora);
-	public String getSooraName();
+	public int getSura();
+	public void setSura(int sura);
+	public String getSuraName();
 }

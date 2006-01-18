@@ -60,10 +60,10 @@ public class TemplateUtilities {
 
 		context = new VelocityContext();
 		context.put("ayaList", ayaList);
-		context.put("soora", new Integer(99));
+		context.put("sura", new Integer(99));
 
 		try {
-			template = Velocity.getTemplate(ApplicationPath.SOORA_VIEW_TEMPLATE);
+			template = Velocity.getTemplate(ApplicationPath.SURA_VIEW_TEMPLATE);
 			StringWriter sw = new StringWriter();
 //			template.setEncoding("UTF-8");
 			template.merge(context, sw);

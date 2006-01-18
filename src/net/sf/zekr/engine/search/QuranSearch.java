@@ -79,7 +79,7 @@ public class QuranSearch {
 		int ayaNum;
 		List l;
 		for (int i = 1; i <= 114; i++) {
-			ayaNum = quran.getSoora(i).length;
+			ayaNum = quran.getSura(i).length;
 			for (int j = 1; j <= ayaNum; j++) {
 				aya = quran.get(i, j);
 				if ((l = find(aya, keyword)) != null) {

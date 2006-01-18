@@ -42,8 +42,8 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 		return thisInstance;
 	}
 
-	public String getSooraStartSign() {
-		return XmlUtils.getAttr(reader.getNode(SOORA_TITLE), START_STRING_ATTR);
+	public String getSuraStartSign() {
+		return XmlUtils.getAttr(reader.getNode(SURA_TITLE), START_STRING_ATTR);
 	}
 
 	public boolean hasBismillah() {
@@ -61,8 +61,8 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 		return rightAya + pattern + leftAya;
 	}
 
-	public String getSooraNumberLeftString() {
-		return reader.getElement(SOORA_SIGN).getAttribute(LEFT_STRING_ATTR);
+	public String getSuraNumberLeftString() {
+		return reader.getElement(SURA_SIGN).getAttribute(LEFT_STRING_ATTR);
 	}
 
 	/**
@@ -103,24 +103,24 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 		return getSajdaSign(true);
 	}
 
-	public String getJozRightString() {
-		return reader.getElement(JOZ_SIGN).getAttribute(RIGHT_STRING_ATTR);
+	public String getJuzRightString() {
+		return reader.getElement(JUZ_SIGN).getAttribute(RIGHT_STRING_ATTR);
 	}
 
-	public String getJozLeftString() {
-		return reader.getElement(JOZ_SIGN).getAttribute(LEFT_STRING_ATTR);
+	public String getJuzLeftString() {
+		return reader.getElement(JUZ_SIGN).getAttribute(LEFT_STRING_ATTR);
 	}
 
-	public String getJozValue() {
-		return reader.getElement(JOZ_SIGN).getAttribute(VALUE_ATTR);
+	public String getJuzValue() {
+		return reader.getElement(JUZ_SIGN).getAttribute(VALUE_ATTR);
 	}
 
 	/**
-	 * @return the regular expression corresponding to the Quran joz sign
+	 * @return the regular expression corresponding to the Quran juz sign
 	 */
-	public String getJozRegex() {
-		String value = getJozValue().equalsIgnoreCase(DIGIT_VALUE) ? "\\d+" : getJozValue();
-		return "\\" + getJozRightString() + value + "\\" + getJozLeftString();
+	public String getJuzRegex() {
+		String value = getJuzValue().equalsIgnoreCase(DIGIT_VALUE) ? "\\d+" : getJuzValue();
+		return "\\" + getJuzRightString() + value + "\\" + getJuzLeftString();
 	}
 
 	/**

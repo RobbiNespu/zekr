@@ -6,11 +6,13 @@
  * version 1
  */
 
+// initializations...
+// window.status = '';
+
 function focusOnAya(ayaId) {
 	var aya = document.getElementById(ayaId);
 	highlightAya(ayaId)
 	window.scrollTo(getX(aya), getY(aya) - 100);
-
 }
 
 function highlightAya(id) {
@@ -34,6 +36,7 @@ function getX(elem)
 		curleft += elem.x;
 	return curleft;
 }
+
 function getY(elem)
 {
 	var curtop = 0;
@@ -47,4 +50,13 @@ function getY(elem)
 	else if (elem.y)
 		curtop += elem.y;
 	return curtop;
+}
+
+// Browser->SWT communication
+function gotoView(location) {
+	setMessage('ZEKR::GOTO ' + location + ';');
+}
+
+function setMessage(msg) {
+	window.status = msg;
 }

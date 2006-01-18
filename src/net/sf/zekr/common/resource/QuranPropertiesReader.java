@@ -13,17 +13,17 @@ import java.util.ArrayList;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ZekrConfigNaming;
-import net.sf.zekr.common.util.JozProperties;
+import net.sf.zekr.common.util.JuzProperties;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.common.util.SajdaProperties;
-import net.sf.zekr.common.util.SooraProperties;
+import net.sf.zekr.common.util.SuraProperties;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.NodeList;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 
 /**
- * A class used to read properties of the Quran sooras from respective XML file. All
+ * A class used to read properties of the Quran suras from respective XML file. All
  * operations on this class are acted as zero-relative. This class is for internal use
  * only.
  * 
@@ -33,11 +33,11 @@ import net.sf.zekr.engine.xml.XmlUtils;
  */
 class QuranPropertiesReader {
 	private XmlReader reader;
-	private NodeList sooraNodeList, jozNodeList, sajdaNodeList;
+	private NodeList sÚraNodeList, juzNodeList, sajdaNodeList;
 	private ApplicationConfig appConfig = ApplicationConfig.getInsatnce();
 
-	ArrayList sooraProp = new ArrayList();
-	ArrayList jozProp = new ArrayList();
+	ArrayList suraProp = new ArrayList();
+	ArrayList juzProp = new ArrayList();
 	ArrayList sajdaProp = new ArrayList();
 
 	private Logger logger = Logger.getLogger(this.getClass());
@@ -46,40 +46,40 @@ class QuranPropertiesReader {
 		logger.info("Loading Quran properties from \""
 				+ appConfig.getConfigFile(ZekrConfigNaming.QURAN_DETAIL_ID) + "\".");
 		reader = new XmlReader(appConfig.getConfigFile(ZekrConfigNaming.QURAN_DETAIL_ID));
-		sooraNodeList = reader.getNodes(QuranPropertiesNaming.SOORA_TAG);
-		jozNodeList = reader.getNodes(QuranPropertiesNaming.JOZ_TAG);
+		sÚraNodeList = reader.getNodes(QuranPropertiesNaming.SURA_TAG);
+		juzNodeList = reader.getNodes(QuranPropertiesNaming.JUZ_TAG);
 		sajdaNodeList = reader.getNodes(QuranPropertiesNaming.SAJDA_TAG);
 
 		int i;
-		SooraProperties soora = new SooraProperties();
-		JozProperties joz = new JozProperties();
+		SuraProperties sura = new SuraProperties();
+		JuzProperties juz = new JuzProperties();
 		SajdaProperties sajda = new SajdaProperties();
 
-		for (i = 0; i < sooraNodeList.size(); i++) {
-			soora = new SooraProperties();
+		for (i = 0; i < sÚraNodeList.size(); i++) {
+			sura = new SuraProperties();
 
-			soora.setAyaCount(Integer.parseInt(XmlUtils.getAttr(sooraNodeList.item(i),
+			sura.setAyaCount(Integer.parseInt(XmlUtils.getAttr(sÚraNodeList.item(i),
 					QuranPropertiesNaming.AYA_COUNT_ATTR)));
-			soora.setMadani(QuranPropertiesUtils.isMadani(XmlUtils.getAttr(sooraNodeList.item(i),
+			sura.setMadani(QuranPropertiesUtils.isMadani(XmlUtils.getAttr(sÚraNodeList.item(i),
 					QuranPropertiesNaming.DESCENT_ATTR)));
-			soora.setName(XmlUtils.getAttr(sooraNodeList.item(i), QuranPropertiesNaming.NAME_ATTR));
-			soora.setIndex(Integer.parseInt(XmlUtils.getAttr(sooraNodeList.item(i),
+			sura.setName(XmlUtils.getAttr(sÚraNodeList.item(i), QuranPropertiesNaming.NAME_ATTR));
+			sura.setIndex(Integer.parseInt(XmlUtils.getAttr(sÚraNodeList.item(i),
 					QuranPropertiesNaming.INDEX_ATTR)));
 
-			sooraProp.add(soora);
+			suraProp.add(sura);
 		}
 
-		for (i = 0; i < jozNodeList.size(); i++) {
-			joz = new JozProperties();
+		for (i = 0; i < juzNodeList.size(); i++) {
+			juz = new JuzProperties();
 
-			joz.setIndex(Integer.parseInt(XmlUtils.getAttr(jozNodeList.item(i),
+			juz.setIndex(Integer.parseInt(XmlUtils.getAttr(juzNodeList.item(i),
 					QuranPropertiesNaming.INDEX_ATTR)));
-			joz.setSooraNumber(Integer.parseInt(XmlUtils.getAttr(jozNodeList.item(i),
-					QuranPropertiesNaming.SOORA_NUM_ATTR)));
-			joz.setAyaNumber(Integer.parseInt(XmlUtils.getAttr(jozNodeList.item(i),
+			juz.setSuraNumber(Integer.parseInt(XmlUtils.getAttr(juzNodeList.item(i),
+					QuranPropertiesNaming.SURA_NUM_ATTR)));
+			juz.setAyaNumber(Integer.parseInt(XmlUtils.getAttr(juzNodeList.item(i),
 					QuranPropertiesNaming.AYA_NUM_ATTR)));
 
-			jozProp.add(joz);
+			juzProp.add(juz);
 		}
 
 		for (i = 0; i < sajdaNodeList.size(); i++) {
@@ -91,8 +91,8 @@ class QuranPropertiesReader {
 					QuranPropertiesNaming.TYPE_ATTR)));
 			sajda.setAyaNumber(Integer.parseInt(XmlUtils.getAttr(sajdaNodeList.item(i),
 					QuranPropertiesNaming.AYA_NUM_ATTR)));
-			sajda.setSooraNumber(Integer.parseInt(XmlUtils.getAttr(sajdaNodeList.item(i),
-					QuranPropertiesNaming.SOORA_NUM_ATTR)));
+			sajda.setSuraNumber(Integer.parseInt(XmlUtils.getAttr(sajdaNodeList.item(i),
+					QuranPropertiesNaming.SURA_NUM_ATTR)));
 
 			sajdaProp.add(sajda);
 		}
