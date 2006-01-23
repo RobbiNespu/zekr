@@ -8,7 +8,7 @@ SetCompressor /SOLID lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_UNIX_NAME "zekr"
 !define VERSION 0.2.0.0
-!define RELEASE_VERSION "0.2.0b2"
+!define RELEASE_VERSION "0.2.0"
 !define COMPANY siahe.com
 !define URL http://siahe.com/zekr
 
@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.2.0\b2"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.2.0\release1"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -130,6 +130,11 @@ Section -post SEC0001
         CreateShortCut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
         CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Browse site.lnk" $INSTDIR\doc\site\index.html
     !insertmacro MUI_STARTMENU_WRITE_END
+
+    ; remove previous zekr cache home
+    IfFileExists "$DOCUMENTS\..\.zekr" 0 +2
+    DetailPrint "Removing old Zekr home directory"
+    RMDir /r "$DOCUMENTS\..\.zekr"
 
     ; javaw.exe.manifest file copy
     SetOverwrite try

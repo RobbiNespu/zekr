@@ -91,6 +91,8 @@ function indexOfIgnoreDiacritic(src, key) {
 			k++;
 		} else {
 			if (!isDiac(src.charAt(s))) {
+				if (k != 0)
+					s--;
 				k = 0;
 				start = -1;
 			}

@@ -12,6 +12,7 @@ package net.sf.zekr.engine.xml;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -110,6 +111,4 @@ public class XmlWriter {
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.transform(input, output);
 	}
-
-	
 }

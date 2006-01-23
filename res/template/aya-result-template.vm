@@ -32,7 +32,8 @@
 				<span class="highlight">${AYA_SEGMENT}</span>
     		#end
     	#end
-			<a class="ayaSign" onclick="gotoView('${AYA.Key}')" href="javascript:void(0)"
+			<a class="ayaSign" onclick="gotoView('${AYA.Key}')"
+				href="javascript:void(0)"
 				title="${AYA.Key}">$RPAREN${AYA.Key.SuraName}: ${AYA.Key.Aya}$LPAREN</a>
 		</div>
     #end

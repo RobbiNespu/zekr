@@ -131,6 +131,8 @@ public class SearchUtils {
 				k++;
 			} else {
 				if (!isDiac(source[s])) {
+					if (k != 0)
+						s--;
 					k = 0;
 					start = -1;
 				}

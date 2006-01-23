@@ -9,16 +9,29 @@
 // initializations...
 // window.status = '';
 
+var oldAyaId = null;
+
 function focusOnAya(ayaId) {
 	var aya = document.getElementById(ayaId);
+	if (!aya) return;
+	if (oldAyaId != null)
+		unHighlightAya(oldAyaId);
 	highlightAya(ayaId)
 	window.scrollTo(getX(aya), getY(aya) - 100);
+	oldAyaId = ayaId;
 }
 
 function highlightAya(id) {
 	if (elem = document.getElementById('sign_' + id)) {
 		elem.className = 'selectedAyaSign';
 		document.getElementById(id).className = 'selectedAya';
+	}
+}
+
+function unHighlightAya(id) {
+	if (elem = document.getElementById('sign_' + id)) {
+		elem.className = 'sign';
+		document.getElementById(id).className = 'aya';
 	}
 }
 

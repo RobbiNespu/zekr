@@ -293,6 +293,7 @@ public class QuranFormMenuFactory {
 		} catch (IOException e) {
 			Logger.getLogger(this.getClass()).log(e);
 		}
+		form.suraChanged = true;
 		form.apply();
 	}
 

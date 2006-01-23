@@ -24,6 +24,9 @@ public class JuzProperties {
 	/** juz start aya number */
 	private int ayaNumber;
 
+	/** an 8-item array for addressing locations of each hizb quads in a juz */
+	private QuranLocation[] hizbQuads = new QuranLocation[8];
+
 	/**
 	 * @return Returns the ayaNumber.
 	 */
@@ -69,6 +72,14 @@ public class JuzProperties {
 		this.suraNumber = suraNumber;
 	}
 
+	/**
+	 * @param hizb can be either 1 or 2
+	 * @param quad can be either 1, 2, 3, or 4
+	 */
+	public void setHizbQuad(int hizb, int quad, QuranLocation loc) {
+		hizbQuads[(hizb - 1) * 4 + quad] = loc;
+	}
+	
 	public String toString() {
 		return LanguageEngine.getInstance().getMeaning("JUZ") + ": " + getIndex();
 	}

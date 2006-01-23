@@ -88,11 +88,11 @@ public class QuranPropertiesUtils {
 
 	/**
 	 * If there is any juz start within the sura, it will be returned. <br>
-	 * This method is the same as <code>getJuzInside</code>, but with a different
+	 * This method is the same as <code>getJuzInside()</code>, but with a different
 	 * return type.
 	 * 
 	 * @param suraNum sura number (counted from 1)
-	 * @return a <code>List</code> of JuzProperties
+	 * @return a <code>List</code> of <code>JuzProperties</code>
 	 */
 	public static List getJuzInsideList(int suraNum) {
 		if (juzInside[0] == null) { // not loaded yet
@@ -120,22 +120,7 @@ public class QuranPropertiesUtils {
 	 * @return <code>int</code> array of juz numbers
 	 */
 	public static int[] getJuzInside(int suraNum) {
-		if (juzInside[0] == null) { // not loaded yet
-			QuranProperties props = QuranProperties.getInstance();
-			for (Iterator iter = props.getSuraList().iterator(); iter.hasNext();) {
-				SuraProperties sura = (SuraProperties) iter.next();
-				List juzList = new ArrayList();
-				List list = props.getJuzList();
-
-				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-					JuzProperties juz = (JuzProperties) iterator.next();
-					if (juz.getSuraNumber() == sura.getIndex())
-						juzList.add(juz);
-				}
-				juzInside[sura.getIndex() - 1] = juzList;
-			}
-		}
-		return getJuz(juzInside[suraNum - 1]);
+		return getJuz(getJuzInsideList(suraNum));
 	}
 
 	private static int[] getJuz(List list) {

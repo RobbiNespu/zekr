@@ -9,7 +9,10 @@
 
 package net.sf.zekr.common.resource;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 import java.util.StringTokenizer;
@@ -24,7 +27,7 @@ import net.sf.zekr.engine.log.Logger;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
+ * @version 0.2
  */
 public class QuranText implements IQuranText {
 	private static QuranText thisInstance = null;
@@ -44,11 +47,12 @@ public class QuranText implements IQuranText {
 	 * 
 	 * @throws IOException
 	 */
-	private QuranText() throws IOException { // TODO: use java.io.*Reader for reading with encoding
-		RandomAccessFile file = new RandomAccessFile(appConfig.getQuranText(), "r");
-		byte[] b = new byte[(int) file.length()];
-		file.read(b);
-		rawText = new String(b);
+	private QuranText() throws IOException {
+		File file = new File(appConfig.getQuranText());
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(file), textProps.getCharset());
+		char[] buf = new char[(int) file.length()];
+		isr.read(buf); // read the Quran text fully
+		rawText = new String(buf);
 		refineRawText();
 	}
 
@@ -84,19 +88,12 @@ public class QuranText implements IQuranText {
 	}
 
 	private String[] getAyas(String suraText, int ayaCount) {
-		// QuranProperties quranProp = QuranProperties.getInstance();
-		// int ayaCount =
-		// Integer.parseInt(quranProp.getSura(suraNum).getAyaCount(suraNum));
 		String[] ayas = new String[ayaCount];
 		StringTokenizer ayaTokenizer = new StringTokenizer(suraText, textProps.getAyaSignLeftString()
 				+ textProps.getAyaSignRightString());
 		int i;
 		for (i = 0; ayaTokenizer.hasMoreTokens() && i < ayaCount; i++) {
-			try {
-				ayas[i] = new String(ayaTokenizer.nextToken().trim().getBytes(), textProps.getCharset());
-			} catch (UnsupportedEncodingException e) {
-				Logger.getLogger(this.getClass()).log(e);
-			}
+			ayas[i] = new String(ayaTokenizer.nextToken().trim());
 			ayaTokenizer.nextToken();
 		}
 		return ayas;

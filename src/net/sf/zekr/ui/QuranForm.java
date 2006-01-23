@@ -64,7 +64,7 @@ public class QuranForm extends BaseForm {
 	private Combo ayaSelector;
 	private Label suraLabel;
 	private Label ayaLabel;
-	private Text searchText;
+	private Combo searchText;
 	private Button applyButton;
 	private Button searchButton;
 	private Button sync;
@@ -86,10 +86,10 @@ public class QuranForm extends BaseForm {
 	private PropertyGenerator widgetProp;
 
 	/** Specifies whether aya selector changed since a sura was selected. */
-	private boolean ayaChanged;
+	protected boolean ayaChanged;
 
 	/** Specifies whether sura selector changed for making a new sura view. */
-	private boolean suraChanged;
+	protected boolean suraChanged;
 
 	/** The current URL loaded in the browser */
 	private String url;
@@ -330,13 +330,21 @@ public class QuranForm extends BaseForm {
 		searchGroup.setLayout(gridLayout);
 		gridData = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
 		searchGroup.setLayoutData(gridData);
-		searchText = new Text(searchGroup, SWT.BORDER | SWT.RIGHT_TO_LEFT);
+//		searchText = new Text(searchGroup, SWT.BORDER | SWT.RIGHT_TO_LEFT);
+//		searchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+//		searchText.addSelectionListener(new SelectionAdapter() {
+//			public void widgetDefaultSelected(SelectionEvent e) {
+//				find();
+//			}
+//		});
+		searchText = new Combo(searchGroup, SWT.DROP_DOWN | SWT.RIGHT_TO_LEFT);
 		searchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		searchText.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				find();
 			}
 		});
+		
 
 		searchButton = new Button(searchGroup, SWT.PUSH);
 		searchButton.setText(langEngine.getMeaning("SEARCH"));
@@ -387,7 +395,6 @@ public class QuranForm extends BaseForm {
 		apply();
 	}
 
-
 	private ProgressAdapter pl;
 	private void updateView() {
 		final int aya = ayaSelector.getSelectionIndex() + 1;
@@ -404,16 +411,16 @@ public class QuranForm extends BaseForm {
 				quranBrowser.removeProgressListener(pl);
 			}
 		};
-//		if (suraChanged) {
+		if (suraChanged) {
 			quranBrowser.addProgressListener(pl);
 			quranBrowser.setUrl(url = QuranHTMLRepository.getUrl(sura, 0));
-//		} else {
+		} else {
 //			System.out.println("ayaChanged: " + ayaChanged);
 //			quranBrowser.addProgressListener(pl);
 //			quranBrowser.execute("window.location.reload(false);");
 //			quranBrowser.execute("window.location.href = window.location.href;");
-//			System.out.println("here: " + quranBrowser.execute("focusOnAya('" + sura + "_" + aya + "');"));
-//		}
+			quranBrowser.execute("focusOnAya('" + sura + "_" + aya + "');");
+		}
 //		quranBrowser.setUrl(QuranHTMLRepository.getUrl(sura, ayaChanged ? aya - 1 : 0));
 	}
 
@@ -426,8 +433,14 @@ public class QuranForm extends BaseForm {
 
 	void find() {
 		String str = searchText.getText();
+		if (searchText.getItemCount() <= 0 || !str.equals(searchText.getItem(0))) 
+			searchText.add(str, 0);
+		if (searchText.getItemCount() > 40)
+			searchText.remove(40, searchText.getItemCount() - 1);
 		if (!"".equals(str.trim()) && str.indexOf('$') == -1 && str.indexOf('\\') == -1) {
 			if (whole.getSelection()) {
+				ayaChanged = true;
+				suraChanged = true;
 				logger.info("Will search the whole Quran for \"" + str + "\" with dicritic match set to " + match.getSelection() + ".");
 				quranBrowser.setUrl(url = QuranHTMLRepository.getSearchUrl(str, match.getSelection()));
 				logger.info("End of search.");
@@ -437,6 +450,10 @@ public class QuranForm extends BaseForm {
 				logger.info("End of search.");
 			}
 		}
+	}
+	
+	void reloadView() {
+		
 	}
 
 	void recreate() {

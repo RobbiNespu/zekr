@@ -14,6 +14,7 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.runtime.RuntimeUtilities;
+import net.sf.zekr.common.util.I18n;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 
@@ -41,8 +42,7 @@ public class QuranViewTemplate implements QuranViewTemplateNaming {
 			engine.put("JUZ_LIST", QuranPropertiesUtils.getJuzInsideList(sura));
 			engine.put("SAJDA_LIST", QuranPropertiesUtils.getSajdaInsideList(sura));
 			engine.put("APP_PATH", RuntimeUtilities.RUNTIME_DIR.replaceAll("\\\\", "/"));
-			engine.put("SURA_NUM", new Integer(sura)); // Note: suraNum is counted
-			// from 1
+			engine.put("SURA_NUM", new Integer(sura)); // Note: suraNum is counted from 1
 			engine.put("SURA_NAME", QuranProperties.getInstance().getSura(sura).getName());
 			engine.put("TITLE", "");
 			engine.put("LAYOUT", config.getQuranTextLayout());

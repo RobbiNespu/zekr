@@ -31,9 +31,9 @@ import net.sf.zekr.engine.xml.XmlUtils;
  * @since Zekr 1.0
  * @version 0.1
  */
-class QuranPropertiesReader {
+class QuranPropertiesReader extends QuranBaseProperties {
 	private XmlReader reader;
-	private NodeList sÚraNodeList, juzNodeList, sajdaNodeList;
+	private NodeList suraNodeList, juzNodeList, sajdaNodeList;
 	private ApplicationConfig appConfig = ApplicationConfig.getInsatnce();
 
 	ArrayList suraProp = new ArrayList();
@@ -46,7 +46,7 @@ class QuranPropertiesReader {
 		logger.info("Loading Quran properties from \""
 				+ appConfig.getConfigFile(ZekrConfigNaming.QURAN_DETAIL_ID) + "\".");
 		reader = new XmlReader(appConfig.getConfigFile(ZekrConfigNaming.QURAN_DETAIL_ID));
-		sÚraNodeList = reader.getNodes(QuranPropertiesNaming.SURA_TAG);
+		suraNodeList = reader.getNodes(QuranPropertiesNaming.SURA_TAG);
 		juzNodeList = reader.getNodes(QuranPropertiesNaming.JUZ_TAG);
 		sajdaNodeList = reader.getNodes(QuranPropertiesNaming.SAJDA_TAG);
 
@@ -55,15 +55,15 @@ class QuranPropertiesReader {
 		JuzProperties juz = new JuzProperties();
 		SajdaProperties sajda = new SajdaProperties();
 
-		for (i = 0; i < sÚraNodeList.size(); i++) {
+		for (i = 0; i < suraNodeList.size(); i++) {
 			sura = new SuraProperties();
 
-			sura.setAyaCount(Integer.parseInt(XmlUtils.getAttr(sÚraNodeList.item(i),
+			sura.setAyaCount(Integer.parseInt(XmlUtils.getAttr(suraNodeList.item(i),
 					QuranPropertiesNaming.AYA_COUNT_ATTR)));
-			sura.setMadani(QuranPropertiesUtils.isMadani(XmlUtils.getAttr(sÚraNodeList.item(i),
+			sura.setMadani(QuranPropertiesUtils.isMadani(XmlUtils.getAttr(suraNodeList.item(i),
 					QuranPropertiesNaming.DESCENT_ATTR)));
-			sura.setName(XmlUtils.getAttr(sÚraNodeList.item(i), QuranPropertiesNaming.NAME_ATTR));
-			sura.setIndex(Integer.parseInt(XmlUtils.getAttr(sÚraNodeList.item(i),
+			sura.setName(XmlUtils.getAttr(suraNodeList.item(i), QuranPropertiesNaming.NAME_ATTR));
+			sura.setIndex(Integer.parseInt(XmlUtils.getAttr(suraNodeList.item(i),
 					QuranPropertiesNaming.INDEX_ATTR)));
 
 			suraProp.add(sura);

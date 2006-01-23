@@ -11,7 +11,7 @@ html,body {
 }
 
 body {
-	font: 13px "Traditional Arabic", Tahoma, Verdana, Helvetica, Arial, Sans-serif;
+	font: 13px "Traditional Arabic", Tahoma, Verdana, Nazli, Koodak, Helvetica, Arial, Sans-serif;
 	/*buttonface*/ /*rgb(210, 235, 255)*/
 	background: buttonface url('../../image/zekr-bg.png') no-repeat fixed
 		center;
@@ -41,8 +41,8 @@ td.barBottom {
 }
 
 td.quran {
-	font: 21px "Traditional Arabic", Badr, Nazanin, Tahoma, Verdana,
-		Helvetica, Arial, Sans-serif;
+	font: 22px "Traditional Arabic", Badr, Nazanin, Tahoma, Nazli, Koodak
+		Verdana, Helvetica, Arial, Sans-serif;
 	vertical-align: top;
 	border-left: 1px solid rgb(190, 220, 255);
 	border-right: 1px solid rgb(190, 220, 255);
@@ -56,6 +56,7 @@ td.quran {
 div.selectedAya {
 	border-bottom: 1px dashed rgb(100, 200, 250);
 	border-right: 4px solid rgb(150, 150, 150);
+	border-left: 4px solid rgb(150, 150, 150);
 	padding-right: 10px;
 	padding-left: 10px;
 	margin: 3px 0px 3px 0;
@@ -101,18 +102,18 @@ td.searchResult {
 	vertical-align: top;
 }
 div.searchResult {
-	font: 21px "Traditional Arabic", Badr, Nazanin, Tahoma, Verdana,
-		Helvetica, Arial, Sans-serif;
+	font: 22px "Traditional Arabic", Badr, Nazanin, Tahoma, Nazli, Koodak
+		Verdana, Helvetica, Arial, Sans-serif;
 	border: 5px solid rgb(200, 210, 240);
 }
 
 .searchResult div.odd {
-	margin-top: 1px;
+	margin: 2px 0px 0px 0px;
 }
 
 .searchResult div.even {
 	background-color: rgb(200, 210, 240);
-	margin-top: 1px;
+	margin: 2px 0px 0px 0px;
 }
 
 .searchResult span.highlight {

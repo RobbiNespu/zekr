@@ -23,6 +23,15 @@ div.header {
 
 /******************/
 
+table.tab {
+	border: 2px solid black;
+	border-collapse: collapse;
+}
+
+table.tab td {
+	border: 1px solid black;
+}
+
 fieldset { /* IE is nicer this way! */
 	text-align: justify;
 	-moz-border-radius: 5px;

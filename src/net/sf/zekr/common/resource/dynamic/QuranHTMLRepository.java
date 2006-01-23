@@ -9,10 +9,14 @@
 
 package net.sf.zekr.common.resource.dynamic;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.template.QuranViewTemplate;
@@ -21,7 +25,7 @@ import net.sf.zekr.engine.template.SearchResultTemplate;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
+ * @version 0.2
  */
 public class QuranHTMLRepository {
 
@@ -50,17 +54,14 @@ public class QuranHTMLRepository {
 	public static String getUrl(int sura, int aya, boolean update) {
 		File file = new File(Naming.HTML_QURAN_CACHE_DIR + File.separator + sura + ".html");
 		try {
-			RandomAccessFile raf;
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
 			if (!file.exists() || file.length() == 0 || update) {
-				raf = new RandomAccessFile(file, "rw");
-				// Charset
+				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
+						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
 				QuranViewTemplate qvt = new QuranViewTemplate();
-//				raf.write(qvt.transform(sura).getBytes("cp1256"));
-				String s = qvt.transform(sura);
-				raf.write(s.getBytes("UTF-8")); // TODO: replace with an application config property
-				raf.close();
+				osw.write(qvt.transform(sura));
+				osw.close();
 			}
 		} catch (IOException e) {
 			Logger.getLogger(QuranHTMLRepository.class).log(e);
@@ -72,14 +73,13 @@ public class QuranHTMLRepository {
 		File file = new File(Naming.HTML_SEARCH_CACHE_DIR + File.separator + keyword.hashCode() + ".html");
 
 		try {
-			RandomAccessFile raf;
-//			 FIXME: no search cache for now
+			// FIXME: no search cache for now
 			if (file.exists()) file.delete();
-			raf = new RandomAccessFile(file, "rw");
-			// Charset
+			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
+					new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
 			SearchResultTemplate qrt = new SearchResultTemplate();
-			raf.write(qrt.transform(keyword, matchDiac).getBytes("UTF-8"));
-			raf.close();
+			osw.write(qrt.transform(keyword, matchDiac));
+			osw.close();
 		} catch (IOException e) {
 			Logger.getLogger(QuranHTMLRepository.class).log(e);
 		}

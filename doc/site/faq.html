@@ -75,7 +75,7 @@ These peoples also helped with language packs and useful feedbacks:
 <div class="answer">There is not a really nice and standard platform for
 Quran related topics. There are some software which are fully
 commercial, others are free-commercial but no source code available. I
-didn't find such standard and up to date platform. If you know one, tell
+couldn't find such standard and up to date platform. If you know one, tell
 <a href="contact.html">us</a>.</div>
 
 <div class="question">Which license is Zekr distributed under?</div>
@@ -108,12 +108,6 @@ Latest Zekr source code may always be available on SourceForge.net CVS. Use
 <a href="http://sourceforge.net/cvs/?group_id=128414">this one</a> for checkout instructions.
 </div>
 
-<div class="question">Linux</div>
-<div class="answer">TODO</div>
-
-<div class="question">Other platforms</div>
-<div class="answer">TODO</div>
-
 <div class="question">Why Java</div>
 <div class="answer">
 Simply because I know Java more than C++!<br>
@@ -122,8 +116,30 @@ In adition it is cross platform, easy and open. I used
 native widget toolkit and has a number of advantages over Swing (More fast, cool, and easy to code).
 </div>
 
+<div class="question">Do you Linux?</div>
+<div class="answer">
+Yes! Zekr can also be run on Linux machines (at least I tested it on OSS 10).
+You should first download and install a Mozilla GTK2 (1.4+)
+browser from <a href="http://www.mozilla.org">mozilla.org</a>. You can download 
+<a href="http://ftp.mozilla.org/pub/mozilla.org/mozilla/releases/mozilla1.7.3/contrib/mozilla-i686-pc-linux-gnu-1.7.3-gtk2+xft.tar.gz">Mozilla 1.7.3 GTK2</a>
+from Mozilla.org.<br>
+Please remember where the Mozilla in installed (e.g. /ust/local/mozilla), and check if there is a <tt>components</tt>
+folder inside the mozilla home directory. You should set an environment variable <tt>MOZILLA_FIVE_HOME</tt>
+to the mozilla home
+directory. If there is no <tt>components</tt> folder inside mozilla home, check <tt>[mozilla home]/lib</tt>, and if there
+was such a folder, set the environment variable to this location.<br>
+On my Open Source SuSE 10.0, mozilla is installed on <tt>/opt/mozilla</tt>,
+but the main folder is <tt>/opt/mozilla/lib</tt> where components folder can be found.<br><br>
+After all, you can run <tt>[zekr]/run.sh</tt> to launch the Zekr platform.
+</div>
+
+<div class="question">Other platforms</div>
+<div class="answer">
+By now, there is no other supported platform except Win32 and Linux GTK.
+</div>
+
 <div class="question">Common problems</div>
-<div class="answer">TODO</div>
+<div class="answer">TBD</div>
 
 <h3>[Install]</h3>
 <div class="question">I downloaded Zekr. Now, what should I do?</div>

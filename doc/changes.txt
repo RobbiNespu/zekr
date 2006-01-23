@@ -38,12 +38,16 @@ Features/Enhancements:
 Version 0.2.0 release - [20-1-06]
 Features/Enhancements:
 	German language pack was added (translated by Riyad Preukschas)
-	Goto search result location (sura, aya) in the Quran
+	Hiperlink for direct navigating to search result location (sura, aya) in the Quran
 	More smoother Bismillah image.
 	Enhanced presentation for sajda sign (character \u6E9)
+	Text box replace with an editable combo box (can hold up to 40 search history).
+	A Linux port is available (Mozilla 1.4+ GTK2 must be installed)
 Bug fixes:
 	Unicode ALEF_MADDA (0x622) is now acted like alef when searching with non-matching diacritics
-	All the following misspelling was changed from column one to colun two:
+	All the following misspelling was changed from column one to column two:
 	soora		sura
 	joz			juz
+	Search problem. ==> (√√‰–— Â„ was found but √‰–— Â„ could not be found)
+
 		

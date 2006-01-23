@@ -45,7 +45,7 @@ public class QuranSearch {
 		this.match = matchDiac;
 	}
 
-	public List find(String src, String keyword) {
+	private List find(String src, String keyword) {
 		Finder f;
 		if (match) {
 			f = new Finder() {
@@ -74,6 +74,15 @@ public class QuranSearch {
 		return ret;
 	}
 
+	/**
+	 * Finds all occurrences of <code>keyword</code> in <code>IQuranText</code> and
+	 * returns it as <code>result</code> <code>Map</code>.
+	 * 
+	 * @param result return result <code>Map</code>
+	 * @param keyword keyword to be found
+	 * @return <code>false</code> if too much results found (more than
+	 *         <code>maxAyaMatch</code>), otherwise <code>true</code>.
+	 */
 	public boolean findAll(Map result, String keyword) {
 		String aya;
 		int ayaNum;

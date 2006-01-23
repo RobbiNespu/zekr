@@ -27,7 +27,7 @@ public class ZekrMain {
 
 	static void startZekr() {
 		try {
-			logger.info("Starting The Zekr Project...");
+			logger.info("Starting The Zekr Platform...");
 			SplashScreen splash = new SplashScreen(display);
 			splash.show();
 
