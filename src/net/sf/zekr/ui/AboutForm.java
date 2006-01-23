@@ -32,12 +32,6 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
- */
-
-/**
- * @author Mohsen Saboorian
- * @since Zekr 1.0
  * @version 0.2
  */
 public class AboutForm extends BaseForm {

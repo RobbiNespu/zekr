@@ -95,6 +95,7 @@ public class QuranForm extends BaseForm {
 	private String url;
 
 	/**
+	 * Initialize the QuranForm.
 	 * @param display
 	 */
 	public QuranForm(Display display) {
@@ -106,7 +107,6 @@ public class QuranForm extends BaseForm {
 	}
 
 	protected void init() {
-		// langEngine.setScope(LanguageEngineNaming.FORM);
 		title = langEngine.getMeaningById(ID, "TITLE");
 		shell = new Shell(display, SWT.SHELL_TRIM);
 		shell.setText(title);
@@ -119,7 +119,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	/**
-	 * This method allocates and adds proper widgets to the <b>QuranShell </b>
+	 * This method allocates and adds proper widgets to the <b>QuranForm</b>.
 	 */
 	private void makeFrame() {
 		GridData gridData;
@@ -204,9 +204,6 @@ public class QuranForm extends BaseForm {
 				ayaChanged = true;
 				if (sync.getSelection())
 					apply();
-				// quranBrowser.setUrl(QuranHTMLRepository.getUrl(suraSelector.getSelectionIndex()
-				// + 1,
-				// ayaSelector.getSelectionIndex() + 1));
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -330,13 +327,7 @@ public class QuranForm extends BaseForm {
 		searchGroup.setLayout(gridLayout);
 		gridData = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
 		searchGroup.setLayoutData(gridData);
-//		searchText = new Text(searchGroup, SWT.BORDER | SWT.RIGHT_TO_LEFT);
-//		searchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-//		searchText.addSelectionListener(new SelectionAdapter() {
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//				find();
-//			}
-//		});
+
 		searchText = new Combo(searchGroup, SWT.DROP_DOWN | SWT.RIGHT_TO_LEFT);
 		searchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		searchText.addSelectionListener(new SelectionAdapter() {
@@ -344,7 +335,6 @@ public class QuranForm extends BaseForm {
 				find();
 			}
 		});
-		
 
 		searchButton = new Button(searchGroup, SWT.PUSH);
 		searchButton.setText(langEngine.getMeaning("SEARCH"));
@@ -353,10 +343,10 @@ public class QuranForm extends BaseForm {
 				find();
 			}
 		});
-		
+
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
-		
+
 		KeyAdapter ka = new KeyAdapter(){
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == 13) {
@@ -375,7 +365,6 @@ public class QuranForm extends BaseForm {
 		match.setText(langEngine.getMeaning("MATCH_DIACRITIC"));
 		match.setLayoutData(gridData);
 		match.addKeyListener(ka);
-
 	}
 
 	void apply() {
@@ -452,10 +441,6 @@ public class QuranForm extends BaseForm {
 		}
 	}
 	
-	void reloadView() {
-		
-	}
-
 	void recreate() {
 		Point size = shell.getSize();
 		Point loc = shell.getLocation();

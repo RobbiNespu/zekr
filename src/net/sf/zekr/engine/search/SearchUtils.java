@@ -11,6 +11,15 @@ package net.sf.zekr.engine.search;
 import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.common.util.Range;
 
+/**
+ * This file contains several useful <code>public static</code> methods for finding
+ * occurrences of a source text in another text. Since the Arabic language has some
+ * <i>Harakats</i> (diacritics), there is also functions to ignore or match diacritics.
+ * 
+ * @author Mohsen Saboorian
+ * @since Zekr 1.0
+ * @version 0.2
+ */
 public class SearchUtils {
 	final public static char SUKUN = 0x652;
 	final public static char SHADDA = 0x651;
@@ -50,7 +59,6 @@ public class SearchUtils {
 		return new QuranLocation(suraNum, ayaNum);
 	}
 
-
 	/**
 	 * Replace Farsi unicode <code>Yeh</code> with Arabic one, and so about
 	 * <code>Kaf</code> (Farsi <code>Keheh</code>).
@@ -65,8 +73,12 @@ public class SearchUtils {
 	}
 
 	/**
-	 * Remove specific diacritics form the string. Also replaces incorrect charactrers
-	 * using <code>replaceSimilarCharacters</code>.
+	 * This method removes specific diacritics form the string. Also replaces incorrect
+	 * charactrers (which are present due to keyboard layout problems) using
+	 * <code>replaceSimilarCharacters</code>.<br>
+	 * <br>
+	 * <b>This method is not complete. It is subject to change based other Arabic-based
+	 * keyboard layout problems</b>
 	 * 
 	 * @param str
 	 * @return
@@ -89,6 +101,24 @@ public class SearchUtils {
 		return str;
 	}
 
+	/**
+	 * These characters are Arabic <i>Harakets</i> (diacritics):
+	 * <ul>
+	 * <li>Sukun</li>
+	 * <li>Shadda</li>
+	 * <li>Fatha</li>
+	 * <li>Kasra</li>
+	 * <li>Damma</li>
+	 * <li>Fathatan</li>
+	 * <li>Kasratan</li>
+	 * <li>Dammatan</li>
+	 * <li>Superscript alef</li>
+	 * </ul>
+	 * 
+	 * @param ch the character to be examined
+	 * @return <code>true</code> if ch is an Arabic <i>Harakat</i>, otherwise
+	 *         <code>false</code>
+	 */
 	public static boolean isDiac(char ch) {
 		return (ch == SUKUN) || (ch == SHADDA) || (ch == KASRA) || (ch == DAMMA) || (ch == FATHA)
 				|| (ch == KASRATAN) || (ch == DAMMATAN) || (ch == FATHATAN)
@@ -96,12 +126,13 @@ public class SearchUtils {
 	}
 
 	/**
-	 * Will find a range of the first occurrence of <code>key</code> in <code>src</code>.
-	 * This method will ignore diacritics on both <code>src</code> and <code>key</code>.
+	 * Will find a <code>Range</code> of the first occurrence of <code>key</code> in
+	 * <code>src</code>. This method will ignore diacritics on both <code>src</code>
+	 * and <code>key</code>.
 	 * 
 	 * @param src source string to be searched on
-	 * @param key non-<code>null</code> target string to be found the first occurrence of which on the
-	 *            <code>src</code> string
+	 * @param key non-<code>null</code> target string to be found the first occurrence
+	 *            of which on the <code>src</code> string
 	 * @return a <code>Range</code> object from the previous space character just before
 	 *         the <code>key</code> (or start of the source string if no space found) to
 	 *         the first space just after the <code>key</code> in <code>src</code> (or
@@ -157,7 +188,8 @@ public class SearchUtils {
 
 	/**
 	 * Will find a range of the first occurrence of <code>key</code> in <code>src</code>.
-	 * This method will consider diacritics on both <code>src</code> and <code>key</code>.
+	 * This method will consider diacritics on both <code>src</code> and
+	 * <code>key</code>.
 	 * 
 	 * @param src source string to be searched on
 	 * @param key target string which is to search first occurrence of which on
@@ -174,7 +206,8 @@ public class SearchUtils {
 			return null;
 
 		int spaceBefore = (key.charAt(0) != ' ') ? src.substring(0, start).lastIndexOf(' ') : start;
-		int spaceAfter = (key.charAt(key.length() - 1) != ' ') ? src.indexOf(' ', start + key.length()) : start + key.length();
+		int spaceAfter = (key.charAt(key.length() - 1) != ' ') ? src.indexOf(' ', start
+				+ key.length()) : start + key.length();
 		if (spaceBefore == -1)
 			spaceBefore = 0;
 		else

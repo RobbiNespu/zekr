@@ -103,40 +103,6 @@ public class QuranSearch {
 		return true;
 	}
 
-	/**
-	 * This is a test case
-	 */
-	public static void main(String[] args) {
-		try {
-			// IQuranText qt = QuranText.getInstance();
-			// QuranSearch sq = new QuranSearch(qt);
-			// Map m = sq.findAll("÷Û");
-			// Map m = sq.findAll("«·");
-			// System.out.println(m);
-			// Map m = new LinkedHashMap();
-			// m.put("Mohsen", "saboorian");
-			// m.put("Ali", "Alavi");
-			// m.put("Mazaher", "Tahmasbi");
-			// m.put("Homayoun", "Ghadami");
-			// m.put("Mahsan", "Saharzade");
-			// m.put("gholeidoon", "garian");
-			//
-			// // for (Iterator iter = m.entrySet().iterator(); iter.hasNext();) {
-			// Set set = m.entrySet();
-			// for (int j = 0; j < set.size(); j++) {
-			// System.out.println(set.toArray()[j]);
-			// }
-			// Entry ent = (Entry) iter.next();
-			// String key = (String) ent.getKey();
-			// String value = (String) ent.getValue();
-			// System.out.println(value);
-			// }
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	public int getResultCount() {
 		return resultCount;
 	}
