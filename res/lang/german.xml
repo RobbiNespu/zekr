@@ -50,7 +50,6 @@
 			<text id="NEXT_SURA" value="Nächste Sura" />
 			<text id="PREV_AYA" value="Vorherige Aya" />
 			<text id="PREV_SURA" value="Vorherige Sura" />
-
 			<text id="EXIT"     value="Beenden" />
 		</common>
 		<special>
@@ -73,7 +72,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="Ergebnis der Suche nach: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="Es wurden {1} Übereinstimmungen in {2} Ayas gefunden." />
 			<text id="TOO_MANY_RESULT" value="Ergebnis der Suche hat mehr als {1} Ayas." />
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists."   />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Sind Sie sicher?" />

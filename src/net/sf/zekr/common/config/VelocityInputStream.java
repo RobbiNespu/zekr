@@ -22,9 +22,9 @@ import net.sf.zekr.engine.template.TemplateEngine;
  * @version 0.1
  */
 public class VelocityInputStream extends InputStream {
-	String buffer;
-	int index = 0;
-	byte[] b;
+	private String buffer;
+	private int index = 0;
+	private byte[] b;
 
 	public VelocityInputStream(String fileName) throws Exception {
 		buffer = TemplateEngine.getInstance().getUpdated(fileName);

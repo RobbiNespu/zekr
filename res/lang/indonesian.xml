@@ -15,12 +15,12 @@
 			<text id="HELP"     value="Pertolongan" />
 			<text id="EDIT"     value="Edit" />
 			<text id="SEARCH"   value="Cari" />
-			<text id="GOTO"     value="Ke .." />
+			<text id="GOTO"     value="Ke..." />
 			<text id="VIEW"     value="Tampilan" />
 			<text id="CLOSE"    value="Tutup" />
 			<text id="INSERT"   value="Sisipkan" />
 			<text id="DETAILS"  value="Detail" />
-			<text id="MORE"     value="Lagi.." />
+			<text id="MORE"     value="Lagi..." />
 			<text id="NEXT"     value="Selanjutnya" />
 			<text id="PREVIOUS" value="Sebelumnya" />
 			<text id="REFRESH"  value="Refresh" />
@@ -50,7 +50,6 @@
 			<text id="NEXT_SURA" value="Surat Selanjutnya" />
 			<text id="PREV_AYA" value="Ayat Sebelumnya" />
 			<text id="PREV_SURA" value="Surat Sebelumnya" />
-
 			<text id="EXIT"     value="Keluar" />
 		</common>
 		<special>
@@ -73,7 +72,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="Hasil Pencarian untuk:&quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} hasil ditemukan di {2} ayat." />
 			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists."   />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Anda Yakin?" />

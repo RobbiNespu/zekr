@@ -50,7 +50,6 @@
 			<text id="NEXT_SURA" value="سوره‌ی بعدی" />
 			<text id="PREV_AYA" value="آیه‌ی قبلی" />
 			<text id="PREV_SURA" value="سوره‌ی قبلی" />
-
 			<text id="EXIT"     value="خروج" />
 		</common>
 		<special>
@@ -73,7 +72,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="نتیجه‌ی جستجو برای «{1}»:" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} مورد در {2} آیه یافت شد." />
 			<text id="TOO_MANY_RESULT" value="نتیجه‌ی جستجو بیش از {1} آیه است." />
-			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است." />
+			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است. آیا می‌خواهید آن‌را جایگزین کنید؟" />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="آیا مطمئن هستید؟" />

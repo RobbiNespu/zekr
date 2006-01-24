@@ -66,12 +66,13 @@
 			<text id="MAJOR_SAJDA" value="سجدة كبيرة" />
 		</special>
 	</word>
+
 	<message>
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="نتيجة البحث ل: «{1}»" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} وجدت نتائج في {2} آية" />
 			<text id="TOO_MANY_RESULT" value="حصلت نتائج في أكثر من {1} آية" />
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists."   />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="هل أنت متأكد؟" />
@@ -79,8 +80,10 @@
 		<error>
 			<text id="GENERAL_ERROR" value="خطأ غير متوقع" />
 		</error>
-		<tooltip></tooltip>
+		<tooltip>
+		</tooltip>
 	</message>
+	
 	<forms>
 		<global>
 			<text id="APP_NAME" value="ذكر" />

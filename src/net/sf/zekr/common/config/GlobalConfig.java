@@ -32,8 +32,8 @@ public class GlobalConfig {
 	/** Flag specifying if OS is Windows */
 	public static boolean isWindows = SWT.getPlatform().equalsIgnoreCase("win32");
 
+	/** Default output encoding for html */
 	public static final String OUT_HTML_ENCODING = "UTF-8";
 
 	public static final String HOME_PAGE = "http://siahe.com/zekr";
-
 }
