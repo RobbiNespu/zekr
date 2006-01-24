@@ -64,7 +64,7 @@ public class SearchUtils {
 	 * <code>Kaf</code> (Farsi <code>Keheh</code>).
 	 * 
 	 * @param str
-	 * @return
+	 * @return updated <code>String</code> result
 	 */
 	public static String replaceSimilarCharacters(String str) {
 		str = str.replaceAll(FARSI_YEH + "", ARABIC_YEH + "");
@@ -81,7 +81,7 @@ public class SearchUtils {
 	 * keyboard layout problems</b>
 	 * 
 	 * @param str
-	 * @return
+	 * @return simplified form of the <code>str</code>
 	 */
 	public static String arabicSimplify(String str) {
 		// diacritics removal

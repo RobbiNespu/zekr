@@ -105,20 +105,14 @@ public class XmlUtils {
 	}
 
 	/**
-	 * @param node
+	 * @param element
 	 * @param attr
 	 * @param value
-	 * @return updated element node
 	 */
 	public static void setAttr(Element element, String attr, String value) {
 		element.setAttribute(attr, value);
 	}
 	
-//	public static Node setOrCreateAttr(Element element, String attr, String value) {
-//		element.setA
-//	}
-
-
 	/**
 	 * @param node
 	 * @param parentAttr

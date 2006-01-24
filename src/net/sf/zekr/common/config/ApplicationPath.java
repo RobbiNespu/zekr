@@ -9,7 +9,6 @@
 
 package net.sf.zekr.common.config;
 
-import java.io.File;
 
 /**
  * This class contains Zekr directory hierarchy. Directories names are stored in uppercase

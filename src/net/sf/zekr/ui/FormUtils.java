@@ -24,12 +24,11 @@ import org.eclipse.swt.widgets.TableItem;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @see 
  * @version 0.1
  */
 public class FormUtils {
 	/**
-	 * @param device
+	 * @param display
 	 *            The <code>Device</code> to extract it's bounds.
 	 * @return A <code>Point</code> containing (maxX, maxY) of device.
 	 */

@@ -13,13 +13,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
 import java.util.StringTokenizer;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.util.IQuranText;
-import net.sf.zekr.engine.log.Logger;
 
 /**
  * This class is a repository for the whole quran text. All public methods act as

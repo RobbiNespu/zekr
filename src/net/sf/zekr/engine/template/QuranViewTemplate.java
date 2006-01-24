@@ -14,7 +14,6 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.runtime.RuntimeUtilities;
-import net.sf.zekr.common.util.I18n;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 
@@ -28,7 +27,6 @@ public class QuranViewTemplate implements QuranViewTemplateNaming {
 	 * Transforms a sura view.
 	 * 
 	 * @param sura sura number (counted from 1)
-	 * @param aya aya number (counted from 1)
 	 * @return text to be written to a local file
 	 */
 	public String transform(int sura) {

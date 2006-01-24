@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.engine.log.Logger;
 
 /**
  * @author Mohsen Saboorian

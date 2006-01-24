@@ -186,7 +186,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 
 	/**
 	 * @param id config file id
-	 * @return
+	 * @return  config file path
 	 */
 	public String getConfigFile(String id) {
 		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_CONFIG_TAG),
