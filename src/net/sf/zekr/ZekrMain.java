@@ -25,6 +25,9 @@ public class ZekrMain {
 	private static Display display = new Display();
 	private final static Logger logger = Logger.getLogger(ZekrMain.class);
 
+	/**
+	 * Will start the Zekr platform
+	 */
 	static void startZekr() {
 		try {
 			logger.info("Starting The Zekr Platform...");
