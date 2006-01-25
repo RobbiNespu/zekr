@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.2.0\release1"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.2.0\release1\release"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -224,7 +224,7 @@ Function .onInit
     InitPluginsDir
     StrCpy $StartMenuGroup Zekr
     Push $R1
-    File /oname=$PLUGINSDIR\spltmp.bmp "${BASE_APP}\..\zekr-install-splash1.bmp"
+    File /oname=$PLUGINSDIR\spltmp.bmp "${BASE_APP}\..\..\zekr-install-splash1.bmp"
     ; Delay - FadeIn - FadeOut - Keycolor - FileName
     advsplash::show 1000 700 600 -1 $PLUGINSDIR\spltmp
     Pop $R1
