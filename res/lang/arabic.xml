@@ -11,7 +11,7 @@
 			<text id="START" value="ابدأ" />
 			<text id="RESET" value="تجديد الاستمارة" />
 			<text id="NEW" value="جديد" />
-			<text id="SAVE_AS"  value="Save As..."   />
+			<text id="SAVE_AS" value="سجل نحو..." />
 			<text id="HELP" value="مساعدة" />
 			<text id="EDIT" value="نشر" />
 			<text id="SEARCH" value="بحث" />
@@ -72,7 +72,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="نتيجة البحث ل: «{1}»" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} وجدت نتائج في {2} آية" />
 			<text id="TOO_MANY_RESULT" value="حصلت نتائج في أكثر من {1} آية" />
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
+			<text id="FILE_ALREADY_EXISTS" value="ملف يحمل الإسم &quot;{1}&quot; يوجد حاليا. هل تريد استبداله ؟" />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="هل أنت متأكد؟" />

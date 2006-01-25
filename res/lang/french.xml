@@ -11,7 +11,7 @@
 			<text id="START"    value="Début" />
 			<text id="RESET"    value="Reset" />
 			<text id="NEW"      value="Nouveau" />
-			<text id="SAVE_AS"  value="Save As..."   />
+			<text id="SAVE_AS"  value="Enregistrer sous..."   />
 			<text id="HELP"     value="Aide" />
 			<text id="EDIT"     value="Edition" />
 			<text id="SEARCH"   value="Recherche" />
@@ -54,7 +54,7 @@
 		</common>
 		<special>
 			<text id="QURAN"    value="Coran" />
-			<text id="SURA"    value="Sura" />
+			<text id="SURA"     value="Sura" />
 			<text id="AYA"      value="Aya" />
 			<text id="SAJDA"    value="Sajda" />
 			<text id="JUZ"      value="Juz" />
@@ -72,7 +72,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="Résultat de la recherche pour: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} résultats trouvés dans {2} Ayas." /> 
 			<text id="TOO_MANY_RESULT" value="Le résultat de la recherche donne plus de {1} ayas" /> 
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
+			<text id="FILE_ALREADY_EXISTS" value="Un fichier portant le nom &quot;{1}&quot; existe déjà. Voulez-vous le remplacer?" />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Etes-vous sûre?" />
