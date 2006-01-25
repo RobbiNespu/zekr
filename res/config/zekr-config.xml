@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<language current="fa_IR" default="en_US">
+	<language current="" default="en_US">
 		<pack file="farsi.xml" id="fa_IR" lName="Farsi" name="فارسی"/>
 		<pack file="english.xml" id="en_US" lName="English" name="English"/>
 		<pack file="indonesian.xml" id="id_ID" lName="Indonesian" name="Indonesian"/>

@@ -119,6 +119,10 @@ acronym {
 	font-size: 15px;
 }
 
+a.noLink {
+	text-decoration:  none;
+}
+
 .menuItem a {
 	padding:          4px;
 	margin:           2px;
