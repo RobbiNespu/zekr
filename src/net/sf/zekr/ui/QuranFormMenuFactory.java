@@ -235,14 +235,14 @@ public class QuranFormMenuFactory {
 		try {
 			File f = new File(res);
 			if (f.exists()) {
-				MessageBox mb = new MessageBox(fd.getParent(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
-				mb.setMessage(dict.getMeaning("YES_NO"));
+				MessageBox mb = new MessageBox(fd.getParent(), SWT.YES | SWT.NO | SWT.ICON_QUESTION | dict.getSWTDirection());
+				mb.setMessage(dict.getDynamicMeaning("FILE_ALREADY_EXISTS", new String[]{f.getName()}));
 				mb.setText("Save As");
 				if (mb.open() == SWT.NO) {
 					return;
 				}
 				if (!f.delete())
-					throw new IOException("Can not delete already existing file " + f);
+					throw new IOException("Can not delete already existed file " + f);
 			}
 			out = new RandomAccessFile(res, "rw");
 			in = new RandomAccessFile(form.getUrl(), "r");

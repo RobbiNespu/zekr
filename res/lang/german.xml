@@ -38,7 +38,7 @@
 			<text id="LINE_BY_LINE" value="Zeilenweise" />
 			<text id="AND"      value="und" />
 			<text id="COMMA"    value="," />
-			<text id="SYNCHRONOUS" value="synchron" />
+			<text id="SYNCHRONOUS" value="Synchron" />
 			<text id="ERROR"    value="Fehler" />
 			<text id="LANGUAGE" value="Sprache" />
 			<text id="ABOUT"    value="Über" />
@@ -62,8 +62,8 @@
 			<text id="MADANI"   value="Madani" />
 			<text id="DESCENT"  value="Geoffenbart" />
 			<text id="AYA_COUNT"  value="Ayaanzahl" />
-			<text id="MINOR_SAJDA" value="Kleine sajda" />
-			<text id="MAJOR_SAJDA" value="Große sajda" />
+			<text id="MINOR_SAJDA" value="Kleine Sajda" />
+			<text id="MAJOR_SAJDA" value="Große Sajda" />
 		</special>
 	</word>
 
@@ -72,7 +72,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="Ergebnis der Suche nach: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="Es wurden {1} Übereinstimmungen in {2} Ayas gefunden." />
 			<text id="TOO_MANY_RESULT" value="Ergebnis der Suche hat mehr als {1} Ayas." />
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
+			<text id="FILE_ALREADY_EXISTS" value="Eine Datei mit dem Namen &quot;{1}&quot; existiert bereits. Möchten Sie sie überschreiben?"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Sind Sie sicher?" />

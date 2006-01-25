@@ -71,7 +71,7 @@ public class TemplateEngine {
 	 * Add a key-value pair to the template engine context
 	 * 
 	 * @param key
-	 * @param obj
+	 * @param value
 	 */
 	public void put(String key, Object value) {
 		context.put(key, value);

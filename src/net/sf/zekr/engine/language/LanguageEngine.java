@@ -190,7 +190,6 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 * 
 	 * @param word source
 	 * @param strArray replacement array of strings
-	 * @return
 	 */
 	public String getDynamicMeaning(String word, String[] strArray) {
 		String meaning = getMeaning(word);

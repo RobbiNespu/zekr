@@ -16,6 +16,7 @@ import net.sf.zekr.common.resource.dynamic.QuranHTMLRepository;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 
+import org.apache.velocity.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressAdapter;
@@ -412,19 +413,23 @@ public class QuranForm extends BaseForm {
 
 	void find() {
 		String str = searchText.getText();
-		if (searchText.getItemCount() <= 0 || !str.equals(searchText.getItem(0))) 
-			searchText.add(str, 0);
+		if (searchText.getItemCount() <= 0 || !str.equals(searchText.getItem(0)))
+			if (!"".equals(str))
+				searchText.add(str, 0);
 		if (searchText.getItemCount() > 40)
 			searchText.remove(40, searchText.getItemCount() - 1);
 		if (!"".equals(str.trim()) && str.indexOf('$') == -1 && str.indexOf('\\') == -1) {
 			if (whole.getSelection()) {
 				ayaChanged = true;
 				suraChanged = true;
-				logger.info("Will search the whole Quran for \"" + str + "\" with dicritic match set to " + match.getSelection() + ".");
-				quranBrowser.setUrl(url = QuranHTMLRepository.getSearchUrl(str, match.getSelection()));
+				logger.info("Will search the whole Quran for \"" + str
+						+ "\" with dicritic match set to " + match.getSelection() + ".");
+				quranBrowser.setUrl(url = QuranHTMLRepository.getSearchUrl(str, match
+						.getSelection()));
 				logger.info("End of search.");
 			} else {
-				logger.info("Start searching the current Quran view for \"" + str + "\" with diacritic match set to " + match.getSelection() + ".");
+				logger.info("Start searching the current Quran view for \"" + str
+						+ "\" with diacritic match set to " + match.getSelection() + ".");
 				quranBrowser.execute("find(\"" + str + "\", " + match.getSelection() + ");");
 				logger.info("End of search.");
 			}

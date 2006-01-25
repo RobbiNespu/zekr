@@ -11,7 +11,7 @@
 			<text id="START"    value="Mulai" />
 			<text id="RESET"    value="Reset" />
 			<text id="NEW"      value="Baru" />
-			<text id="SAVE_AS"  value="Save As..."   />
+			<text id="SAVE_AS"  value="Simpan Sebagai..." />
 			<text id="HELP"     value="Pertolongan" />
 			<text id="EDIT"     value="Edit" />
 			<text id="SEARCH"   value="Cari" />
@@ -72,7 +72,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="Hasil Pencarian untuk:&quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} hasil ditemukan di {2} ayat." />
 			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
+			<text id="FILE_ALREADY_EXISTS" value="File dengan nama &quot;{1}&quot; sudah ada. Anda ingin menggantinya?" />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Anda Yakin?" />

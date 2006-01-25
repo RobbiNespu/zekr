@@ -117,7 +117,7 @@ div.searchResult {
 }
 
 .searchResult span.highlight {
-	color: red;
+	color: blue;
 	font-weight: bold;
 	background-color: white;
 }
