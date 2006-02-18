@@ -78,7 +78,7 @@ public class Language {
 	}
 	
 	public static String getPackPath(LanguagePack langPack) {
-		return ApplicationPath.LANGUAGE_DIR + langPack.getFile();		
+		return ApplicationPath.LANGUAGE_DIR + "/" + langPack.getFile();		
 	}
 
 	public LanguagePack getActiveLanguagePack() {

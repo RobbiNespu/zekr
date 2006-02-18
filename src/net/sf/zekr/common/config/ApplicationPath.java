@@ -24,33 +24,35 @@ package net.sf.zekr.common.config;
  * only hold directory names (except for some fixed files, e.g zekr-config.xml).
  */
 public class ApplicationPath {
+	private static ResourceManager rm = ResourceManager.getInstance();
 
 	// Directories
-	public static final String DIR_DELIM = "/"; // Win32 will also work!
-	public static final String RESOURCE_DIR = "res" + DIR_DELIM;
-	public static final String IMAGE_DIR = RESOURCE_DIR + "image" + DIR_DELIM;
-	public static final String ICON_DIR = IMAGE_DIR + "icon" + DIR_DELIM;
-	public static final String CONFIG_DIR = RESOURCE_DIR + "config" + DIR_DELIM;
-	public static final String LIB_CONFIG_DIR = CONFIG_DIR + "lib" + DIR_DELIM;
+	public static final String RESOURCE_DIR = rm.getString("resource.baseDir");
+	public static final String IMAGE_DIR = rm.getString("image.baseDir");
+	public static final String ICON_DIR = rm.getString("icon.baseDir");
+//	public static final String CONFIG_DIR = RESOURCE_DIR + "/config";
+//	public static final String LIB_CONFIG_DIR = rm.getString("config.lib");
 
 	/**
 	 * This is the directory containing quran source and other related sources.
 	 */
-	public static final String TEXT_DIR = RESOURCE_DIR + "text" + DIR_DELIM;
+	public static final String TEXT_DIR = rm.getString("text.quran.baseDir");
+	
+	public static final String TRANSLATION_DIR = rm.getString("text.trans.baseDir");
 
 	/**
 	 * The directory relative path, containing language packs and language settings.
 	 */
-	public static final String LANGUAGE_DIR = RESOURCE_DIR + "lang" + DIR_DELIM;
-	public static final String TEMPLATE_DIR = RESOURCE_DIR + "template" + DIR_DELIM;
+	public static final String LANGUAGE_DIR = rm.getString("lang.baseDir");
+
+	public static final String THEME_DIR = rm.getString("theme.baseDir");
 
 	// Files
 
 	// XML Files
-	public static final String CONFIG_FILE = CONFIG_DIR + "zekr-config.xml";
+	public static final String CONFIG_FILE = rm.getString("config.zekr");
 
 //	public static final String QURAN_TEXT = TEXT_DIR + "quran-1256.txt";
-	public static final String PATH_RESOURCE_FILE = RESOURCE_DIR + "resource-path.properties";
 
 	// Velocity Files
 //	/**
@@ -58,13 +60,11 @@ public class ApplicationPath {
 //	 * because <code>Velocity.getTemplate()</code> works for directories added to
 //	 * <code>"file.resource.loader.path"</code> property.
 //	 */
-	public static final String SURA_VIEW_TEMPLATE = TEMPLATE_DIR + "sura-view-template.vm";
-	public static final String SEARCH_RESULT_TEMPLATE = TEMPLATE_DIR + "search-result-template.vm";
 
 	// Log4J Property Files
-	public static final String DEFAULT_LOGGER = LIB_CONFIG_DIR + "logger.properties";
+	public static final String DEFAULT_LOGGER = rm.getString("config.logger");
 
 	// Velocity Property Files
-	public static final String VELOCITY_CONFIG = LIB_CONFIG_DIR + "velocity.properties";
+	public static final String VELOCITY_CONFIG = rm.getString("config.template");
 
 }

@@ -21,7 +21,7 @@ import net.sf.zekr.common.runtime.InitRuntime;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.template.QuranViewTemplate;
+import net.sf.zekr.engine.theme.QuranViewTemplate;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;

@@ -18,8 +18,8 @@ import java.io.OutputStreamWriter;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.template.QuranViewTemplate;
-import net.sf.zekr.engine.template.SearchResultTemplate;
+import net.sf.zekr.engine.theme.QuranViewTemplate;
+import net.sf.zekr.engine.theme.SearchResultTemplate;
 
 /**
  * @author Mohsen Saboorian
@@ -72,7 +72,7 @@ public class QuranHTMLRepository {
 		File file = new File(Naming.HTML_SEARCH_CACHE_DIR + File.separator + keyword.hashCode() + ".html");
 
 		try {
-			// FIXME: no search cache for now
+			// TODO: no search cache for now
 			if (file.exists()) file.delete();
 			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 					new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);

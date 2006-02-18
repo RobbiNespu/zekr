@@ -38,7 +38,7 @@ Features/Enhancements:
 Version 0.2.0 release - [20-1-06]
 Features/Enhancements:
 	German language pack was added (translated by Riyad Preukschas)
-	Hiperlink for direct navigating to search result location (sura, aya) in the Quran
+	Hyperlink for direct navigating to search result location (sura, aya) in the Quran
 	More smoother Bismillah image.
 	Enhanced presentation for sajda sign (character \u6E9)
 	Text box replace with an editable combo box (can hold up to 40 search history).

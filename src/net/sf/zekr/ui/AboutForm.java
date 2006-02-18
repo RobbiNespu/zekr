@@ -19,12 +19,15 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.program.Program;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -32,7 +35,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.2
+ * @version 0.3
  */
 public class AboutForm extends BaseForm {
 	private final static Logger logger = Logger.getLogger(AboutForm.class);
@@ -44,10 +47,16 @@ public class AboutForm extends BaseForm {
 	}
 
 	public void init() {
+		GridLayout gl;
+		GridData gd;
+
 		shell = new Shell(display, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL);
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
 				new Image(display, resource.getString("icon.form32")) });
 		shell.setText(title);
+		gl = new GridLayout(2, false);
+		shell.setLayout(gl);
+		shell.setSize(460, 155);
 		shell.setFocus();
 
 		shell.addKeyListener(new KeyAdapter() {
@@ -57,11 +66,12 @@ public class AboutForm extends BaseForm {
 			}
 		});
 
-		Composite imageComp = new Composite(shell, SWT.BORDER);
+		Composite imageComp = new Composite(shell, SWT.NONE);
 		final Image image = new Image(display, resource.getString("image.smallLogo"));
-		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd = new GridData(GridData.CENTER);
 		gd.heightHint = image.getBounds().height;
 		gd.widthHint = image.getBounds().width;
+		imageComp.setToolTipText(langEngine.getMeaning("APP_NAME"));
 		imageComp.setLayoutData(gd);
 		imageComp.setBounds(image.getBounds());
 		imageComp.addPaintListener(new PaintListener() {
@@ -71,7 +81,10 @@ public class AboutForm extends BaseForm {
 		});
 
 		Composite detailCom = new Composite(shell, langEngine.getSWTDirection());
-		detailCom.setLayout(new RowLayout(SWT.VERTICAL));
+		detailCom.setLayout(new FillLayout(SWT.VERTICAL));
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.widthHint = 200;
+		detailCom.setLayoutData(gd);
 		Link link = new Link(detailCom, SWT.NONE);
 		String s = langEngine.getMeaning("APP_FULL_NAME")
 				+ ".\n\t<a href=\"http://siahe.com/zekr\">http://www.siahe.com/zekr</a>\n";
@@ -91,15 +104,26 @@ public class AboutForm extends BaseForm {
 		text.setText(langEngine.getMeaning("COPYRIGHT_DISCLAIMER"));
 		text.setEditable(false);
 		text.setBackground(shell.getBackground());
+
+		Composite buttons = new Composite(shell, SWT.NO_FOCUS);
+		buttons.setLayoutData(new GridData(GridData.FILL));
+		buttons.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		Button forceGC = new Button(buttons, SWT.PUSH);
+		forceGC.setText("Force GC");
+
+		final Label mem = new Label(shell, SWT.NONE);
+		mem.setText(getMemText());
 		
-		shell.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) {
-				if (e.keyCode == SWT.ESC)
-					shell.close();
+		forceGC.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				System.gc();
+				mem.setText(getMemText());
 			}
 		});
+	}
 
-		shell.setLayout(new GridLayout(2, false));
-		shell.pack();
+	private String getMemText() {
+		return Runtime.getRuntime().freeMemory() + " / " + Runtime.getRuntime().totalMemory();
 	}
 }

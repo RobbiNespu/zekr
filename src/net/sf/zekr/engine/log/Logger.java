@@ -39,23 +39,19 @@ public class Logger {
 	private static final String STACK_TRACE_INDENRAION = "  ";
 	private static final Level DEAFALT_LEVEL = INFO;
 
-	private static Logger thisInstance = new Logger();
-
-	/**
-	 * Initialize the Log4J logger
-	 */
-	static {
-		PropertyConfigurator.configure(ApplicationPath.DEFAULT_LOGGER);
-		logger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
-	}
+	private static Logger thisInstance;
 
 	private Logger() {
+		PropertyConfigurator.configure("res/config/lib/logger.properties");
+		logger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
 	}
 
 	/**
 	 * @return logger with the <code>type</code> logger type which are:
 	 */
 	public static Logger getLogger() {
+		if (thisInstance == null)
+			thisInstance = new Logger();
 		logger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
 		return thisInstance;
 	}
@@ -70,6 +66,8 @@ public class Logger {
 	 */
 	public static Logger getLogger(Class theClass) {
 		logger = org.apache.log4j.Logger.getLogger(theClass);
+		if (thisInstance == null)
+			thisInstance = new Logger();
 		return thisInstance;
 	}
 

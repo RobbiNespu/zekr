@@ -7,7 +7,7 @@
  * Start Date:     Oct 14, 2004
  */
 
-package net.sf.zekr.engine.template;
+package net.sf.zekr.engine.theme;
 
 import java.io.StringWriter;
 import java.io.Writer;
@@ -36,8 +36,8 @@ public class TemplateEngine {
 	 */
 	private TemplateEngine() {
 		try {
-			Velocity.setExtendedProperties(new ExtendedProperties(ApplicationPath.VELOCITY_CONFIG));
-//			Velocity.addProperty("file.resource.loader.path", ApplicationPath.TEMPLATE_DIR);
+			Velocity.setExtendedProperties(new ExtendedProperties("res/config/lib/velocity.properties"));
+//			Velocity.addProperty("file.resource.loader.path", ApplicationPath.THEME_DIR);
 			Velocity.init();
 			context = new VelocityContext();
 		} catch (Exception e) {

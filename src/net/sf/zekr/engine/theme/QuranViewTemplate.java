@@ -7,10 +7,11 @@
  * Start Date:     Dec 28, 2004
  */
 
-package net.sf.zekr.engine.template;
+package net.sf.zekr.engine.theme;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.runtime.RuntimeUtilities;
@@ -44,7 +45,8 @@ public class QuranViewTemplate implements QuranViewTemplateNaming {
 			engine.put("SURA_NAME", QuranProperties.getInstance().getSura(sura).getName());
 			engine.put("TITLE", "");
 			engine.put("LAYOUT", config.getQuranTextLayout());
-			retStr = engine.getUpdated(ApplicationPath.SURA_VIEW_TEMPLATE);
+			engine.put("THEME_DIR", ResourceManager.getInstance().getString("theme.baseDir"));
+			retStr = engine.getUpdated(ResourceManager.getInstance().getString("theme.default.sura"));
 		} catch (Exception e) {
 			Logger.getLogger(QuranViewTemplate.class).log(e);
 		}

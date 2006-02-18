@@ -4,16 +4,14 @@
  * license terms.
  *
  * Author:         Mohsen Saboorian
- * Start Date:     Feb 17, 2005
+ * Start Date:     Feb 15, 2006
  */
-package net.sf.zekr.engine.template;
+package net.sf.zekr.common.util;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  * @version 0.1
  */
-interface QuranViewTemplateNaming {
-	public static final String LINE_BY_LINE_LAYOUT = "BLOCK";
-	public static final String BLOCK_LAYOUT = "INLINE";
+public interface IQuranTranslation extends IQuranText {
 }

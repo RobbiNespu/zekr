@@ -17,9 +17,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<base href="file:///$APP_PATH/">
-	<link rel="stylesheet" type="text/css" href="res/template/css/style.css">
-	<script src="res/template/js/utils.js" language="javascript" type="text/javascript"></script>
-	<script src="res/template/js/search.js" language="javascript" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="$THEME_DIR/css/style.css">
+	<script src="$THEME_DIR/js/utils.js" language="javascript" type="text/javascript"></script>
+	<script src="$THEME_DIR/js/search.js" language="javascript" type="text/javascript"></script>
 <title>$TITLE</title>
 </head>
 <body dir="rtl">
@@ -29,7 +29,7 @@
 	</td></tr>
 
 	<tr><td id="quranSection" class="quran">
-	#parse ("res/template/aya-template.vm")
+	#parse ("res/theme/aya-template.vm")
 	</td></tr>
 
 	<tr><td class="barBottom">&nbsp;</td></tr>

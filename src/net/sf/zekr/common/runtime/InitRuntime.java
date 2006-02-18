@@ -27,9 +27,6 @@ public class InitRuntime {
 	private ArrayList dirList = new ArrayList();
 	private static final Logger logger = Logger.getLogger(InitRuntime.class);
 
-	/**
-	 * 
-	 */
 	public InitRuntime() {
 		dirList.add(Naming.HOME_PATH);
 		dirList.add(Naming.HTML_QURAN_CACHE_DIR);
@@ -50,20 +47,26 @@ public class InitRuntime {
 			File file = new File((String) iter.next());
 			if (!file.exists() && !file.mkdirs())
 				throw new IOException("Can not create application home directory at \'"
-						+ appHome.getAbsoluteFile() + "\'");
+						+ appHome.getAbsoluteFile() + "\'.");
 		}
 	}
 
 	public static void recreateHtmlCache() throws IOException {
 		logger.info("Recreate HTML cache directory.");
 
-		File cache = new File(Naming.HTML_QURAN_CACHE_DIR);
-		if (cache.exists())
-			if (!FileUtils.delete(cache))
+		File htmlCache = new File(Naming.HTML_QURAN_CACHE_DIR);
+		File searchCache = new File(Naming.HTML_SEARCH_CACHE_DIR);
+		if (htmlCache.exists())
+			if (!FileUtils.delete(htmlCache))
 				throw new IOException("Can not delete HTML cache directory at \'"
-						+ Naming.HTML_QURAN_CACHE_DIR + "\'");
+						+ Naming.HTML_QURAN_CACHE_DIR + "\'.");
+		if (searchCache.exists())
+			if (!FileUtils.delete(searchCache))
+				throw new IOException("Can not delete search HTML cache directory at \'"
+						+ Naming.HTML_SEARCH_CACHE_DIR + "\'.");
 		
-		cache.mkdir();
+		htmlCache.mkdir();
+		searchCache.mkdir();
 	}
 
 }

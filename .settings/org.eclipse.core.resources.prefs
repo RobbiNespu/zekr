@@ -1,4 +1,5 @@
-#Fri Jan 20 15:02:59 IRST 2006
+#Wed Feb 15 19:49:36 IRST 2006
 eclipse.preferences.version=1
+encoding//doc/site/faq.html=UTF-8
 encoding//doc/site/glossary.html=UTF-8
-encoding//res/template/sura-view-template.vm=UTF-8
+encoding//res/theme/sura-view-template.vm=UTF-8

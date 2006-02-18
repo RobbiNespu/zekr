@@ -16,7 +16,6 @@ import net.sf.zekr.common.resource.dynamic.QuranHTMLRepository;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 
-import org.apache.velocity.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressAdapter;
@@ -24,6 +23,7 @@ import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -37,8 +37,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
@@ -134,11 +136,23 @@ public class QuranForm extends BaseForm {
 //		gridData.widthHint = 170;
 		navGroup.setLayoutData(gridData);
 
-		quranBrowser = new Browser(body, SWT.BORDER);
-		quranBrowser.setUrl(url = QuranHTMLRepository.getUrl(1, 0, true));
+		Composite browsers = new Composite(body, SWT.NONE);
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.verticalSpan = 3;
-		quranBrowser.setLayoutData(gridData);
+		browsers.setLayoutData(gridData);
+		browsers.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+//		Sash bSash = new Sash(browserGroup, SWT.HORIZONTAL);
+		final SashForm sf = new SashForm(browsers, SWT.VERTICAL);
+//		sf.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
+		sf.SASH_WIDTH = 5;
+
+		fl = new FillLayout();
+		final Group quranGroup = new Group(sf, SWT.NONE);
+		quranGroup.setLayout(fl);
+
+		quranBrowser = new Browser(quranGroup, SWT.NONE);
+		quranBrowser.setUrl(url = QuranHTMLRepository.getUrl(1, 0, true));
 		quranBrowser.addStatusTextListener(new StatusTextListener() {
 			public void changed(StatusTextEvent event) {
 				if (event.text != null && !"".equals(event.text)) {
@@ -159,6 +173,16 @@ public class QuranForm extends BaseForm {
 			}
 		});
 
+		Group transGroup = new Group(sf, SWT.NONE);
+		transGroup.setLayout(fl);
+		final Browser transBrowser = new Browser(transGroup , SWT.NONE);
+
+		transBrowser.addListener(SWT.Resize, new Listener(){
+			public void handleEvent(Event event) {
+				if (transBrowser.getSize().y < 20)
+					sf.setMaximizedControl(quranGroup);
+			}
+		});
 
 		suraLabel = new Label(navGroup, SWT.NONE);
 		suraLabel.setText(langEngine.getMeaning("SURA") + ":");

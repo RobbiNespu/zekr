@@ -12,13 +12,15 @@ package net.sf.zekr.common.config;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.transform.TransformerException;
 
+import net.sf.zekr.common.resource.Translation;
+import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.InitRuntime;
 import net.sf.zekr.common.runtime.RuntimeConfig;
 import net.sf.zekr.common.runtime.RuntimeUtilities;
@@ -44,21 +46,22 @@ import org.w3c.dom.Node;
  * @version 0.2
  */
 public class ApplicationConfig extends ZekrConfigNaming {
+	private final Logger logger = Logger.getLogger(this.getClass());
+	private static ApplicationConfig thisInstance;
+
 	private RuntimeConfig runtimeConfig = new RuntimeConfig();
 	
-    // TODO: make objects for each major xml tag (i.e. view) so that holds 
-    // values corresponding to its descendents
 	private XmlReader configReader;
 	private LanguageEngine langEngine;
 	private Language language;
 	private ArrayList availableLanguages;
 
-	private final Logger logger = Logger.getLogger(this.getClass());
-	private static ApplicationConfig thisInstance;
+	private Element langElem;
+	private Element quranElem;
+	private Element viewElem;
+	private Element transElem;
 
-	Element langElem;
-	Element quranElem;
-	Element viewElem;
+	private Translation translation = new Translation();
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -66,8 +69,10 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		langElem = configReader.getElement(LANGUAGE_TAG);
 		quranElem = configReader.getElement(QURAN_TAG);
 		viewElem = configReader.getElement(VIEW_TAG);
-		extractLangProp();
+		transElem = configReader.getElement(TRANSLATIONS_TAG);
+		extractLangProps();
 		extractRuntimeConfig();
+		extractTransProps();
 	}
 
 	public static ApplicationConfig getInsatnce() {
@@ -96,7 +101,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	 * This method extracts language properties from the corresponding node in the config
 	 * file.
 	 */
-	private void extractLangProp() {
+	private void extractLangProps() {
 		language = new Language();
 		boolean update = false;
 
@@ -145,7 +150,26 @@ public class ApplicationConfig extends ZekrConfigNaming {
 			updateFile();
 	}
 	
-	public Collection getAvailableLanguages() {
+	/**
+	 * This method extracts translation properties from the corresponding node in the config
+	 * file.
+	 */
+	private void extractTransProps() {
+		TranslationData td;
+		logger.info("Loading translation files info.");
+		NodeList list = XmlUtils.getNodes(transElem, TRANSLATION_ITEM_TAG);
+		for (Iterator iter = list.iterator(); iter.hasNext();) {
+			Element elem = (Element) iter.next();
+			td = new TranslationData();
+			td.langId = elem.getAttribute(LANG_ID_ATTR);
+			td.transId = elem.getAttribute(TRANS_ID_ATTR);
+			td.encoding = elem.getAttribute(ENCODING_ATTR);
+			td.file = elem.getAttribute(FILE_ATTR);
+			translation.add(td);
+		}
+	}
+
+	public List getAvailableLanguages() {
 		if (availableLanguages != null)
 			return availableLanguages;
 
@@ -191,14 +215,18 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	public String getConfigFile(String id) {
 		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_CONFIG_TAG),
 			QURAN_CONFIG_TAG, ID_ATTR, id);
-		return ApplicationPath.RESOURCE_DIR + elem.getAttribute(FILE_ATTR);
+		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
 	}
 
 	public String getQuranText() {
 		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_TEXT_TAG),
 			QURAN_TEXT_TAG, ID_ATTR, QURAN_ARABIC_TEXT_ID);
 
-		return ApplicationPath.RESOURCE_DIR + elem.getAttribute(FILE_ATTR);
+		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
+	}
+
+	public static String getQuranTrans(String name) {
+		return ApplicationPath.TRANSLATION_DIR + "/" + name;
 	}
 
 	public String getQuranTextLayout() {
@@ -228,5 +256,9 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		} catch (TransformerException e) {
 			logger.log(e);
 		}
+	}
+
+	public Translation getTranslation() {
+		return translation;
 	}
 }

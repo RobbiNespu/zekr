@@ -9,6 +9,8 @@
 
 package net.sf.zekr;
 
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.InitRuntime;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.QuranForm;
@@ -48,6 +50,13 @@ public class ZekrMain {
 		} finally {
 			logger.info("Zekr is now down.\n");
 		}
+	}
+
+	private static void test() {
+		((TranslationData) ApplicationConfig.getInsatnce().
+				getTranslation().getAllTranslation().iterator().next()).load();
+		((TranslationData) ApplicationConfig.getInsatnce().
+		getTranslation().getAllTranslation().iterator().next()).equals(null);
 	}
 
 	public static void main(String[] args) {

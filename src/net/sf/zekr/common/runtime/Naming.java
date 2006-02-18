@@ -14,7 +14,7 @@ import java.io.File;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
+ * @version 0.2
  */
 public class Naming {
 	// Application home directory
@@ -25,8 +25,4 @@ public class Naming {
 	public static final String HTML_QURAN_CACHE_DIR = CACHE_DIR + File.separator + "quran";
 	public static final String HTML_SEARCH_CACHE_DIR = CACHE_DIR + File.separator + "search";
 	public static final String CONFIG_PATH = HOME_PATH + File.separator + "config";
-
-	// Naming conventions
-	public static final String TEMP_SUFFIX = "123";
-	public static final String TEMP_PREFIX = "tmp";
 }

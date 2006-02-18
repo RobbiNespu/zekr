@@ -13,7 +13,7 @@ package net.sf.zekr.common.config;
  * @since	  Zekr 1.0
  * @version   0.1
  */
-public class NamingUtils {
+public class GlobalNaming {
 	
 	public static String getIcon(String iconName) {
 		return ApplicationPath.ICON_DIR + iconName;
@@ -24,12 +24,15 @@ public class NamingUtils {
 	}
 
 	public static String getTemplate(String templateName) {
-		return ApplicationPath.TEMPLATE_DIR + templateName;
+		return ApplicationPath.THEME_DIR + templateName;
 	}
 	
 	public static String getLanguagePack(String langId) {
-		return ApplicationPath.LANGUAGE_DIR + langId;
-		
+		return ApplicationPath.LANGUAGE_DIR + langId;	
+	}
+	
+	public static String getTranslation(String langId, String transId) {
+		return ApplicationPath.TRANSLATION_DIR;
 	}
 
 }

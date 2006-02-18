@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Nov 17, 2005
  */
-package net.sf.zekr.engine.template;
+package net.sf.zekr.engine.theme;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +16,7 @@ import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.runtime.RuntimeUtilities;
 import net.sf.zekr.common.util.IQuranText;
@@ -62,8 +63,9 @@ public class SearchResultTemplate {
 
 			engine.put("APP_PATH", RuntimeUtilities.RUNTIME_DIR.replaceAll("\\\\", "/"));
 			engine.put("DIRECTION", langEngine.getDirection());
+			engine.put("THEME_DIR", ResourceManager.getInstance().getString("theme.baseDir"));
 
-			ret = engine.getUpdated(ApplicationPath.SEARCH_RESULT_TEMPLATE);
+			ret = engine.getUpdated(ResourceManager.getInstance().getString("theme.search.result"));
 		} catch (Exception e) {
 			logger.log(e);
 		}

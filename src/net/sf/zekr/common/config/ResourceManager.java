@@ -11,8 +11,6 @@ package net.sf.zekr.common.config;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import net.sf.zekr.engine.log.Logger;
-
 /**
  * This class is used to handle dynamic resource bundles which use <i>Velocity</i> as the
  * template engine.
@@ -28,9 +26,9 @@ public class ResourceManager {
 	private ResourceManager() {
 		try {
 			resource = new PropertyResourceBundle(new VelocityInputStream(
-					ApplicationPath.PATH_RESOURCE_FILE));
+					"res/resource-path.properties"));
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass()).log(e);
+			e.printStackTrace();
 		}
 	}
 
