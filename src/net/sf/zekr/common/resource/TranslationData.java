@@ -12,10 +12,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
+import java.util.Locale;
 import java.util.StringTokenizer;
-
-import org.apache.velocity.runtime.parser.Token;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.util.IQuranTranslation;
@@ -29,9 +27,25 @@ import net.sf.zekr.engine.log.Logger;
 public class TranslationData implements IQuranTranslation {
 	private final static Logger logger = Logger.getLogger(TranslationData.class);
 
+	/** Translation Id. */
 	public String transId;
-	public String langId;
+
+	/** Translation English name */
+	public String name;
+
+	/** Translation localized name */
+	public String localizedName;
+
+	/** Language (locale) Id (e.g. en_US) */
+	public Locale locale;
+
+	/** String encoding */
 	public String encoding;
+
+	/**
+	 * Text file name, the full path is so
+	 * <code>ApplicationConfig.getQuranTrans(file)</code>
+	 */
 	public String file;
 
 	private String[][] transText;
@@ -44,7 +58,7 @@ public class TranslationData implements IQuranTranslation {
 		return transText[suraNum - 1];
 	}
 
-	public String[][] getFullTranslation() {
+	public String[][] getFullText() {
 		return transText;
 	}
 
@@ -53,22 +67,22 @@ public class TranslationData implements IQuranTranslation {
 	}
 
 	public String toString() {
-		return transId + "(" + langId + ")";
+		return transId + " (" + locale + ")";
 	}
 
 	public void load() {
 		if (loaded())
-			loadFile(langId, transId);
+			loadFile(transId);
 	}
 
 	public boolean loaded() {
 		return transText == null;
 	}
 
-	public void loadFile(String langId, String transId) {
+	public void loadFile(String transId) {
 		logger.log("Loading translation pack " + this);
 		transText = loadTranslation(ApplicationConfig.getQuranTrans(file), encoding);
-		logger.log("Translation pack " + this + " loaded!");
+		logger.log("Translation pack " + this + " loaded.");
 	}
 
 	private static String[][] loadTranslation(String file, String encoding) {
@@ -91,7 +105,6 @@ public class TranslationData implements IQuranTranslation {
 		StringTokenizer st = new StringTokenizer(rawText, "\n");
 		String[] sura;
 
-		// load the first sura (only the first sura has Bismillah meaning)
 		for (int i = 1; st.hasMoreTokens() && i <= 114; i++) {
 			sura = new String[quranProps.getSura(i).getAyaCount()];
 			for (int j = 0; j < sura.length; j++) {

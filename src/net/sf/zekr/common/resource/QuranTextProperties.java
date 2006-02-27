@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 final public class QuranTextProperties extends QuranTextConfigNaming {
 
 	private static QuranTextProperties thisInstance = null;
-	private ApplicationConfig appConfig = ApplicationConfig.getInsatnce();
+	private ApplicationConfig appConfig = ApplicationConfig.getInstance();
 	private XmlReader reader = null;
 
 	private QuranTextProperties() {

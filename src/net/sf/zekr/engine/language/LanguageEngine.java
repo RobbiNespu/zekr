@@ -52,7 +52,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	private Map globals = null; // forms.global
 
 	private final static Logger logger = Logger.getLogger(LanguageEngine.class);
-	private final ApplicationConfig config = ApplicationConfig.getInsatnce();
+	private final ApplicationConfig config = ApplicationConfig.getInstance();
 
 	private Language language;
 	private File packFile;

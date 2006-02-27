@@ -19,7 +19,7 @@ import net.sf.zekr.engine.language.LanguageEngine;
 public class CollectionUtils {
 	public static String getLocalizedList(int[] array) {
 		StringBuffer ret = new StringBuffer();
-		LanguageEngine dict = ApplicationConfig.getInsatnce().getLanguageEngine();
+		LanguageEngine dict = ApplicationConfig.getInstance().getLanguageEngine();
 		String delim = dict.getMeaning("COMMA");
 		for (int i = 0; i < array.length - 1; i++) {
 			ret.append(array[i]);

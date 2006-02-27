@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -36,9 +37,11 @@ import net.sf.zekr.engine.xml.XmlWriter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.sun.org.apache.xml.internal.utils.LocaleUtility;
+
 /**
  * This singleton class reads the config files by the first invocation of
- * <code>getInsatnce()</code>. You can then read any option by using available getter
+ * <code>getInstance()</code>. You can then read any option by using available getter
  * methods.
  * 
  * @author Mohsen Saboorian
@@ -75,7 +78,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		extractTransProps();
 	}
 
-	public static ApplicationConfig getInsatnce() {
+	public static ApplicationConfig getInstance() {
 		if (thisInstance == null)
 			thisInstance = new ApplicationConfig();
 		return thisInstance;
@@ -121,10 +124,10 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		logger.info("Available languages are: " + language.getLanguageMap().values());
 
 		String currentLangId = langElem.getAttribute(CURRENT_LANGUAGE_ATTR);
-		String defaultLangId = langElem.getAttribute(DEFAULT_LANGUAGE_ATTR);
-		if ("".equals(langElem.getAttribute(DEFAULT_LANGUAGE_ATTR))) {
+		String defaultLangId = langElem.getAttribute(DEFAULT_ATTR);
+		if ("".equals(langElem.getAttribute(DEFAULT_ATTR))) {
 			logger.warn("Can not find default language pack. will set default to \"en\".");
-			langElem.setAttribute(DEFAULT_LANGUAGE_ATTR, "en_US");
+			langElem.setAttribute(DEFAULT_ATTR, "en_US");
 			defaultLangId = "en_US";
 			update = true;
 		}
@@ -158,14 +161,21 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		TranslationData td;
 		logger.info("Loading translation files info.");
 		NodeList list = XmlUtils.getNodes(transElem, TRANSLATION_ITEM_TAG);
+		String def = transElem.getAttribute(DEFAULT_ATTR);
 		for (Iterator iter = list.iterator(); iter.hasNext();) {
 			Element elem = (Element) iter.next();
 			td = new TranslationData();
-			td.langId = elem.getAttribute(LANG_ID_ATTR);
+			td.locale = new Locale(elem.getAttribute(LANG_ATTR), elem.getAttribute(COUNTRY_ATTR));
 			td.transId = elem.getAttribute(TRANS_ID_ATTR);
 			td.encoding = elem.getAttribute(ENCODING_ATTR);
 			td.file = elem.getAttribute(FILE_ATTR);
+			td.name = elem.getAttribute(NAME_ATTR);
+			td.localizedName = elem.getAttribute(LOCALIZED_NAME_ATTR);
+			if (td.localizedName == null)
+				td.localizedName = td.name;
 			translation.add(td);
+			if (td.transId.equals(def))
+				translation.setDefault(td);
 		}
 	}
 

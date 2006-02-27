@@ -17,12 +17,15 @@ public class ZekrConfigNaming {
 	// These are common between different types of nodes
 	public static final String ID_ATTR = "id";
 	public static final String NAME_ATTR = "name";
-	public static final String LANG_ID_ATTR = "langId";
+	public static final String LANG_ATTR = "language";
+	public static final String COUNTRY_ATTR = "country";
 	public static final String TRANS_ID_ATTR = "transId";
 	public static final String VALUE_ATTR = "value";
 	public static final String FILE_ATTR = "file";
 	public static final String ITEM_TAG = "item";
 	public static final String ENCODING_ATTR = "encoding";
+	public static final String DEFAULT_ATTR = "default";
+	public static final String LOCALIZED_NAME_ATTR = "localizedName";
 
 	public static final String LANGUAGE_TAG = "language";
 	public static final String LANGUAGE_PACK_TAG = "pack";
@@ -31,7 +34,6 @@ public class ZekrConfigNaming {
 	public static final String TRANSLATIONS_TAG = "translations";
 	public static final String TRANSLATION_ITEM_TAG = "translation";
 	
-	public static final String DEFAULT_LANGUAGE_ATTR = "default";
 	public static final String CURRENT_LANGUAGE_ATTR = "current";
 
 	public static final String QURAN_CONFIG_ID = "QURAN_CONFIG";

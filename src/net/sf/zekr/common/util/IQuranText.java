@@ -11,27 +11,29 @@ package net.sf.zekr.common.util;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
+ * @version 0.2
  */
 public interface IQuranText {
 
 	/**
-	 * @param suraNum
-	 *            the sura number <b>counted from 1</b>
-	 * @param ayaNum
-	 *            the aya number <b>counted from 1</b>
-	 * @return returns <code>ayaNum</code> aya of the <code>suraNum</code> sura of
-	 *         the Quran.
+	 * @param suraNum the sura number <b>counted from 1</b>
+	 * @param ayaNum the aya number <b>counted from 1</b>
+	 * @return returns <code>ayaNum</code>th aya of the <code>suraNum</code>th sura
+	 *         of the Quran.
 	 */
 	public String get(int suraNum, int ayaNum);
 
 	/**
 	 * <b>Note:</b> no range check is performed.
 	 * 
-	 * @param suraNum
-	 *            indicates the sura number (which is counted from 1)
+	 * @param suraNum indicates the sura number (which is counted from 1)
 	 * @return An <code>String</code> array of the sura (#<code>suraNum</code>)
 	 *         ayas.
 	 */
 	public String[] getSura(int suraNum);
+
+	/**
+	 * @return Full text of the quran/translation text as a 2D array.
+	 */
+	public String[][] getFullText();
 }

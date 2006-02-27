@@ -84,7 +84,7 @@ public class LanguagePack {
 	}
 
 	public String toString() {
-		return latinName + "(" + id + ")";
+		return latinName + " (" + id + ")";
 	}
 
 }

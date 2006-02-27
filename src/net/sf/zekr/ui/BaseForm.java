@@ -19,7 +19,7 @@ public abstract class BaseForm {
 	protected Shell shell;
 	protected String title;
 	protected Display display;
-	protected ApplicationConfig config = ApplicationConfig.getInsatnce();
+	protected ApplicationConfig config = ApplicationConfig.getInstance();
 	protected LanguageEngine langEngine = LanguageEngine.getInstance();
 	protected final ResourceManager resource = ResourceManager.getInstance();
 

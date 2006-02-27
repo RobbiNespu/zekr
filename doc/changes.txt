@@ -43,6 +43,7 @@ Features/Enhancements:
 	Enhanced presentation for sajda sign (character \u6E9)
 	Text box replace with an editable combo box (can hold up to 40 search history).
 	A Linux port is available (Mozilla 1.4+ GTK2 must be installed)
+	A Mac port is available. (25-2-06)
 Bug fixes:
 	Unicode ALEF_MADDA (0x622) is now acted like alef when searching with non-matching diacritics
 	All the following misspelling was changed from column one to column two:
@@ -50,4 +51,12 @@ Bug fixes:
 	joz			juz
 	Search problem. ==> (√√‰–— Â„ was found but √‰–— Â„ could not be found)
 
-		
+Version 0.3.0 release - [4-3-06]
+Features/Enhancements:
+	Log enhancements. More info about system (OS, JRE, locale, ...) are stored.
+	Translation support:
+		Basic support for translation packs.
+		2 Different views for translation: 2 frames and inline.
+		Ayatollah Makarem Shirazi's translation is added under a non-commercial use license
+Bug fixes:
+

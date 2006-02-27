@@ -119,10 +119,6 @@ acronym {
 	font-size: 15px;
 }
 
-a.noLink {
-	text-decoration:  none;
-}
-
 .menuItem a {
 	padding:          4px;
 	margin:           2px;
@@ -167,4 +163,15 @@ div.answer {
 	padding-bottom: 20px;
 	color: black;
 }
+
+a.noLink {
+	text-decoration: none;
+	color: rgb(100, 100, 250);
+}
+
+a.noLink : hover {
+	text-decoration: none;
+	color: rgb(100, 100, 250);
+}
+
 /* ----- */

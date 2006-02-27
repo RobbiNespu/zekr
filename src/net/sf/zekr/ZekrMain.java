@@ -9,7 +9,10 @@
 
 package net.sf.zekr;
 
+import java.util.Date;
+
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.InitRuntime;
 import net.sf.zekr.engine.log.Logger;
@@ -32,7 +35,7 @@ public class ZekrMain {
 	 */
 	static void startZekr() {
 		try {
-			logger.info("Starting The Zekr Platform...");
+			logger.info("Starting The Zekr Platform " + GlobalConfig.ZEKR_VERSION + " (" + new Date() + ")");
 			SplashScreen splash = new SplashScreen(display);
 			splash.show();
 
@@ -53,9 +56,9 @@ public class ZekrMain {
 	}
 
 	private static void test() {
-		((TranslationData) ApplicationConfig.getInsatnce().
+		((TranslationData) ApplicationConfig.getInstance().
 				getTranslation().getAllTranslation().iterator().next()).load();
-		((TranslationData) ApplicationConfig.getInsatnce().
+		((TranslationData) ApplicationConfig.getInstance().
 		getTranslation().getAllTranslation().iterator().next()).equals(null);
 	}
 

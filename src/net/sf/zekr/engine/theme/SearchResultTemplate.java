@@ -32,15 +32,13 @@ import net.sf.zekr.engine.search.SearchUtils;
  * @since	  Zekr 1.0
  * @version   0.2
  */
-public class SearchResultTemplate {
+public class SearchResultTemplate extends BaseViewTemplate {
 	IQuranText quran;
 	private final static Logger logger = Logger.getLogger(SearchResultTemplate.class);
 
 	public String transform(String keyword, boolean matchDiac) {
-		LanguageEngine langEngine = ApplicationConfig.getInsatnce().getLanguageEngine();
 		QuranSearch qs;
 		String ret = null;
-		TemplateEngine engine = TemplateEngine.getInstance();
 		try {
 			qs = new QuranSearch(quran = QuranText.getInstance(), matchDiac);
 			Map result = new LinkedHashMap();

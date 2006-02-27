@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="javadoc">
-    <target name="javadoc">
-        <javadoc destdir="../doc/api" access="private" source="1.4" use="true" 
-        	notree="false" nonavbar="false" noindex="false" 
-        	splitindex="true" author="true" version="true" 
-        	nodeprecatedlist="false" nodeprecated="false" 
-        	packagenames="net.sf.zekr.engine.log,net.sf.zekr.common.runtime,net.sf.zekr.engine.language,net.sf.zekr.common.config,net.sf.zekr.common.resource.dynamic,net.sf.zekr.engine.xml,net.sf.zekr.engine.template,net.sf.zekr.common.resource,net.sf.zekr.common.util,net.sf.zekr.ui,net.sf.zekr" 
-        	sourcepath="../src" classpath="." doctitle="The Zekr Project"/>
-    </target>
+	<target name="javadoc">
+		<javadoc access="package" additionalparam=" -keywords" 
+			author="true" 
+			classpath="lib/velocity-1.4.jar;lib/swt-win32.jar;lib/log4j-1.2.8.jar;lib/commons-collections.jar" 
+			destdir="D:\Java\Programs\Zekr\dist\0.2.0\doc-api" 
+			doctitle="The Zekr Platform API Reference" 
+			nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" 
+			packagenames="net.sf.zekr.engine.template,net.sf.zekr,net.sf.zekr.ui.error,net.sf.zekr.engine.xml,net.sf.zekr.common.util,net.sf.zekr.common.resource.dynamic,net.sf.zekr.engine.log,net.sf.zekr.engine.search,net.sf.zekr.common.resource,net.sf.zekr.ui,net.sf.zekr.common.config,net.sf.zekr.engine.language,net.sf.zekr.common.runtime" 
+			source="1.4" sourcepath="src" splitindex="true" use="true" version="true" />
+	</target>
 </project>

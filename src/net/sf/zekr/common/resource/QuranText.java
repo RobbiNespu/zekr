@@ -33,7 +33,7 @@ public class QuranText implements IQuranText {
 
 	/** The full quran text */
 	private String[][] quranText = new String[114][];
-	private ApplicationConfig appConfig = ApplicationConfig.getInsatnce();
+	private ApplicationConfig appConfig = ApplicationConfig.getInstance();
 	private QuranTextProperties textProps = QuranTextProperties.getInstance();
 
 
@@ -115,4 +115,10 @@ public class QuranText implements IQuranText {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.zekr.common.util.IQuranText#getFullText()
+	 */
+	public String[][] getFullText() {
+		return quranText;
+	}
 }

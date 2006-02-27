@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -39,16 +40,16 @@ public class Translation {
 		this.defaultTrans = defaultTrans;
 	}
 
-	public TranslationData get(String langId, String transId) {
-		return (TranslationData) map.get(getKey(langId, transId));
+	public TranslationData get(Locale locale, String transId) {
+		return (TranslationData) map.get(getKey(locale, transId));
 	}
 
-	private String getKey(String langId, String transId) {
-		return langId + "_" + transId;
+	private String getKey(Locale locale, String transId) {
+		return locale + "_" + transId;
 	}
 
 	public void add(TranslationData td) {
-		map.put(getKey(td.langId, td.transId), td);
+		map.put(getKey(td.locale, td.transId), td);
 	}
 	
 	public Collection getAllTranslation() {

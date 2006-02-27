@@ -49,7 +49,7 @@ public class QuranFormMenuFactory {
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.form = form;
-		config = ApplicationConfig.getInsatnce();
+		config = ApplicationConfig.getInstance();
 		dict = config.getLanguageEngine();
 		this.shell = shell;
 	}

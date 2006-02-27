@@ -9,10 +9,16 @@
 
 package net.sf.zekr.engine.log;
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.Map.Entry;
+
 import net.sf.zekr.ZekrMain;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.ui.error.ErrorForm;
 
+import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
 import org.apache.log4j.PropertyConfigurator;
@@ -44,6 +50,26 @@ public class Logger {
 	private Logger() {
 		PropertyConfigurator.configure("res/config/lib/logger.properties");
 		logger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
+		sysInfo();
+	}
+
+	private void sysInfo() {
+		String n = System.getProperty("line.separator");
+		logger.info("System information:" + "\n" + 
+				"OS info:\t\t" +  System.getProperty("os.name") + " - "
+				+ System.getProperty("os.version") + " - " + System.getProperty("os.arch") + n
+				+ "JVM info:\t\t" + System.getProperty("java.runtime.name") + " - "
+				+ System.getProperty("java.vm.specification.vendor") + " - "
+				+ System.getProperty("java.version") + n + "User info:\t\t"
+				+ System.getProperty("user.home") + " - " + System.getProperty("user.dir") + " - "
+				+ System.getProperty("user.language") + "-" + System.getProperty("user.country")
+				+ n + "Encoding info:\t" + System.getProperty("file.encoding"));
+		
+//		Set s = System.getProperties().entrySet();
+//		for (Iterator iter = s.iterator(); iter.hasNext();) {
+//			Entry entry = (Entry) iter.next();
+//			logger.info(entry.getKey() + " - " + entry.getValue());
+//		}
 	}
 
 	/**

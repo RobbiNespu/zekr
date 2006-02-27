@@ -24,11 +24,8 @@ import net.sf.zekr.engine.log.Logger;
  * @since Zekr 1.0
  * @version 0.1
  */
-public class QuranViewTemplate extends AbstractQuranViewTemplate {
-	public static final String LINE_BY_LINE_LAYOUT = "BLOCK";
-	public static final String BLOCK_LAYOUT = "INLINE";
-
-	public QuranViewTemplate(IQuranText text) {
+public class TranslationViewTemplate extends AbstractQuranViewTemplate {
+	public TranslationViewTemplate(IQuranText text) {
 		super(text);
 	}
 }

@@ -16,6 +16,13 @@ import java.io.File;
  * @version 0.1
  */
 public class FileUtils {
+	/**
+	 * A more enhanced implementation of File.delete() with also deletes directories
+	 * recursively.
+	 * 
+	 * @param file
+	 * @return <code>true</code> if successful, <code>false</code> otherwise
+	 */
 	public static boolean delete(File file) {
 		if (file.isDirectory())
 			if (file.list().length == 0)

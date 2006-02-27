@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<language current="fa_IR" default="en_US">
-		<pack file="farsi.xml" id="fa_IR" lName="Farsi" name="فارسی" />
-		<pack file="english.xml" id="en_US" lName="English" name="English" />
-		<pack file="indonesian.xml" id="id_ID" lName="Indonesian" name="Indonesian" />
-		<pack file="french.xml" id="fr_FR" lName="French" name="Français" />
-		<pack file="arabic.xml" id="ar_MA" lName="Arabic" name="عربي" />
-		<pack file="german.xml" id="de_DE" lName="Arabic" name="Deutsch" />
+		<pack file="farsi.xml" id="fa_IR" lName="Farsi" name="فارسی"/>
+		<pack file="english.xml" id="en_US" lName="English" name="English"/>
+		<pack file="indonesian.xml" id="id_ID" lName="Indonesian" name="Indonesian"/>
+		<pack file="french.xml" id="fr_FR" lName="French" name="Français"/>
+		<pack file="arabic.xml" id="ar_MA" lName="Arabic" name="عربي"/>
+		<pack file="german.xml" id="de_DE" lName="Arabic" name="Deutsch"/>
 	</language>
 
 	<quran>
-		<file file="text/quran-1256.txt" id="QURAN_ARABIC_TEXT" />
-		<file file="config/quran-text-config.xml" id="QURAN_CONFIG" />
-		<file file="text/quran-properties.xml" id="QURAN_DETAIL" />
+		<file file="text/quran-1256.txt" id="QURAN_ARABIC_TEXT"/>
+		<file file="config/quran-text-config.xml" id="QURAN_CONFIG"/>
+		<file file="text/quran-properties.xml" id="QURAN_DETAIL"/>
 	</quran>
 	
-	<translations default="makarem">
-		<translation file="makarem.txt" transId="makarem" langId="fa_IR" encoding="Cp1256" />
+	<translations default="shakir">
+		<translation encoding="Cp1256" file="makarem.txt" country="IR" language="fa" 
+					transId="makarem" name="Ayatollah Makarem Shirazi" localizedName="آیت‌الله ناصر مکارم شیرازی" />
+		<translation encoding="Cp1256" file="yusufali.txt" language="en" country="US"
+					transId="yusufali" name="Abdullah Yusufali" />
+		<translation encoding="Cp1256" file="pickthal.txt" language="en" country="US"
+					transId="pickthal" name="Pickthal" />
+		<translation encoding="Cp1256" file="shakir.txt" language="en" country="US"
+					transId="shakir" name="Shakir" />
 	</translations>
 	
 	<view>

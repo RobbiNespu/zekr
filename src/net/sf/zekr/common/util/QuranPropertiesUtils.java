@@ -180,7 +180,7 @@ public class QuranPropertiesUtils {
 	 * @return Sura properties as a <code>Map</code>
 	 */
 	public static Map getSuraPropMap(int suraNum) {
-		LanguageEngine dict = ApplicationConfig.getInsatnce().getLanguageEngine();
+		LanguageEngine dict = ApplicationConfig.getInstance().getLanguageEngine();
 		QuranPropertiesUtils.getSuraNames(); // load!
 		SuraProperties sura = QuranProperties.getInstance().getSura(suraNum);
 		Map map = new HashMap();
@@ -199,7 +199,7 @@ public class QuranPropertiesUtils {
 	 *         Madani)
 	 */
 	public static String getSuraDescent(boolean isMadani) {
-		LanguageEngine dict = ApplicationConfig.getInsatnce().getLanguageEngine();
+		LanguageEngine dict = ApplicationConfig.getInstance().getLanguageEngine();
 		return isMadani ? dict.getMeaning("MADANI") : dict.getMeaning("MAKKI");
 	}
 

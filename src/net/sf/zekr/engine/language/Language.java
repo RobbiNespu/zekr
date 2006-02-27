@@ -56,21 +56,21 @@ public class Language {
 //	/**
 //	 * Instantiate a new language with the given <code>langName</code>.
 //	 * 
-//	 * @param langId
+//	 * @param locale
 //	 *            the 2-character language pack ID which should be unique (eg. fa for
 //	 *            Farsi, or en for English)
 //	 * @throws LanguagePackException
-//	 *             if the language pack with ID equal to <code>langId</code> does not
+//	 *             if the language pack with ID equal to <code>locale</code> does not
 //	 *             exists
 //	 */
-//	public Language(String langId) throws LanguagePackException {
+//	public Language(String locale) throws LanguagePackException {
 //		ApplicationConfig config = ApplicationConfig.getInsatnce();
 //		langNode = config.getLanguageNode();
 //		langPackNode = XmlUtils.getNodeByNamedAttr(langNode.getChildNodes(),
-//			ApplicationConfig.LANGUAGE_PACK_TAG, ApplicationConfig.ID_ATTR, langId);
-//		langPackId = langId;
+//			ApplicationConfig.LANGUAGE_PACK_TAG, ApplicationConfig.ID_ATTR, locale);
+//		langPackId = locale;
 //		if (langPackNode == null)
-//			throw new LanguagePackException("Can not find language pack for language " + langId);
+//			throw new LanguagePackException("Can not find language pack for language " + locale);
 //	}
 
 	public String getPackPath() {
