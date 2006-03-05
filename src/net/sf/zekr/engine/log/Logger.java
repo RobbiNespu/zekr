@@ -26,7 +26,6 @@ import org.apache.log4j.PropertyConfigurator;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 /*
  * TODO: This class should be in fact an adapter for log4j. In other words you should make
@@ -55,21 +54,20 @@ public class Logger {
 
 	private void sysInfo() {
 		String n = System.getProperty("line.separator");
-		logger.info("System information:" + "\n" + 
-				"OS info:\t\t" +  System.getProperty("os.name") + " - "
-				+ System.getProperty("os.version") + " - " + System.getProperty("os.arch") + n
-				+ "JVM info:\t\t" + System.getProperty("java.runtime.name") + " - "
+		logger.info("System information:" + "\n" + "OS info:\t\t" + System.getProperty("os.name")
+				+ " - " + System.getProperty("os.version") + " - " + System.getProperty("os.arch")
+				+ n + "JVM info:\t\t" + System.getProperty("java.runtime.name") + " - "
 				+ System.getProperty("java.vm.specification.vendor") + " - "
 				+ System.getProperty("java.version") + n + "User info:\t\t"
 				+ System.getProperty("user.home") + " - " + System.getProperty("user.dir") + " - "
 				+ System.getProperty("user.language") + "-" + System.getProperty("user.country")
 				+ n + "Encoding info:\t" + System.getProperty("file.encoding"));
-		
-//		Set s = System.getProperties().entrySet();
-//		for (Iterator iter = s.iterator(); iter.hasNext();) {
-//			Entry entry = (Entry) iter.next();
-//			logger.info(entry.getKey() + " - " + entry.getValue());
-//		}
+
+		// Set s = System.getProperties().entrySet();
+		// for (Iterator iter = s.iterator(); iter.hasNext();) {
+		// Entry entry = (Entry) iter.next();
+		// logger.info(entry.getKey() + " - " + entry.getValue());
+		// }
 	}
 
 	/**
@@ -86,8 +84,7 @@ public class Logger {
 	 * For logging more precisely by implying the class name from which log message is
 	 * sent.
 	 * 
-	 * @param theClass
-	 *            logging source class
+	 * @param theClass logging source class
 	 * @return corresponding logger
 	 */
 	public static Logger getLogger(Class theClass) {
@@ -118,29 +115,34 @@ public class Logger {
 	}
 
 	/**
-	 * @param msg
-	 *            any <code>String</code> or <code>Exception</code>
+	 * @param msg any <code>String</code> or <code>Exception</code>
 	 */
 	public void log(Object msg) {
 		if (msg instanceof Throwable)
-			logException((Throwable) msg);
+			logException((Throwable) msg, true);
 		else
 			log(DEAFALT_LEVEL, msg);
+	}
+
+	public void implicitLog(Throwable exc) {
+		logException(exc, false);
 	}
 
 	public void log(Level level, Object msg) {
 		logger.log(level, msg);
 	}
 
-	private static void logException(Throwable t) {
-		ErrorForm ef = new ErrorForm(ZekrMain.getDisplay(), t);
-		logger.error("[Exception stack trace for \"" + t.toString() + "\"]");
-		StackTraceElement elements[] = t.getStackTrace();
+	private static void logException(Throwable th, boolean showForm) {
+		logger.error("[Exception stack trace for \"" + th.toString() + "\"]");
+		StackTraceElement elements[] = th.getStackTrace();
 		for (int i = 0, n = elements.length; i < n; i++) {
 			logger.log(Priority.ERROR, STACK_TRACE_INDENRAION + elements[i].toString());
 		}
-		logger.error("[/\"" + t.toString() + "\"]");
-		ef.show();
+		logger.error("[/\"" + th.toString() + "\"]");
+		if (showForm) {
+			ErrorForm ef = new ErrorForm(ZekrMain.getDisplay(), th);
+			ef.show();
+		}
 	}
 
 	private static String getStackTrace(Throwable t) {

@@ -35,12 +35,13 @@ public class ZekrMain {
 	 */
 	static void startZekr() {
 		try {
-			logger.info("Starting The Zekr Platform " + GlobalConfig.ZEKR_VERSION + " (" + new Date() + ")");
+			logger.info("Starting The Zekr Platform " + GlobalConfig.ZEKR_VERSION + " ("
+					+ new Date() + ")");
 			SplashScreen splash = new SplashScreen(display);
 			splash.show();
 
 			InitRuntime runtime = new InitRuntime();
-			runtime.configureDirectories();
+			runtime.configure();
 
 			QuranForm quraForm = new QuranForm(display);
 			quraForm.show(750, 580);
@@ -49,17 +50,21 @@ public class ZekrMain {
 			quraForm.dispose();
 
 		} catch (Throwable t) {
-			logger.log(t);
+			if (logger != null)
+				logger.log(t);
+			else
+				t.printStackTrace();
 		} finally {
-			logger.info("Zekr is now down.\n");
+			if (logger != null)
+				logger.info("Zekr is now down.\n");
 		}
 	}
 
 	private static void test() {
-		((TranslationData) ApplicationConfig.getInstance().
-				getTranslation().getAllTranslation().iterator().next()).load();
-		((TranslationData) ApplicationConfig.getInstance().
-		getTranslation().getAllTranslation().iterator().next()).equals(null);
+		((TranslationData) ApplicationConfig.getInstance().getTranslation().getAllTranslation()
+				.iterator().next()).load();
+		((TranslationData) ApplicationConfig.getInstance().getTranslation().getAllTranslation()
+				.iterator().next()).equals(null);
 	}
 
 	public static void main(String[] args) {

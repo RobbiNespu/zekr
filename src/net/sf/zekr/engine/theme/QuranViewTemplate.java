@@ -14,7 +14,6 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranText;
-import net.sf.zekr.common.runtime.RuntimeUtilities;
 import net.sf.zekr.common.util.IQuranText;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;

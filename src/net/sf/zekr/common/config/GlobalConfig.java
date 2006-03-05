@@ -40,4 +40,22 @@ public class GlobalConfig {
 	public static final String OUT_HTML_ENCODING = "UTF-8";
 
 	public static final String HOME_PAGE = "http://siahe.com/zekr";
+
+	/**
+	 * Holds user country (runtime property <code>user.country</code>). e.g. IR, US,
+	 * etc.
+	 */
+	public static final String USER_COUNTRY = System.getProperty("user.country");
+
+	/** This constant holds the current working directory for the application. */
+	public static final String RUNTIME_DIR = System.getProperty("user.dir");
+
+	/** Holds user home directory. */
+	public static final String USER_HOME_PATH = System.getProperty("user.home");
+
+	/**
+	 * Holds user language (runtime property <code>user.language</code>). e.g. fa, en,
+	 * etc.
+	 */
+	public static final String USER_LANGUAGE = System.getProperty("user.language");
 }

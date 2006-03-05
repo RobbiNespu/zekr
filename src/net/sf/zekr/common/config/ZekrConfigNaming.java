@@ -22,10 +22,12 @@ public class ZekrConfigNaming {
 	public static final String TRANS_ID_ATTR = "transId";
 	public static final String VALUE_ATTR = "value";
 	public static final String FILE_ATTR = "file";
-	public static final String ITEM_TAG = "item";
 	public static final String ENCODING_ATTR = "encoding";
 	public static final String DEFAULT_ATTR = "default";
+	public static final String THEME_ATTR = "theme";
+	public static final String AUTHOR_ATTR = "author";
 	public static final String LOCALIZED_NAME_ATTR = "localizedName";
+	public static final String LINE_DELIMITER_ATTR = "lineDelimiter";
 
 	public static final String LANGUAGE_TAG = "language";
 	public static final String LANGUAGE_PACK_TAG = "pack";
@@ -46,5 +48,8 @@ public class ZekrConfigNaming {
 	public static final String QURAN_ARABIC_TEXT_ID = "QURAN_ARABIC_TEXT";
 	
 	public static final String VIEW_TAG = "view";
-	public static final String TEXT_LAYOUT_ID = "TEXT_LAYOUT";
+	public static final String PROP_TAG = "property";
+	public static final String QURAN_LAYOUT = "QURAN_LAYOUT";
+	public static final String TRANS_LAYOUT = "TRANS_LAYOUT";
+	
 }

@@ -30,7 +30,7 @@ public class Translation {
 	private final static Logger logger = Logger.getLogger(Translation.class);
 
 	TranslationData defaultTrans;
-	private Map map = new HashMap();
+	private Map translations = new HashMap();
 
 	public TranslationData getDefault() {
 		return defaultTrans;
@@ -41,7 +41,7 @@ public class Translation {
 	}
 
 	public TranslationData get(Locale locale, String transId) {
-		return (TranslationData) map.get(getKey(locale, transId));
+		return (TranslationData) translations.get(getKey(locale, transId));
 	}
 
 	private String getKey(Locale locale, String transId) {
@@ -49,11 +49,11 @@ public class Translation {
 	}
 
 	public void add(TranslationData td) {
-		map.put(getKey(td.locale, td.transId), td);
+		translations.put(getKey(td.locale, td.transId), td);
 	}
 	
 	public Collection getAllTranslation() {
-		return map.values();
+		return translations.values();
 	}
 
 }

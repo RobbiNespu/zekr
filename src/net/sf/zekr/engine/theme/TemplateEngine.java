@@ -11,6 +11,9 @@ package net.sf.zekr.engine.theme;
 
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.engine.log.Logger;
@@ -22,6 +25,7 @@ import org.apache.velocity.app.Velocity;
 
 /**
  * An adapter class for velocity template engine.
+ * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  * @version 0.1
@@ -36,8 +40,10 @@ public class TemplateEngine {
 	 */
 	private TemplateEngine() {
 		try {
-			Velocity.setExtendedProperties(new ExtendedProperties("res/config/lib/velocity.properties"));
-//			Velocity.addProperty("file.resource.loader.path", ApplicationPath.THEME_DIR);
+			Velocity.setExtendedProperties(new ExtendedProperties(
+					"res/config/lib/velocity.properties"));
+			// Velocity.addProperty("file.resource.loader.path",
+			// ApplicationPath.THEME_DIR);
 			Velocity.init();
 			context = new VelocityContext();
 		} catch (Exception e) {
@@ -58,8 +64,7 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * @param name
-	 *            The file name of the desired template
+	 * @param name The file name of the desired template
 	 * @return The associated <code>Template</code> object
 	 * @throws Exception
 	 */
@@ -78,8 +83,18 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * @param name
-	 *            The file name of the desired template
+	 * Add a collection of key-value pairs to the template engine context. Keys should be
+	 * of type <code>java.lang.String</code>.
+	 */
+	public void putAll(Map map) {
+		for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
+			Entry entry = (Entry) iter.next();
+			context.put((String) entry.getKey(), entry.getValue());
+		}
+	}
+
+	/**
+	 * @param name The file name of the desired template
 	 * @return The result <code>String</code> after the context map is merged (applied)
 	 *         into the source template file.
 	 * @throws Exception

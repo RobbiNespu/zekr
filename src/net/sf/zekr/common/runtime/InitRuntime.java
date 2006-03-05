@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import net.sf.zekr.common.util.FileUtils;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.theme.ThemeTemplate;
 
 /**
  * @author Mohsen Saboorian
@@ -41,7 +42,7 @@ public class InitRuntime {
 	 */
 	public void configureDirectories() throws IOException {
 		logger.info("Making application required directories (if not exist)...");
-		recreateHtmlCache();
+//		recreateHtmlCache();
 
 		for (Iterator iter = dirList.iterator(); iter.hasNext();) {
 			File file = new File((String) iter.next());
@@ -67,6 +68,16 @@ public class InitRuntime {
 		
 		htmlCache.mkdir();
 		searchCache.mkdir();
+	}
+
+	public void configure() throws IOException {
+		configureDirectories();
+		createCommonFiles();
+	}
+
+	private void createCommonFiles() {
+		ThemeTemplate ct = new ThemeTemplate();
+//		ct.transform();
 	}
 
 }

@@ -37,8 +37,8 @@ public class ApplicationPath {
 	 * This is the directory containing quran source and other related sources.
 	 */
 	public static final String TEXT_DIR = rm.getString("text.quran.baseDir");
-	
 	public static final String TRANSLATION_DIR = rm.getString("text.trans.baseDir");
+	public static final String TRANSLATION_DESC = rm.getString("text.trans.desc");
 
 	/**
 	 * The directory relative path, containing language packs and language settings.
@@ -46,6 +46,7 @@ public class ApplicationPath {
 	public static final String LANGUAGE_DIR = rm.getString("lang.baseDir");
 
 	public static final String THEME_DIR = rm.getString("theme.baseDir");
+	public static final String THEME_DESC = rm.getString("theme.desc");
 
 	// Files
 

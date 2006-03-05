@@ -10,13 +10,20 @@
 package net.sf.zekr.common.config;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.xml.transform.TransformerException;
 
@@ -24,20 +31,20 @@ import net.sf.zekr.common.resource.Translation;
 import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.InitRuntime;
 import net.sf.zekr.common.runtime.RuntimeConfig;
-import net.sf.zekr.common.runtime.RuntimeUtilities;
 import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.theme.Theme;
+import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.xml.NodeList;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 import net.sf.zekr.engine.xml.XmlWriter;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import com.sun.org.apache.xml.internal.utils.LocaleUtility;
 
 /**
  * This singleton class reads the config files by the first invocation of
@@ -46,14 +53,13 @@ import com.sun.org.apache.xml.internal.utils.LocaleUtility;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.2
  */
 public class ApplicationConfig extends ZekrConfigNaming {
 	private final Logger logger = Logger.getLogger(this.getClass());
 	private static ApplicationConfig thisInstance;
 
 	private RuntimeConfig runtimeConfig = new RuntimeConfig();
-	
+
 	private XmlReader configReader;
 	private LanguageEngine langEngine;
 	private Language language;
@@ -65,6 +71,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	private Element transElem;
 
 	private Translation translation = new Translation();
+	private Theme theme = new Theme();
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -76,6 +83,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		extractLangProps();
 		extractRuntimeConfig();
 		extractTransProps();
+		extractViewProps();
 	}
 
 	public static ApplicationConfig getInstance() {
@@ -83,7 +91,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 			thisInstance = new ApplicationConfig();
 		return thisInstance;
 	}
-	
+
 	/**
 	 * Will be called when any setXXX() method has been called to be taken effect.
 	 */
@@ -133,49 +141,150 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		}
 		language.setDefaultLanguagePackId(defaultLangId);
 		if ("".equals(langElem.getAttribute(CURRENT_LANGUAGE_ATTR))) {
-			currentLangId = RuntimeUtilities.USER_LANGUAGE + "_" + RuntimeUtilities.USER_COUNTRY;
+			currentLangId = GlobalConfig.USER_LANGUAGE + "_" + GlobalConfig.USER_COUNTRY;
 			logger.warn("Current language will be set to \"" + currentLangId + "\".");
 			langElem.setAttribute(CURRENT_LANGUAGE_ATTR, currentLangId);
 			update = true;
 		}
-		Node langPackNode = XmlUtils.getElementByNamedAttr(langElem.getChildNodes(), LANGUAGE_PACK_TAG, ID_ATTR, currentLangId);
+		Node langPackNode = XmlUtils.getElementByNamedAttr(langElem.getChildNodes(),
+				LANGUAGE_PACK_TAG, ID_ATTR, currentLangId);
 		if (langPackNode == null) { // language pack details not found
 			logger.error("Can not find the language pack with id=\"" + currentLangId + "\".");
 			logger.error("Will load the default language pack instead.");
 			langPackNode = XmlUtils.getElementByNamedAttr(langElem.getChildNodes(),
 					LANGUAGE_PACK_TAG, ID_ATTR, defaultLangId);
-			language.setActiveLanguagePack((LanguagePack) language.getLanguageMap().get(defaultLangId));
+			language.setActiveLanguagePack((LanguagePack) language.getLanguageMap().get(
+					defaultLangId));
 		} else {
-			language.setActiveLanguagePack((LanguagePack) language.getLanguageMap().get(currentLangId));
+			language.setActiveLanguagePack((LanguagePack) language.getLanguageMap().get(
+					currentLangId));
 		}
-		
+
 		if (update)
 			updateFile();
 	}
-	
+
 	/**
-	 * This method extracts translation properties from the corresponding node in the config
-	 * file.
+	 * This method extracts translation properties from the corresponding node in the
+	 * config file.
 	 */
 	private void extractTransProps() {
-		TranslationData td;
-		logger.info("Loading translation files info.");
-		NodeList list = XmlUtils.getNodes(transElem, TRANSLATION_ITEM_TAG);
 		String def = transElem.getAttribute(DEFAULT_ATTR);
-		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			Element elem = (Element) iter.next();
-			td = new TranslationData();
-			td.locale = new Locale(elem.getAttribute(LANG_ATTR), elem.getAttribute(COUNTRY_ATTR));
-			td.transId = elem.getAttribute(TRANS_ID_ATTR);
-			td.encoding = elem.getAttribute(ENCODING_ATTR);
-			td.file = elem.getAttribute(FILE_ATTR);
-			td.name = elem.getAttribute(NAME_ATTR);
-			td.localizedName = elem.getAttribute(LOCALIZED_NAME_ATTR);
-			if (td.localizedName == null)
-				td.localizedName = td.name;
-			translation.add(td);
-			if (td.transId.equals(def))
-				translation.setDefault(td);
+		File transDir = new File(ApplicationPath.TRANSLATION_DIR);
+		logger.info("Loading translation files info from \"" + transDir + "\".");
+		FileFilter filter = new FileFilter() { // accept zip files
+			public boolean accept(File pathname) {
+				if (pathname.getName().endsWith(".zip"))
+					return true;
+				return false;
+			}
+		};
+		File[] trans = transDir.listFiles(filter);
+		TranslationData td;
+		ZipFile zipFile = null;
+		for (int i = 0; i < trans.length; i++) {
+			try {
+				zipFile = new ZipFile(trans[i]);
+				InputStream is = zipFile.getInputStream(new ZipEntry(
+						ApplicationPath.TRANSLATION_DESC));
+				// ZipInputStream zis = new ZipInputStream();
+				if (is == null) {
+					logger.warn("Ignoring invalid translation archive \"" + zipFile + "\".");
+					continue;
+				}
+				Reader reader = new InputStreamReader(is, "UTF8");
+				PropertiesConfiguration pc = new PropertiesConfiguration();
+				pc.load(reader);
+				td = new TranslationData();
+				td.locale = new Locale(pc.getString(LANG_ATTR), pc.getString(COUNTRY_ATTR));
+				td.transId = pc.getString(TRANS_ID_ATTR);
+				td.encoding = pc.getString(ENCODING_ATTR);
+				td.file = pc.getString(FILE_ATTR);
+				td.name = pc.getString(NAME_ATTR);
+				td.localizedName = pc.getString(LOCALIZED_NAME_ATTR);
+				td.archiveFile = zipFile;
+				td.lineDelimiter = pc.getString(LINE_DELIMITER_ATTR);
+				if (td.localizedName == null)
+					td.localizedName = td.name;
+
+				translation.add(td);
+				if (td.transId.equals(def))
+					translation.setDefault(td);
+
+			} catch (Exception e) {
+				logger.warn("Can not load translation pack \"" + zipFile
+						+ "\" properly because of the following exception:");
+				logger.implicitLog(e);
+			}
+		}
+
+		// for (Iterator iter = list.iterator(); iter.hasNext();) {
+		// Element elem = (Element) iter.next();
+		// td = new TranslationData();
+		// td.locale = new Locale(elem.getAttribute(LANG_ATTR),
+		// elem.getAttribute(COUNTRY_ATTR));
+		// td.transId = elem.getAttribute(TRANS_ID_ATTR);
+		// td.encoding = elem.getAttribute(ENCODING_ATTR);
+		// td.file = elem.getAttribute(FILE_ATTR);
+		// td.name = elem.getAttribute(NAME_ATTR);
+		// td.localizedName = elem.getAttribute(LOCALIZED_NAME_ATTR);
+		// if (td.localizedName == null)
+		// td.localizedName = td.name;
+		// translation.add(td);
+		// if (td.transId.equals(def))
+		// translation.setDefault(td);
+		// }
+	}
+
+	private void extractViewProps() {
+		String def = viewElem.getAttribute(THEME_ATTR);
+		File themeDir = new File(ApplicationPath.THEME_DIR);
+		logger.info("Loading theme files info from \"" + themeDir + "\".");
+		File[] themes = themeDir.listFiles();
+		ThemeData td;
+
+		NodeList nl = XmlUtils.getNodes(viewElem, PROP_TAG);
+		for (int i = 0; i < nl.getLength(); i++) {
+			Element el = (Element) nl.item(i);
+			theme.commonProps.put(el.getAttribute(NAME_ATTR), el.getAttribute(VALUE_ATTR));
+		}
+
+		Reader reader;
+		for (int i = 0; i < themes.length; i++) {
+			if (themes[i].isFile())
+				continue;
+			try {
+				File themeDesc = new File(themes[i] + File.separator + ApplicationPath.THEME_DESC);
+				if (!themeDesc.exists())
+					continue;
+				reader = new InputStreamReader(new FileInputStream(themeDesc), "UTF8");
+				PropertiesConfiguration pc = new PropertiesConfiguration();
+				pc.load(reader);
+				td = new ThemeData();
+				for (Iterator iter = pc.getKeys(); iter.hasNext();) {
+					String key = (String) iter.next();
+					td.props.put(key, pc.getString(key));
+				}
+
+				td.author = pc.getString("author");
+				td.name = pc.getString("name");
+				td.id = themes[i].getName();
+				td.props.remove("author");
+				td.props.remove("name");
+
+				theme.add(td);
+				logger.info("Theme \"" + td + "\" was loaded successfully.");
+				if (td.id.equals(def))
+					theme.setCurrent(td);
+			} catch (Exception e) {
+				logger.warn("Can not load theme \"" + themes[i].getName()
+						+ "\" properly because of the following exception:");
+				logger.implicitLog(e);
+			}
+		}
+		if (theme.getCurrent() == null) {
+			logger.warn("No default theme was set in main configuration file.");
+			theme.setCurrent(theme.get("default"));
 		}
 	}
 
@@ -205,7 +314,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 			langEngine = LanguageEngine.getInstance();
 		return langEngine;
 	}
-	
+
 	public void setCurrentLanguage(String langId) {
 		logger.info("Set current language to " + langId);
 		language.setActiveLanguagePack(langId);
@@ -220,17 +329,17 @@ public class ApplicationConfig extends ZekrConfigNaming {
 
 	/**
 	 * @param id config file id
-	 * @return  config file path
+	 * @return config file path
 	 */
 	public String getConfigFile(String id) {
-		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_CONFIG_TAG),
-			QURAN_CONFIG_TAG, ID_ATTR, id);
+		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils
+				.getNodes(quranElem, QURAN_CONFIG_TAG), QURAN_CONFIG_TAG, ID_ATTR, id);
 		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
 	}
 
 	public String getQuranText() {
 		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_TEXT_TAG),
-			QURAN_TEXT_TAG, ID_ATTR, QURAN_ARABIC_TEXT_ID);
+				QURAN_TEXT_TAG, ID_ATTR, QURAN_ARABIC_TEXT_ID);
 
 		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
 	}
@@ -240,15 +349,18 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	}
 
 	public String getQuranTextLayout() {
-		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, ITEM_TAG), ITEM_TAG,
-			ID_ATTR, TEXT_LAYOUT_ID);
-		return elem.getAttribute(VALUE_ATTR);
+		// Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem,
+		// PROP_TAG),
+		// PROP_TAG, NAME_ATTR, QURAN_LAYOUT);
+		// return elem.getAttribute(VALUE_ATTR);
+		return (String) theme.commonProps.get(QURAN_LAYOUT);
 	}
-	
+
 	public void setQuranTextLayout(String newLayout) {
-		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, ITEM_TAG), ITEM_TAG,
-				ID_ATTR, TEXT_LAYOUT_ID);
+		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
+				PROP_TAG, NAME_ATTR, QURAN_LAYOUT);
 		elem.setAttribute(VALUE_ATTR, newLayout);
+		theme.commonProps.put(QURAN_LAYOUT, newLayout);
 	}
 
 	public RuntimeConfig getRuntimeConfig() {
@@ -271,4 +383,14 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	public Translation getTranslation() {
 		return translation;
 	}
+
+	public Theme getTheme() {
+		return theme;
+	}
+
+	public void setCurrentTheme(String themeId) {
+		viewElem.setAttribute(THEME_ATTR, themeId);
+		theme.setCurrent(theme.get(themeId));
+	}
+
 }

@@ -30,7 +30,6 @@ import net.sf.zekr.engine.theme.TranslationViewTemplate;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.2
  */
 public class HtmlRepository {
 

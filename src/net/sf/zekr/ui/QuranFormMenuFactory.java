@@ -22,6 +22,7 @@ import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.QuranViewTemplate;
+import net.sf.zekr.engine.theme.ThemeData;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -150,6 +151,35 @@ public class QuranFormMenuFactory {
 				}
 			});
 		}
+
+		// cascading menu for view type
+		MenuItem theme = new MenuItem(viewMenu, SWT.CASCADE | direction);
+		theme.setText("&" + dict.getMeaning("THEME"));
+		Menu themeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+		theme.setMenu(themeMenu);
+		for (Iterator iter = config.getTheme().getAllThemes().iterator(); iter.hasNext();) {
+			ThemeData td = (ThemeData) iter.next();
+			MenuItem themeItem = new MenuItem(themeMenu, SWT.RADIO);
+			themeItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.theme")));
+			themeItem.setText(td.toString());
+			themeItem.setData(td.id);
+			if (td.id.equals(config.getTheme().getCurrent().id))
+				themeItem.setSelection(true);
+			themeItem.addListener(SWT.Selection, new Listener() {
+				public void handleEvent(Event event) {
+					MenuItem mi = (MenuItem) event.widget;
+					if (mi.getSelection() == true) {
+						if (!config.getTheme().getCurrent().id.equals(mi.getData())) {
+							logger.info("Change current theme to \"" + mi.getData() + "\".");
+							config.setCurrentTheme((String) mi.getData());
+							config.updateFile();
+							recreateForm();
+						}
+					}
+				}
+			});
+		}
+
 
 		// cascading menu for view type
 		MenuItem viewType = new MenuItem(viewMenu, SWT.CASCADE | direction);

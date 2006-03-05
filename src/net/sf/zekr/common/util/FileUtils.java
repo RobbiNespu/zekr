@@ -9,6 +9,10 @@
 package net.sf.zekr.common.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author Mohsen Saboorian
@@ -50,6 +54,21 @@ public class FileUtils {
 				deltree(new File(file.getPath() + File.separatorChar + names[i]));
 		}
 		return file.delete();
+	}
+
+	public static String readFully(InputStream is, int size, String encoding) throws IOException {
+		InputStreamReader isr = new InputStreamReader(is, encoding);
+		char[] cbuf = new char[(int) size];
+		isr.read(cbuf);
+		String ret = new String(cbuf);
+		return ret;
+	}
+
+	/**
+	 * <code>FileUtils.readFully(is, size, "UTF-8")</code>
+	 */
+	public static String readFully(InputStream is, int size) throws IOException {
+		return readFully(is, size, "UTF-8");
 	}
 
 }

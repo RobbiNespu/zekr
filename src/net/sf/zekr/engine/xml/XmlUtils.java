@@ -45,7 +45,7 @@ public class XmlUtils {
 		int childCount = nodeList.size();
 		for (int i = 0; i < childCount; i++) {
 			tempNode = nodeList.item(i);
-			if (tempNode.getNodeName().equalsIgnoreCase(tagName))
+			if (tempNode.getNodeName().equals(tagName))
 				retNodeList.add(tempNode);
 		}
 		return retNodeList;

@@ -11,6 +11,7 @@ package net.sf.zekr.ui;
 
 import java.util.Map;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.dynamic.HtmlRepository;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
@@ -24,8 +25,14 @@ import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -41,6 +48,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
@@ -94,7 +103,7 @@ public class QuranForm extends BaseForm {
 	 */
 	public QuranForm(Display display) {
 		this.display = display;
-
+		ApplicationConfig config = ApplicationConfig.getInstance();
 		widgetProp = new PropertyGenerator(config);
 		quranProp = QuranProperties.getInstance();
 		init();
@@ -133,14 +142,14 @@ public class QuranForm extends BaseForm {
 //		gridData = new GridData(GridData.FILL_BOTH);
 		Composite workBar = new Composite(body, SWT.NONE);
 		fl = new FillLayout(SWT.VERTICAL);
-//		fl.spacing = 5;
-//		fl.marginHeight = fl.marginWidth = 5;
 		workBar.setLayout(fl);
 //		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL, GridData.VERTICAL_ALIGN_CENTER, true, true);
 		gridData = new GridData(GridData.FILL_VERTICAL);
-//		gridData.widthHint = 200;
 		workBar.setLayoutData(gridData);
 		gridLayout = new GridLayout(1, false);
+//		gridLayout.verticalSpacing = 2;
+//		gridLayout.horizontalSpacing = 2;
+		gridLayout.marginHeight = gridLayout.marginWidth = 2;
 		workBar.setLayout(gridLayout);
 		
 
@@ -148,26 +157,21 @@ public class QuranForm extends BaseForm {
 //		gridData.widthHint = 170;
 //		navGroup.setLayoutData(gridData);
 
-//		Composite browsers = new Composite(body, SWT.NONE);
-		Composite browsers = new Composite(body, SWT.NONE);
-
-
-//		bodyForm.setWeights(new int[]{27, 73});
+		Composite bgroup = new Composite(body, SWT.NONE);
 		gridData = new GridData(GridData.FILL_BOTH);
-//		gridData.widthHint = 500;
-//		gridData.verticalSpan = 3;
-//		gridData.verticalIndent = -10;
-		browsers.setLayoutData(gridData);
+		bgroup.setLayoutData(gridData);
 		fl = new FillLayout(SWT.VERTICAL);
-//		fl.marginHeight = 2;
+		fl.marginHeight = fl.marginWidth = 2;
+		bgroup.setLayout(fl);
+
+		Composite browsers = new Group(bgroup, SWT.NONE);
+		fl = new FillLayout(SWT.VERTICAL);
 		browsers.setLayout(fl);
-//		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-//		gridData.grabExcessHorizontalSpace = true;
 
 //		Sash bSash = new Sash(browserGroup, SWT.HORIZONTAL);
 		final SashForm sf = new SashForm(browsers, SWT.VERTICAL);
-		sf.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-		sf.SASH_WIDTH = 5;
+		sf.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW));
+		sf.SASH_WIDTH = 4;
 
 //		fl = new FillLayout(SWT.HORIZONTAL);
 //		final Group quranGroup = new Group(sf, SWT.NONE);
@@ -200,24 +204,15 @@ public class QuranForm extends BaseForm {
 //		transGroup.setLayout(fl);
 		transBrowser = new Browser(sf, SWT.NONE);
 		transBrowser.setLayout(fl);
-		transBrowser.addListener(SWT.Resize, new Listener(){
+		transBrowser.addListener(SWT.Resize, new Listener() {
 			public void handleEvent(Event event) {
-				if (transBrowser.getSize().y < 25) {
-					if (sf.getWeights()[1] == 1) {
-						sf.setWeights(new int[] {1, 1});
-					} else {
-//						System.out.println(sf.getWeights()[0] + " -- " + sf.getWeights()[1]);
-						sf.setWeights(new int[] {sf.getWeights()[0] + sf.getWeights()[1] - 1, 1});
-					}
-//					sf.setMaximizedControl(quranBrowser);
-				} else {
-//					System.out.println(sf.getWeights()[0] + " == " + sf.getWeights()[1]);
-//				if (sf.getWeights().equals(new int[]{999, 1}))
-//					sf.setWeights(new int[] {1, 1});
-				}
+				if (transBrowser.getSize().y < 25)
+					sf.setMaximizedControl(quranBrowser);
+				else if (quranBrowser.getSize().y < 25)
+					sf.setMaximizedControl(transBrowser);
 			}
 		});
-		transBrowser.setUrl(url = HtmlRepository.getTransUrl(1, 0));
+		transBrowser.setUrl(url = HtmlRepository.getTransUrl(1, 0));		
 		
 		navGroup = new Group(workBar, SWT.NONE);
 		navGroup.setText(langEngine.getMeaning("OPTION") + ":");

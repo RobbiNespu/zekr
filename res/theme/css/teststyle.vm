@@ -1,0 +1,139 @@
+/*
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * Author:         Mohsen Saboorian
+ * @version 1
+ */
+html,body {
+	padding: 0;
+}
+
+body {
+	font: 13px "Traditional Arabic", Tahoma, Verdana, Nazli, Koodak, Helvetica, Arial, Sans-serif;
+	/*buttonface*/ /*rgb(210, 235, 255)*/
+	background: threedface url('../../image/zekr-bg.png') no-repeat fixed
+		center;
+	color: rgb(30, 40, 70);
+	margin: 0 5% 0 5%;
+}
+
+table.main {
+	height: 100%;
+	width: 100%;
+}
+
+td.barTop {
+	height: 40px;
+}
+
+td.searchBarTop {
+	height: 50px;
+	font-size: 0.9em;
+	font-family: Tahoma, Arial, Sans-serif;
+	border: 1px dashed silver;
+	padding: 2px;
+}
+
+td.barBottom {
+	height: 40px;
+}
+
+td.quran {
+	font: 22px "Traditional Arabic", Badr, Nazanin, Tahoma, Nazli, Koodak
+		Verdana, Helvetica, Arial, Sans-serif;
+	vertical-align: top;
+	border-left: 1px solid rgb(190, 220, 255);
+	border-right: 1px solid rgb(190, 220, 255);
+	border-top: 3px double rgb(140, 150, 250);
+	border-bottom: 3px double rgb(140, 150, 250);
+	padding: 7 8;
+	text-align: justify;
+	line-height: 150%;
+}
+
+div.selectedAya {
+	border-bottom: 1px dashed rgb(100, 200, 250);
+	border-right: 4px solid rgb(150, 150, 150);
+	border-left: 4px solid rgb(150, 150, 150);
+	padding-right: 10px;
+	padding-left: 10px;
+	margin: 3px 0px 3px 0;
+}
+
+span.selectedAya {
+	color: rgb(0, 50, 250);
+}
+
+div.aya {
+	border-bottom: 1px dashed rgb(100, 200, 250);
+	padding-right: 10px;
+	padding-left: 10px;
+	margin: 3px 0 3px 0;
+}
+
+
+span.sajda#minor {
+	font-family: serif;
+	color: rgb(200, 40, 40);
+/*	border: 1px rgb(200, 40, 40) solid;*/
+}
+
+span.sajda#major {
+	font-family: serif;
+	color: rgb(240, 10, 10);
+/*	border: 1px rgb(200, 40, 40) solid;*/
+}
+
+span.juzSign {
+	font-family: serif;
+	color: rgb(0, 40, 200);
+}
+
+span.ayaSign {
+}
+
+span.selectedAyaSign {
+	font-weight: bold;
+}
+
+td.searchResult {
+	vertical-align: top;
+}
+div.searchResult {
+	font: 22px "Traditional Arabic", Badr, Nazanin, Tahoma, Nazli, Koodak
+		Verdana, Helvetica, Arial, Sans-serif;
+	border: 5px solid rgb(200, 210, 240);
+}
+
+.searchResult div.odd {
+	margin: 2px 0px 0px 0px;
+}
+
+.searchResult div.even {
+	background-color: rgb(200, 210, 240);
+	margin: 2px 0px 0px 0px;
+}
+
+.searchResult span.highlight {
+	color: blue;
+	font-weight: bold;
+	background-color: white;
+}
+
+.searchResult a:link { 
+	color: rgb(10, 100, 240);
+	text-decoration: none;;
+}
+
+.searchResult a:visited { 
+	color: rgb(10, 100, 240);
+	text-decoration: none;
+}
+
+.searchResult a:hover { 
+	color: red;
+}
+	
+

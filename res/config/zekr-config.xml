@@ -15,18 +15,15 @@
 		<file file="text/quran-properties.xml" id="QURAN_DETAIL"/>
 	</quran>
 	
-	<translations default="shakir">
-		<translation encoding="Cp1256" file="makarem.txt" country="IR" language="fa" 
-					transId="makarem" name="Ayatollah Makarem Shirazi" localizedName="آیت‌الله ناصر مکارم شیرازی" />
-		<translation encoding="Cp1256" file="yusufali.txt" language="en" country="US"
-					transId="yusufali" name="Abdullah Yusufali" />
-		<translation encoding="Cp1256" file="pickthal.txt" language="en" country="US"
-					transId="pickthal" name="Pickthal" />
-		<translation encoding="Cp1256" file="shakir.txt" language="en" country="US"
-					transId="shakir" name="Shakir" />
+	<translations default="makarem">
+		<translation country="IR" encoding="Cp1256" file="makarem.txt" language="fa" localizedName="آیت‌الله ناصر مکارم شیرازی" name="Ayatollah Makarem Shirazi" transId="makarem"/>
+		<translation country="US" encoding="Cp1256" file="yusufali.txt" language="en" name="Abdullah Yusufali" transId="yusufali"/>
+		<translation country="US" encoding="Cp1256" file="pickthal.txt" language="en" name="Pickthal" transId="pickthal"/>
+		<translation country="US" encoding="Cp1256" file="shakir.txt" language="en" name="Shakir" transId="shakir"/>
 	</translations>
 	
-	<view>
-		<item id="TEXT_LAYOUT" value="BLOCK"/>
+	<view theme="default">
+		<property name="QURAN_LAYOUT" value="BLOCK"/>
+		<property name="TRANS_LAYOUT" value="BLOCK"/>
 	</view>
 </config>

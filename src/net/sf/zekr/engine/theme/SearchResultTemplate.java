@@ -16,9 +16,9 @@ import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.QuranText;
-import net.sf.zekr.common.runtime.RuntimeUtilities;
 import net.sf.zekr.common.util.IQuranText;
 import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.common.util.Range;
@@ -59,11 +59,10 @@ public class SearchResultTemplate extends BaseViewTemplate {
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE",
 					new String[] { k }));
 
-			engine.put("APP_PATH", RuntimeUtilities.RUNTIME_DIR.replaceAll("\\\\", "/"));
-			engine.put("DIRECTION", langEngine.getDirection());
+			engine.put("APP_PATH", GlobalConfig.RUNTIME_DIR.replaceAll("\\\\", "/"));
 			engine.put("THEME_DIR", ResourceManager.getInstance().getString("theme.baseDir"));
 
-			ret = engine.getUpdated(ResourceManager.getInstance().getString("theme.search.result"));
+			ret = engine.getUpdated(ResourceManager.getInstance().getString("theme.default.search.result"));
 		} catch (Exception e) {
 			logger.log(e);
 		}

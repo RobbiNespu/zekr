@@ -1,0 +1,50 @@
+#**
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * @version 1
+ *#
+
+#set ($INLINE = "INLINE")
+#set ($BLOCK = "BLOCK")
+
+#set ($MINOR = 0)
+#set ($MAJOR = 1)
+
+#set ($RPAREN = "&#64831;")
+#set ($LPAREN = "&#64830;")
+#set ($SAJDA_SIGN = "&#1769;")
+#foreach ($AYA in $AYA_LIST)
+	#set($AYA_NUM = $velocityCount)
+	#foreach ($JUZ in $JUZ_LIST)
+		#if ($JUZ.AyaNumber == $AYA_NUM)
+			<nobr><span class="juzSign" title="$JUZ">[$JUZ.Index]</span></nobr>
+		#end
+	#end
+	<a name="#${AYA_NUM}">
+	#if ($LAYOUT == $BLOCK)
+		<div class="aya" id="${SURA_NUM}_${AYA_NUM}">
+	#elseif ($LAYOUT == $INLINE)
+		<span class="aya" id="${SURA_NUM}_${AYA_NUM}">
+	#end
+			$AYA
+			<span title="${SURA_NAME} - ${AYA_NUM}">
+				<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" class="ayaSign">$RPAREN$AYA_NUM$LPAREN</span></nobr>
+			</span>
+			#foreach ($SAJDA in $SAJDA_LIST)
+				#if ($SAJDA.AyaNumber == $AYA_NUM)
+					#if ($SAJDA.Type == $MINOR)
+						<span id="minor" class="sajda" title="$SAJDA">[$SAJDA_SIGN]</span>
+					#elseif ($SAJDA.Type == $MAJOR)
+						<span id="major" class="sajda" title="$SAJDA">[[$SAJDA_SIGN]]</span>
+					#end
+				#end
+			#end
+	#if ($LAYOUT == $BLOCK)
+		</div>
+	#elseif ($LAYOUT == $INLINE)
+		</span>
+	#end
+	</a>
+#end

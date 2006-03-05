@@ -1,8 +1,8 @@
 package net.sf.zekr.engine.theme;
 
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranText;
-import net.sf.zekr.common.runtime.RuntimeUtilities;
 import net.sf.zekr.common.util.IQuranText;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
@@ -25,7 +25,7 @@ public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 			engine.put("AYA_LIST", text.getSura(sura));
 			engine.put("JUZ_LIST", QuranPropertiesUtils.getJuzInsideList(sura));
 			engine.put("SAJDA_LIST", QuranPropertiesUtils.getSajdaInsideList(sura));
-			engine.put("APP_PATH", RuntimeUtilities.RUNTIME_DIR.replaceAll("\\\\", "/"));
+			engine.put("APP_PATH", GlobalConfig.RUNTIME_DIR.replaceAll("\\\\", "/"));
 			engine.put("SURA_NUM", new Integer(sura)); // Note: suraNum is counted from 1
 			engine.put("SURA_NAME", QuranProperties.getInstance().getSura(sura).getName());
 			engine.put("TITLE", "");
