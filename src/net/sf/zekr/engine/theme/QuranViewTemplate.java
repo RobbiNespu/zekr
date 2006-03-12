@@ -29,5 +29,6 @@ public class QuranViewTemplate extends AbstractQuranViewTemplate {
 
 	public QuranViewTemplate(IQuranText text) {
 		super(text);
+		engine.put("LAYOUT", config.getQuranLayout());
 	}
 }

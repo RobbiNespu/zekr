@@ -11,13 +11,14 @@ package net.sf.zekr.ui;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.net.URI;
 import java.util.Collection;
 import java.util.Iterator;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.runtime.InitRuntime;
+import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
@@ -47,6 +48,10 @@ public class QuranFormMenuFactory {
 	QuranForm form;
 	private final static ResourceManager resource = ResourceManager.getInstance();
 	private final Logger logger = Logger.getLogger(this.getClass());
+	private MenuItem quranInlineLayoutItem;
+	private MenuItem transInlineLayoutItem;
+	private MenuItem quranBlockLayoutItem;
+	private MenuItem transBlockLayoutItem;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.form = form;
@@ -144,7 +149,7 @@ public class QuranFormMenuFactory {
 						if (!config.getLanguage().getActiveLanguagePack().getId().equals(
 								mi.getData())) {
 							config.setCurrentLanguage((String) mi.getData());
-							config.updateFile();
+//							config.updateFile();
 							recreateForm();
 						}
 					}
@@ -152,15 +157,45 @@ public class QuranFormMenuFactory {
 			});
 		}
 
-		// cascading menu for view type
+		// cascading menu for language selection
+		MenuItem transName = new MenuItem(viewMenu, SWT.CASCADE | direction);
+		transName.setImage(new Image(shell.getDisplay(), resource
+				.getString("icon.menu.translation")));
+		transName.setText("&" + dict.getMeaning("TRANSLATION"));
+		Menu transMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+		transName.setMenu(transMenu);
+		Collection trans = config.getTranslation().getAllTranslation();
+		for (Iterator iter = trans.iterator(); iter.hasNext();) {
+			TranslationData td = (TranslationData) iter.next();
+			final MenuItem transItem = new MenuItem(transMenu, SWT.RADIO);
+			transItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.book")));
+			transItem.setText(td.localizedName + " - " + td.locale);
+			transItem.setData(td.id);
+			if (config.getTranslation().getDefault().id.equals(transItem.getData()))
+				transItem.setSelection(true);
+			transItem.addListener(SWT.Selection, new Listener() {
+				public void handleEvent(Event event) {
+					MenuItem mi = (MenuItem) event.widget;
+					if (mi.getSelection() == true) {
+						if (!config.getTranslation().getDefault().id.equals(transItem.getData())) {
+							config.setCurrentTranslation((String) mi.getData());
+//							config.updateFile();
+							recreateForm();
+						}
+					}
+				}
+			});
+		}
+
+		// cascading menu for themes
 		MenuItem theme = new MenuItem(viewMenu, SWT.CASCADE | direction);
 		theme.setText("&" + dict.getMeaning("THEME"));
+		theme.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.theme")));
 		Menu themeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		theme.setMenu(themeMenu);
 		for (Iterator iter = config.getTheme().getAllThemes().iterator(); iter.hasNext();) {
 			ThemeData td = (ThemeData) iter.next();
 			MenuItem themeItem = new MenuItem(themeMenu, SWT.RADIO);
-			themeItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.theme")));
 			themeItem.setText(td.toString());
 			themeItem.setData(td.id);
 			if (td.id.equals(config.getTheme().getCurrent().id))
@@ -172,7 +207,7 @@ public class QuranFormMenuFactory {
 						if (!config.getTheme().getCurrent().id.equals(mi.getData())) {
 							logger.info("Change current theme to \"" + mi.getData() + "\".");
 							config.setCurrentTheme((String) mi.getData());
-							config.updateFile();
+//							config.updateFile();
 							recreateForm();
 						}
 					}
@@ -180,46 +215,102 @@ public class QuranFormMenuFactory {
 			});
 		}
 
-
 		// cascading menu for view type
 		MenuItem viewType = new MenuItem(viewMenu, SWT.CASCADE | direction);
-		viewType.setText("&" + dict.getMeaning("TYPE"));
+		viewType.setText("&" + dict.getMeaning("LAYOUT"));
+		viewType.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.layout")));
 		Menu viewTypeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		viewType.setMenu(viewTypeMenu);
 
-		final MenuItem blockLayoutItem = new MenuItem(viewTypeMenu, SWT.RADIO);
-		blockLayoutItem.setImage(new Image(shell.getDisplay(), resource
+		MenuItem quranViewType = new MenuItem(viewTypeMenu, SWT.CASCADE | direction);
+		quranViewType.setText("&" + dict.getMeaning("QURAN"));
+		MenuItem transViewType = new MenuItem(viewTypeMenu, SWT.CASCADE | direction);
+		transViewType.setText("&" + dict.getMeaning("TRANSLATION"));
+
+		Menu quranViewMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+		quranViewType.setMenu(quranViewMenu);
+		Menu transViewMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+		transViewType.setMenu(transViewMenu);
+
+		Listener blockListener = new Listener() {
+			public void handleEvent(Event event) {
+				if (event.widget.getData().equals("quran")) {
+					if (config.getQuranLayout().equals(QuranViewTemplate.BLOCK_LAYOUT)) {
+						logger.info("Change Quran layout to Line by line layout.");
+						config.setQuranLayout(QuranViewTemplate.LINE_BY_LINE_LAYOUT);
+//						config.updateFile();
+						reloadQuran();
+					}
+				} else {
+					if (config.getTransLayout().equals(QuranViewTemplate.BLOCK_LAYOUT)) {
+						logger.info("Change translation layout to Line by line layout.");
+						config.setTransLayout(QuranViewTemplate.LINE_BY_LINE_LAYOUT);
+//						config.updateFile();
+						reloadTrans();
+					}
+				}
+			}
+		};
+
+		quranBlockLayoutItem = new MenuItem(quranViewMenu, SWT.RADIO);
+		quranBlockLayoutItem.setImage(new Image(shell.getDisplay(), resource
 				.getString("icon.menu.text_linebyline16")));
-		blockLayoutItem.setText("&" + dict.getMeaning("LINE_BY_LINE"));
-		blockLayoutItem.addListener(SWT.Selection, new Listener() {
+		quranBlockLayoutItem.setText("&" + dict.getMeaning("LINE_BY_LINE"));
+		quranBlockLayoutItem.addListener(SWT.Selection, blockListener);
+		quranBlockLayoutItem.setData("quran");
+
+		transBlockLayoutItem = new MenuItem(transViewMenu, SWT.RADIO);
+		transBlockLayoutItem.setImage(new Image(shell.getDisplay(), resource
+				.getString("icon.menu.text_linebyline16")));
+		transBlockLayoutItem.setText("&" + dict.getMeaning("LINE_BY_LINE"));
+		transBlockLayoutItem.addListener(SWT.Selection, blockListener);
+		transBlockLayoutItem.setData("trans");
+
+		Listener inlineListener = new Listener() {
 			public void handleEvent(Event event) {
-				if (!getLayout().equals(QuranViewTemplate.LINE_BY_LINE_LAYOUT)) {
-					config.setQuranTextLayout(QuranViewTemplate.LINE_BY_LINE_LAYOUT);
-					config.updateFile();
-					reload();
+				if (event.widget.getData().equals("quran")) {
+					if (config.getQuranLayout().equals(QuranViewTemplate.LINE_BY_LINE_LAYOUT)) {
+						logger.info("Change Quran layout to Block layout.");
+						config.setQuranLayout(QuranViewTemplate.BLOCK_LAYOUT);
+//						config.updateFile();
+						reloadQuran();
+					}
+				} else {
+					if (config.getTransLayout().equals(QuranViewTemplate.LINE_BY_LINE_LAYOUT)) {
+						logger.info("Change translation layout to Block layout.");
+						config.setTransLayout(QuranViewTemplate.BLOCK_LAYOUT);
+//						config.updateFile();
+						reloadTrans();
+					}
 				}
 			}
-		});
+		};
 
-		final MenuItem inlineLayoutItem = new MenuItem(viewTypeMenu, SWT.RADIO);
-		inlineLayoutItem.setText("&" + dict.getMeaning("BLOCK"));
-		inlineLayoutItem.setImage(new Image(shell.getDisplay(), resource
+		quranInlineLayoutItem = new MenuItem(quranViewMenu, SWT.RADIO);
+		quranInlineLayoutItem.setText("&" + dict.getMeaning("BLOCK"));
+		quranInlineLayoutItem.setImage(new Image(shell.getDisplay(), resource
 				.getString("icon.menu.text_block16")));
-		inlineLayoutItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				if (!getLayout().equals(QuranViewTemplate.BLOCK_LAYOUT)) {
-					config.setQuranTextLayout(QuranViewTemplate.BLOCK_LAYOUT);
-					config.updateFile();
-					reload();
-				}
-			}
-		});
+		quranInlineLayoutItem.addListener(SWT.Selection, inlineListener);
+		quranInlineLayoutItem.setData("quran");
 
-		String layout = getLayout();
-		if (layout.equals(QuranViewTemplate.BLOCK_LAYOUT))
-			inlineLayoutItem.setSelection(true);
-		else if (layout.equals(QuranViewTemplate.LINE_BY_LINE_LAYOUT))
-			blockLayoutItem.setSelection(true);
+		transInlineLayoutItem = new MenuItem(transViewMenu, SWT.RADIO);
+		transInlineLayoutItem.setText("&" + dict.getMeaning("BLOCK"));
+		transInlineLayoutItem.setImage(new Image(shell.getDisplay(), resource
+				.getString("icon.menu.text_block16")));
+		transInlineLayoutItem.addListener(SWT.Selection, inlineListener);
+		transInlineLayoutItem.setData("trans");
+
+		// Set default selection
+		String quranLayout = config.getQuranLayout();
+		String transLayout = config.getTransLayout();
+		if (quranLayout.equals(QuranViewTemplate.BLOCK_LAYOUT))
+			quranInlineLayoutItem.setSelection(true);
+		else if (quranLayout.equals(QuranViewTemplate.LINE_BY_LINE_LAYOUT))
+			quranBlockLayoutItem.setSelection(true);
+		if (transLayout.equals(QuranViewTemplate.BLOCK_LAYOUT))
+			transInlineLayoutItem.setSelection(true);
+		else if (transLayout.equals(QuranViewTemplate.LINE_BY_LINE_LAYOUT))
+			transBlockLayoutItem.setSelection(true);
 
 		MenuItem help = new MenuItem(menu, SWT.CASCADE | direction);
 		help.setText("&" + dict.getMeaning("HELP"));
@@ -255,27 +346,31 @@ public class QuranFormMenuFactory {
 
 	protected void export() {
 		FileDialog fd = new FileDialog(shell, SWT.SAVE);
-		fd.setFilterNames (new String [] {"HTML Files", "All Files (*.*)"});
-		fd.setFilterExtensions (new String [] {"*.html;*.htm", "*.*"}); // Windows wild cards
+		fd.setFilterNames(new String[] { "HTML Files", "All Files (*.*)" });
+		fd.setFilterExtensions(new String[] { "*.html;*.htm", "*.*" }); // Windows wild
+		// cards
 
 		String res = fd.open();
-		if (res == null) return;
+		if (res == null)
+			return;
 		RandomAccessFile out = null;
 		RandomAccessFile in = null;
 		try {
 			File f = new File(res);
 			if (f.exists()) {
-				MessageBox mb = new MessageBox(fd.getParent(), SWT.YES | SWT.NO | SWT.ICON_QUESTION | dict.getSWTDirection());
-				mb.setMessage(dict.getDynamicMeaning("FILE_ALREADY_EXISTS", new String[]{f.getName()}));
+				MessageBox mb = new MessageBox(fd.getParent(), SWT.YES | SWT.NO | SWT.ICON_QUESTION
+						| dict.getSWTDirection());
+				mb.setMessage(dict.getDynamicMeaning("FILE_ALREADY_EXISTS", new String[] { f
+						.getName() }));
 				mb.setText("Save As");
 				if (mb.open() == SWT.NO) {
 					return;
 				}
 				if (!f.delete())
-					throw new IOException("Can not delete already existed file " + f);
+					throw new IOException("Can not delete already existing file \"" + f + "\".");
 			}
 			out = new RandomAccessFile(res, "rw");
-			in = new RandomAccessFile(form.getUrl(), "r");
+			in = new RandomAccessFile(new File(new URI(form.getQuranUrl())), "r");
 
 			byte[] b = new byte[(int) in.length()];
 			in.read(b);
@@ -283,8 +378,8 @@ public class QuranFormMenuFactory {
 
 			in.close();
 			out.close();
-		} catch (IOException e) {
-			logger.error(e);
+		} catch (Exception e) {
+			logger.log(e);
 		}
 	}
 
@@ -304,10 +399,6 @@ public class QuranFormMenuFactory {
 		}.start();
 	}
 
-	private String getLayout() {
-		return config.getQuranTextLayout();
-	}
-
 	private void print() {
 		form.getQuranBrowser().execute("window.print()");
 	}
@@ -318,7 +409,27 @@ public class QuranFormMenuFactory {
 
 	private void reload() {
 		try {
-			InitRuntime.recreateHtmlCache();
+			config.getRuntime().recreateCache();
+		} catch (IOException e) {
+			Logger.getLogger(this.getClass()).log(e);
+		}
+		form.suraChanged = true;
+		form.apply();
+	}
+
+	private void reloadQuran() {
+		try {
+			config.getRuntime().recreateQuranCache();
+		} catch (IOException e) {
+			Logger.getLogger(this.getClass()).log(e);
+		}
+		form.suraChanged = true;
+		form.apply();
+	}
+
+	private void reloadTrans() {
+		try {
+			config.getRuntime().recreateTransCache();
 		} catch (IOException e) {
 			Logger.getLogger(this.getClass()).log(e);
 		}

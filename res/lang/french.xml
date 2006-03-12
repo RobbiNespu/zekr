@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <language id="fr" locale="FR" direction="ltr">
 	<header name="Français" creator="Younes MOUMEN" version="0.2" />
 	<word>
@@ -50,6 +50,10 @@
 			<text id="NEXT_SURA" value="Sura suivante" /> 
 			<text id="PREV_AYA" value="Aya précédente" /> 
 			<text id="PREV_SURA" value="Sura précédente" /> 
+			<text id="TRANSLATION" value="Translation"   />
+			<text id="THEME" value="Theme"   />
+			<text id="LAYOUT"   value="Layout"   />
+			<text id="TRANSLATION" value="Translation"   />
 			<text id="EXIT"     value="Quitter" />
 		</common>
 		<special>

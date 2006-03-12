@@ -7,6 +7,15 @@
  *#
 
 #set( $BISM_PATH = "res/image/bism290.gif" )
+#if($TRANSLATION == "true")
+	#set($TD_CLASS="trans")
+	#set($BODY_ID="transBody")
+	#set($DIR=${TRANS_DIRECTION})
+#else
+	#set($TD_CLASS="quran")
+	#set($BODY_ID="quranBody")
+	#set($DIR="rtl")
+#end
 
 #macro(putBismillah)
 	#if ($SURA_NUM != 9) ##&& $SURA != 1) #** not a good idea! *#
@@ -17,19 +26,19 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<base href="file:///$APP_PATH/">
-	<link rel="stylesheet" type="text/css" href="$THEME_DIR/css/style.css">
+	<link rel="stylesheet" type="text/css" href="file:///$CSS_DIR/style.css">
 	<script src="$THEME_DIR/js/utils.js" language="javascript" type="text/javascript"></script>
 	<script src="$THEME_DIR/js/search.js" language="javascript" type="text/javascript"></script>
 <title>$TITLE</title>
 </head>
-<body dir="rtl">
+<body id="${BODY_ID}" dir="${DIR}">
 <table class="main">
 	<tr><td class="barTop" align="center">
 	#putBismillah()
 	</td></tr>
 
-	<tr><td id="quranSection" class="quran">
-	#parse ("res/theme/aya-template.vm")
+	<tr><td id="quranSection" class="${TD_CLASS}">
+	#parse ("$THEME_DIR/aya.vm")
 	</td></tr>
 
 	<tr><td class="barBottom">&nbsp;</td></tr>

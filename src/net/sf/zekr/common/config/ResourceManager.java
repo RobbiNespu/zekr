@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  * @version 0.1
  */
 public class ResourceManager {
-	private static ResourceBundle resource;
+	private static PropertyResourceBundle resource;
 	private static ResourceManager thisInstance;
 
 	private ResourceManager() {
@@ -40,5 +40,13 @@ public class ResourceManager {
 
 	public String getString(String key) {
 		return resource.getString(key);
+	}
+
+	public String getString(String key, Object[] strArray) {
+		String val = getString(key);
+		for (int i = 0; i < strArray.length; i++) {
+			val = val.replaceAll("\\{" + (i + 1) + "\\}", strArray[i].toString());
+		}
+		return val;
 	}
 }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <language id="fa" locale="IR" direction="rtl">
 	<header name="فارسی" creator="Zekr Team" version="0.2" />
 	<word>
@@ -50,6 +50,9 @@
 			<text id="NEXT_SURA" value="سوره‌ی بعدی" />
 			<text id="PREV_AYA" value="آیه‌ی قبلی" />
 			<text id="PREV_SURA" value="سوره‌ی قبلی" />
+			<text id="THEME"    value="مضمون" />
+			<text id="LAYOUT"   value="طرح" />
+			<text id="TRANSLATION" value="ترجمه" />
 			<text id="EXIT"     value="خروج" />
 		</common>
 		<special>

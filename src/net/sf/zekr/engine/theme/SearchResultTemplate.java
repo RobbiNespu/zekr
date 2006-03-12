@@ -14,26 +14,21 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.util.IQuranText;
 import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.common.util.Range;
-import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.QuranSearch;
 import net.sf.zekr.engine.search.SearchUtils;
 
 /**
- * @author    Mohsen Saboorian
- * @since	  Zekr 1.0
- * @version   0.2
+ * @author Mohsen Saboorian
+ * @since Zekr 1.0
  */
 public class SearchResultTemplate extends BaseViewTemplate {
-	IQuranText quran;
+	private IQuranText quran;
 	private final static Logger logger = Logger.getLogger(SearchResultTemplate.class);
 
 	public String transform(String keyword, boolean matchDiac) {
@@ -59,10 +54,8 @@ public class SearchResultTemplate extends BaseViewTemplate {
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE",
 					new String[] { k }));
 
-			engine.put("APP_PATH", GlobalConfig.RUNTIME_DIR.replaceAll("\\\\", "/"));
-			engine.put("THEME_DIR", ResourceManager.getInstance().getString("theme.baseDir"));
-
-			ret = engine.getUpdated(ResourceManager.getInstance().getString("theme.default.search.result"));
+			ret = engine.getUpdated(ResourceManager.getInstance().getString("theme.search.result",
+					new String[] { config.getTheme().getCurrent().id }));
 		} catch (Exception e) {
 			logger.log(e);
 		}

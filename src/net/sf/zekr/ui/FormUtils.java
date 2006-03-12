@@ -12,6 +12,8 @@ package net.sf.zekr.ui;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.sf.zekr.engine.xml.XmlUtils;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -24,12 +26,10 @@ import org.eclipse.swt.widgets.TableItem;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class FormUtils {
 	/**
-	 * @param display
-	 *            The <code>Device</code> to extract it's bounds.
+	 * @param display The <code>Device</code> to extract it's bounds.
 	 * @return A <code>Point</code> containing (maxX, maxY) of device.
 	 */
 	public static Point getScreenSize(Display display) {
@@ -41,10 +41,8 @@ public class FormUtils {
 	 * This method shall be used to find upper-left position of a <code>Rectangle</code>,
 	 * which then be centered on the screen.
 	 * 
-	 * @param display
-	 *            The display to extract it's bounds.
-	 * @param widgetSize
-	 *            widget size and position.
+	 * @param display The display to extract it's bounds.
+	 * @param widgetSize widget size and position.
 	 * @return Proper (x, y) value.
 	 */
 	public static Point getScreenCenter(Display display, Rectangle widgetSize) {
@@ -55,8 +53,8 @@ public class FormUtils {
 	/**
 	 * For internal use only.
 	 */
-	public static Table getTableForMap(Composite parent, Map map, String colTitle1, String colTitle2,
-			Object layoutData) {
+	public static Table getTableForMap(Composite parent, Map map, String colTitle1,
+			String colTitle2, Object layoutData) {
 		Table table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION);
 		table.setLayoutData(layoutData);
 		table.setLinesVisible(true);
@@ -79,7 +77,7 @@ public class FormUtils {
 
 		return table;
 	}
-	
+
 	/**
 	 * For internal use only.
 	 */
@@ -92,5 +90,14 @@ public class FormUtils {
 			value = map.get(key).toString();
 			items[i].setText(new String[] { key, value });
 		}
+	}
+
+	/**
+	 * @param direction can be either <tt>rtl</tt> or <tt>ltr</tt>
+	 * @return <code>SWT.RIGHT_TO_LEFT</code> if direction is <tt>rtl</tt> (ignoring the case),
+	 *         <code>SWT.LEFT_TO_RIGHT</code> otherwise.
+	 */
+	public static int toSwtDirection(String direction) {
+		return "rtl".equalsIgnoreCase(direction) ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT;
 	}
 }

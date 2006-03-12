@@ -26,5 +26,7 @@ import net.sf.zekr.engine.log.Logger;
 public class TranslationViewTemplate extends AbstractQuranViewTemplate {
 	public TranslationViewTemplate(IQuranText text) {
 		super(text);
+		engine.put("LAYOUT", config.getTransLayout());
+		engine.put("TRANSLATION", "true");
 	}
 }

@@ -50,6 +50,9 @@
 			<text id="NEXT_SURA" value="Next sura" />
 			<text id="PREV_AYA" value="Previous aya" />
 			<text id="PREV_SURA" value="Previous sura" />
+			<text id="THEME" value="Theme" />
+			<text id="LAYOUT"   value="Layout" />
+			<text id="TRANSLATION" value="Translation" />
 			<text id="EXIT"     value="Exit" />
 		</common>
 		<special>

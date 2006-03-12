@@ -40,10 +40,14 @@ public class ThemeData {
 	 * @return application relative theme path (e.g. <tt>res/theme/default</tt>)
 	 */
 	public String getPath() {
-		return ApplicationPath.THEME_DIR + File.separator + id;
+		return ApplicationPath.BASE_THEME_DIR + File.separator + id;
 	}
 
 	public String toString() {
 		return name + " - " + id;
+	}
+
+	public String getConfigFile() {
+		return getPath() + File.separator + ApplicationPath.THEME_DESC;
 	}
 }

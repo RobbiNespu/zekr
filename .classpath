@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JDK5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JDK 1.4.2"/>
 	<classpathentry exported="true" kind="lib" path="lib/velocity-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.8.jar"/>
 	<classpathentry exported="true" sourcepath="lib/swt-src.zip" kind="lib" path="lib/swt-win32.jar"/>
 	<classpathentry kind="con" path="SWT_CONTAINER"/>
-	<classpathentry sourcepath="D:/Devel/Java/Apache/Commons/commons-configuration-1.1/src" kind="lib" path="lib/commons-configuration-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.0.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/apache-commons.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

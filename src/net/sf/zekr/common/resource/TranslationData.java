@@ -31,7 +31,7 @@ public class TranslationData implements IQuranTranslation {
 	private final static Logger logger = Logger.getLogger(TranslationData.class);
 
 	/** Translation Id. */
-	public String transId;
+	public String id;
 
 	/** Translation English name */
 	public String name;
@@ -41,6 +41,9 @@ public class TranslationData implements IQuranTranslation {
 
 	/** Language (locale) Id (e.g. en_US) */
 	public Locale locale;
+
+	/** Text direction: ltr or rtl */
+	public String direction;
 
 	/** String encoding */
 	public String encoding;
@@ -72,7 +75,7 @@ public class TranslationData implements IQuranTranslation {
 	}
 
 	public String toString() {
-		return transId + " (" + locale + ")";
+		return id + " (" + locale + ")";
 	}
 
 	public void load() {
@@ -94,7 +97,7 @@ public class TranslationData implements IQuranTranslation {
 				return;
 			}
 			Reader reader;
-			reader = new InputStreamReader(archiveFile.getInputStream(ze));
+			reader = new InputStreamReader(archiveFile.getInputStream(ze), encoding);
 			loadTranslation(reader, (int) ze.getSize());
 			logger.log("Translation pack " + this + " loaded successfully.");
 		} catch (IOException e) {

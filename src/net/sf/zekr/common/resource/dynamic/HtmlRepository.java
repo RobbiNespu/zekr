@@ -14,11 +14,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.QuranText;
-import net.sf.zekr.common.resource.Translation;
 import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
@@ -36,7 +37,7 @@ public class HtmlRepository {
 	/**
 	 * The method will create a new html file if
 	 * <ul>
-	 * <li>Sura html file does not exist at <code>HTML_QURAN_CACHE_DIR</code>
+	 * <li>Sura html file does not exist at <code>QURAN_CACHE_DIR</code>
 	 * <li>HTML file exists but the file size is zero
 	 * <li><code>update</code> is true
 	 * </ul>
@@ -56,7 +57,7 @@ public class HtmlRepository {
 	 * @return URL to the sura HTML file
 	 */
 	public static String getQuranUrl(int sura, int aya, boolean update) {
-		File file = new File(Naming.HTML_QURAN_CACHE_DIR + File.separator + sura + ".html");
+		File file = new File(Naming.QURAN_CACHE_DIR + File.separator + sura + ".html");
 		try {
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
@@ -70,11 +71,11 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			Logger.getLogger(HtmlRepository.class).log(e);
 		}
-		return file.getAbsolutePath() + ((aya == 0) ? "" : "#" + aya);
+		return file.toURI() + ((aya == 0) ? "" : "#" + aya);
 	}
 	
 	public static String getSearchQuranUrl(String keyword, boolean matchDiac) {
-		File file = new File(Naming.HTML_SEARCH_CACHE_DIR + File.separator + keyword.hashCode() + ".html");
+		File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + keyword.hashCode() + ".html");
 
 		try {
 			// TODO: no search cache for now
@@ -87,7 +88,7 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			Logger.getLogger(HtmlRepository.class).log(e);
 		}
-		return file.getAbsolutePath();
+		return file.toURI().toString();
 	}
 
 	/**
@@ -100,14 +101,13 @@ public class HtmlRepository {
 	}
 
 	public static String getTransUrl(int sura, int aya) {
-		File file = new File(Naming.HTML_QURAN_CACHE_DIR + File.separator + sura + "_.html");
+		TranslationData td = ApplicationConfig.getInstance().getTranslation().getDefault();
+		File file = new File(Naming.TRANS_CACHE_DIR + "/" + sura + "_" + td.id + ".html");
 		try {
-			// if the file doesn't exist, or a zero-byte file exists, or if the
-			// update flag (which signals to recreate the html file) is set
-			if (!file.exists() || file.length() == 0 || true) {
+			// if the file doesn't exist, or a zero-byte file exists
+			if (!file.exists() || file.length() == 0) {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
-				TranslationData td = ApplicationConfig.getInstance().getTranslation().getDefault();
 				td.load(); // load if not loaded before
 				AbstractQuranViewTemplate qvt = new TranslationViewTemplate(td);
 				osw.write(qvt.transform(sura));
@@ -116,7 +116,7 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			Logger.getLogger(HtmlRepository.class).log(e);
 		}
-		return file.getAbsolutePath() + ((aya == 0) ? "" : "#" + aya);
+		return file.toURI() + ((aya == 0) ? "" : "#" + aya);
 	}
 
 }

@@ -50,6 +50,9 @@
 			<text id="NEXT_SURA" value="Surat Selanjutnya" />
 			<text id="PREV_AYA" value="Ayat Sebelumnya" />
 			<text id="PREV_SURA" value="Surat Sebelumnya" />
+			<text id="THEME" value="Theme"   />
+			<text id="LAYOUT"   value="Layout"   />
+			<text id="TRANSLATION" value="Translation"   />
 			<text id="EXIT"     value="Keluar" />
 		</common>
 		<special>

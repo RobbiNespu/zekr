@@ -35,7 +35,7 @@ public abstract class BaseForm {
 		shell.dispose();
 	}
 
-	protected void loopEver() {
+	public void loopEver() {
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();

@@ -12,6 +12,7 @@ import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
+import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.runtime.RuntimeConfig;
 import net.sf.zekr.engine.language.LanguageEngine;
 
@@ -35,8 +36,10 @@ public abstract class BaseViewTemplate {
 	protected BaseViewTemplate() {
 		ThemeData ct = config.getTheme().getCurrent();
 		engine.put("DIRECTION", langEngine.getDirection());
-		engine.put("APP_PATH", GlobalConfig.RUNTIME_DIR);
+		engine.put("TRANS_DIRECTION", config.getTranslation().getDefault().direction);
+		engine.put("APP_PATH", GlobalConfig.RUNTIME_DIR.replace('\\', '/'));
 		engine.putAll(ct.props);
-		engine.put("THEME_PATH", ct.getPath());
+		engine.put("THEME_DIR", ct.getPath());
+		engine.put("CSS_DIR", Naming.CACHE_DIR);
 	}
 }

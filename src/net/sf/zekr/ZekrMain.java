@@ -14,7 +14,7 @@ import java.util.Date;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.TranslationData;
-import net.sf.zekr.common.runtime.InitRuntime;
+import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.QuranForm;
 import net.sf.zekr.ui.SplashScreen;
@@ -40,14 +40,13 @@ public class ZekrMain {
 			SplashScreen splash = new SplashScreen(display);
 			splash.show();
 
-			InitRuntime runtime = new InitRuntime();
-			runtime.configure();
+//			ApplicationRuntime runtime = new ApplicationRuntime();
+			ApplicationConfig.getInstance().getRuntime().configure();
 
 			QuranForm quraForm = new QuranForm(display);
 			quraForm.show(750, 580);
 			splash.dispose(); // close splash screen
-			quraForm.loopForever();
-			quraForm.dispose();
+			quraForm.loopEver();
 
 		} catch (Throwable t) {
 			if (logger != null)

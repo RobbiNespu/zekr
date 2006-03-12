@@ -40,16 +40,16 @@ public class Translation {
 		this.defaultTrans = defaultTrans;
 	}
 
-	public TranslationData get(Locale locale, String transId) {
-		return (TranslationData) translations.get(getKey(locale, transId));
+	public TranslationData get(String transId) {
+		return (TranslationData) translations.get(getKey(transId));
 	}
 
-	private String getKey(Locale locale, String transId) {
-		return locale + "_" + transId;
+	private String getKey(String transId) {
+		return transId;
 	}
 
 	public void add(TranslationData td) {
-		translations.put(getKey(td.locale, td.transId), td);
+		translations.put(getKey(td.id), td);
 	}
 	
 	public Collection getAllTranslation() {

@@ -1,6 +1,6 @@
-#Thu Mar 02 09:31:19 IRST 2006
+#Fri Mar 10 22:25:20 GMT+03:30 2006
 eclipse.preferences.version=1
 encoding//doc/site/faq.html=UTF-8
 encoding//doc/site/glossary.html=UTF-8
 encoding//res/text/trans/translation.properties=UTF-8
-encoding//res/theme/sura-view-template.vm=UTF-8
+encoding//res/theme/sky/sura.vm=UTF-8

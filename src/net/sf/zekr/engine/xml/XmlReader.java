@@ -57,7 +57,7 @@ public class XmlReader {
 			if (parentNode.getNodeType() == Node.COMMENT_NODE)
 				parentNode = parentNode.getNextSibling();
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass()).log(e);
+			Logger.getLogger(this.getClass()).implicitLog(e);
 		}
 	}
 

@@ -17,8 +17,12 @@ function focusOnAya(ayaId) {
 	if (oldAyaId != null)
 		unHighlightAya(oldAyaId);
 	highlightAya(ayaId)
-	window.scrollTo(getX(aya), getY(aya) - 100);
+	window.scrollTo(getX(aya), getY(aya) - getBrowserHeight()/6);
 	oldAyaId = ayaId;
+}
+
+function getBrowserHeight() {
+	return document.body.clientHeight;
 }
 
 function highlightAya(id) {

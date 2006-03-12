@@ -12,12 +12,9 @@ import org.eclipse.swt.SWT;
 
 /**
  * This class holds some global settings used by Zekr. <br>
- * Some parts of RSSOwl (@linkhttp://www.rssowl.org) source code was used in writing this
- * file.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.2
  */
 public class GlobalConfig {
 

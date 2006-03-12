@@ -29,8 +29,9 @@ import javax.xml.transform.TransformerException;
 
 import net.sf.zekr.common.resource.Translation;
 import net.sf.zekr.common.resource.TranslationData;
-import net.sf.zekr.common.runtime.InitRuntime;
+import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.RuntimeConfig;
+import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
@@ -72,6 +73,8 @@ public class ApplicationConfig extends ZekrConfigNaming {
 
 	private Translation translation = new Translation();
 	private Theme theme = new Theme();
+	private ApplicationRuntime runtime;
+	private QuranLocation quranLocation;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -84,6 +87,8 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		extractRuntimeConfig();
 		extractTransProps();
 		extractViewProps();
+
+		runtime = new ApplicationRuntime();
 	}
 
 	public static ApplicationConfig getInstance() {
@@ -105,7 +110,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	 */
 	private void extractRuntimeConfig() {
 		runtimeConfig.setLanguage(langElem.getAttribute(ApplicationConfig.CURRENT_LANGUAGE_ATTR));
-		runtimeConfig.setTextLayout(getQuranTextLayout());
+		runtimeConfig.setTextLayout(getQuranLayout());
 	}
 
 	/**
@@ -196,9 +201,10 @@ public class ApplicationConfig extends ZekrConfigNaming {
 				PropertiesConfiguration pc = new PropertiesConfiguration();
 				pc.load(reader);
 				td = new TranslationData();
+				td.id = pc.getString(ID_ATTR);
 				td.locale = new Locale(pc.getString(LANG_ATTR), pc.getString(COUNTRY_ATTR));
-				td.transId = pc.getString(TRANS_ID_ATTR);
 				td.encoding = pc.getString(ENCODING_ATTR);
+				td.direction = pc.getString(DIRECTION_ATTR);
 				td.file = pc.getString(FILE_ATTR);
 				td.name = pc.getString(NAME_ATTR);
 				td.localizedName = pc.getString(LOCALIZED_NAME_ATTR);
@@ -208,7 +214,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 					td.localizedName = td.name;
 
 				translation.add(td);
-				if (td.transId.equals(def))
+				if (td.id.equals(def))
 					translation.setDefault(td);
 
 			} catch (Exception e) {
@@ -238,7 +244,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 
 	private void extractViewProps() {
 		String def = viewElem.getAttribute(THEME_ATTR);
-		File themeDir = new File(ApplicationPath.THEME_DIR);
+		File themeDir = new File(ApplicationPath.BASE_THEME_DIR);
 		logger.info("Loading theme files info from \"" + themeDir + "\".");
 		File[] themes = themeDir.listFiles();
 		ThemeData td;
@@ -260,6 +266,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 				reader = new InputStreamReader(new FileInputStream(themeDesc), "UTF8");
 				PropertiesConfiguration pc = new PropertiesConfiguration();
 				pc.load(reader);
+				PropertiesConfiguration.setDelimiter('@'); // TODO!
 				td = new ThemeData();
 				for (Iterator iter = pc.getKeys(); iter.hasNext();) {
 					String key = (String) iter.next();
@@ -320,11 +327,33 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		language.setActiveLanguagePack(langId);
 		LanguageEngine.getInstance().reload();
 		try {
-			InitRuntime.recreateHtmlCache();
+			runtime.recreateCache();
 		} catch (IOException e) {
 			logger.log(e);
 		}
 		langElem.setAttribute(CURRENT_LANGUAGE_ATTR, langId);
+	}
+
+	public void setCurrentTheme(String themeId) {
+		logger.info("Set current theme to " + themeId);
+		theme.setCurrent(theme.get(themeId));
+		try {
+			runtime.recreateCache();
+		} catch (IOException e) {
+			logger.log(e);
+		}
+		viewElem.setAttribute(THEME_ATTR, themeId);
+	}
+
+	public void setCurrentTranslation(String transId) {
+		logger.info("Set current translation to " + transId);
+		translation.setDefault(getTranslation().get(transId));
+		try {
+			runtime.recreateCache();
+		} catch (IOException e) {
+			logger.log(e);
+		}
+		transElem.setAttribute(DEFAULT_ATTR, transId);
 	}
 
 	/**
@@ -348,19 +377,39 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		return ApplicationPath.TRANSLATION_DIR + "/" + name;
 	}
 
-	public String getQuranTextLayout() {
-		// Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem,
-		// PROP_TAG),
-		// PROP_TAG, NAME_ATTR, QURAN_LAYOUT);
-		// return elem.getAttribute(VALUE_ATTR);
+	public String getQuranLayout() {
 		return (String) theme.commonProps.get(QURAN_LAYOUT);
 	}
 
-	public void setQuranTextLayout(String newLayout) {
+	public void setQuranLayout(String newLayout) {
 		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
 				PROP_TAG, NAME_ATTR, QURAN_LAYOUT);
 		elem.setAttribute(VALUE_ATTR, newLayout);
 		theme.commonProps.put(QURAN_LAYOUT, newLayout);
+	}
+
+	public QuranLocation getQuranLocation() {
+		// return quranLocation;
+		return new QuranLocation(theme.commonProps.get(QURAN_LOCATION));
+	}
+
+	public void setQuranLocation(QuranLocation quranLocation) {
+		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
+				PROP_TAG, NAME_ATTR, QURAN_LOCATION);
+		elem.setAttribute(VALUE_ATTR, quranLocation.toString());
+		theme.commonProps.put(QURAN_LOCATION, quranLocation.toString());
+		// this.quranLocation = quranLocation;
+	}
+
+	public String getTransLayout() {
+		return (String) theme.commonProps.get(TRANS_LAYOUT);
+	}
+
+	public void setTransLayout(String newLayout) {
+		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
+				PROP_TAG, NAME_ATTR, TRANS_LAYOUT);
+		elem.setAttribute(VALUE_ATTR, newLayout);
+		theme.commonProps.put(TRANS_LAYOUT, newLayout);
 	}
 
 	public RuntimeConfig getRuntimeConfig() {
@@ -388,9 +437,12 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		return theme;
 	}
 
-	public void setCurrentTheme(String themeId) {
-		viewElem.setAttribute(THEME_ATTR, themeId);
-		theme.setCurrent(theme.get(themeId));
+	public ApplicationRuntime getRuntime() {
+		return runtime;
+	}
+
+	public void setRuntime(ApplicationRuntime runtime) {
+		this.runtime = runtime;
 	}
 
 }

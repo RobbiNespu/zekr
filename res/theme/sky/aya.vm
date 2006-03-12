@@ -12,8 +12,19 @@
 #set ($MINOR = 0)
 #set ($MAJOR = 1)
 
-#set ($RPAREN = "&#64831;")
-#set ($LPAREN = "&#64830;")
+#if($TRANSLATION == "true")
+	#if($TRANS_DIRECTION == "rtl")
+		#set ($OPEN_PAREN = "(")
+		#set ($CLOSE_PAREN = ")")
+	#else
+		#set ($OPEN_PAREN = "(")
+		#set ($CLOSE_PAREN = ")")
+	#end
+#else
+	#set ($OPEN_PAREN = "&#64831;")
+	#set ($CLOSE_PAREN = "&#64830;")
+#end
+
 #set ($SAJDA_SIGN = "&#1769;")
 #foreach ($AYA in $AYA_LIST)
 	#set($AYA_NUM = $velocityCount)
@@ -30,7 +41,7 @@
 	#end
 			$AYA
 			<span title="${SURA_NAME} - ${AYA_NUM}">
-				<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" class="ayaSign">$RPAREN$AYA_NUM$LPAREN</span></nobr>
+				<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" class="ayaSign">$OPEN_PAREN$AYA_NUM$CLOSE_PAREN</span></nobr>
 			</span>
 			#foreach ($SAJDA in $SAJDA_LIST)
 				#if ($SAJDA.AyaNumber == $AYA_NUM)

@@ -22,10 +22,6 @@ public class GlobalNaming {
 	public static String getImage(String imgName) {
 		return ApplicationPath.IMAGE_DIR + imgName;
 	}
-
-	public static String getTemplate(String templateName) {
-		return ApplicationPath.THEME_DIR + templateName;
-	}
 	
 	public static String getLanguagePack(String langId) {
 		return ApplicationPath.LANGUAGE_DIR + langId;	

@@ -6,30 +6,35 @@
  * @version 1
  *#
 
-#set( $BISM_PATH = "res/image/bism290.gif" )
-
-#macro(putBismillah)
-	#if ($SURA_NUM != 9) ##&& $SURA != 1) #** not a good idea! *#
-	<img src="$BISM_PATH" alt="بسم الله الرحمن الرحیم">
-	#end
-#end
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<base href="file:///$APP_PATH/">
-	<link rel="stylesheet" type="text/css" href="$THEME_DIR/css/style.css">
+	<link rel="stylesheet" type="text/css" href="file:///$CSS_DIR/style.css">
 	<script src="$THEME_DIR/js/utils.js" language="javascript" type="text/javascript"></script>
 	<script src="$THEME_DIR/js/search.js" language="javascript" type="text/javascript"></script>
 <title>$TITLE</title>
 </head>
-<body dir="rtl">
+<body id="quranBody" dir="rtl">
 <table class="main">
-	<tr><td class="barTop" align="center">
-	#putBismillah()
-	</td></tr>
+	#set ($ALIGN = "left")
+	#if ($DIRECTION == "rtl")
+		#set ($ALIGN = "right")
+	#end
+	<tr dir="$DIRECTION">
+		<td class="searchBarTop" align="$ALIGN">
+			$TITLE
+		</td>
+		<td class="searchBarTop" align="$ALIGN">
+			#if ($TOO_MANY_RESULT)
+			<i style="color: red">$TOO_MANY_RESULT</i> <br>
+			#end
+			$COUNT
+		</td>
+	</tr>
 
-	<tr><td id="quranSection" class="quran">
-	#parse ("res/theme/aya-template.vm")
+	<tr><td id="quranSection" colspan="2" class="searchResult">
+	#parse ("$THEME_DIR/aya-result.vm")
 	</td></tr>
 
 	<tr><td class="barBottom">&nbsp;</td></tr>

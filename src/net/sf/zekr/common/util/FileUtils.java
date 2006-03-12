@@ -12,7 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+
+import net.sf.zekr.common.runtime.Naming;
 
 /**
  * @author Mohsen Saboorian
@@ -71,4 +72,15 @@ public class FileUtils {
 		return readFully(is, size, "UTF-8");
 	}
 
+	public static void recreateDirectory(File dir) throws IOException {
+		if (dir.exists())
+			if (!FileUtils.delete(dir))
+				throw new IOException("Can not delete directory \"" + dir
+						+ "\".");
+		dir.mkdir();
+	}
+	
+	public static void recreateDirectory(String dir) throws IOException {
+		recreateDirectory(new File(dir));
+	}
 }

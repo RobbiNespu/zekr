@@ -87,7 +87,7 @@ public class AboutForm extends BaseForm {
 		detailCom.setLayoutData(gd);
 		Link link = new Link(detailCom, SWT.NONE);
 		String s = langEngine.getMeaning("APP_FULL_NAME")
-				+ ".\n\t<a href=\"http://siahe.com/zekr\">http://www.siahe.com/zekr</a>\n";
+				+ ".\n\t<a href=\"http://siahe.com/zekr\">http://siahe.com/zekr</a>\n";
 
 		link.setText(s);
 		link.addSelectionListener(new SelectionAdapter() {

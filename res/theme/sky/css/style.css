@@ -10,11 +10,26 @@ html,body {
 	padding: 0;
 }
 
-body {
-	font: 13px "Traditional Arabic", Tahoma, Verdana, Nazli, Koodak, Helvetica, Arial, Sans-serif;
+body#quranBody {
+	font: 13px "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
 	/*buttonface*/ /*rgb(210, 235, 255)*/
-	background: threedface url('../../image/zekr-bg.png') no-repeat fixed
-		center;
+#if($quran_hasBG == "true")
+	background: threedface url('file:///$APP_PATH/res/image/zekr-bg.png') no-repeat fixed center;
+#else
+	background-color: threedface;
+#end
+	color: rgb(30, 40, 70);
+	margin: 0 5% 0 5%;
+}
+
+body#transBody {
+	font: 13px "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
+	/*buttonface*/ /*rgb(210, 235, 255)*/
+#if($trans_hasBG == "true")
+	background: threedface url('file:///$APP_PATH/res/image/zekr-bg.png') no-repeat fixed center;
+#else
+	background-color: threedface;
+#end
 	color: rgb(30, 40, 70);
 	margin: 0 5% 0 5%;
 }
@@ -41,8 +56,19 @@ td.barBottom {
 }
 
 td.quran {
-	font: 22px "Traditional Arabic", Badr, Nazanin, Tahoma, Nazli, Koodak
-		Verdana, Helvetica, Arial, Sans-serif;
+	font: ${quran_fontSize} ${quran_fontName}, Badr, Nazanin, Tahoma, Nazli, Koodak, Times, Verdana, Helvetica, Arial, Sans-serif;
+	vertical-align: top;
+	border-left: 1px solid rgb(190, 220, 255);
+	border-right: 1px solid rgb(190, 220, 255);
+	border-top: 3px double rgb(140, 150, 250);
+	border-bottom: 3px double rgb(140, 150, 250);
+	padding: 7 8;
+	text-align: justify;
+	line-height: 150%;
+}
+
+td.trans {
+	font: ${trans_fontSize} ${trans_fontName}, Tahoma, Arial, Times, Verdana, Helvetica;
 	vertical-align: top;
 	border-left: 1px solid rgb(190, 220, 255);
 	border-right: 1px solid rgb(190, 220, 255);

@@ -13,8 +13,8 @@ import net.sf.zekr.common.resource.QuranProperties;
 /**
  * This data structure is the primitive structure of addressing somewhere in the Quran.
  * Addressing is possible by just having aya number and sura number. <br>
- * Note that this class does not provide any range checkhing or explicit exception throwing
- * for performance purposes.
+ * Note that this class does not provide any range checkhing or explicit exception
+ * throwing for performance purposes.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -31,6 +31,22 @@ public class QuranLocation implements IQuranLocation {
 	public QuranLocation(int sura, int aya) {
 		setAya(aya);
 		setSura(sura);
+	}
+
+	/**
+	 * load a QuranLocation with the forman <tt>aya#-sura#</tt>. Sura and Aya numbers
+	 * are both counted from 1. If <code>location.toString()</code> is not of format
+	 * <tt>aya#-sura#</tt>, an <code>IllegalArgumentException</code> is thrown.
+	 * 
+	 * @param location <code>location.toString()</code> will be used
+	 */
+	public QuranLocation(Object location) {
+		String s = location.toString();
+		int i = s.indexOf('-');
+		if (i == -1)
+			throw new IllegalArgumentException(location.toString());
+		setSura(Integer.parseInt(s.substring(0, i)));
+		setAya(Integer.parseInt(s.substring(i + 1)));
 	}
 
 	public int getAya() {

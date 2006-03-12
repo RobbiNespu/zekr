@@ -51,12 +51,22 @@ Bug fixes:
 	joz			juz
 	Search problem. ==> (√√‰–— Â„ was found but √‰–— Â„ could not be found)
 
-Version 0.3.0 release - [4-3-06]
+Version 0.3.0 release - [11-3-06]
 Features/Enhancements:
 	Log enhancements. More info about system (OS, JRE, locale, ...) are stored.
+	Menu items: Translation and Theme under View menu.
 	Translation support:
 		Basic support for translation packs.
 		2 Different views for translation: 2 frames and inline.
 		Ayatollah Makarem Shirazi's translation is added under a non-commercial use license
+		A number of enhancements for bidi support for translations view
+	Theme support:
+		A basic default theme (sky) is available.
+		All themes are read at startup from [zekr]/res/theme, so every folder there is a potential theme!
+		All themes should have a "theme.properties" file inside their folder (theme folder name is equal to theme ID).
+		Does not have a GUI for setting options.
+	InitRuntime changed to ApplicationRuntime, and is loaded once and can be accessed from ApplicationConfig.
+	Translation layout (block/line-by-line) can be set as well as Quran layout.
 Bug fixes:
+	JDK 1.4.2's JAXP SAX does not support BOM, so all language pack BOMs were removed.
 

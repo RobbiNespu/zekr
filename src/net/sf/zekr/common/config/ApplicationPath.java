@@ -45,7 +45,7 @@ public class ApplicationPath {
 	 */
 	public static final String LANGUAGE_DIR = rm.getString("lang.baseDir");
 
-	public static final String THEME_DIR = rm.getString("theme.baseDir");
+	public static final String BASE_THEME_DIR = rm.getString("theme.baseDir");
 	public static final String THEME_DESC = rm.getString("theme.desc");
 
 	// Files

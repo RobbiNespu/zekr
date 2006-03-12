@@ -14,6 +14,7 @@ import java.util.Map;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.dynamic.HtmlRepository;
+import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 
@@ -25,14 +26,10 @@ import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -48,8 +45,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
@@ -94,20 +89,29 @@ public class QuranForm extends BaseForm {
 	/** Specifies whether sura selector changed for making a new sura view. */
 	protected boolean suraChanged;
 
-	/** The current URL loaded in the browser */
-	private String url;
+	/** The current Quran URL loaded in the browser */
+	private String quranUrl;
+
+	/** The current Translation URL loaded in the browser */
+	private String transUrl;
+
+	private ApplicationConfig config;
+	private boolean isClosed;
 
 	/**
 	 * Initialize the QuranForm.
+	 * 
 	 * @param display
 	 */
 	public QuranForm(Display display) {
 		this.display = display;
-		ApplicationConfig config = ApplicationConfig.getInstance();
+		config = ApplicationConfig.getInstance();
 		widgetProp = new PropertyGenerator(config);
 		quranProp = QuranProperties.getInstance();
 		init();
 	}
+
+	private DisposeListener dl;
 
 	protected void init() {
 		title = langEngine.getMeaningById(ID, "TITLE");
@@ -119,6 +123,24 @@ public class QuranForm extends BaseForm {
 		ayaChanged = false;
 		suraChanged = false;
 		makeFrame();
+		initLocation();
+
+		dl = new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				close();
+				if (!shell.isDisposed())
+					shell.removeDisposeListener(dl);
+			}
+		};
+		shell.addDisposeListener(dl);
+	}
+
+	private void initLocation() {
+		QuranLocation loc = config.getQuranLocation();
+		if (loc.getAya() == 1)
+			setQuranView(loc.getSura(), 0);
+		else
+			setQuranView(loc.getSura(), loc.getAya());
 	}
 
 	/**
@@ -127,35 +149,36 @@ public class QuranForm extends BaseForm {
 	private void makeFrame() {
 		GridData gridData;
 		GridLayout gridLayout;
-		
+
 		FillLayout fl = new FillLayout(SWT.VERTICAL);
 		shell.setLayout(fl);
-		
+
 		GridLayout pageLayout = new GridLayout(2, false);
 		body = new Composite(shell, langEngine.getSWTDirection());
 		body.setLayout(pageLayout);
-//		body.setLayout(new FillLayout(SWT.HORIZONTAL));
+		// body.setLayout(new FillLayout(SWT.HORIZONTAL));
 
-//		SashForm bodyForm = new SashForm(body, SWT.HORIZONTAL);
-//		bodyForm.SASH_WIDTH = 4;
+		// SashForm bodyForm = new SashForm(body, SWT.HORIZONTAL);
+		// bodyForm.SASH_WIDTH = 4;
 
-//		gridData = new GridData(GridData.FILL_BOTH);
+		// gridData = new GridData(GridData.FILL_BOTH);
 		Composite workBar = new Composite(body, SWT.NONE);
 		fl = new FillLayout(SWT.VERTICAL);
 		workBar.setLayout(fl);
-//		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL, GridData.VERTICAL_ALIGN_CENTER, true, true);
+		// gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL,
+		// GridData.VERTICAL_ALIGN_CENTER, true, true);
 		gridData = new GridData(GridData.FILL_VERTICAL);
 		workBar.setLayoutData(gridData);
 		gridLayout = new GridLayout(1, false);
-//		gridLayout.verticalSpacing = 2;
-//		gridLayout.horizontalSpacing = 2;
+		// gridLayout.verticalSpacing = 2;
+		// gridLayout.horizontalSpacing = 2;
 		gridLayout.marginHeight = gridLayout.marginWidth = 2;
 		workBar.setLayout(gridLayout);
-		
 
-//		gridData = new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL);
-//		gridData.widthHint = 170;
-//		navGroup.setLayoutData(gridData);
+		// gridData = new GridData(GridData.VERTICAL_ALIGN_FILL |
+		// GridData.HORIZONTAL_ALIGN_FILL);
+		// gridData.widthHint = 170;
+		// navGroup.setLayoutData(gridData);
 
 		Composite bgroup = new Composite(body, SWT.NONE);
 		gridData = new GridData(GridData.FILL_BOTH);
@@ -168,18 +191,20 @@ public class QuranForm extends BaseForm {
 		fl = new FillLayout(SWT.VERTICAL);
 		browsers.setLayout(fl);
 
-//		Sash bSash = new Sash(browserGroup, SWT.HORIZONTAL);
+		// Sash bSash = new Sash(browserGroup, SWT.HORIZONTAL);
 		final SashForm sf = new SashForm(browsers, SWT.VERTICAL);
 		sf.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW));
 		sf.SASH_WIDTH = 4;
 
-//		fl = new FillLayout(SWT.HORIZONTAL);
-//		final Group quranGroup = new Group(sf, SWT.NONE);
-//		quranGroup.setLayout(fl);
+		// fl = new FillLayout(SWT.HORIZONTAL);
+		// final Group quranGroup = new Group(sf, SWT.NONE);
+		// quranGroup.setLayout(fl);
 
 		quranBrowser = new Browser(sf, SWT.NONE);
 		quranBrowser.setLayout(fl);
-		quranBrowser.setUrl(url = HtmlRepository.getQuranUrl(1, 0, true));
+		// quranBrowser.setUrl(quranUrl =
+		// HtmlRepository.getQuranUrl(config.getQuranLocation()
+		// .getSura(), 0, true));
 		quranBrowser.addStatusTextListener(new StatusTextListener() {
 			public void changed(StatusTextEvent event) {
 				if (event.text != null && !"".equals(event.text)) {
@@ -191,17 +216,19 @@ public class QuranForm extends BaseForm {
 				if (message.startsWith("ZEKR::")) {
 					quranBrowser.execute("window.status='';"); // clear the status text
 					if (message.substring(6, 10).equals("GOTO")) {
-						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
-						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
-						logger.info("goto (" + sura + ", " + aya+ ")");
+						int sura = Integer.parseInt(message.substring(message.indexOf(' '),
+								message.indexOf('-')).trim());
+						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1,
+								message.indexOf(';')).trim());
+						logger.info("goto (" + sura + ", " + aya + ")");
 						setQuranView(sura, aya);
 					}
 				}
 			}
 		});
 
-//		Group transGroup = new Group(sf, SWT.NONE);
-//		transGroup.setLayout(fl);
+		// Group transGroup = new Group(sf, SWT.NONE);
+		// transGroup.setLayout(fl);
 		transBrowser = new Browser(sf, SWT.NONE);
 		transBrowser.setLayout(fl);
 		transBrowser.addListener(SWT.Resize, new Listener() {
@@ -212,13 +239,17 @@ public class QuranForm extends BaseForm {
 					sf.setMaximizedControl(transBrowser);
 			}
 		});
-		transBrowser.setUrl(url = HtmlRepository.getTransUrl(1, 0));		
-		
+		// transBrowser.setUrl(quranUrl = HtmlRepository.getTransUrl(1, 0));
+		// transBrowser.setUrl(transUrl =
+		// HtmlRepository.getTransUrl(config.getQuranLocation()
+		// .getSura(), 0));
+
 		navGroup = new Group(workBar, SWT.NONE);
 		navGroup.setText(langEngine.getMeaning("OPTION") + ":");
 		gridLayout = new GridLayout(2, false);
 		navGroup.setLayout(gridLayout);
-		navGroup.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
+		navGroup.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL
+				| GridData.HORIZONTAL_ALIGN_FILL));
 
 		suraLabel = new Label(navGroup, SWT.NONE);
 		suraLabel.setText(langEngine.getMeaning("SURA") + ":");
@@ -288,8 +319,8 @@ public class QuranForm extends BaseForm {
 		gridLayout = new GridLayout(4, false);
 		navComposite.setLayout(gridLayout);
 		gridData = new GridData(GridData.FILL_BOTH);
-//		gridData.widthHint = 260;
-//		gridData.horizontalAlignment = GridData.CENTER;
+		// gridData.widthHint = 260;
+		// gridData.horizontalAlignment = GridData.CENTER;
 		gridData.horizontalSpan = 2;
 		navComposite.setLayoutData(gridData);
 
@@ -298,7 +329,7 @@ public class QuranForm extends BaseForm {
 		Button prevAya = new Button(navComposite, style);
 		Button nextAya = new Button(navComposite, style);
 		Button nextSura = new Button(navComposite, style);
-		
+
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		prevAya.setLayoutData(gridData);
 		prevSura.setLayoutData(gridData);
@@ -306,17 +337,21 @@ public class QuranForm extends BaseForm {
 		nextSura.setLayoutData(gridData);
 
 		int l = langEngine.getSWTDirection();
-		prevSura.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.nextNext") : resource.getString("icon.prevPrev")));
-		prevAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.next") : resource.getString("icon.prev")));
-		nextAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prev") : resource.getString("icon.next")));
-		nextSura.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prevPrev") : resource.getString("icon.nextNext")));
+		prevSura.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource
+				.getString("icon.nextNext") : resource.getString("icon.prevPrev")));
+		prevAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource
+				.getString("icon.next") : resource.getString("icon.prev")));
+		nextAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource
+				.getString("icon.prev") : resource.getString("icon.next")));
+		nextSura.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource
+				.getString("icon.prevPrev") : resource.getString("icon.nextNext")));
 
 		prevSura.setToolTipText(langEngine.getMeaning("PREV_SURA"));
 		prevAya.setToolTipText(langEngine.getMeaning("PREV_AYA"));
 		nextAya.setToolTipText(langEngine.getMeaning("NEXT_AYA"));
 		nextSura.setToolTipText(langEngine.getMeaning("NEXT_SURA"));
 
-		prevSura.addSelectionListener(new SelectionAdapter(){
+		prevSura.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (suraSelector.getSelectionIndex() > 0) {
 					suraSelector.select(suraSelector.getSelectionIndex() - 1);
@@ -325,8 +360,8 @@ public class QuranForm extends BaseForm {
 				}
 			}
 		});
-		
-		prevAya.addSelectionListener(new SelectionAdapter(){
+
+		prevAya.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (ayaSelector.getSelectionIndex() > 0) {
 					ayaSelector.select(ayaSelector.getSelectionIndex() - 1);
@@ -335,8 +370,8 @@ public class QuranForm extends BaseForm {
 				}
 			}
 		});
-		
-		nextAya.addSelectionListener(new SelectionAdapter(){
+
+		nextAya.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (ayaSelector.getSelectionIndex() < ayaSelector.getItemCount() - 1) {
 					ayaSelector.select(ayaSelector.getSelectionIndex() + 1);
@@ -345,8 +380,8 @@ public class QuranForm extends BaseForm {
 				}
 			}
 		});
-		
-		nextSura.addSelectionListener(new SelectionAdapter(){
+
+		nextSura.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (suraSelector.getSelectionIndex() < suraSelector.getItemCount() - 1) {
 					suraSelector.select(suraSelector.getSelectionIndex() + 1);
@@ -355,23 +390,24 @@ public class QuranForm extends BaseForm {
 				}
 			}
 		});
-		
+
 		detailGroup = new Group(workBar, SWT.NONE);
 		detailGroup.setText(langEngine.getMeaning("DETAILS") + ":");
 		gridLayout = new GridLayout(1, true);
 		detailGroup.setLayout(gridLayout);
 		detailGroup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-//		gridData = new GridData(GridData.FILL_BOTH);
-//		gridData.heightHint = 140;
+		// gridData = new GridData(GridData.FILL_BOTH);
+		// gridData.heightHint = 140;
 		// gridData.widthHint = 100;
-//		detailGroup.setLayoutData(gridData);
+		// detailGroup.setLayoutData(gridData);
 
-//		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.FILL_VERTICAL);
+		// gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL |
+		// GridData.FILL_VERTICAL);
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.grabExcessVerticalSpace = true;
 		suraMap = QuranPropertiesUtils.getSuraPropMap(suraSelector.getSelectionIndex() + 1);
 		suraTable = FormUtils.getTableForMap(detailGroup, suraMap, langEngine.getMeaning("NAME"),
-			langEngine.getMeaning("VALUE"), gridData);
+				langEngine.getMeaning("VALUE"), gridData);
 
 		searchGroup = new Group(workBar, SWT.NONE);
 		searchGroup.setText(langEngine.getMeaning("SEARCH"));
@@ -399,7 +435,7 @@ public class QuranForm extends BaseForm {
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 
-		KeyAdapter ka = new KeyAdapter(){
+		KeyAdapter ka = new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == 13) {
 					find();
@@ -427,19 +463,26 @@ public class QuranForm extends BaseForm {
 		logger.info("Updating view done.");
 		suraChanged = false;
 	}
-	
+
 	private void setQuranView(int sura, int aya) {
 		suraSelector.select(sura - 1);
 		onSuraChanged();
-		ayaSelector.select(aya - 1);
-		ayaChanged = true;
+		if (aya != 0) {
+			ayaSelector.select(aya - 1);
+			ayaChanged = true;
+		}
 		apply();
 	}
 
 	private ProgressAdapter qpl, tpl;
+
 	private void updateView() {
 		final int aya = ayaSelector.getSelectionIndex() + 1;
 		final int sura = suraSelector.getSelectionIndex() + 1;
+
+		QuranLocation loc = new QuranLocation(sura, aya);
+		logger.info("Quran location is set to " + loc);
+		config.setQuranLocation(loc);
 
 		qpl = new ProgressAdapter() {
 			public void completed(ProgressEvent event) {
@@ -448,6 +491,7 @@ public class QuranForm extends BaseForm {
 				}
 				removeProgressListener(qpl);
 			}
+
 			void removeProgressListener(ProgressListener pl) {
 				quranBrowser.removeProgressListener(pl);
 			}
@@ -459,6 +503,7 @@ public class QuranForm extends BaseForm {
 				}
 				removeProgressListener(tpl);
 			}
+
 			void removeProgressListener(ProgressListener pl) {
 				transBrowser.removeProgressListener(pl);
 			}
@@ -466,21 +511,22 @@ public class QuranForm extends BaseForm {
 		if (suraChanged) {
 			quranBrowser.addProgressListener(qpl);
 			transBrowser.addProgressListener(tpl);
-			quranBrowser.setUrl(url = HtmlRepository.getQuranUrl(sura, 0));
-			transBrowser.setUrl(url = HtmlRepository.getTransUrl(sura, 0));
+			quranBrowser.setUrl(quranUrl = HtmlRepository.getQuranUrl(sura, 0));
+			transBrowser.setUrl(transUrl = HtmlRepository.getTransUrl(sura, 0));
 		} else {
-//			System.out.println("ayaChanged: " + ayaChanged);
-//			quranBrowser.addProgressListener(pl);
-//			quranBrowser.execute("window.location.reload(false);");
-//			quranBrowser.execute("window.location.href = window.location.href;");
+			// System.out.println("ayaChanged: " + ayaChanged);
+			// quranBrowser.addProgressListener(pl);
+			// quranBrowser.execute("window.location.reload(false);");
+			// quranBrowser.execute("window.location.href = window.location.href;");
 			quranBrowser.execute("focusOnAya('" + sura + "_" + aya + "');");
 			transBrowser.execute("focusOnAya('" + sura + "_" + aya + "');");
 		}
-//		quranBrowser.setUrl(HtmlRepository.getUrl(sura, ayaChanged ? aya - 1 : 0));
+		// quranBrowser.setUrl(HtmlRepository.getUrl(sura, ayaChanged ? aya - 1 : 0));
 	}
 
 	private void onSuraChanged() {
-		ayaSelector.setItems(QuranPropertiesUtils.getSuraAyas(suraSelector.getSelectionIndex() + 1));
+		ayaSelector
+				.setItems(QuranPropertiesUtils.getSuraAyas(suraSelector.getSelectionIndex() + 1));
 		ayaSelector.select(0);
 		ayaChanged = false; // It must be set to true after ayaSelector.select
 		suraChanged = true; // It must be set to false after apply()
@@ -499,7 +545,7 @@ public class QuranForm extends BaseForm {
 				suraChanged = true;
 				logger.info("Will search the whole Quran for \"" + str
 						+ "\" with dicritic match set to " + match.getSelection() + ".");
-				quranBrowser.setUrl(url = HtmlRepository.getSearchQuranUrl(str, match
+				quranBrowser.setUrl(quranUrl = HtmlRepository.getSearchQuranUrl(str, match
 						.getSelection()));
 				// TODO: translation also should be displayed for search result
 				logger.info("End of search.");
@@ -511,7 +557,7 @@ public class QuranForm extends BaseForm {
 			}
 		}
 	}
-	
+
 	void recreate() {
 		Point size = shell.getSize();
 		Point loc = shell.getLocation();
@@ -521,7 +567,7 @@ public class QuranForm extends BaseForm {
 		shell.setLocation(loc);
 		shell.setMaximized(mx);
 		show(size.x, size.y);
-		loopForever();
+		loopEver();
 	}
 
 	/**
@@ -537,20 +583,6 @@ public class QuranForm extends BaseForm {
 		shell.open();
 	}
 
-	public void loopForever() {
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-	}
-
-	public void dispose() {
-		logger.info("Disposing all resources...");
-		shell.dispose();
-		logger.info("Zekr will be closed now.");
-	}
-
 	public Browser getQuranBrowser() {
 		return quranBrowser;
 	}
@@ -558,9 +590,14 @@ public class QuranForm extends BaseForm {
 	public void setQuranBrowser(Browser quranBrowser) {
 		this.quranBrowser = quranBrowser;
 	}
-	
-	public String getUrl() {
-		return url;
+
+	public String getQuranUrl() {
+		return quranUrl;
+	}
+
+	public void close() {
+		config.updateFile();
+		logger.info("Disposing all resources...");
 	}
 
 }
