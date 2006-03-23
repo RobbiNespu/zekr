@@ -1,8 +1,8 @@
 ;--------- CONFIGURATION ---------
 
 !define APP_NAME "The Zekr Project"
-!define APP_VER "0.2.0"
-!define CLASS_PATH "lib\log4j-1.2.8.jar;lib\swt-win32.jar;lib\commons-collections.jar;lib\velocity-1.4.jar;lib\xml-apis.jar;dist\zekr.jar"
+!define APP_VER "0.3.0b1"
+!define CLASS_PATH "lib\swt-win32.jar;lib\apache-commons.jar;lib\log4j-1.2.8.jar;lib\velocity-1.4.jar;dist\zekr.jar"
 !define JRE_OPT "-Djava.library.path=lib"
 !define MAIN_CLASS "net.sf.zekr.ZekrMain"
 #SetCompressor /SOLID lzma
@@ -18,7 +18,7 @@ Icon "..\res\image\icon\zekr01.ico"
 SilentInstall silent
 XPStyle on
 
-VIProductVersion 0.2.0.0
+VIProductVersion 0.3.0.0
 VIAddVersionKey ProductName Zekr
 VIAddVersionKey ProductVersion "${APP_VER}"
 VIAddVersionKey OriginalFilename "zekr.exe"
@@ -26,7 +26,7 @@ VIAddVersionKey CompanyName "Siahe.com"
 VIAddVersionKey CompanyWebsite "http://siahe.com"
 VIAddVersionKey FileVersion "${APP_VER}"
 VIAddVersionKey FileDescription "The Zekr Open Quranic Project"
-VIAddVersionKey LegalCopyright "© 2004-2005 Mohsen Saboorian"
+VIAddVersionKey LegalCopyright "© 2004-2006 Mohsen Saboorian"
 
 ;InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails hide

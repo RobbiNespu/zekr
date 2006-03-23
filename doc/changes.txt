@@ -51,9 +51,10 @@ Bug fixes:
 	joz			juz
 	Search problem. ==> (ÃÃäÐÑÊåã was found but ÃäÐÑÊåã could not be found)
 
-Version 0.3.0 release - [11-3-06]
+Version 0.3.0 b1 - [14-3-06]
 Features/Enhancements:
 	Log enhancements. More info about system (OS, JRE, locale, ...) are stored.
+	About menu enhancement.
 	Menu items: Translation and Theme under View menu.
 	Translation support:
 		Basic support for translation packs.
@@ -67,6 +68,32 @@ Features/Enhancements:
 		Does not have a GUI for setting options.
 	InitRuntime changed to ApplicationRuntime, and is loaded once and can be accessed from ApplicationConfig.
 	Translation layout (block/line-by-line) can be set as well as Quran layout.
+	Tools>Add>Translation and Tools>Add>Themes. two menu items for importing translation and theme pack.
+	M.H.Shakir's English translation will be available in the standard Zekr release under a non-commercial license.
+	Apache Jakarta commons are stored in a single jar file, inside [zekr]/lib. Extra unused classes are removed from the jar file.
+	Last seen Quran location is stored in zekr-config.xml, so that the next time Zekr starts, go to that location.
 Bug fixes:
 	JDK 1.4.2's JAXP SAX does not support BOM, so all language pack BOMs were removed.
+
+Version 0.3.0 b2 - [25-3-06]
+Features/Enhancements:
+	Show popup translation for search result.
+	4 different layouts:
+		1. Quran only layout. show Quran only. Full Quran search is allowed in this view.
+		2. Translation only layout. Full Quran search is not allowed, but one can search the current view.
+		3. Separate; Quran at the top, translation at the bottom in 2 separate frames. Search is fully supported.
+		4. Mixed; Quran and translation are mixed aya by aya. Each aya will be followed by its translation. Search is fully supported.
+	Consequently, 4 new menu items under view>layout.
+	Simple Options form under tools>options, with 2 different tabs:
+		1. General tab: currently one option for enable/disable splash screen.
+		2. View tab: a grid of key-value pairs for current theme. CRUD (Create, Read, Update and Delete) is fully supported on the grid.
+Bug fixes:
+	ALEF_MAKSURA will be treated as ARABIC_YEH when diacritic match is not set. In fact all YEH styled characters 
+			(ARABIC_YEH, FARSI_YEH and ALEF_MAKSURA) both in Quran and search box are converted to ARABIC_YEH.
+	A fine typo in Shakir translation was fixed.
+
+Version 0.3.0 release - [x-x-06]
+Features/Enhancements:
+Bug fixes:
+
 

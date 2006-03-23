@@ -18,7 +18,12 @@ td.right {
 div.header {
 	border-bottom-width:1;
 	border-bottom-style:dashed;
-	border-bottom-color:Gray;
+	border-bottom-color:gray;
+}
+
+.headerScreens {
+	padding: 2px;
+	border: 1px solid rgb(220, 220, 220);
 }
 
 /******************/
@@ -40,11 +45,12 @@ fieldset { /* IE is nicer this way! */
 legend {
 	border-style: solid;
 	border-width: 1px;
-	border-color: gray;
+	border-color: rgb(220, 220, 220);
 	margin-bottom: 10px;
 	color: rgb(50, 110, 250);
 	text-transform: capitalize;
 	font-style: iralix;
+	padding: 2px;
 	-moz-border-radius: 8px;
 }
 
