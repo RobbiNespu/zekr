@@ -10,23 +10,24 @@
 package net.sf.zekr.engine.theme;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.resource.QuranProperties;
-import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.util.IQuranText;
-import net.sf.zekr.common.util.QuranPropertiesUtils;
-import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.common.util.IQuranTranslation;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class TranslationViewTemplate extends AbstractQuranViewTemplate {
-	public TranslationViewTemplate(IQuranText text) {
-		super(text);
-		engine.put("LAYOUT", config.getTransLayout());
+	IQuranTranslation text;
+
+	public TranslationViewTemplate(IQuranTranslation text) {
+		this.text = text;
+		engine.put("TEXT_LAYOUT", config.getViewProp("view.transLayout"));
 		engine.put("TRANSLATION", "true");
+	}
+
+	public String transform(int sura) {
+		engine.put("AYA_LIST", text.getSura(sura));
+		return super.transform(sura);
 	}
 }

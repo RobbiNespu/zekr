@@ -13,14 +13,17 @@ if [ -z "$JAVA_HOME" -a -z "$JRE_HOME" ]; then
 	exit 1
 fi
 
+if [ -z "$JRE_HOME" ]; then
+	export JAVA_CMD="$JAVA_HOME"/bin/java
+else
+	export JAVA_CMD="$JRE_HOME"/bin/java
+fi
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MOZILLA_FIVE_HOME
 
-export JAVA_CMD="$JAVA_HOME"/bin/java
-
 export MAIN_CLASS=net.sf.zekr.ZekrMain
 export JRE_OPT=-Djava.library.path=lib
-export CLASS_PATH=lib/log4j-1.2.8.jar:lib/swt-linux-gtk.jar:lib/commons-collections.jar:lib/velocity-1.4.jar:dist/zekr.jar:bin
+export CLASS_PATH=lib/log4j-1.2.8.jar:lib/swt-linux-gtk.jar:lib/apache-commons.jar:lib/velocity-1.4.jar:dist/zekr.jar
 
-echo launching Zekr...
+echo Launching Zekr...
 "$JAVA_CMD" -cp "$CLASS_PATH" $JRE_OPT $MAIN_CLASS

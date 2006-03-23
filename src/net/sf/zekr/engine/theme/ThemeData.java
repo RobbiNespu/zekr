@@ -10,9 +10,13 @@ package net.sf.zekr.engine.theme;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.runtime.Naming;
 
 /**
  * @author Mohsen Saboorian
@@ -22,7 +26,12 @@ public class ThemeData {
 	/**
 	 * Configuration properties set in <tt>theme.properties</tt> in the theme folder.
 	 */
-	public Map props = new HashMap();
+	public Map props;
+
+	/**
+	 * Processed (localized) properties, extracted from <code>props</code>.
+	 */
+	public Map processedProps;
 
 	/** Theme name */
 	public String name;
@@ -36,11 +45,31 @@ public class ThemeData {
 	/** Theme author */
 	public String author;
 
+
 	/**
 	 * @return application relative theme path (e.g. <tt>res/theme/default</tt>)
 	 */
 	public String getPath() {
-		return ApplicationPath.BASE_THEME_DIR + File.separator + id;
+		return ApplicationPath.THEME_DIR + "/" + id;
+	}
+	
+	/**
+	 * Will fill <code>processedProps</code> from <code>props</code> field
+	 * @param transLang default translation language 
+	 */
+	public void process(String transLang) {
+		processedProps = new HashMap();
+		for (Iterator iter = props.entrySet().iterator(); iter.hasNext();) {
+			Entry entry = (Entry) iter.next();
+			String key = (String) entry.getKey();
+			int index;
+			StringBuffer sb = new StringBuffer(key);
+			if ((index = key.indexOf("_" + transLang + "_")) != -1)
+				processedProps.put(sb.replace(index, index + 3, "").toString(), entry
+						.getValue());
+			else
+				processedProps.put((String) entry.getKey(), entry.getValue());
+		}
 	}
 
 	public String toString() {

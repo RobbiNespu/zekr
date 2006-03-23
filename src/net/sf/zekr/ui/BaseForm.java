@@ -8,18 +8,16 @@
  */
 package net.sf.zekr.ui;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.language.LanguageEngine;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-public abstract class BaseForm {
+public abstract class BaseForm implements EventProtocol {
 	protected Shell shell;
 	protected String title;
 	protected Display display;
-//	protected ApplicationConfig config = ApplicationConfig.getInstance();
 	protected LanguageEngine langEngine = LanguageEngine.getInstance();
 	protected final ResourceManager resource = ResourceManager.getInstance();
 
@@ -28,7 +26,7 @@ public abstract class BaseForm {
 
 	public void show() {
 		shell.open();
-		loopEver();
+//		loopEver();
 	}
 
 	public void dispose() {

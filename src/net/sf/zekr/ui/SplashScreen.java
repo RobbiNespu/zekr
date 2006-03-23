@@ -9,6 +9,7 @@
 
 package net.sf.zekr.ui;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 
@@ -27,6 +28,7 @@ import org.eclipse.swt.widgets.Shell;
 public class SplashScreen extends BaseForm {
 	final private String imagePath = resource.getString("image.splashScreen");
 	private Image splashImage = null;
+	private boolean showSplash = ApplicationConfig.getInstance().getProps().getBoolean("options.general.showSplash");
 
 	private static final Logger logger = Logger.getLogger(SplashScreen.class);
 
@@ -53,17 +55,22 @@ public class SplashScreen extends BaseForm {
 	 * disposing splash screen after other parts of the application are started.
 	 */
 	public void show() {
-		logger.info("Show splash screen.");
-		createSplashShell();
-		shell.open();
-		GC g = new GC(shell);
-		g.drawImage(splashImage, 0, 0);
+		if (showSplash) {
+			logger.info("Show splash screen.");
+			createSplashShell();
+			shell.open();
+			GC g = new GC(shell);
+			g.drawImage(splashImage, 0, 0);
+		} else {
+			logger.info("Splash will not be shown.");
+		}
 	}
 
 	public void dispose() {
-		logger.info("Close splash screen.");
-		splashImage.dispose();
-		shell.dispose();
-		super.dispose();
+		if (showSplash ) {
+			logger.info("Close splash screen.");
+			splashImage.dispose();
+			shell.dispose();
+		}
 	}
 }

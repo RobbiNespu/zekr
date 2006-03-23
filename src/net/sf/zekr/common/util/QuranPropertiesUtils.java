@@ -24,7 +24,6 @@ import net.sf.zekr.engine.language.LanguageEngine;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class QuranPropertiesUtils {
 	private static String[][] suraAyas = new String[114][];

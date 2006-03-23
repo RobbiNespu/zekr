@@ -12,16 +12,17 @@ package net.sf.zekr.ui;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sf.zekr.engine.xml.XmlUtils;
-
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Mohsen Saboorian
@@ -52,21 +53,22 @@ public class FormUtils {
 
 	/**
 	 * For internal use only.
+	 * @param style 
 	 */
-	public static Table getTableForMap(Composite parent, Map map, String colTitle1,
-			String colTitle2, Object layoutData) {
-		Table table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION);
+	public static Table getTableForMap(Composite parent, Map map, String title1, String title2,
+			int width1, int width2, Object layoutData, int style) {
+		Table table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | style);
 		table.setLayoutData(layoutData);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 
 		TableColumn nameCol = new TableColumn(table, SWT.NONE);
-		nameCol.setText(colTitle1);
-		nameCol.setWidth(70);
+		nameCol.setText(title1);
+		nameCol.setWidth(width1);
 
 		TableColumn valueCol = new TableColumn(table, SWT.NONE);
-		valueCol.setText(colTitle2);
-		valueCol.setWidth(70);
+		valueCol.setText(title2);
+		valueCol.setWidth(width2);
 
 		String key, value;
 		for (Iterator iter = map.keySet().iterator(); iter.hasNext();) {
@@ -76,6 +78,37 @@ public class FormUtils {
 		}
 
 		return table;
+	}
+
+	public static Table getEditableTable(Composite parent, Map map, String title1, String title2,
+			int width1, int width2, Object layoutData, int style) {
+		Table table = getTableForMap(parent, map, title1, title2, width1, width2, layoutData, style);
+		TableItem[] items = table.getItems();
+		Iterator it = map.values().iterator();
+		for (int i = 0; i < items.length; i++) {
+			TableEditor editor = new TableEditor(table);
+			Text text = new Text(table, SWT.NONE);
+			editor.grabHorizontal = true;
+			editor.setEditor(text, items[i], 1);
+			text.setText((String) it.next());
+		}
+		return table;
+	}
+	
+	public static void addRow(Table table, String str1, String str2) {
+		TableItem item = new TableItem(table, SWT.NONE);
+		item.setText(0, str1);
+		item.setText(1, str2);
+	}
+
+	public static void addEditableRow(Table table, String str1, String str2) {
+		TableItem item = new TableItem(table, SWT.NONE);
+		item.setText(0, str1);
+		TableEditor editor = new TableEditor(table);
+		Text text = new Text(table, SWT.NONE);
+		editor.grabHorizontal = true;
+		editor.setEditor(text, item, 1);
+		text.setText(str2);
 	}
 
 	/**
@@ -94,10 +127,20 @@ public class FormUtils {
 
 	/**
 	 * @param direction can be either <tt>rtl</tt> or <tt>ltr</tt>
-	 * @return <code>SWT.RIGHT_TO_LEFT</code> if direction is <tt>rtl</tt> (ignoring the case),
-	 *         <code>SWT.LEFT_TO_RIGHT</code> otherwise.
+	 * @return <code>SWT.RIGHT_TO_LEFT</code> if direction is <tt>rtl</tt> (ignoring
+	 *         the case), <code>SWT.LEFT_TO_RIGHT</code> otherwise.
 	 */
 	public static int toSwtDirection(String direction) {
 		return "rtl".equalsIgnoreCase(direction) ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT;
+	}
+
+	public static void removeSelection(Table table) {
+		table.remove(table.getSelectionIndices()[0]);
+	}
+
+	public static Point getCenter(Shell parent, Shell shell) {
+		int x = parent.getLocation().x + parent.getSize().x / 2;
+		int y = parent.getLocation().y + parent.getSize().y / 2;
+		return new Point(x - (shell.getSize().x / 2), y - (shell.getSize().y / 2));
 	}
 }

@@ -8,7 +8,6 @@
  */
 package net.sf.zekr.engine.search;
 
-import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.common.util.Range;
 
 /**
@@ -51,34 +50,47 @@ public class SearchUtils {
 	final public static char FARSI_KEHEH = 0x6a9;
 
 	/**
-	 * @param suraNum 1-based sora number
-	 * @param ayaNum 1-based aya number
-	 * @return <code>suraNum + "-" + ayaNum</code>
-	 */
-	public static QuranLocation getKey(int suraNum, int ayaNum) {
-		return new QuranLocation(suraNum, ayaNum);
-	}
-
-	/**
 	 * Replace Farsi unicode <code>Yeh</code> with Arabic one, and so about
 	 * <code>Kaf</code> (Farsi <code>Keheh</code>).
 	 * 
 	 * @param str
 	 * @return updated <code>String</code> result
 	 */
-	public static String replaceSimilarCharacters(String str) {
+	public static String replaceLayoutSimilarCharacters(String str) {
 		str = str.replaceAll(FARSI_YEH + "", ARABIC_YEH + "");
 		str = str.replaceAll(FARSI_KEHEH + "", ARABIC_KAF + "");
 		return str;
 	}
 
 	/**
+	 * Replace similar arabic characters which are used commonly instead of others. This
+	 * is a helper method for easing the search.<br>
+	 * Characters which are replaced are listed below:
+	 * <ul>
+	 * <li><tt>ALEF_MAKSURA</tt> replaces with <tt>ARABIC_YEH</tt></li>
+	 * <li><tt>ALEF_HAMZA_ABOVE</tt> replaces with <tt>ALEF</tt></li>
+	 * <li><tt>ALEF_HAMZA_BELOW</tt> replaces with <tt>ALEF</tt></li>
+	 * <li><tt>ALEF_MADDA</tt> replaces with <tt>ALEF</tt></li>
+	 * <ul>
+	 * 
+	 * @param str
+	 * @return updated <code>String</code> result
+	 */
+	public static String replaceSimilarArabic(String str) {
+		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + "");
+		str = str.replaceAll(ALEF_HAMZA_ABOVE + "", ALEF + "");
+		str = str.replaceAll(ALEF_HAMZA_BELOW + "", ALEF + "");
+		str = str.replaceAll(ALEF_MADDA + "", ALEF + "");
+		return str;
+	}
+
+	/**
 	 * This method removes specific diacritics form the string. Also replaces incorrect
 	 * charactrers (which are present due to keyboard layout problems) using
-	 * <code>replaceSimilarCharacters</code>.<br>
+	 * <code>replaceLayoutSimilarCharacters()</code>.<br>
 	 * <br>
-	 * <b>This method is not complete. It is subject to change based other Arabic-based
-	 * keyboard layout problems</b>
+	 * <b>NOTE:</b> This method is not complete. It is subject to change based other
+	 * Arabic-based keyboard layout problems.
 	 * 
 	 * @param str
 	 * @return simplified form of the <code>str</code>
@@ -97,7 +109,7 @@ public class SearchUtils {
 		str = str.replaceAll(ALEF_HAMZA_BELOW + "", ALEF + "");
 		str = str.replaceAll(ALEF_MADDA + "", ALEF + "");
 
-		str = replaceSimilarCharacters(str);
+		str = replaceLayoutSimilarCharacters(str);
 		return str;
 	}
 
@@ -140,6 +152,7 @@ public class SearchUtils {
 	 */
 	public static Range indexOfIgnoreDiacritic(String src, String key) {
 		key = arabicSimplify(key);
+		src = replaceSimilarArabic(src);
 		int k = 0, s = 0, start = -1;
 		char[] source = src.toCharArray();
 		char[] target = key.toCharArray();
@@ -154,12 +167,13 @@ public class SearchUtils {
 					start = s;
 				s++;
 				k++;
-			} else if (target[k] == ALEF
-					&& (source[s] == ALEF_HAMZA_ABOVE || source[s] == ALEF_HAMZA_BELOW || source[s] == ALEF_MADDA)) {
-				if (start == -1)
-					start = s;
-				s++;
-				k++;
+				// } else if (target[k] == ALEF
+				// && (source[s] == ALEF_HAMZA_ABOVE || source[s] == ALEF_HAMZA_BELOW ||
+				// source[s] == ALEF_MADDA)) {
+				// if (start == -1)
+				// start = s;
+				// s++;
+				// k++;
 			} else {
 				if (!isDiac(source[s])) {
 					if (k != 0)
@@ -200,7 +214,7 @@ public class SearchUtils {
 	 *         end of src if no space found)
 	 */
 	public static Range indexOfMatchDiacritic(String src, String key) {
-		key = replaceSimilarCharacters(key);
+		key = replaceLayoutSimilarCharacters(key);
 		int start = src.indexOf(key);
 		if (start == -1)
 			return null;

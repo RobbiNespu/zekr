@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.util.IQuranText;
+import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.common.util.Range;
 
 /**
@@ -92,7 +93,7 @@ public class QuranSearch {
 			for (int j = 1; j <= ayaNum; j++) {
 				aya = quran.get(i, j);
 				if ((l = find(aya, keyword)) != null) {
-					result.put(SearchUtils.getKey(i, j), l);
+					result.put(new QuranLocation(i, j), l);
 					resultCount += l.size();
 					if (result.size() >= maxAyaMatch)
 						return false;

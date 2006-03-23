@@ -8,13 +8,15 @@
  */
 package net.sf.zekr.common.util;
 
+import java.util.Iterator;
+import java.util.List;
+
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.language.LanguageEngine;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class CollectionUtils {
 	public static String getLocalizedList(int[] array) {
@@ -23,7 +25,7 @@ public class CollectionUtils {
 		String delim = dict.getMeaning("COMMA");
 		for (int i = 0; i < array.length - 1; i++) {
 			ret.append(array[i]);
-			ret.append(delim).append("");
+			ret.append(delim).append(" ");
 		}
 		ret.append(array[array.length - 1]);
 		return ret.toString();
@@ -39,5 +41,17 @@ public class CollectionUtils {
 			ret[i] = array2[j];
 		}
 		return ret;
+	}
+
+	public static String toString(List list, String delim) {
+		StringBuffer buf = new StringBuffer();
+		Iterator i = list.iterator();
+		if (i.hasNext())
+			buf.append(String.valueOf(i.next()));
+		while (i.hasNext()) {
+			buf.append(delim);
+			buf.append(String.valueOf(i.next()));
+		}
+		return buf.toString();
 	}
 }

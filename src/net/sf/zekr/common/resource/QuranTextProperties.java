@@ -10,7 +10,7 @@
 package net.sf.zekr.common.resource;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ZekrConfigNaming;
+import net.sf.zekr.common.config.ConfigNaming;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 
@@ -33,7 +33,7 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 	private XmlReader reader = null;
 
 	private QuranTextProperties() {
-		reader = new XmlReader(appConfig.getConfigFile(ZekrConfigNaming.QURAN_CONFIG_ID));
+		reader = new XmlReader(appConfig.getConfigFile(ConfigNaming.QURAN_CONFIG_ID));
 	}
 
 	public static QuranTextProperties getInstance() {

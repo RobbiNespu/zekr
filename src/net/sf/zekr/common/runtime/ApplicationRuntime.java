@@ -32,6 +32,7 @@ public class ApplicationRuntime {
 		dirList.add(Naming.HOME_PATH);
 		dirList.add(Naming.QURAN_CACHE_DIR);
 		dirList.add(Naming.TRANS_CACHE_DIR);
+		dirList.add(Naming.MIXED_CACHE_DIR);
 		dirList.add(Naming.SEARCH_CACHE_DIR);
 		dirList.add(Naming.CONFIG_PATH);
 	}
@@ -62,12 +63,11 @@ public class ApplicationRuntime {
 
 		File cache = new File(Naming.CACHE_DIR);
 		if (cache.exists())
-			if (!FileUtils.delete(cache))
-				throw new IOException("Can not delete cache directory at \'" + Naming.CACHE_DIR
-						+ "\'.");
+			org.apache.commons.io.FileUtils.deleteDirectory(cache);
 		cache.mkdir();
 		new File(Naming.QURAN_CACHE_DIR).mkdir();
 		new File(Naming.TRANS_CACHE_DIR).mkdir();
+		new File(Naming.MIXED_CACHE_DIR).mkdir();
 		new File(Naming.SEARCH_CACHE_DIR).mkdir();
 	}
 
@@ -77,6 +77,7 @@ public class ApplicationRuntime {
 	}
 
 	private void createCommonFiles() {
+		logger.info("Create common configuration files.");
 		ThemeTemplate ct = new ThemeTemplate();
 		Theme theme = ApplicationConfig.getInstance().getTheme();
 		ct.transform(theme.getCurrent());
@@ -92,6 +93,7 @@ public class ApplicationRuntime {
 	 * @throws IOException
 	 */
 	public void recreateCache() throws IOException {
+		logger.info("Recreate cache.");
 		recreateHtmlCache();
 		createCommonFiles();
 	}
@@ -102,5 +104,9 @@ public class ApplicationRuntime {
 
 	public void recreateTransCache() throws IOException {
 		FileUtils.recreateDirectory(Naming.TRANS_CACHE_DIR);
+	}
+
+	public void recreateMixedCache() throws IOException {
+		FileUtils.recreateDirectory(Naming.MIXED_CACHE_DIR);
 	}
 }

@@ -13,8 +13,6 @@ import java.util.Date;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.common.resource.TranslationData;
-import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.QuranForm;
 import net.sf.zekr.ui.SplashScreen;
@@ -40,9 +38,7 @@ public class ZekrMain {
 			SplashScreen splash = new SplashScreen(display);
 			splash.show();
 
-//			ApplicationRuntime runtime = new ApplicationRuntime();
 			ApplicationConfig.getInstance().getRuntime().configure();
-
 			QuranForm quraForm = new QuranForm(display);
 			quraForm.show(750, 580);
 			splash.dispose(); // close splash screen
@@ -57,13 +53,6 @@ public class ZekrMain {
 			if (logger != null)
 				logger.info("Zekr is now down.\n");
 		}
-	}
-
-	private static void test() {
-		((TranslationData) ApplicationConfig.getInstance().getTranslation().getAllTranslation()
-				.iterator().next()).load();
-		((TranslationData) ApplicationConfig.getInstance().getTranslation().getAllTranslation()
-				.iterator().next()).equals(null);
 	}
 
 	public static void main(String[] args) {

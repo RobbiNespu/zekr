@@ -12,7 +12,7 @@ package net.sf.zekr.common.resource;
 import java.util.ArrayList;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ZekrConfigNaming;
+import net.sf.zekr.common.config.ConfigNaming;
 import net.sf.zekr.common.util.JuzProperties;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.common.util.SajdaProperties;
@@ -44,8 +44,8 @@ class QuranPropertiesReader extends QuranBaseProperties {
 
 	QuranPropertiesReader() {
 		logger.info("Loading Quran properties from \""
-				+ appConfig.getConfigFile(ZekrConfigNaming.QURAN_DETAIL_ID) + "\".");
-		reader = new XmlReader(appConfig.getConfigFile(ZekrConfigNaming.QURAN_DETAIL_ID));
+				+ appConfig.getConfigFile(ConfigNaming.QURAN_DETAIL_ID) + "\".");
+		reader = new XmlReader(appConfig.getConfigFile(ConfigNaming.QURAN_DETAIL_ID));
 		suraNodeList = reader.getNodes(QuranPropertiesNaming.SURA_TAG);
 		juzNodeList = reader.getNodes(QuranPropertiesNaming.JUZ_TAG);
 		sajdaNodeList = reader.getNodes(QuranPropertiesNaming.SAJDA_TAG);

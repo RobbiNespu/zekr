@@ -9,8 +9,6 @@
 
 package net.sf.zekr.common.runtime;
 
-import java.io.File;
-
 import net.sf.zekr.common.config.GlobalConfig;
 
 /**
@@ -26,6 +24,7 @@ public class Naming {
 	public static final String CACHE_DIR = HOME_PATH + "/cache";
 	public static final String QURAN_CACHE_DIR = CACHE_DIR + "/quran";
 	public static final String TRANS_CACHE_DIR = CACHE_DIR + "/trans";
+	public static final String MIXED_CACHE_DIR = CACHE_DIR + "/mixed";
 	public static final String SEARCH_CACHE_DIR = CACHE_DIR + "/search";
 	public static final String CONFIG_PATH = HOME_PATH + "/config";
 }

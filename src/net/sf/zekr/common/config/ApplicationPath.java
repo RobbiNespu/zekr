@@ -9,6 +9,8 @@
 
 package net.sf.zekr.common.config;
 
+import net.sf.zekr.common.runtime.Naming;
+
 
 /**
  * This class contains Zekr directory hierarchy. Directories names are stored in uppercase
@@ -17,11 +19,6 @@ package net.sf.zekr.common.config;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
- */
-/*
- * FIXME: All explicit file path should be moved to ApplicationConfig. This class should
- * only hold directory names (except for some fixed files, e.g zekr-config.xml).
  */
 public class ApplicationPath {
 	private static ResourceManager rm = ResourceManager.getInstance();
@@ -45,15 +42,16 @@ public class ApplicationPath {
 	 */
 	public static final String LANGUAGE_DIR = rm.getString("lang.baseDir");
 
-	public static final String BASE_THEME_DIR = rm.getString("theme.baseDir");
+	public static final String UI_DIR = rm.getString("ui.baseDir");
+	public static final String THEME_DIR = rm.getString("theme.baseDir");
 	public static final String THEME_DESC = rm.getString("theme.desc");
 
 	// Files
 
 	// XML Files
-	public static final String CONFIG_FILE = rm.getString("config.zekr");
-
-//	public static final String QURAN_TEXT = TEXT_DIR + "quran-1256.txt";
+	public static final String XML_CONFIG = rm.getString("config.zekr");
+	public static final String MAIN_CONFIG = rm.getString("config.original"); // original config
+	public static final String USER_CONFIG = rm.getString("config.user", new String[]{Naming.CONFIG_PATH}); // user customized config
 
 	// Velocity Files
 //	/**
@@ -67,5 +65,6 @@ public class ApplicationPath {
 
 	// Velocity Property Files
 	public static final String VELOCITY_CONFIG = rm.getString("config.template");
+
 
 }

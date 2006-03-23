@@ -12,8 +12,6 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.engine.log.Logger;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -22,11 +20,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
@@ -39,10 +35,12 @@ import org.eclipse.swt.widgets.Text;
  */
 public class AboutForm extends BaseForm {
 	private final static Logger logger = Logger.getLogger(AboutForm.class);
+	Shell parent;
 
-	public AboutForm(Display display) {
-		this.display = display;
+	public AboutForm(Shell parent) {
+		this.parent = parent;
 		title = langEngine.getMeaning("ABOUT") + " " + langEngine.getMeaning("APP_NAME");
+		display = parent.getDisplay();
 		init();
 	}
 
@@ -50,7 +48,7 @@ public class AboutForm extends BaseForm {
 		GridLayout gl;
 		GridData gd;
 
-		shell = new Shell(display, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL);
+		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL);
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
 				new Image(display, resource.getString("icon.form32")) });
 		shell.setText(title);
@@ -58,13 +56,6 @@ public class AboutForm extends BaseForm {
 		shell.setLayout(gl);
 		shell.setSize(460, 155);
 		shell.setFocus();
-
-		shell.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.character == SWT.ESC)
-					shell.close();
-			}
-		});
 
 		Composite imageComp = new Composite(shell, SWT.NONE);
 		final Image image = new Image(display, resource.getString("image.smallLogo"));
@@ -103,7 +94,7 @@ public class AboutForm extends BaseForm {
 		Text text = new Text(detailCom, SWT.MULTI | SWT.WRAP | SWT.SCROLL_LINE);
 		text.setText(langEngine.getMeaning("COPYRIGHT_DISCLAIMER"));
 		text.setEditable(false);
-		text.setBackground(shell.getBackground());
+		text.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 
 		Composite buttons = new Composite(shell, SWT.NO_FOCUS);
 		buttons.setLayoutData(new GridData(GridData.FILL));
@@ -114,7 +105,7 @@ public class AboutForm extends BaseForm {
 
 		final Label mem = new Label(shell, SWT.NONE);
 		mem.setText(getMemText());
-		
+
 		forceGC.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				System.gc();
@@ -123,7 +114,12 @@ public class AboutForm extends BaseForm {
 		});
 	}
 
+	/**
+	 * @return <tt>used memory / total heap memory</tt>
+	 */
 	private String getMemText() {
-		return Runtime.getRuntime().freeMemory() + " / " + Runtime.getRuntime().totalMemory();
+		long total = Runtime.getRuntime().totalMemory();
+		long free = Runtime.getRuntime().freeMemory();
+		return (total - free) + " / " + total;
 	}
 }

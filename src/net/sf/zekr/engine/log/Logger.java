@@ -9,16 +9,9 @@
 
 package net.sf.zekr.engine.log;
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Map.Entry;
-
 import net.sf.zekr.ZekrMain;
-import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.ui.error.ErrorForm;
 
-import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
 import org.apache.log4j.PropertyConfigurator;
@@ -26,10 +19,6 @@ import org.apache.log4j.PropertyConfigurator;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- */
-/*
- * TODO: This class should be in fact an adapter for log4j. In other words you should make
- * an interface for common logging framework, so that one can easily change the logger.
  */
 public class Logger {
 	public static final Level INFO = Level.INFO;
@@ -52,6 +41,9 @@ public class Logger {
 		sysInfo();
 	}
 
+	/**
+	 * dumps all neccessary system properties.
+	 */
 	private void sysInfo() {
 		String n = System.getProperty("line.separator");
 		logger.info("System information:" + "\n" + "OS info:\t\t" + System.getProperty("os.name")
@@ -62,12 +54,6 @@ public class Logger {
 				+ System.getProperty("user.home") + " - " + System.getProperty("user.dir") + " - "
 				+ System.getProperty("user.language") + "-" + System.getProperty("user.country")
 				+ n + "Encoding info:\t" + System.getProperty("file.encoding"));
-
-		// Set s = System.getProperties().entrySet();
-		// for (Iterator iter = s.iterator(); iter.hasNext();) {
-		// Entry entry = (Entry) iter.next();
-		// logger.info(entry.getKey() + " - " + entry.getValue());
-		// }
 	}
 
 	/**
@@ -88,7 +74,9 @@ public class Logger {
 	 * @return corresponding logger
 	 */
 	public static Logger getLogger(Class theClass) {
-		logger = org.apache.log4j.Logger.getLogger(theClass);
+		int i = theClass.getName().lastIndexOf('.');
+		String name = theClass.getName().substring(i + 1);
+		logger = org.apache.log4j.Logger.getLogger(name);
 		if (thisInstance == null)
 			thisInstance = new Logger();
 		return thisInstance;
@@ -115,7 +103,7 @@ public class Logger {
 	}
 
 	/**
-	 * @param msg any <code>String</code> or <code>Exception</code>
+	 * @param msg any object of type <code>String</code> or <code>Exception</code>
 	 */
 	public void log(Object msg) {
 		if (msg instanceof Throwable)

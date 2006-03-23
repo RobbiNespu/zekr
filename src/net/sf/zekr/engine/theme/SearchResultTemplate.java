@@ -16,6 +16,7 @@ import java.util.Map;
 
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.QuranText;
+import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.util.IQuranText;
 import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.common.util.Range;
@@ -47,9 +48,10 @@ public class SearchResultTemplate extends BaseViewTemplate {
 				engine.put("TOO_MANY_RESULT", null);
 
 			engine.put("KEYWORD", keyword);
-			engine.put("AYA_LIST", refineResult(result).entrySet());
-			// engine.put("AYA_LIST", result.entrySet());
-			String k = matchDiac ? SearchUtils.replaceSimilarCharacters(keyword) : SearchUtils
+			engine.put("TRANSLATE", langEngine.getMeaning("TRANSLATION"));
+			engine.put("ICON_TRANSLATE", resource.getString("icon.translate"));
+			engine.put("AYA_LIST", refineQuranResult(result).entrySet());
+			String k = matchDiac ? SearchUtils.replaceLayoutSimilarCharacters(keyword) : SearchUtils
 					.arabicSimplify(keyword);
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE",
 					new String[] { k }));
@@ -65,9 +67,23 @@ public class SearchResultTemplate extends BaseViewTemplate {
 
 	/**
 	 * @param result
-	 * @return a map of locations to
+	 * @return a map of locations
 	 */
-	private Map refineResult(Map result) {
+	private Map refineTransResult(Map result) {
+		Map ret = new LinkedHashMap(result.size());
+		for (Iterator iter = result.keySet().iterator(); iter.hasNext();) {
+			QuranLocation loc = (QuranLocation) iter.next();
+			String aya = quran.get(loc.getSura(), loc.getAya());
+			ret.put(loc, aya);
+		}
+		return ret;
+	}
+
+	/**
+	 * @param result
+	 * @return a map of locations
+	 */
+	private Map refineQuranResult(Map result) {
 		Map ret = new LinkedHashMap(result.size());
 		List l;
 		for (Iterator iter = result.keySet().iterator(); iter.hasNext();) {

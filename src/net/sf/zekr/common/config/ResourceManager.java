@@ -9,7 +9,9 @@
 package net.sf.zekr.common.config;
 
 import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * This class is used to handle dynamic resource bundles which use <i>Velocity</i> as the
@@ -17,7 +19,6 @@ import java.util.ResourceBundle;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class ResourceManager {
 	private static PropertyResourceBundle resource;

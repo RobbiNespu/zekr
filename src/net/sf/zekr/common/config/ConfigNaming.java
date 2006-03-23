@@ -13,7 +13,7 @@ package net.sf.zekr.common.config;
  * @since Zekr 1.0
  * @version 0.1
  */
-public class ZekrConfigNaming {
+public class ConfigNaming {
 	// These are common between different types of nodes
 	public static final String ID_ATTR = "id";
 	public static final String NAME_ATTR = "name";
@@ -52,5 +52,14 @@ public class ZekrConfigNaming {
 	public static final String QURAN_LOCATION = "QURAN_LOCATION";
 	public static final String QURAN_LAYOUT = "QURAN_LAYOUT";
 	public static final String TRANS_LAYOUT = "TRANS_LAYOUT";
+	public static final String VIEW_LAYOUT = "VIEW_LAYOUT";
+
+	public static final String LINE_BY_LINE = "line_by_line";
+	public static final String BLOCK = "block";
+
+	public static final String MIXED_LAYOUT = "mixed";
+	public static final String SEPARATE_LAYOUT = "separate";
+	public static final String QURAN_ONLY_LAYOUT = "quran_only";
+	public static final String TRANS_ONLY_LAYOUT = "trans_only";
 	
 }

@@ -8,8 +8,6 @@
  */
 package net.sf.zekr.common.resource;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -18,7 +16,6 @@ import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.util.IQuranTranslation;
 import net.sf.zekr.engine.log.Logger;
 
@@ -68,10 +65,6 @@ public class TranslationData implements IQuranTranslation {
 
 	public String[][] getFullText() {
 		return transText;
-	}
-
-	public void setText(String[][] text) {
-		transText = text;
 	}
 
 	public String toString() {

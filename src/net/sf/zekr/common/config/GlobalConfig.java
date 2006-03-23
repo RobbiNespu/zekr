@@ -19,7 +19,7 @@ import org.eclipse.swt.SWT;
 public class GlobalConfig {
 
 	/** Zekr version: e.g. 0.2.0b1 for beta1 or 0.2.0 for release. */
-	public static String ZEKR_VERSION = "0.3.0b1";
+	public static String ZEKR_VERSION = "0.3.0b2";
 
 	/** Flag specifying if OS is Linux */
 	public static boolean isLinux = SWT.getPlatform().equalsIgnoreCase("gtk");
@@ -45,11 +45,15 @@ public class GlobalConfig {
 	public static final String USER_COUNTRY = System.getProperty("user.country");
 
 	/** This constant holds the current working directory for the application. */
-	public static final String RUNTIME_DIR = System.getProperty("user.dir");
+	public static final String RUNTIME_DIR = System.getProperty("user.dir").replace('\\', '/');
 
 	/** Holds user home directory. */
-	public static final String USER_HOME_PATH = System.getProperty("user.home");
+	public static final String USER_HOME_PATH = System.getProperty("user.home").replace('\\', '/');
 
+	/**
+	 * \n on Linux, \r\n on Win32 and \n\r on Mac.
+	 */
+	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	/**
 	 * Holds user language (runtime property <code>user.language</code>). e.g. fa, en,
 	 * etc.

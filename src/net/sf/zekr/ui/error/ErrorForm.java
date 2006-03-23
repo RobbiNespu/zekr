@@ -12,15 +12,18 @@ import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.ui.BaseForm;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -43,8 +46,7 @@ public class ErrorForm extends BaseForm {
 
 		shell = new Shell(display, getShellOptions());
 		shell.setText(langEngine.getMeaning("ERROR"));
-		shell.setImages(new Image[] { new Image(display, resource.getString("icon.error16")),
-				new Image(display, resource.getString("icon.error32")) });
+		shell.setImage(display.getSystemImage(SWT.ICON_ERROR));
 
 		makeFrame(error);
 	}
@@ -63,13 +65,6 @@ public class ErrorForm extends BaseForm {
 		errorGroup.setLayout(errorLayout);
 		errorGroup.setText(langEngine.getMeaning(LanguageEngineNaming.ERROR_MSG, "GENERAL_ERROR"));
 
-		// message = new Label(errorGroup, SWT.NONE);
-		// message.setText(langEngine.getMeaning(LanguageEngineNaming.ERROR_MSG,
-		// "GENERAL_ERROR"));
-		gridData = new GridData(SWT.SCROLL_LINE);
-		gridData.horizontalIndent = 3;
-		// message.setLayoutData(gridData);
-
 		errorDetail = new Text(errorGroup, SWT.BORDER | SWT.LEFT_TO_RIGHT | SWT.H_SCROLL
 				| SWT.V_SCROLL);
 		errorDetail.setEditable(false);
@@ -84,8 +79,30 @@ public class ErrorForm extends BaseForm {
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.horizontalSpan = 3;
 		errorDetail.setLayoutData(gridData);
+		errorDetail.selectAll();
 
-		Button ok = new Button(errorGroup, SWT.NONE);
+		gridData = new GridData();
+		gridData.horizontalSpan = 3;
+		gridData.horizontalAlignment = SWT.END;
+
+		Composite buttons = new Composite(errorGroup, SWT.NONE);
+		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
+		buttons.setLayout(rl);
+		buttons.setLayoutData(gridData);
+		RowData rd = new RowData();
+		rd.width = 70;
+
+		Button copy = new Button(buttons, SWT.NONE);
+		copy.setText(langEngine.getMeaning("COPY"));
+		copy.setLayoutData(rd);
+		copy.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				errorDetail.selectAll();
+				errorDetail.copy();
+			}
+		});
+
+		Button ok = new Button(buttons, SWT.NONE);
 		ok.setText(langEngine.getMeaning("OK"));
 		ok.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -96,11 +113,10 @@ public class ErrorForm extends BaseForm {
 				widgetSelected(e);
 			}
 		});
-		shell.setDefaultButton(ok);
-		shell.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e) {
-			}
+		ok.setLayoutData(rd);
 
+		shell.setDefaultButton(ok);
+		shell.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.ESC)
 					close();
@@ -119,7 +135,7 @@ public class ErrorForm extends BaseForm {
 	public void show() {
 		shell.open();
 		shell.pack();
-		loopEver();
+//		loopEver();
 	}
 
 }

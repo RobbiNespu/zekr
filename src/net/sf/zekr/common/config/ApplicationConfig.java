@@ -12,12 +12,16 @@ package net.sf.zekr.common.config;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -31,6 +35,7 @@ import net.sf.zekr.common.resource.Translation;
 import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.RuntimeConfig;
+import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
@@ -43,6 +48,8 @@ import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 import net.sf.zekr.engine.xml.XmlWriter;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.ConfigurationUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -55,7 +62,7 @@ import org.w3c.dom.Node;
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
-public class ApplicationConfig extends ZekrConfigNaming {
+public class ApplicationConfig extends ConfigNaming {
 	private final Logger logger = Logger.getLogger(this.getClass());
 	private static ApplicationConfig thisInstance;
 
@@ -75,20 +82,22 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	private Theme theme = new Theme();
 	private ApplicationRuntime runtime;
 	private QuranLocation quranLocation;
+	private PropertiesConfiguration props;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
-		configReader = new XmlReader(ApplicationPath.CONFIG_FILE);
+		configReader = new XmlReader(ApplicationPath.XML_CONFIG);
 		langElem = configReader.getElement(LANGUAGE_TAG);
 		quranElem = configReader.getElement(QURAN_TAG);
 		viewElem = configReader.getElement(VIEW_TAG);
 		transElem = configReader.getElement(TRANSLATIONS_TAG);
+		loadConfig();
 		extractLangProps();
 		extractRuntimeConfig();
 		extractTransProps();
 		extractViewProps();
-
 		runtime = new ApplicationRuntime();
+		logger.info("Application configurations initialized.");
 	}
 
 	public static ApplicationConfig getInstance() {
@@ -102,6 +111,51 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	 */
 	public void reload() {
 		thisInstance = new ApplicationConfig();
+	}
+
+	private void loadConfig() {
+		logger.info("Load Zekr configuration file.");
+		File uc = new File(ApplicationPath.USER_CONFIG);
+		String conf = ApplicationPath.USER_CONFIG;
+		if (!uc.exists()) {
+			logger.info("User config does not exist at " + ApplicationPath.USER_CONFIG);
+			logger.info("Will make user config with default values at " + ApplicationPath.MAIN_CONFIG);
+			conf = ApplicationPath.MAIN_CONFIG;
+		}
+		try {
+			InputStream fis = new FileInputStream(conf);
+			Reader reader = new InputStreamReader(fis, "UTF8");
+			props = new PropertiesConfiguration();
+			props.load(reader);
+			
+		} catch (Exception e) {
+			logger.warn("IO Error in loading/reading config file " + ApplicationPath.MAIN_CONFIG);
+			logger.implicitLog(e);
+		}
+
+		if (!uc.exists())
+			saveConfig();
+
+	}
+	
+	/**
+	 * Save properties configuration file, wich was read into <code>props</code>, to
+	 * <code>ApplicationPath.USER_CONFIGwh</code>.
+	 */
+	public void saveConfig() {
+		try {
+			logger.info("Save user config file to " + ApplicationPath.USER_CONFIG);
+			props.save(new OutputStreamWriter(new FileOutputStream(ApplicationPath.USER_CONFIG), "UTF8"));
+		} catch (Exception e) {
+			logger.log("Error while saving config to " + ApplicationPath.USER_CONFIG);
+		}
+	}
+	
+	/**
+	 * @return User configuration properties
+	 */
+	public PropertiesConfiguration getProps() {
+		return props;
 	}
 
 	/**
@@ -174,9 +228,11 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	 * config file.
 	 */
 	private void extractTransProps() {
-		String def = transElem.getAttribute(DEFAULT_ATTR);
+//		String def = transElem.getAttribute(DEFAULT_ATTR);
+		String def = props.getString("trans.default");
 		File transDir = new File(ApplicationPath.TRANSLATION_DIR);
 		logger.info("Loading translation files info from \"" + transDir + "\".");
+		logger.info("Default translation is " + def);
 		FileFilter filter = new FileFilter() { // accept zip files
 			public boolean accept(File pathname) {
 				if (pathname.getName().endsWith(".zip"))
@@ -194,7 +250,8 @@ public class ApplicationConfig extends ZekrConfigNaming {
 						ApplicationPath.TRANSLATION_DESC));
 				// ZipInputStream zis = new ZipInputStream();
 				if (is == null) {
-					logger.warn("Ignoring invalid translation archive \"" + zipFile + "\".");
+					logger.warn("Will ignore invalid translation archive \"" + zipFile.getName()
+							+ "\".");
 					continue;
 				}
 				Reader reader = new InputStreamReader(is, "UTF8");
@@ -223,28 +280,11 @@ public class ApplicationConfig extends ZekrConfigNaming {
 				logger.implicitLog(e);
 			}
 		}
-
-		// for (Iterator iter = list.iterator(); iter.hasNext();) {
-		// Element elem = (Element) iter.next();
-		// td = new TranslationData();
-		// td.locale = new Locale(elem.getAttribute(LANG_ATTR),
-		// elem.getAttribute(COUNTRY_ATTR));
-		// td.transId = elem.getAttribute(TRANS_ID_ATTR);
-		// td.encoding = elem.getAttribute(ENCODING_ATTR);
-		// td.file = elem.getAttribute(FILE_ATTR);
-		// td.name = elem.getAttribute(NAME_ATTR);
-		// td.localizedName = elem.getAttribute(LOCALIZED_NAME_ATTR);
-		// if (td.localizedName == null)
-		// td.localizedName = td.name;
-		// translation.add(td);
-		// if (td.transId.equals(def))
-		// translation.setDefault(td);
-		// }
 	}
 
 	private void extractViewProps() {
 		String def = viewElem.getAttribute(THEME_ATTR);
-		File themeDir = new File(ApplicationPath.BASE_THEME_DIR);
+		File themeDir = new File(ApplicationPath.THEME_DIR);
 		logger.info("Loading theme files info from \"" + themeDir + "\".");
 		File[] themes = themeDir.listFiles();
 		ThemeData td;
@@ -257,27 +297,32 @@ public class ApplicationConfig extends ZekrConfigNaming {
 
 		Reader reader;
 		for (int i = 0; i < themes.length; i++) {
-			if (themes[i].isFile())
+			if (themes[i].isFile()) {
 				continue;
+			}
 			try {
 				File themeDesc = new File(themes[i] + File.separator + ApplicationPath.THEME_DESC);
-				if (!themeDesc.exists())
+				if (!themeDesc.exists()) {
+					logger.info("\"" + themes[i] + "\" is not a standard theme! Will ignore it.");
 					continue;
+				}
 				reader = new InputStreamReader(new FileInputStream(themeDesc), "UTF8");
 				PropertiesConfiguration pc = new PropertiesConfiguration();
 				pc.load(reader);
-				PropertiesConfiguration.setDelimiter('@'); // TODO!
 				td = new ThemeData();
+				td.props = new LinkedHashMap(); // order is important for options table!
 				for (Iterator iter = pc.getKeys(); iter.hasNext();) {
 					String key = (String) iter.next();
-					td.props.put(key, pc.getString(key));
+					td.props.put(key, CollectionUtils.toString(pc.getList(key), ", "));
 				}
-
 				td.author = pc.getString("author");
 				td.name = pc.getString("name");
 				td.id = themes[i].getName();
 				td.props.remove("author");
 				td.props.remove("name");
+				
+				// extractTransProps must be called before it!
+				td.process(getTranslation().getDefault().locale.getLanguage());
 
 				theme.add(td);
 				logger.info("Theme \"" + td + "\" was loaded successfully.");
@@ -291,7 +336,7 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		}
 		if (theme.getCurrent() == null) {
 			logger.warn("No default theme was set in main configuration file.");
-			theme.setCurrent(theme.get("default"));
+			theme.setCurrent(theme.get("default")); // FIXME ?!!
 		}
 	}
 
@@ -348,12 +393,13 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	public void setCurrentTranslation(String transId) {
 		logger.info("Set current translation to " + transId);
 		translation.setDefault(getTranslation().get(transId));
+		props.setProperty("trans.default", transId);
 		try {
 			runtime.recreateCache();
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		transElem.setAttribute(DEFAULT_ATTR, transId);
+//		transElem.setAttribute(DEFAULT_ATTR, transId);
 	}
 
 	/**
@@ -377,39 +423,64 @@ public class ApplicationConfig extends ZekrConfigNaming {
 		return ApplicationPath.TRANSLATION_DIR + "/" + name;
 	}
 
+	public String getViewProp(String propKey) {
+//		return (String) theme.commonProps.get(propKey);
+		return props.getString(propKey);
+	}
+
+	public void setViewProp(String propKey, String value) {
+//		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
+//				PROP_TAG, NAME_ATTR, propKey);
+//		elem.setAttribute(VALUE_ATTR, value);
+//		theme.commonProps.put(propKey, value);
+		props.setProperty(propKey, value);
+	}
+
 	public String getQuranLayout() {
-		return (String) theme.commonProps.get(QURAN_LAYOUT);
+//		return (String) theme.commonProps.get(QURAN_LAYOUT);
+		return props.getString("view.quranLayout");
 	}
 
 	public void setQuranLayout(String newLayout) {
-		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
-				PROP_TAG, NAME_ATTR, QURAN_LAYOUT);
-		elem.setAttribute(VALUE_ATTR, newLayout);
-		theme.commonProps.put(QURAN_LAYOUT, newLayout);
+//		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
+//				PROP_TAG, NAME_ATTR, QURAN_LAYOUT);
+//		elem.setAttribute(VALUE_ATTR, newLayout);
+//		theme.commonProps.put(QURAN_LAYOUT, newLayout);
+		props.setProperty("view.quranLayout", newLayout);
 	}
 
 	public QuranLocation getQuranLocation() {
-		// return quranLocation;
-		return new QuranLocation(theme.commonProps.get(QURAN_LOCATION));
+//		return new QuranLocation(theme.commonProps.get(QURAN_LOCATION));
+		return new QuranLocation(props.getString("view.quranLoc"));
 	}
 
 	public void setQuranLocation(QuranLocation quranLocation) {
-		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
-				PROP_TAG, NAME_ATTR, QURAN_LOCATION);
-		elem.setAttribute(VALUE_ATTR, quranLocation.toString());
-		theme.commonProps.put(QURAN_LOCATION, quranLocation.toString());
-		// this.quranLocation = quranLocation;
+//		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
+//				PROP_TAG, NAME_ATTR, QURAN_LOCATION);
+//		elem.setAttribute(VALUE_ATTR, quranLocation.toString());
+//		theme.commonProps.put(QURAN_LOCATION, quranLocation.toString());
+		props.setProperty("view.quranLoc", quranLocation);
 	}
 
 	public String getTransLayout() {
-		return (String) theme.commonProps.get(TRANS_LAYOUT);
+//		return (String) theme.commonProps.get(TRANS_LAYOUT);
+		return props.getString("view.transLayout");
 	}
 
 	public void setTransLayout(String newLayout) {
-		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
-				PROP_TAG, NAME_ATTR, TRANS_LAYOUT);
-		elem.setAttribute(VALUE_ATTR, newLayout);
-		theme.commonProps.put(TRANS_LAYOUT, newLayout);
+//		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(viewElem, PROP_TAG),
+//				PROP_TAG, NAME_ATTR, TRANS_LAYOUT);
+//		elem.setAttribute(VALUE_ATTR, newLayout);
+//		theme.commonProps.put(TRANS_LAYOUT, newLayout);
+		props.setProperty("view.transLayout", newLayout);
+	}
+	
+	public void setViewLayout(String layout) {
+		props.setProperty("view.viewLayout", layout);
+	}
+	
+	public String getViewLayout() {
+		return props.getString("view.viewLayout");
 	}
 
 	public RuntimeConfig getRuntimeConfig() {
@@ -421,9 +492,10 @@ public class ApplicationConfig extends ZekrConfigNaming {
 	}
 
 	public void updateFile() {
-		logger.info("Update XML configuration file.");
+		logger.info("Update configuration file.");
 		try {
-			XmlWriter.writeXML(configReader.getDocument(), new File(ApplicationPath.CONFIG_FILE));
+			XmlWriter.writeXML(configReader.getDocument(), new File(ApplicationPath.XML_CONFIG));
+			saveConfig();
 		} catch (TransformerException e) {
 			logger.log(e);
 		}

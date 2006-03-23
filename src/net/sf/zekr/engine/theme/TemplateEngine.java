@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.engine.log.Logger;
 
 import org.apache.commons.collections.ExtendedProperties;
@@ -28,7 +27,6 @@ import org.apache.velocity.app.Velocity;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class TemplateEngine {
 	VelocityContext context;
@@ -52,7 +50,8 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * @return The template engine instance
+	 * @return The template engine instance. A call to this method will reset the context
+	 *         of the template engine.
 	 */
 	public static TemplateEngine getInstance() {
 		if (thisInstance == null) {

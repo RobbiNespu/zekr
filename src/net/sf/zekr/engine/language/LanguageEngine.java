@@ -29,7 +29,6 @@ import org.w3c.dom.Node;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.2
  */
 public class LanguageEngine extends LanguageEngineNaming {
 	/**
@@ -37,7 +36,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 * is called.
 	 */
 	private static LanguageEngine engine = null;
-	
+
 	private LanguagePack languagePack = null;
 
 	private XmlReader reader = null;
@@ -66,7 +65,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 		language = config.getLanguage();
 		packFile = new File(config.getLanguage().getPackPath());
 		if (!packFile.exists()) {
-			logger.warn("Can not find language pack \"" + language.getActiveLanguagePack() + "\".");
+			logger.warn("Can not find language pack " + language.getActiveLanguagePack());
 			logger.warn("Will load the default language pack");
 			language.setActiveLanguagePack(language.getDefaultLanguagePack());
 		}
@@ -75,8 +74,9 @@ public class LanguageEngine extends LanguageEngineNaming {
 
 	private void init() {
 		packFile = new File(language.getActiveLanguagePack().getPath());
-		if (!packFile.exists()) 
-			throw new RuntimeException("Can not find default language pack " + language.getActiveLanguagePack());
+		if (!packFile.exists())
+			throw new RuntimeException("Can not find default language pack "
+					+ language.getActiveLanguagePack());
 		logger.info("Parsing language pack " + language.getActiveLanguagePack());
 		reader = new XmlReader(packFile);
 		commonWords = makeDictionary(reader.getNode(COMMON_WORDS).getChildNodes());
@@ -85,7 +85,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 		confirmMessages = makeDictionary(reader.getNode(CONFIRM_MSG).getChildNodes());
 		errorMessages = makeDictionary(reader.getNode(ERROR_MSG).getChildNodes());
 		tooltipMessages = makeDictionary(reader.getNode(TOOLTIP_MSG).getChildNodes());
-		
+
 		forms = makeMultipleDictionaries(reader.getNodes(FORM));
 		globals = makeDictionary(reader.getNode(GLOBAL).getChildNodes());
 	}
@@ -124,8 +124,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	/**
 	 * Generates dictionaries from <code>node</code> mapping.
 	 * 
-	 * @param list
-	 *            a list of <code>&lttext&gt</code> nodes
+	 * @param list a list of <code>&lttext&gt</code> nodes
 	 * @return dictionary map
 	 */
 	private Map makeDictionary(org.w3c.dom.NodeList list) {
@@ -133,10 +132,9 @@ public class LanguageEngine extends LanguageEngineNaming {
 		Node node = null;
 		for (int i = 0; i < list.getLength(); i++) {
 			node = list.item(i);
-			if (node.getNodeName().equals(XmlUtils.TEXT_NODE))
+			if (node.getNodeType() != Node.ELEMENT_NODE)
 				continue;
-			resultMap.put(XmlUtils.getAttr(node, ID_ATTR), XmlUtils.getAttr(node,
-					VALUE_ATTR));
+			resultMap.put(XmlUtils.getAttr(node, ID_ATTR), XmlUtils.getAttr(node, VALUE_ATTR));
 		}
 		return resultMap;
 	}
@@ -161,7 +159,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	public String getMeaning(String word) {
-		String meaning = null;
+		String meaning = "";
 		if ((meaning = (String) commonWords.get(word)) != null)
 			;
 		else if ((meaning = (String) specialWords.get(word)) != null)
@@ -199,17 +197,16 @@ public class LanguageEngine extends LanguageEngineNaming {
 		return meaning;
 	}
 
-
 	/**
 	 * @param id
 	 * @param word
-	 * @return meaning of the word, or <code>null</code> if there is either no
+	 * @return meaning of the word, or <b>empty string</b> if there is either no
 	 *         <code>id</code> nor no <code>word</code> within that <code>id</code>
 	 *         available.
 	 */
 	public String getMeaningById(String id, String word) {
 		if (!forms.containsKey(id))
-			return null;
+			return "";
 		return (String) ((Map) forms.get(id)).get(word);
 	}
 
@@ -225,13 +222,6 @@ public class LanguageEngine extends LanguageEngineNaming {
 				: LEFT_TO_RIGHT;
 	}
 
-	/**
-	 * @return Returns the current language pack.
-	 */
-	public LanguagePack getLanguagePack() {
-		return languagePack;
-	}
-	
 	/**
 	 * Call it when the active language is changed
 	 */
