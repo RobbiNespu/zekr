@@ -11,7 +11,7 @@
 			<text id="START"    value="آغاز" />
 			<text id="RESET"    value="خالی کردن" />
 			<text id="NEW"      value="جدید" />
-			<text id="SAVE_AS"  value="ذخیره ..." />
+			<text id="SAVE_AS"  value="ذخیره" />
 			<text id="HELP"     value="کمک" />
 			<text id="EDIT"     value="ویرایش" />
 			<text id="SEARCH"   value="جستجو" />
@@ -52,7 +52,19 @@
 			<text id="PREV_SURA" value="سوره‌ی قبلی" />
 			<text id="THEME"    value="مضمون" />
 			<text id="LAYOUT"   value="طرح" />
+			<text id="TOOLS"    value="ابزار" />
+			<text id="ADD"      value="اضافه کردن" />
+			<text id="DELETE"   value="حذف کردن" />
+			<text id="REMOVE"   value="حذف کردن" />
 			<text id="TRANSLATION" value="ترجمه" />
+			<text id="OPEN"     value="باز کردن" />
+			<text id="IMPORT"   value="وارد کردن" />
+			<text id="COPY"     value="کپی" />
+			<text id="SEPARATE" value="مجزا" />
+			<text id="MIXED"    value="درهم" />
+			<text id="OPTIONS"  value="تنظیمات" />
+			<text id="FONT"     value="قلم" />
+			<text id="GENERAL"  value="عمومی" />
 			<text id="EXIT"     value="خروج" />
 		</common>
 		<special>
@@ -76,12 +88,14 @@
 			<text id="SEARCH_RESULT_COUNT" value="{1} مورد در {2} آیه یافت شد." />
 			<text id="TOO_MANY_RESULT" value="نتیجه‌ی جستجو بیش از {1} آیه است." />
 			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است. آیا می‌خواهید آن‌را جایگزین کنید؟" />
+			<text id="RESTART_APP" value="برای اعمال تغییرات، برنامه را بسته و مجدداً اجرا کنید." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="آیا مطمئن هستید؟" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="وقوع خطای ناخواسته در برنامه" />
+			<text id="ACTION_FAILED" value="انجام عملیات ناموفق بود!" />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -96,7 +110,16 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="ذکر" />
-			<text id="SEARCH_NOT_AVAILABLE" value="این امکان در نگارش کنونی موجود نیست، برای جستجو بر روی صفحه‌ی قرآن کلیک کنید و ctrl + f را بزنید." />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="تنظیمات برنامه" />
+			<text id="SHOW_SPLASH" value="نمایش تصویر ابتدای برنامه" />
+			<text id="THEME_OPTIONS" value="تنظیمات مضمون" />
+			<text id="FONT_SELECTION" value="انتخاب قلم" />
+			<text id="QURAN_FONT" value="قلم قرآن" />
+			<text id="TRANS_FONT" value="قلم ترجمه" />
+			<text id="NEW_KEY" value="یک کلید جدید وارد کنید" />
+			<text id="THEME_SETTING" value="تنطیمات مضمون" />
 		</form>
 	</forms>
 </language>

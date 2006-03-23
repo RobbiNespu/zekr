@@ -11,7 +11,7 @@
 			<text id="START"    value="Start" />
 			<text id="RESET"    value="Zurücksetzen" />
 			<text id="NEW"      value="Nein" />
-			<text id="SAVE_AS"  value="Speichern unter..." />
+			<text id="SAVE_AS"  value="Speichern unter" />
 			<text id="HELP"     value="Hilfe" />
 			<text id="EDIT"     value="Bearbeiten" />
 			<text id="SEARCH"   value="Suchen" />
@@ -52,7 +52,19 @@
 			<text id="PREV_SURA" value="Vorherige Sura" />
 			<text id="THEME" value="Theme"   />
 			<text id="LAYOUT"   value="Layout"   />
+			<text id="TOOLS"     value="Tools"   />
+			<text id="ADD"     value="Add"   />
+			<text id="DELETE"   value="Delete"   />
+			<text id="REMOVE"   value="Remove" />
 			<text id="TRANSLATION" value="Translation"   />
+			<text id="OPEN"     value="Open"   />
+			<text id="IMPORT"   value="Import"   />
+			<text id="COPY"     value="Copy"   />
+			<text id="SEPARATE" value="Separate"   />
+			<text id="MIXED"    value="Mixed"   />
+			<text id="OPTIONS"  value="Options"   />
+			<text id="FONT"     value="Font"   />
+			<text id="GENERAL"  value="General"   />
 			<text id="EXIT"     value="Beenden" />
 		</common>
 		<special>
@@ -76,12 +88,14 @@
 			<text id="SEARCH_RESULT_COUNT" value="Es wurden {1} Übereinstimmungen in {2} Ayas gefunden." />
 			<text id="TOO_MANY_RESULT" value="Ergebnis der Suche hat mehr als {1} Ayas." />
 			<text id="FILE_ALREADY_EXISTS" value="Eine Datei mit dem Namen &quot;{1}&quot; existiert bereits. Möchten Sie sie überschreiben?"   />
+			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect."   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Sind Sie sicher?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Ein unerwarteter Fehler ist aufgetreten" />
+			<text id="ACTION_FAILED" value="Action failed!"   />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -96,7 +110,12 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="SEARCH_NOT_AVAILABLE" value="Die Suchfunktion ist in dieser Version noch nicht enthalten. Klicken Sie stattdessen in das Anzeigefenster und drücken Sie Strg+F!" />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="Application Options"   />
+			<text id="SHOW_SPLASH" value="Display logo at startup"   />
+			<text id="NEW_KEY" value="Enter a new key"   />
+			<text id="THEME_SETTING" value="Theme settings"   />
 		</form>
 	</forms>
 </language>

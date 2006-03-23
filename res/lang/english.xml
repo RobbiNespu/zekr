@@ -11,7 +11,7 @@
 			<text id="START"    value="Start" />
 			<text id="RESET"    value="Reset" />
 			<text id="NEW"      value="New" />
-			<text id="SAVE_AS"  value="Save As..." />
+			<text id="SAVE_AS"  value="Save As" />
 			<text id="HELP"     value="Help" />
 			<text id="EDIT"     value="Edit" />
 			<text id="SEARCH"   value="Search" />
@@ -52,7 +52,19 @@
 			<text id="PREV_SURA" value="Previous sura" />
 			<text id="THEME" value="Theme" />
 			<text id="LAYOUT"   value="Layout" />
+			<text id="TOOLS"     value="Tools" />
+			<text id="ADD"     value="Add" />
+			<text id="DELETE"   value="Delete" />
+			<text id="REMOVE"   value="Remove" />
 			<text id="TRANSLATION" value="Translation" />
+			<text id="OPEN"     value="Open" />
+			<text id="IMPORT"   value="Import" />
+			<text id="COPY"     value="Copy" />
+			<text id="SEPARATE" value="Separate" />
+			<text id="MIXED"    value="Mixed" />
+			<text id="OPTIONS"  value="Options" />
+			<text id="FONT"     value="Font" />
+			<text id="GENERAL"  value="General" />
 			<text id="EXIT"     value="Exit" />
 		</common>
 		<special>
@@ -76,12 +88,14 @@
 			<text id="SEARCH_RESULT_COUNT" value="{1} results found in {2} ayas." />
 			<text id="TOO_MANY_RESULT" value="Search result is more than {1} ayas" />
 			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
+			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Are you sure?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="An unexpected error occured" />
+			<text id="ACTION_FAILED" value="Action failed!" />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -96,7 +110,12 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="SEARCH_NOT_AVAILABLE" value="The search feature is not available in this version. Click on the Quran view and press ctrl+f instead." />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="Application Options" />
+			<text id="SHOW_SPLASH" value="Display logo at startup" />
+			<text id="NEW_KEY" value="Enter a new key" />
+			<text id="THEME_SETTING" value="Theme settings" />
 		</form>
 	</forms>
 </language>

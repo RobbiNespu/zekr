@@ -11,7 +11,7 @@
 			<text id="START"    value="Début" />
 			<text id="RESET"    value="Reset" />
 			<text id="NEW"      value="Nouveau" />
-			<text id="SAVE_AS"  value="Enregistrer sous..."   />
+			<text id="SAVE_AS"  value="Enregistrer sous" />
 			<text id="HELP"     value="Aide" />
 			<text id="EDIT"     value="Edition" />
 			<text id="SEARCH"   value="Recherche" />
@@ -50,10 +50,21 @@
 			<text id="NEXT_SURA" value="Sura suivante" /> 
 			<text id="PREV_AYA" value="Aya précédente" /> 
 			<text id="PREV_SURA" value="Sura précédente" /> 
-			<text id="TRANSLATION" value="Translation"   />
 			<text id="THEME" value="Theme"   />
 			<text id="LAYOUT"   value="Layout"   />
+			<text id="TOOLS"     value="Tools"   />
+			<text id="ADD"     value="Add"   />
+			<text id="DELETE"   value="Delete"   />
+			<text id="REMOVE"   value="Remove" />
 			<text id="TRANSLATION" value="Translation"   />
+			<text id="OPEN"     value="Open"   />
+			<text id="IMPORT"   value="Import"   />
+			<text id="COPY"     value="Copy"   />
+			<text id="SEPARATE" value="Separate"   />
+			<text id="MIXED"    value="Mixed"   />
+			<text id="OPTIONS"  value="Options"   />
+			<text id="FONT"     value="Font"   />
+			<text id="GENERAL"  value="General"   />
 			<text id="EXIT"     value="Quitter" />
 		</common>
 		<special>
@@ -77,12 +88,14 @@
 			<text id="SEARCH_RESULT_COUNT" value="{1} résultats trouvés dans {2} Ayas." /> 
 			<text id="TOO_MANY_RESULT" value="Le résultat de la recherche donne plus de {1} ayas" /> 
 			<text id="FILE_ALREADY_EXISTS" value="Un fichier portant le nom &quot;{1}&quot; existe déjà. Voulez-vous le remplacer?" />
+			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect."   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Etes-vous sûre?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Erreur inattendue" />
+			<text id="ACTION_FAILED" value="Action failed!"   />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -91,13 +104,18 @@
 	<forms>
 		<global>
 			<text id="APP_NAME" value="Zekr" />
-			<text id="APP_FULL_NAME" value="The Zekr Quranic Project" />
+			<text id="APP_FULL_NAME" value="The Zekr Quranic Project" /> <!-- TRANSLATE ME! -->
 			<text id="FORM_TITLE" value="Zekr" />
 			<text id="COPYRIGHT_DISCLAIMER" value="Ce program est destribué gratuitement dans l'espoire qu'il vous sera utile, mais sans aucune garantie." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="SEARCH_NOT_AVAILABLE" value="Le module de recherche n'est pas disponible dans cette version. Par contre, Vous pouvez cliquer sur La vue du Coran puis appuyez sur Ctrl+F." />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="Application Options"   />
+			<text id="SHOW_SPLASH" value="Display logo at startup"   />
+			<text id="NEW_KEY" value="Enter a new key"   />
+			<text id="THEME_SETTING" value="Theme settings"   />
 		</form>
 	</forms>
 </language>

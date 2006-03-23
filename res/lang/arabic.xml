@@ -11,7 +11,7 @@
 			<text id="START" value="ابدأ" />
 			<text id="RESET" value="تجديد الاستمارة" />
 			<text id="NEW" value="جديد" />
-			<text id="SAVE_AS" value="سجل نحو..." />
+			<text id="SAVE_AS" value="سجل نحو" />
 			<text id="HELP" value="مساعدة" />
 			<text id="EDIT" value="نشر" />
 			<text id="SEARCH" value="بحث" />
@@ -52,7 +52,19 @@
 			<text id="PREV_SURA" value="السورة السابقة" />
 			<text id="THEME" value="Theme"   />
 			<text id="LAYOUT"   value="Layout"   />
+			<text id="TOOLS"     value="Tools"   />
+			<text id="ADD"     value="Add"   />
+			<text id="DELETE"   value="Delete"   />
+			<text id="REMOVE"   value="Remove" />
 			<text id="TRANSLATION" value="Translation"   />
+			<text id="OPEN"     value="Open"   />
+			<text id="IMPORT"   value="Import"   />
+			<text id="COPY"     value="Copy"   />
+			<text id="SEPARATE" value="Separate"   />
+			<text id="MIXED"    value="Mixed"   />
+			<text id="OPTIONS"  value="Options"   />
+			<text id="FONT"     value="Font"   />
+			<text id="GENERAL"  value="General"   />
 			<text id="EXIT" value="خروج" />
 		</common>
 		<special>
@@ -76,12 +88,14 @@
 			<text id="SEARCH_RESULT_COUNT" value="{1} وجدت نتائج في {2} آية" />
 			<text id="TOO_MANY_RESULT" value="حصلت نتائج في أكثر من {1} آية" />
 			<text id="FILE_ALREADY_EXISTS" value="ملف يحمل الإسم &quot;{1}&quot; يوجد حاليا. هل تريد استبداله ؟" />
+			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect."   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="هل أنت متأكد؟" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="خطأ غير متوقع" />
+			<text id="ACTION_FAILED" value="Action failed!"   />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -90,15 +104,18 @@
 	<forms>
 		<global>
 			<text id="APP_NAME" value="ذكر" />
-			<text id="APP_FULL_NAME" value="The Zekr Quranic Project" />
+			<text id="APP_FULL_NAME" value="The Zekr Quranic Project"   /> <!-- TRANSLATE ME!-->
 			<text id="FORM_TITLE" value="ذكر" />
-			<text id="COPYRIGHT_DISCLAIMER"
-				value="هذا البرنامج يوزع مجانا في أمل أن يكون لكم نافعا، لكنه غير مصحوب بأية ضمانة." />
+			<text id="COPYRIGHT_DISCLAIMER" value="هذا البرنامج يوزع مجانا في أمل أن يكون لكم نافعا، لكنه غير مصحوب بأية ضمانة." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="ذكر" />
-			<text id="SEARCH_NOT_AVAILABLE"
-				value="Ctrl+F نظام البحث غير ملحق في هاته النسخة, الرجاء النقر على نافذة القرآن ثم الضغط على الزرين" />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="Application Options"   />
+			<text id="SHOW_SPLASH" value="Display logo at startup"   />
+			<text id="NEW_KEY" value="Enter a new key"   />
+			<text id="THEME_SETTING" value="Theme settings"   />
 		</form>
 	</forms>
 </language>
