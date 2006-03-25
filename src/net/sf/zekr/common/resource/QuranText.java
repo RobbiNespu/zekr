@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.util.IQuranText;
 
 /**
@@ -35,6 +36,7 @@ public class QuranText implements IQuranText {
 	private String[][] quranText = new String[114][];
 	private ApplicationConfig appConfig = ApplicationConfig.getInstance();
 	private QuranTextProperties textProps = QuranTextProperties.getInstance();
+	private ResourceManager resource = ResourceManager.getInstance();
 
 
 	/**
@@ -45,7 +47,8 @@ public class QuranText implements IQuranText {
 	 * @throws IOException
 	 */
 	private QuranText() throws IOException {
-		File file = new File(appConfig.getQuranText());
+//		File file = new File(appConfig.getQuranText());
+		File file = new File(resource.getString("quran.text"));
 		InputStreamReader isr = new InputStreamReader(new FileInputStream(file), textProps.getCharset());
 		char[] buf = new char[(int) file.length()];
 		isr.read(buf); // read the Quran text fully

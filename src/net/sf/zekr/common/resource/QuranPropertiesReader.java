@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ConfigNaming;
+import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.util.JuzProperties;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.common.util.SajdaProperties;
@@ -35,6 +36,7 @@ class QuranPropertiesReader extends QuranBaseProperties {
 	private XmlReader reader;
 	private NodeList suraNodeList, juzNodeList, sajdaNodeList;
 	private ApplicationConfig appConfig = ApplicationConfig.getInstance();
+	private ResourceManager resource = ResourceManager.getInstance();
 
 	ArrayList suraProp = new ArrayList();
 	ArrayList juzProp = new ArrayList();
@@ -44,8 +46,8 @@ class QuranPropertiesReader extends QuranBaseProperties {
 
 	QuranPropertiesReader() {
 		logger.info("Loading Quran properties from \""
-				+ appConfig.getConfigFile(ConfigNaming.QURAN_DETAIL_ID) + "\".");
-		reader = new XmlReader(appConfig.getConfigFile(ConfigNaming.QURAN_DETAIL_ID));
+				+ resource.getString("quran.props") + "\".");
+		reader = new XmlReader(resource.getString("quran.props"));
 		suraNodeList = reader.getNodes(QuranPropertiesNaming.SURA_TAG);
 		juzNodeList = reader.getNodes(QuranPropertiesNaming.JUZ_TAG);
 		sajdaNodeList = reader.getNodes(QuranPropertiesNaming.SAJDA_TAG);

@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -70,13 +71,13 @@ public class ApplicationConfig extends ConfigNaming {
 
 	private XmlReader configReader;
 	private LanguageEngine langEngine;
-	private Language language;
+	private Language language = new Language();
 	private ArrayList availableLanguages;
 
-	private Element langElem;
-	private Element quranElem;
-	private Element viewElem;
-	private Element transElem;
+//	private Element langElem;
+//	private Element quranElem;
+//	private Element viewElem;
+//	private Element transElem;
 
 	private Translation translation = new Translation();
 	private Theme theme = new Theme();
@@ -87,10 +88,10 @@ public class ApplicationConfig extends ConfigNaming {
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
 		configReader = new XmlReader(ApplicationPath.XML_CONFIG);
-		langElem = configReader.getElement(LANGUAGE_TAG);
-		quranElem = configReader.getElement(QURAN_TAG);
-		viewElem = configReader.getElement(VIEW_TAG);
-		transElem = configReader.getElement(TRANSLATIONS_TAG);
+//		langElem = configReader.getElement(LANGUAGE_TAG);
+//		quranElem = configReader.getElement(QURAN_TAG);
+//		viewElem = configReader.getElement(VIEW_TAG);
+//		transElem = configReader.getElement(TRANSLATIONS_TAG);
 		loadConfig();
 		extractLangProps();
 		extractRuntimeConfig();
@@ -163,7 +164,7 @@ public class ApplicationConfig extends ConfigNaming {
 	 * RuntimeConfig bean.
 	 */
 	private void extractRuntimeConfig() {
-		runtimeConfig.setLanguage(langElem.getAttribute(ApplicationConfig.CURRENT_LANGUAGE_ATTR));
+//		runtimeConfig.setLanguage(langElem.getAttribute(ApplicationConfig.CURRENT_LANGUAGE_ATTR));
 		runtimeConfig.setTextLayout(getQuranLayout());
 	}
 
@@ -175,6 +176,40 @@ public class ApplicationConfig extends ConfigNaming {
 		language = new Language();
 		boolean update = false;
 
+		String def = props.getString("lang.default");
+		File langDir = new File(ApplicationPath.LANGUAGE_DIR);
+		logger.info("Loading language pack files info");
+		logger.info("Default language pack is " + def);
+		FileFilter filter = new FileFilter() { // accept xml files
+			public boolean accept(File pathname) {
+				if (pathname.getName().endsWith(".xml"))
+					return true;
+				return false;
+			}
+		};
+		File[] langs = langDir.listFiles(filter);
+		LanguagePack lp;
+
+		logger.info("Found these language packs: " + Arrays.asList(langs));
+		
+		for (int i = 0; i < langs.length; i++) {
+			XmlReader reader = new XmlReader(langs[i]);
+			lp = new LanguagePack();
+			lp.file = langs[i].getName();
+			Element locale = reader.getElement("locale");
+			lp.localizedName = locale.getAttribute("localizedName");
+			lp.name = locale.getAttribute("name");
+			lp.id = locale.getAttribute("id");
+			lp.direction = locale.getAttribute("direction");
+			lp.author = reader.getParentNode().getAttribute("creator");
+			if (lp.localizedName == null)
+				lp.localizedName = lp.name;
+			language.add(lp);
+			if (lp.id.equals(def))
+				language.setActiveLanguagePack(def);
+		}
+
+		/*
 		logger.info("Loading language pack info.");
 		NodeList list = XmlUtils.getNodes(langElem, LANGUAGE_PACK_TAG);
 		LanguagePack pack;
@@ -218,7 +253,7 @@ public class ApplicationConfig extends ConfigNaming {
 			language.setActiveLanguagePack((LanguagePack) language.getLanguageMap().get(
 					currentLangId));
 		}
-
+*/
 		if (update)
 			updateFile();
 	}
@@ -283,17 +318,18 @@ public class ApplicationConfig extends ConfigNaming {
 	}
 
 	private void extractViewProps() {
-		String def = viewElem.getAttribute(THEME_ATTR);
+//		String def = viewElem.getAttribute(THEME_ATTR);
+		String def = props.getString("theme.default");
 		File themeDir = new File(ApplicationPath.THEME_DIR);
 		logger.info("Loading theme files info from \"" + themeDir + "\".");
 		File[] themes = themeDir.listFiles();
 		ThemeData td;
 
-		NodeList nl = XmlUtils.getNodes(viewElem, PROP_TAG);
-		for (int i = 0; i < nl.getLength(); i++) {
-			Element el = (Element) nl.item(i);
-			theme.commonProps.put(el.getAttribute(NAME_ATTR), el.getAttribute(VALUE_ATTR));
-		}
+//		NodeList nl = XmlUtils.getNodes(viewElem, PROP_TAG);
+//		for (int i = 0; i < nl.getLength(); i++) {
+//			Element el = (Element) nl.item(i);
+//			theme.commonProps.put(el.getAttribute(NAME_ATTR), el.getAttribute(VALUE_ATTR));
+//		}
 
 		Reader reader;
 		for (int i = 0; i < themes.length; i++) {
@@ -353,9 +389,9 @@ public class ApplicationConfig extends ConfigNaming {
 		return availableLanguages;
 	}
 
-	public Node getLanguageNode() {
-		return langElem;
-	}
+//	public Node getLanguageNode() {
+//		return langElem;
+//	}
 
 	/**
 	 * @return application language engine
@@ -371,23 +407,25 @@ public class ApplicationConfig extends ConfigNaming {
 		logger.info("Set current language to " + langId);
 		language.setActiveLanguagePack(langId);
 		LanguageEngine.getInstance().reload();
+		props.setProperty("lang.default", langId);
 		try {
 			runtime.recreateCache();
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		langElem.setAttribute(CURRENT_LANGUAGE_ATTR, langId);
+//		langElem.setAttribute(CURRENT_LANGUAGE_ATTR, langId);
 	}
 
 	public void setCurrentTheme(String themeId) {
 		logger.info("Set current theme to " + themeId);
 		theme.setCurrent(theme.get(themeId));
+		props.setProperty("theme.default", themeId);
 		try {
 			runtime.recreateCache();
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		viewElem.setAttribute(THEME_ATTR, themeId);
+//		viewElem.setAttribute(THEME_ATTR, themeId);
 	}
 
 	public void setCurrentTranslation(String transId) {
@@ -406,18 +444,18 @@ public class ApplicationConfig extends ConfigNaming {
 	 * @param id config file id
 	 * @return config file path
 	 */
-	public String getConfigFile(String id) {
-		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils
-				.getNodes(quranElem, QURAN_CONFIG_TAG), QURAN_CONFIG_TAG, ID_ATTR, id);
-		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
-	}
+//	public String getConfigFile(String id) {
+//		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils
+//				.getNodes(quranElem, QURAN_CONFIG_TAG), QURAN_CONFIG_TAG, ID_ATTR, id);
+//		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
+//	}
 
-	public String getQuranText() {
-		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_TEXT_TAG),
-				QURAN_TEXT_TAG, ID_ATTR, QURAN_ARABIC_TEXT_ID);
-
-		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
-	}
+//	public String getQuranText() {
+//		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_TEXT_TAG),
+//				QURAN_TEXT_TAG, ID_ATTR, QURAN_ARABIC_TEXT_ID);
+//
+//		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
+//	}
 
 	public static String getQuranTrans(String name) {
 		return ApplicationPath.TRANSLATION_DIR + "/" + name;

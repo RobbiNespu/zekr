@@ -66,16 +66,17 @@ public class LanguageEngine extends LanguageEngineNaming {
 		packFile = new File(config.getLanguage().getPackPath());
 		if (!packFile.exists()) {
 			logger.warn("Can not find language pack " + language.getActiveLanguagePack());
-			logger.warn("Will load the default language pack");
-			language.setActiveLanguagePack(language.getDefaultLanguagePack());
+			logger.warn("Will load the default (en_US) language pack");
+			language.setActiveLanguagePack("en_US");
 		}
 		init();
 	}
 
 	private void init() {
+		languagePack = language.getActiveLanguagePack();
 		packFile = new File(language.getActiveLanguagePack().getPath());
 		if (!packFile.exists())
-			throw new RuntimeException("Can not find default language pack "
+			throw new RuntimeException("Can not find language pack "
 					+ language.getActiveLanguagePack());
 		logger.info("Parsing language pack " + language.getActiveLanguagePack());
 		reader = new XmlReader(packFile);
@@ -218,7 +219,9 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 *         </ul>
 	 */
 	public String getDirection() {
-		return RIGHT_TO_LEFT.equals(XmlUtils.getAttr(reader.getParentNode(), DIRECTION_ATTR)) ? RIGHT_TO_LEFT
+//		return RIGHT_TO_LEFT.equals(XmlUtils.getAttr(reader.getParentNode(), DIRECTION_ATTR)) ? RIGHT_TO_LEFT
+//		: LEFT_TO_RIGHT;
+		return RIGHT_TO_LEFT.equals(languagePack.direction) ? RIGHT_TO_LEFT
 				: LEFT_TO_RIGHT;
 	}
 
@@ -230,7 +233,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	public int getSWTDirection() {
-		return RIGHT_TO_LEFT.equals(XmlUtils.getAttr(reader.getParentNode(), DIRECTION_ATTR)) ? SWT.RIGHT_TO_LEFT
+		return RIGHT_TO_LEFT.equals(getDirection()) ? SWT.RIGHT_TO_LEFT
 				: SWT.LEFT_TO_RIGHT;
 	}
 

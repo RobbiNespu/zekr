@@ -21,11 +21,22 @@ import net.sf.zekr.common.config.ResourceManager;
  * @version 0.2
  */
 public class LanguagePack {
-	String id;
-	String name;
-	String file;
-	String icon;
-	String latinName;
+	
+	public String id;
+	
+	public String localizedName;
+	
+	public String file;
+	
+	public String icon;
+	
+	public String direction;
+
+	/** English name */
+	public String name;
+
+	/** The author of the language translation pack */
+	public String author;
 
 	public String getFile() {
 		return file;
@@ -47,19 +58,19 @@ public class LanguagePack {
 	 * @return Internationalized name of the language
 	 */
 	public String getName() {
-		return name;
+		return localizedName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.localizedName = name;
 	}
 
 	public String getLatinName() {
-		return latinName;
+		return name;
 	}
 
 	public void setLatinName(String latinName) {
-		this.latinName = latinName;
+		this.name = latinName;
 	}
 	
 	public String getIcon() {
@@ -84,7 +95,7 @@ public class LanguagePack {
 	}
 
 	public String toString() {
-		return latinName + " (" + id + ")";
+		return name + " (" + id + ")";
 	}
 
 }
