@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="index-template.xslt" ?>
+<index>
+	<news title="Zekr 0.3.0 beta 2 released!" date="25-3-06" icon="">
+		Less than 2 weeks after the first beta release, the second beta release is out for download.
+		<ul><li>
+		Different view layouts are now supported, which eases Quran/Translation browsing very much.
+		These are <i>Quran-only</i>, <i>Translation-only</i>, <i>Mixed</i> and <i>Separate</i> layouts.
+		</li><li>
+		Search is more convenient now, since you can see a popup translation for any search result.
+		</li><li>
+		In both Translaton-only and Mixed layouts, you can search in the view.
+		</li><li>
+		A simple Options menu is added to set general and theme-related configurations.
+		</li>
+		</ul>
+		This release is successfully tested on JRE 1.4.2 and 5. It also works fine on Linux and Mac.
+		A small problem in shell script of the beta 1 release for Mac machines is now fixed.
+		<a href="download.html"><img alt="Download Zekr 0.3.0 beta 1"
+			src="img/down16.png"/> Download!</a>
+	</news>
+	<news title="Zekr 0.3.0 beta 1 released!" date="14-3-06">
+		The first beta release of the Zekr 0.3.0 is available. This release is maily around two features:
+		<ul>
+		<li>Theme management: You can change the current theme, or import more themes into the Zekr</li>
+		<li>Translation management: you can add a number of different translations to the Zekr</li>
+		</ul>
+		This release is successfully tested on JRE 1.4.2 and 5.
+		<br />
+		<img alt="Download Zekr 0.3.0 beta 1"
+			src="img/down16.png" /> <a href="download.html">Download!</a>
+	</news>
+	<news title="Zekr 0.2.0 runs on Mac!" date="24-2-06">
+		Zekr 0.2.0 was ported to Mac. Many thanks to Ali Rastegar.
+		<br />
+		It is tested on Mac OS X Tiger 10.4.5, and JDK 5.0+. Please note that Zekr does not work
+		with JRE 1.4.2 on Mac.
+		<br />
+		<br />
+		In order to install Zekr on Mac, please see <a href="faq.html#mac">FAQ (Mac)</a>.<br />
+	</news>
+	<news title="Zekr 0.2.0 final release" date="26-1-06">
+		The 0.2.0 final release of the Zekr project is out!
+		<br />
+		There is a number of bug-fixes (mainly on search) in adition to some graphical enhancements.
+		More easy navigation on search results and a stable Linux port is also done
+		for this release.<br />
+		Please see <a href="relnotes.html">release notes</a> for more details on this release.
+		The next release <b>0.3.0 beta 1</b>, God willling, will available on March.
+		<br />
+		<br />
+		In order to install Zekr on Linux, please see <a href="faq.html#linux">FAQ (Linux)</a>.<br />
+		<img alt="Download Zekr 0.2.0" src="img/down16.png" /> 
+		<a href="download.html">Download!</a>
+	
+	</news>
+</index>

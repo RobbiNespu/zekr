@@ -6,7 +6,7 @@ body {
 }
 
 .right#right {
-	padding: 20;
+	padding: 20px;
 	border: 1px solid silver;
 	font: inherit;
 }
@@ -16,9 +16,7 @@ td.right {
 }
 
 div.header {
-	border-bottom-width:1;
-	border-bottom-style:dashed;
-	border-bottom-color:gray;
+	border-bottom: 1px dashed gray;
 }
 
 .headerScreens {
@@ -33,23 +31,26 @@ table.tab {
 	border-collapse: collapse;
 }
 
-table.tab td {
+table.tab td, th {
 	border: 1px solid black;
 }
 
 fieldset { /* IE is nicer this way! */
 	text-align: justify;
 	-moz-border-radius: 5px;
+	margin-bottom: 20px;
+	padding-right: 10px;
+	padding: 10px
 }
 
 legend {
 	border-style: solid;
 	border-width: 1px;
 	border-color: rgb(220, 220, 220);
-	margin-bottom: 10px;
 	color: rgb(50, 110, 250);
+	margin-bottom: 5px;
 	text-transform: capitalize;
-	font-style: iralix;
+	font-style: italic;
 	padding: 2px;
 	-moz-border-radius: 8px;
 }
@@ -96,7 +97,7 @@ h1 {
 }
 
 li {
-	margin-bottom:2px;
+	margin-bottom:0px;
 }
 
 tt {
@@ -175,9 +176,12 @@ a.noLink {
 	color: rgb(100, 100, 250);
 }
 
-a.noLink : hover {
-	text-decoration: none;
-	color: rgb(100, 100, 250);
+/* ----- */
+span.completed {
+	color: rgb(250, 140, 150)
+}
+span.incomplete {
+	color: rgb(250, 40, 10)
 }
 
-/* ----- */
+

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="plan-template.xslt" ?>
+<plan>
+
+	<feature title="Basic functions" progress="90" em="0.5">
+		<subfeature title="View a sura text" progress="100" em="0.2">
+			<subfeature title="View minor/major (mustahab/vajib) sajdas" progress="100" em="0.1" />
+			<subfeature title="View juz sign" progress="100" em="0.1" />
+			<subfeature title="View Quran in two forms of line-by-line and block layout" progress="100" em="0.1" />
+		</subfeature>
+		<subfeature title="Navigation" progress="70">
+			<subfeature title="Navigate through the Quran, sura-by-sura and aya-by-aya" progress="100" em="0.1" />
+			<subfeature title="Navigate juz-by-juz and hizb-by-hizb" progress="0" em="0.5" />
+		</subfeature>
+	</feature>
+
+	<feature title="Localization" progress="70" em="1.0">
+		<subfeature title="BIDI supprot in Windows" progress="100" em="0.1" />
+		<subfeature title="Change language pack while running" progress="100" em="0.1" />
+		<subfeature title="Popular language packs availablility" progress="80" em="1.0">
+			<subfeature title="English" progress="100" em="0.1" />
+			<subfeature title="Farsi (Persian)" progress="100" em="0.1" />
+			<subfeature title="French" progress="100" em="0.2" />
+			<subfeature title="German" progress="100" em="0.2" />
+			<subfeature title="Arabic" progress="100" em="0.2" />
+			<subfeature title="Indonesian" progress="100" em="0.2" />
+			<subfeature title="Italian" progress="0" em="1.0" />
+			<subfeature title="Spanish" progress="0" em="1.0" />
+			<subfeature title="Turkish" progress="0" em="1.0" />
+			<subfeature title="Chinese" progress="0" em="1.0" />
+			<subfeature title="Japanese" progress="0" em="1.0" />
+			<subfeature title="Russian" progress="0" em="1.0" />
+		</subfeature>
+	</feature>
+
+	<feature title="Search" progress="70" em="0.5">
+		<subfeature title="Simple search of the holy Quran" em="0.2" progress="100">
+			<subfeature title="Search with matching/nonmatching diacritics (AKA harakats)" progress="100" em="0.2" />
+			<subfeature title="Search the whole quran and current view (the latter using JavaScript)" progress="100" em="0.2" />
+		</subfeature>
+		<subfeature title="Advanced search" progress="0" em="0.6">
+			<subfeature title="More thant 200 search results (next/previous 200 results)" progress="0" em="0.6" />
+			<subfeature title="Search in translations" progress="0" em="0.4" />
+		</subfeature>
+		<subfeature title="View popup translation for the search results" progress="100" em="0.3" />
+	</feature>
+
+	<feature title="Translation" progress="90" em="0.4">
+		<subfeature	title="Translation text files: all the files are available.
+			The only problem is licensing issues with some of them." progress="80" em="0.4" />
+		<subfeature title="Test translation consistency: aya numbers, encoding." progress="100" em="0.3" />
+		<subfeature title="Translation list management" progress="10" em="0.5" />
+		<subfeature title="Transliteration support" progress="20" em="0.5" />
+	</feature>
+
+	<feature title="Theme" progress="90" em="0.4">
+		<subfeature title="Add a new theme" progress="100" em="0.3" />
+		<subfeature title="Delete an existing theme" progress="0" em="0.4" />
+		<subfeature title="Theme list management" progress="0" em="0.5" />
+		<subfeature title="Quran-only layout" progress="100" em="0.3" />
+	</feature>
+
+	<feature title="Layout" progress="100" em="0.3">
+		<subfeature title="Four types of view layout" progress="100" em="0.3">
+			<subfeature title="Mixed layout" progress="100" em="0.3" />
+			<subfeature title="Separate layout" progress="100" em="0.3" />
+			<subfeature title="Quran-only layout" progress="100" em="0.3" />
+			<subfeature title="Translation-only layout" progress="100" em="0.3" />
+		</subfeature>
+	</feature>
+
+	<feature title="Quran Morphology" progress="30" em="1.0">
+		<subfeature title="Tagging database" progress="100" em="0.4" />
+		<subfeature title="Basic morphological analysis of the Quran" progress="10" em="4.0">
+			<subfeature title="Find related stats about a word (root, gender, ...)" progress="0" em="0.4" />
+		</subfeature>
+	</feature>
+
+	<feature title="Multimedia" progress="10" em="1.0">
+		<subfeature title="Basic recitation" progress="10" em="1.0">
+			<subfeature title="Recitation list management" progress="0" em="1.0" />
+			<subfeature title="Add/Remove recitation" progress="0" em="1.0" />
+			<subfeature title="Obtain a license from Mr. Parhizgar for his best selling tarteel" progress="0" em="0.5" />
+		</subfeature>
+		<subfeature title="Uthman Taha Quran pictures" progress="10" em="0.5" />
+	</feature>
+</plan>

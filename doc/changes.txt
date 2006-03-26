@@ -92,7 +92,7 @@ Bug fixes:
 			(ARABIC_YEH, FARSI_YEH and ALEF_MAKSURA) both in Quran and search box are converted to ARABIC_YEH.
 	A fine typo in Shakir translation was fixed.
 
-Version 0.3.0 release - [x-x-06]
+Version 0.3.0 release - [1-4-06]
 Features/Enhancements:
 Bug fixes:
 
