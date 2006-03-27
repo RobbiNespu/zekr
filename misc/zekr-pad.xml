@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <XML_DIZ_INFO>
 	<MASTER_PAD_VERSION_INFO>
 		<MASTER_PAD_VERSION>1.15</MASTER_PAD_VERSION>
@@ -12,10 +12,10 @@
 	<Company_Info>
 		<Company_Name>Siahe.com</Company_Name>
 		<Address_1>Tehran, Iran</Address_1>
-		<Address_2 />
+		<Address_2/>
 		<City_Town>Tehran</City_Town>
-		<State_Province />
-		<Zip_Postal_Code />
+		<State_Province/>
+		<Zip_Postal_Code/>
 		<Country>Iran</Country>
 		<Company_WebSite_URL>http://siahe.com/zekr</Company_WebSite_URL>
 		<Contact_Info>
@@ -30,10 +30,10 @@
 			<Sales_Email>mohsen@siahe.com</Sales_Email>
 			<Support_Email>mohsen@siahe.com</Support_Email>
 			<General_Email>mohsen@siahe.com</General_Email>
-			<Sales_Phone />
-			<Support_Phone />
-			<General_Phone />
-			<Fax_Phone />
+			<Sales_Phone/>
+			<Support_Phone/>
+			<General_Phone/>
+			<Fax_Phone/>
 		</Support_Info>
 	</Company_Info>
 	<Program_Info>
@@ -44,7 +44,7 @@
 		<Program_Release_Year>2006</Program_Release_Year>
 		<Program_Cost_Dollars>0.0</Program_Cost_Dollars>
 		<Program_Cost_Other_Code>USD</Program_Cost_Other_Code>
-		<Program_Cost_Other />
+		<Program_Cost_Other/>
 		<Program_Type>Freeware</Program_Type>
 		<Program_Release_Status>Beta</Program_Release_Status>
 		<Program_Install_Support>Install and Uninstall</Program_Install_Support>
@@ -74,12 +74,12 @@
 		</File_Info>
 		<Expire_Info>
 			<Has_Expire_Info>N</Has_Expire_Info>
-			<Expire_Count />
+			<Expire_Count/>
 			<Expire_Based_On>Days</Expire_Based_On>
-			<Expire_Other_Info />
-			<Expire_Month />
-			<Expire_Day />
-			<Expire_Year />
+			<Expire_Other_Info/>
+			<Expire_Month/>
+			<Expire_Day/>
+			<Expire_Year/>
 		</Expire_Info>
 	</Program_Info>
 	<Program_Descriptions>
@@ -89,42 +89,38 @@
 			<Char_Desc_80>Zekr opensource Quranic project</Char_Desc_80>
 			<Char_Desc_250>
 				Zekr is an opensource Quranic project to ease everyone's access to the
-				Holy Quran. It is written in the hope that would bring Quran to
+				holly Quran. It is written in the hope that would bring Quran to
 				everyone's desktop.
 			</Char_Desc_250>
 			<Char_Desc_450>
-				Zekr is an open platform for research and development on the Holy Quran.
+				Zekr is an open platform for research and development on the Holly Quran.
 				It is a Quran based project, planned to be a universal, open source,
 				cross-platform application to perform most of the usual refers to Quran.
 				The main idea is to build an as generic as possible platform to be capable
 				of having different add-ins for its tasks.
 			</Char_Desc_450>
-			<Char_Desc_2000 />
+			<Char_Desc_2000>
+				Zekr is an open platform for research and development on the Holly Quran.
+				It is a Quran based project, planned to be a universal, open source,
+				cross-platform application to perform most of the usual refers to Quran.
+				The main idea is to build an as generic as possible platform to be capable
+				of having different add-ins for its tasks.
+			</Char_Desc_2000>
 		</English>
 	</Program_Descriptions>
 	<Web_Info>
 		<Application_URLs>
 			<Application_Info_URL>http://siahe.com/zekr</Application_Info_URL>
 			<Application_Order_URL>http://siahe.com/zekr</Application_Order_URL>
-			<Application_Screenshot_URL>
-				http://zekr.sourceforge.net/img/sura-view-en.jpg
-			</Application_Screenshot_URL>
-			<Application_Icon_URL>
-				http://siahe.com/zekr/img/zekr-logo-small.png
-			</Application_Icon_URL>
-			<Application_XML_File_URL>
-				http://siahe.com/zekr/zekr-pad.xml
-			</Application_XML_File_URL>
+			<Application_Screenshot_URL>http://siahe.com/img/mixed-en.jpg</Application_Screenshot_URL>
+			<Application_Icon_URL>http://siahe.com/zekr/img/zekr-logo-small.jpg</Application_Icon_URL>
+			<Application_XML_File_URL>http://siahe.com/zekr/zekr-pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>
-				http://siahe.com/zekr/download/zekr-0.3.0b1-setup.exe
-			</Primary_Download_URL>
-			<Secondary_Download_URL>
-				http://prdownloads.sourceforge.net/zekr/zekr-0.3.0b1-setup.exe
-			</Secondary_Download_URL>
-			<Additional_Download_URL_1 />
-			<Additional_Download_URL_2 />
+			<Primary_Download_URL>http://siahe.com/zekr/download/zekr-0.3.0b1-setup.exe</Primary_Download_URL>
+			<Secondary_Download_URL>http://prdownloads.sourceforge.net/zekr/zekr-0.3.0b1-setup.exe</Secondary_Download_URL>
+			<Additional_Download_URL_1/>
+			<Additional_Download_URL_2/>
 		</Download_URLs>
 	</Web_Info>
 	<Permissions>
