@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language id="ar" locale="MA" direction="rtl">
-	<header name="عربي" creator="يونس مومن" version="0.2" />
+<language creator="يونس مومن" version="0.3" >
+	<locale name="Arabic" localizedName="عربي" id="ar_MA" direction="rtl" />
 	<word>
 		<common>
 			<text id="OK" value="قبول" />

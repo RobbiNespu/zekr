@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language id="fa" locale="IR" direction="rtl">
-	<header name="فارسی" creator="Zekr Team" version="0.2" />
+<language author="Zekr Team" version="0.3">
+	<locale localizedName="فارسی" name="Farsi" id="fa_IR" direction="rtl" />
 	<word>
 		<common>
 			<text id="OK"       value="قبول" />

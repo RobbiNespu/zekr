@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language id="de" locale="DE" direction="ltr">
-	<header name="Deutsch" creator="Riyad Preukschas" version="0.1" />
+<language author="Riyad Preukschas" version="0.3">
+	<locale localizedName="Deutsch" name="German" id="de_DE" direction="ltr" />
 	<word>
 		<common>
 			<text id="OK"       value="OK" />

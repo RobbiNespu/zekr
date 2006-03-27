@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language id="fr" locale="FR" direction="ltr">
-	<header name="Français" creator="Younes MOUMEN" version="0.2" />
+<language author="Younes MOUMEN" version="0.3">
+	<locale localizedName="Français" name="French" id="fr_FR" direction="ltr" />
 	<word>
 		<common>
 			<text id="OK"       value="Accepter" />

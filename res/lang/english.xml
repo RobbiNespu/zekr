@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language id="en" locale="US" direction="ltr">
-	<header name="English" creator="Zekr Team" version="0.2" />
+<language author="Zekr Team" version="0.3">
+	<locale localizedName="English" name="English" id="en_US" direction="ltr" />
 	<word>
 		<common>
 			<text id="OK"       value="OK" />

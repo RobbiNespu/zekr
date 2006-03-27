@@ -12,11 +12,11 @@
     </description>
 
 	<!-- Constants -->
-	<property name="EXPORT_PRJ" value="zekr-020-devel.jar" />
-	<property name="EXPORT_RELEASE" value="zekr-020.jar" />
+	<property name="EXPORT_PRJ" value="zekr-030-devel.jar" />
+	<property name="EXPORT_RELEASE" value="zekr-030.jar" />
 	<property name="EXPORT_SRC" value="zekr-src.jar" />
 	<property name="EXPORT_BIN" value="zekr.jar" />
-	<property name="DIST_DIR" value="D:\Java\Programs\Zekr\dist\0.2.0\release1" />
+	<property name="DIST_DIR" value="D:\Java\Programs\Zekr\dist\0.3.0\b2" />
 	
 	<target name="default" depends="depends" description="--> The Zekr Project">
 		<javac srcdir="../src" destdir="../bin/d"
@@ -82,9 +82,11 @@
 			</fileset>
 		</jar>
 		<jar destfile="${DIST_DIR}/${EXPORT_SRC}" basedir="../src">
+			<exclude name="**/misc/*" />
 		</jar>
 		<jar destfile="${DIST_DIR}/${EXPORT_BIN}" basedir="../bin" defaultexcludes="true">
 			<exclude name="**/CVS/*" />
+			<exclude name="**/misc/*" />
 		</jar>
 		<jar destfile="${DIST_DIR}/${EXPORT_RELEASE}" description="release">
 			<fileset dir="../">

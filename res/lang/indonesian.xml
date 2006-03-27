@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language id="id" locale="ID" direction="ltr">
-	<header name="Indonesian" creator="Ari R. Fikri" version="0.1" />
+<language author="Ari R. Fikri" version="0.3">
+	<locale localizedName="Indonesian" name="Indonesian" id="id_ID" direction="ltr" />
 	<word>
 		<common>
 			<text id="OK"       value="OK" />
@@ -50,26 +50,26 @@
 			<text id="NEXT_SURA" value="Surat Selanjutnya" />
 			<text id="PREV_AYA" value="Ayat Sebelumnya" />
 			<text id="PREV_SURA" value="Surat Sebelumnya" />
-			<text id="THEME" value="Theme"   />
-			<text id="LAYOUT"   value="Layout"   />
-			<text id="TOOLS"     value="Tools"   />
-			<text id="ADD"     value="Add"   />
-			<text id="DELETE"   value="Delete"   />
-			<text id="REMOVE"   value="Remove" />
-			<text id="TRANSLATION" value="Translation"   />
-			<text id="OPEN"     value="Open"   />
-			<text id="IMPORT"   value="Import"   />
-			<text id="COPY"     value="Copy"   />
-			<text id="SEPARATE" value="Separate"   />
-			<text id="MIXED"    value="Mixed"   />
-			<text id="OPTIONS"  value="Options"   />
-			<text id="FONT"     value="Font"   />
-			<text id="GENERAL"  value="General"   />
+			<text id="THEME" value="Tema" />
+			<text id="LAYOUT"   value="Tampilan" />
+			<text id="TOOLS"    value="Peralatan" />
+			<text id="ADD"      value="Tambah" />
+			<text id="DELETE"   value="Hapus" />
+			<text id="REMOVE"   value="Buang" />
+			<text id="TRANSLATION" value="Terjemahan" />
+			<text id="OPEN"     value="Buka" />
+			<text id="IMPORT"   value="Import" />
+			<text id="COPY"     value="Copy" />
+			<text id="SEPARATE" value="Pisahkan" />
+			<text id="MIXED"    value="Campurkan" />
+			<text id="OPTIONS"  value="Opsi" />
+			<text id="FONT"     value="Font" />
+			<text id="GENERAL"  value="Umum" />
 			<text id="EXIT"     value="Keluar" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
-			<text id="SURA"    value="Surat" />
+			<text id="SURA"     value="Surat" />
 			<text id="AYA"      value="Ayat" />
 			<text id="SAJDA"    value="Sajda" />
 			<text id="JUZ"      value="Juz" />
@@ -88,14 +88,14 @@
 			<text id="SEARCH_RESULT_COUNT" value="{1} hasil ditemukan di {2} ayat." />
 			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
 			<text id="FILE_ALREADY_EXISTS" value="File dengan nama &quot;{1}&quot; sudah ada. Anda ingin menggantinya?" />
-			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect."   />
+			<text id="RESTART_APP" value="Untuk melihat efek perubahan yang telah dilakukan, Anda harus me-restart aplikasi ini." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Anda Yakin?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Kesalahan yang tidak diharapkan telah terjadi" />
-			<text id="ACTION_FAILED" value="Action failed!"   />
+			<text id="ACTION_FAILED" value="Gagal!" />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -104,7 +104,7 @@
 	<forms>
 		<global>
 			<text id="APP_NAME" value="Zekr" />
-			<text id="APP_FULL_NAME" value="The Zekr Quranic Project"   /> <!-- TRANSLATE ME! -->
+			<text id="APP_FULL_NAME" value="Proyek Qur'an Dzikir" />
 			<text id="FORM_TITLE" value="Zekr" />
 			<text id="COPYRIGHT_DISCLAIMER" value="Program ini didistribusikan secara bebas dengan harapan dapat bermanfaat, namun tanpa jaminan/garansi." />
 		</global>
@@ -112,10 +112,10 @@
 			<text id="TITLE" value="Zekr" />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="TITLE" value="Application Options"   />
-			<text id="SHOW_SPLASH" value="Display logo at startup"   />
-			<text id="NEW_KEY" value="Enter a new key"   />
-			<text id="THEME_SETTING" value="Theme settings"   />
+			<text id="TITLE" value="Opsi Aplikasi" />
+			<text id="SHOW_SPLASH" value="Tampilkan logo saat startup" />
+			<text id="NEW_KEY" value="Masukan tombol keyboard yang baru" />
+			<text id="THEME_SETTING" value="Setting Tema" />
 		</form>
 	</forms>
 </language>
