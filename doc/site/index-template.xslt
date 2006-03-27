@@ -39,6 +39,9 @@
 									Contact
 								</a>
 							</div>
+							<div class="buttons">
+							<xsl:apply-templates select="/index/buttons" />								
+							</div>
 						</td>
 						<td class="right">
 							<div id="right" class="right">
@@ -95,7 +98,7 @@
 										page for more technical details.
 									</p>
 								</div>
-								<xsl:apply-templates select="/index/news" />
+								<xsl:apply-templates select="/index/allnews" />
 							</div>
 						</td>
 					</tr>
@@ -131,10 +134,43 @@ var sc_project=1162161; var sc_invisible=1; var sc_partition=10; var sc_security
 	<xsl:template match="news">
 		<div class="news">
 			<fieldset>
+			<xsl:if test="@icon">
+			<div style="float: right; margin-top: 20">
+			<img>
+			<xsl:attribute name="src">
+				<xsl:text>img/</xsl:text>
+				<xsl:value-of select="@icon"/>
+			</xsl:attribute>
+			</img>
+			</div>
+			</xsl:if>
 				<legend><xsl:value-of select="@title" /> 
 				(<xsl:value-of select="@date" />)</legend>
 				<xsl:copy-of select="." />
 			</fieldset>
 		</div>
 	</xsl:template>
+	<xsl:template match="button">
+		<div class="button">
+			<a>
+				<xsl:attribute name="href">
+					<xsl:value-of select="@href"/>
+				</xsl:attribute>
+				<img>
+					<xsl:attribute name="src">
+						<xsl:text>img/b/</xsl:text>
+						<xsl:value-of select="@icon"/>
+					</xsl:attribute>
+					<xsl:attribute name="alt">
+						<xsl:value-of select="@title"/>
+					</xsl:attribute>
+					<xsl:attribute name="title">
+						<xsl:value-of select="@title"/>
+					</xsl:attribute>
+				</img>
+			</a>
+		</div>
+	</xsl:template>
+
+	
 </xsl:stylesheet>

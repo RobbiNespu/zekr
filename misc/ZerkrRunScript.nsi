@@ -1,7 +1,7 @@
 ;--------- CONFIGURATION ---------
 
 !define APP_NAME "The Zekr Project"
-!define APP_VER "0.3.0b1"
+!define APP_VER "0.3.0b2"
 !define CLASS_PATH "lib\swt-win32.jar;lib\apache-commons.jar;lib\log4j-1.2.8.jar;lib\velocity-1.4.jar;dist\zekr.jar"
 !define JRE_OPT "-Djava.library.path=lib"
 !define MAIN_CLASS "net.sf.zekr.ZekrMain"
@@ -34,10 +34,12 @@ ShowUninstDetails hide
 !addplugindir .
 
 Section ""
-  System::Call "kernel32::CreateMutexA(i 0, i 0, t 'zekr') i .r1 ?e"
-  Pop $R0 
-  StrCmp $R0 0 +2
-  Quit
+  ;Detect if exe file is already running
+  System::Call 'kernel32::CreateMutexA(i 0, i 0, t "myMutex") i .r1 ?e'
+  Pop $R0
+  StrCmp $R0 0 +3
+  MessageBox MB_OK|MB_ICONEXCLAMATION "Zekr.exe is already running."
+  Abort
 
   ClearErrors
   ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
@@ -66,7 +68,7 @@ Section ""
 ;  File "${JARFILE}"
 ;  StrCpy $R0 '$R0 -classpath "${CLASS_PATH}" ${JRE_OPT} net.sf.zekr.ZekrMain $R1'
     StrCpy $R0 'javaw.exe -classpath ${CLASS_PATH} ${JRE_OPT} ${MAIN_CLASS}'
-  Exec "$R0"
+  ExecWait "$R0"
   Quit
 
   NotFound:
@@ -79,6 +81,7 @@ Section ""
   ExecShell open "http://java.sun.com/getjava"
   Quit
 SectionEnd
+
 
 Function GetParameters
   Push $R0

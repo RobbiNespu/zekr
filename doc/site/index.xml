@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="index-template.xslt" ?>
 <index>
-	<news title="Zekr 0.3.0 beta 2 released!" date="25-3-06" icon="">
-		Less than 2 weeks after the first beta release, the second beta release is out for download.
+	<allnews>
+	<news title="Zekr 0.3.0 beta 2 released!" date="28-3-06" icon="news.png">
+		Two weeks after the first beta release, the second beta release is out for download.
 		<ul><li>
 		Different view layouts are now supported, which eases Quran/Translation browsing very much.
 		These are <i>Quran-only</i>, <i>Translation-only</i>, <i>Mixed</i> and <i>Separate</i> layouts.
@@ -16,8 +17,8 @@
 		</ul>
 		This release is successfully tested on JRE 1.4.2 and 5. It also works fine on Linux and Mac.
 		A small problem in shell script of the beta 1 release for Mac machines is now fixed.
-		<a href="download.html"><img alt="Download Zekr 0.3.0 beta 1"
-			src="img/down16.png"/> Download!</a>
+		<a href="download.html"> <img alt="Download Zekr 0.3.0 beta 1"
+			src="img/down16.png"/>Download!</a>
 	</news>
 	<news title="Zekr 0.3.0 beta 1 released!" date="14-3-06">
 		The first beta release of the Zekr 0.3.0 is available. This release is maily around two features:
@@ -54,4 +55,15 @@
 		<a href="download.html">Download!</a>
 	
 	</news>
+	</allnews>
+	<buttons>
+		<button icon="zekr.gif" title="The Zekr Quranic Project" href="http://siahe.com/zekr" />
+		<button icon="linux.gif" title="Also works on Linux!" href="http://kernel.org" />
+		<button icon="java.gif" title="Written in Java" href="http://java.sun.com" />
+		<button icon="apache.gif" title="Uses libraries written by Apache.org" href="http://apache.org" />
+		<button icon="sf.gif" title="Hosted on SourceForge.net" href="http://zekr.sf.net" />
+		<button icon="ff.gif" title="Get Firefox Now!" href="http://mozilla.com" />
+		<button icon="bh.gif" title="I am browser happy!" href="http://browserhappy.com" />
+	</buttons>
 </index>
+
