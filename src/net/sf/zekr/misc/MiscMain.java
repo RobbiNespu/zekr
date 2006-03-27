@@ -19,26 +19,28 @@ import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MiscMain {
 	public static void main(String[] args) throws UnsupportedEncodingException {
-		try {
-			Writer writer = new OutputStreamWriter(new FileOutputStream(
-					"F:\\Quran\\Web\\ArabEyes\\Trans.xml\\fr.txt"), "iso-8859-1");
+//		try {
+//			Writer writer = new OutputStreamWriter(new FileOutputStream(
+//					"F:\\Quran\\Web\\ArabEyes\\Trans.xml\\fr.txt"), "iso-8859-1");
 			// for (int i = 1; i <= 114; i++) {
 			// String name =
 			// "F:\\Quran\\Web\\ArabEyes\\kuran-0.08\\quran\\text\\quran.id.xml" +
 			// to3Dig(i)
 			// + ".qmt.html";
-			File inFile = new File("F:\\Quran\\Web\\ArabEyes\\Trans.xml\\quran.fr.xml");
-			FileInputStream fis = new FileInputStream(inFile);
-			extractTrans(new InputStreamReader(fis, "iso-8859-1"), writer, (int) inFile.length());
+//			File inFile = new File("F:\\Quran\\Web\\ArabEyes\\Trans.xml\\quran.fr.xml");
+//			FileInputStream fis = new FileInputStream(inFile);
+//			extractTrans(new InputStreamReader(fis, "iso-8859-1"), writer, (int) inFile.length());
 			// }
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+			localeTest();
 	}
 
 	private static String to3Dig(int i) {
@@ -87,5 +89,10 @@ public class MiscMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void localeTest() {
+		Locale.setDefault(new Locale("fa", "IR"));
+		System.out.println(System.getProperties());
 	}
 }

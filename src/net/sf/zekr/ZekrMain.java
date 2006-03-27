@@ -10,6 +10,7 @@
 package net.sf.zekr;
 
 import java.util.Date;
+import java.util.Locale;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
