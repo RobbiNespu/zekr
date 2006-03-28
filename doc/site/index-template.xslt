@@ -7,6 +7,7 @@
 				<meta name="keywords" content="Zekr, open source quranic project" />
 				<meta name="name" content="Zekr home page" />
 				<link href="site-style.css" type="text/css" rel="StyleSheet" />
+				<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
 				<title>The Zekr Project Homepage</title>
 			</head>
 			<body style="background: url('img/zekr.jpg') fixed center center no-repeat">
@@ -134,18 +135,20 @@ var sc_project=1162161; var sc_invisible=1; var sc_partition=10; var sc_security
 	<xsl:template match="news">
 		<div class="news">
 			<fieldset>
-			<xsl:if test="@icon">
-			<div style="float: right; margin-top: 20">
-			<img>
-			<xsl:attribute name="src">
-				<xsl:text>img/</xsl:text>
-				<xsl:value-of select="@icon"/>
-			</xsl:attribute>
-			</img>
-			</div>
-			</xsl:if>
 				<legend><xsl:value-of select="@title" /> 
 				(<xsl:value-of select="@date" />)</legend>
+				
+				<xsl:if test="@icon">
+				<div style="float: right;">
+				<img>
+				<xsl:attribute name="src">
+					<xsl:text>img/</xsl:text>
+					<xsl:value-of select="@icon"/>
+				</xsl:attribute>
+				</img>
+				</div>
+				</xsl:if>
+				
 				<xsl:copy-of select="." />
 			</fieldset>
 		</div>

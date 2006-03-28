@@ -20,12 +20,12 @@ import net.sf.zekr.common.config.ApplicationPath;
  */
 public class Language {
 	private String langPackId;
-	private LanguagePack currentLandPack;
+	private LanguagePack currentLangPack;
 	private Map languageMap = new HashMap();
 	private String defaultPackId;
 
 	public String getPackPath() {
-		return getPackPath(currentLandPack);
+		return getPackPath(currentLangPack);
 	}
 
 	public static String getPackPath(LanguagePack langPack) {
@@ -33,11 +33,11 @@ public class Language {
 	}
 
 	public LanguagePack getActiveLanguagePack() {
-		return currentLandPack;
+		return currentLangPack;
 	}
 
 	public void setActiveLanguagePack(LanguagePack langPack) {
-		this.currentLandPack = langPack;
+		this.currentLangPack = langPack;
 	}
 
 	public void setActiveLanguagePack(String langId) {

@@ -7,6 +7,7 @@
 				<meta name="keywords" content="Zekr, open source quranic project" />
 				<meta name="name" content="Zekr plan" />
 				<link href="site-style.css" type="text/css" rel="StyleSheet" />
+				<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
 				<title>Zekr 1.0 Plan</title>
 			</head>
 			<body style="background: url('img/zekr.jpg') fixed center center no-repeat">

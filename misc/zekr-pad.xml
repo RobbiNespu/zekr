@@ -68,9 +68,9 @@
 			<Filename_Previous>zekr-0.2.0-setup.exe</Filename_Previous>
 			<Filename_Generic>zekr-setup.exe</Filename_Generic>
 			<Filename_Long>zekr-0.3.0b2-setup.exe</Filename_Long>
-			<File_Size_Bytes>3285349</File_Size_Bytes>
-			<File_Size_K>3209</File_Size_K>
-			<File_Size_MB>3.10</File_Size_MB>
+			<File_Size_Bytes>3447325</File_Size_Bytes>
+			<File_Size_K>3367</File_Size_K>
+			<File_Size_MB>3.28</File_Size_MB>
 		</File_Info>
 		<Expire_Info>
 			<Has_Expire_Info>N</Has_Expire_Info>
@@ -112,13 +112,13 @@
 		<Application_URLs>
 			<Application_Info_URL>http://siahe.com/zekr</Application_Info_URL>
 			<Application_Order_URL>http://siahe.com/zekr</Application_Order_URL>
-			<Application_Screenshot_URL>http://siahe.com/img/mixed-en.jpg</Application_Screenshot_URL>
+			<Application_Screenshot_URL>http://siahe.com/zekr/img/mixed-en.jpg</Application_Screenshot_URL>
 			<Application_Icon_URL>http://siahe.com/zekr/img/zekr-logo-small.jpg</Application_Icon_URL>
 			<Application_XML_File_URL>http://siahe.com/zekr/zekr-pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://siahe.com/zekr/download/zekr-0.3.0b1-setup.exe</Primary_Download_URL>
-			<Secondary_Download_URL>http://prdownloads.sourceforge.net/zekr/zekr-0.3.0b1-setup.exe</Secondary_Download_URL>
+			<Primary_Download_URL>http://siahe.com/zekr/download/zekr-0.3.0b2-setup.exe</Primary_Download_URL>
+			<Secondary_Download_URL>http://prdownloads.sourceforge.net/zekr/zekr-0.3.0b2-setup.exe</Secondary_Download_URL>
 			<Additional_Download_URL_1/>
 			<Additional_Download_URL_2/>
 		</Download_URLs>

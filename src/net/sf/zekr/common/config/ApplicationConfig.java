@@ -128,7 +128,15 @@ public class ApplicationConfig extends ConfigNaming {
 			Reader reader = new InputStreamReader(fis, "UTF8");
 			props = new PropertiesConfiguration();
 			props.load(reader);
-			
+			if (!GlobalConfig.ZEKR_VERSION.equals(props.getString("version"))) {
+				logger.info("User config version does not match with " + GlobalConfig.ZEKR_VERSION);
+				logger.info("Will initialize user config with default values from " + ApplicationPath.MAIN_CONFIG);
+				conf = ApplicationPath.MAIN_CONFIG;
+				fis = new FileInputStream(conf);
+				reader = new InputStreamReader(fis, "UTF8");
+				props = new PropertiesConfiguration();
+				props.load(reader);
+			}
 		} catch (Exception e) {
 			logger.warn("IO Error in loading/reading config file " + ApplicationPath.MAIN_CONFIG);
 			logger.implicitLog(e);
@@ -173,7 +181,7 @@ public class ApplicationConfig extends ConfigNaming {
 	 * file.
 	 */
 	private void extractLangProps() {
-		language = new Language();
+//		language = new Language();
 		boolean update = false;
 
 		String def = props.getString("lang.default");
