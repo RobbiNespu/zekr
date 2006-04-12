@@ -7,23 +7,17 @@
 # You can uncomment this field if you know where your Mozilla-GTK2 is installed.
 # export MOZILLA_FIVE_HOME=/usr/local/mozilla
 
-if [ -z "$JAVA_HOME" -a -z "$JRE_HOME" ]; then
-	echo "Neither the JAVA_HOME nor the JRE_HOME environment variable is defined."
-	echo "At least one of these variables is needed to run this program."
+if [ -z "$MOZILLA_FIVE_HOME" ]; then
+	echo "MOZILLA_FIVE_HOME environment variable is not set.\nPlease set to point to Mozilla GTK2 1.4+.\nSee http://siahe.com/zekr/faq.html#linux for more info."
 	exit 1
 fi
 
-if [ -z "$JRE_HOME" ]; then
-	export JAVA_CMD="$JAVA_HOME"/bin/java
-else
-	export JAVA_CMD="$JRE_HOME"/bin/java
-fi
-
+export JAVA_CMD=java
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MOZILLA_FIVE_HOME
 
 export MAIN_CLASS=net.sf.zekr.ZekrMain
 export JRE_OPT=-Djava.library.path=lib
-export CLASS_PATH=lib/log4j-1.2.8.jar:lib/swt-linux-gtk.jar:lib/apache-commons.jar:lib/velocity-1.4.jar:dist/zekr.jar
+export CLASS_PATH=lib/log4j-1.2.8.jar:lib/swt-linux.jar:lib/apache-commons.jar:lib/velocity-1.4.jar:dist/zekr.jar
 
 echo Launching Zekr...
 "$JAVA_CMD" -cp "$CLASS_PATH" $JRE_OPT $MAIN_CLASS

@@ -92,8 +92,11 @@ Bug fixes:
 			(ARABIC_YEH, FARSI_YEH and ALEF_MAKSURA) both in Quran and search box are converted to ARABIC_YEH.
 	A fine typo in Shakir translation was fixed.
 
-Version 0.3.0 release - [1-4-06]
+Version 0.3.0 release - [10-4-06]
 Features/Enhancements:
+	All paths are now passed as URIs (instead of File.getAbsolutioPath()) to Velocity.
 Bug fixes:
+	A typo in Makarem translation of sura Noor, aya 26 has been fixed.
+	LayoutData instances were used several times in QuranForm, which made some problems.
 
 

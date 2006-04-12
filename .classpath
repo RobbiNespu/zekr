@@ -6,6 +6,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.8.jar"/>
 	<classpathentry exported="true" sourcepath="lib/swt-src.zip" kind="lib" path="lib/swt-win32.jar"/>
 	<classpathentry kind="con" path="SWT_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/apache-commons.jar"/>
+	<classpathentry sourcepath="D:/devel/java/Apache/Commons/commons-configuration-1.2/src" kind="lib" path="lib/apache-commons.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

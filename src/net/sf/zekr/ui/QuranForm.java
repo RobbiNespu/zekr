@@ -180,8 +180,8 @@ public class QuranForm extends BaseForm {
 	 * This method allocates and adds proper widgets to the <b>QuranForm</b>.
 	 */
 	private void makeFrame() {
-		GridData gridData;
-		GridLayout gridLayout;
+		GridData gd;
+		GridLayout gl;
 
 		FillLayout fl = new FillLayout(SWT.VERTICAL);
 		shell.setLayout(fl);
@@ -190,20 +190,18 @@ public class QuranForm extends BaseForm {
 		body = new Composite(shell, langEngine.getSWTDirection());
 		body.setLayout(pageLayout);
 
-		Composite workBar = new Composite(body, SWT.NONE);
-		fl = new FillLayout(SWT.VERTICAL);
-		workBar.setLayout(fl);
-		gridData = new GridData(GridData.FILL_VERTICAL);
-		workBar.setLayoutData(gridData);
-		gridLayout = new GridLayout(1, false);
-		gridLayout.marginHeight = gridLayout.marginWidth = 2;
-		workBar.setLayout(gridLayout);
+		Composite workPane = new Composite(body, SWT.NONE);
+		gd = new GridData(GridData.FILL_VERTICAL);
+		workPane.setLayoutData(gd);
+		gl = new GridLayout(1, false);
+		gl.marginHeight = gl.marginWidth = 2;
+		workPane.setLayout(gl);
 
 		Composite bgroup = new Composite(body, SWT.NONE);
-		gridData = new GridData(GridData.FILL_BOTH);
-		bgroup.setLayoutData(gridData);
+		gd = new GridData(GridData.FILL_BOTH);
+		bgroup.setLayoutData(gd);
 		fl = new FillLayout(SWT.VERTICAL);
-		fl.marginHeight = fl.marginWidth = 3;
+		fl.marginHeight = fl.marginWidth = 2;
 		bgroup.setLayout(fl);
 
 		Composite browsers = new Group(bgroup, SWT.NONE);
@@ -215,6 +213,7 @@ public class QuranForm extends BaseForm {
 		sashForm.SASH_WIDTH = 3;
 
 		quranBrowser = new Browser(sashForm, SWT.NONE);
+		fl = new FillLayout(SWT.VERTICAL);
 		fl.marginHeight = 2;
 		quranBrowser.setLayout(fl);
 		quranBrowser.addStatusTextListener(new StatusTextListener() {
@@ -255,12 +254,13 @@ public class QuranForm extends BaseForm {
 		});
 
 		transBrowser = new Browser(sashForm, SWT.NONE);
+		fl = new FillLayout(SWT.VERTICAL);
 		transBrowser.setLayout(fl);
 
-		navGroup = new Group(workBar, SWT.NONE);
+		navGroup = new Group(workPane, SWT.NONE);
 		navGroup.setText(langEngine.getMeaning("OPTION") + ":");
-		gridLayout = new GridLayout(2, false);
-		navGroup.setLayout(gridLayout);
+		gl = new GridLayout(2, false);
+		navGroup.setLayout(gl);
 		navGroup.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL
 				| GridData.HORIZONTAL_ALIGN_FILL));
 
@@ -308,16 +308,16 @@ public class QuranForm extends BaseForm {
 		});
 		ayaSelector.select(0);
 		ayaSelector.moveBelow(ayaLabel);
-		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		ayaSelector.setLayoutData(gridData);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		ayaSelector.setLayoutData(gd);
 
 		sync = new Button(navGroup, SWT.CHECK);
 		sync.setText(langEngine.getMeaning("SYNCHRONOUS"));
 
 		applyButton = new Button(navGroup, SWT.NONE);
-		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
 
-		applyButton.setLayoutData(gridData);
+		applyButton.setLayoutData(gd);
 		applyButton.setText(langEngine.getMeaning("SHOW"));
 		applyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -326,11 +326,11 @@ public class QuranForm extends BaseForm {
 		});
 
 		Composite navComposite = new Composite(navGroup, SWT.NONE);
-		gridLayout = new GridLayout(4, false);
-		navComposite.setLayout(gridLayout);
-		gridData = new GridData(GridData.FILL_BOTH);
-		gridData.horizontalSpan = 2;
-		navComposite.setLayoutData(gridData);
+		gl = new GridLayout(4, false);
+		navComposite.setLayout(gl);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 2;
+		navComposite.setLayoutData(gd);
 
 		int style = SWT.PUSH | SWT.FLAT;
 		Button prevSura = new Button(navComposite, style);
@@ -338,11 +338,14 @@ public class QuranForm extends BaseForm {
 		Button nextAya = new Button(navComposite, style);
 		Button nextSura = new Button(navComposite, style);
 
-		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		prevAya.setLayoutData(gridData);
-		prevSura.setLayoutData(gridData);
-		nextAya.setLayoutData(gridData);
-		nextSura.setLayoutData(gridData);
+		gd = new GridData(GridData.FILL_BOTH);
+		prevAya.setLayoutData(gd);
+		gd = new GridData(GridData.FILL_BOTH);
+		prevSura.setLayoutData(gd);
+		gd = new GridData(GridData.FILL_BOTH);
+		nextAya.setLayoutData(gd);
+		gd = new GridData(GridData.FILL_BOTH);
+		nextSura.setLayoutData(gd);
 
 		int l = langEngine.getSWTDirection();
 		prevSura.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource
@@ -399,24 +402,25 @@ public class QuranForm extends BaseForm {
 			}
 		});
 
-		detailGroup = new Group(workBar, SWT.NONE);
+		detailGroup = new Group(workPane, SWT.NONE);
 		detailGroup.setText(langEngine.getMeaning("DETAILS") + ":");
-		gridLayout = new GridLayout(1, true);
-		detailGroup.setLayout(gridLayout);
-		detailGroup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		gl = new GridLayout(1, true);
+		detailGroup.setLayout(gl);
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		detailGroup.setLayoutData(gd);
 		
-		gridData = new GridData(GridData.FILL_BOTH);
-		gridData.grabExcessVerticalSpace = true;
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.grabExcessVerticalSpace = true;
 		suraMap = QuranPropertiesUtils.getSuraPropMap(suraSelector.getSelectionIndex() + 1);
 		suraTable = FormUtils.getTableForMap(detailGroup, suraMap, langEngine.getMeaning("NAME"),
-				langEngine.getMeaning("VALUE"), 70, 70, gridData, SWT.NONE);
+				langEngine.getMeaning("VALUE"), 70, 70, gd, SWT.NONE);
 
-		searchGroup = new Group(workBar, SWT.NONE);
+		searchGroup = new Group(workPane, SWT.NONE);
 		searchGroup.setText(langEngine.getMeaning("SEARCH"));
-		gridLayout = new GridLayout(2, false);
-		searchGroup.setLayout(gridLayout);
-		gridData = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
-		searchGroup.setLayoutData(gridData);
+		gl = new GridLayout(2, false);
+		searchGroup.setLayout(gl);
+		gd = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
+		searchGroup.setLayoutData(gd);
 
 		searchText = new Combo(searchGroup, SWT.DROP_DOWN | SWT.RIGHT_TO_LEFT);
 		searchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -435,9 +439,6 @@ public class QuranForm extends BaseForm {
 			}
 		});
 
-		gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.horizontalSpan = 2;
-
 		KeyAdapter ka = new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == 13) {
@@ -446,16 +447,21 @@ public class QuranForm extends BaseForm {
 			}
 		};
 
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
+		gd.horizontalSpan = 2;
 		whole = new Button(searchGroup, SWT.CHECK);
 		whole.setSelection(true);
 		whole.setText(langEngine.getMeaning("WHOLE_QURAN"));
-		whole.setLayoutData(gridData);
+		whole.setLayoutData(gd);
 		whole.addKeyListener(ka);
 
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
+		gd.horizontalSpan = 2;
 		match = new Button(searchGroup, SWT.CHECK);
 		match.setText(langEngine.getMeaning("MATCH_DIACRITIC"));
-		match.setLayoutData(gridData);
+		match.setLayoutData(gd);
 		match.addKeyListener(ka);
+		match.pack();
 	}
 
 	void apply() {
@@ -587,7 +593,6 @@ public class QuranForm extends BaseForm {
 		shell.setLocation(loc);
 		shell.setMaximized(mx);
 		show(size.x, size.y);
-//		loopEver();
 	}
 
 	/**

@@ -9,8 +9,8 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<base href="file://$APP_PATH/">
-	<link rel="stylesheet" type="text/css" href="file://$CSS_DIR/style.css">
+	<base href="$APP_PATH">
+	<link rel="stylesheet" type="text/css" href="${CSS_DIR}style.css">
 	<script src="$UI_DIR/js/utils.js" language="javascript" type="text/javascript"></script>
 	<script src="$UI_DIR/js/search.js" language="javascript" type="text/javascript"></script>
 <title>$TITLE</title>

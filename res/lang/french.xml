@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Younes MOUMEN" version="0.3">
+<language author="يونس مومن" version="0.3">
 	<locale localizedName="Français" name="French" id="fr_FR" direction="ltr" />
 	<word>
 		<common>
-			<text id="OK"       value="Accepter" />
-			<text id="CANCEL"   value="Annuler" />
-			<text id="YES"      value="Oui" />
-			<text id="NO"       value="Non" />
-			<text id="APPLY"    value="Appliquer" />
-			<text id="START"    value="Début" />
-			<text id="RESET"    value="Reset" />
-			<text id="NEW"      value="Nouveau" />
+			<text id="OK"   value="Accepter" />
+			<text id="CANCEL" value="Annuler" />
+			<text id="YES"  value="Oui" />
+			<text id="NO"   value="Non" />
+			<text id="APPLY"  value="Appliquer" />
+			<text id="START"  value="Début" />
+			<text id="RESET"  value="Reset" />
+			<text id="NEW"  value="Nouveau" />
 			<text id="SAVE_AS"  value="Enregistrer sous" />
-			<text id="HELP"     value="Aide" />
-			<text id="EDIT"     value="Edition" />
-			<text id="SEARCH"   value="Recherche" />
-			<text id="GOTO"     value="Aller à" />
-			<text id="VIEW"     value="Affichage" />
-			<text id="CLOSE"    value="Fermer" />
-			<text id="INSERT"   value="Insérer" />
+			<text id="HELP"   value="Aide" />
+			<text id="EDIT"   value="Edition" />
+			<text id="SEARCH" value="Recherche" />
+			<text id="GOTO"   value="Aller à" />
+			<text id="VIEW"   value="Affichage" />
+			<text id="CLOSE"  value="Fermer" />
+			<text id="INSERT" value="Insérer" />
 			<text id="DETAILS"  value="Détails" />
-			<text id="MORE"     value="Avancé" />
-			<text id="NEXT"     value="Suivant" />
+			<text id="MORE"   value="Avancé" />
+			<text id="NEXT"   value="Suivant" />
 			<text id="PREVIOUS" value="Précédent" />
 			<text id="REFRESH"  value="Rafraîchir" />
-			<text id="UPDATE"   value="Mise à jour" />
-			<text id="SHOW"     value="Afficher" />
-			<text id="NAME"     value="Nom" />
-			<text id="VALUE"    value="Valeur" />
-			<text id="NUMBER"   value="Nombre" />
-			<text id="OPTION"   value="Option" />
-			<text id="FILE"     value="Fichier" />
-			<text id="RELOAD"   value="Recharger" />
-			<text id="TYPE"     value="Type" />
+			<text id="UPDATE" value="Mise à jour" />
+			<text id="SHOW"   value="Afficher" />
+			<text id="NAME"   value="Nom" />
+			<text id="VALUE"  value="Valeur" />
+			<text id="NUMBER" value="Nombre" />
+			<text id="OPTION" value="Option" />
+			<text id="FILE"   value="Fichier" />
+			<text id="RELOAD" value="Recharger" />
+			<text id="TYPE"   value="Type" />
 			<text id="MESSAGE"  value="Message" />
-			<text id="BLOCK"    value="Bloc" />
+			<text id="BLOCK"  value="Bloc" />
 			<text id="LINE_BY_LINE" value="Ligne par ligne" />
-			<text id="AND"      value="et" />
-			<text id="COMMA"    value="," />
+			<text id="AND"  value="et" />
+			<text id="COMMA"  value="," />
 			<text id="SYNCHRONOUS" value="Synchrone" />
-			<text id="ERROR"    value="Erreur" />
+			<text id="ERROR"  value="Erreur" />
 			<text id="LANGUAGE" value="Langage" />
-			<text id="ABOUT"    value="A propos" />
-			<text id="PRINT"    value="Imprimer" />
+			<text id="ABOUT"  value="A propos" />
+			<text id="PRINT"  value="Imprimer" />
 			<text id="HOMEPAGE" value="Page d'accueil" />
 			<text id="WHOLE_QURAN" value="Tout le Coran" /> 
 			<text id="MATCH_DIACRITIC" value="Correspondre diacritique" /> 
@@ -50,31 +50,31 @@
 			<text id="NEXT_SURA" value="Sura suivante" /> 
 			<text id="PREV_AYA" value="Aya précédente" /> 
 			<text id="PREV_SURA" value="Sura précédente" /> 
-			<text id="THEME" value="Theme"   />
-			<text id="LAYOUT"   value="Layout"   />
-			<text id="TOOLS"     value="Tools"   />
-			<text id="ADD"     value="Add"   />
-			<text id="DELETE"   value="Delete"   />
-			<text id="REMOVE"   value="Remove" />
-			<text id="TRANSLATION" value="Translation"   />
-			<text id="OPEN"     value="Open"   />
-			<text id="IMPORT"   value="Import"   />
-			<text id="COPY"     value="Copy"   />
-			<text id="SEPARATE" value="Separate"   />
-			<text id="MIXED"    value="Mixed"   />
-			<text id="OPTIONS"  value="Options"   />
-			<text id="FONT"     value="Font"   />
-			<text id="GENERAL"  value="General"   />
-			<text id="EXIT"     value="Quitter" />
+			<text id="THEME" value="Thème" />
+			<text id="LAYOUT" value="Couche" />
+			<text id="TOOLS"   value="Outils" />
+			<text id="ADD"   value="Ajouter" />
+			<text id="DELETE" value="Supprimer" />
+			<text id="REMOVE" value="Enlever" />
+			<text id="TRANSLATION" value="Traduction" />
+			<text id="OPEN"   value="Ouvrir" />
+			<text id="IMPORT" value="Importer" />
+			<text id="COPY"   value="Copier" />
+			<text id="SEPARATE" value="Separé" />
+			<text id="MIXED"  value="Mélagé" />
+			<text id="OPTIONS"  value="Options" />
+			<text id="FONT"   value="Police" />
+			<text id="GENERAL"  value="Général" />
+			<text id="EXIT"   value="Quitter" />
 		</common>
 		<special>
-			<text id="QURAN"    value="Coran" />
-			<text id="SURA"     value="Sura" />
-			<text id="AYA"      value="Aya" />
-			<text id="SAJDA"    value="Sajda" />
-			<text id="JUZ"      value="Juz" />
-			<text id="MAKKI"    value="Makki" />
-			<text id="MADANI"   value="Madani" />
+			<text id="QURAN"  value="Coran" />
+			<text id="SURA"   value="Sura" />
+			<text id="AYA"  value="Aya" />
+			<text id="SAJDA"  value="Sajda" />
+			<text id="JUZ"  value="Juz" />
+			<text id="MAKKI"  value="Makki" />
+			<text id="MADANI" value="Madani" />
 			<text id="DESCENT"  value="Descente" />
 			<text id="AYA_COUNT"  value="Nombre d'Aya" />
 			<text id="MINOR_SAJDA" value="Sajda Mineure" />
@@ -88,14 +88,14 @@
 			<text id="SEARCH_RESULT_COUNT" value="{1} résultats trouvés dans {2} Ayas." /> 
 			<text id="TOO_MANY_RESULT" value="Le résultat de la recherche donne plus de {1} ayas" /> 
 			<text id="FILE_ALREADY_EXISTS" value="Un fichier portant le nom &quot;{1}&quot; existe déjà. Voulez-vous le remplacer?" />
-			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect."   />
+			<text id="RESTART_APP" value="Vous devez redémarrer l'application afin que les changements prennent effet." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Etes-vous sûre?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Erreur inattendue" />
-			<text id="ACTION_FAILED" value="Action failed!"   />
+			<text id="ACTION_FAILED" value="Action échouée!" />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -104,7 +104,7 @@
 	<forms>
 		<global>
 			<text id="APP_NAME" value="Zekr" />
-			<text id="APP_FULL_NAME" value="The Zekr Quranic Project" /> <!-- TRANSLATE ME! -->
+			<text id="APP_FULL_NAME" value="Le projet Coranique Zekr" />
 			<text id="FORM_TITLE" value="Zekr" />
 			<text id="COPYRIGHT_DISCLAIMER" value="Ce program est destribué gratuitement dans l'espoire qu'il vous sera utile, mais sans aucune garantie." />
 		</global>
@@ -112,10 +112,10 @@
 			<text id="TITLE" value="Zekr" />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="TITLE" value="Application Options"   />
-			<text id="SHOW_SPLASH" value="Display logo at startup"   />
-			<text id="NEW_KEY" value="Enter a new key"   />
-			<text id="THEME_SETTING" value="Theme settings"   />
+			<text id="TITLE" value="Options de l'application" />
+			<text id="SHOW_SPLASH" value="Afficher le logo au démarrage" />
+			<text id="NEW_KEY" value="Entrez une nouvelle touche" />
+			<text id="THEME_SETTING" value="configuation du thème" />
 		</form>
 	</forms>
 </language>

@@ -30,18 +30,20 @@ public abstract class BaseViewTemplate {
 	/**
 	 * Will put some initial properties into context:
 	 * <ul>
-	 * <li>DIRECTION</li>
-	 * <li>CSS_DIR</li>
+	 * <li>DIRECTION: rtl or ltr based on current language pack</li>
+	 * <li>APP_PATH: a URI eding with slash</li>
+	 * <li>CSS_DIR: a URI ending with slash</li>
+	 * <li>UI_DIR: relative ui directory path</li>
 	 * </ul>
 	 */
 	protected BaseViewTemplate() {
 		ThemeData td = config.getTheme().getCurrent();
 		engine.put("DIRECTION", langEngine.getDirection());
 		engine.put("TRANS_DIRECTION", config.getTranslation().getDefault().direction);
-		engine.put("APP_PATH", new File(GlobalConfig.RUNTIME_DIR));
+		engine.put("APP_PATH", new File(GlobalConfig.RUNTIME_DIR).toURI());
 		engine.putAll(td.processedProps);
 		engine.put("THEME_DIR", td.getPath());
 		engine.put("UI_DIR", ApplicationPath.UI_DIR);
-		engine.put("CSS_DIR", Naming.CACHE_DIR);
+		engine.put("CSS_DIR", new File(Naming.CACHE_DIR).toURI());
 	}
 }

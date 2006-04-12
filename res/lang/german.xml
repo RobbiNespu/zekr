@@ -3,46 +3,46 @@
 	<locale localizedName="Deutsch" name="German" id="de_DE" direction="ltr" />
 	<word>
 		<common>
-			<text id="OK"       value="OK" />
-			<text id="CANCEL"   value="Abbrechen" />
-			<text id="YES"      value="Ja" />
-			<text id="NO"       value="Nein" />
-			<text id="APPLY"    value="Übernehmen" />
-			<text id="START"    value="Start" />
-			<text id="RESET"    value="Zurücksetzen" />
-			<text id="NEW"      value="Nein" />
+			<text id="OK"   value="OK" />
+			<text id="CANCEL" value="Abbrechen" />
+			<text id="YES"  value="Ja" />
+			<text id="NO"   value="Nein" />
+			<text id="APPLY"  value="Übernehmen" />
+			<text id="START"  value="Start" />
+			<text id="RESET"  value="Zurücksetzen" />
+			<text id="NEW"  value="Nein" />
 			<text id="SAVE_AS"  value="Speichern unter" />
-			<text id="HELP"     value="Hilfe" />
-			<text id="EDIT"     value="Bearbeiten" />
-			<text id="SEARCH"   value="Suchen" />
-			<text id="GOTO"     value="Gehe zu" />
-			<text id="VIEW"     value="Ansicht" />
-			<text id="CLOSE"    value="Schließen" />
-			<text id="INSERT"   value="Einfügen" />
+			<text id="HELP"   value="Hilfe" />
+			<text id="EDIT"   value="Bearbeiten" />
+			<text id="SEARCH" value="Suchen" />
+			<text id="GOTO"   value="Gehe zu" />
+			<text id="VIEW"   value="Ansicht" />
+			<text id="CLOSE"  value="Schließen" />
+			<text id="INSERT" value="Einfügen" />
 			<text id="DETAILS"  value="Details" />
-			<text id="MORE"     value="Mehr" />
-			<text id="NEXT"     value="Nächster" />
+			<text id="MORE"   value="Mehr" />
+			<text id="NEXT"   value="Nächster" />
 			<text id="PREVIOUS" value="Vorheriger" />
 			<text id="REFRESH"  value="Aktuallisieren" />
-			<text id="UPDATE"   value="Update" />
-			<text id="SHOW"     value="Anzeigen" />
-			<text id="NAME"     value="Name" />
-			<text id="VALUE"    value="Wert" />
-			<text id="NUMBER"   value="Nummer" />
-			<text id="OPTION"   value="Einstellungen" />
-			<text id="FILE"     value="Datei" />
-			<text id="RELOAD"   value="Aktuallisieren" />
-			<text id="TYPE"     value="Art" />
+			<text id="UPDATE" value="Update" />
+			<text id="SHOW"   value="Anzeigen" />
+			<text id="NAME"   value="Name" />
+			<text id="VALUE"  value="Wert" />
+			<text id="NUMBER" value="Nummer" />
+			<text id="OPTION" value="Einstellungen" />
+			<text id="FILE"   value="Datei" />
+			<text id="RELOAD" value="Aktuallisieren" />
+			<text id="TYPE"   value="Art" />
 			<text id="MESSAGE"  value="Benachrichtigung" />
-			<text id="BLOCK"    value="Blockweise" />
+			<text id="BLOCK"  value="Blockweise" />
 			<text id="LINE_BY_LINE" value="Zeilenweise" />
-			<text id="AND"      value="und" />
-			<text id="COMMA"    value="," />
+			<text id="AND"  value="und" />
+			<text id="COMMA"  value="," />
 			<text id="SYNCHRONOUS" value="Synchron" />
-			<text id="ERROR"    value="Fehler" />
+			<text id="ERROR"  value="Fehler" />
 			<text id="LANGUAGE" value="Sprache" />
-			<text id="ABOUT"    value="Über" />
-			<text id="PRINT"    value="Drucken" />
+			<text id="ABOUT"  value="Über" />
+			<text id="PRINT"  value="Drucken" />
 			<text id="HOMEPAGE" value="Homepage" />
 			<text id="WHOLE_QURAN" value="Den ganzen Quran" />
 			<text id="MATCH_DIACRITIC" value="Diakritische Zeichen einbeziehen" />
@@ -50,31 +50,31 @@
 			<text id="NEXT_SURA" value="Nächste Sura" />
 			<text id="PREV_AYA" value="Vorherige Aya" />
 			<text id="PREV_SURA" value="Vorherige Sura" />
-			<text id="THEME" value="Theme"   />
-			<text id="LAYOUT"   value="Layout"   />
-			<text id="TOOLS"     value="Tools"   />
-			<text id="ADD"     value="Add"   />
-			<text id="DELETE"   value="Delete"   />
-			<text id="REMOVE"   value="Remove" />
-			<text id="TRANSLATION" value="Translation"   />
-			<text id="OPEN"     value="Open"   />
-			<text id="IMPORT"   value="Import"   />
-			<text id="COPY"     value="Copy"   />
-			<text id="SEPARATE" value="Separate"   />
-			<text id="MIXED"    value="Mixed"   />
-			<text id="OPTIONS"  value="Options"   />
-			<text id="FONT"     value="Font"   />
-			<text id="GENERAL"  value="General"   />
-			<text id="EXIT"     value="Beenden" />
+			<text id="THEME" value="Themen" />
+			<text id="LAYOUT" value="Layout" />
+			<text id="TOOLS"   value="Extras" />
+			<text id="ADD"   value="Hinzufügen" />
+			<text id="DELETE" value="Löschen" />
+			<text id="REMOVE" value="Entfernen" />
+			<text id="TRANSLATION" value="Übersetzung" />
+			<text id="OPEN"   value="Öffnen" />
+			<text id="IMPORT" value="Importieren" />
+			<text id="COPY"   value="Kopieren" />
+			<text id="SEPARATE" value="Getrennt" />
+			<text id="MIXED"  value="Vereinigt" />
+			<text id="OPTIONS"  value="Einstellungen" />
+			<text id="FONT"   value="Schriftart" />
+			<text id="GENERAL"  value="Allgemein" />
+			<text id="EXIT"   value="Beenden" />
 		</common>
 		<special>
-			<text id="QURAN"    value="Quran" />
-			<text id="SURA"    value="Sura" />
-			<text id="AYA"      value="Aya" />
-			<text id="SAJDA"    value="Sajda" />
-			<text id="JUZ"      value="Juz" />
-			<text id="MAKKI"    value="Makki" />
-			<text id="MADANI"   value="Madani" />
+			<text id="QURAN"  value="Quran" />
+			<text id="SURA"  value="Sura" />
+			<text id="AYA"  value="Aya" />
+			<text id="SAJDA"  value="Sajda" />
+			<text id="JUZ"  value="Juz" />
+			<text id="MAKKI"  value="Makki" />
+			<text id="MADANI" value="Madani" />
 			<text id="DESCENT"  value="Geoffenbart" />
 			<text id="AYA_COUNT"  value="Ayaanzahl" />
 			<text id="MINOR_SAJDA" value="Kleine Sajda" />
@@ -87,15 +87,15 @@
 			<text id="SEARCH_RESULT_TITLE" value="Ergebnis der Suche nach: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="Es wurden {1} Übereinstimmungen in {2} Ayas gefunden." />
 			<text id="TOO_MANY_RESULT" value="Ergebnis der Suche hat mehr als {1} Ayas." />
-			<text id="FILE_ALREADY_EXISTS" value="Eine Datei mit dem Namen &quot;{1}&quot; existiert bereits. Möchten Sie sie überschreiben?"   />
-			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect."   />
+			<text id="FILE_ALREADY_EXISTS" value="Eine Datei mit dem Namen &quot;{1}&quot; existiert bereits. Möchten Sie sie überschreiben?" />
+			<text id="RESTART_APP" value="Sie müssen die Anwendung neustarten, damit die Änderungen wirksam werden." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Sind Sie sicher?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Ein unerwarteter Fehler ist aufgetreten" />
-			<text id="ACTION_FAILED" value="Action failed!"   />
+			<text id="ACTION_FAILED" value="Aktion fehlgeschlagen!" />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -112,10 +112,10 @@
 			<text id="TITLE" value="Zekr" />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="TITLE" value="Application Options"   />
-			<text id="SHOW_SPLASH" value="Display logo at startup"   />
-			<text id="NEW_KEY" value="Enter a new key"   />
-			<text id="THEME_SETTING" value="Theme settings"   />
+			<text id="TITLE" value="Einstellungen" />
+			<text id="SHOW_SPLASH" value="Startbildschirm anzeigen" />
+			<text id="NEW_KEY" value="Bezeichnung des neuen Eintrages" />
+			<text id="THEME_SETTING" value="Themeneinstellungen" />
 		</form>
 	</forms>
 </language>

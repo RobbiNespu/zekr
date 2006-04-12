@@ -9,10 +9,13 @@
 package net.sf.zekr.ui.options;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.language.LanguageEngine;
+import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
@@ -22,27 +25,29 @@ import net.sf.zekr.ui.MessageBoxUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -73,30 +78,26 @@ public class OptionsForm {
 	Composite nav, det;
 
 	ToolItem general, view;
-
+	
 	Composite detGroup;
 	Composite navGroup;
 
+	private StackLayout sl;
+
 	Composite generalTab, viewTab;
-	FontDialog fontDialog;
 	private ThemeData td = config.getTheme().getCurrent();
-	private FontData fd;
-	private String name;
-	private int height;
-	private int style;
-	private Text transSample;
-	private Group g;
 	private Table table;
 
 	private boolean tableChanged;
 
 	private PropertiesConfiguration props = config.getProps();
 	private Button showSplash;
+	private Image image;
 
 	public OptionsForm(Shell parent) {
 		this.parent = parent;
 		display = parent.getDisplay();
-		shell = new Shell(parent, SWT.SHELL_TRIM | SWT.SYSTEM_MODAL);
+		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
 		shell.setLayout(new FillLayout());
 		shell.setText(lang.getMeaning("OPTIONS"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
@@ -129,14 +130,13 @@ public class OptionsForm {
 		SelectionAdapter sa = new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				ToolItem ti = (ToolItem) e.widget;
-				Composite comp = (Composite) ti.getData();
-				((GridData) comp.getLayoutData()).exclude = !ti.getSelection();
-				comp.setVisible(ti.getSelection());
+				sl.topControl = (Control) ti.getData();
 				detGroup.layout();
 			}
 		};
 		detGroup = new Group(det, SWT.MULTI);
-		detGroup.setLayout(new GridLayout(2, false));
+		sl = new StackLayout();
+		detGroup.setLayout(sl);
 
 		ToolBar bar = new ToolBar(navGroup, SWT.VERTICAL | SWT.FLAT);
 
@@ -155,7 +155,7 @@ public class OptionsForm {
 		view.setData(viewTab);
 		view.addSelectionListener(sa);
 
-		((GridData) generalTab.getLayoutData()).exclude = false;
+		sl.topControl = generalTab;
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
@@ -254,18 +254,53 @@ public class OptionsForm {
 
 	private void createGeneralTab() {
 		GridData gd = new GridData();
-		gd.exclude = true;
+		RowLayout rl = new RowLayout(SWT.VERTICAL);
+		rl.spacing = 10;
 		generalTab = new Composite(detGroup, SWT.NONE);
-		generalTab.setLayout(new RowLayout(SWT.VERTICAL));
+		generalTab.setLayout(rl);
 		generalTab.setLayoutData(gd);
 		showSplash = new Button(generalTab, SWT.CHECK);
 		showSplash.setText(meaning("SHOW_SPLASH"));
 		showSplash.setSelection(props.getBoolean("options.general.showSplash"));
+		
+		rl = new RowLayout(SWT.HORIZONTAL);
+		rl.spacing = 20;
+		Composite lg = new Composite(generalTab, SWT.NONE);
+		lg.setLayout(rl);
+		final Combo langSelect = new Combo(lg , SWT.READ_ONLY | SWT.DROP_DOWN);
+		String[] items = new String[lang.getLangPacks().size()];
+		int s = 0;
+		LanguagePack activeLang = config.getLanguage().getActiveLanguagePack();
+		final List packs = new ArrayList(lang.getLangPacks());
+		for (int i = 0; i < packs.size(); i++) {
+			LanguagePack lp = (LanguagePack) packs.get(i);
+			if (activeLang.id.equals(lp.id)) {
+				s = i;
+			}
+			items[i] = lp.localizedName;
+		}
+		langSelect.setItems(items);
+		langSelect.select(s);
+		langSelect.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				image = new Image(shell.getDisplay(), 
+						((LanguagePack) packs.get(langSelect.getSelectionIndex())).getIconPath());
+			}
+		});
+		lg.pack();
+
+		image = new Image(shell.getDisplay(), activeLang.getIconPath());
+		Canvas flag = new Canvas(lg , SWT.NONE);
+		flag.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent e) {
+				e.gc.drawImage(image, 0, 0);
+			}
+		});
+		
 	}
 
 	private void createViewTab() {
 		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.exclude = true;
 		viewTab = new Composite(detGroup, SWT.NONE);
 		viewTab.setLayout(new GridLayout(2, false));
 		viewTab.setLayoutData(gd);

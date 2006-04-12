@@ -57,10 +57,10 @@ var sc_project=1162161; var sc_invisible=1; var sc_partition=10; var sc_security
 	<xsl:template match="feature">
 		<tr>
 			<td valign="top" nowrap="nowrap">
-				<span style="font-size:1.2em">
+				<span style="font-size:1.05em">
 					<xsl:value-of select="@title" />
 				</span>
-				<span style="font-size:1em">
+				<span style="font-size:1.05em">
 					<xsl:text> - </xsl:text>
 					<span title="Progress"
 						style="cursor: default; font-weight: bold; color: red">
@@ -105,7 +105,7 @@ var sc_project=1162161; var sc_invisible=1; var sc_partition=10; var sc_security
 	</xsl:template>
 	<xsl:template name="sub">
 		<li>
-			<span style="font-size:0.95em">
+			<span style="font-size:0.9em">
 				<xsl:value-of select="@title" />
 			</span>
 			<xsl:text> - </xsl:text>

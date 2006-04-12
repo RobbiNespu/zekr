@@ -153,7 +153,7 @@ public class QuranFormMenuFactory {
 		langName.setText("&" + dict.getMeaning("LANGUAGE"));
 		Menu langMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		langName.setMenu(langMenu);
-		Collection langs = config.getAvailableLanguages();
+		Collection langs = LanguageEngine.getInstance().getLangPacks();
 		for (Iterator iter = langs.iterator(); iter.hasNext();) {
 			LanguagePack langPack = (LanguagePack) iter.next();
 			MenuItem langItem = new MenuItem(langMenu, SWT.RADIO);

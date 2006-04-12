@@ -384,23 +384,6 @@ public class ApplicationConfig extends ConfigNaming {
 		}
 	}
 
-	public List getAvailableLanguages() {
-		if (availableLanguages != null)
-			return availableLanguages;
-
-		Map langMap = language.getLanguageMap();
-		availableLanguages = new ArrayList();
-		for (Iterator iter = langMap.entrySet().iterator(); iter.hasNext();) {
-			Entry elem = (Entry) iter.next();
-			availableLanguages.add(elem.getValue());
-		}
-		return availableLanguages;
-	}
-
-//	public Node getLanguageNode() {
-//		return langElem;
-//	}
-
 	/**
 	 * @return application language engine
 	 * @see net.sf.zekr.engine.language#getInstance()

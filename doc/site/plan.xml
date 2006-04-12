@@ -13,6 +13,10 @@
 			<subfeature title="Navigate juz-by-juz and hizb-by-hizb" progress="0" em="0.5" />
 		</subfeature>
 	</feature>
+	<feature title="Deployment" progress="50" em="0.1">
+		<subfeature title="Installer for MS Windows (NSIS)" progress="100" em="0.1" />
+		<subfeature title="Application bundle for Mac" progress="0" em="0.6" />
+	</feature>
 
 	<feature title="Localization" progress="70" em="1.0">
 		<subfeature title="BIDI supprot in Windows" progress="100" em="0.1" />

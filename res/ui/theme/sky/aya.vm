@@ -47,9 +47,7 @@
 					</div>
 				#end
 			#else
-				<span dir="${DIR}">
 					$AYA
-				</span>
 			#end
 			<span title="${SURA_NAME} - ${AYA_NUM}">
 				<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" class="ayaSign">$OPEN_PAREN$AYA_NUM$CLOSE_PAREN</span></nobr>
