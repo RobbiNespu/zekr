@@ -116,6 +116,7 @@
 			<text id="SHOW_SPLASH" value="عرض الإشارة عند التشغيل"   />
 			<text id="NEW_KEY" value="أدخل مفتاحا جديدا"   />
 			<text id="THEME_SETTING" value="خصائص الموضوع"   />
+			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
 		</form>
 	</forms>
 </language>

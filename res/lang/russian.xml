@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language author="Michael Kalinin" version="0.3">
+	<locale localizedName="Русский" name="Russian" id="ru_RU" direction="ltr" />
+	<word>
+		<common>
+			<text id="OK"       value="OK" />
+			<text id="CANCEL"   value="Отменить" />
+			<text id="YES"      value="Да" />
+			<text id="NO"       value="Нет" />
+			<text id="APPLY"    value="Применить" />
+			<text id="START"    value="Запуск" />
+			<text id="RESET"    value="Сброс" />
+			<text id="NEW"      value="Новый" />
+			<text id="SAVE_AS"  value="Сохранить как" />
+			<text id="HELP"     value="Справка" />
+			<text id="EDIT"     value="Правка" />
+			<text id="SEARCH"   value="Поиск" />
+			<text id="GOTO"     value="Перейти к" />
+			<text id="VIEW"     value="Вид" />
+			<text id="CLOSE"    value="Закрыть" />
+			<text id="INSERT"   value="Вставка" />
+			<text id="DETAILS"  value="Подробности" />
+			<text id="MORE"     value="Больше" />
+			<text id="NEXT"     value="Следующий" />
+			<text id="PREVIOUS" value="Предыдущий" />
+			<text id="REFRESH"  value="Восстановить" />
+			<text id="UPDATE"   value="Обновить" />
+			<text id="SHOW"     value="Показать" />
+			<text id="NAME"     value="Название" />
+			<text id="VALUE"    value="Значение" />
+			<text id="NUMBER"   value="Номер" />
+			<text id="OPTION"   value="Опция" />
+			<text id="FILE"     value="Файл" />
+			<text id="RELOAD"   value="Освежить" />
+			<text id="TYPE"     value="Тип" />
+			<text id="MESSAGE"  value="Сообщение" />
+			<text id="BLOCK"    value="Блок" />
+			<text id="LINE_BY_LINE" value="Построчно" />
+			<text id="AND"      value="и" />
+			<text id="COMMA"    value="," />
+			<text id="SYNCHRONOUS" value="Синхронно" />
+			<text id="ERROR"    value="Ошибка" />
+			<text id="LANGUAGE" value="Язык" />
+			<text id="ABOUT"    value="О программе" />
+			<text id="PRINT"    value="Печать" />
+			<text id="HOMEPAGE" value="Домашняя страница" />
+			<text id="WHOLE_QURAN" value="В Коране целиком" />
+			<text id="MATCH_DIACRITIC" value="Учитывать огласовки" />
+			<text id="NEXT_AYA" value="Следующий аят" />
+			<text id="NEXT_SURA" value="Следующая сура" />
+			<text id="PREV_AYA" value="Предыдущий аят" />
+			<text id="PREV_SURA" value="Предыдущая сура" />
+			<text id="THEME" value="Тема" />
+			<text id="LAYOUT"   value="Макет" />
+			<text id="TOOLS"     value="Инструменты" />
+			<text id="ADD"     value="Добавить" />
+			<text id="DELETE"   value="Удалить" />
+			<text id="REMOVE"   value="Удалить" />
+			<text id="TRANSLATION" value="Перевод" />
+			<text id="OPEN"     value="Открыть" />
+			<text id="IMPORT"   value="Импорт" />
+			<text id="COPY"     value="Копировать" />
+			<text id="SEPARATE" value="Раздельно" />
+			<text id="MIXED"    value="Вместе" />
+			<text id="OPTIONS"  value="Опции" />
+			<text id="FONT"     value="Шрифт" />
+			<text id="GENERAL"  value="Общие" />
+			<text id="EXIT"     value="Выход" />
+		</common>
+		<special>
+			<text id="QURAN"    value="Коран" />
+			<text id="SURA"    value="Сура" />
+			<text id="AYA"      value="Аят" />
+			<text id="SAJDA"    value="Земной поклон" />
+			<text id="JUZ"      value="Часть" />
+			<text id="MAKKI"    value="Мекканская" />
+			<text id="MADANI"   value="Мединская" />
+			<text id="DESCENT"  value="Ниспослана" />
+			<text id="AYA_COUNT"  value="Число аятов" />
+			<text id="MINOR_SAJDA" value="Малый земной поклон" />
+			<text id="MAJOR_SAJDA" value="Большой земной поклон" />
+		</special>
+	</word>
+
+	<message>
+		<inform>
+			<text id="SEARCH_RESULT_TITLE" value="Результаты поиска для:&quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_COUNT" value="{1} результатов найдено в {2} аятах." />
+			<text id="TOO_MANY_RESULT" value="Результат поиска в более, чем {1} аятах" />
+			<text id="FILE_ALREADY_EXISTS" value="Файл с именем &quot;{1}&quot; уже существует. Вы хотите заменить его?"   />
+			<text id="RESTART_APP" value="Требуется перезапуск приложения, чтобы изменения вступили в силу." />
+		</inform>
+		<confirm>
+			<text id="YES_NO" value="Вы уверены?" />
+		</confirm>
+		<error>
+			<text id="GENERAL_ERROR" value="Произошла неожиданная ошибка" />
+			<text id="ACTION_FAILED" value="Действие не удалось!" />
+		</error>
+		<tooltip>
+		</tooltip>
+	</message>
+
+	<forms>
+		<global>
+			<text id="APP_NAME" value="Зикр" />
+			<text id="APP_FULL_NAME" value="Зикр. Коранический проект" />
+			<text id="FORM_TITLE" value="Зикр" />
+			<text id="COPYRIGHT_DISCLAIMER" value="Эта программа распространяется бесплатно в надежде на то, что она будет полезна, однако без каких-либо гарантий." />
+		</global>
+		<form id="QURAN_FORM">
+			<text id="TITLE" value="Зикр" />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="Опции программы" />
+			<text id="SHOW_SPLASH" value="Показывать логотип при запуске" />
+			<text id="NEW_KEY" value="Введите новый ключ" />
+			<text id="THEME_SETTING" value="Установки темы" />
+		</form>
+	</forms>
+</language>

@@ -116,6 +116,7 @@
 			<text id="SHOW_SPLASH" value="Display logo at startup" />
 			<text id="NEW_KEY" value="Enter a new key" />
 			<text id="THEME_SETTING" value="Theme settings" />
+			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied." />
 		</form>
 	</forms>
 </language>

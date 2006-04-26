@@ -35,6 +35,8 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
@@ -65,7 +67,7 @@ import org.eclipse.swt.widgets.ToolItem;
  */
 public class OptionsForm {
 	public static final String FORM_ID = "OPTIONS_FORM";
-	private LanguageEngine lang = LanguageEngine.getInstance();
+	private static final LanguageEngine lang = LanguageEngine.getInstance();
 	private final ResourceManager resource = ResourceManager.getInstance();
 	private final Logger logger = Logger.getLogger(this.getClass());
 	private final ApplicationConfig config = ApplicationConfig.getInstance();
@@ -88,11 +90,15 @@ public class OptionsForm {
 	private ThemeData td = config.getTheme().getCurrent();
 	private Table table;
 
-	private boolean tableChanged;
+	private boolean refreshView;
+	private boolean restart;
 
 	private PropertiesConfiguration props = config.getProps();
 	private Button showSplash;
 	private Image image;
+	private Combo langSelect;
+	
+	private static final List packs = new ArrayList(lang.getLangPacks());
 
 	public OptionsForm(Shell parent) {
 		this.parent = parent;
@@ -218,7 +224,7 @@ public class OptionsForm {
 		logger.log("Store configuration changes to disk.");
 		try {
 			config.saveConfig();
-			if (tableChanged) {
+			if (refreshView) {
 				logger.info("Store theme configuration to disk");
 				Theme.save(td);
 			}
@@ -226,22 +232,35 @@ public class OptionsForm {
 			e.printStackTrace();
 		}
 
-		if (tableChanged) {
-			// trivial event for communication with QuranForm.
-			Event te = new Event();
-			te.data = EventProtocol.REFRESH_VIEW;
-			te.type = SWT.Traverse;
-			shell.getParent().notifyListeners(SWT.Traverse, te);
+		if (restart) {
+			MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
+			createEvent(EventProtocol.CLEAR_ON_EXIT);
 		}
+		if (refreshView)
+			createEvent(EventProtocol.REFRESH_VIEW);
+	}
+
+	/** trivial event for communication with QuranForm. */
+	private void createEvent(String eventName) {
+		Event te = new Event();
+		te.data = eventName;
+		te.type = SWT.Traverse;
+		shell.getParent().notifyListeners(SWT.Traverse, te);
 	}
 
 	private void updateGeneralModel() {
 		props.setProperty("options.general.showSplash",
 				Boolean.toString(showSplash.getSelection()));
+		LanguagePack lp = (LanguagePack) packs.get(langSelect.getSelectionIndex());
+		if (!config.getLanguage().getActiveLanguagePack().id.equals(lp.id)) {
+			props.setProperty("lang.default", lp.id);
+			restart = true;
+//			config.setCurrentLanguage(lp.id);
+		}
 	}
 
 	private void saveViewModel() {
-		if (!tableChanged) {
+		if (!refreshView) {
 			logger.info("Table is not changed!");
 			return;
 		}
@@ -253,50 +272,57 @@ public class OptionsForm {
 	}
 
 	private void createGeneralTab() {
-		GridData gd = new GridData();
-		RowLayout rl = new RowLayout(SWT.VERTICAL);
-		rl.spacing = 10;
+//		GridData gd = new GridData();
+//		RowLayout rl = new RowLayout(SWT.VERTICAL);
+//		rl.spacing = 10;
+//		rl.wrap = false;
+//		rl.fill = true;
+		RowLayout rl;
+		gl = new GridLayout(1, false);
+
 		generalTab = new Composite(detGroup, SWT.NONE);
-		generalTab.setLayout(rl);
-		generalTab.setLayoutData(gd);
+		generalTab.setLayout(gl);
+//		generalTab.setLayoutData(gd);
 		showSplash = new Button(generalTab, SWT.CHECK);
 		showSplash.setText(meaning("SHOW_SPLASH"));
 		showSplash.setSelection(props.getBoolean("options.general.showSplash"));
 		
 		rl = new RowLayout(SWT.HORIZONTAL);
-		rl.spacing = 20;
+		rl.spacing = 10;
 		Composite lg = new Composite(generalTab, SWT.NONE);
 		lg.setLayout(rl);
-		final Combo langSelect = new Combo(lg , SWT.READ_ONLY | SWT.DROP_DOWN);
+		langSelect = new Combo(lg , SWT.READ_ONLY | SWT.DROP_DOWN);
 		String[] items = new String[lang.getLangPacks().size()];
 		int s = 0;
 		LanguagePack activeLang = config.getLanguage().getActiveLanguagePack();
-		final List packs = new ArrayList(lang.getLangPacks());
 		for (int i = 0; i < packs.size(); i++) {
 			LanguagePack lp = (LanguagePack) packs.get(i);
 			if (activeLang.id.equals(lp.id)) {
 				s = i;
 			}
-			items[i] = lp.localizedName;
+			items[i] = lp.name + " - " + lp.localizedName;
 		}
 		langSelect.setItems(items);
 		langSelect.select(s);
-		langSelect.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				image = new Image(shell.getDisplay(), 
-						((LanguagePack) packs.get(langSelect.getSelectionIndex())).getIconPath());
-			}
-		});
-		lg.pack();
 
+		RowData rd = new RowData(24, 16);
 		image = new Image(shell.getDisplay(), activeLang.getIconPath());
-		Canvas flag = new Canvas(lg , SWT.NONE);
+		final Canvas flag = new Canvas(lg , SWT.NONE);
+		flag.setLayoutData(rd);
 		flag.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
 				e.gc.drawImage(image, 0, 0);
 			}
 		});
-		
+
+		langSelect.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				image = new Image(shell.getDisplay(), 
+						((LanguagePack) packs.get(langSelect.getSelectionIndex())).getIconPath());
+				flag.redraw();
+			}
+		});
+
 	}
 
 	private void createViewTab() {
@@ -327,7 +353,7 @@ public class OptionsForm {
 					return;
 				logger.info("Add a table row");
 				FormUtils.addRow(table, key, "");
-				tableChanged = true;
+				refreshView = true;
 			}
 		});
 
@@ -358,7 +384,7 @@ public class OptionsForm {
 				});
 				newEditor.addFocusListener(new FocusAdapter() {
 					public void focusLost(FocusEvent e) {
-						tableChanged = true;
+						refreshView = true;
 						Control oldEditor = editor.getEditor();
 						if (oldEditor != null)
 							oldEditor.dispose();
@@ -380,7 +406,7 @@ public class OptionsForm {
 					if (MessageBoxUtils.yesNoQuestion(lang.getMeaning("YES_NO"), lang
 							.getMeaning("DELETE"))) {
 						logger.info("Remove table row: " + table.getSelectionIndex());
-						tableChanged = true;
+						refreshView = true;
 						Control oldEditor = editor.getEditor();
 						if (oldEditor != null)
 							oldEditor.dispose();

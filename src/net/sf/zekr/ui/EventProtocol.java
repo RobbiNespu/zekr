@@ -13,5 +13,7 @@ package net.sf.zekr.ui;
  * @since Zekr 1.0
  */
 public interface EventProtocol {
-	String REFRESH_VIEW = "RV";
+	String REFRESH_VIEW = "REFRESH_VIEW";
+	String RECREATE_VIEW = "RECREATE_VIEW";
+	String CLEAR_ON_EXIT = "CLEAR_ON_EXIT";
 }

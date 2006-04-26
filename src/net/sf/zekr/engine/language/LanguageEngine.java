@@ -11,12 +11,11 @@ package net.sf.zekr.engine.language;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.log.Logger;
@@ -224,10 +223,10 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 *         </ul>
 	 */
 	public String getDirection() {
-//		return RIGHT_TO_LEFT.equals(XmlUtils.getAttr(reader.getParentNode(), DIRECTION_ATTR)) ? RIGHT_TO_LEFT
-//		: LEFT_TO_RIGHT;
-		return RIGHT_TO_LEFT.equals(languagePack.direction) ? RIGHT_TO_LEFT
-				: LEFT_TO_RIGHT;
+		// return RIGHT_TO_LEFT.equals(XmlUtils.getAttr(reader.getParentNode(),
+		// DIRECTION_ATTR)) ? RIGHT_TO_LEFT
+		// : LEFT_TO_RIGHT;
+		return RIGHT_TO_LEFT.equals(languagePack.direction) ? RIGHT_TO_LEFT : LEFT_TO_RIGHT;
 	}
 
 	/**
@@ -238,15 +237,20 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	public int getSWTDirection() {
-		return RIGHT_TO_LEFT.equals(getDirection()) ? SWT.RIGHT_TO_LEFT
-				: SWT.LEFT_TO_RIGHT;
+		return RIGHT_TO_LEFT.equals(getDirection()) ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT;
 	}
 
 	/**
-	 * @return A <code>Collection</code> of available <code>LanguagePack</code>s.
+	 * @return An ascending sorted <code>List</code> of available <code>LanguagePack</code>s.
 	 */
-	public Collection getLangPacks() {
-		return language.getLanguageMap().values();
+	public List getLangPacks() {
+		List list = new ArrayList(language.getLanguageMap().values());
+		Collections.sort(list, new Comparator() {
+			public int compare(Object o1, Object o2) {
+				return ((LanguagePack) o1).name.compareTo(((LanguagePack) o2).name);
+			}
+		});
+		return list;
 	}
 
 }

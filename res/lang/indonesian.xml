@@ -116,6 +116,7 @@
 			<text id="SHOW_SPLASH" value="Tampilkan logo saat startup" />
 			<text id="NEW_KEY" value="Masukan tombol keyboard yang baru" />
 			<text id="THEME_SETTING" value="Setting Tema" />
+			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
 		</form>
 	</forms>
 </language>

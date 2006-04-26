@@ -109,4 +109,8 @@ public class ApplicationRuntime {
 	public void recreateMixedCache() throws IOException {
 		FileUtils.recreateDirectory(Naming.MIXED_CACHE_DIR);
 	}
+
+	public void clearCache() {
+		FileUtils.delete(new File(Naming.CACHE_DIR));
+	}
 }

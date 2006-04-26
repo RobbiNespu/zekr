@@ -116,6 +116,7 @@
 			<text id="SHOW_SPLASH" value="Afficher le logo au démarrage" />
 			<text id="NEW_KEY" value="Entrez une nouvelle touche" />
 			<text id="THEME_SETTING" value="configuation du thème" />
+			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
 		</form>
 	</forms>
 </language>

@@ -116,6 +116,7 @@
 			<text id="SHOW_SPLASH" value="Startbildschirm anzeigen" />
 			<text id="NEW_KEY" value="Bezeichnung des neuen Eintrages" />
 			<text id="THEME_SETTING" value="Themeneinstellungen" />
+			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
 		</form>
 	</forms>
 </language>

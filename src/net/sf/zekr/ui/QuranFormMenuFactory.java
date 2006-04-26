@@ -632,7 +632,6 @@ public class QuranFormMenuFactory {
 	}
 
 	private void recreateForm() {
-		logger.info("Recreating the form...");
 		form.recreate();
 	}
 

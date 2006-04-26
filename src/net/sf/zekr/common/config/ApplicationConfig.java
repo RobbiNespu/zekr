@@ -72,7 +72,6 @@ public class ApplicationConfig extends ConfigNaming {
 	private XmlReader configReader;
 	private LanguageEngine langEngine;
 	private Language language = new Language();
-	private ArrayList availableLanguages;
 
 //	private Element langElem;
 //	private Element quranElem;
@@ -181,7 +180,6 @@ public class ApplicationConfig extends ConfigNaming {
 	 * file.
 	 */
 	private void extractLangProps() {
-//		language = new Language();
 		boolean update = false;
 
 		String def = props.getString("lang.default");

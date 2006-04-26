@@ -22,6 +22,7 @@ import net.sf.zekr.common.config.ResourceManager;
  */
 public class LanguagePack {
 	
+	/** Java locale-like ID: en_US, fa_IR, ... */
 	public String id;
 	
 	public String localizedName;
@@ -74,7 +75,7 @@ public class LanguagePack {
 	}
 	
 	public String getIcon() {
-		return id.substring(3).toLowerCase() + ".png";
+		return id.substring(3).toLowerCase() + ".gif";
 	}
 
 	/**

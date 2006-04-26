@@ -124,6 +124,7 @@ public class QuranForm extends BaseForm {
 	protected boolean updateTrans = true;
 	protected boolean updateQuran = true;
 	private QuranFormMenuFactory qmf;
+	protected boolean clearOnExit = false;
 
 	protected void init() {
 		title = langEngine.getMeaningById(ID, "TITLE");
@@ -151,6 +152,10 @@ public class QuranForm extends BaseForm {
 			public void keyTraversed(TraverseEvent e) {
 				if (REFRESH_VIEW.equals(e.data)) {
 					reload();
+				} else if (RECREATE_VIEW.equals(e.data)) {
+					recreate();
+				} else if (CLEAR_ON_EXIT.equals(e.data)) {
+					clearOnExit = true;
 				}
 			}
 		});
@@ -585,6 +590,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	void recreate() {
+		logger.info("Recreating the form...");
 		Point size = shell.getSize();
 		Point loc = shell.getLocation();
 		boolean mx = shell.getMaximized();
@@ -656,6 +662,10 @@ public class QuranForm extends BaseForm {
 
 	public void close() {
 		config.updateFile();
+		if (clearOnExit) {
+			logger.info("Clear cache directory.");
+			config.getRuntime().clearCache();
+		}
 		logger.info("Disposing all resources...");
 	}
 

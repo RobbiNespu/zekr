@@ -34,6 +34,55 @@
 <a href="http://groups.google.com/group/zekr">Zekr Google Group</a> is also 
 available for new announcements and also 
 developers contributions.
+<br><br>
+
+
+<script>
+function validateContact() {
+	if (document.getElementById("fullName").value.length < 3) {
+		alert("Please fill your full name.");
+		document.getElementById("fullName").focus();
+		return false;
+	} else if (document.getElementById("email").value.
+			search(/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/) == -1) {
+		alert("Please enter a valid email.");
+		document.getElementById("email").focus();
+		return false;
+	} else if (document.getElementById("contactMsg").value.length < 1) {
+		alert("Please fill the contact box.");
+		document.getElementById("contactMsg").focus();
+		return false;
+	}
+	return true;
+}
+</script>
+<br>
+You can contact us directly with the following form. Please provide your 
+name and email address for reply purpose.
+<form action="./contact.php" method="post" onsubmit="return validateContact(this)">
+<table style="width: 50%">
+
+	<tr>
+		<td width="30%"><label for="fullName">Your name: </label><span style="color: red">* </span></td>
+		<td width="70%" align="left"><input maxlength="40" style="width: 100%" type="text" id="fullName"
+			name="fullName"></td>
+	</tr>
+	<tr>
+		<td><label for="email">Email:</label> <span style="color: red">* </span></td>
+		<td><input style="width: 100%" maxlength="40" type="text" id="email" name="email"
+			width="100%"></td>
+	</tr>
+
+	<tr>
+		<td colspan="2"><textarea id="cn" name="contactMsg" style="width: 100%" rows="10"
+			style="font-family: sans-serif">
+</textarea></td>
+	</tr>
+	<tr>
+		<td><input type="submit" value="Send"></td>
+	</tr>
+</table>
+</form>
 
 <!-- Start of StatCounter Code -->
 <script type="text/javascript" language="javascript">

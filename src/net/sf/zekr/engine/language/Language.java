@@ -44,14 +44,6 @@ public class Language {
 		setActiveLanguagePack((LanguagePack) languageMap.get(langId));
 	}
 
-//	public LanguagePack getDefaultLanguagePack() {
-//		return (LanguagePack) languageMap.get(defaultPackId);
-//	}
-//
-//	public void setDefaultLanguagePackId(String defaultId) {
-//		defaultPackId = defaultId;
-//	}
-
 	public LanguagePack get(String id) {
 		return (LanguagePack) languageMap.get(id);
 	}

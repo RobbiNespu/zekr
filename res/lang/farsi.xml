@@ -114,12 +114,9 @@
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="تنظیمات برنامه" />
 			<text id="SHOW_SPLASH" value="نمایش تصویر ابتدای برنامه" />
-			<text id="THEME_OPTIONS" value="تنظیمات مضمون" />
-			<text id="FONT_SELECTION" value="انتخاب قلم" />
-			<text id="QURAN_FONT" value="قلم قرآن" />
-			<text id="TRANS_FONT" value="قلم ترجمه" />
 			<text id="NEW_KEY" value="یک کلید جدید وارد کنید" />
 			<text id="THEME_SETTING" value="تنطیمات مضمون" />
+			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید &quot;تأیید&quot; را فشار دهید." />
 		</form>
 	</forms>
 </language>
