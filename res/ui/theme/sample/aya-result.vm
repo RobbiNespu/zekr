@@ -1,0 +1,42 @@
+#**
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * @version 1
+ *#
+
+#set ($MINOR = 0)
+#set ($MAJOR = 1)
+
+#set ($RPAREN = "&#64831;")
+#set ($LPAREN = "&#64830;")
+
+
+<div class="searchResult">
+    #foreach ($AYA in $AYA_LIST)
+    	#set($AYA_NUM = $velocityCount)
+		#if ($AYA_NUM % 2 == 0)
+			#set($ROW_CLASS = "even")
+		#else
+			#set($ROW_CLASS = "odd")
+		#end
+		<div class="$ROW_CLASS">
+    	<span title="${AYA.Key}">
+    		<span>($AYA_NUM)</span>
+    	</span>
+    	#foreach ($AYA_SEGMENT in $AYA.Value)
+    		#if ($velocityCount % 2 == 1)
+    			${AYA_SEGMENT}
+    		#elseif ($AYA_SEGMENT.length() > 0)
+				<span class="highlight">${AYA_SEGMENT}</span>
+    		#end
+    	#end
+    	<span title="${AYA.Key}">
+			<a onclick="gotoView('${AYA.Key}')" href="javascript:void(0)">$RPAREN${AYA.Key.SuraName}: ${AYA.Key.Aya}$LPAREN</a>
+			<span title="${TRANSLATE}" class="handCursor" onclick="translate('${AYA.Key}')"><img src="${ICON_TRANSLATE}"></span>
+		</span>
+		</div>
+    #end
+</div>
+
