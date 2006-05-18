@@ -33,6 +33,7 @@ public class ZekrMain {
 	 * Will start the Zekr platform
 	 */
 	static void startZekr() {
+		QuranForm quranForm = null;
 		try {
 			logger.info("Starting The Zekr Platform " + GlobalConfig.ZEKR_VERSION + " ("
 					+ new Date() + ")");
@@ -40,11 +41,21 @@ public class ZekrMain {
 			splash.show();
 
 			ApplicationConfig.getInstance().getRuntime().configure();
-			QuranForm quraForm = new QuranForm(display);
-			quraForm.show(750, 580);
+			quranForm = new QuranForm(display);
+//			quranForm.show(750, 580);
+			quranForm.show();
 			splash.dispose(); // close splash screen
-			quraForm.loopEver();
 
+			while (!quranForm.isDisposed()) {
+				try {
+					quranForm.loopEver();
+				} catch (Throwable th) {
+					if (logger != null)
+						logger.log(th);
+					else
+						th.printStackTrace();
+				}
+			}
 		} catch (Throwable t) {
 			if (logger != null)
 				logger.log(t);

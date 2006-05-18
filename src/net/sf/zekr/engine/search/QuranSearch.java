@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.util.IQuranText;
 import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.common.util.Range;
@@ -25,7 +26,7 @@ public class QuranSearch {
 	IQuranText quran;
 	boolean match;
 	int resultCount;
-	int maxAyaMatch = 200;
+	int maxAyaMatch = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");
 
 	/**
 	 * will call <code>this(quran, false)</code>

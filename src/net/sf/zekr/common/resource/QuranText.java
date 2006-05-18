@@ -35,7 +35,7 @@ public class QuranText implements IQuranText {
 	/** The full quran text */
 	private String[][] quranText = new String[114][];
 	private ApplicationConfig appConfig = ApplicationConfig.getInstance();
-	private QuranTextProperties textProps = QuranTextProperties.getInstance();
+//	private QuranTextProperties textProps = QuranTextProperties.getInstance();
 	private ResourceManager resource = ResourceManager.getInstance();
 
 
@@ -49,7 +49,7 @@ public class QuranText implements IQuranText {
 	private QuranText() throws IOException {
 //		File file = new File(appConfig.getQuranText());
 		File file = new File(resource.getString("quran.text"));
-		InputStreamReader isr = new InputStreamReader(new FileInputStream(file), textProps.getCharset());
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "Cp1256");
 		char[] buf = new char[(int) file.length()];
 		isr.read(buf); // read the Quran text fully
 		rawText = new String(buf);
@@ -67,37 +67,50 @@ public class QuranText implements IQuranText {
 	 * also encode the read data as UTF-16 (for java <code>String</code>).
 	 */
 	private void refineRawText() {
-		QuranTextProperties textProp = QuranTextProperties.getInstance();
+//		QuranTextProperties textProp = QuranTextProperties.getInstance();
+//		QuranProperties quranProps = QuranProperties.getInstance();
+//		StringTokenizer suraTokenizer = new StringTokenizer(rawText, textProp.getLineBreakString());
+//		String sura;
+//
+//		suraTokenizer.nextToken(); // ignore sura title
+//		// the first sura (Fatiha) has a Bismillah as its first aya.
+//		sura = suraTokenizer.nextToken() + " ";
+//		sura += suraTokenizer.nextToken();
+//		quranText[0] = getAyas(sura, quranProps.getSura(1).getAyaCount());
+//
+//		for (int i = 2; suraTokenizer.hasMoreTokens(); i++) {
+//			sura = suraTokenizer.nextToken(); // ignore title
+//			if (i != 9) // Sura Tawbah has no Bismillah
+//				sura = suraTokenizer.nextToken(); // ignore Bismillah
+//			sura = suraTokenizer.nextToken();
+//			quranText[i - 1] = getAyas(sura, quranProps.getSura(i).getAyaCount());
+//		}
 		QuranProperties quranProps = QuranProperties.getInstance();
-		StringTokenizer suraTokenizer = new StringTokenizer(rawText, textProp.getLineBreakString());
-		String sura;
-
-		suraTokenizer.nextToken(); // ignore sura title
-		// the first sura (Fatiha) has a Bismillah as its first aya.
-		sura = suraTokenizer.nextToken() + " ";
-		sura += suraTokenizer.nextToken();
-		quranText[0] = getAyas(sura, quranProps.getSura(1).getAyaCount());
-
-		for (int i = 2; suraTokenizer.hasMoreTokens(); i++) {
-			sura = suraTokenizer.nextToken(); // ignore title
-			if (i != 9) // Sura Tawbah has no Bismillah
-				sura = suraTokenizer.nextToken(); // ignore Bismillah
-			sura = suraTokenizer.nextToken();
-			quranText[i - 1] = getAyas(sura, quranProps.getSura(i).getAyaCount());
+		StringTokenizer st = new StringTokenizer(rawText, "\n");
+		String[] sura;
+		quranText = new String[114][];
+		
+		for (int i = 1; st.hasMoreTokens() && i <= 114; i++) {
+			sura = new String[quranProps.getSura(i).getAyaCount()];
+			for (int j = 0; j < sura.length; j++) {
+				sura[j] = st.nextToken();
+			}
+			quranText[i - 1] = sura;
 		}
+
 	}
 
-	private String[] getAyas(String suraText, int ayaCount) {
-		String[] ayas = new String[ayaCount];
-		StringTokenizer ayaTokenizer = new StringTokenizer(suraText, textProps.getAyaSignLeftString()
-				+ textProps.getAyaSignRightString());
-		int i;
-		for (i = 0; ayaTokenizer.hasMoreTokens() && i < ayaCount; i++) {
-			ayas[i] = new String(ayaTokenizer.nextToken().trim());
-			ayaTokenizer.nextToken();
-		}
-		return ayas;
-	}
+//	private String[] getAyas(String suraText, int ayaCount) {
+//		String[] ayas = new String[ayaCount];
+//		StringTokenizer ayaTokenizer = new StringTokenizer(suraText, textProps.getAyaSignLeftString()
+//				+ textProps.getAyaSignRightString());
+//		int i;
+//		for (i = 0; ayaTokenizer.hasMoreTokens() && i < ayaCount; i++) {
+//			ayas[i] = new String(ayaTokenizer.nextToken().trim());
+//			ayaTokenizer.nextToken();
+//		}
+//		return ayas;
+//	}
 
 	/*
 	 * (non-Javadoc)

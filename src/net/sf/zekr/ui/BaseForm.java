@@ -33,6 +33,10 @@ public abstract class BaseForm implements EventProtocol {
 		shell.dispose();
 	}
 
+	public boolean isDisposed() {
+		return shell.isDisposed();
+	}
+
 	public void loopEver() {
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {

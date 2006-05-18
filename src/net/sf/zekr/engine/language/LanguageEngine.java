@@ -27,7 +27,7 @@ import org.eclipse.swt.SWT;
 import org.w3c.dom.Node;
 
 /**
- * LanguageEngine is a <i>singleton </i> class, designed to perform language related
+ * LanguageEngine is a <i>singleton</i> class, designed to perform language related
  * works. In a nutshell, this class is responsible for loading language packs, validating
  * them and translating words into supported languages.
  * 

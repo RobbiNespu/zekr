@@ -43,7 +43,7 @@ public class SearchResultTemplate extends BaseViewTemplate {
 					"" + qs.getResultCount(), "" + result.size() }));
 			if (!ok) // more that maxAyaMatch ayas was matched
 				engine.put("TOO_MANY_RESULT", langEngine.getDynamicMeaning("TOO_MANY_RESULT",
-						new String[] { "" + qs.getMaxAyaMatch() }));
+						new String[] { "" + result.size() }));
 			else
 				engine.put("TOO_MANY_RESULT", null);
 

@@ -10,6 +10,8 @@
 package net.sf.zekr.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
@@ -38,6 +40,7 @@ import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -45,8 +48,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
@@ -84,6 +89,7 @@ public class QuranForm extends BaseForm {
 	protected static final int SEPARATE = 2;
 	protected static final int QURAN_ONLY = 3;
 	protected static final int TRANS_ONLY = 4;
+	private static final String NAV_BUTTON = "NAV_BUTTON";
 
 	private final String ID = "QURAN_FORM";
 
@@ -125,7 +131,7 @@ public class QuranForm extends BaseForm {
 	protected boolean updateQuran = true;
 	private QuranFormMenuFactory qmf;
 	protected boolean clearOnExit = false;
-
+	
 	protected void init() {
 		title = langEngine.getMeaningById(ID, "TITLE");
 		shell = new Shell(display, SWT.SHELL_TRIM);
@@ -137,8 +143,8 @@ public class QuranForm extends BaseForm {
 		suraChanged = false;
 		makeFrame();
 		setLayout(config.getViewProp("view.viewLayout")); // set the layout
-		initLocation();
-
+		initQuranLocation();
+		
 		dl = new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				close();
@@ -147,19 +153,42 @@ public class QuranForm extends BaseForm {
 			}
 		};
 		shell.addDisposeListener(dl);
-
+		
 		shell.addTraverseListener(new TraverseListener() {
 			public void keyTraversed(TraverseEvent e) {
 				if (REFRESH_VIEW.equals(e.data)) {
 					reload();
 				} else if (RECREATE_VIEW.equals(e.data)) {
 					recreate();
-				} else if (CLEAR_ON_EXIT.equals(e.data)) {
+				} else if (CLEAR_CACHE_ON_EXIT.equals(e.data)) {
 					clearOnExit = true;
 				}
 			}
 		});
-}
+		
+		display.addFilter(SWT.KeyDown, new Listener(){
+			public void handleEvent(Event event) {
+				if (NAV_BUTTON.equals(event.widget.getData())) {
+					int d = event.keyCode ^ SWT.KEYCODE_BIT;
+					if (d == 1) {
+						gotoPrevSura();
+					} else if (d == 2) {
+						gotoNextSura();
+					} else if (d == 3) {
+						if (langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT)
+							gotoNextAya();
+						else
+							gotoPrevAya();
+					} else if (d == 4) {
+						if (langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT)
+							gotoPrevAya();
+						else
+							gotoNextAya();
+					}
+				}
+			}
+		});
+	}
 
 	protected void reload() {
 		try {
@@ -171,7 +200,7 @@ public class QuranForm extends BaseForm {
 		}
 	}
 
-	private void initLocation() {
+	private void initQuranLocation() {
 //		quranLoc = config.getQuranLocation();
 		quranLoc = new QuranLocation(config.getProps().getString("view.quranLoc"));
 		logger.info("Loading last visited Quran location: " + quranLoc + ".");
@@ -320,6 +349,7 @@ public class QuranForm extends BaseForm {
 		sync.setText(langEngine.getMeaning("SYNCHRONOUS"));
 
 		applyButton = new Button(navGroup, SWT.NONE);
+		applyButton.setData(NAV_BUTTON);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		applyButton.setLayoutData(gd);
@@ -342,6 +372,10 @@ public class QuranForm extends BaseForm {
 		Button prevAya = new Button(navComposite, style);
 		Button nextAya = new Button(navComposite, style);
 		Button nextSura = new Button(navComposite, style);
+		prevSura.setData(NAV_BUTTON);
+		nextSura.setData(NAV_BUTTON);
+		prevAya.setData(NAV_BUTTON);
+		nextAya.setData(NAV_BUTTON);
 
 		gd = new GridData(GridData.FILL_BOTH);
 		prevAya.setLayoutData(gd);
@@ -369,41 +403,25 @@ public class QuranForm extends BaseForm {
 
 		prevSura.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (suraSelector.getSelectionIndex() > 0) {
-					suraSelector.select(suraSelector.getSelectionIndex() - 1);
-					onSuraChanged();
-					apply();
-				}
+				gotoPrevSura();
 			}
 		});
 
 		prevAya.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (ayaSelector.getSelectionIndex() > 0) {
-					ayaSelector.select(ayaSelector.getSelectionIndex() - 1);
-					ayaChanged = true;
-					apply();
-				}
+				gotoPrevAya();
 			}
 		});
 
 		nextAya.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (ayaSelector.getSelectionIndex() < ayaSelector.getItemCount() - 1) {
-					ayaSelector.select(ayaSelector.getSelectionIndex() + 1);
-					ayaChanged = true;
-					apply();
-				}
+				gotoNextAya();
 			}
 		});
 
 		nextSura.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (suraSelector.getSelectionIndex() < suraSelector.getItemCount() - 1) {
-					suraSelector.select(suraSelector.getSelectionIndex() + 1);
-					onSuraChanged();
-					apply();
-				}
+				gotoNextSura();
 			}
 		});
 
@@ -467,6 +485,38 @@ public class QuranForm extends BaseForm {
 		match.setLayoutData(gd);
 		match.addKeyListener(ka);
 		match.pack();
+	}
+
+	private void gotoNextAya() {
+		if (ayaSelector.getSelectionIndex() < ayaSelector.getItemCount() - 1) {
+			ayaSelector.select(ayaSelector.getSelectionIndex() + 1);
+			ayaChanged = true;
+			apply();
+		}
+	}
+
+	private void gotoPrevAya() {
+		if (ayaSelector.getSelectionIndex() > 0) {
+			ayaSelector.select(ayaSelector.getSelectionIndex() - 1);
+			ayaChanged = true;
+			apply();
+		}
+	}
+
+	private void gotoNextSura() {
+		if (suraSelector.getSelectionIndex() < suraSelector.getItemCount() - 1) {
+			suraSelector.select(suraSelector.getSelectionIndex() + 1);
+			onSuraChanged();
+			apply();
+		}
+	}
+
+	private void gotoPrevSura() {
+		if (suraSelector.getSelectionIndex() > 0) {
+			suraSelector.select(suraSelector.getSelectionIndex() - 1);
+			onSuraChanged();
+			apply();
+		}
 	}
 
 	void apply() {
@@ -591,28 +641,38 @@ public class QuranForm extends BaseForm {
 
 	void recreate() {
 		logger.info("Recreating the form...");
-		Point size = shell.getSize();
-		Point loc = shell.getLocation();
-		boolean mx = shell.getMaximized();
+//		Point size = shell.getSize();
+//		Point loc = shell.getLocation();
+//		boolean mx = shell.getMaximized();
 		shell.close();
 		init();
-		shell.setLocation(loc);
-		shell.setMaximized(mx);
-		show(size.x, size.y);
+//		shell.setLocation(loc);
+//		shell.setMaximized(mx);
+//		show(size.x, size.y);
+		show();
 	}
 
 	/**
-	 * Shows maximized Quran shell.
+	 * Shows Quran shell. The size and location are based on the property 
+	 * <tt>view.shell.maximized</tt> and <tt>view.shell.location</tt> 
 	 */
 	public void show() {
-		shell.setMaximized(true);
+		if (config.getProps().getBoolean("view.shell.maximized"))
+			shell.setMaximized(true);
+		else {
+			List l = config.getProps().getList("view.shell.location");
+			shell.setLocation(new Integer(l.get(0).toString()).intValue(), 
+					new Integer((String) l.get(1).toString()).intValue());
+			shell.setSize(new Integer((String) l.get(2).toString()).intValue(), 
+					new Integer((String) l.get(3).toString()).intValue());
+		}
 		shell.open();
 	}
 
-	public void show(int width, int height) {
-		shell.setSize(width, height);
-		shell.open();
-	}
+//	public void show(int width, int height) {
+//		shell.setSize(width, height);
+//		shell.open();
+//	}
 
 	public Browser getQuranBrowser() {
 		return quranBrowser;
@@ -660,7 +720,19 @@ public class QuranForm extends BaseForm {
 		}
 	}
 
+	private void updateSizeAndLocation() {
+		List list = new ArrayList();
+		Rectangle r = shell.getBounds();
+		list.add(new Integer(r.x));
+		list.add(new Integer(r.y));
+		list.add(new Integer(r.width));
+		list.add(new Integer(r.height));
+		config.getProps().setProperty("view.shell.location", list);
+		config.getProps().setProperty("view.shell.maximized", new Boolean(shell.getMaximized()));
+	}
+
 	public void close() {
+		updateSizeAndLocation();
 		config.updateFile();
 		if (clearOnExit) {
 			logger.info("Clear cache directory.");
@@ -668,5 +740,4 @@ public class QuranForm extends BaseForm {
 		}
 		logger.info("Disposing all resources...");
 	}
-
 }

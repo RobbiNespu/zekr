@@ -86,7 +86,7 @@ public class ApplicationConfig extends ConfigNaming {
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
-		configReader = new XmlReader(ApplicationPath.XML_CONFIG);
+//		configReader = new XmlReader(ApplicationPath.XML_CONFIG);
 //		langElem = configReader.getElement(LANGUAGE_TAG);
 //		quranElem = configReader.getElement(QURAN_TAG);
 //		viewElem = configReader.getElement(VIEW_TAG);
@@ -117,10 +117,12 @@ public class ApplicationConfig extends ConfigNaming {
 		logger.info("Load Zekr configuration file.");
 		File uc = new File(ApplicationPath.USER_CONFIG);
 		String conf = ApplicationPath.USER_CONFIG;
+		boolean createConfig = false;
 		if (!uc.exists()) {
 			logger.info("User config does not exist at " + ApplicationPath.USER_CONFIG);
 			logger.info("Will make user config with default values at " + ApplicationPath.MAIN_CONFIG);
 			conf = ApplicationPath.MAIN_CONFIG;
+			createConfig = true;
 		}
 		try {
 			InputStream fis = new FileInputStream(conf);
@@ -135,13 +137,14 @@ public class ApplicationConfig extends ConfigNaming {
 				reader = new InputStreamReader(fis, "UTF8");
 				props = new PropertiesConfiguration();
 				props.load(reader);
+				createConfig = true;
 			}
 		} catch (Exception e) {
 			logger.warn("IO Error in loading/reading config file " + ApplicationPath.MAIN_CONFIG);
 			logger.implicitLog(e);
 		}
 
-		if (!uc.exists())
+		if (createConfig)
 			saveConfig();
 
 	}
@@ -397,11 +400,11 @@ public class ApplicationConfig extends ConfigNaming {
 		language.setActiveLanguagePack(langId);
 		LanguageEngine.getInstance().reload();
 		props.setProperty("lang.default", langId);
-		try {
-			runtime.recreateCache();
-		} catch (IOException e) {
-			logger.log(e);
-		}
+//		try {
+//			runtime.recreateCache();
+//		} catch (IOException e) {
+//			logger.log(e);
+//		}
 //		langElem.setAttribute(CURRENT_LANGUAGE_ATTR, langId);
 	}
 
@@ -409,11 +412,11 @@ public class ApplicationConfig extends ConfigNaming {
 		logger.info("Set current theme to " + themeId);
 		theme.setCurrent(theme.get(themeId));
 		props.setProperty("theme.default", themeId);
-		try {
-			runtime.recreateCache();
-		} catch (IOException e) {
-			logger.log(e);
-		}
+//		try {
+//			runtime.recreateCache();
+//		} catch (IOException e) {
+//			logger.log(e);
+//		}
 //		viewElem.setAttribute(THEME_ATTR, themeId);
 	}
 
@@ -520,12 +523,12 @@ public class ApplicationConfig extends ConfigNaming {
 
 	public void updateFile() {
 		logger.info("Update configuration file.");
-		try {
-			XmlWriter.writeXML(configReader.getDocument(), new File(ApplicationPath.XML_CONFIG));
+//		try {
+//			XmlWriter.writeXML(configReader.getDocument(), new File(ApplicationPath.XML_CONFIG));
 			saveConfig();
-		} catch (TransformerException e) {
-			logger.log(e);
-		}
+//		} catch (TransformerException e) {
+//			logger.log(e);
+//		}
 	}
 
 	public Translation getTranslation() {

@@ -9,6 +9,7 @@
 package net.sf.zekr.common.util;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -54,5 +55,19 @@ public class CollectionUtils {
 			buf.append(String.valueOf(i.next()));
 		}
 		return buf.toString();
+	}
+
+	/**
+	 * @param col
+	 * @return an array of <code>collection.eachElement.toString()</code>.
+	 */
+	public static String[] toStringArray(Collection col) {
+		String[] s = new String[col.size()];
+		int i = 0;
+		for (Iterator iter = col.iterator(); iter.hasNext(); i++) {
+			Object element = iter.next();
+			s[i] = element.toString();
+		}
+		return s;
 	}
 }

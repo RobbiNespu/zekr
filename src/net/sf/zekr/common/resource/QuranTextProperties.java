@@ -26,6 +26,9 @@ import org.w3c.dom.Element;
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  * @version 0.1
+ * @deprecated This class is depricated as there is no more need for Quran 
+ * text properties. Text properties is fixed: Code page Windows 1256, and \n as
+ * the line delimiter.
  */
 final public class QuranTextProperties extends QuranTextConfigNaming {
 

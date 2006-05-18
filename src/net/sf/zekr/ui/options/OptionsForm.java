@@ -10,10 +10,13 @@ package net.sf.zekr.ui.options;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
+import net.sf.zekr.common.runtime.RuntimeConfig;
+import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
@@ -37,6 +40,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
@@ -49,10 +53,12 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
@@ -68,10 +74,10 @@ import org.eclipse.swt.widgets.ToolItem;
 public class OptionsForm {
 	public static final String FORM_ID = "OPTIONS_FORM";
 	private static final LanguageEngine lang = LanguageEngine.getInstance();
-	private final ResourceManager resource = ResourceManager.getInstance();
+	private static final ResourceManager resource = ResourceManager.getInstance();
 	private final Logger logger = Logger.getLogger(this.getClass());
-	private final ApplicationConfig config = ApplicationConfig.getInstance();
-	private Device display;
+	private static final ApplicationConfig config = ApplicationConfig.getInstance();
+	private Display display;
 
 	Shell parent, shell;
 	Composite body;
@@ -97,8 +103,14 @@ public class OptionsForm {
 	private Button showSplash;
 	private Image image;
 	private Combo langSelect;
+	private Spinner spinner;
+	private boolean pressOkToApply;
+	private LanguagePack selectedLangPack;
+	private ThemeData selectedTheme;
+	private Combo themeSelect;
 	
 	private static final List packs = new ArrayList(lang.getLangPacks());
+	private static final List themes = new ArrayList(config.getTheme().getAllThemes());
 
 	public OptionsForm(Shell parent) {
 		this.parent = parent;
@@ -108,6 +120,12 @@ public class OptionsForm {
 		shell.setText(lang.getMeaning("OPTIONS"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
 				new Image(display, resource.getString("icon.options32")) });
+		shell.addShellListener(new ShellAdapter() {
+			public void shellClosed(ShellEvent e) {
+				if (pressOkToApply)
+					createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
+			}
+		});
 		makeForm();
 	}
 
@@ -205,18 +223,31 @@ public class OptionsForm {
 		apply.setLayoutData(rd);
 		apply.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				apply();
+				apply(false);
 			}
 		});
 		shell.setDefaultButton(ok);
 	}
 
 	private void ok() {
-		apply();
+		apply(true);
+		boolean tmpOkToApply = pressOkToApply; // shell.close event uses pressOkToApply
+		pressOkToApply = false;
 		shell.close();
+		if (tmpOkToApply) {
+			config.setCurrentLanguage(selectedLangPack.id);
+			config.setCurrentTheme(selectedTheme.id);
+			try {
+				config.getRuntime().recreateCache();
+			} catch (IOException e) {
+				logger.log(e);
+			}
+//			config.saveConfig(); // not needed, RECREATE_VIEW will saveConfig before close.
+			createEvent(EventProtocol.RECREATE_VIEW);
+		}
 	}
 
-	private void apply() {
+	private void apply(boolean fromOk) {
 		logger.log("Update general model.");
 		updateGeneralModel();
 		logger.log("Update view model.");
@@ -232,9 +263,10 @@ public class OptionsForm {
 			e.printStackTrace();
 		}
 
-		if (restart) {
-			MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
-			createEvent(EventProtocol.CLEAR_ON_EXIT);
+		if (pressOkToApply && !fromOk) {
+			MessageBoxUtils.showMessage(meaning("PRESS_OK_TO_APPLY"));
+//			config.saveConfig();
+//			createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
 		}
 		if (refreshView)
 			createEvent(EventProtocol.REFRESH_VIEW);
@@ -245,18 +277,25 @@ public class OptionsForm {
 		Event te = new Event();
 		te.data = eventName;
 		te.type = SWT.Traverse;
-		shell.getParent().notifyListeners(SWT.Traverse, te);
+		parent.notifyListeners(SWT.Traverse, te);
 	}
 
 	private void updateGeneralModel() {
 		props.setProperty("options.general.showSplash",
 				Boolean.toString(showSplash.getSelection()));
-		LanguagePack lp = (LanguagePack) packs.get(langSelect.getSelectionIndex());
-		if (!config.getLanguage().getActiveLanguagePack().id.equals(lp.id)) {
-			props.setProperty("lang.default", lp.id);
-			restart = true;
-//			config.setCurrentLanguage(lp.id);
+		selectedLangPack = (LanguagePack) packs.get(langSelect.getSelectionIndex());
+		if (!config.getLanguage().getActiveLanguagePack().id.equals(selectedLangPack.id)) {
+			pressOkToApply = true;
+			props.setProperty("lang.default", selectedLangPack.id);
 		}
+
+		selectedTheme = (ThemeData) themes.get(themeSelect.getSelectionIndex());
+		if (!td.id.equals(selectedTheme.id)) {
+			pressOkToApply = true;
+			props.setProperty("theme.default", selectedTheme.id);
+		}
+
+		props.setProperty("options.search.maxResult", "" + spinner.getSelection());
 	}
 
 	private void saveViewModel() {
@@ -264,6 +303,7 @@ public class OptionsForm {
 			logger.info("Table is not changed!");
 			return;
 		}
+
 		TableItem[] tis = table.getItems();
 		td.props.clear();
 		for (int i = 0; i < tis.length; i++) {
@@ -286,11 +326,14 @@ public class OptionsForm {
 		showSplash = new Button(generalTab, SWT.CHECK);
 		showSplash.setText(meaning("SHOW_SPLASH"));
 		showSplash.setSelection(props.getBoolean("options.general.showSplash"));
-		
+
 		rl = new RowLayout(SWT.HORIZONTAL);
 		rl.spacing = 10;
 		Composite lg = new Composite(generalTab, SWT.NONE);
 		lg.setLayout(rl);
+		
+		new Label(lg, SWT.NONE).setText(lang.getMeaning("LANGUAGE") + " :");
+		
 		langSelect = new Combo(lg , SWT.READ_ONLY | SWT.DROP_DOWN);
 		String[] items = new String[lang.getLangPacks().size()];
 		int s = 0;
@@ -322,7 +365,34 @@ public class OptionsForm {
 				flag.redraw();
 			}
 		});
+		
+		rl = new RowLayout(SWT.HORIZONTAL);
+		rl.spacing = 10;
+		Composite themeComp = new Composite(generalTab, SWT.NONE);
+		themeComp.setLayout(rl);
 
+		Label ct = new Label(themeComp, SWT.NONE);
+		ct.setText(lang.getMeaning("THEME") + ":");
+		themeSelect = new Combo(themeComp, SWT.READ_ONLY | SWT.DROP_DOWN);
+		String[] themeArr = CollectionUtils.toStringArray(themes);
+		themeSelect.setItems(themeArr);
+		for (int i = 0; i < themeArr.length; i++) {
+			if (td.toString().equals(themeArr[i])) {
+				themeSelect.select(i);
+				break;
+			}
+		}
+		
+		rl = new RowLayout(SWT.HORIZONTAL);
+		rl.spacing = 10;
+		Composite cg = new Composite(generalTab, SWT.NONE);
+		cg.setLayout(rl);
+
+		new Label(cg, SWT.NONE).setText(meaning("MAX_SEARCH_RESULT") + " :");
+		spinner = new Spinner(cg, SWT.BORDER);
+		spinner.setMaximum(props.getInt("options.search.maxResult.maxSpinner"));
+		spinner.setSelection(props.getInt("options.search.maxResult"));
+		spinner.setMinimum(1);
 	}
 
 	private void createViewTab() {
@@ -341,15 +411,22 @@ public class OptionsForm {
 		gd.horizontalSpan = 2;
 		table = FormUtils.getTableForMap(viewTab, td.props, lang.getMeaning("NAME"), lang.getMeaning("VALUE"), 140, 200, gd,
 				SWT.LEFT_TO_RIGHT);
-		Button add = new Button(viewTab, SWT.PUSH);
+
+		gd = new GridData(GridData.BEGINNING);
+		gd.horizontalSpan = 2;
+		Composite addDel = new Composite(viewTab, SWT.NONE);
+		FillLayout fl = new FillLayout(SWT.HORIZONTAL);
+		fl.spacing = 4;
+		addDel.setLayout(fl);
+		addDel.setLayoutData(gd);
+		Button add = new Button(addDel, SWT.PUSH);
 		add.setToolTipText(lang.getMeaning("ADD"));
 		add.setImage(new Image(display, resource.getString("icon.add")));
-		add.setSize(100, 30);
 		add.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				String key = MessageBoxUtils.textBoxPrompt(meaning("NEW_KEY"), lang
 						.getMeaning("QUESTION"));
-				if (key == null || "".equals(key))
+				if (key == null || "".equals(key.trim()))
 					return;
 				logger.info("Add a table row");
 				FormUtils.addRow(table, key, "");
@@ -359,7 +436,8 @@ public class OptionsForm {
 
 		final TableEditor editor = new TableEditor(table);
 		editor.grabHorizontal = true;
-		editor.minimumWidth = 50;
+        editor.horizontalAlignment = SWT.LEFT;
+//		editor.minimumWidth = 50;
 
 		table.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -396,10 +474,9 @@ public class OptionsForm {
 			}
 		});
 
-		Button del = new Button(viewTab, SWT.PUSH);
+		Button del = new Button(addDel, SWT.PUSH);
 		del.setToolTipText(lang.getMeaning("DELETE"));
 		del.setImage(new Image(display, resource.getString("icon.remove")));
-		del.setSize(100, 30);
 		del.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (table.getSelectionCount() > 0)
@@ -414,6 +491,11 @@ public class OptionsForm {
 					}
 			}
 		});
+
+//		gd = new GridData(GridData.BEGINNING);
+//		gd.widthHint = 40;
+//		gd.horizontalAlignment = SWT.FILL;
+//		del.setLayoutData(gd);
 	}
 
 	private String meaning(String key) {

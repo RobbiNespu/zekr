@@ -146,7 +146,7 @@ public class QuranFormMenuFactory {
 
 		// separator
 		new MenuItem(viewMenu, SWT.SEPARATOR);
-
+/*
 		// cascading menu for language selection
 		langName = new MenuItem(viewMenu, SWT.CASCADE | direction);
 		langName.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.locale")));
@@ -176,7 +176,7 @@ public class QuranFormMenuFactory {
 				}
 			});
 		}
-
+*/
 		// cascading menu for language selection
 		transName = new MenuItem(viewMenu, SWT.CASCADE | direction);
 		transName.setImage(new Image(shell.getDisplay(), resource
@@ -204,7 +204,7 @@ public class QuranFormMenuFactory {
 				}
 			});
 		}
-
+/*
 		// cascading menu for themes
 		MenuItem theme = new MenuItem(viewMenu, SWT.CASCADE | direction);
 		theme.setText("&" + dict.getMeaning("THEME"));
@@ -235,7 +235,7 @@ public class QuranFormMenuFactory {
 
 		// separator
 		new MenuItem(viewMenu, SWT.SEPARATOR);
-
+*/
 		// cascading menu for view type
 		MenuItem viewType = new MenuItem(viewMenu, SWT.CASCADE | direction);
 		viewType.setText("&" + dict.getMeaning("LAYOUT"));
@@ -243,10 +243,19 @@ public class QuranFormMenuFactory {
 		Menu viewTypeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		viewType.setMenu(viewTypeMenu);
 
+//		MenuItem singleViewTypeItem = new MenuItem(viewTypeMenu, SWT.CASCADE | direction);
+//		Menu singleViewTypeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+//		singleViewTypeItem.setMenu(singleViewTypeMenu);
+//		singleViewTypeItem.setText("Single");
+//		quranOnly = new MenuItem(singleViewTypeMenu, SWT.RADIO);
+//		transOnly = new MenuItem(singleViewTypeMenu, SWT.RADIO);
 		quranOnly = new MenuItem(viewTypeMenu, SWT.RADIO);
 		transOnly = new MenuItem(viewTypeMenu, SWT.RADIO);
+		
 		separate = new MenuItem(viewTypeMenu, SWT.RADIO);
 		mixed = new MenuItem(viewTypeMenu, SWT.RADIO);
+		
+		new MenuItem(viewTypeMenu, SWT.SEPARATOR | direction);
 
 		quranOnly.setText(dict.getMeaning("QURAN"));
 		quranOnly.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.quranOnly")));
@@ -264,20 +273,30 @@ public class QuranFormMenuFactory {
 		SelectionAdapter sa = new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				Object data = event.widget.getData();
-				if (!((MenuItem) event.widget).getSelection()) {
-					if (data.equals("mixed")) {
-						quranViewType.setEnabled(true);
-						transViewType.setEnabled(true);
-					}
-					return;
-				}
+//				if (!((MenuItem) event.widget).getSelection()) {
+//					if (data.equals("mixed")) {
+//						quranViewType.setEnabled(true);
+//						transViewType.setEnabled(true);
+//					} else if (data.equals("quranOnly")) {
+//						quranViewType.setEnabled(true);
+//					} else if (data.equals("transOnly")) {
+//						transViewType.setEnabled(true);
+//					}
+//					return;
+//				}
 				if (data.equals("quranOnly") && quranOnly.getSelection()) {
 					config.setViewLayout(ApplicationConfig.QURAN_ONLY_LAYOUT);
+					transViewType.setEnabled(false);
+					quranViewType.setEnabled(true);
 				} else if (data.equals("transOnly") && transOnly.getSelection()) {
 					config.setViewLayout(ApplicationConfig.TRANS_ONLY_LAYOUT);
 //					config.setViewProp("view.viewLayout", ApplicationConfig.TRANS_ONLY_LAYOUT);
+					quranViewType.setEnabled(false);
+					transViewType.setEnabled(true);
 				} else if (data.equals("separate") && separate.getSelection()) {
 					config.setViewLayout(ApplicationConfig.SEPARATE_LAYOUT);
+					quranViewType.setEnabled(true);
+					transViewType.setEnabled(true);
 //					config.setViewProp("view.viewLayout", ApplicationConfig.SEPARATE_LAYOUT);
 				} else if (data.equals("mixed") && mixed.getSelection()) {
 					config.setViewLayout(ApplicationConfig.MIXED_LAYOUT);
@@ -302,6 +321,7 @@ public class QuranFormMenuFactory {
 		String viewLayout = config.getViewProp("view.viewLayout");
 		if (ApplicationConfig.TRANS_ONLY_LAYOUT.equals(viewLayout)) {
 			transOnly.setSelection(true);
+			quranViewType.setEnabled(false);
 		} else if (ApplicationConfig.SEPARATE_LAYOUT.equals(viewLayout)) {
 			separate.setSelection(true);
 		} else if (ApplicationConfig.MIXED_LAYOUT.equals(viewLayout)) {
@@ -310,6 +330,7 @@ public class QuranFormMenuFactory {
 			transViewType.setEnabled(false);
 		} else { // default to QURAN_ONLY
 			quranOnly.setSelection(true);
+			transViewType.setEnabled(false);
 		}
 
 

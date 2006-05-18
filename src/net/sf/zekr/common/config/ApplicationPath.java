@@ -49,7 +49,7 @@ public class ApplicationPath {
 	// Files
 
 	// XML Files
-	public static final String XML_CONFIG = rm.getString("config.zekr");
+//	public static final String XML_CONFIG = rm.getString("config.zekr");
 	public static final String MAIN_CONFIG = rm.getString("config.original"); // original config
 	public static final String USER_CONFIG = rm.getString("config.user", new String[]{Naming.CONFIG_PATH}); // user customized config
 

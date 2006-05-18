@@ -113,4 +113,16 @@ public class ApplicationRuntime {
 	public void clearCache() {
 		FileUtils.delete(new File(Naming.CACHE_DIR));
 	}
+
+	public void clearConfig() {
+		FileUtils.delete(new File(Naming.CONFIG_PATH));
+	}
+
+	/**
+	 * Clear <tt>cache</tt> and <tt>config</tt> directories.
+	 */
+	public void clearAll() {
+		clearCache();
+		clearConfig();
+	}
 }
