@@ -63,6 +63,7 @@
 			<text id="SEPARATE" value="Getrennt" />
 			<text id="MIXED"  value="Vereinigt" />
 			<text id="OPTIONS"  value="Einstellungen" />
+			<text id="QUESTION" value="Frage" />
 			<text id="FONT"   value="Schriftart" />
 			<text id="GENERAL"  value="Allgemein" />
 			<text id="EXIT"   value="Beenden" />
@@ -116,7 +117,9 @@
 			<text id="SHOW_SPLASH" value="Startbildschirm anzeigen" />
 			<text id="NEW_KEY" value="Bezeichnung des neuen Eintrages" />
 			<text id="THEME_SETTING" value="Themeneinstellungen" />
-			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
+			<text id="PRESS_OK_TO_APPLY" value="Drücken Sie &quot;OK&quot;, damit die Änderungen wirksam werden!" />
+			<text id="MAX_SEARCH_RESULT" value="Maximale Anzahl an Suchergebnissen" />
 		</form>
 	</forms>
 </language>
+

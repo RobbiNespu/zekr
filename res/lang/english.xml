@@ -63,6 +63,7 @@
 			<text id="SEPARATE" value="Separate" />
 			<text id="MIXED"    value="Mixed" />
 			<text id="OPTIONS"  value="Options" />
+			<text id="QUESTION" value="Question" />
 			<text id="FONT"     value="Font" />
 			<text id="GENERAL"  value="General" />
 			<text id="EXIT"     value="Exit" />
@@ -117,6 +118,7 @@
 			<text id="NEW_KEY" value="Enter a new key" />
 			<text id="THEME_SETTING" value="Theme settings" />
 			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied." />
+			<text id="MAX_SEARCH_RESULT" value="Maximum search result count" />
 		</form>
 	</forms>
 </language>

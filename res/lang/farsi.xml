@@ -63,6 +63,7 @@
 			<text id="SEPARATE" value="مجزا" />
 			<text id="MIXED"    value="درهم" />
 			<text id="OPTIONS"  value="تنظیمات" />
+			<text id="QUESTION" value="سؤال" />
 			<text id="FONT"     value="قلم" />
 			<text id="GENERAL"  value="عمومی" />
 			<text id="EXIT"     value="خروج" />
@@ -116,7 +117,8 @@
 			<text id="SHOW_SPLASH" value="نمایش تصویر ابتدای برنامه" />
 			<text id="NEW_KEY" value="یک کلید جدید وارد کنید" />
 			<text id="THEME_SETTING" value="تنطیمات مضمون" />
-			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید &quot;تأیید&quot; را فشار دهید." />
+			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید &quot;قبول&quot; را فشار دهید." />
+			<text id="MAX_SEARCH_RESULT" value="حداکثر تعداد نتایج جستجو" />
 		</form>
 	</forms>
 </language>

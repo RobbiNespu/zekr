@@ -2,7 +2,35 @@
 <?xml-stylesheet type="text/xsl" href="index-template.xslt" ?>
 <index>
 	<allnews>
-	<news title="Zekr 0.3.0 beta 2 released!" date="28-3-06" icon="news.png">
+	<news title="Zekr 0.3.0 preview final release is out" date="10-5-06" icon="news.png">
+	A preview release of the Zekr 0.3.0 is now out. The final release will be available <i>in a week</i>.
+	The privew philosophy is that since there is no automated system test for Zekr,
+	I can not make sure that there would be no explicit bug.
+	Here are the download links:
+	<ul>
+		<li>
+		<a href="http://khorshid.ut.ac.ir/~saboorian/zekr-archive/zekr-0.3.0-preview-setup.exe">
+		Zekr 0.3.0 preview release for Win32 (3.41 MB)</a>
+		</li>
+		<li>
+		<a href="http://khorshid.ut.ac.ir/~saboorian/zekr-archive/zekr-0.3.0-preview-linux.tar.bz2">
+		Zekr 0.3.0 preview release for Linux (3.39 MB)</a>
+		</li>
+		<li>
+		<a href="http://khorshid.ut.ac.ir/~saboorian/zekr-archive/zekr-0.3.0-preview-mac.tar.bz2">
+		Zekr 0.3.0 preview release for Mac (2.94 MB)</a></li>
+	</ul>
+	</news>
+	<news title="Typo in the Zekr Quran text" date="26-4-06">
+		There seems to be some fine typos in the Zekr Quran text file.
+		<br />
+		<ul>
+		<li>Al-Nisa(4):90, "أَن يُقَاتِلُونَكُمْ" which should be "أَنْ يُقَاتِلُوكُمْ"</li>
+		<li>Al-Hijr(15):3, "فَسَوْفَ يَعْمَلُونَ" which should be "فَسَوْفَ يَعْلَمُونَ"</li>
+		</ul>
+		The 0.3.0 will be released with a new Quran text, which is sure more accurate.
+	</news>
+	<news title="Zekr 0.3.0 beta 2 released!" date="28-3-06">
 		Two weeks after the first beta release, the second beta release is out for download.
 		<ul><li>
 		Different view layouts are now supported, which eases Quran/Translation browsing very much.

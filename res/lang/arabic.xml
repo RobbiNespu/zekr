@@ -50,21 +50,22 @@
 			<text id="NEXT_SURA" value="السورة اللاحقة" />
 			<text id="PREV_AYA" value="الآية السابقة" />
 			<text id="PREV_SURA" value="السورة السابقة" />
-			<text id="THEME" value="موضوع"   />
-			<text id="LAYOUT"   value="طبقة"   />
-			<text id="TOOLS"     value="أدوات"   />
-			<text id="ADD"     value="مزيد"   />
-			<text id="DELETE"   value="مسح"   />
+			<text id="THEME" value="موضوع" />
+			<text id="LAYOUT"   value="طبقة" />
+			<text id="TOOLS"     value="أدوات" />
+			<text id="ADD"     value="مزيد" />
+			<text id="DELETE"   value="مسح" />
 			<text id="REMOVE"   value="إزالة" />
-			<text id="TRANSLATION" value="ترجمة"   />
-			<text id="OPEN"     value="افتح"   />
-			<text id="IMPORT"   value="استورد"   />
-			<text id="COPY"     value="نسخ"   />
-			<text id="SEPARATE" value="متفارق"   />
-			<text id="MIXED"    value="ممزوج"   />
-			<text id="OPTIONS"  value="خيارات"   />
-			<text id="FONT"     value="خط"   />
-			<text id="GENERAL"  value="عام"   />
+			<text id="TRANSLATION" value="ترجمة" />
+			<text id="OPEN"     value="افتح" />
+			<text id="IMPORT"   value="استورد" />
+			<text id="COPY"     value="نسخ" />
+			<text id="SEPARATE" value="متفارق" />
+			<text id="MIXED"    value="ممزوج" />
+			<text id="OPTIONS"  value="خيارات" />
+			<text id="QUESTION" value="سؤال" />
+			<text id="FONT"     value="خط" />
+			<text id="GENERAL"  value="عام" />
 			<text id="EXIT" value="خروج" />
 		</common>
 		<special>
@@ -88,14 +89,14 @@
 			<text id="SEARCH_RESULT_COUNT" value="{1} وجدت نتائج في {2} آية" />
 			<text id="TOO_MANY_RESULT" value="حصلت نتائج في أكثر من {1} آية" />
 			<text id="FILE_ALREADY_EXISTS" value="ملف يحمل الإسم &quot;{1}&quot; يوجد حاليا. هل تريد استبداله ؟" />
-			<text id="RESTART_APP" value="يجب إعادة تشغيل البرنامج لكي يتم تطبيق التغييرات."   />
+			<text id="RESTART_APP" value="يجب إعادة تشغيل البرنامج لكي يتم تطبيق التغييرات." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="هل أنت متأكد؟" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="خطأ غير متوقع" />
-			<text id="ACTION_FAILED" value="لم تنجح العملية!"   />
+			<text id="ACTION_FAILED" value="لم تنجح العملية!" />
 		</error>
 		<tooltip>
 		</tooltip>
@@ -104,7 +105,7 @@
 	<forms>
 		<global>
 			<text id="APP_NAME" value="ذكر" />
-			<text id="APP_FULL_NAME" value="مشروع الذكر القرآني"   /> <!-- TRANSLATE ME!-->
+			<text id="APP_FULL_NAME" value="مشروع الذكر القرآني" />
 			<text id="FORM_TITLE" value="ذكر" />
 			<text id="COPYRIGHT_DISCLAIMER" value="هذا البرنامج يوزع مجانا في أمل أن يكون لكم نافعا، لكنه غير مصحوب بأية ضمانة." />
 		</global>
@@ -112,11 +113,12 @@
 			<text id="TITLE" value="ذكر" />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="TITLE" value="خيارات البرنامج"   />
-			<text id="SHOW_SPLASH" value="عرض الإشارة عند التشغيل"   />
-			<text id="NEW_KEY" value="أدخل مفتاحا جديدا"   />
-			<text id="THEME_SETTING" value="خصائص الموضوع"   />
-			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
+			<text id="TITLE" value="خيارات البرنامج" />
+			<text id="SHOW_SPLASH" value="عرض الإشارة عند التشغيل" />
+			<text id="NEW_KEY" value="أدخل مفتاحا جديدا" />
+			<text id="THEME_SETTING" value="خصائص الموضوع" />
+			<text id="PRESS_OK_TO_APPLY" value="اضغط على الزر &quot;موافق&quot; لتطبيق التغييرات." />
+			<text id="MAX_SEARCH_RESULT" value="أكبر قيمة لنتائج البحث." />
 		</form>
 	</forms>
 </language>

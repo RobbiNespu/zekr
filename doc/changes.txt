@@ -15,7 +15,6 @@ Bug fixes:
 	Localized hint for juz numbers
 	Splash screen has title as well as icons.
 
-
 Version 0.2.0 b1 - [9-12-05]
 Features/Enhancements:
 	Print a Quran view
@@ -92,16 +91,23 @@ Bug fixes:
 			(ARABIC_YEH, FARSI_YEH and ALEF_MAKSURA) both in Quran and search box are converted to ARABIC_YEH.
 	A fine typo in Shakir translation was fixed.
 
-Version 0.3.0 release - [30-4-06]
+Version 0.3.0 release - [15-4-06]
 Features/Enhancements:
 	All paths are now passed as URIs (instead of File.getAbsolutioPath()) to Velocity.
-	Flag icons updated to more nice looking ones
-	Added Russian language pack (translated by Michael Kalinin)
-	Language selection moved from menu to "Options form".
+	Flag icons updated to more nice looking ones.
+	Added Russian language pack (translated by Michael Kalinin).
 	3 Russian translations (Porokhova, Osmanov, and Kuliev) provided by Michael Kalinin (under a non-commercial license). Will be as translation pack in the website (not present in the default distrbution).
+	The Quran text file completely changed from the old one to a more accurate one (after finding two typos in the old text file)
+	View>Language moved to Tools>Options form, and now has a more nice look.
+	View>Theme moved to Tools>Options form.
+	Fooladvand (Farsi) translation will be available under a non-commercial license.
+	A new sample theme (id: sample) is available.
+	Max search result (default: 200) can be set on Options form.
+	Moved to swt-win32-3232.
 Bug fixes:
 	A typo in Makarem translation of sura Noor, aya 26 has been fixed.
+	Fooladvand translation fix (last aya of sura 104)
 	LayoutData instances were used several times in QuranForm, which made some problems.
 	A typo in sura Al-Hijr, aya 96 was fixed. (Ya'malun => Ya'lamun)
-
+	TableEditor problem of the OptionsForm with all platforms.
 

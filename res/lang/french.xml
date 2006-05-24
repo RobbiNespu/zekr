@@ -63,6 +63,7 @@
 			<text id="SEPARATE" value="Separé" />
 			<text id="MIXED"  value="Mélagé" />
 			<text id="OPTIONS"  value="Options" />
+			<text id="QUESTION" value="Question" />
 			<text id="FONT"   value="Police" />
 			<text id="GENERAL"  value="Général" />
 			<text id="EXIT"   value="Quitter" />
@@ -116,7 +117,9 @@
 			<text id="SHOW_SPLASH" value="Afficher le logo au démarrage" />
 			<text id="NEW_KEY" value="Entrez une nouvelle touche" />
 			<text id="THEME_SETTING" value="configuation du thème" />
-			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
+			<text id="PRESS_OK_TO_APPLY" value="Appuyez sur le bouton &quot;OK&quot; afin d'appliquer les modifications." />
+			<text id="MAX_SEARCH_RESULT" value="Nombre maximum des résultats de la recherche." />
 		</form>
 	</forms>
 </language>
+

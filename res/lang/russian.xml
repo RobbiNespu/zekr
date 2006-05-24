@@ -44,16 +44,16 @@
 			<text id="ABOUT"    value="О программе" />
 			<text id="PRINT"    value="Печать" />
 			<text id="HOMEPAGE" value="Домашняя страница" />
-			<text id="WHOLE_QURAN" value="В Коране целиком" />
+			<text id="WHOLE_QURAN" value="По всему Корану" />
 			<text id="MATCH_DIACRITIC" value="Учитывать огласовки" />
 			<text id="NEXT_AYA" value="Следующий аят" />
 			<text id="NEXT_SURA" value="Следующая сура" />
 			<text id="PREV_AYA" value="Предыдущий аят" />
 			<text id="PREV_SURA" value="Предыдущая сура" />
-			<text id="THEME" value="Тема" />
+			<text id="THEME"    value="Тема" />
 			<text id="LAYOUT"   value="Макет" />
-			<text id="TOOLS"     value="Инструменты" />
-			<text id="ADD"     value="Добавить" />
+			<text id="TOOLS"    value="Инструменты" />
+			<text id="ADD"      value="Добавить" />
 			<text id="DELETE"   value="Удалить" />
 			<text id="REMOVE"   value="Удалить" />
 			<text id="TRANSLATION" value="Перевод" />
@@ -63,13 +63,14 @@
 			<text id="SEPARATE" value="Раздельно" />
 			<text id="MIXED"    value="Вместе" />
 			<text id="OPTIONS"  value="Опции" />
+			<text id="QUESTION" value="Вопрос" />
 			<text id="FONT"     value="Шрифт" />
 			<text id="GENERAL"  value="Общие" />
 			<text id="EXIT"     value="Выход" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Коран" />
-			<text id="SURA"    value="Сура" />
+			<text id="SURA"     value="Сура" />
 			<text id="AYA"      value="Аят" />
 			<text id="SAJDA"    value="Земной поклон" />
 			<text id="JUZ"      value="Часть" />
@@ -87,7 +88,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="Результаты поиска для:&quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} результатов найдено в {2} аятах." />
 			<text id="TOO_MANY_RESULT" value="Результат поиска в более, чем {1} аятах" />
-			<text id="FILE_ALREADY_EXISTS" value="Файл с именем &quot;{1}&quot; уже существует. Вы хотите заменить его?"   />
+			<text id="FILE_ALREADY_EXISTS" value="Файл с именем &quot;{1}&quot; уже существует. Вы хотите заменить его?" />
 			<text id="RESTART_APP" value="Требуется перезапуск приложения, чтобы изменения вступили в силу." />
 		</inform>
 		<confirm>
@@ -116,6 +117,8 @@
 			<text id="SHOW_SPLASH" value="Показывать логотип при запуске" />
 			<text id="NEW_KEY" value="Введите новый ключ" />
 			<text id="THEME_SETTING" value="Установки темы" />
+			<text id="PRESS_OK_TO_APPLY" value="Нажмите клавишу &quot;OK&quot;, чтобы изменения вступили в силу." />
+			<text id="MAX_SEARCH_RESULT" value="Максимальное количество аятов для поиска" />
 		</form>
 	</forms>
 </language>

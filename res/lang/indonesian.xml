@@ -63,6 +63,7 @@
 			<text id="SEPARATE" value="Pisahkan" />
 			<text id="MIXED"    value="Campurkan" />
 			<text id="OPTIONS"  value="Opsi" />
+			<text id="QUESTION" value="Pertanyaan" />
 			<text id="FONT"     value="Font" />
 			<text id="GENERAL"  value="Umum" />
 			<text id="EXIT"     value="Keluar" />
@@ -116,7 +117,8 @@
 			<text id="SHOW_SPLASH" value="Tampilkan logo saat startup" />
 			<text id="NEW_KEY" value="Masukan tombol keyboard yang baru" />
 			<text id="THEME_SETTING" value="Setting Tema" />
-			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
+			<text id="PRESS_OK_TO_APPLY" value="Tekan tombol &quot;OK&quot; untuk menerapkan perubahan." />
+			<text id="MAX_SEARCH_RESULT" value="Jumlah hasil pencarian maksimal" />
 		</form>
 	</forms>
 </language>

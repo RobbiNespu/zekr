@@ -1,7 +1,7 @@
 ;--------- CONFIGURATION ---------
 
 !define APP_NAME "The Zekr Project"
-!define APP_VER "0.3.0b2"
+!define APP_VER "0.3.0"
 !define CLASS_PATH "lib\swt-win32.jar;lib\apache-commons.jar;lib\log4j-1.2.8.jar;lib\velocity-1.4.jar;dist\zekr.jar"
 !define JRE_OPT "-Djava.library.path=lib"
 !define MAIN_CLASS "net.sf.zekr.ZekrMain"
