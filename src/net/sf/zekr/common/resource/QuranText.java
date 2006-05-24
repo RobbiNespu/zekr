@@ -48,8 +48,8 @@ public class QuranText implements IQuranText {
 	 */
 	private QuranText() throws IOException {
 //		File file = new File(appConfig.getQuranText());
-		File file = new File(resource.getString("quran.text"));
-		InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "Cp1256");
+		File file = new File(resource.getString("quran.text.file"));
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(file), resource.getString("quran.text.encoding"));
 		char[] buf = new char[(int) file.length()];
 		isr.read(buf); // read the Quran text fully
 		rawText = new String(buf);

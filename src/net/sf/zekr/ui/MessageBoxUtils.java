@@ -14,8 +14,13 @@ import net.sf.zekr.engine.language.LanguageEngine;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
@@ -55,6 +60,68 @@ public class MessageBoxUtils {
 	}
 
 	private static String _ret;
+
+	public static String textBoxPrompt2(String question, String title) {
+		Shell parent = getShell();
+		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL
+				| dict.getSWTDirection());
+		shell.setImage(parent.getDisplay().getSystemImage(SWT.ICON_QUESTION));
+		shell.setText(title);
+		shell.setLayout(new FillLayout());
+		
+		RowLayout rl = new RowLayout(SWT.VERTICAL);
+		Composite c = new Composite(shell, SWT.NONE);
+		c.setLayout(rl);
+
+		RowData rd = new RowData();
+		
+		rd.width = 300;
+		Label label = new Label(c, SWT.LEAD);
+		label.setText(question);
+		label.setLayoutData(rd);
+		
+		final Text text = new Text(c, SWT.BORDER | SWT.SINGLE | SWT.TRAIL);
+
+		new Label(c, SWT.SEPARATOR | SWT.HORIZONTAL);
+		
+		Composite cButtons = new Composite(c, SWT.NONE);
+		cButtons.setLayout(new FillLayout());
+		
+		Button ok = new Button(cButtons, SWT.PUSH);
+		ok.setText(dict.getMeaning("OK"));
+		ok.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				_ret = text.getText();
+				shell.close();
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		shell.setDefaultButton(ok);
+
+		Button cancel = new Button(cButtons, SWT.PUSH);
+		cancel.setText(dict.getMeaning("CANCEL"));
+		cancel.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				shell.close();
+			}
+		});
+
+		_ret = null;
+		shell.setLocation(FormUtils.getCenter(parent, shell));
+		shell.pack();
+		shell.open();
+
+//		while (!shell.isDisposed()) {
+//			if (!shell.getDisplay().readAndDispatch()) {
+//				shell.getDisplay().sleep();
+//			}
+//		}
+
+		return _ret;
+	}
 
 	public static String textBoxPrompt(String question, String title) {
 		Shell parent = getShell();

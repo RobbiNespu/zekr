@@ -34,7 +34,7 @@ public class PopupBox {
 		shell.setText(title);
 		shell.setParent(parent);
 		shell.setLayout(new FillLayout());
-		textBox = new Text(shell, SWT.MULTI | SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL
+		textBox = new Text(shell, SWT.LEAD | SWT.MULTI | SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL
 				| swtDirection);
 		textBox.setText(text);
 	}

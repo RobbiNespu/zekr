@@ -424,7 +424,7 @@ public class OptionsForm {
 		add.setImage(new Image(display, resource.getString("icon.add")));
 		add.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				String key = MessageBoxUtils.textBoxPrompt(meaning("NEW_KEY"), lang
+				String key = MessageBoxUtils.textBoxPrompt2(meaning("NEW_KEY"), lang
 						.getMeaning("QUESTION"));
 				if (key == null || "".equals(key.trim()))
 					return;
