@@ -9,8 +9,8 @@
 package net.sf.zekr.common.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -182,11 +182,11 @@ public class QuranPropertiesUtils {
 		LanguageEngine dict = ApplicationConfig.getInstance().getLanguageEngine();
 		QuranPropertiesUtils.getSuraNames(); // load!
 		SuraProperties sura = QuranProperties.getInstance().getSura(suraNum);
-		Map map = new HashMap();
-		map.put(dict.getMeaning("NUMBER"), new Integer(sura.getIndex()));
+		Map map = new LinkedHashMap();
 		map.put(dict.getMeaning("NAME"), suraNames[suraNum - 1]);
-		map.put(dict.getMeaning("TYPE"), getSuraDescent(sura.isMadani()));
+		map.put(dict.getMeaning("NUMBER"), new Integer(sura.getIndex()));
 		map.put(dict.getMeaning("AYA_COUNT"), new Integer(sura.getAyaCount()));
+		map.put(dict.getMeaning("TYPE"), getSuraDescent(sura.isMadani()));
 		map.put(dict.getMeaning("JUZ"), getSuraJuz(suraNum));
 
 		return map;

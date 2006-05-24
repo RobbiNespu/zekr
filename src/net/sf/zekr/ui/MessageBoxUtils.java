@@ -63,31 +63,42 @@ public class MessageBoxUtils {
 
 	public static String textBoxPrompt2(String question, String title) {
 		Shell parent = getShell();
+		
 		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL
 				| dict.getSWTDirection());
 		shell.setImage(parent.getDisplay().getSystemImage(SWT.ICON_QUESTION));
 		shell.setText(title);
 		shell.setLayout(new FillLayout());
+//		shell.setSize(400, 150);
 		
-		RowLayout rl = new RowLayout(SWT.VERTICAL);
+		GridLayout gl = new GridLayout(2, false);
 		Composite c = new Composite(shell, SWT.NONE);
-		c.setLayout(rl);
-
-		RowData rd = new RowData();
+		c.setLayout(gl);
+//		RowData rd = new RowData();
+//		rd.width = 300;
+//		c.setLayoutData(rd);
 		
-		rd.width = 300;
-		Label label = new Label(c, SWT.LEAD);
+		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		gd.horizontalSpan = 2;
+
+		Label label = new Label(c, SWT.NONE);
 		label.setText(question);
-		label.setLayoutData(rd);
+		label.setLayoutData(gd);
 		
-		final Text text = new Text(c, SWT.BORDER | SWT.SINGLE | SWT.TRAIL);
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		gd.horizontalSpan = 2;
+		gd.widthHint = 200;
+		final Text text = new Text(c, SWT.LEFT_TO_RIGHT | SWT.BORDER | SWT.SINGLE);
+		text.setLayoutData(gd);
 
-		new Label(c, SWT.SEPARATOR | SWT.HORIZONTAL);
-		
-		Composite cButtons = new Composite(c, SWT.NONE);
-		cButtons.setLayout(new FillLayout());
-		
-		Button ok = new Button(cButtons, SWT.PUSH);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 1;
+//		Composite cb = new Composite(c, SWT.NONE);
+//		cb.setLayout(new FillLayout());
+//		cb.setLayoutData(gd);
+
+		Button ok = new Button(c, SWT.PUSH);
+		ok.setLayoutData(gd);
 		ok.setText(dict.getMeaning("OK"));
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -101,7 +112,10 @@ public class MessageBoxUtils {
 		});
 		shell.setDefaultButton(ok);
 
-		Button cancel = new Button(cButtons, SWT.PUSH);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 1;
+		Button cancel = new Button(c, SWT.PUSH);
+		cancel.setLayoutData(gd);
 		cancel.setText(dict.getMeaning("CANCEL"));
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -110,8 +124,8 @@ public class MessageBoxUtils {
 		});
 
 		_ret = null;
-		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.pack();
+		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.open();
 
 //		while (!shell.isDisposed()) {
