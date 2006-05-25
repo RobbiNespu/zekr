@@ -6,9 +6,12 @@
 	The Zekr 0.3.0 final release is now available.<br />
 	There are a number of cool features in 
 	this release + more stability. The SWT graphics library update to build 3232 and the Russian language pack has been added.
-	Also Kuliev's translation is provided with his permission (thanks to Michael Kalinin). Please see
+	Also Kuliev's translation is provided with his permission (thanks to Michael Kalinin).<br />
+	Please see
 	<a href="relnotes.html">release notes</a> page for general features and 
-	<a href="changex.txt">changes.txt</a> for more specific changes.
+	<a href="changex.txt">changes.txt</a> for more specific changes.<br /><br />
+	<img alt="Download Zekr 0.3.0 beta 2" src="img/down16.png"/>
+	<a href="download.html">Download!</a>
 	</news>
 	<news title="Zekr 0.3.0 preview final release is out" date="10-5-06">
 	A preview release of the Zekr 0.3.0 is now out. The final release will be available <i>in a week</i>.
