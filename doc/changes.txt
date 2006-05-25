@@ -91,7 +91,7 @@ Bug fixes:
 			(ARABIC_YEH, FARSI_YEH and ALEF_MAKSURA) both in Quran and search box are converted to ARABIC_YEH.
 	A fine typo in Shakir translation was fixed.
 
-Version 0.3.0 release - [15-4-06]
+Version 0.3.0 release - [25-5-06]
 Features/Enhancements:
 	All paths are now passed as URIs (instead of File.getAbsolutioPath()) to Velocity.
 	Flag icons updated to more nice looking ones.
@@ -104,6 +104,7 @@ Features/Enhancements:
 	A new sample theme (id: sample) is available.
 	Max search result (default: 200) can be set on Options form.
 	Moved to swt-win32-3232.
+	Permission to use Kuliev's translation in Zekr (done by Michael Kalinin).
 Bug fixes:
 	A typo in Makarem translation of sura Noor, aya 26 has been fixed.
 	Fooladvand translation fix (last aya of sura 104)

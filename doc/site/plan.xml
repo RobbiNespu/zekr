@@ -28,12 +28,12 @@
 			<subfeature title="German" progress="100" em="0.2" />
 			<subfeature title="Arabic" progress="100" em="0.2" />
 			<subfeature title="Indonesian" progress="100" em="0.2" />
+			<subfeature title="Russian" progress="100" em="3.0" />
 			<subfeature title="Italian" progress="0" em="1.0" />
 			<subfeature title="Spanish" progress="0" em="1.0" />
 			<subfeature title="Turkish" progress="0" em="1.0" />
 			<subfeature title="Chinese" progress="0" em="1.0" />
 			<subfeature title="Japanese" progress="0" em="1.0" />
-			<subfeature title="Russian" progress="0" em="1.0" />
 		</subfeature>
 	</feature>
 
@@ -43,7 +43,7 @@
 			<subfeature title="Search the whole quran and current view (the latter using JavaScript)" progress="100" em="0.2" />
 		</subfeature>
 		<subfeature title="Advanced search" progress="0" em="0.6">
-			<subfeature title="More thant 200 search results (next/previous 200 results)" progress="0" em="0.6" />
+			<subfeature title="More thant 200 search results (next/previous 200 results)" progress="100" em="0.3" />
 			<subfeature title="Search in translations" progress="0" em="0.4" />
 		</subfeature>
 		<subfeature title="View popup translation for the search results" progress="100" em="0.3" />

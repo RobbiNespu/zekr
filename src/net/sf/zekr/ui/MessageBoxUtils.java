@@ -61,7 +61,7 @@ public class MessageBoxUtils {
 
 	private static String _ret;
 
-	public static String textBoxPrompt2(String question, String title) {
+	public static String textBoxPrompt(String question, String title) {
 		Shell parent = getShell();
 		
 		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL
@@ -93,9 +93,6 @@ public class MessageBoxUtils {
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 1;
-//		Composite cb = new Composite(c, SWT.NONE);
-//		cb.setLayout(new FillLayout());
-//		cb.setLayoutData(gd);
 
 		Button ok = new Button(c, SWT.PUSH);
 		ok.setLayoutData(gd);
@@ -128,15 +125,15 @@ public class MessageBoxUtils {
 		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.open();
 
-//		while (!shell.isDisposed()) {
-//			if (!shell.getDisplay().readAndDispatch()) {
-//				shell.getDisplay().sleep();
-//			}
-//		}
+		while (!shell.isDisposed()) {
+			if (!shell.getDisplay().readAndDispatch()) {
+				shell.getDisplay().sleep();
+			}
+		}
 
 		return _ret;
 	}
-
+/*
 	public static String textBoxPrompt(String question, String title) {
 		Shell parent = getShell();
 		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL
@@ -194,7 +191,7 @@ public class MessageBoxUtils {
 
 		return _ret;
 	}
-
+*/
 	private static Shell getShell() {
 		return Display.getCurrent().getShells()[0];
 	}

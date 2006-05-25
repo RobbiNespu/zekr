@@ -35,7 +35,7 @@ ______________________________
 $message
 ______________________________
 HERE;
-mail("zekr@siahe.com,m.saboorian@ece.ut.ac.ir", "Zekr contact from $fullName", $mes, $h);
+mail("zekr@siahe.com,mohsens@gmail.com", "Zekr contact from $fullName", $mes, $h);
 }
 ?>
 <table width="100%" height="90%">

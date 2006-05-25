@@ -42,6 +42,7 @@
 							</div>
 							<div class="buttons">
 							<xsl:apply-templates select="/index/buttons" />								
+							<a href="http://fusion.google.com/add?moduleurl=http%3A//base.google.com/base/a/1096661/D12554424364135394330"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to Google" /></a>
 							</div>
 						</td>
 						<td class="right">
@@ -82,9 +83,9 @@
 										for its tasks.
 									</p>
 									<p>
-										The current release, 0.3.0, is planned to support
+										The current release, 0.3.0 supports
 										a fully customizable theme mangement and
-										translation management system.
+										translation management. See <a href="plan.xml">Zekr plan</a> for more details on the Zekr plan.
 									</p>
 									<p>
 										The program is written in Java, on
@@ -121,6 +122,8 @@
 				</table>
 				</div>
 
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+<script type="text/javascript">_uacct = "UA-336966-1";urchinTracker();</script>
 <!-- stat counter -->
 <script language="JavaScript" type="text/javascript" src="stat.js"></script>
 <script language="JavaScript" type="text/javascript">persianstat(10004449, 0);</script>

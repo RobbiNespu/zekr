@@ -44,12 +44,8 @@
 				Special thanks to <a href="http://siahe.com/blogs/mohammad">Mohammad Mehdi Saboorian</a>.
 
 
-<!-- Start of StatCounter Code -->
-<script type="text/javascript" language="javascript">
-var sc_project=1162161; var sc_invisible=1; var sc_partition=10; var sc_security="b95f6b46"; 
-</script>
-<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js"></script><noscript><a href="http://www.statcounter.com/" target="_blank"><img  src="http://c11.statcounter.com/counter.php?sc_project=1162161&amp;java=0&amp;security=b95f6b46&amp;invisible=1" alt="free webpage counters" border="0" /></a> </noscript>
-<!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+<script type="text/javascript">_uacct = "UA-336966-1";urchinTracker();</script>
 
 			</body>
 		</html>

@@ -38,15 +38,15 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>Zekr</Program_Name>
-		<Program_Version>0.3.0b2</Program_Version>
-		<Program_Release_Month>3</Program_Release_Month>
-		<Program_Release_Day>28</Program_Release_Day>
+		<Program_Version>0.3.0</Program_Version>
+		<Program_Release_Month>6</Program_Release_Month>
+		<Program_Release_Day>25</Program_Release_Day>
 		<Program_Release_Year>2006</Program_Release_Year>
 		<Program_Cost_Dollars>0.0</Program_Cost_Dollars>
 		<Program_Cost_Other_Code>USD</Program_Cost_Other_Code>
 		<Program_Cost_Other/>
 		<Program_Type>Freeware</Program_Type>
-		<Program_Release_Status>Beta</Program_Release_Status>
+		<Program_Release_Status>Release</Program_Release_Status>
 		<Program_Install_Support>Install and Uninstall</Program_Install_Support>
 		<Program_OS_Support>
 			Win95,Win98,WinME,WinNT 4.x,Windows2000,WinXP,Windows2003,Unix,Linux,Linux
@@ -67,10 +67,10 @@
 			<Filename_Versioned>zekr.exe</Filename_Versioned>
 			<Filename_Previous>zekr-0.2.0-setup.exe</Filename_Previous>
 			<Filename_Generic>zekr-setup.exe</Filename_Generic>
-			<Filename_Long>zekr-0.3.0b2-setup.exe</Filename_Long>
-			<File_Size_Bytes>3447325</File_Size_Bytes>
-			<File_Size_K>3367</File_Size_K>
-			<File_Size_MB>3.28</File_Size_MB>
+			<Filename_Long>zekr-0.3.0-setup.exe</Filename_Long>
+			<File_Size_Bytes>3921717</File_Size_Bytes>
+			<File_Size_K>3830</File_Size_K>
+			<File_Size_MB>3.73</File_Size_MB>
 		</File_Info>
 		<Expire_Info>
 			<Has_Expire_Info>N</Has_Expire_Info>
@@ -117,8 +117,8 @@
 			<Application_XML_File_URL>http://siahe.com/zekr/zekr-pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://siahe.com/zekr/download/zekr-0.3.0b2-setup.exe</Primary_Download_URL>
-			<Secondary_Download_URL>http://prdownloads.sourceforge.net/zekr/zekr-0.3.0b2-setup.exe</Secondary_Download_URL>
+			<Primary_Download_URL>http://siahe.com/zekr/download/zekr-0.3.0-setup.exe</Primary_Download_URL>
+			<Secondary_Download_URL>http://prdownloads.sourceforge.net/zekr/zekr-0.3.0-setup.exe</Secondary_Download_URL>
 			<Additional_Download_URL_1/>
 			<Additional_Download_URL_2/>
 		</Download_URLs>
