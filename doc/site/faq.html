@@ -89,6 +89,38 @@ about licenses at <a href="relnotes.html"> release notes</a> page.</div>
 <div class="answer">You can contact us by following <a
 	href="contact.html">contact link</a> on the Zekr homepage menu.</div>
 
+<h3>[Problems]</h3>
+<div class="question">I'm facing with this Exception: <i>java.io.UnsupportedEncodingException: Cp1256</i>.
+What should I do for solving this?</div>
+<div class="answer">This problem occurs in when you have an older than 1.4.2 JRE installed on your computer.
+The other (more probable) reason may be that you didn't customized your JRE to support non-European languages.<br>
+<br>
+Some notes from JDK 5.0 Documentation (Supported Encodings):<br>
+<b>Sun's J2SE Development Kit 5.0</b> for all platforms (Solaris<sup><FONT SIZE="-2">TM</FONT></sup> 
+operating environment, Linux, and Microsoft Windows) and the J2SE Runtime Environment 5.0 for 
+<b>Solaris and Linux</b> support all encodings...<br>
+Sun's J2SE Runtime Environment 5.0 for Windows 
+<b>may be installed as a complete international version or as a European languages version</b>.
+The JRE installer by default installs a European languages version if it recognizes that the host 
+operating system only supports European languages. If the installer recognizes that any other 
+language is needed, or <b>if the user requests support for non-European languages in a 
+customized installation</b>, a complete international version is installed... 
+The international version (which includes the <tt>lib/charsets.jar</tt> file) supports all encodings...
+<br><br>
+So, you can either reinstall you JRE (<b>customized</b>, this time), or install a JDK.
+
+</div>
+
+<div class="question">Other kinds of startup problems</div>
+<div class="answer">
+There may be some problems with Zekr startup or something similar. If you can not start
+the Zekr platform, please make sure that the problem is not about your
+configuration. Please remove <tt>~/.zekr</tt> folder (or <tt>[Documents and Settings\username\].zekr</tt> on Windows)
+and start the zekr again.
+If this doesn't fix the problem, <a href="contact.html">send me</a> the file <tt>zekr.log</tt>
+ located at zekr installation directory.
+</div>
+
 <h3>[Developer]</h3>
 <div class="question">What is Zekr written in?</div>
 <div class="answer">Zekr is written in Java (JDK 1.4+ compliant). It is
@@ -150,16 +182,6 @@ For running Zekr on Mac, you should unzip Zekr package and run mac-run.sh. Pleas
 JRE 5.0+ for to run Zekr (It seems that Zekr can not be run on JRE 1.4.2 on Mac systems).
 </div>
 
-<div class="question">Common problems</div>
-<div class="answer">
-There may be some problems with Zekr startup or something similar. If you can not start
-the Zekr platform, please make sure that the problem is not about your
-configuration. Please remove <tt>~/.zekr</tt> folder (or <tt>[Documents and Settings\username\].zekr</tt> on Windows)
-and start the zekr again.
-If this doesn't fix the problem, <a href="contact.html">send me the</a> file <tt>zekr.log</tt>
- located at zekr installation directory.
-</div>
-
 <h3>[Install]</h3>
 <div class="question">I downloaded Zekr. Now, what should I do?</div>
 <div class="answer">Please note that there are two releases for each
@@ -191,7 +213,7 @@ You should copy the file <tt>javaw.exe.manifest</tt> (or <tt>java.exe.manifest</
 if you want to start the application with java.exe) near the java.exe and javaw.exe. That's all.
 </div>
 
-<div class="question">Which languages does Zekr support?</div>
+<div class="question">Which languages does Zekr support? [<i style="color: red">DEPRICATED</i>, to be updated soon]</div>
 <div class="answer">Zekr has <i>Language Engine</i> for supporting
 multiple languages. There are corresponding <acronym title="eXtensible Matkup Language">XML</acronym>
 files for each language
@@ -226,8 +248,7 @@ Arabic, English, Farsi (AKA Persian), French, German, Indonesian, and Russian.
 <div class="question">Have more questions? <a href="contact.html">Ask me</a>!
 </div>
 
-<hr>
-Document last updated on 26-1-06
+
 
 <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 <script type="text/javascript">_uacct = "UA-336966-1";urchinTracker();</script>

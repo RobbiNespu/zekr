@@ -105,7 +105,7 @@ public class QuranFormMenuFactory {
 
 		// print
 		printItem = new MenuItem(fileMenu, SWT.PUSH);
-		printItem.setText("&" + dict.getMeaning("PRINT") + "\tCtrl + P");
+		printItem.setText("&" + dict.getMeaning("PRINT") + "...\tCtrl + P");
 		printItem.setAccelerator(SWT.CTRL + 'P');
 		printItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.print")));
 		printItem.addListener(SWT.Selection, new Listener() {
@@ -459,7 +459,7 @@ public class QuranFormMenuFactory {
 		// separator
 		new MenuItem(toolsMenu, SWT.SEPARATOR);
 		MenuItem options = new MenuItem(toolsMenu, SWT.PUSH);
-		options.setText(dict.getMeaning("OPTIONS"));
+		options.setText(dict.getMeaning("OPTIONS") + "...");
 		options.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.options")));
 		options.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {

@@ -18,12 +18,15 @@
 								<img src="img/zekr-logo-small.png" alt="Zekr small logo" />
 							</div>
 							<div class="menuItem">
-								<a href="index.html" title="Zekr homepage">Home</a>
+								<a href="index.xml" title="Zekr homepage">Home</a>
 								<a href="glossary.html" title="Quranic terms glossary">
 									Glossary
 								</a>
 								<a href="download.html" title="Zek download page">
 									Download
+								</a>
+								<a href="resources.html" title="Zek resources for download">
+									Resources
 								</a>
 								<a href="screenshot/index.html" title="Screenshots">
 									Screenshots
@@ -175,6 +178,4 @@
 			</a>
 		</div>
 	</xsl:template>
-
-	
 </xsl:stylesheet>

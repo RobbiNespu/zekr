@@ -33,7 +33,6 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class ErrorForm extends BaseForm {
 	private Label message;

@@ -112,3 +112,12 @@ Bug fixes:
 	A typo in sura Al-Hijr, aya 96 was fixed. (Ya'malun => Ya'lamun)
 	TableEditor problem of the OptionsForm with all platforms.
 
+Version 0.4.0 alpha1 - [15-8-06]
+Features/Enhancements:
+	Added 2 new language packs: Turkish (smacker) and Malay (H N Jafa).
+	TODO: quick nav bar: quick aya selection
+	TODO: Quran transliteration
+	TODO: update turkish lang pack
+Bug fixes:
+	A typo in the Quran text: TODO
+	Using java.net.URI for making file:// paths causes problems with IE 7.0, will make URIs manually.

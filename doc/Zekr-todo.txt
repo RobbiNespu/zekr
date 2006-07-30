@@ -18,10 +18,14 @@ Zekr 0.2.0 (release)
 . + Linux port
 
 Zekr 0.3.0 (release)
-  + Quran translations support
-  + Theme management
+. + Quran translations support
+. + Theme management
 
 Zekr 0.4.0 (release)
+  + A on the browser window for navigation, bookmarking, and future use
+  + Accessible translation/Quran on Quran_only/translation_only layouts (should be configurable: enabled or disabled) 
+    like the one now available for search results.
+  + Search through translations
 
 Zekr 1.0.0
   + Translation system: easily adding different translations

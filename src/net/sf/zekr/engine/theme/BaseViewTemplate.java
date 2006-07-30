@@ -15,6 +15,7 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.runtime.Naming;
+import net.sf.zekr.common.util.UrlUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 
 /**
@@ -40,10 +41,10 @@ public abstract class BaseViewTemplate {
 		ThemeData td = config.getTheme().getCurrent();
 		engine.put("DIRECTION", langEngine.getDirection());
 		engine.put("TRANS_DIRECTION", config.getTranslation().getDefault().direction);
-		engine.put("APP_PATH", new File(GlobalConfig.RUNTIME_DIR).toURI());
+		engine.put("APP_PATH", UrlUtils.toURI(GlobalConfig.RUNTIME_DIR));
 		engine.putAll(td.processedProps);
 		engine.put("THEME_DIR", td.getPath());
 		engine.put("UI_DIR", ApplicationPath.UI_DIR);
-		engine.put("CSS_DIR", new File(Naming.CACHE_DIR).toURI());
+		engine.put("CSS_DIR", UrlUtils.toURI(Naming.CACHE_DIR));
 	}
 }

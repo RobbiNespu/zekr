@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language author="smacker" version="0.3">
+	<locale localizedName="Türkçe" name="Turkish" id="tr_TR" direction="ltr" />
+	<word>
+		<common>
+			<text id="OK"       value="TAMAM" />
+			<text id="CANCEL"   value="İptal" />
+			<text id="YES"      value="Evet" />
+			<text id="NO"       value="Hayır" />
+			<text id="APPLY"    value="Uygula" />
+			<text id="START"    value="Başlat" />
+			<text id="RESET"    value="Tekrar Kur" />
+			<text id="NEW"      value="Yeni" />
+			<text id="SAVE_AS"  value="Farklı Kaydet" />
+			<text id="HELP"     value="Yardım" />
+			<text id="EDIT"     value="Düzenle" />
+			<text id="SEARCH"   value="Araştır" />
+			<text id="GOTO"     value="Git" />
+			<text id="VIEW"     value="Görüntüle" />
+			<text id="CLOSE"    value="Kapat" />
+			<text id="INSERT"   value="Gir" />
+			<text id="DETAILS"  value="Detaylar" />
+			<text id="MORE"     value="Ayrıca" />
+			<text id="NEXT"     value="İleri" />
+			<text id="PREVIOUS" value="Geri" />
+			<text id="REFRESH"  value="Yinele" />
+			<text id="UPDATE"   value="Güncelle" />
+			<text id="SHOW"     value="Göster" />
+			<text id="NAME"     value="Ad" />
+			<text id="VALUE"    value="Değer" />
+			<text id="NUMBER"   value="Sayı" />
+			<text id="OPTION"   value="Tercih" />
+			<text id="FILE"     value="Dosya" />
+			<text id="RELOAD"   value="Yükle" />
+			<text id="TYPE"     value="Tür" />
+			<text id="MESSAGE"  value="İleti" />
+			<text id="BLOCK"    value="Engelle" />
+			<text id="LINE_BY_LINE" value="Satır Satır" />
+			<text id="AND"      value="ve" />
+			<text id="COMMA"    value="," />
+			<text id="SYNCHRONOUS" value="Eşzamanlı" />
+			<text id="ERROR"    value="Hata" />
+			<text id="LANGUAGE" value="Dil seçenekleri" />
+			<text id="ABOUT"    value="Program Hakkında" />
+			<text id="PRINT"    value="Çıktı al" />
+			<text id="HOMEPAGE" value="Web Sayfası" />
+			<text id="WHOLE_QURAN" value="Tüm Kuran-ı Kerim" />
+			<text id="MATCH_DIACRITIC" value="Eşleştir" />
+			<text id="NEXT_AYA" value="Sonraki Ayet" />
+			<text id="NEXT_SURA" value="Sonraki Sure" />
+			<text id="PREV_AYA" value="Önceki Ayet" />
+			<text id="PREV_SURA" value="Önceki Sure" />
+			<text id="THEME" value="Tema" />
+			<text id="LAYOUT"   value="Düzenleme" />
+			<text id="TOOLS"     value="Araçlar" />
+			<text id="ADD"     value="Ekle" />
+			<text id="DELETE"   value="Sil" />
+			<text id="REMOVE"   value="Kaldır" />
+			<text id="TRANSLATION" value="Tercüme" />
+			<text id="OPEN"     value="Açık" />
+			<text id="IMPORT"   value="Getir" />
+			<text id="COPY"     value="Kopyala" />
+			<text id="SEPARATE" value="Ayır" />
+			<text id="MIXED"    value="Karma" />
+			<text id="OPTIONS"  value="Ayarlar" />
+			<text id="QUESTION" value="Question"   />
+			<text id="FONT"     value="Yazı tipi" />
+			<text id="GENERAL"  value="Genel" />
+			<text id="EXIT"     value="Çıkış" />
+		</common>
+		<special>
+			<text id="QURAN"    value="Kuran-ı Kerim" />
+			<text id="SURA"    value="Sure" />
+			<text id="AYA"      value="Ayet" />
+			<text id="SAJDA"    value="Secde Ayeti" />
+			<text id="JUZ"      value="Cüz" />
+			<text id="MAKKI"    value="Mekki Sure " />
+			<text id="MADANI"   value="Medini Sure" />
+			<text id="DESCENT"  value="Azalt" />
+			<text id="AYA_COUNT"  value="Ayet sayısı" />
+			<text id="MINOR_SAJDA" value="Büyük Secde" />
+			<text id="MAJOR_SAJDA" value="Küçük Secde" />
+		</special>
+	</word>
+
+	<message>
+		<inform>
+			<text id="SEARCH_RESULT_TITLE" value="Arama Sonucu:&quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_COUNT" value="{2} ayette {1} Sonuç Bulundu." />
+			<text id="TOO_MANY_RESULT" value="Arama sonucu {1} ayetten fazla" />
+			<text id="FILE_ALREADY_EXISTS" value=" &quot;{1}&quot; isimli dosya daha önceden vardır. Değiştirmek ister misiniz?"   />
+			<text id="RESTART_APP" value="Değişiklileri kaydetmek için lütfen programı yeniden başlatın." />
+		</inform>
+		<confirm>
+			<text id="YES_NO" value="Emin misiniz?" />
+		</confirm>
+		<error>
+			<text id="GENERAL_ERROR" value="Beklenmedik bir hata oluştu!" />
+			<text id="ACTION_FAILED" value="İşlem Başarısız!" />
+		</error>
+		<tooltip>
+		</tooltip>
+	</message>
+
+	<forms>
+		<global>
+			<text id="APP_NAME" value="Zekr" />
+			<text id="APP_FULL_NAME" value="The Zekr Quranic Project" />
+			<text id="FORM_TITLE" value="Zekr" />
+			<text id="COPYRIGHT_DISCLAIMER" value="Bu program yardımcı olması amacıyla bedava dağıtılmaktadır, fakat garantisi yoktur." />
+		</global>
+		<form id="QURAN_FORM">
+			<text id="TITLE" value="Zekr" />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="Uygulama Seçenekleri" />
+			<text id="SHOW_SPLASH" value="Açılış Logosu" />
+			<text id="NEW_KEY" value="Yeni bir sözcük giriniz" />
+			<text id="THEME_SETTING" value="Tema ayarları" />
+			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
+			<text id="MAX_SEARCH_RESULT" value="Maximum search result count"   />
+		</form>
+	</forms>
+</language>

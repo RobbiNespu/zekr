@@ -20,6 +20,7 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.Naming;
+import net.sf.zekr.common.util.UrlUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.AbstractQuranViewTemplate;
 import net.sf.zekr.engine.theme.MixedViewTemplate;
@@ -71,7 +72,7 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return file.toURI() + ((aya == 0) ? "" : "#" + aya);
+		return UrlUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
 	}
 
 	public static String getMixedUrl(int sura, int aya, boolean update) {
@@ -92,7 +93,7 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return file.toURI() + ((aya == 0) ? "" : "#" + aya);
+		return UrlUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
 	}
 
 	public static String getSearchQuranUrl(String keyword, boolean matchDiac) {
@@ -114,7 +115,7 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return file.toURI().toString();
+		return UrlUtils.toURI(file);
 	}
 
 	/**
@@ -143,7 +144,7 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return file.toURI() + ((aya == 0) ? "" : "#" + aya);
+		return UrlUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
 	}
 
 	/**

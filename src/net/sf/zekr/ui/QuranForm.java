@@ -301,8 +301,8 @@ public class QuranForm extends BaseForm {
 		suraLabel = new Label(navGroup, SWT.NONE);
 		suraLabel.setText(langEngine.getMeaning("SURA") + ":");
 
-		suraSelector = new Combo(navGroup, SWT.NONE | SWT.READ_ONLY);
-		ayaSelector = new Combo(navGroup, SWT.NONE | SWT.READ_ONLY);
+		suraSelector = new Combo(navGroup, SWT.READ_ONLY);
+		ayaSelector = new Combo(navGroup, SWT.READ_ONLY);
 
 		suraSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		suraSelector.setItems(QuranPropertiesUtils.getIndexedSuraNames());

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language author="H N Jafar" version="0.1">
+	<locale localizedName="Malay" name="Malay" id="ms_MY" direction="ltr" />
+	<word>
+		<common>
+			<text id="OK"       value="OK" />
+			<text id="CANCEL"   value="Batal" />
+			<text id="YES"      value="Ya" />
+			<text id="NO"       value="Tidak" />
+			<text id="APPLY"    value="Terapkan" />
+			<text id="START"    value="Mulai" />
+			<text id="RESET"    value="Reset" />
+			<text id="NEW"      value="Baru" />
+			<text id="SAVE_AS"  value="Simpan Sebagai" />
+			<text id="HELP"     value="Pertolongan" />
+			<text id="EDIT"     value="Sunting" />
+			<text id="SEARCH"   value="Cari" />
+			<text id="GOTO"     value="Ke..." />
+			<text id="VIEW"     value="Paparan" />
+			<text id="CLOSE"    value="Tutup" />
+			<text id="INSERT"   value="Sisipkan" />
+			<text id="DETAILS"  value="Butir-Butir" />
+			<text id="MORE"     value="Lagi..." />
+			<text id="NEXT"     value="Selanjutnya" />
+			<text id="PREVIOUS" value="Sebelumnya" />
+			<text id="REFRESH"  value="Refresh" />
+			<text id="UPDATE"   value="Perbaharui" />
+			<text id="SHOW"     value="Papar" />
+			<text id="NAME"     value="Nama" />
+			<text id="VALUE"    value="Nilai" />
+			<text id="NUMBER"   value="Nombor" />
+			<text id="OPTION"   value="Pilihan" />
+			<text id="FILE"     value="Fail" />
+			<text id="RELOAD"   value="Reload" />
+			<text id="TYPE"     value="Jenis" />
+			<text id="MESSAGE"  value="Pesan" />
+			<text id="BLOCK"    value="Blok" />
+			<text id="LINE_BY_LINE" value="Per Baris" />
+			<text id="AND"      value="dan" />
+			<text id="COMMA"    value="," />
+			<text id="SYNCHRONOUS" value="Gerak Serentak" />
+			<text id="ERROR"    value="Error" />
+			<text id="LANGUAGE" value="Bahasa" />
+			<text id="ABOUT"    value="Tentang Program" />
+			<text id="PRINT"    value="Cetak"/>
+			<text id="HOMEPAGE" value="Home page" />
+			<text id="WHOLE_QURAN" value="Quran Keseluruhan" />
+			<text id="MATCH_DIACRITIC" value="Pengenal ditemukan" />
+			<text id="NEXT_AYA" value="Ayat Selanjutnya" />
+			<text id="NEXT_SURA" value="Surah Selanjutnya" />
+			<text id="PREV_AYA" value="Ayat Sebelumnya" />
+			<text id="PREV_SURA" value="Surah Sebelumnya" />
+			<text id="THEME" value="Tema" />
+			<text id="LAYOUT"   value="Tampilan" />
+			<text id="TOOLS"    value="Peralatan" />
+			<text id="ADD"      value="Tambah" />
+			<text id="DELETE"   value="Hapus" />
+			<text id="REMOVE"   value="Buang" />
+			<text id="TRANSLATION" value="Terjemahan" />
+			<text id="OPEN"     value="Buka" />
+			<text id="IMPORT"   value="Import" />
+			<text id="COPY"     value="Salin" />
+			<text id="SEPARATE" value="Pisahkan" />
+			<text id="MIXED"    value="Campurkan" />
+			<text id="OPTIONS"  value="Pilihan" />
+			<text id="QUESTION" value="Pertanyaan" />
+			<text id="FONT"     value="Mukataip" />
+			<text id="GENERAL"  value="Umum" />
+			<text id="EXIT"     value="Keluar" />
+		</common>
+		<special>
+			<text id="QURAN"    value="Quran" />
+			<text id="SURA"     value="Surah" />
+			<text id="AYA"      value="Ayat" />
+			<text id="SAJDA"    value="Sajda" />
+			<text id="JUZ"      value="Juz" />
+			<text id="MAKKI"    value="Makkiah" />
+			<text id="MADANI"   value="Madaniah" />
+			<text id="DESCENT"  value="Turun" />
+			<text id="AYA_COUNT"  value="Jumlah Ayat" />
+			<text id="MINOR_SAJDA" value="Sajda Minor" />
+			<text id="MAJOR_SAJDA" value="Sajda Mayor" />
+		</special>
+	</word>
+
+	<message>
+		<inform>
+			<text id="SEARCH_RESULT_TITLE" value="Hasil Pencarian untuk:&quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_COUNT" value="{1} hasil ditemukan di {2} ayat." />
+			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
+			<text id="FILE_ALREADY_EXISTS" value="File dengan nama &quot;{1}&quot; sudah ada. Anda ingin menggantinya?" />
+			<text id="RESTART_APP" value="Untuk melihat kesan  perubahan yang telah dilakukan, Anda harus restart aplikasi ini." />
+		</inform>
+		<confirm>
+			<text id="YES_NO" value="Anda Yakin?" />
+		</confirm>
+		<error>
+			<text id="GENERAL_ERROR" value="Kesalahan yang tidak diharapkan telah terjadi" />
+			<text id="ACTION_FAILED" value="Gagal!" />
+		</error>
+		<tooltip>
+		</tooltip>
+	</message>
+
+	<forms>
+		<global>
+			<text id="APP_NAME" value="Zekr" />
+			<text id="APP_FULL_NAME" value="Proyek Qur'an Dzikir" />
+			<text id="FORM_TITLE" value="Zekr" />
+			<text id="COPYRIGHT_DISCLAIMER" value="Program ini dikeluarkan secara percuma  dengan harapan dapat bermanfaat, namun tanpa jaminan" />
+		</global>
+		<form id="QURAN_FORM">
+			<text id="TITLE" value="Zekr" />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="Pilihan  Aplikasi" />
+			<text id="SHOW_SPLASH" value="Paparkan logo semasa startup" />
+			<text id="NEW_KEY" value="Masukan kekunci keyboard yang baru" />
+			<text id="THEME_SETTING" value="Setting Tema" />
+			<text id="PRESS_OK_TO_APPLY" value="Tekan kekunci &quot;OK&quot; untuk perubahan." />
+			<text id="MAX_SEARCH_RESULT" value="Jumlah hasil pencarian maksimal" />
+		</form>
+	</forms>
+</language>
