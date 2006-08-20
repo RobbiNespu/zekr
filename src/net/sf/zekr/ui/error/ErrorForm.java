@@ -134,7 +134,6 @@ public class ErrorForm extends BaseForm {
 	public void show() {
 		shell.open();
 		shell.pack();
-//		loopEver();
 	}
 
 }

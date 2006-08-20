@@ -20,7 +20,7 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.Naming;
-import net.sf.zekr.common.util.UrlUtils;
+import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.AbstractQuranViewTemplate;
 import net.sf.zekr.engine.theme.MixedViewTemplate;
@@ -55,7 +55,7 @@ public class HtmlRepository {
 	 * @param update Specify whether recreate the html file if it also exists.
 	 * @return URL to the sura HTML file
 	 */
-	public static String getQuranUrl(int sura, int aya, boolean update) {
+	public static String getQuranUri(int sura, int aya, boolean update) {
 		File file = new File(Naming.QURAN_CACHE_DIR + File.separator + sura + ".html");
 		try {
 			// if the file doesn't exist, or a zero-byte file exists, or if the
@@ -72,10 +72,10 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return UrlUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
+		return UriUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
 	}
 
-	public static String getMixedUrl(int sura, int aya, boolean update) {
+	public static String getMixedUri(int sura, int aya, boolean update) {
 		TranslationData td = config .getTranslation().getDefault();
 		File file = new File(Naming.MIXED_CACHE_DIR + File.separator + sura + ".html");
 		try {
@@ -93,10 +93,10 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return UrlUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
+		return UriUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
 	}
 
-	public static String getSearchQuranUrl(String keyword, boolean matchDiac) {
+	public static String getSearchQuranUri(String keyword, boolean matchDiac) {
 		File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + keyword.hashCode()
 				+ ".html");
 
@@ -115,19 +115,19 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return UrlUtils.toURI(file);
+		return UriUtils.toURI(file);
 	}
 
 	/**
 	 * @param sura
 	 * @param aya
-	 * @return <code>getQuranUrl(sura, aya, false);</code>
+	 * @return <code>HtmlRepository#getQuranUri(sura, aya, false);</code>
 	 */
-	public static String getQuranUrl(int sura, int aya) {
-		return getQuranUrl(sura, aya, false);
+	public static String getQuranUri(int sura, int aya) {
+		return getQuranUri(sura, aya, false);
 	}
 
-	public static String getTransUrl(int sura, int aya) {
+	public static String getTransUri(int sura, int aya) {
 		TranslationData td = config .getTranslation().getDefault();
 		File file = new File(Naming.TRANS_CACHE_DIR + "/" + sura + "_" + td.id + ".html");
 		try {
@@ -144,16 +144,16 @@ public class HtmlRepository {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return UrlUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
+		return UriUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
 	}
 
 	/**
 	 * @param sura
 	 * @param aya
-	 * @return <code>getMixedUrl(sura, aya, false);</code>
+	 * @return <code>HtmlRepository#getMixedUri(sura, aya, false);</code>
 	 */
-	public static String getMixedUrl(int sura, int aya) {
-		return getMixedUrl(sura, aya, false);
+	public static String getMixedUri(int sura, int aya) {
+		return getMixedUri(sura, aya, false);
 	}
 
 }

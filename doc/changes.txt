@@ -118,6 +118,8 @@ Features/Enhancements:
 	TODO: quick nav bar: quick aya selection
 	TODO: Quran transliteration
 	TODO: update turkish lang pack
+	TODO: managed search (in a range)
 Bug fixes:
 	A typo in the Quran text: TODO
-	Using java.net.URI for making file:// paths causes problems with IE 7.0, will make URIs manually.
+	Using java.net.URI for making file:// paths causes problems with IE 7.0, will make URIs manually (UriUtils class).
+	zekr.exe checking chaged as follows: 1. JAVA_HOME 2. JDK in registry 3. JRE in registry

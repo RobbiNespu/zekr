@@ -68,7 +68,7 @@ public class TranslationData implements IQuranTranslation {
 	}
 
 	public String toString() {
-		return id + " (" + locale + ")";
+		return id + "(" + locale + "):(" + archiveFile.getName() + ")";
 	}
 
 	public void load() {

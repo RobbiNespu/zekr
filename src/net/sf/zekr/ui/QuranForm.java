@@ -103,11 +103,11 @@ public class QuranForm extends BaseForm {
 	/** Specifies whether sura selector changed for making a new sura view. */
 	protected boolean suraChanged;
 
-	/** The current Quran URL loaded in the browser */
-	private String quranUrl;
+	/** The current Quran URI loaded in the browser */
+	private String quranUri;
 
-	/** The current Translation URL loaded in the browser */
-	private String transUrl;
+	/** The current Translation URI loaded in the browser */
+	private String transUri;
 
 	private ApplicationConfig config;
 	private boolean isClosed;
@@ -583,7 +583,7 @@ public class QuranForm extends BaseForm {
 		if (suraChanged) {
 			transBrowser.addProgressListener(tpl);
 			logger.info("Set translation location to " + quranLoc);
-			transBrowser.setUrl(transUrl = HtmlRepository.getTransUrl(quranLoc.getSura(), 0));
+			transBrowser.setUrl(transUri = HtmlRepository.getTransUri(quranLoc.getSura(), 0));
 		} else {
 			transBrowser.execute("focusOnAya('" + quranLoc.getSura() + "_" + quranLoc.getAya() + "');");
 		}
@@ -594,9 +594,9 @@ public class QuranForm extends BaseForm {
 			quranBrowser.addProgressListener(qpl);
 			logger.info("Set Quran location to " + quranLoc);
 			if (viewLayout == MIXED)
-				quranBrowser.setUrl(quranUrl = HtmlRepository.getMixedUrl(quranLoc.getSura(), 0));
+				quranBrowser.setUrl(quranUri = HtmlRepository.getMixedUri(quranLoc.getSura(), 0));
 			else
-				quranBrowser.setUrl(quranUrl = HtmlRepository.getQuranUrl(quranLoc.getSura(), 0));
+				quranBrowser.setUrl(quranUri = HtmlRepository.getQuranUri(quranLoc.getSura(), 0));
 		} else {
 			quranBrowser.execute("focusOnAya('" + quranLoc.getSura() + "_" + quranLoc.getAya() + "');");
 		}
@@ -624,7 +624,7 @@ public class QuranForm extends BaseForm {
 				suraChanged = true;
 				logger.info("Will search the whole Quran for \"" + str
 						+ "\" with dicritic match set to " + match.getSelection() + ".");
-				quranBrowser.setUrl(quranUrl = HtmlRepository.getSearchQuranUrl(str, match
+				quranBrowser.setUrl(quranUri = HtmlRepository.getSearchQuranUri(str, match
 						.getSelection()));
 				logger.info("End of search.");
 			} else {
@@ -682,15 +682,15 @@ public class QuranForm extends BaseForm {
 		this.quranBrowser = quranBrowser;
 	}
 
-	public String getQuranUrl() {
-		return quranUrl;
+	public String getQuranUri() {
+		return quranUri;
 	}
 
-	public String getCurrentUrl() {
+	public String getCurrentUri() {
 		if (viewLayout == TRANS_ONLY)
-			return transUrl;
+			return transUri;
 		else
-			return quranUrl;
+			return quranUri;
 	}
 
 	protected void setLayout(String layout) {

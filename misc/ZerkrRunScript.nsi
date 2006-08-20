@@ -1,7 +1,8 @@
 ;--------- CONFIGURATION ---------
 
 !define APP_NAME "The Zekr Project"
-!define APP_VER "0.3.0"
+!define APP_VER "0.4.0"
+!define APP_VER_DETAIL " preview 1"
 !define CLASS_PATH "lib\swt-win32.jar;lib\apache-commons.jar;lib\log4j-1.2.8.jar;lib\velocity-1.4.jar;dist\zekr.jar"
 !define JRE_OPT "-Djava.library.path=lib"
 !define MAIN_CLASS "net.sf.zekr.ZekrMain"
@@ -20,10 +21,10 @@ XPStyle on
 
 VIProductVersion 0.3.0.0
 VIAddVersionKey ProductName Zekr
-VIAddVersionKey ProductVersion "${APP_VER}"
+VIAddVersionKey ProductVersion "${APP_VER}${APP_VER_DETAIL}"
 VIAddVersionKey OriginalFilename "zekr.exe"
 VIAddVersionKey CompanyName "Siahe.com"
-VIAddVersionKey CompanyWebsite "http://siahe.com"
+VIAddVersionKey CompanyWebsite "http://siahe.com/zekr"
 VIAddVersionKey FileVersion "${APP_VER}"
 VIAddVersionKey FileDescription "The Zekr Open Quranic Project"
 VIAddVersionKey LegalCopyright "© 2004-2006 Mohsen Saboorian"
@@ -41,19 +42,22 @@ Section ""
   MessageBox MB_OK|MB_ICONEXCLAMATION "Zekr.exe is already running."
   Abort
 
+  ; 1. check for JAVA_HOME
   ClearErrors
-  ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
-  ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R0" "JavaHome"
+  ReadEnvStr $R0 "JAVA_HOME"
   IfErrors 0 FoundVM
 
+  ; 2. check for JDK in registry
   ClearErrors
   ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
   ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R0" "JavaHome"
   IfErrors 0 FoundVM
 
+  ; 3. check for JRE in registry
   ClearErrors
-  ReadEnvStr $R0 "JAVA_HOME"
-  IfErrors NotFound 0
+  ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+  ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R0" "JavaHome"
+  IfErrors NotFound FoundVM
 
   FoundVM:
   StrCpy $R0 "$R0\bin\javaw.exe"

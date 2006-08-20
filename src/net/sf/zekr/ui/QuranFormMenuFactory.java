@@ -11,6 +11,7 @@ package net.sf.zekr.ui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -19,6 +20,7 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.TranslationData;
+import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.common.util.ZipUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
@@ -558,7 +560,8 @@ public class QuranFormMenuFactory {
 				if (!f.delete())
 					throw new IOException("Can not delete already existing file \"" + f + "\".");
 			}
-			FileUtils.copyFile(new File(new URI(form.getCurrentUrl())), f);
+			logger.info("Save current view to file: " + f);
+			FileUtils.copyFile(UriUtils.toFile(form.getCurrentUri()), f);
 		} catch (Exception e) {
 			logger.log(e);
 		}
