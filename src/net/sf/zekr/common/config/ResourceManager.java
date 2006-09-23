@@ -10,9 +10,6 @@ package net.sf.zekr.common.config;
 
 import java.util.PropertyResourceBundle;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-
 /**
  * This class is used to handle dynamic resource bundles which use <i>Velocity</i> as the
  * template engine.

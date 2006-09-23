@@ -12,7 +12,6 @@ package net.sf.zekr.common.resource;
 import java.util.ArrayList;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ConfigNaming;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.util.JuzProperties;
 import net.sf.zekr.common.util.QuranPropertiesUtils;
@@ -20,13 +19,13 @@ import net.sf.zekr.common.util.SajdaProperties;
 import net.sf.zekr.common.util.SuraProperties;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.NodeList;
+import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 
 /**
- * A class used to read properties of the Quran suras from respective XML file. All
- * operations on this class are acted as zero-relative. This class is for internal use
- * only.
+ * A class used to read properties of the Quran suras from respective XML file. All operations on this class
+ * are acted as zero-relative. This class is for internal use only.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -45,12 +44,15 @@ class QuranPropertiesReader extends QuranBaseProperties {
 	private Logger logger = Logger.getLogger(this.getClass());
 
 	QuranPropertiesReader() {
-		logger.info("Loading Quran properties from \""
-				+ resource.getString("quran.props") + "\".");
-		reader = new XmlReader(resource.getString("quran.props"));
-		suraNodeList = reader.getNodes(QuranPropertiesNaming.SURA_TAG);
-		juzNodeList = reader.getNodes(QuranPropertiesNaming.JUZ_TAG);
-		sajdaNodeList = reader.getNodes(QuranPropertiesNaming.SAJDA_TAG);
+		logger.info("Loading Quran properties from \"" + resource.getString("quran.props") + "\".");
+		try {
+			reader = new XmlReader(resource.getString("quran.props"));
+			suraNodeList = reader.getNodes(QuranPropertiesNaming.SURA_TAG);
+			juzNodeList = reader.getNodes(QuranPropertiesNaming.JUZ_TAG);
+			sajdaNodeList = reader.getNodes(QuranPropertiesNaming.SAJDA_TAG);
+		} catch (XmlReadException e) {
+			logger.doFatal(e);
+		}
 
 		int i;
 		SuraProperties sura = new SuraProperties();

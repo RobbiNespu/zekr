@@ -9,13 +9,18 @@
 
 package net.sf.zekr.common.resource;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ConfigNaming;
 import net.sf.zekr.common.config.ResourceManager;
+import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 /**
  * This class consists of detail of the quran text file located at
@@ -37,12 +42,12 @@ final public class QuranTextProperties extends QuranTextConfigNaming {
 	private XmlReader reader = null;
 	private ResourceManager resource = ResourceManager.getInstance();
 
-	private QuranTextProperties() {
+	private QuranTextProperties() throws XmlReadException {
 //		reader = new XmlReader(appConfig.getConfigFile(ConfigNaming.QURAN_CONFIG_ID));
 		reader = new XmlReader(resource.getString("text.quran.props"));
 	}
 
-	public static QuranTextProperties getInstance() {
+	public static QuranTextProperties getInstance() throws XmlReadException {
 		if (thisInstance == null)
 			thisInstance = new QuranTextProperties();
 		return thisInstance;

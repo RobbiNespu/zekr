@@ -46,6 +46,7 @@
 			<text id="HOMEPAGE" value="Homepage" />
 			<text id="WHOLE_QURAN" value="Den ganzen Quran" />
 			<text id="MATCH_DIACRITIC" value="Diakritische Zeichen einbeziehen" />
+			<text id="MATCH_CASE" value="Match case"   />
 			<text id="NEXT_AYA" value="Nächste Aya" />
 			<text id="NEXT_SURA" value="Nächste Sura" />
 			<text id="PREV_AYA" value="Vorherige Aya" />

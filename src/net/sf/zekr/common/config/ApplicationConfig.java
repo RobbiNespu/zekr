@@ -18,19 +18,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import javax.xml.transform.TransformerException;
+import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.zekr.common.resource.Translation;
 import net.sf.zekr.common.resource.TranslationData;
@@ -44,16 +39,11 @@ import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
-import net.sf.zekr.engine.xml.NodeList;
 import net.sf.zekr.engine.xml.XmlReader;
-import net.sf.zekr.engine.xml.XmlUtils;
-import net.sf.zekr.engine.xml.XmlWriter;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.ConfigurationUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  * This singleton class reads the config files by the first invocation of
@@ -158,7 +148,7 @@ public class ApplicationConfig extends ConfigNaming {
 			logger.info("Save user config file to " + ApplicationPath.USER_CONFIG);
 			props.save(new OutputStreamWriter(new FileOutputStream(ApplicationPath.USER_CONFIG), "UTF8"));
 		} catch (Exception e) {
-			logger.log("Error while saving config to " + ApplicationPath.USER_CONFIG);
+			logger.error("Error while saving config to " + ApplicationPath.USER_CONFIG);
 		}
 	}
 	
@@ -202,7 +192,21 @@ public class ApplicationConfig extends ConfigNaming {
 		logger.info("Found these language packs: " + Arrays.asList(langs));
 		
 		for (int i = 0; i < langs.length; i++) {
-			XmlReader reader = new XmlReader(langs[i]);
+			XmlReader reader = null;
+			try {
+				reader = new XmlReader(langs[i]);
+			} catch (Exception e) {
+				if (langs[i].getName().endsWith("english.xml"))
+					logger.doFatal(e);
+				else {
+					logger.warn("Cannot open language pack " + def + " due to the following error:");
+					logger.log(e);
+					update = true;
+					props.setProperty("lang.default", "en_US");
+					def = "en_US";
+					logger.warn("Default language pack set to: " + def);
+				}
+			}
 			lp = new LanguagePack();
 			lp.file = langs[i].getName();
 			Element locale = reader.getElement("locale");
@@ -218,51 +222,6 @@ public class ApplicationConfig extends ConfigNaming {
 				language.setActiveLanguagePack(def);
 		}
 
-		/*
-		logger.info("Loading language pack info.");
-		NodeList list = XmlUtils.getNodes(langElem, LANGUAGE_PACK_TAG);
-		LanguagePack pack;
-		Node node;
-		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			node = (Node) iter.next();
-			pack = new LanguagePack();
-			pack.setId(XmlUtils.getAttr(node, ID_ATTR));
-			pack.setName(XmlUtils.getAttr(node, NAME_ATTR));
-			pack.setLatinName(XmlUtils.getAttr(node, LATIN_NAME_ATTR));
-			pack.setFile(XmlUtils.getAttr(node, FILE_ATTR));
-			language.getLanguageMap().put(pack.getId(), pack);
-		}
-		logger.info("Available languages are: " + language.getLanguageMap().values());
-
-		String currentLangId = langElem.getAttribute(CURRENT_LANGUAGE_ATTR);
-		String defaultLangId = langElem.getAttribute(DEFAULT_ATTR);
-		if ("".equals(langElem.getAttribute(DEFAULT_ATTR))) {
-			logger.warn("Can not find default language pack. will set default to \"en\".");
-			langElem.setAttribute(DEFAULT_ATTR, "en_US");
-			defaultLangId = "en_US";
-			update = true;
-		}
-		language.setDefaultLanguagePackId(defaultLangId);
-		if ("".equals(langElem.getAttribute(CURRENT_LANGUAGE_ATTR))) {
-			currentLangId = GlobalConfig.USER_LANGUAGE + "_" + GlobalConfig.USER_COUNTRY;
-			logger.warn("Current language will be set to \"" + currentLangId + "\".");
-			langElem.setAttribute(CURRENT_LANGUAGE_ATTR, currentLangId);
-			update = true;
-		}
-		Node langPackNode = XmlUtils.getElementByNamedAttr(langElem.getChildNodes(),
-				LANGUAGE_PACK_TAG, ID_ATTR, currentLangId);
-		if (langPackNode == null) { // language pack details not found
-			logger.error("Can not find the language pack with id=\"" + currentLangId + "\".");
-			logger.error("Will load the default language pack instead.");
-			langPackNode = XmlUtils.getElementByNamedAttr(langElem.getChildNodes(),
-					LANGUAGE_PACK_TAG, ID_ATTR, defaultLangId);
-			language.setActiveLanguagePack((LanguagePack) language.getLanguageMap().get(
-					defaultLangId));
-		} else {
-			language.setActiveLanguagePack((LanguagePack) language.getLanguageMap().get(
-					currentLangId));
-		}
-*/
 		if (update)
 			updateFile();
 	}
@@ -348,7 +307,7 @@ public class ApplicationConfig extends ConfigNaming {
 			try {
 				File themeDesc = new File(themes[i] + File.separator + ApplicationPath.THEME_DESC);
 				if (!themeDesc.exists()) {
-					logger.info("\"" + themes[i] + "\" is not a standard theme! Will ignore it.");
+					logger.warn("\"" + themes[i] + "\" is not a standard theme! Will ignore it.");
 					continue;
 				}
 				reader = new InputStreamReader(new FileInputStream(themeDesc), "UTF8");

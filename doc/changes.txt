@@ -112,14 +112,37 @@ Bug fixes:
 	A typo in sura Al-Hijr, aya 96 was fixed. (Ya'malun => Ya'lamun)
 	TableEditor problem of the OptionsForm with all platforms.
 
-Version 0.4.0 alpha1 - [15-8-06]
+Version 0.4.0 b1 - [15-9-06]
 Features/Enhancements:
 	Added 2 new language packs: Turkish (smacker) and Malay (H N Jafa).
-	TODO: quick nav bar: quick aya selection
-	TODO: Quran transliteration
-	TODO: update turkish lang pack
-	TODO: managed search (in a range)
+	Quran/Translation quick navigation bar: aya selector
+	Seach page quick navigation bar
+	Search for translation (as well as Quran) now available.
+	The Quran text file completely changed back to the old one (which had more diacritics).
+	Added jQuery+Interface(scroll) JavaScript libraries.
+	zekr.log is moved to [user.home]/.zekr/ (so that each user have its own log file)
+	Splash screen changed to a non-rectangular (transparency-supported) one.
+	Small optional sura-aya sign added to view (after each aya)
 Bug fixes:
-	A typo in the Quran text: TODO
-	Using java.net.URI for making file:// paths causes problems with IE 7.0, will make URIs manually (UriUtils class).
-	zekr.exe checking chaged as follows: 1. JAVA_HOME 2. JDK in registry 3. JRE in registry
+	Using java.net.URI for making "file://" paths causes problems with IE 7.0, will make URIs manually (UriUtils class).
+	zekr.exe JVM checking chaged as follows: 1. JAVA_HOME 2. JDK in registry 3. JRE in registry.
+	Theme's cached style.css will not be deleted every time Zekr starts.
+	style.css: "text-align: justify" will be ignored for Mozilla (due to its rendering problem). It now works only for IE now.
+
+Version 0.4.0 b1 - [15-9-06]
+Features/Enhancements:
+	Search in a range.
+	New language pack: Dutch (Erik van Luxzenburg).
+Bug fixes:
+	CSS bug fix for Safari. Safari does not fully support system colors in CSS.
+
+Version 0.4.0 release - [1-10-06]
+Features/Enhancements:
+	TODO: managed search (in a range)
+	TODO: Quran transliteration
+	TODO: update language pack
+	TODO: Custom mixed layout for an arbitrary number of translations
+Bug fixes:
+	A problem left from beta 1: general options (search result count and display logo at startup) now works.
+
+

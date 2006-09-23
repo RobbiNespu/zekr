@@ -78,9 +78,9 @@ public class ApplicationRuntime {
 
 	private void createCommonFiles() {
 		logger.info("Create common configuration files.");
-		ThemeTemplate ct = new ThemeTemplate();
 		Theme theme = ApplicationConfig.getInstance().getTheme();
-		ct.transform(theme.getCurrent());
+		ThemeTemplate ct = new ThemeTemplate(theme.getCurrent());
+		ct.transform();
 	}
 
 	/**

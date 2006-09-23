@@ -25,16 +25,10 @@ import org.eclipse.swt.widgets.Shell;
  * @since Zekr 1.0
  * @version 0.1
  */
-public class SplashScreen extends BaseForm {
-	final private String imagePath = resource.getString("image.splashScreen");
-	private Image splashImage = null;
-	private boolean showSplash = ApplicationConfig.getInstance().getProps().getBoolean("options.general.showSplash");
-
-	private static final Logger logger = Logger.getLogger(SplashScreen.class);
+public class SplashScreen extends AbstractSplachScreen {
 
 	public SplashScreen(Display display) {
-		this.display = display;
-		splashImage = new Image(display, imagePath);
+		super(display);
 	}
 
 	/**
@@ -50,11 +44,12 @@ public class SplashScreen extends BaseForm {
 		shell.setLocation(FormUtils.getScreenCenter(display, splashImage.getBounds()));
 	}
 
-	/**
-	 * Shows a splash screen until the whole application is started. This can be done by
-	 * disposing splash screen after other parts of the application are started.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.ui.AbstractSplachScreen#show()
 	 */
-	public void show() {
+	public void showSplash() {
 		if (showSplash) {
 			logger.info("Show splash screen.");
 			createSplashShell();
@@ -66,8 +61,13 @@ public class SplashScreen extends BaseForm {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.ui.AbstractSplachScreen#dispose()
+	 */
 	public void dispose() {
-		if (showSplash ) {
+		if (showSplash) {
 			logger.info("Close splash screen.");
 			splashImage.dispose();
 			shell.dispose();

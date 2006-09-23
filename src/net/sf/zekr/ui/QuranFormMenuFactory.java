@@ -10,8 +10,6 @@ package net.sf.zekr.ui;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -23,9 +21,7 @@ import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.common.util.ZipUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
-import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.ui.options.OptionsForm;
 
 import org.apache.commons.io.FileUtils;
@@ -569,7 +565,7 @@ public class QuranFormMenuFactory {
 
 	protected void about() {
 		AboutForm af = new AboutForm(shell);
-		af.shell.setLocation(FormUtils.getCenter(shell, af.shell));
+		af.getShell().setLocation(FormUtils.getCenter(shell, af.getShell()));
 		af.show();
 	}
 

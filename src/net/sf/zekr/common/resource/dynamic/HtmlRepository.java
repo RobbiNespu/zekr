@@ -23,9 +23,11 @@ import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.AbstractQuranViewTemplate;
+import net.sf.zekr.engine.theme.ITransformer;
 import net.sf.zekr.engine.theme.MixedViewTemplate;
 import net.sf.zekr.engine.theme.QuranViewTemplate;
-import net.sf.zekr.engine.theme.SearchResultTemplate;
+import net.sf.zekr.engine.theme.QuranSearchResultTemplate;
+import net.sf.zekr.engine.theme.TransSearchResultTemplate;
 import net.sf.zekr.engine.theme.TranslationViewTemplate;
 
 /**
@@ -65,18 +67,18 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
 				AbstractQuranViewTemplate aqvt;
-				aqvt = new QuranViewTemplate(QuranText.getInstance());
-				osw.write(aqvt.transform(sura));
+				aqvt = new QuranViewTemplate(QuranText.getInstance(), sura, aya);
+				osw.write(aqvt.transform());
 				osw.close();
 			}
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return UriUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
+		return UriUtils.toURI(file);// + ((aya == 0) ? "" : "#" + aya);
 	}
 
 	public static String getMixedUri(int sura, int aya, boolean update) {
-		TranslationData td = config .getTranslation().getDefault();
+		TranslationData td = config.getTranslation().getDefault();
 		File file = new File(Naming.MIXED_CACHE_DIR + File.separator + sura + ".html");
 		try {
 			// if the file doesn't exist, or a zero-byte file exists, or if the
@@ -86,14 +88,14 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
 				td.load(); // load if not loaded before
-				MixedViewTemplate mvt = new MixedViewTemplate(QuranText.getInstance(), td);
-				osw.write(mvt.transform(sura));
+				MixedViewTemplate mvt = new MixedViewTemplate(QuranText.getInstance(), td, sura, aya);
+				osw.write(mvt.transform());
 				osw.close();
 			}
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return UriUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
+		return UriUtils.toURI(file);// + ((aya == 0) ? "" : "#" + aya);
 	}
 
 	public static String getSearchQuranUri(String keyword, boolean matchDiac) {
@@ -101,17 +103,35 @@ public class HtmlRepository {
 				+ ".html");
 
 		try {
-			// TODO: no search cache for now
-			if (file.exists()) {
-				logger.info("Delete search file: " + file);
-				file.delete();
+			if (file.exists() || file.length() == 0) {
+				logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
+				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
+						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
+				QuranSearchResultTemplate qrt = new QuranSearchResultTemplate(QuranText.getInstance(), keyword, matchDiac);
+				osw.write(qrt.transform());
+				osw.close();
 			}
-			logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
-			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
-					new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
-			SearchResultTemplate qrt = new SearchResultTemplate();
-			osw.write(qrt.transform(keyword, matchDiac));
-			osw.close();
+		} catch (IOException e) {
+			logger.log(e);
+		}
+		return UriUtils.toURI(file);
+	}
+
+	public static String getSearchTransUri(String keyword, boolean matchDiac, boolean matchCase) {
+		TranslationData trans = config.getTranslation().getDefault();
+		String prefix = trans.id + "-" + matchCase + "-";
+		File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + prefix + keyword.hashCode()
+				+ ".html");
+
+		try {
+			if (!file.exists() || file.length() == 0) {
+				logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
+				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
+						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
+				ITransformer gsrt = new TransSearchResultTemplate(trans, keyword, matchCase);
+				osw.write(gsrt.transform());
+				osw.close();
+			}
 		} catch (IOException e) {
 			logger.log(e);
 		}
@@ -137,14 +157,14 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
 				td.load(); // load if not loaded before
-				AbstractQuranViewTemplate qvt = new TranslationViewTemplate(td);
-				osw.write(qvt.transform(sura));
+				AbstractQuranViewTemplate qvt = new TranslationViewTemplate(td, sura, aya);
+				osw.write(qvt.transform());
 				osw.close();
 			}
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		return UriUtils.toURI(file) + ((aya == 0) ? "" : "#" + aya);
+		return UriUtils.toURI(file);// + ((aya == 0) ? "" : "#" + aya);
 	}
 
 	/**

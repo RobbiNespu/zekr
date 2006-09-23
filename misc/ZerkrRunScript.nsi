@@ -2,8 +2,8 @@
 
 !define APP_NAME "The Zekr Project"
 !define APP_VER "0.4.0"
-!define APP_VER_DETAIL " preview 1"
-!define CLASS_PATH "lib\swt-win32.jar;lib\apache-commons.jar;lib\log4j-1.2.8.jar;lib\velocity-1.4.jar;dist\zekr.jar"
+!define APP_VER_DETAIL " beta 1"
+!define CLASS_PATH "lib\swt-win32.jar;lib\apache-commons.jar;lib\log4j-1.2.8.jar;lib\velocity-1.4.jar;lib\velocity-tools-generic-1.2.jar;dist\zekr.jar"
 !define JRE_OPT "-Djava.library.path=lib"
 !define MAIN_CLASS "net.sf.zekr.ZekrMain"
 #SetCompressor /SOLID lzma
@@ -19,7 +19,7 @@ Icon "..\res\image\icon\zekr01.ico"
 SilentInstall silent
 XPStyle on
 
-VIProductVersion 0.3.0.0
+VIProductVersion 0.4.0.0
 VIAddVersionKey ProductName Zekr
 VIAddVersionKey ProductVersion "${APP_VER}${APP_VER_DETAIL}"
 VIAddVersionKey OriginalFilename "zekr.exe"

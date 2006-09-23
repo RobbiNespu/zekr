@@ -28,7 +28,7 @@ public class QuranProperties implements IQuranProperties {
 		quranPropsReader = new QuranPropertiesReader();
 	}
 
-	public static QuranProperties getInstance() {
+	public static QuranProperties getInstance(){
 		if (thisInstance == null)
 			thisInstance = new QuranProperties();
 		return thisInstance;

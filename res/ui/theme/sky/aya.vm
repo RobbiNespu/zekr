@@ -5,10 +5,8 @@
  *
  * @version 1
  *#
-
 #set ($MINOR = 0)
 #set ($MAJOR = 1)
-
 #if($TRANSLATION == "true")
 	#set ($OPEN_PAREN = "(")
 	#set ($CLOSE_PAREN = ")")
@@ -20,8 +18,8 @@
 	#set ($AYA_CLASS = "quran")
 	#set ($DIR = "rtl")
 #end
-
 #set ($SAJDA_SIGN = "&#1769;")
+<div id="searchableSection" class="$AYA_CLASS">
 #foreach ($AYA in $AYA_LIST)
 	#set($AYA_NUM = $velocityCount)
 	#foreach ($JUZ in $JUZ_LIST)
@@ -29,13 +27,12 @@
 			<nobr><span class="juzSign" title="$JUZ">[$JUZ.Index]</span></nobr>
 		#end
 	#end
-	<a name="#${AYA_NUM}" class="${AYA_CLASS}">
 	#if ($TEXT_LAYOUT == "line_by_line")
 		<div class="aya" id="${SURA_NUM}_${AYA_NUM}">
 	#elseif ($TEXT_LAYOUT == "block")
 		<span class="aya" id="${SURA_NUM}_${AYA_NUM}">
 	#end
-			
+
 			#if ($MIXED == "true")
 				#foreach ($A in $AYA)
 					#if ($velocityCount != 1)
@@ -43,7 +40,7 @@
 					#else
 					<div class="quran">
 					#end
-					$A
+					$A <span class="suraAyaNum">[${SURA_NUM}-${AYA_NUM}]</span>
 					</div>
 				#end
 			#else
@@ -66,5 +63,5 @@
 	#elseif ($TEXT_LAYOUT == "block")
 		</span>
 	#end
-	</a>
 #end
+</div>

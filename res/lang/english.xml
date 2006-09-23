@@ -46,6 +46,7 @@
 			<text id="HOMEPAGE" value="Home page" />
 			<text id="WHOLE_QURAN" value="Whole Quran" />
 			<text id="MATCH_DIACRITIC" value="Match diacritic" />
+			<text id="MATCH_CASE" value="Match case" />
 			<text id="NEXT_AYA" value="Next aya" />
 			<text id="NEXT_SURA" value="Next sura" />
 			<text id="PREV_AYA" value="Previous aya" />
@@ -70,7 +71,7 @@
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
-			<text id="SURA"    value="Sura" />
+			<text id="SURA"     value="Sura" />
 			<text id="AYA"      value="Aya" />
 			<text id="SAJDA"    value="Sajda" />
 			<text id="JUZ"      value="Juz" />
@@ -85,7 +86,7 @@
 
 	<message>
 		<inform>
-			<text id="SEARCH_RESULT_TITLE" value="Search result for:&quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_TITLE" value="Search result for: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} results found in {2} ayas." />
 			<text id="TOO_MANY_RESULT" value="Search result is more than {1} ayas" />
 			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />

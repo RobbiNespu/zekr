@@ -8,13 +8,16 @@
  */
 package net.sf.zekr.common.util;
 
+import net.sf.zekr.common.resource.QuranProperties;
+
 /**
- * @author    Mohsen Saboorian
- * @since	  Zekr 1.0
- * @version   0.2
+ * @author Mohsen Saboorian
+ * @since Zekr 1.0
+ * @version 0.2
  */
 public class Range {
-	public int from, to;
+	public final int from, to;
+
 	public Range(int from, int to) {
 		this.from = from;
 		this.to = to;

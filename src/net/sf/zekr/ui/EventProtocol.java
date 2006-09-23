@@ -13,7 +13,6 @@ package net.sf.zekr.ui;
  * @since Zekr 1.0
  */
 public interface EventProtocol {
-
 	/**
 	 * Refresh the view
 	 */

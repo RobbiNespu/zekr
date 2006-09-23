@@ -14,9 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.runtime.Naming;
 
 /**
  * @author Mohsen Saboorian

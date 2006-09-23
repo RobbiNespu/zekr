@@ -10,12 +10,10 @@ package net.sf.zekr.ui.options;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.runtime.RuntimeConfig;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
@@ -40,8 +38,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.events.ShellListener;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -120,12 +116,12 @@ public class OptionsForm {
 		shell.setText(lang.getMeaning("OPTIONS"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
 				new Image(display, resource.getString("icon.options32")) });
-		shell.addShellListener(new ShellAdapter() {
-			public void shellClosed(ShellEvent e) {
-				if (pressOkToApply)
-					createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
-			}
-		});
+//		shell.addShellListener(new ShellAdapter() {
+//			public void shellClosed(ShellEvent e) {
+//				if (pressOkToApply)
+//					createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
+//			}
+//		});
 		makeForm();
 	}
 
@@ -249,7 +245,7 @@ public class OptionsForm {
 
 	private void apply(boolean fromOk) {
 		logger.log("Update general model.");
-		updateGeneralModel();
+		updateGeneralModel(fromOk);
 		logger.log("Update view model.");
 		saveViewModel();
 		logger.log("Store configuration changes to disk.");
@@ -280,22 +276,21 @@ public class OptionsForm {
 		parent.notifyListeners(SWT.Traverse, te);
 	}
 
-	private void updateGeneralModel() {
-		props.setProperty("options.general.showSplash",
-				Boolean.toString(showSplash.getSelection()));
+	private void updateGeneralModel(boolean fromOk) {
 		selectedLangPack = (LanguagePack) packs.get(langSelect.getSelectionIndex());
-		if (!config.getLanguage().getActiveLanguagePack().id.equals(selectedLangPack.id)) {
+		selectedTheme = (ThemeData) themes.get(themeSelect.getSelectionIndex());
+		if (!config.getLanguage().getActiveLanguagePack().id.equals(selectedLangPack.id)
+				|| !td.id.equals(selectedTheme.id)) {
 			pressOkToApply = true;
-			props.setProperty("lang.default", selectedLangPack.id);
 		}
 
-		selectedTheme = (ThemeData) themes.get(themeSelect.getSelectionIndex());
-		if (!td.id.equals(selectedTheme.id)) {
-			pressOkToApply = true;
+		props.setProperty("options.general.showSplash", Boolean.toString(showSplash.getSelection()));
+		props.setProperty("options.search.maxResult", "" + spinner.getSelection());
+
+		if (pressOkToApply && fromOk) {
+			props.setProperty("lang.default", selectedLangPack.id);
 			props.setProperty("theme.default", selectedTheme.id);
 		}
-
-		props.setProperty("options.search.maxResult", "" + spinner.getSelection());
 	}
 
 	private void saveViewModel() {
@@ -335,6 +330,7 @@ public class OptionsForm {
 		new Label(lg, SWT.NONE).setText(lang.getMeaning("LANGUAGE") + " :");
 		
 		langSelect = new Combo(lg , SWT.READ_ONLY | SWT.DROP_DOWN);
+		langSelect.setVisibleItemCount(6);
 		String[] items = new String[lang.getLangPacks().size()];
 		int s = 0;
 		LanguagePack activeLang = config.getLanguage().getActiveLanguagePack();

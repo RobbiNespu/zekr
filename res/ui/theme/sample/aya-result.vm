@@ -33,7 +33,7 @@
     		#end
     	#end
     	<span title="${AYA.Key}">
-			<a onclick="gotoView('${AYA.Key}')" href="javascript:void(0)">$RPAREN${AYA.Key.SuraName}: ${AYA.Key.Aya}$LPAREN</a>
+			<a onclick="gotoSuraAya('${AYA.Key}')" href="javascript:void(0)">$RPAREN${AYA.Key.SuraName}: ${AYA.Key.Aya}$LPAREN</a>
 			<span title="${TRANSLATE}" class="handCursor" onclick="translate('${AYA.Key}')"><img src="${ICON_TRANSLATE}"></span>
 		</span>
 		</div>

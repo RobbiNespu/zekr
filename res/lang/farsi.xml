@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Zekr Team" version="0.3">
+<language author="Zekr Team" version="0.4">
 	<locale localizedName="فارسی" name="Farsi" id="fa_IR" direction="rtl" />
 	<word>
 		<common>
@@ -15,7 +15,7 @@
 			<text id="HELP"     value="کمک" />
 			<text id="EDIT"     value="ویرایش" />
 			<text id="SEARCH"   value="جستجو" />
-			<text id="GOTO"     value="رفتن به" />
+			<text id="GOTO"     value="برو به" />
 			<text id="VIEW"     value="نمایش" />
 			<text id="CLOSE"    value="بستن" />
 			<text id="INSERT"   value="درج" />
@@ -46,6 +46,7 @@
 			<text id="HOMEPAGE" value="خانه" />
 			<text id="WHOLE_QURAN" value="تمامی قرآن" />
 			<text id="MATCH_DIACRITIC" value="مطابقت علائم" />
+			<text id="MATCH_CASE" value="مطابقت بزرگی-کوچکی" />
 			<text id="NEXT_AYA" value="آیه‌ی بعدی" />
 			<text id="NEXT_SURA" value="سوره‌ی بعدی" />
 			<text id="PREV_AYA" value="آیه‌ی قبلی" />

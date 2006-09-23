@@ -9,7 +9,6 @@
 package net.sf.zekr.ui;
 
 import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.engine.log.Logger;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -23,6 +22,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
@@ -34,8 +34,10 @@ import org.eclipse.swt.widgets.Text;
  * @version 0.3
  */
 public class AboutForm extends BaseForm {
-	private final static Logger logger = Logger.getLogger(AboutForm.class);
-	Shell parent;
+	private Shell parent;
+	private Shell shell;
+	private Display display;
+	private String title;
 
 	public AboutForm(Shell parent) {
 		this.parent = parent;
@@ -121,5 +123,13 @@ public class AboutForm extends BaseForm {
 		long total = Runtime.getRuntime().totalMemory();
 		long free = Runtime.getRuntime().freeMemory();
 		return (total - free) + " / " + total;
+	}
+
+	protected Shell getShell() {
+		return shell;
+	}
+
+	protected Display getDisplay() {
+		return display;
 	}
 }

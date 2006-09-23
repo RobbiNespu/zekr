@@ -15,44 +15,50 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.TranslationData;
-import net.sf.zekr.common.util.IQuranText;
 import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.common.util.Range;
-import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.search.QuranSearch;
+import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.SearchUtils;
+import net.sf.zekr.engine.search.TranslationSearch;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
-public class SearchResultTemplate extends BaseViewTemplate {
-	private IQuranText quran;
-	private final static Logger logger = Logger.getLogger(SearchResultTemplate.class);
+public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
+	private boolean matchCase;
 
-	public String transform(String keyword, boolean matchDiac) {
-		QuranSearch qs;
+	public TransSearchResultTemplate(TranslationData trans, String keyword, boolean matchCase) {
+		super(trans, keyword);
+		this.matchCase = matchCase;
+		engine.put("TRANSLATE", langEngine.getMeaning("QURAN"));
+		engine.put("TRANSLATION", "true");
+		engine.put("TRANS_DIRECTION", trans.direction);
+		engine.put("KEYWORD", keyword);
+	}
+
+	public String transform() {
+		AbstractQuranSearch qs;
 		String ret = null;
 		try {
-			qs = new QuranSearch(quran = QuranText.getInstance(), matchDiac);
+			TranslationData td = (TranslationData) quran;
+			qs = new TranslationSearch(td, matchCase, td.locale);
 			Map result = new LinkedHashMap();
-			boolean ok = qs.findAll(result, keyword); // find over the Quran
+
+			boolean ok = qs.findAll(result, keyword); // searcg over the whole Quran translation
+
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {
 					"" + qs.getResultCount(), "" + result.size() }));
+
 			if (!ok) // more that maxAyaMatch ayas was matched
 				engine.put("TOO_MANY_RESULT", langEngine.getDynamicMeaning("TOO_MANY_RESULT",
 						new String[] { "" + result.size() }));
 			else
 				engine.put("TOO_MANY_RESULT", null);
 
-			engine.put("KEYWORD", keyword);
-			engine.put("TRANSLATE", langEngine.getMeaning("TRANSLATION"));
-			engine.put("ICON_TRANSLATE", resource.getString("icon.translate"));
 			engine.put("AYA_LIST", refineQuranResult(result).entrySet());
-			String k = matchDiac ? SearchUtils.replaceLayoutSimilarCharacters(keyword) : SearchUtils
-					.arabicSimplify(keyword);
+			String k = SearchUtils.arabicSimplify(keyword);
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE",
 					new String[] { k }));
 
@@ -66,20 +72,10 @@ public class SearchResultTemplate extends BaseViewTemplate {
 	}
 
 	/**
-	 * @param result
-	 * @return a map of locations
-	 */
-	private Map refineTransResult(Map result) {
-		Map ret = new LinkedHashMap(result.size());
-		for (Iterator iter = result.keySet().iterator(); iter.hasNext();) {
-			QuranLocation loc = (QuranLocation) iter.next();
-			String aya = quran.get(loc.getSura(), loc.getAya());
-			ret.put(loc, aya);
-		}
-		return ret;
-	}
-
-	/**
+	 * Converts a <code>Map</code> of <code>QuranLocation</code> to <code>List</code>
+	 * of <code>Rage</code>s to a <code>Map</code> of <code>QuranLocation</code> to
+	 * list of aya string fragments.
+	 * 
 	 * @param result
 	 * @return a map of locations
 	 */

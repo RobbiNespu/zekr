@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.engine.search;
 
+import java.util.Locale;
+
 import net.sf.zekr.common.util.Range;
 
 /**
@@ -56,7 +58,7 @@ public class SearchUtils {
 	 * @param str
 	 * @return updated <code>String</code> result
 	 */
-	public static String replaceLayoutSimilarCharacters(String str) {
+	public static final String replaceLayoutSimilarCharacters(String str) {
 		str = str.replaceAll(FARSI_YEH + "", ARABIC_YEH + "");
 		str = str.replaceAll(FARSI_KEHEH + "", ARABIC_KAF + "");
 		return str;
@@ -76,7 +78,7 @@ public class SearchUtils {
 	 * @param str
 	 * @return updated <code>String</code> result
 	 */
-	public static String replaceSimilarArabic(String str) {
+	public static final String replaceSimilarArabic(String str) {
 		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + "");
 		str = str.replaceAll(ALEF_HAMZA_ABOVE + "", ALEF + "");
 		str = str.replaceAll(ALEF_HAMZA_BELOW + "", ALEF + "");
@@ -95,7 +97,7 @@ public class SearchUtils {
 	 * @param str
 	 * @return simplified form of the <code>str</code>
 	 */
-	public static String arabicSimplify(String str) {
+	public static final String arabicSimplify(String str) {
 		// diacritics removal
 		char[] arr = new char[] { SUKUN, SHADDA, KASRA, DAMMA, FATHA, KASRATAN, DAMMATAN, FATHATAN,
 				SUPERSCRIPT_ALEF };
@@ -131,7 +133,7 @@ public class SearchUtils {
 	 * @return <code>true</code> if ch is an Arabic <i>Harakat</i>, otherwise
 	 *         <code>false</code>
 	 */
-	public static boolean isDiac(char ch) {
+	public static final boolean isDiac(char ch) {
 		return (ch == SUKUN) || (ch == SHADDA) || (ch == KASRA) || (ch == DAMMA) || (ch == FATHA)
 				|| (ch == KASRATAN) || (ch == DAMMATAN) || (ch == FATHATAN)
 				|| (ch == SUPERSCRIPT_ALEF);
@@ -145,14 +147,27 @@ public class SearchUtils {
 	 * @param src source string to be searched on
 	 * @param key non-<code>null</code> target string to be found the first occurrence
 	 *            of which on the <code>src</code> string
+	 * @param matchCase specifies whether to search in a case sensitive manner or not
+	 * @param locale the text locale (for casing conversion)
 	 * @return a <code>Range</code> object from the previous space character just before
 	 *         the <code>key</code> (or start of the source string if no space found) to
 	 *         the first space just after the <code>key</code> in <code>src</code> (or
 	 *         end of src if no space found)
 	 */
-	public static Range indexOfIgnoreDiacritic(String src, String key) {
+	public static final Range indexOfIgnoreDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = arabicSimplify(key);
 		src = replaceSimilarArabic(src);
+
+		if (!matchCase) {
+			if (locale != null) {
+				key = key.toLowerCase(locale);
+				src = src.toLowerCase(locale);
+			} else {
+				key = key.toLowerCase();
+				src = src.toLowerCase();
+			}
+		}
+
 		int k = 0, s = 0, start = -1;
 		char[] source = src.toCharArray();
 		char[] target = key.toCharArray();
@@ -167,13 +182,6 @@ public class SearchUtils {
 					start = s;
 				s++;
 				k++;
-				// } else if (target[k] == ALEF
-				// && (source[s] == ALEF_HAMZA_ABOVE || source[s] == ALEF_HAMZA_BELOW ||
-				// source[s] == ALEF_MADDA)) {
-				// if (start == -1)
-				// start = s;
-				// s++;
-				// k++;
 			} else {
 				if (!isDiac(source[s])) {
 					if (k != 0)
@@ -208,13 +216,25 @@ public class SearchUtils {
 	 * @param src source string to be searched on
 	 * @param key target string which is to search first occurrence of which on
 	 *            <code>src</code>
+	 * @param matchCase specifies whether to search in a case sensitive manner or not
+	 * @param locale the text locale (for casing conversion)
 	 * @return a <code>Range</code> object from the previous space character just before
 	 *         the <code>key</code> (or start of the source string if no space found) to
 	 *         the first space just after the <code>key</code> in <code>src</code> (or
 	 *         end of src if no space found)
 	 */
-	public static Range indexOfMatchDiacritic(String src, String key) {
+	public static final Range indexOfMatchDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = replaceLayoutSimilarCharacters(key);
+		if (!matchCase) {
+			if (locale != null) {
+				key = key.toLowerCase(locale);
+				src = src.toLowerCase(locale);
+			} else {
+				key = key.toLowerCase();
+				src = src.toLowerCase();
+			}
+		}
+
 		int start = src.indexOf(key);
 		if (start == -1)
 			return null;

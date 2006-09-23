@@ -46,6 +46,7 @@
 			<text id="HOMEPAGE" value="صفحة الاستقبال" />
 			<text id="WHOLE_QURAN" value="كل القرآن" />
 			<text id="MATCH_DIACRITIC" value="استعمال الحركات" />
+			<text id="MATCH_CASE" value="Match case"   />
 			<text id="NEXT_AYA" value="الآية اللاحقة" />
 			<text id="NEXT_SURA" value="السورة اللاحقة" />
 			<text id="PREV_AYA" value="الآية السابقة" />

@@ -12,11 +12,11 @@
     </description>
 
 	<!-- Constants -->
-	<property name="EXPORT_PRJ" value="zekr-030-devel.jar" />
-	<property name="EXPORT_RELEASE" value="zekr-030.jar" />
+	<property name="EXPORT_PRJ" value="zekr-040-devel.jar" />
+	<property name="EXPORT_RELEASE" value="zekr-040.jar" />
 	<property name="EXPORT_SRC" value="zekr-src.jar" />
 	<property name="EXPORT_BIN" value="zekr.jar" />
-	<property name="DIST_DIR" value="D:\Java\Programs\Zekr\dist\0.3.0\release" />
+	<property name="DIST_DIR" value="D:\Java\Programs\Zekr\dist\0.4.0\b1" />
 	
 	<target name="default" depends="depends" description="--> The Zekr Project">
 		<javac srcdir="../src" destdir="../bin/d"

@@ -9,19 +9,15 @@
 
 package net.sf.zekr.common.resource;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.RandomAccessFile;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.util.IQuranText;
 
 /**
- * This class is a repository for the whole quran text. All public methods act as
- * 1-relative arrays.
+ * This class is a repository for the whole quran text. All public methods act as 1-relative arrays.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -34,25 +30,20 @@ public class QuranText implements IQuranText {
 
 	/** The full quran text */
 	private String[][] quranText = new String[114][];
-	private ApplicationConfig appConfig = ApplicationConfig.getInstance();
-//	private QuranTextProperties textProps = QuranTextProperties.getInstance();
+	private ApplicationConfig config = ApplicationConfig.getInstance();
 	private ResourceManager resource = ResourceManager.getInstance();
 
-
 	/**
-	 * The private constructor, which loads the whole Quran text from file into memory (
-	 * <code>rawText</code>), refine it and stores it again in an
-	 * <code>ArrayList</code>, to be accessed more easily.
+	 * The private constructor, which loads the whole Quran text from file into memory (<code>quranText</code>).
+	 * It will also encode the read data as UTF-16 (for java <code>String</code>)
 	 * 
 	 * @throws IOException
 	 */
 	private QuranText() throws IOException {
-//		File file = new File(appConfig.getQuranText());
-		File file = new File(resource.getString("quran.text.file"));
-		InputStreamReader isr = new InputStreamReader(new FileInputStream(file), resource.getString("quran.text.encoding"));
-		char[] buf = new char[(int) file.length()];
-		isr.read(buf); // read the Quran text fully
-		rawText = new String(buf);
+		RandomAccessFile raf = new RandomAccessFile(resource.getString("quran.text.file"), "r");
+		byte[] buf = new byte[(int) raf.length()];
+		raf.readFully(buf);
+		rawText = new String(buf, config.getProps().getString("quran.text.encoding"));
 		refineRawText();
 	}
 
@@ -63,54 +54,25 @@ public class QuranText implements IQuranText {
 	}
 
 	/**
-	 * This private method refines the raw Quran, and stores it in an ArrayList. It will
-	 * also encode the read data as UTF-16 (for java <code>String</code>).
+	 * This private method refines the raw Quran, and stores it in a 2D array.
 	 */
 	private void refineRawText() {
-//		QuranTextProperties textProp = QuranTextProperties.getInstance();
-//		QuranProperties quranProps = QuranProperties.getInstance();
-//		StringTokenizer suraTokenizer = new StringTokenizer(rawText, textProp.getLineBreakString());
-//		String sura;
-//
-//		suraTokenizer.nextToken(); // ignore sura title
-//		// the first sura (Fatiha) has a Bismillah as its first aya.
-//		sura = suraTokenizer.nextToken() + " ";
-//		sura += suraTokenizer.nextToken();
-//		quranText[0] = getAyas(sura, quranProps.getSura(1).getAyaCount());
-//
-//		for (int i = 2; suraTokenizer.hasMoreTokens(); i++) {
-//			sura = suraTokenizer.nextToken(); // ignore title
-//			if (i != 9) // Sura Tawbah has no Bismillah
-//				sura = suraTokenizer.nextToken(); // ignore Bismillah
-//			sura = suraTokenizer.nextToken();
-//			quranText[i - 1] = getAyas(sura, quranProps.getSura(i).getAyaCount());
-//		}
 		QuranProperties quranProps = QuranProperties.getInstance();
-		StringTokenizer st = new StringTokenizer(rawText, "\n");
+		String delim = config.getProps().getString("quran.text.delim");
+		String[] fullQuran = rawText.split(delim);
 		String[] sura;
 		quranText = new String[114][];
-		
-		for (int i = 1; st.hasMoreTokens() && i <= 114; i++) {
-			sura = new String[quranProps.getSura(i).getAyaCount()];
-			for (int j = 0; j < sura.length; j++) {
-				sura[j] = st.nextToken();
+		int ayaTotalCount = 0;
+		for (int i = 0; i < 114; i++) {
+			int ayaCount = quranProps.getSura(i + 1).getAyaCount();
+			sura = new String[ayaCount];
+			for (int j = 0; j < ayaCount; j++) {
+				sura[j] = fullQuran[ayaTotalCount + j];
 			}
-			quranText[i - 1] = sura;
+			quranText[i] = sura;
+			ayaTotalCount += ayaCount;
 		}
-
 	}
-
-//	private String[] getAyas(String suraText, int ayaCount) {
-//		String[] ayas = new String[ayaCount];
-//		StringTokenizer ayaTokenizer = new StringTokenizer(suraText, textProps.getAyaSignLeftString()
-//				+ textProps.getAyaSignRightString());
-//		int i;
-//		for (i = 0; ayaTokenizer.hasMoreTokens() && i < ayaCount; i++) {
-//			ayas[i] = new String(ayaTokenizer.nextToken().trim());
-//			ayaTokenizer.nextToken();
-//		}
-//		return ayas;
-//	}
 
 	/*
 	 * (non-Javadoc)
@@ -131,7 +93,9 @@ public class QuranText implements IQuranText {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sf.zekr.common.util.IQuranText#getFullText()
 	 */
 	public String[][] getFullText() {

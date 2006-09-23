@@ -46,6 +46,7 @@
 			<text id="HOMEPAGE" value="Home page" />
 			<text id="WHOLE_QURAN" value="Quran Keseluruhan" />
 			<text id="MATCH_DIACRITIC" value="Pengenal ditemukan" />
+			<text id="MATCH_CASE" value="Match case"   />
 			<text id="NEXT_AYA" value="Ayat Selanjutnya" />
 			<text id="NEXT_SURA" value="Surat Selanjutnya" />
 			<text id="PREV_AYA" value="Ayat Sebelumnya" />
@@ -85,7 +86,7 @@
 
 	<message>
 		<inform>
-			<text id="SEARCH_RESULT_TITLE" value="Hasil Pencarian untuk:&quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_TITLE" value="Hasil Pencarian untuk: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} hasil ditemukan di {2} ayat." />
 			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
 			<text id="FILE_ALREADY_EXISTS" value="File dengan nama &quot;{1}&quot; sudah ada. Anda ingin menggantinya?" />

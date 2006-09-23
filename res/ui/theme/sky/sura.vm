@@ -23,25 +23,25 @@
 	#end
 #end
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<base href="$APP_PATH">
-	<link rel="stylesheet" type="text/css" href="${CSS_DIR}style.css">
-	<script src="$UI_DIR/js/utils.js" language="javascript" type="text/javascript"></script>
-	<script src="$UI_DIR/js/search.js" language="javascript" type="text/javascript"></script>
-<title>$TITLE</title>
+#parse("$THEME_DIR/head.vm")
 </head>
 <body id="${BODY_ID}" dir="${DIR}">
-<table class="main">
-	<tr><td class="barTop" align="center">
+<div id="headerBar" class="headerBar" dir="${DIRECTION}">
+	$SURA_MSG: <input dir="ltr" id="suraNav" type="text" style="width: 3em" value="${SURA_NUM}" readonly="true" />
+	&nbsp;&nbsp;|&nbsp;&nbsp;
+	$AYA_MSG: <input dir="ltr" id="ayaNav" type="text" style="width: 3em" value="${AYA_NUM}" />
+	<input type="button" value="${GOTO_MSG}" onclick="navtoSuraAya()" />
+</div>
+<div id="body" class="body">
+	<div class="bodyTop" align="center">
 	#putBismillah()
-	</td></tr>
+	</div>
 
-	<tr><td id="quranSection" class="main">
+	<div id="quranSection" class="main">
 	#parse ("$THEME_DIR/aya.vm")
-	</td></tr>
+	</div>
 
-	<tr><td class="barBottom">&nbsp;</td></tr>
-</table>
+	<div class="bodyBottom"></div>
+</div>
 </body>
 </html>

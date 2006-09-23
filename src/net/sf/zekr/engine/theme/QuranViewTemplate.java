@@ -9,24 +9,18 @@
 
 package net.sf.zekr.engine.theme;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.util.IQuranText;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class QuranViewTemplate extends AbstractQuranViewTemplate {
-	IQuranText text;
 
-	public QuranViewTemplate(IQuranText text) {
-		this.text = text;
+	public QuranViewTemplate(IQuranText quran, int suraNum, int ayaNum) {
+		super(quran, suraNum, ayaNum);
 		engine.put("TEXT_LAYOUT", config.getViewProp("view.quranLayout"));
-	}
-
-	public String transform(int sura) {
-		engine.put("AYA_LIST", text.getSura(sura));
-		return super.transform(sura);
+		// put sura ayas
+		engine.put("AYA_LIST", quran.getSura(suraNum));
 	}
 }

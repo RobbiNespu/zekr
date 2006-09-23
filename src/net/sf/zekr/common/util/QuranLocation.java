@@ -11,10 +11,11 @@ package net.sf.zekr.common.util;
 import net.sf.zekr.common.resource.QuranProperties;
 
 /**
- * This data structure is the primitive structure of addressing somewhere in the Quran.
- * Addressing is possible by just having aya number and sura number. <br>
- * Note that this class does not provide any range checkhing or explicit exception
- * throwing for performance purposes.
+ * This data structure is the primitive structure of addressing somewhere in the Quran. Addressing is possible
+ * by just having aya number and sura number. <br>
+ * Note that this class does not provide any range checkhing or explicit exception throwing for performance
+ * purposes.<br>
+ * Both sura and aya numbers are counted from 1.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -34,19 +35,19 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	/**
-	 * load a QuranLocation with the forman <tt>aya#-sura#</tt>. Sura and Aya numbers
-	 * are both counted from 1. If <code>location.toString()</code> is not of format
-	 * <tt>aya#-sura#</tt>, an <code>IllegalArgumentException</code> is thrown.
+	 * load a QuranLocation with the format <tt>sura#-aya#</tt>. Sura and Aya numbers are both counted from
+	 * 1. If <code>location</code> is not of format <tt>sura#-aya#</tt>, an
+	 * <code>IllegalArgumentException</code> is thrown.
 	 * 
 	 * @param location <code>location.toString()</code> will be used
+	 * @throws IllegalArgumentException if <code>location</code> is not well-formed, ie. <tt>sura#-aya#</tt>
 	 */
-	public QuranLocation(Object location) {
-		String s = location.toString();
-		int i = s.indexOf('-');
+	public QuranLocation(String location) {
+		int i = location.indexOf('-');
 		if (i == -1)
 			throw new IllegalArgumentException(location.toString());
-		setSura(Integer.parseInt(s.substring(0, i)));
-		setAya(Integer.parseInt(s.substring(i + 1)));
+		setSura(Integer.parseInt(location.substring(0, i)));
+		setAya(Integer.parseInt(location.substring(i + 1)));
 	}
 
 	public int getAya() {
@@ -70,6 +71,9 @@ public class QuranLocation implements IQuranLocation {
 		return qp.getSura(sura).name;
 	}
 
+	/**
+	 * Makes a string presentation of this class: <tt>sura#-aya#</tt>
+	 */
 	public String toString() {
 		return new StringBuffer("" + sura).append("-").append(aya).toString();
 	}

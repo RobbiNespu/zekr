@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language author="Erik van Luxzenburg" version="0.4">
+	<locale localizedName="Dutch" name="Nederlands" id="nl_NL" direction="ltr" />
+	<word>
+		<common>
+			<text id="OK"   value="OK" />
+			<text id="CANCEL" value="Afbreken" />
+			<text id="YES"  value="Ja" />
+			<text id="NO"   value="Nee" />
+			<text id="APPLY"  value="Uitvoeren" />
+			<text id="START"  value="Start" />
+			<text id="RESET"  value="Terugzetten" />
+			<text id="NEW"  value="Nieuw" />
+			<text id="SAVE_AS"  value="Opslaan_als" />
+			<text id="HELP"   value="Help" />
+			<text id="EDIT"   value="Aanpassen" />
+			<text id="SEARCH" value="Zoeken" />
+			<text id="GOTO"   value="Ga_naar" />
+			<text id="VIEW"   value="Bekijken" />
+			<text id="CLOSE"  value="Sluiten" />
+			<text id="INSERT" value="Invoegen" />
+			<text id="DETAILS"  value="Details" />
+			<text id="MORE"   value="Meer" />
+			<text id="NEXT"   value="Volgende" />
+			<text id="PREVIOUS" value="Vorige" />
+			<text id="REFRESH"  value="Ververs" />
+			<text id="UPDATE" value="Vernieuwen" />
+			<text id="SHOW"   value="Toon" />
+			<text id="NAME"   value="Naam" />
+			<text id="VALUE"  value="Waarde" />
+			<text id="NUMBER" value="Nummer" />
+			<text id="OPTION" value="Opties" />
+			<text id="FILE"   value="File" />
+			<text id="RELOAD" value="Herladen" />
+			<text id="TYPE"   value="Type" />
+			<text id="MESSAGE"  value="Bericht" />
+			<text id="BLOCK"  value="Blokkeren" />
+			<text id="LINE_BY_LINE" value="Lijn_voor_Lijn" />
+			<text id="AND"  value="En" />
+			<text id="COMMA"  value="," />
+			<text id="SYNCHRONOUS" value="Synchroon" />
+			<text id="ERROR"  value="Fout" />
+			<text id="LANGUAGE" value="Taal" />
+			<text id="ABOUT"  value="Over" />
+			<text id="PRINT"  value="Afdrukken" />
+			<text id="HOMEPAGE" value="Homepage" />
+			<text id="WHOLE_QURAN" value="De Volledige Koran" />
+			<text id="MATCH_DIACRITIC" value="Match_Diakritisch" />
+			<text id="MATCH_CASE" value="Match case"   />
+			<text id="NEXT_AYA" value="Volgende Aya" />
+			<text id="NEXT_SURA" value="Volgende Soera" />
+			<text id="PREV_AYA" value="Vorige Aya" />
+			<text id="PREV_SURA" value="Vorige Soera" />
+			<text id="THEME" value="Thema" />
+			<text id="LAYOUT" value="Lay-out" />
+			<text id="TOOLS"   value="Tools" />
+			<text id="ADD"   value="Toevoegen" />
+			<text id="DELETE" value="Wissen" />
+			<text id="REMOVE" value="verwijderen" />
+			<text id="TRANSLATION" value="vertaling" />
+			<text id="OPEN"   value="openen" />
+			<text id="IMPORT" value="Importeren" />
+			<text id="COPY"   value="Kopiëren" />
+			<text id="SEPARATE" value="afzonderen" />
+			<text id="MIXED"  value="mixen" />
+			<text id="OPTIONS"  value="Opties" />
+			<text id="QUESTION" value="Vragen" />
+			<text id="FONT"   value="Font" />
+			<text id="GENERAL"  value="Algemeen" />
+			<text id="EXIT"   value="Afsluiten" />
+		</common>
+		<special>
+			<text id="QURAN"  value="Koran" />
+			<text id="SURA"  value="Soera" />
+			<text id="AYA"  value="Aya" />
+			<text id="SAJDA"  value="Sajda" />
+			<text id="JUZ"  value="Juz" />
+			<text id="MAKKI"  value="Makki" />
+			<text id="MADANI" value="Madani" />
+			<text id="DESCENT"  value="Geopenbaard" />
+			<text id="AYA_COUNT"  value="Aya_teling" />
+			<text id="MINOR_SAJDA" value="Kleine Sajda" />
+			<text id="MAJOR_SAJDA" value="Grote Sajda" />
+		</special>
+	</word>
+
+	<message>
+		<inform>
+			<text id="SEARCH_RESULT_TITLE" value="Zoeken naar: &quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_COUNT" value="Zoekresultaat {1} Overeenkomsten in {2} Ayas gevonden." />
+			<text id="TOO_MANY_RESULT" value="Zoekresultaat levert meer dan{1} Ayas op." />
+			<text id="FILE_ALREADY_EXISTS" value="Een file met de naam &quot;{1}&quot; bestaat reeds. Overschrijven?" />
+			<text id="RESTART_APP" value="Herstart de applicatie, daar reeds een versie werkzaam is." />
+		</inform>
+		<confirm>
+			<text id="YES_NO" value="Weet je het zeker?" />
+		</confirm>
+		<error>
+			<text id="GENERAL_ERROR" value="Onbekende fout opgetreden" />
+			<text id="ACTION_FAILED" value="Actie gefaald!" />
+		</error>
+		<tooltip>
+		</tooltip>
+	</message>
+
+	<forms>
+		<global>
+			<text id="APP_NAME" value="Zekr" />
+			<text id="APP_FULL_NAME" value="Het Zekr-Koran project" />
+			<text id="FORM_TITLE" value="Zekr" />
+			<text id="COPYRIGHT_DISCLAIMER" value="Dit programma is uitgegeven onder de GNU licentie ." />
+		</global>
+		<form id="QURAN_FORM">
+			<text id="TITLE" value="Zekr" />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="Title" />
+			<text id="SHOW_SPLASH" value="Start splash scherm" />
+			<text id="NEW_KEY" value="Nieuwe bijdrage" />
+			<text id="THEME_SETTING" value="Thema-instellingen" />
+			<text id="PRESS_OK_TO_APPLY" value="Druk &quot;OK&quot;, om uit te voeren!" />
+			<text id="MAX_SEARCH_RESULT" value="Maximale aantal zoekresultaten" />
+		</form>
+	</forms>
+</language>
+

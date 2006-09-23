@@ -9,15 +9,8 @@
 package net.sf.zekr.common.util;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLEncoder;
-
-import com.sun.jndi.toolkit.url.UrlUtil;
-import com.sun.org.omg.SendingContext.CodeBasePackage.URLHelper;
 
 public class UriUtils {
 

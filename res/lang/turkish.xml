@@ -46,6 +46,7 @@
 			<text id="HOMEPAGE" value="Web Sayfası" />
 			<text id="WHOLE_QURAN" value="Tüm Kuran-ı Kerim" />
 			<text id="MATCH_DIACRITIC" value="Eşleştir" />
+			<text id="MATCH_CASE" value="Match case"   />
 			<text id="NEXT_AYA" value="Sonraki Ayet" />
 			<text id="NEXT_SURA" value="Sonraki Sure" />
 			<text id="PREV_AYA" value="Önceki Ayet" />
@@ -70,7 +71,7 @@
 		</common>
 		<special>
 			<text id="QURAN"    value="Kuran-ı Kerim" />
-			<text id="SURA"    value="Sure" />
+			<text id="SURA"     value="Sure" />
 			<text id="AYA"      value="Ayet" />
 			<text id="SAJDA"    value="Secde Ayeti" />
 			<text id="JUZ"      value="Cüz" />
@@ -85,7 +86,7 @@
 
 	<message>
 		<inform>
-			<text id="SEARCH_RESULT_TITLE" value="Arama Sonucu:&quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_TITLE" value="Arama Sonucu: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{2} ayette {1} Sonuç Bulundu." />
 			<text id="TOO_MANY_RESULT" value="Arama sonucu {1} ayetten fazla" />
 			<text id="FILE_ALREADY_EXISTS" value=" &quot;{1}&quot; isimli dosya daha önceden vardır. Değiştirmek ister misiniz?"   />

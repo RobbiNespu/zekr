@@ -1,8 +1,8 @@
-/*
+/**
  *               In the name of Allah
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
- *
+ * Part of this file is under EPL (Eclipse Public License ver. 1.0).
  * version 1
  */
 
@@ -90,14 +90,6 @@ function indexOfIgnoreDiacritic(src, key) {
 			if (start == -1)
 				start = s;
 			s++; k++;
-//		} else if(key.charAt(k) == ALEF &&
-//		          (src.charAt(s) == ALEF_HAMZA_ABOVE || 
-//		           src.charAt(s) == ALEF_HAMZA_BELOW ||
-//		           src.charAt(s) == ALEF_MADDA)) {
-//			if (start == -1)
-//				start = s;
-//			s++;
-//			k++;
 		} else {
 			if (!isDiac(src.charAt(s))) {
 				if (k != 0)
@@ -170,6 +162,7 @@ function highlightWordInText(aWord, textNode, matchDiac){
 		replacementNode.appendChild(newBefore);
 		spanNode = document.createElement("span");
 		spanNode.className = "jsHighlight";
+		spanNode.title = aWord;
 		replacementNode.appendChild(spanNode);
 		boldText = document.createTextNode(allText.substring(sIndex, eIndex));
 		spanNode.appendChild(boldText);
@@ -182,8 +175,18 @@ function highlightWordInText(aWord, textNode, matchDiac){
 	textNode.parentNode.removeChild(textNode);
 }
 
-function find(str, matchDiac) {
-	if (str == "") return;
-	highlightWordInNode(str, document.getElementById("quranSection"), matchDiac);
+Finder = function(matchDiac, matchCase) {
+	this.matchDiac = matchDiac;
+	this.matchCase = matchCase;
 }
 
+Finder.prototype.find = function(str) {
+	if (str == "") return;
+	highlightWordInNode(str, document.getElementById("searchableSection"), this.matchDiac);
+}
+
+find = function(str, matchDiac, matchCase) {
+	if (matchCase === undefined) matchCase = true;
+	var finder = new Finder(matchDiac, matchCase);
+	finder.find(str);
+};

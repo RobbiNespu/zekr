@@ -38,8 +38,7 @@ public class TemplateEngine {
 	 */
 	private TemplateEngine() {
 		try {
-			Velocity.setExtendedProperties(new ExtendedProperties(
-					"res/config/lib/velocity.properties"));
+			Velocity.setExtendedProperties(new ExtendedProperties("res/config/lib/velocity.properties"));
 			// Velocity.addProperty("file.resource.loader.path",
 			// ApplicationPath.THEME_DIR);
 			Velocity.init();
@@ -50,8 +49,8 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * @return The template engine instance. A call to this method will reset the context
-	 *         of the template engine.
+	 * @return the template engine instance. A call to this method will reset the context of the template
+	 *         engine.
 	 */
 	public static TemplateEngine getInstance() {
 		if (thisInstance == null) {
@@ -72,7 +71,7 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * Add a key-value pair to the template engine context
+	 * Add a key-value pair to the template engine context.
 	 * 
 	 * @param key
 	 * @param value
@@ -82,8 +81,18 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * Add a collection of key-value pairs to the template engine context. Keys should be
-	 * of type <code>java.lang.String</code>.
+	 * Add a key-value pair to the template engine context. value should be of type <code>String</code>.
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public void putWrappedString(String key, String value) {
+		context.put(key, value);
+	}
+
+	/**
+	 * Add a collection of key-value pairs to the template engine context. Keys should be of type
+	 * <code>String</code>.
 	 */
 	public void putAll(Map map) {
 		for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
@@ -92,10 +101,41 @@ public class TemplateEngine {
 		}
 	}
 
+//	class EntryWrapper {
+//		private String str;
+//
+//		public EntryWrapper(String str) {
+//			this.str = str;
+//		}
+//
+//		public int toInt() {
+//			return Integer.parseInt(str);
+//		}
+//		public Integer getInteger() {
+//			return Integer.valueOf(str);
+//		}
+//
+//		public String toString() {
+//			return str;
+//		}
+//
+//		public Boolean getBoolean() {
+//			return Boolean.valueOf(str);
+//		}
+//
+//		public boolean equals(Object obj) {
+//			return str.equals(obj);
+//		}
+//		
+//		public boolean iEquals(Object obj) {
+//			return str.equalsIgnoreCase(obj.toString());
+//		}
+//	}
+
 	/**
-	 * @param name The file name of the desired template
-	 * @return The result <code>String</code> after the context map is merged (applied)
-	 *         into the source template file.
+	 * @param name the file name of the desired template
+	 * @return the result <code>String</code> after the context map is merged (applied) into the source
+	 *         template file.
 	 * @throws Exception
 	 */
 	public String getUpdated(String name) throws Exception {

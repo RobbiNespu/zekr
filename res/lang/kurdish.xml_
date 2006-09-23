@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<language author="Zekr Team" version="0.3">
+	<locale localizedName="کوردی" name="Kurdish" id="en_IQ" direction="rtl" />
+	<word>
+		<common>
+			<text id="OK"       value="باشه‌" />
+			<text id="CANCEL"   value="په‌سندی مه‌كه‌‌" />
+			<text id="YES"      value="به‌ڵێ" />
+			<text id="NO"       value="نه‌خێر" />
+			<text id="APPLY"    value="جێبه‌جێی بكه‌" />
+			<text id="START"    value="ده‌ستپێ بكه‌" />
+			<text id="RESET"    value="ڕێكی بخه‌وه‌" />
+			<text id="NEW"      value="نوێ" />
+			<text id="SAVE_AS"  value="پاشه‌كه‌وتی بكه‌ وه‌ك" />
+			<text id="HELP"     value="یارمه‌تی" />
+			<text id="EDIT"     value="ده‌ستكاریی بكه‌" />
+			<text id="SEARCH"   value="بگه‌ڕێ" />
+			<text id="GOTO"     value="بڕۆ بۆ" />
+			<text id="VIEW"     value="پیشاندان" />
+			<text id="CLOSE"    value="دایبخه‌" />
+			<text id="INSERT"   value="" />
+			<text id="DETAILS"  value="ورده‌كارییه‌كان" />
+			<text id="MORE"     value="زیاتر" />
+			<text id="NEXT"     value="داهاتوو" />
+			<text id="PREVIOUS" value="پێشوو" />
+			<text id="REFRESH"  value="نوێی بكه‌ره‌وه‌" />
+			<text id="UPDATE"   value="ئه‌مڕۆژی بكه‌ره‌وه‌" />
+			<text id="SHOW"     value="پیشانی بده‌" />
+			<text id="NAME"     value="ناو" />
+			<text id="VALUE"    value="نرخ" />
+			<text id="NUMBER"   value="ژماره‌" />
+			<text id="OPTION"   value="هه‌ڵبژاردن" />
+			<text id="FILE"     value="په‌ڕگه‌" />
+			<text id="RELOAD"   value="باركردنه‌وه‌" />
+			<text id="TYPE"     value="بنووسه‌" />
+			<text id="MESSAGE"  value="په‌یام" />
+			<text id="BLOCK"    value="پیتی گه‌وره‌" />
+			<text id="LINE_BY_LINE" value="دێڕبه‌دێڕ" />
+			<text id="AND"      value="و" />
+			<text id="COMMA"    value="،" />
+			<text id="SYNCHRONOUS" value="هاوكات" />
+			<text id="ERROR"    value="هه‌ڵه‌" />
+			<text id="LANGUAGE" value="زمان" />
+			<text id="ABOUT"    value="سه‌باره‌ت" />
+			<text id="PRINT"    value="چاپی بكه‌" />
+			<text id="HOMEPAGE" value="لاپه‌ڕه‌ی ماڵه‌وه‌" />
+			<text id="WHOLE_QURAN" value="ته‌واوی قورئان" />
+			<text id="MATCH_DIACRITIC" value="سه‌روژێر دیاری بكه‌" />
+			<text id="MATCH_CASE" value="Match case"   />
+			<text id="NEXT_AYA" value="ئایه‌تی داهاتوو" />
+			<text id="NEXT_SURA" value="سووره‌تی داهاتوو" />
+			<text id="PREV_AYA" value="ئایه‌تی پێشوو" />
+			<text id="PREV_SURA" value="سووره‌تی پێشوو" />
+			<text id="THEME" value="ڕوواڵه‌ت" />
+			<text id="LAYOUT"   value="داڕشتن" />
+			<text id="TOOLS"     value="ئامرازه‌كان" />
+			<text id="ADD"     value="زیاد بكه‌" />
+			<text id="DELETE"   value="بسڕه‌وه‌" />
+			<text id="REMOVE"   value="لایبه‌" />
+			<text id="TRANSLATION" value="وه‌رگێڕان" />
+			<text id="OPEN"     value="بكه‌ره‌وه‌" />
+			<text id="IMPORT"   value="بیهێنه‌" />
+			<text id="COPY"     value="ڕوونووس بكه‌" />
+			<text id="SEPARATE" value="جیا بكه‌ره‌وه‌" />
+			<text id="MIXED"    value="تێكه‌ڵاو" />
+			<text id="OPTIONS"  value="هه‌ڵبژاردنه‌كان" />
+			<text id="QUESTION" value="Question" />
+			<text id="FONT"     value="فۆنت" />
+			<text id="GENERAL"  value="گشتی" />
+			<text id="EXIT"     value="بڕۆ ده‌ره‌وه‌" />
+		</common>
+		<special>
+			<text id="QURAN"    value="قورئان" />
+			<text id="SURA"    value="سووره‌ت" />
+			<text id="AYA"      value="ئایه‌ت" />
+			<text id="SAJDA"    value="سوجده‌" />
+			<text id="JUZ"      value="به‌ش" />
+			<text id="MAKKI"    value="مه‌ككه‌یی" />
+			<text id="MADANI"   value="مه‌دینه‌یی" />
+			<text id="DESCENT"  value="Descent" />
+			<text id="AYA_COUNT"  value="Aya count" />
+			<text id="MINOR_SAJDA" value="سوژده‌ی بچووك" />
+			<text id="MAJOR_SAJDA" value="سوژده‌ی گه‌وره‌" />
+		</special>
+	</word>
+
+	<message>
+		<inform>
+			<text id="SEARCH_RESULT_TITLE" value="Search result for: &quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_COUNT" value="{1} ئه‌نجام دۆزرایه‌وه‌ له‌ {2} ئایه‌تدا." />
+			<text id="TOO_MANY_RESULT" value="له‌ ئه‌نجام بگه‌ڕێ له‌ زیاتر له‌ {1} ئایه‌تدا" />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
+			<text id="RESTART_APP" value="ده‌بێت به‌رنامه‌كه‌ دابگیرسێنیته‌وه‌ تا گۆڕانكارییه‌كان چالاك ببن." />
+		</inform>
+		<confirm>
+			<text id="YES_NO" value="ئایا دڵنیایت؟" />
+		</confirm>
+		<error>
+			<text id="GENERAL_ERROR" value="هه‌ڵه‌یه‌کی چاوه‌ڕواننه‌کراو ڕووی دا" />
+			<text id="ACTION_FAILED" value="كرداره‌كه‌ ئه‌نجام نه‌درا!" />
+		</error>
+		<tooltip>
+		</tooltip>
+	</message>
+
+	<forms>
+		<global>
+			<text id="APP_NAME" value="زیكر" />
+			<text id="APP_FULL_NAME" value="پرۆژه‌ی 'زیكر'ی قورئانی" />
+			<text id="FORM_TITLE" value="زیكر" />
+			<text id="COPYRIGHT_DISCLAIMER" value="ئه‌م به‌رنامه‌یه‌ به‌خۆڕایی په‌خش ده‌كرێته‌وه‌ كه‌ هیوادارین سوودبه‌خش بێت، به‌ڵام به‌ بێ هیچ گه‌ره‌نتییه‌ك." />
+		</global>
+		<form id="QURAN_FORM">
+			<text id="TITLE" value="زیكر" />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="هه‌ڵبژاردنه‌كانی به‌رنامه‌" />
+			<text id="SHOW_SPLASH" value="لۆگۆ له‌ 'ستارتاپ'دا پیشان بده‌" />
+			<text id="NEW_KEY" value="كلیلێكی تر بخه‌ره‌ ناو" />
+			<text id="THEME_SETTING" value="سازكارییه‌كانی ڕوواڵه‌ت" />
+			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied." />
+			<text id="MAX_SEARCH_RESULT" value="Maximum search result count" />
+		</form>
+	</forms>
+</language>

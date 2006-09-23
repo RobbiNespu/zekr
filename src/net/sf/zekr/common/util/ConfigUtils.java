@@ -18,8 +18,6 @@ import java.util.Properties;
 import net.sf.zekr.common.config.GlobalConfig;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationUtils;
-import org.apache.commons.configuration.MapConfiguration;
 
 /**
  * @author Mohsen Saboorian

@@ -10,32 +10,39 @@ package net.sf.zekr.engine.theme;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.util.IQuranText;
-import net.sf.zekr.common.util.IQuranTranslation;
 
 /**
+ * Template for mixed view layout.
+ * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
 public class MixedViewTemplate extends AbstractQuranViewTemplate {
-	IQuranTranslation trans;
-	IQuranText quran;
+	private IQuranText trans;
+	private int suraNum;
 
-	public MixedViewTemplate(IQuranText quran, IQuranTranslation trans) {
-		this.quran = quran;
+	/**
+	 * Creates a new mixed view template object. It will put a 2xN matrix in velocity context. There is 2 row
+	 * (first for the quran and second for translation). Each row holds the text of the sura (quran and
+	 * translation).
+	 * 
+	 * @param quran the Quran text
+	 * @param trans the translation text
+	 * @param suraNum the sura number to be transformed (counted from 0)
+	 */
+	public MixedViewTemplate(IQuranText quran, IQuranText trans, int suraNum, int ayaNum) {
+		super(quran, suraNum, ayaNum);
 		this.trans = trans;
 		engine.put("TEXT_LAYOUT", ApplicationConfig.LINE_BY_LINE);
 		engine.put("MIXED", "true");
-	}
 
-	public String transform(int sura) {
-		String[] quranSura = quran.getSura(sura);
-		String[] transSura = trans.getSura(sura);
+		String[] quranSura = quran.getSura(suraNum);
+		String[] transSura = trans.getSura(suraNum);
 		String[][] mixed = new String[quranSura.length][2];
 		for (int i = 0; i < mixed.length; i++) {
 			mixed[i][0] = quranSura[i];
 			mixed[i][1] = transSura[i];
 		}
 		engine.put("AYA_LIST", mixed);
-		return super.transform(sura);
 	}
 }

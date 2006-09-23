@@ -7,37 +7,41 @@
  * @version 1
  */
 html,body {
-	padding: 0;
+	padding: 0px;
+	margin: 0px;
 }
-
-body#quranBody {
+body {
 	font: 13pt "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
-#if($quran_hasBG == "true")
+	color: rgb(30, 40, 70);
+	background-color: threedface;
+}
+body#search {
+	background: threedface url('${APP_PATH}res/image/zekr-bg.png') no-repeat fixed center;
+}
+body#quranBody {
+#if($quran_hasBG.equals("true"))
 	background: $quran_bgColor url('${APP_PATH}res/image/zekr-bg.png') no-repeat fixed center;
 #else
 	background-color: $quran_bgColor;
 #end
-	color: rgb(30, 40, 70);
-	margin: 0 5% 0 5%;
 }
 
 body#transBody {
-	font: 13pt "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
-#if($trans_hasBG == "true")
-	background: $trans_bgColor url('file://$APP_PATH/res/image/zekr-bg.png') no-repeat fixed center;
+#if($trans_hasBG.equals("true"))
+	background: $trans_bgColor url('${APP_PATH}res/image/zekr-bg.png') no-repeat fixed center;
 #else
 	background-color: $trans_bgColor;
 #end
-	color: rgb(30, 40, 70);
-	margin: 0 5% 0 5%;
 }
 
-table.main {
-	width: 100%;
+div.body {
+	padding-top: 30px;
+	padding-left: 2%;
+	padding-right: 2%;
 }
 
-td.barTop {
-	height: 40px;
+div.bodyTop {
+	margin: 5px;
 }
 
 td.searchBarTop {
@@ -48,28 +52,64 @@ td.searchBarTop {
 	padding: 2px;
 }
 
-td.barBottom {
-	height: 40px;
+div.bodyBottom {
+	height: 30px;
 }
 
-td.main {
+div.headerBar {
+	-moz-opacity: 0.80;
+	filter: alpha(opacity=80);
+	opacity: 0.80;
+	border: 1px solid gray;
+
+	position: fixed;
+	_position: absolute;
+
+	top: 2px;
+	_top: expression(eval(document.body.scrollTop) + 2 + 'px');
+	left: 2px;
+	_left: 3px;
+	right: 2px;
+	_right: 3px;
+	_width: expression(eval(document.body.clientWidth - 6) + 'px');
+	padding: 2px;
+
+	background-color: threedhighlight;
+	font: 0.82em Sans serif, Tahoma, Arial;
+}
+div.headerBar input {
+	font: 0.82em Sans serif, Tahoma, Arial;
+}
+
+div.main {
 	vertical-align: top;
 	border-left: 1px solid rgb(190, 220, 255);
 	border-right: 1px solid rgb(190, 220, 255);
 	border-top: 3px double rgb(140, 150, 250);
 	border-bottom: 3px double rgb(140, 150, 250);
 	padding: 7 8;
-	text-align: justify;
+	_text-align: justify;
 	line-height: 150%;
+}
+
+div.searchBody {
+	padding: 0px 10px 0px 10px;
+	text-align: center;
+	_width: 100%;
+	padding-top: 40px;
+}
+
+.searchBody table {
+	width: 100%;
 }
 
 .quran {
 #set($qBold = "")
 #set($qItalic = "")
-#if ($quran_fontBold == "true")
+#if ($quran_fontBold.equals("true"))
 	#set($qBold = "bold")
 #end
-#if ($quran_fontItalic == "true")
+#if ($quran_fontItalic.equals("true"))
 	#set($qItalic = "italic")
 #end
 	font: $qBold $qItalic ${quran_fontSize}pt ${quran_fontName}, Badr, Nazanin, Tahoma, Nazli, Koodak, Times, Verdana, Helvetica, Arial, Sans-serif;
@@ -78,22 +118,52 @@ td.main {
 .trans {
 #set($tBold = "")
 #set($tItalic = "")
-#if ($trans_fontBold == "true")
+#if ($trans_fontBold.equals("true"))
 	#set($tBold = "bold")
 #end
-#if ($trans_fontItalic == "true")
+#if ($trans_fontItalic.equals("true"))
 	#set($tItalic = "italic")
 #end
 	font: $tBold $tItalic ${trans_fontSize}pt ${trans_fontName}, Tahoma, Arial, Times, Verdana, Helvetica;
 }
 
+.trans .suraAyaNum {
+#if(!$trans_showSuraAyaSign.equals("true"))
+	display: none;
+#end
+#set($fontSize = $MATH.round($MATH.mul($MATH.toInteger($trans_fontSize),"0.65")))
+	font-size: ${fontSize}pt;
+}
+
+.quran .suraAyaNum {
+#set($fontSize = $MATH.round($MATH.mul($MATH.toInteger($quran_fontSize),"0.65")))
+#if(!$quran_showSuraAyaSign.equals("true"))
+	display: none;
+#end
+	font-size: ${fontSize}pt;
+}
+
 div.selectedAya {
+	border-right: 4px solid rgb(100, 100, 100);
+	border-left: 4px solid rgb(100, 100, 100);
+}
+
+#quranSection div.selectedAya { /* selected aya for the Quran/translation view */
 	border-bottom: 1px dashed rgb(100, 200, 250);
-	border-right: 4px solid rgb(150, 150, 150);
-	border-left: 4px solid rgb(150, 150, 150);
-	padding-right: 10px;
-	padding-left: 10px;
+	padding-left: 6px;
+	padding-right: 6px;
 	margin: 3px 0px 3px 0;
+}
+
+#searchResultSection div.selectedAya { /* selected aya for the search result item */
+	border-bottom: 1px solid rgb(100, 100, 100);
+	border-top: 1px solid rgb(100, 100, 100);
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+span.selectedSearchItemNum {
+	font-weight: bold;
 }
 
 span.selectedAya {
@@ -106,7 +176,6 @@ div.aya {
 	padding-left: 10px;
 	margin: 3px 0 3px 0;
 }
-
 
 span.sajda#minor {
 	font-family: serif;
@@ -136,18 +205,18 @@ td.searchResult {
 	vertical-align: top;
 }
 div.searchResult {
-	font: 22px "Traditional Arabic", Badr, Nazanin, Tahoma, Nazli, Koodak
-		Verdana, Helvetica, Arial, Sans-serif;
-	border: 5px solid rgb(200, 210, 240);
+	border: 4px solid rgb(200, 210, 240);
+}
+
+.searchResult div.item {
+	padding: 1px 7px 1px 7px;
 }
 
 .searchResult div.odd {
-	margin: 2px 0px 0px 0px;
 }
 
 .searchResult div.even {
 	background-color: rgb(200, 210, 240);
-	margin: 2px 0px 0px 0px;
 }
 
 .searchResult span.highlight {

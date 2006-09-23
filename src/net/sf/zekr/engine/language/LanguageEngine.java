@@ -20,6 +20,7 @@ import java.util.Map;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.NodeList;
+import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 
@@ -83,7 +84,11 @@ public class LanguageEngine extends LanguageEngineNaming {
 			throw new RuntimeException("Can not find language pack "
 					+ language.getActiveLanguagePack());
 		logger.info("Parsing language pack " + language.getActiveLanguagePack());
-		reader = new XmlReader(packFile);
+		try {
+			reader = new XmlReader(packFile);
+		} catch (XmlReadException e) {
+			logger.log(e);
+		}
 		commonWords = makeDictionary(reader.getNode(COMMON_WORDS).getChildNodes());
 		specialWords = makeDictionary(reader.getNode(SPECIAL_WORDS).getChildNodes());
 		informMessages = makeDictionary(reader.getNode(INFORM_MSG).getChildNodes());
@@ -145,7 +150,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	public String getMeaning(String scope, String word) {
-		String meaning = "";
+		String meaning;
 		if (scope.equalsIgnoreCase(COMMON_WORDS))
 			meaning = (String) commonWords.get(word);
 		else if (scope.equalsIgnoreCase(SPECIAL_WORDS))
@@ -164,7 +169,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	public String getMeaning(String word) {
-		String meaning = "";
+		String meaning;
 		if ((meaning = (String) commonWords.get(word)) != null)
 			;
 		else if ((meaning = (String) specialWords.get(word)) != null)
@@ -182,7 +187,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 		else if ((meaning = (String) globals.get(word)) != null)
 			;
 		else
-			meaning = ""; // preventing null value
+			meaning = word; // preventing null value
 		return meaning;
 	}
 

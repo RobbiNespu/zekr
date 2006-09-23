@@ -38,6 +38,8 @@ public class ErrorForm extends BaseForm {
 	private Label message;
 	private Text errorDetail;
 	private Throwable error;
+	private Shell shell;
+	protected Display display;
 
 	public ErrorForm(Display display, Throwable error) {
 		this.display = display;
@@ -64,8 +66,7 @@ public class ErrorForm extends BaseForm {
 		errorGroup.setLayout(errorLayout);
 		errorGroup.setText(langEngine.getMeaning(LanguageEngineNaming.ERROR_MSG, "GENERAL_ERROR"));
 
-		errorDetail = new Text(errorGroup, SWT.BORDER | SWT.LEFT_TO_RIGHT | SWT.H_SCROLL
-				| SWT.V_SCROLL);
+		errorDetail = new Text(errorGroup, SWT.BORDER | SWT.LEFT_TO_RIGHT | SWT.H_SCROLL | SWT.V_SCROLL);
 		errorDetail.setEditable(false);
 
 		StringBuffer buf = new StringBuffer(error.toString() + "\n");
@@ -134,6 +135,15 @@ public class ErrorForm extends BaseForm {
 	public void show() {
 		shell.open();
 		shell.pack();
+		loopEver();
+	}
+
+	protected Shell getShell() {
+		return shell;
+	}
+
+	protected Display getDisplay() {
+		return display;
 	}
 
 }

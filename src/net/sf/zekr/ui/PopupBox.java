@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Text;
  * @since Zekr 1.0
  */
 public class PopupBox {
-	Shell shell;
-	Text textBox;
+	private Shell shell;
+	private Text textBox;
 
 	public PopupBox(Shell parent, String title, String text, int swtDirection) {
 		shell = new Shell(parent, SWT.RESIZE | SWT.TITLE | SWT.ON_TOP | SWT.TOOL
