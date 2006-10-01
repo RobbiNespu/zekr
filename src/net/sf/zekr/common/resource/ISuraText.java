@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Feb 11, 2005
  */
-package net.sf.zekr.common.util;
+package net.sf.zekr.common.resource;
 
 /**
  * This is the standard interface for a sura text. Suras in any language (translation)

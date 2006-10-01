@@ -15,10 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ResourceManager;
+import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.QuranLocation;
+import net.sf.zekr.common.resource.RangedQuranText;
 import net.sf.zekr.common.resource.TranslationData;
-import net.sf.zekr.common.util.QuranLocation;
-import net.sf.zekr.common.util.Range;
 import net.sf.zekr.engine.search.AbstractQuranSearch;
+import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.search.SearchUtils;
 import net.sf.zekr.engine.search.TranslationSearch;
 
@@ -29,12 +31,12 @@ import net.sf.zekr.engine.search.TranslationSearch;
 public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 	private boolean matchCase;
 
-	public TransSearchResultTemplate(TranslationData trans, String keyword, boolean matchCase) {
+	public TransSearchResultTemplate(IRangedQuranText trans, String keyword, boolean matchCase) {
 		super(trans, keyword);
 		this.matchCase = matchCase;
 		engine.put("TRANSLATE", langEngine.getMeaning("QURAN"));
 		engine.put("TRANSLATION", "true");
-		engine.put("TRANS_DIRECTION", trans.direction);
+		engine.put("TRANS_DIRECTION", trans.getTranslationData().direction);
 		engine.put("KEYWORD", keyword);
 	}
 
@@ -42,8 +44,8 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 		AbstractQuranSearch qs;
 		String ret = null;
 		try {
-			TranslationData td = (TranslationData) quran;
-			qs = new TranslationSearch(td, matchCase, td.locale);
+			TranslationData td = quran.getTranslationData();
+			qs = new TranslationSearch(quran, matchCase, td.locale);
 			Map result = new LinkedHashMap();
 
 			boolean ok = qs.findAll(result, keyword); // searcg over the whole Quran translation
@@ -59,8 +61,7 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 
 			engine.put("AYA_LIST", refineQuranResult(result).entrySet());
 			String k = SearchUtils.arabicSimplify(keyword);
-			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE",
-					new String[] { k }));
+			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));
 
 			ret = engine.getUpdated(ResourceManager.getInstance().getString("theme.search.result",
 					new String[] { config.getTheme().getCurrent().id }));
@@ -72,9 +73,9 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 	}
 
 	/**
-	 * Converts a <code>Map</code> of <code>QuranLocation</code> to <code>List</code>
-	 * of <code>Rage</code>s to a <code>Map</code> of <code>QuranLocation</code> to
-	 * list of aya string fragments.
+	 * Converts a <code>Map</code> of <code>QuranLocation</code> to <code>List</code> of
+	 * <code>Rage</code>s to a <code>Map</code> of <code>QuranLocation</code> to list of aya string
+	 * fragments.
 	 * 
 	 * @param result
 	 * @return a map of locations

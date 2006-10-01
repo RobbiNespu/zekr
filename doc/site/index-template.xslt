@@ -18,7 +18,7 @@
 								<img src="img/zekr-logo-small.png" alt="Zekr small logo" />
 							</div>
 							<div class="menuItem">
-								<a href="index.xml" title="Zekr homepage">Home</a>
+								<a href="./" title="Zekr homepage">Home</a>
 								<a href="glossary.html" title="Quranic terms glossary">
 									Glossary
 								</a>
@@ -178,4 +178,6 @@
 			</a>
 		</div>
 	</xsl:template>
+
+	
 </xsl:stylesheet>

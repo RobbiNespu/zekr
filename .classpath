@@ -7,5 +7,7 @@
 	<classpathentry exported="true" sourcepath="lib/swt-src.zip" kind="lib" path="lib/swt-win32.jar"/>
 	<classpathentry sourcepath="D:/devel/java/Apache/Commons/commons-configuration-1.2/src" kind="lib" path="lib/apache-commons.jar"/>
 	<classpathentry sourcepath="D:/Devel/Java/Apache/Velocity/velocity-tools-1.2/src/java/" kind="lib" path="lib/velocity-tools-generic-1.2.jar"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.1.1/src/org.junit_3.8.1/junitsrc.zip" kind="var" path="JUNIT_HOME/junit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

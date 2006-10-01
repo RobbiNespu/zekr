@@ -353,7 +353,6 @@ FunctionEnd
 
 
 # Installer Language Strings
-# TODO Update the Language Strings with the appropriate translations.
 LangString ^UninstallLink ${LANG_ENGLISH} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_ARABIC} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_FARSI} "Uninstall $(^Name)"

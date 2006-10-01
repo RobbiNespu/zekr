@@ -129,20 +129,25 @@ Bug fixes:
 	Theme's cached style.css will not be deleted every time Zekr starts.
 	style.css: "text-align: justify" will be ignored for Mozilla (due to its rendering problem). It now works only for IE now.
 
-Version 0.4.0 b1 - [15-9-06]
+Version 0.4.0 b1 - [3-10-06]
 Features/Enhancements:
-	Search in a range.
+	Search in a range:
+		fully manageable search scopes
+		inclusive/exclusive scope items
+		a new button: search scope control (a drop down menu appears when clicked)
 	New language pack: Dutch (Erik van Luxzenburg).
 Bug fixes:
 	CSS bug fix for Safari. Safari does not fully support system colors in CSS.
+	A problem left from beta 1: general options (search result count and display logo at startup) now works.
+	A small bug with JavaScript when there was no search result.
+	Invalid content of textboxes (sura and aya) when there is no search result.
 
 Version 0.4.0 release - [1-10-06]
 Features/Enhancements:
-	TODO: managed search (in a range)
 	TODO: Quran transliteration
 	TODO: update language pack
 	TODO: Custom mixed layout for an arbitrary number of translations
+	TODO: Navigation button for "current page" search result
 Bug fixes:
-	A problem left from beta 1: general options (search result count and display logo at startup) now works.
 
 

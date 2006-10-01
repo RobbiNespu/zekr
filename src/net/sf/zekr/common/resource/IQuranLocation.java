@@ -6,13 +6,23 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Dec 7, 2005
  */
-package net.sf.zekr.common.util;
-
+package net.sf.zekr.common.resource;
 
 public interface IQuranLocation {
 	public int getAya();
+
 	public void setAya(int aya);
+
 	public int getSura();
+
 	public void setSura(int sura);
+
 	public String getSuraName();
+
+	/**
+	 * Returns the next location (sura-aya pair).
+	 * 
+	 * @return the next Quran location.
+	 */
+	public IQuranLocation getNext();
 }

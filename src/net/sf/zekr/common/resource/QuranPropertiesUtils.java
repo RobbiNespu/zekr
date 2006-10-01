@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Mar 21, 2005
  */
-package net.sf.zekr.common.util;
+package net.sf.zekr.common.resource;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.resource.QuranProperties;
-import net.sf.zekr.common.resource.QuranPropertiesNaming;
+import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 
 /**

@@ -8,27 +8,40 @@
  */
 package net.sf.zekr.ui;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
+import net.sf.zekr.engine.search.IllegalSearchScopeItemException;
+import net.sf.zekr.engine.search.SearchScope;
+import net.sf.zekr.engine.search.SearchScopeItem;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Mohsen Saboorian
@@ -36,94 +49,298 @@ import org.eclipse.swt.widgets.Text;
  */
 public class SearchScopeForm extends BaseForm {
 	private Shell shell;
-	protected Display display;
+	private Display display;
 	private Table table;
+	private TableEditor editor;
+	private List excList = new ArrayList();
+	private Composite body;
+	private Shell parent;
+	private boolean canceled = true;
+	private SearchScope searchScope;
 
-	public SearchScopeForm(Display display) {
-		this.display = display;
-		shell = new Shell(this.display, SWT.SHELL_TRIM);
+	public static final String FORM_ID = "SEARCH_SCOPE_FORM";
+
+	public SearchScopeForm(Shell parent) {
+		searchScope = new SearchScope();
+		searchScope.add(new SearchScopeItem(1, 1, 114, 7, false));
+
+		this.parent = parent;
+		_init();
+	}
+
+	public SearchScopeForm(Shell parent, SearchScope searchScope) {
+		this.searchScope = searchScope;
+		this.parent = parent;
+		_init();
+	}
+
+	private void _init() {
+		display = parent.getDisplay();
+
+		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
 		FillLayout fl = new FillLayout();
 		shell.setLayout(fl);
-		shell.setText(langEngine.getMeaning("SEARCH_SCOPE"));
+		shell.setText(meaning("TITLE"));
+		shell.setImages(parent.getImages());
 
 		init();
+		shell.pack();
+		shell.setSize(shell.getSize().x, 400);
 	}
 
 	private void init() {
-		Group body = new Group(shell, SWT.NONE);
-		body.setLayout(new FillLayout());
-		body.setText(langEngine.getMeaning("SEARCH_SCOPE"));
+		body = new Composite(shell, langEngine.getSWTDirection());
+		body.setLayout(new GridLayout(1, false));
+
 		GridData gd = new GridData(GridData.FILL_BOTH);
+
+		GridLayout gl = new GridLayout(2, false);
+		Group tableGroup = new Group(body, SWT.NONE);
+		tableGroup.setLayoutData(gd);
+		tableGroup.setLayout(gl);
+		tableGroup.setText(langEngine.getMeaning("SEARCH_SCOPE"));
+
+		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
-		
-		
-		
-		table = new Table(body, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION);
-		table.setLayoutData(new FillLayout());
+
+		table = new Table(tableGroup, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		table.setLayoutData(gd);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 
-		TableColumn fromSuraCol = new TableColumn(table, SWT.NONE);
-		fromSuraCol.setText("Sura from");
-		fromSuraCol.setWidth(100);
+		gd = new GridData();
+		gd.horizontalSpan = 2;
 
-		TableColumn fromAyaCol = new TableColumn(table, SWT.NONE);
-		fromAyaCol.setText("Aya from");
-		fromAyaCol.setWidth(100);
+		Composite addRemComp = new Composite(tableGroup, SWT.NONE);
+		FillLayout fl = new FillLayout(SWT.HORIZONTAL);
+		fl.spacing = 4;
+		addRemComp.setLayout(fl);
+		addRemComp.setLayoutData(gd);
 
-		TableColumn toSuraCol = new TableColumn(table, SWT.NONE);
-		toSuraCol.setText("Sura to");
-		toSuraCol.setWidth(100);
+		Button addBut = new Button(addRemComp, SWT.PUSH);
+		Button remBut = new Button(addRemComp, SWT.PUSH);
 
-		TableColumn toAyaCol = new TableColumn(table, SWT.NONE);
-		toAyaCol.setText("Aya to");
-		toAyaCol.setWidth(100);
-
-
-		final TableEditor editor = new TableEditor(table);
-		editor.grabHorizontal = true;
-        editor.horizontalAlignment = SWT.LEFT;
-
-		table.addSelectionListener(new SelectionAdapter() {
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// Clean up any previous editor control
-				Control oldEditor = editor.getEditor();
-				if (oldEditor != null)
-					oldEditor.dispose();
-
-				// Identify the selected row
-				TableItem item = (TableItem) e.item;
-				if (item == null)
-					return;
-
-				// The control that will be the editor must be a child of the Table
-				Text newEditor = new Text(table, SWT.NONE);
-				newEditor.setText(item.getText(1));
-				newEditor.addModifyListener(new ModifyListener() {
-					public void modifyText(ModifyEvent e) {
-						Text text = (Text) editor.getEditor();
-						editor.getItem().setText(1, text.getText());
-					}
-				});
-				newEditor.addFocusListener(new FocusAdapter() {
-					public void focusLost(FocusEvent e) {
-						Control oldEditor = editor.getEditor();
-						if (oldEditor != null)
-							oldEditor.dispose();
-					}
-				});
-				newEditor.selectAll();
-				newEditor.setFocus();
-				editor.setEditor(newEditor, item, 1);
+		addBut.setToolTipText(langEngine.getMeaning("ADD"));
+		addBut.setImage(new Image(display, resource.getString("icon.add")));
+		addBut.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				addNewItem(new SearchScopeItem());
 			}
 		});
 
+		remBut.setToolTipText(langEngine.getMeaning("DELETE"));
+		remBut.setImage(new Image(display, resource.getString("icon.remove")));
+		remBut.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				int[] rows = table.getSelectionIndices();
+				for (int i = rows.length - 1; i >= 0; i--) {
+					table.remove(rows[i]);
+				}
+			}
+		});
+
+		gd = new GridData();
+		gd.horizontalSpan = 2;
+		gd.horizontalAlignment = SWT.TRAIL;
+
+		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
+
+		Composite butComposite = new Composite(body, SWT.NONE);
+		butComposite.setLayout(rl);
+		butComposite.setLayoutData(gd);
+
+		RowData rd = new RowData();
+		rd.width = 70;
+
+		Button okBut = new Button(butComposite, SWT.PUSH);
+		Button cancelBut = new Button(butComposite, SWT.PUSH);
+		okBut.setText("&" + langEngine.getMeaning("OK"));
+		okBut.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				canceled = false;
+				try {
+					updateSearchScope();
+				} catch (IllegalSearchScopeItemException issie) {
+					logger.warn("Illegall search scope item: " + issie);
+					MessageBoxUtils.showError(meaning("ILLEGAL_SEARCH_SCOPE"));
+					return;
+				}
+				dispose();
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+				this.widgetSelected(e);
+			}
+		});
+		okBut.setLayoutData(rd);
+		shell.setDefaultButton(okBut);
+
+		rd = new RowData();
+		rd.width = 70;
+		cancelBut.setText("&" + langEngine.getMeaning("CANCEL"));
+		cancelBut.setLayoutData(rd);
+		cancelBut.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				canceled = true;
+				dispose();
+			}
+		});
+
+		TableColumn fromSuraCol = new TableColumn(table, SWT.NONE);
+		fromSuraCol.setText(meaning("FROM_SURA"));
+		fromSuraCol.setWidth(100);
+
+		TableColumn fromAyaCol = new TableColumn(table, SWT.NONE);
+		fromAyaCol.setText(meaning("FROM_AYA"));
+		fromAyaCol.pack();
+
+		TableColumn toSuraCol = new TableColumn(table, SWT.NONE);
+		toSuraCol.setText(meaning("TO_SURA"));
+		toSuraCol.setWidth(100);
+
+		TableColumn toAyaCol = new TableColumn(table, SWT.NONE);
+		toAyaCol.setText(meaning("TO_AYA"));
+		toAyaCol.pack();
+
+		TableColumn excludeCol = new TableColumn(table, SWT.NONE);
+		excludeCol.setText(langEngine.getMeaning("EXCLUDE"));
+		excludeCol.pack();
+
+		for (Iterator iter = searchScope.getScopeItems().iterator(); iter.hasNext();) {
+			SearchScopeItem ssi = (SearchScopeItem) iter.next();
+			addNewItem(ssi);
+		}
+
+		table.addListener(SWT.MouseDoubleClick, new Listener() {
+			public void handleEvent(Event event) {
+				Rectangle clientArea = table.getClientArea();
+				Point pt = new Point(event.x, event.y);
+				int index = table.getTopIndex();
+				while (index < table.getItemCount()) {
+					boolean visible = false;
+					final TableItem item = table.getItem(index);
+					for (int i = 0; i < table.getColumnCount(); i++) {
+						Rectangle rect = item.getBounds(i);
+						final CCombo itemEditor;
+						if (rect.contains(pt)) {
+							final int column = i;
+							itemEditor = new CCombo(table, SWT.NONE | SWT.READ_ONLY);
+							itemEditor.addSelectionListener(new SelectionAdapter() {
+								public void widgetSelected(SelectionEvent e) {
+									CCombo c = (CCombo) e.widget;
+									item.setData(String.valueOf(column), new Integer(
+											c.getSelectionIndex() + 1));
+								}
+							});
+							itemEditor.setVisibleItemCount(10);
+							if (column == 4) {
+								itemEditor.setItems(new String[] { langEngine.getMeaning("NO"),
+										langEngine.getMeaning("YES") });
+							} else {
+								if (column % 2 == 0) {
+									itemEditor.setItems(QuranPropertiesUtils.getIndexedSuraNames());
+								} else {
+									int suraNum = ((Integer) item.getData(String.valueOf(column - 1)))
+											.intValue();
+									itemEditor.setItems(QuranPropertiesUtils.getSuraAyas(suraNum));
+								}
+							}
+							Listener textListener = new Listener() {
+								public void handleEvent(final Event e) {
+									switch (e.type) {
+									case SWT.FocusOut:
+										item.setText(column, itemEditor.getText());
+										itemEditor.dispose();
+										if (column % 2 == 0) {
+											item.setText(column + 1, "1");
+											item.setData(String.valueOf(column + 1), new Integer(1));
+										}
+										break;
+									case SWT.Traverse:
+										switch (e.detail) {
+										case SWT.TRAVERSE_RETURN:
+											item.setText(column, itemEditor.getText());
+											if (column % 2 == 0) {
+												item.setText(column + 1, "1");
+												item.setData(String.valueOf(column + 1), new Integer(1));
+											}
+										// FALL THROUGH
+										case SWT.TRAVERSE_ESCAPE:
+											itemEditor.dispose();
+											e.doit = false;
+										}
+										break;
+									}
+								}
+							};
+							itemEditor.addListener(SWT.FocusOut, textListener);
+							itemEditor.addListener(SWT.Traverse, textListener);
+
+							editor = new TableEditor(table);
+							editor.horizontalAlignment = SWT.LEFT;
+							editor.grabHorizontal = true;
+							editor.setEditor(itemEditor, item, i);
+
+							itemEditor.setText(item.getText(i));
+							itemEditor.setFocus();
+							return;
+						}
+						if (!visible && rect.intersects(clientArea)) {
+							visible = true;
+						}
+					}
+					if (!visible)
+						return;
+					index++;
+				}
+			}
+		});
 	}
 
-	public static void main(String[] args) {
-		SearchScopeForm ssf = new SearchScopeForm(new Display());
-		ssf.show();
-		ssf.loopEver();
+	private TableItem addNewItem(SearchScopeItem ssi) {
+		String sf = QuranPropertiesUtils.getIndexedSuraNames()[ssi.getSuraFrom() - 1];
+		int af = ssi.getAyaFrom();
+		String st = QuranPropertiesUtils.getIndexedSuraNames()[ssi.getSuraTo() - 1];
+		int at = ssi.getAyaTo();
+		String exclText = ssi.isExclusive() ? langEngine.getMeaning("YES") : langEngine.getMeaning("NO");
+
+		final TableItem item = new TableItem(table, SWT.NONE);
+		item.setText(new String[] { sf, String.valueOf(af), st, String.valueOf(at), exclText });
+		item.setData("0", new Integer(ssi.getSuraFrom()));
+		item.setData("1", new Integer(af));
+		item.setData("2", new Integer(ssi.getSuraTo()));
+		item.setData("3", new Integer(at));
+		item.setData("4", ssi.isExclusive() ? new Integer(2) : new Integer(1));
+
+		return item;
+	}
+
+	public void updateSearchScope() {
+		searchScope = new SearchScope();
+		TableItem[] ti = table.getItems();
+		for (int i = 0; i < ti.length; i++) {
+			int sf = ((Integer) ti[i].getData("0")).intValue();
+			int af = ((Integer) ti[i].getData("1")).intValue();
+			int st = ((Integer) ti[i].getData("2")).intValue();
+			int at = ((Integer) ti[i].getData("3")).intValue();
+			int excl = ((Integer) ti[i].getData("4")).intValue(); // 1 = false, 2 = true
+			SearchScopeItem ssi = new SearchScopeItem(sf, af, st, at, excl == 1 ? false : true);
+			searchScope.add(ssi);
+		}
+	}
+
+	public SearchScope getSearchScope() {
+		return searchScope;
+	}
+
+	/**
+	 * @return <code>true</code> if ok pressed, <code>false</code> otherwise.
+	 */
+	public boolean open() {
+		shell.setLocation(FormUtils.getCenter(parent, shell));
+		super.show();
+		loopEver();
+		return !canceled;
 	}
 
 	protected Shell getShell() {
@@ -132,5 +349,9 @@ public class SearchScopeForm extends BaseForm {
 
 	protected Display getDisplay() {
 		return display;
+	}
+
+	private String meaning(String key) {
+		return langEngine.getMeaningById(FORM_ID, key);
 	}
 }

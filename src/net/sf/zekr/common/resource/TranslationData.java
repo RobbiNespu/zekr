@@ -16,8 +16,6 @@ import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.sf.zekr.common.util.IQuranText;
-import net.sf.zekr.common.util.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 
 /**
@@ -55,6 +53,9 @@ public class TranslationData implements IQuranText {
 	public String file;
 
 	private String[][] transText;
+
+	public TranslationData() {
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -142,5 +143,9 @@ public class TranslationData implements IQuranText {
 			transText[i] = sura;
 			ayaTotalCount += ayaCount;
 		}
+	}
+
+	public TranslationData getTranslationData() {
+		return this;
 	}
 }

@@ -8,14 +8,15 @@
  */
 package net.sf.zekr.engine.theme;
 
-import net.sf.zekr.common.util.IQuranText;
+import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.IRangedQuranText;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
 public abstract class AbstractSearchResultTemplate extends BaseViewTemplate {
-	protected IQuranText quran;
+	protected IRangedQuranText quran;
 	protected String keyword;
 	protected boolean matchDiac;
 
@@ -24,13 +25,16 @@ public abstract class AbstractSearchResultTemplate extends BaseViewTemplate {
 	 * @param keyword
 	 * @param matchDiac
 	 */
-	protected AbstractSearchResultTemplate(IQuranText quran, String keyword, boolean matchDiac) {
+	protected AbstractSearchResultTemplate(IRangedQuranText quran, String keyword, boolean matchDiac) {
 		this.quran = quran;
 		this.keyword = keyword;
 		this.matchDiac = matchDiac;
 
 		engine.put("KEYWORD", keyword);
 		engine.put("ICON_TRANSLATE", resource.getString("icon.translate"));
+
+		engine.put("NEXT_AYA", langEngine.getMeaning("NEXT_AYA"));
+		engine.put("PREV_AYA", langEngine.getMeaning("PREV_AYA"));
 
 		engine.put("GOTO_MSG", langEngine.getMeaning("GOTO"));
 		engine.put("SURA_MSG", langEngine.getMeaning("SURA"));
@@ -41,7 +45,7 @@ public abstract class AbstractSearchResultTemplate extends BaseViewTemplate {
 	 * @param quran
 	 * @param keyword
 	 */
-	protected AbstractSearchResultTemplate(IQuranText quran, String keyword) {
+	protected AbstractSearchResultTemplate(IRangedQuranText quran, String keyword) {
 		this(quran, keyword, false);
 	}
 }

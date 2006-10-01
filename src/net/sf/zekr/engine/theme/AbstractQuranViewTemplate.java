@@ -1,8 +1,8 @@
 package net.sf.zekr.engine.theme;
 
+import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranProperties;
-import net.sf.zekr.common.util.IQuranText;
-import net.sf.zekr.common.util.QuranPropertiesUtils;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 
 public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {

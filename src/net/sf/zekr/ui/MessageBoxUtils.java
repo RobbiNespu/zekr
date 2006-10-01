@@ -191,7 +191,7 @@ public class MessageBoxUtils {
 	}
 */
 	private static Shell getShell() {
-		return Display.getCurrent().getShells()[0];
+		return Display.getCurrent().getActiveShell();
 	}
 
 }

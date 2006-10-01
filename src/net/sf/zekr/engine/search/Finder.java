@@ -8,8 +8,6 @@
  */
 package net.sf.zekr.engine.search;
 
-import net.sf.zekr.common.util.Range;
-
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -17,7 +15,7 @@ import net.sf.zekr.common.util.Range;
 abstract class Finder {
 	public abstract Range indexOf(String src, String key);
 
-	public final Range indexOf(String src, String key, int off) {
+	public Range indexOf(String src, String key, int off) {
 		Range r = indexOf(src.substring(off), key);
 		if (r == null)
 			return null;

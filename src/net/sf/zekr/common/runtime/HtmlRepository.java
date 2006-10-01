@@ -7,7 +7,7 @@
  * Start Date:     21/01/2005
  */
 
-package net.sf.zekr.common.resource.dynamic;
+package net.sf.zekr.common.runtime;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -17,16 +17,18 @@ import java.io.OutputStreamWriter;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.resource.IRangedQuranText;
 import net.sf.zekr.common.resource.QuranText;
+import net.sf.zekr.common.resource.RangedQuranText;
 import net.sf.zekr.common.resource.TranslationData;
-import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.theme.AbstractQuranViewTemplate;
 import net.sf.zekr.engine.theme.ITransformer;
 import net.sf.zekr.engine.theme.MixedViewTemplate;
-import net.sf.zekr.engine.theme.QuranViewTemplate;
 import net.sf.zekr.engine.theme.QuranSearchResultTemplate;
+import net.sf.zekr.engine.theme.QuranViewTemplate;
 import net.sf.zekr.engine.theme.TransSearchResultTemplate;
 import net.sf.zekr.engine.theme.TranslationViewTemplate;
 
@@ -98,40 +100,49 @@ public class HtmlRepository {
 		return UriUtils.toURI(file);// + ((aya == 0) ? "" : "#" + aya);
 	}
 
-	public static String getSearchQuranUri(String keyword, boolean matchDiac) {
+	public static String getSearchQuranUri(String keyword, boolean matchDiac, SearchScope searchScope) {
 		File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + keyword.hashCode()
 				+ ".html");
 
 		try {
-			if (file.exists() || file.length() == 0) {
+//			if (!file.exists() || file.length() == 0) {
 				logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
-				QuranSearchResultTemplate qrt = new QuranSearchResultTemplate(QuranText.getInstance(), keyword, matchDiac);
-				osw.write(qrt.transform());
+
+				RangedQuranText rqt = new RangedQuranText(QuranText.getInstance(), searchScope);
+
+				ITransformer qsrt = new QuranSearchResultTemplate(rqt, keyword, matchDiac);
+
+				osw.write(qsrt.transform());
 				osw.close();
-			}
+//			}
 		} catch (IOException e) {
 			logger.log(e);
 		}
 		return UriUtils.toURI(file);
 	}
 
-	public static String getSearchTransUri(String keyword, boolean matchDiac, boolean matchCase) {
-		TranslationData trans = config.getTranslation().getDefault();
-		String prefix = trans.id + "-" + matchCase + "-";
+	public static String getSearchTransUri(String keyword, boolean matchDiac, boolean matchCase, SearchScope searchScope) {
+		TranslationData td = config.getTranslation().getDefault();
+//		RangedTranslationData trans = new RangedTranslationData(td, searchScope);
+		IRangedQuranText eqt = new RangedQuranText(td, searchScope);
+
+		String prefix = td.id + "-" + matchCase + "-";
 		File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + prefix + keyword.hashCode()
 				+ ".html");
 
 		try {
-			if (!file.exists() || file.length() == 0) {
+//			if (!file.exists() || file.length() == 0) {
 				logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
-				ITransformer gsrt = new TransSearchResultTemplate(trans, keyword, matchCase);
+
+				ITransformer gsrt = new TransSearchResultTemplate(eqt, keyword, matchCase);
+
 				osw.write(gsrt.transform());
 				osw.close();
-			}
+//			}
 		} catch (IOException e) {
 			logger.log(e);
 		}

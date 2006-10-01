@@ -12,12 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import net.sf.zekr.common.resource.TranslationData;
-import net.sf.zekr.common.util.Range;
+import net.sf.zekr.common.resource.IRangedQuranText;
 
 /**
- * This is a sample implementation of the Quran translation search. It only supports
- * non-diacritic match searching.
+ * This is a sample implementation of the Quran translation search. It only supports non-diacritic match
+ * searching.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -25,14 +24,14 @@ import net.sf.zekr.common.util.Range;
  */
 public class TranslationSearch extends AbstractQuranSearch {
 
-	public TranslationSearch(TranslationData trans) {
+	public TranslationSearch(IRangedQuranText trans) {
 		this(trans, false, null);
 	}
 
-	public TranslationSearch(TranslationData trans, boolean matchCase, Locale locale) {
+	public TranslationSearch(IRangedQuranText trans, boolean matchCase, Locale locale) {
 		super(trans, true, matchCase, locale);
-		
-		trans.load();
+
+		trans.getTranslationData().load();
 	}
 
 	protected final List find(String src, String keyword) {

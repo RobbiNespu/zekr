@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Mar 20, 2005
  */
-package net.sf.zekr.common.util;
+package net.sf.zekr.common.resource;
 
 import net.sf.zekr.engine.language.LanguageEngine;
 

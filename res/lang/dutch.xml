@@ -68,6 +68,9 @@
 			<text id="FONT"   value="Font" />
 			<text id="GENERAL"  value="Algemeen" />
 			<text id="EXIT"   value="Afsluiten" />
+			<text id="EXCLUDE"  value="Exclude"   />
+			<text id="TRUE"     value="True"   />
+			<text id="FALSE"    value="False"   />
 		</common>
 		<special>
 			<text id="QURAN"  value="Koran" />
@@ -112,15 +115,29 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
+			<text id="NEW_SCOPE" value="New scope"   />
+			<text id="EDIT_SCOPES" value="Edit scopes"   />
+			<text id="NO_SCOPE" value="No scope"   />
+			<text id="CURRENT_PAGE" value="Current page"   />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="TITLE" value="Title" />
+			<text id="TITLE" value="Application Options"   />
 			<text id="SHOW_SPLASH" value="Start splash scherm" />
 			<text id="NEW_KEY" value="Nieuwe bijdrage" />
 			<text id="THEME_SETTING" value="Thema-instellingen" />
 			<text id="PRESS_OK_TO_APPLY" value="Druk &quot;OK&quot;, om uit te voeren!" />
 			<text id="MAX_SEARCH_RESULT" value="Maximale aantal zoekresultaten" />
 		</form>
+		<form id="SEARCH_SCOPE_FORM">
+			<text id="TITLE" value="Configure Search Scope"   />
+			<text id="FROM_SURA" value="From sura"   />
+			<text id="FROM_AYA" value="From aya"   />
+			<text id="TO_SURA" value="To sura"   />
+			<text id="TO_AYA" value="To aya"   />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="Illegal search scope items"   />
+		</form>
+		<form id="MANAGE_SCOPES_FORM">
+			<text id="TITLE" value="Edit Search Scopes"   />
+		</form>
 	</forms>
 </language>
-

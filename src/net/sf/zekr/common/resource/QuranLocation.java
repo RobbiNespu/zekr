@@ -6,9 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Feb 10, 2005
  */
-package net.sf.zekr.common.util;
-
-import net.sf.zekr.common.resource.QuranProperties;
+package net.sf.zekr.common.resource;
 
 /**
  * This data structure is the primitive structure of addressing somewhere in the Quran. Addressing is possible
@@ -26,6 +24,8 @@ public class QuranLocation implements IQuranLocation {
 	private int aya;
 
 	/**
+	 * No range check is performed.
+	 * 
 	 * @param sura counted from 1
 	 * @param aya counted from 1
 	 */
@@ -50,19 +50,19 @@ public class QuranLocation implements IQuranLocation {
 		setAya(Integer.parseInt(location.substring(i + 1)));
 	}
 
-	public int getAya() {
+	public final int getAya() {
 		return aya;
 	}
 
-	public void setAya(int aya) {
+	public final void setAya(int aya) {
 		this.aya = aya;
 	}
 
-	public int getSura() {
+	public final int getSura() {
 		return sura;
 	}
 
-	public void setSura(int sura) {
+	public final void setSura(int sura) {
 		this.sura = sura;
 	}
 
@@ -71,10 +71,30 @@ public class QuranLocation implements IQuranLocation {
 		return qp.getSura(sura).name;
 	}
 
+	public IQuranLocation getNext() {
+		QuranLocation newLoc;
+		SuraProperties sp = QuranPropertiesUtils.getSura(sura);
+		if (aya < sp.getAyaCount())
+			newLoc = new QuranLocation(sura, aya + 1);
+		else if (sura < 114)
+			newLoc = new QuranLocation(sura + 1, 1);
+		else
+			newLoc = null;
+		return newLoc;
+	}
+
 	/**
 	 * Makes a string presentation of this class: <tt>sura#-aya#</tt>
 	 */
 	public String toString() {
 		return new StringBuffer("" + sura).append("-").append(aya).toString();
+	}
+
+	public boolean equals(Object obj) {
+		if (obj instanceof QuranLocation) {
+			QuranLocation loc = (QuranLocation) obj;
+			return loc.aya == aya && loc.sura == sura;
+		} else
+			return obj.equals(this);
 	}
 }

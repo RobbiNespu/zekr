@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Feb 10, 2005
  */
-package net.sf.zekr.common.util;
+package net.sf.zekr.common.resource;
 
 /**
  * Initial interface for properties of the Holy Quran

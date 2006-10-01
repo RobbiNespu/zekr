@@ -9,7 +9,7 @@
 package net.sf.zekr.engine.theme;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.util.IQuranText;
+import net.sf.zekr.common.resource.IQuranText;
 
 /**
  * Template for mixed view layout.

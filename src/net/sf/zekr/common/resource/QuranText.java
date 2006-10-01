@@ -14,7 +14,6 @@ import java.io.RandomAccessFile;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.util.IQuranText;
 
 /**
  * This class is a repository for the whole quran text. All public methods act as 1-relative arrays.
@@ -100,5 +99,10 @@ public class QuranText implements IQuranText {
 	 */
 	public String[][] getFullText() {
 		return quranText;
+	}
+
+	public TranslationData getTranslationData() {
+		// do nothing
+		return null;
 	}
 }

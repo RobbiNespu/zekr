@@ -67,6 +67,9 @@
 			<text id="QUESTION" value="سؤال" />
 			<text id="FONT"     value="قلم" />
 			<text id="GENERAL"  value="عمومی" />
+			<text id="EXCLUDE"  value="استثنا" />
+			<text id="TRUE"     value="درست" />
+			<text id="FALSE"    value="نادرست" />
 			<text id="EXIT"     value="خروج" />
 		</common>
 		<special>
@@ -112,6 +115,10 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="ذکر" />
+			<text id="NEW_SCOPE" value="محدوده‌ی جدید" />
+			<text id="EDIT_SCOPES" value="ویرایش محدوده‌ها" />
+			<text id="NO_SCOPE" value="بدون محدوده" />
+			<text id="CURRENT_PAGE" value="صفحه‌ی جاری" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="تنظیمات برنامه" />
@@ -120,6 +127,17 @@
 			<text id="THEME_SETTING" value="تنطیمات مضمون" />
 			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید &quot;قبول&quot; را فشار دهید." />
 			<text id="MAX_SEARCH_RESULT" value="حداکثر تعداد نتایج جستجو" />
+		</form>
+		<form id="SEARCH_SCOPE_FORM">
+			<text id="TITLE" value="تنظیم محدوده‌ی جستجو" />
+			<text id="FROM_SURA" value="از سوره" />
+			<text id="FROM_AYA" value="از آیه" />
+			<text id="TO_SURA" value="تا سوره" />
+			<text id="TO_AYA" value="تا آیه" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="محدوده‌ی جستجو مجاز نمی‌باشد" />
+		</form>
+		<form id="MANAGE_SCOPES_FORM">
+			<text id="TITLE" value="ویرایش محدوده‌ی جستجو" />
 		</form>
 	</forms>
 </language>

@@ -13,10 +13,6 @@ import java.util.ArrayList;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.util.JuzProperties;
-import net.sf.zekr.common.util.QuranPropertiesUtils;
-import net.sf.zekr.common.util.SajdaProperties;
-import net.sf.zekr.common.util.SuraProperties;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.NodeList;
 import net.sf.zekr.engine.xml.XmlReadException;

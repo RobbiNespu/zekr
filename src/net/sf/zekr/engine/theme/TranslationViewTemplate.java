@@ -9,7 +9,7 @@
 
 package net.sf.zekr.engine.theme;
 
-import net.sf.zekr.common.util.IQuranText;
+import net.sf.zekr.common.resource.IQuranText;
 
 /**
  * @author Mohsen Saboorian

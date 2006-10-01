@@ -70,8 +70,10 @@ SearchResult = function() {
 	var oldNum = 0;
 	var list;
 	$(document).ready(function() {
-		cnt = $("div.searchResult/div").length;
-		list = $("div.searchResult/div");
+		try{
+			cnt = $("div.searchResult/div").size();
+			list = $("div.searchResult/div");
+		} catch(e) {return;}
 		focus();
 	});
 
@@ -84,7 +86,6 @@ SearchResult = function() {
 	};
 
 	function focus() {
-//		var h = $("div.searchResult/div").eq(num).height();
 		var h = list.eq(num).height();
 
 		var bh = getBrowserHeight();
@@ -94,6 +95,5 @@ SearchResult = function() {
 		var suraAya = $("#itemNum_" + (1+num)).attr("title").split('-');
 		$("#suraNum").val(suraAya[0]);
 		$("#ayaNum").val(suraAya[1]);
-		
 	};
 };

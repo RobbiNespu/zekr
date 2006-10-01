@@ -9,17 +9,18 @@
 package net.sf.zekr.engine.theme;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.util.IQuranText;
-import net.sf.zekr.common.util.QuranLocation;
-import net.sf.zekr.common.util.Range;
+import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.QuranSearch;
+import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.search.SearchUtils;
 
 /**
@@ -28,7 +29,7 @@ import net.sf.zekr.engine.search.SearchUtils;
  */
 public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 
-	public QuranSearchResultTemplate(IQuranText quran, String keyword, boolean matchDiac) {
+	public QuranSearchResultTemplate(IRangedQuranText quran, String keyword, boolean matchDiac) {
 		super(quran, keyword, matchDiac);
 		engine.put("TRANSLATE", langEngine.getMeaning("TRANSLATION"));
 	}
@@ -39,25 +40,32 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 		Map result = new LinkedHashMap();
 		try {
 			qs = new QuranSearch(quran, matchDiac);
+
+			logger.info("Search started: " + keyword);
+			Date date1 = new Date();
 			boolean ok = qs.findAll(result, keyword); // find over the whole Quran
+			Date date2 = new Date();
+			logger.info("Search on " + keyword + " finnished; took " + (date2.getTime() - date1.getTime())
+					+ "ms.");
+
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {
 					"" + qs.getResultCount(), "" + result.size() }));
 			if (!ok) // more that maxAyaMatch ayas was matched
 				engine.put("TOO_MANY_RESULT", langEngine.getDynamicMeaning("TOO_MANY_RESULT",
 						new String[] { "" + result.size() }));
-	
+
 			engine.put("AYA_LIST", refineQuranResult(result).entrySet());
 			String k = matchDiac ? SearchUtils.replaceLayoutSimilarCharacters(keyword) : SearchUtils
 					.arabicSimplify(keyword);
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));
-	
+
 			ret = engine.getUpdated(ResourceManager.getInstance().getString("theme.search.result",
 					new String[] { config.getTheme().getCurrent().id }));
 		} catch (Exception e) {
 			logger.log(e);
 		}
 		return ret;
-	
+
 	}
 
 	/**

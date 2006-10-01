@@ -6,14 +6,13 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Feb 11, 2005
  */
-package net.sf.zekr.common.util;
+package net.sf.zekr.common.resource;
 
 /**
- * This class is an hold attributes of a sura of the Holy Quran.
+ * This class holds attributes of a sura of the Holy Quran.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class SuraProperties {
 	String name;
@@ -22,46 +21,43 @@ public class SuraProperties {
 	int index;
 
 	/**
-	 * @return Returns the name.
+	 * @return the name.
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            The name to set.
+	 * @param name The name to set.
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * @return number of ayas in the sura
+	 * @return number of ayas in the sura.
 	 */
 	public int getAyaCount() {
 		return ayaCount;
 	}
 
 	/**
-	 * @param ayaCount
-	 *            The ayaCount to set.
+	 * @param ayaCount the ayaCount to set.
 	 */
 	public void setAyaCount(int ayaCount) {
 		this.ayaCount = ayaCount;
 	}
 
 	/**
-	 * @return <code>true</code> if <code>sura</code> is <i>madani </i> or
-	 *         (otherwise) <code>false</code> if it is <i>makki </i>
+	 * @return <code>true</code> if <code>sura</code> is <i>madani </i> or (otherwise) <code>false</code>
+	 *         if it is <i>makki </i>
 	 */
 	public boolean isMadani() {
 		return madani;
 	}
 
 	/**
-	 * @param madani
-	 *            The madani to set.
+	 * @param madani The madani to set.
 	 */
 	public void setMadani(boolean madani) {
 		this.madani = madani;
@@ -75,8 +71,7 @@ public class SuraProperties {
 	}
 
 	/**
-	 * @param index
-	 *            The index to set.
+	 * @param index The index to set.
 	 */
 	public void setIndex(int index) {
 		this.index = index;

@@ -10,6 +10,8 @@
 		</subfeature>
 		<subfeature title="Navigation" progress="70">
 			<subfeature title="Navigate through the Quran, sura-by-sura and aya-by-aya" progress="100" em="0.1" />
+			<subfeature title="Quick nav bar for easy navigation between ayas/suras" progress="90" em="0.4" />
+			<subfeature title="Nav bar for search result" progress="100" em="0.4" />
 			<subfeature title="Navigate juz-by-juz and hizb-by-hizb" progress="0" em="0.5" />
 		</subfeature>
 	</feature>
@@ -31,7 +33,8 @@
 			<subfeature title="Russian" progress="100" em="3.0" />
 			<subfeature title="Italian" progress="0" em="1.0" />
 			<subfeature title="Spanish" progress="0" em="1.0" />
-			<subfeature title="Turkish" progress="0" em="1.0" />
+			<subfeature title="Turkish" progress="90" em="0.4" />
+			<subfeature title="Malay" progress="90" em="0.4" />
 			<subfeature title="Chinese" progress="0" em="1.0" />
 			<subfeature title="Japanese" progress="0" em="1.0" />
 		</subfeature>
@@ -44,14 +47,16 @@
 		</subfeature>
 		<subfeature title="Advanced search" progress="0" em="0.6">
 			<subfeature title="More thant 200 search results (next/previous 200 results)" progress="100" em="0.3" />
-			<subfeature title="Search in translations" progress="0" em="0.4" />
+			<subfeature title="Search in translations" progress="100" em="0.4" />
+			<subfeature title="Search in a range" progress="10" em="0.5" />
+			<subfeature title="&amp;, | and not operators" progress="0" em="0.5" />
 		</subfeature>
 		<subfeature title="View popup translation for the search results" progress="100" em="0.3" />
 	</feature>
 
-	<feature title="Translation" progress="90" em="0.4">
+	<feature title="Translation" progress="80" em="0.5">
 		<subfeature	title="Translation text files: all the files are available.
-			The only problem is licensing issues with some of them." progress="80" em="0.4" />
+			The only problem is licensing issues with some of them." progress="100" em="0.4" />
 		<subfeature title="Test translation consistency: aya numbers, encoding." progress="100" em="0.3" />
 		<subfeature title="Translation list management" progress="10" em="0.5" />
 		<subfeature title="Transliteration support" progress="20" em="0.5" />
@@ -59,13 +64,13 @@
 
 	<feature title="Theme" progress="90" em="0.4">
 		<subfeature title="Add a new theme" progress="100" em="0.3" />
-		<subfeature title="Delete an existing theme" progress="0" em="0.4" />
 		<subfeature title="Theme list management" progress="0" em="0.5" />
 		<subfeature title="Quran-only layout" progress="100" em="0.3" />
 	</feature>
 
-	<feature title="Layout" progress="100" em="0.3">
+	<feature title="Layout" progress="90" em="0.4">
 		<subfeature title="Four types of view layout" progress="100" em="0.3">
+			<subfeature title="Custom Mixed layout" progress="10" em="0.4" />
 			<subfeature title="Mixed layout" progress="100" em="0.3" />
 			<subfeature title="Separate layout" progress="100" em="0.3" />
 			<subfeature title="Quran-only layout" progress="100" em="0.3" />
@@ -74,9 +79,9 @@
 	</feature>
 
 	<feature title="Quran Morphology" progress="30" em="1.0">
-		<subfeature title="Tagging database" progress="100" em="0.4" />
-		<subfeature title="Basic morphological analysis of the Quran" progress="10" em="4.0">
-			<subfeature title="Find related stats about a word (root, gender, ...)" progress="0" em="0.4" />
+		<subfeature title="Tagging database" progress="100" em="0.5" />
+		<subfeature title="Basic morphological analysis of the Quran" progress="10" em="0.5">
+			<subfeature title="Find related stats about a word (root, gender, ...)" progress="0" em="0.5" />
 		</subfeature>
 	</feature>
 

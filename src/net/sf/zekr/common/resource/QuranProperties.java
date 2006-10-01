@@ -10,10 +10,6 @@ package net.sf.zekr.common.resource;
 
 import java.util.List;
 
-import net.sf.zekr.common.util.IQuranProperties;
-import net.sf.zekr.common.util.JuzProperties;
-import net.sf.zekr.common.util.SajdaProperties;
-import net.sf.zekr.common.util.SuraProperties;
 
 /**
  * @author Mohsen Saboorian

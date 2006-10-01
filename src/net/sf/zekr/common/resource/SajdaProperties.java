@@ -6,14 +6,13 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Mar 20, 2005
  */
-package net.sf.zekr.common.util;
+package net.sf.zekr.common.resource;
 
 import net.sf.zekr.engine.language.LanguageEngine;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class SajdaProperties {
 	public static final int MINOR = 0;
@@ -32,15 +31,14 @@ public class SajdaProperties {
 	private int index;
 
 	/**
-	 * @return Returns the ayaNumber.
+	 * @return the ayaNumber.
 	 */
 	public int getAyaNumber() {
 		return ayaNumber;
 	}
 
 	/**
-	 * @param ayaNumber
-	 *            The ayaNumber to set.
+	 * @param ayaNumber the ayaNumber to set.
 	 */
 	public void setAyaNumber(int ayaNumber) {
 		this.ayaNumber = ayaNumber;
@@ -54,44 +52,41 @@ public class SajdaProperties {
 	}
 
 	/**
-	 * @param suraNumber
-	 *            The suraNumber to set.
+	 * @param suraNumber the suraNumber to set.
 	 */
 	public void setSuraNumber(int suraNumber) {
 		this.suraNumber = suraNumber;
 	}
 
 	/**
-	 * @return Returns the type.
+	 * @return the type.
 	 */
 	public int getType() {
 		return type;
 	}
 
 	/**
-	 * @param type
-	 *            The type to set.
+	 * @param type The type to set.
 	 */
 	public void setType(int type) {
 		this.type = type;
 	}
 
 	/**
-	 * @return Returns the index.
+	 * @return the index.
 	 */
 	public int getIndex() {
 		return index;
 	}
 
 	/**
-	 * @param index
-	 *            The index to set.
+	 * @param index The index to set.
 	 */
 	public void setIndex(int index) {
 		this.index = index;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		LanguageEngine l = LanguageEngine.getInstance();
 		return type == MINOR ? l.getMeaning("MINOR_SAJDA") : l.getMeaning("MAJOR_SAJDA");
 	}

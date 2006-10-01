@@ -13,17 +13,16 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.util.IQuranText;
-import net.sf.zekr.common.util.QuranLocation;
-import net.sf.zekr.common.util.Range;
+import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.QuranLocation;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
 public abstract class AbstractQuranSearch {
-
-	protected IQuranText quran;
+	protected IRangedQuranText quran;
 	protected int resultCount;
 	protected int maxAyaMatch = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");
 	protected Finder finder;
@@ -33,7 +32,7 @@ public abstract class AbstractQuranSearch {
 	 * 
 	 * @param quran the Quran text to search on
 	 */
-	protected AbstractQuranSearch(IQuranText quran) {
+	protected AbstractQuranSearch(IRangedQuranText quran) {
 		this(quran, false, false, null);
 	}
 
@@ -43,7 +42,7 @@ public abstract class AbstractQuranSearch {
 	 * @param matchCase specifies whether search should match the case or not. Only applicable to translation.
 	 * @param locale text locale
 	 */
-	protected AbstractQuranSearch(IQuranText quran, boolean matchDiac, final boolean matchCase,
+	protected AbstractQuranSearch(IRangedQuranText quran, boolean matchDiac, final boolean matchCase,
 			final Locale locale) {
 		this.quran = quran;
 		if (matchDiac) {
@@ -70,21 +69,35 @@ public abstract class AbstractQuranSearch {
 	 * @return <code>false</code> if too much results found (more than <code>maxAyaMatch</code>),
 	 *         otherwise <code>true</code>.
 	 */
-	public final boolean findAll(Map result, String keyword) {
+	public boolean findAll(Map result, String keyword) {
 		String aya;
 		int ayaNum;
 		List l;
-		for (int i = 1; i <= 114; i++) {
-			ayaNum = quran.getSura(i).length;
-			for (int j = 1; j <= ayaNum; j++) {
-				aya = quran.get(i, j);
+		if (quran.getSearchScope() == null) {
+			for (int i = 1; i <= 114; i++) {
+				ayaNum = quran.getSura(i).length;
+				for (int j = 1; j <= ayaNum; j++) {
+					aya = quran.get(i, j);
+					if ((l = find(aya, keyword)) != null) {
+						result.put(new QuranLocation(i, j), l);
+						resultCount += l.size();
+						if (result.size() >= maxAyaMatch)
+							return false;
+					}
+				}
+			}
+		} else {
+			do {
+				IQuranLocation loc = quran.getCurrentLocation();
+				if (loc == null) return true;
+				aya = quran.get(loc.getSura(), loc.getAya());
 				if ((l = find(aya, keyword)) != null) {
-					result.put(new QuranLocation(i, j), l);
+					result.put(loc, l);
 					resultCount += l.size();
 					if (result.size() >= maxAyaMatch)
 						return false;
 				}
-			}
+			} while(quran.findNext());
 		}
 
 		return true;

@@ -10,7 +10,6 @@ package net.sf.zekr.engine.search;
 
 import java.util.Locale;
 
-import net.sf.zekr.common.util.Range;
 
 /**
  * This file contains several useful <code>public static</code> methods for finding
@@ -58,7 +57,7 @@ public class SearchUtils {
 	 * @param str
 	 * @return updated <code>String</code> result
 	 */
-	public static final String replaceLayoutSimilarCharacters(String str) {
+	public static String replaceLayoutSimilarCharacters(String str) {
 		str = str.replaceAll(FARSI_YEH + "", ARABIC_YEH + "");
 		str = str.replaceAll(FARSI_KEHEH + "", ARABIC_KAF + "");
 		return str;
@@ -78,7 +77,7 @@ public class SearchUtils {
 	 * @param str
 	 * @return updated <code>String</code> result
 	 */
-	public static final String replaceSimilarArabic(String str) {
+	public static String replaceSimilarArabic(String str) {
 		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + "");
 		str = str.replaceAll(ALEF_HAMZA_ABOVE + "", ALEF + "");
 		str = str.replaceAll(ALEF_HAMZA_BELOW + "", ALEF + "");
@@ -97,7 +96,7 @@ public class SearchUtils {
 	 * @param str
 	 * @return simplified form of the <code>str</code>
 	 */
-	public static final String arabicSimplify(String str) {
+	public static String arabicSimplify(String str) {
 		// diacritics removal
 		char[] arr = new char[] { SUKUN, SHADDA, KASRA, DAMMA, FATHA, KASRATAN, DAMMATAN, FATHATAN,
 				SUPERSCRIPT_ALEF };
@@ -133,7 +132,7 @@ public class SearchUtils {
 	 * @return <code>true</code> if ch is an Arabic <i>Harakat</i>, otherwise
 	 *         <code>false</code>
 	 */
-	public static final boolean isDiac(char ch) {
+	public static boolean isDiac(char ch) {
 		return (ch == SUKUN) || (ch == SHADDA) || (ch == KASRA) || (ch == DAMMA) || (ch == FATHA)
 				|| (ch == KASRATAN) || (ch == DAMMATAN) || (ch == FATHATAN)
 				|| (ch == SUPERSCRIPT_ALEF);
@@ -154,7 +153,7 @@ public class SearchUtils {
 	 *         the first space just after the <code>key</code> in <code>src</code> (or
 	 *         end of src if no space found)
 	 */
-	public static final Range indexOfIgnoreDiacritic(String src, String key, boolean matchCase, Locale locale) {
+	public static Range indexOfIgnoreDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = arabicSimplify(key);
 		src = replaceSimilarArabic(src);
 
@@ -223,7 +222,7 @@ public class SearchUtils {
 	 *         the first space just after the <code>key</code> in <code>src</code> (or
 	 *         end of src if no space found)
 	 */
-	public static final Range indexOfMatchDiacritic(String src, String key, boolean matchCase, Locale locale) {
+	public static Range indexOfMatchDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = replaceLayoutSimilarCharacters(key);
 		if (!matchCase) {
 			if (locale != null) {

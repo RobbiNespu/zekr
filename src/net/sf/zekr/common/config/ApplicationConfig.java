@@ -27,12 +27,12 @@ import java.util.zip.ZipFile;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.Translation;
 import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.RuntimeConfig;
 import net.sf.zekr.common.util.CollectionUtils;
-import net.sf.zekr.common.util.QuranLocation;
 import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
@@ -390,23 +390,6 @@ public class ApplicationConfig extends ConfigNaming {
 		}
 //		transElem.setAttribute(DEFAULT_ATTR, transId);
 	}
-
-	/**
-	 * @param id config file id
-	 * @return config file path
-	 */
-//	public String getConfigFile(String id) {
-//		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils
-//				.getNodes(quranElem, QURAN_CONFIG_TAG), QURAN_CONFIG_TAG, ID_ATTR, id);
-//		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
-//	}
-
-//	public String getQuranText() {
-//		Element elem = XmlUtils.getElementByNamedAttr(XmlUtils.getNodes(quranElem, QURAN_TEXT_TAG),
-//				QURAN_TEXT_TAG, ID_ATTR, QURAN_ARABIC_TEXT_ID);
-//
-//		return ApplicationPath.RESOURCE_DIR + "/" + elem.getAttribute(FILE_ATTR);
-//	}
 
 	public static String getQuranTrans(String name) {
 		return ApplicationPath.TRANSLATION_DIR + "/" + name;
