@@ -2,7 +2,7 @@
 
 !define APP_NAME "The Zekr Project"
 !define APP_VER "0.4.0"
-!define APP_VER_DETAIL " beta 1"
+!define APP_VER_DETAIL " beta 2"
 !define CLASS_PATH "lib\swt-win32.jar;lib\apache-commons.jar;lib\log4j-1.2.8.jar;lib\velocity-1.4.jar;lib\velocity-tools-generic-1.2.jar;dist\zekr.jar"
 !define JRE_OPT "-Djava.library.path=lib"
 !define MAIN_CLASS "net.sf.zekr.ZekrMain"

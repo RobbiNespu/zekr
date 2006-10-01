@@ -103,7 +103,7 @@ Features/Enhancements:
 	Fooladvand (Farsi) translation will be available under a non-commercial license.
 	A new sample theme (id: sample) is available.
 	Max search result (default: 200) can be set on Options form.
-	Moved to swt-win32-3232.
+	Updated to SWT build 3232.
 	Permission to use Kuliev's translation in Zekr (done by Michael Kalinin).
 Bug fixes:
 	A typo in Makarem translation of sura Noor, aya 26 has been fixed.
@@ -136,16 +136,17 @@ Features/Enhancements:
 		inclusive/exclusive scope items
 		a new button: search scope control (a drop down menu appears when clicked)
 	New language pack: Dutch (Erik van Luxzenburg).
+	SWT updated to build 3309.
 Bug fixes:
 	CSS bug fix for Safari. Safari does not fully support system colors in CSS.
 	A problem left from beta 1: general options (search result count and display logo at startup) now works.
 	A small bug with JavaScript when there was no search result.
 	Invalid content of textboxes (sura and aya) when there is no search result.
 
-Version 0.4.0 release - [1-10-06]
+Version 0.4.0 release - [1-11-06]
 Features/Enhancements:
 	TODO: Quran transliteration
-	TODO: update language pack
+	TODO: Update language packs
 	TODO: Custom mixed layout for an arbitrary number of translations
 	TODO: Navigation button for "current page" search result
 Bug fixes:
