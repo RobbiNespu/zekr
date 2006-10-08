@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Ari R. Fikri" version="0.3">
+<language author="Ari R. Fikri" version="0.4">
 	<locale localizedName="Indonesian" name="Indonesian" id="id_ID" direction="ltr" />
 	<word>
 		<common>
@@ -46,7 +46,7 @@
 			<text id="HOMEPAGE" value="Home page" />
 			<text id="WHOLE_QURAN" value="Quran Keseluruhan" />
 			<text id="MATCH_DIACRITIC" value="Pengenal ditemukan" />
-			<text id="MATCH_CASE" value="Match case"   />
+			<text id="MATCH_CASE" value="Penulisan yang sama"   />
 			<text id="NEXT_AYA" value="Ayat Selanjutnya" />
 			<text id="NEXT_SURA" value="Surat Selanjutnya" />
 			<text id="PREV_AYA" value="Ayat Sebelumnya" />
@@ -115,10 +115,10 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="NEW_SCOPE" value="New scope"   />
-			<text id="EDIT_SCOPES" value="Edit scopes"   />
-			<text id="NO_SCOPE" value="No scope"   />
-			<text id="CURRENT_PAGE" value="Current page"   />
+			<text id="NEW_SCOPE" value="Lingkup Baru"   />
+			<text id="EDIT_SCOPES" value="Edit Lingkup"   />
+			<text id="NO_SCOPE" value="Tidak ada Lingkup"   />
+			<text id="CURRENT_PAGE" value="Halaman saat ini"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Opsi Aplikasi" />
@@ -129,15 +129,16 @@
 			<text id="MAX_SEARCH_RESULT" value="Jumlah hasil pencarian maksimal" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="Configure Search Scope"   />
-			<text id="FROM_SURA" value="From sura"   />
-			<text id="FROM_AYA" value="From aya"   />
-			<text id="TO_SURA" value="To sura"   />
-			<text id="TO_AYA" value="To aya"   />
-			<text id="ILLEGAL_SEARCH_SCOPE" value="Illegal search scope items"   />
+			<text id="TITLE" value="Konfigurasi lingkup pencarian"   />
+			<text id="SEARCH_SCOPE" value="Lingkup Pencarian"   />
+			<text id="FROM_SURA" value="Dari Surat"   />
+			<text id="FROM_AYA" value="Dari Ayat"   />
+			<text id="TO_SURA" value="Ke Surat"   />
+			<text id="TO_AYA" value="Ke Ayat"   />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="Lingkup item pencarian Ilegal"   />
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="Edit Search Scopes"   />
+			<text id="TITLE" value="Edit Lingkup Pencarian"   />
 		</form>
 	</forms>
 </language>

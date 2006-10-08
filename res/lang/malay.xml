@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="H N Jafar" version="0.1">
+<language author="H N Jafar" version="0.4">
 	<locale localizedName="Malay" name="Malay" id="ms_MY" direction="ltr" />
 	<word>
 		<common>
@@ -111,7 +111,7 @@
 			<text id="APP_NAME" value="Zekr" />
 			<text id="APP_FULL_NAME" value="Proyek Qur'an Dzikir" />
 			<text id="FORM_TITLE" value="Zekr" />
-			<text id="COPYRIGHT_DISCLAIMER" value="Program ini dikeluarkan secara percuma  dengan harapan dapat bermanfaat, namun tanpa jaminan" />
+			<text id="COPYRIGHT_DISCLAIMER" value="Program ini dikeluarkan secara percuma dengan harapan dapat bermanfaat, namun tanpa jaminan" />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
@@ -130,6 +130,7 @@
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configure Search Scope"   />
+			<text id="SEARCH_SCOPE" value="Search scope"   />
 			<text id="FROM_SURA" value="From sura"   />
 			<text id="FROM_AYA" value="From aya"   />
 			<text id="TO_SURA" value="To sura"   />

@@ -26,8 +26,9 @@
 #parse("$THEME_DIR/head.vm")
 </head>
 <body id="${BODY_ID}" dir="${DIR}">
+<input type="hidden" id="hiddenSuraNum" value="${SURA_NUM}" />
 <div id="headerBar" class="headerBar" dir="${DIRECTION}">
-	$SURA_MSG: <input dir="ltr" id="suraNav" type="text" style="width: 3em" value="${SURA_NUM}" readonly="true" />
+	$SURA_MSG: <input dir="ltr" id="suraNav" type="text" style="width: 3em" value="${SURA_NUM}" />
 	&nbsp;&nbsp;|&nbsp;&nbsp;
 	$AYA_MSG: <input dir="ltr" id="ayaNav" type="text" style="width: 3em" value="${AYA_NUM}" />
 	<input type="button" value="${GOTO_MSG}" onclick="navtoSuraAya()" />

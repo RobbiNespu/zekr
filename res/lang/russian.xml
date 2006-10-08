@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Michael Kalinin" version="0.3">
+<language author="Michael Kalinin" version="0.4">
 	<locale localizedName="Русский" name="Russian" id="ru_RU" direction="ltr" />
 	<word>
 		<common>
@@ -23,7 +23,7 @@
 			<text id="MORE"     value="Больше" />
 			<text id="NEXT"     value="Следующий" />
 			<text id="PREVIOUS" value="Предыдущий" />
-			<text id="REFRESH"  value="Восстановить" />
+			<text id="REFRESH"  value="Освежить" />
 			<text id="UPDATE"   value="Обновить" />
 			<text id="SHOW"     value="Показать" />
 			<text id="NAME"     value="Название" />
@@ -31,11 +31,11 @@
 			<text id="NUMBER"   value="Номер" />
 			<text id="OPTION"   value="Опция" />
 			<text id="FILE"     value="Файл" />
-			<text id="RELOAD"   value="Освежить" />
+			<text id="RELOAD"   value="Перезагрузить" />
 			<text id="TYPE"     value="Тип" />
 			<text id="MESSAGE"  value="Сообщение" />
 			<text id="BLOCK"    value="Блок" />
-			<text id="LINE_BY_LINE" value="Построчно" />
+			<text id="LINE_BY_LINE" value="Строки" />
 			<text id="AND"      value="и" />
 			<text id="COMMA"    value="," />
 			<text id="SYNCHRONOUS" value="Синхронно" />
@@ -56,7 +56,7 @@
 			<text id="TOOLS"    value="Инструменты" />
 			<text id="ADD"      value="Добавить" />
 			<text id="DELETE"   value="Удалить" />
-			<text id="REMOVE"   value="Удалить" />
+			<text id="REMOVE"   value="Переместить" />
 			<text id="TRANSLATION" value="Перевод" />
 			<text id="OPEN"     value="Открыть" />
 			<text id="IMPORT"   value="Импорт" />
@@ -68,9 +68,9 @@
 			<text id="FONT"     value="Шрифт" />
 			<text id="GENERAL"  value="Общие" />
 			<text id="EXIT"     value="Выход" />
-			<text id="EXCLUDE"  value="Exclude"   />
-			<text id="TRUE"     value="True"   />
-			<text id="FALSE"    value="False"   />
+			<text id="EXCLUDE"  value="Исключить" />
+			<text id="TRUE"     value="Правильный" />
+			<text id="FALSE"    value="Неправильный" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Коран" />
@@ -115,10 +115,10 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Зикр" />
-			<text id="NEW_SCOPE" value="New scope"   />
-			<text id="EDIT_SCOPES" value="Edit scopes"   />
-			<text id="NO_SCOPE" value="No scope"   />
-			<text id="CURRENT_PAGE" value="Current page"   />
+			<text id="NEW_SCOPE" value="Новое ограничение поиска" />
+			<text id="EDIT_SCOPES" value="Редактировать ограничения поиска" />
+			<text id="NO_SCOPE" value="Без ограничений" />
+			<text id="CURRENT_PAGE" value="Текущая страница" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Опции программы" />
@@ -126,18 +126,19 @@
 			<text id="NEW_KEY" value="Введите новый ключ" />
 			<text id="THEME_SETTING" value="Установки темы" />
 			<text id="PRESS_OK_TO_APPLY" value="Нажмите клавишу &quot;OK&quot;, чтобы изменения вступили в силу." />
-			<text id="MAX_SEARCH_RESULT" value="Максимальное количество аятов для поиска" />
+			<text id="MAX_SEARCH_RESULT" value="Максимальное количество аятов, участвующих в поиске" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="Configure Search Scope"   />
-			<text id="FROM_SURA" value="From sura"   />
-			<text id="FROM_AYA" value="From aya"   />
-			<text id="TO_SURA" value="To sura"   />
-			<text id="TO_AYA" value="To aya"   />
-			<text id="ILLEGAL_SEARCH_SCOPE" value="Illegal search scope items"   />
+			<text id="TITLE" value="Конфигурация ограничений поиска" />
+			<text id="SEARCH_SCOPE" value="Ограничение поиска"   />
+			<text id="FROM_SURA" value="От суры" />
+			<text id="FROM_AYA" value="От аята" />
+			<text id="TO_SURA" value="До суры" />
+			<text id="TO_AYA" value="До аята" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="Неправильные параметры ограничения поиска" />
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="Edit Search Scopes"   />
+			<text id="TITLE" value="Редактировать ограничения поиска" />
 		</form>
 	</forms>
 </language>

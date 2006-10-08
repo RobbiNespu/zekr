@@ -149,6 +149,13 @@ Features/Enhancements:
 	TODO: Update language packs
 	TODO: Custom mixed layout for an arbitrary number of translations
 	TODO: Navigation button for "current page" search result
+	TODO: Add version to about form.
+	Search scope button (near search button) changed to SWT.TOGGLE (so that it will be pushed while user not clicked any menu item).
 Bug fixes:
-
+	Button size: all ok/cancel/apply buttons are 80 point
+	Typo in Quran text (9-123): æóáöíóÌöÏõæÇú which should be æóáúíóÌöÏõæÇú.
+	Typo in Quran text (12-10): ãøóäúåõãú which should be ãøöäúåõãú.
+	Typo in Quran text (12-24): æóÇÓõÊóÈóŞóÇ which should be æóÇÓúÊóÈóŞóÇ.
+	Typo in Quran text (12-111): ßõáøó which should be ßõáøö
+	Typo in Quran text (13-20): íöäŞõÖõæäó which should be íóäŞõÖõæäó
 

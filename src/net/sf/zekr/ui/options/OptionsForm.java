@@ -188,10 +188,11 @@ public class OptionsForm {
 		Composite buttons = new Composite(body, SWT.NONE);
 		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
 		buttons.setLayout(rl);
+		
 		buttons.setLayoutData(gd);
-		RowData rd = new RowData();
-		rd.width = 70;
 
+		RowData rd = new RowData();
+		rd.width = 80;
 		Button ok = new Button(buttons, SWT.NONE);
 		ok.setText("&" + lang.getMeaning("OK"));
 		ok.addSelectionListener(new SelectionAdapter() {
@@ -205,23 +206,27 @@ public class OptionsForm {
 		});
 		ok.setLayoutData(rd);
 
+		rd = new RowData();
+		rd.width = 80;
 		Button cancel = new Button(buttons, SWT.NONE);
 		cancel.setText("&" + lang.getMeaning("CANCEL"));
-		cancel.setLayoutData(rd);
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				shell.close();
 			}
 		});
+		cancel.setLayoutData(rd);
 
+		rd = new RowData();
+		rd.width = 80;
 		Button apply = new Button(buttons, SWT.NONE);
 		apply.setText("&" + lang.getMeaning("APPLY"));
-		apply.setLayoutData(rd);
 		apply.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				apply(false);
 			}
 		});
+		apply.setLayoutData(rd);
 		shell.setDefaultButton(ok);
 	}
 

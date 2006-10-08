@@ -13,6 +13,13 @@ String.prototype.trim = function() {
 };
 
 $(document).ready(function() {
+	// todo backspace enable
+	if (!$.browser.msie) {
+		$(document).keyup(function(e) {
+			if (e.keyCode == 9)
+				history.go(-1);
+		});
+	}
 	$("input#ayaNav").keyup(function(e) {
 		if (e.keyCode == 13 || e.keyCode == 10)
 			navtoSuraAya();
@@ -22,8 +29,12 @@ $(document).ready(function() {
 navtoSuraAya = function(){
 	var sura = $("input#suraNav").val();
 	var aya = $("input#ayaNav").val();
+	var origSuraNum = $("input#hiddenSuraNum").val();
 	if (!isNaN(parseInt(sura.trim())) && !isNaN(parseInt(aya.trim())))
-		gotoAya(sura + "-" + aya);//focusOnAya(sura + "_" + aya);
+		if (origSuraNum != sura)
+			gotoSuraAya(sura + "-" + aya);
+		else
+			gotoAya(aya);
 };
 
 function focusOnAya(suraNum, ayaNum) {

@@ -10,6 +10,8 @@ package net.sf.zekr.common.config;
 
 import java.util.PropertyResourceBundle;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * This class is used to handle dynamic resource bundles which use <i>Velocity</i> as the
  * template engine.
@@ -43,7 +45,8 @@ public class ResourceManager {
 	public String getString(String key, Object[] strArray) {
 		String val = getString(key);
 		for (int i = 0; i < strArray.length; i++) {
-			val = val.replaceAll("\\{" + (i + 1) + "\\}", strArray[i].toString());
+			val = StringUtils.replace(val, "{" +  (i + 1) + "}", strArray[i].toString());
+			// val = val.replaceAll("\\{" + (i + 1) + "\\}", strArray[i].toString());
 		}
 		return val;
 	}

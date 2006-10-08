@@ -37,9 +37,12 @@ public class ZekrMain {
 		QuranForm quranForm = null;
 		try {
 			logger.info("Starting The Zekr Platform " + GlobalConfig.ZEKR_VERSION + " (" + new Date() + ")");
+
 			AbstractSplachScreen splash = new AdvancedSplashScreen(display);
+			logger.debug("Display splash screen...");
 			splash.show();
 
+			logger.info("Configure runtime configurations...");
 			ApplicationConfig.getInstance().getRuntime().configure();
 			quranForm = new QuranForm(display);
 			quranForm.show();

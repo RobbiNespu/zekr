@@ -37,6 +37,8 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MenuAdapter;
+import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
@@ -302,7 +304,7 @@ public class QuranForm extends BaseForm {
 						logger.info("Goto (" + sura + ", " + aya + ")");
 						gotoSuraAya(sura, aya);
 					} else if (message.substring(6, 11).equals("NAVTO")) {
-						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1,
+						int aya = Integer.parseInt(message.substring(message.indexOf(' '),
 								message.indexOf(';')).trim());
 						logger.info("Goto (" + aya + ")");
 						gotoAya(aya);
@@ -511,11 +513,15 @@ public class QuranForm extends BaseForm {
 		gl.horizontalSpacing = 0;
 		gl.marginWidth = 0;
 		gl.horizontalSpacing = 0;
+
 		Composite searchButComp = new Composite(searchGroup, SWT.NONE);
 		searchButComp.setLayout(gl);
 
+		gd = new GridData(GridData.FILL_BOTH);
+
 		searchButton = new Button(searchButComp, SWT.PUSH);
 		searchButton.setText(langEngine.getMeaning("SEARCH"));
+		searchButton.setLayoutData(gd);
 		searchButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				find();
@@ -523,11 +529,16 @@ public class QuranForm extends BaseForm {
 		});
 
 		// search option button
-		gd = new GridData();
+		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalIndent = -1;
 
-		searchArrowBut = new Button(searchButComp, SWT.PUSH);
+		searchArrowBut = new Button(searchButComp, SWT.TOGGLE);
 		searchMenu = createSearchScopeMenu();
+		searchMenu.addMenuListener(new MenuAdapter() {
+			public void menuHidden(MenuEvent e) {
+				searchArrowBut.setSelection(false);
+			}
+		});
 		searchArrowBut.setImage(new Image(display, resource.getString("icon.down")));
 		searchArrowBut.setLayoutData(gd);
 		searchArrowBut.addSelectionListener(new SelectionAdapter() {
@@ -659,13 +670,19 @@ public class QuranForm extends BaseForm {
 	}
 
 	private void gotoSuraAya(int sura, int aya) {
-		suraSelector.select(sura - 1);
-		onSuraChanged();
-		if (aya != 0) {
-			ayaSelector.select(aya - 1);
-			ayaChanged = true;
+		if (sura <= 114 && sura >= 1) {
+			suraSelector.select(sura - 1);
+			onSuraChanged();
+			int ayaCount = QuranProperties.getInstance().getSura(sura).getAyaCount();
+			if (aya <= ayaCount && aya >= 1) {
+				ayaSelector.select(aya - 1);
+				ayaChanged = true;
+			}
+			apply();
+		} else {
+			// illegal sura, will update view to the previous legal one
+			updateView();
 		}
-		apply();
 	}
 
 	/**
@@ -673,10 +690,13 @@ public class QuranForm extends BaseForm {
 	 */
 	private void gotoAya(int aya) {
 		int ayaCount = QuranProperties.getInstance().getSura(quranLoc.getSura()).getAyaCount();
-		if (aya <= ayaCount) {
+		if (aya <= ayaCount && aya >= 1) {
 			ayaSelector.select(aya - 1);
 			ayaChanged = true;
 			apply();
+		} else {
+			// illegal aya, will update view to the previous legal one
+			updateView();
 		}
 	}
 

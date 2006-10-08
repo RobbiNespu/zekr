@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="smacker" version="0.3">
+<language author="smacker" version="0.4">
 	<locale localizedName="Türkçe" name="Turkish" id="tr_TR" direction="ltr" />
 	<word>
 		<common>
@@ -40,13 +40,13 @@
 			<text id="COMMA"    value="," />
 			<text id="SYNCHRONOUS" value="Eşzamanlı" />
 			<text id="ERROR"    value="Hata" />
-			<text id="LANGUAGE" value="Dil seçenekleri" />
-			<text id="ABOUT"    value="Program Hakkında" />
-			<text id="PRINT"    value="Çıktı al" />
+			<text id="LANGUAGE" value="Dil Seçenekleri" />
+			<text id="ABOUT"    value="Hakkında" />
+			<text id="PRINT"    value="Yazdır" />
 			<text id="HOMEPAGE" value="Web Sayfası" />
 			<text id="WHOLE_QURAN" value="Tüm Kuran-ı Kerim" />
 			<text id="MATCH_DIACRITIC" value="Eşleştir" />
-			<text id="MATCH_CASE" value="Match case"   />
+			<text id="MATCH_CASE" value="Karşılaştırma" />
 			<text id="NEXT_AYA" value="Sonraki Ayet" />
 			<text id="NEXT_SURA" value="Sonraki Sure" />
 			<text id="PREV_AYA" value="Önceki Ayet" />
@@ -64,13 +64,13 @@
 			<text id="SEPARATE" value="Ayır" />
 			<text id="MIXED"    value="Karma" />
 			<text id="OPTIONS"  value="Ayarlar" />
-			<text id="QUESTION" value="Question"   />
+			<text id="QUESTION" value="Sorular" />
 			<text id="FONT"     value="Yazı tipi" />
 			<text id="GENERAL"  value="Genel" />
 			<text id="EXIT"     value="Çıkış" />
-			<text id="EXCLUDE"  value="Exclude"   />
-			<text id="TRUE"     value="True"   />
-			<text id="FALSE"    value="False"   />
+			<text id="EXCLUDE"  value="Hariç" />
+			<text id="TRUE"     value="Doğru" />
+			<text id="FALSE"    value="Yanlış" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Kuran-ı Kerim" />
@@ -92,7 +92,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="Arama Sonucu: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{2} ayette {1} Sonuç Bulundu." />
 			<text id="TOO_MANY_RESULT" value="Arama sonucu {1} ayetten fazla" />
-			<text id="FILE_ALREADY_EXISTS" value=" &quot;{1}&quot; isimli dosya daha önceden vardır. Değiştirmek ister misiniz?"   />
+			<text id="FILE_ALREADY_EXISTS" value=" &quot;{1}&quot; isimli dosya daha önceden vardır. Değiştirmek ister misiniz?" />
 			<text id="RESTART_APP" value="Değişiklileri kaydetmek için lütfen programı yeniden başlatın." />
 		</inform>
 		<confirm>
@@ -109,35 +109,36 @@
 	<forms>
 		<global>
 			<text id="APP_NAME" value="Zekr" />
-			<text id="APP_FULL_NAME" value="The Zekr Quranic Project" />
+			<text id="APP_FULL_NAME" value="Zekr Kuran-ı Kerim Projesi" />
 			<text id="FORM_TITLE" value="Zekr" />
 			<text id="COPYRIGHT_DISCLAIMER" value="Bu program yardımcı olması amacıyla bedava dağıtılmaktadır, fakat garantisi yoktur." />
 		</global>
 		<form id="QURAN_FORM">
-			<text id="TITLE" value="Zekr"   />
-			<text id="NEW_SCOPE" value="New scope"   />
-			<text id="EDIT_SCOPES" value="Edit scopes"   />
-			<text id="NO_SCOPE" value="No scope"   />
-			<text id="CURRENT_PAGE" value="Current page"   />
+			<text id="TITLE" value="Zekr" />
+			<text id="NEW_SCOPE" value="Yeni Alan" />
+			<text id="EDIT_SCOPES" value="Alanları Düzenle" />
+			<text id="NO_SCOPE" value="Alan Yok" />
+			<text id="CURRENT_PAGE" value="Bu Sayfa" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Uygulama Seçenekleri" />
 			<text id="SHOW_SPLASH" value="Açılış Logosu" />
 			<text id="NEW_KEY" value="Yeni bir sözcük giriniz" />
 			<text id="THEME_SETTING" value="Tema ayarları" />
-			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied."   />
-			<text id="MAX_SEARCH_RESULT" value="Maximum search result count"   />
+			<text id="PRESS_OK_TO_APPLY" value="Değişikliklerin geçerli olabilmesi için &quot;TAMAM&quot; butonuna basınız." />
+			<text id="MAX_SEARCH_RESULT" value="En fazla arama sonucu sayıcısı" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="Configure Search Scope"   />
-			<text id="FROM_SURA" value="From sura"   />
-			<text id="FROM_AYA" value="From aya"   />
-			<text id="TO_SURA" value="To sura"   />
-			<text id="TO_AYA" value="To aya"   />
-			<text id="ILLEGAL_SEARCH_SCOPE" value="Illegal search scope items"   />
+			<text id="TITLE" value="Arama Alanını Yapılandır" />
+			<text id="SEARCH_SCOPE" value="Arama Alanı" />
+			<text id="FROM_SURA" value="Sure'den" />
+			<text id="FROM_AYA" value="Ayet'den" />
+			<text id="TO_SURA" value="Sure'ye" />
+			<text id="TO_AYA" value="Ayet'e" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="Geçersiz Arama Alanı Öğresi" />
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="Edit Search Scopes"   />
+			<text id="TITLE" value="Arama Alanlarını Düzenle" />
 		</form>
 	</forms>
 </language>

@@ -101,37 +101,6 @@ public class TemplateEngine {
 		}
 	}
 
-//	class EntryWrapper {
-//		private String str;
-//
-//		public EntryWrapper(String str) {
-//			this.str = str;
-//		}
-//
-//		public int toInt() {
-//			return Integer.parseInt(str);
-//		}
-//		public Integer getInteger() {
-//			return Integer.valueOf(str);
-//		}
-//
-//		public String toString() {
-//			return str;
-//		}
-//
-//		public Boolean getBoolean() {
-//			return Boolean.valueOf(str);
-//		}
-//
-//		public boolean equals(Object obj) {
-//			return str.equals(obj);
-//		}
-//		
-//		public boolean iEquals(Object obj) {
-//			return str.equalsIgnoreCase(obj.toString());
-//		}
-//	}
-
 	/**
 	 * @param name the file name of the desired template
 	 * @return the result <code>String</code> after the context map is merged (applied) into the source

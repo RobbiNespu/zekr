@@ -98,7 +98,7 @@ public class SearchScopeForm extends BaseForm {
 		Group tableGroup = new Group(body, SWT.NONE);
 		tableGroup.setLayoutData(gd);
 		tableGroup.setLayout(gl);
-		tableGroup.setText(langEngine.getMeaning("SEARCH_SCOPE"));
+		tableGroup.setText(meaning("SEARCH_SCOPE"));
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
@@ -112,13 +112,22 @@ public class SearchScopeForm extends BaseForm {
 		gd.horizontalSpan = 2;
 
 		Composite addRemComp = new Composite(tableGroup, SWT.NONE);
-		FillLayout fl = new FillLayout(SWT.HORIZONTAL);
-		fl.spacing = 4;
-		addRemComp.setLayout(fl);
+		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
+		rl.spacing = 4;
+
+		addRemComp.setLayout(rl);
 		addRemComp.setLayoutData(gd);
 
 		Button addBut = new Button(addRemComp, SWT.PUSH);
 		Button remBut = new Button(addRemComp, SWT.PUSH);
+
+		RowData rd = new RowData();
+		rd.width = 40;
+		addBut.setLayoutData(rd);
+
+		rd = new RowData();
+		rd.width = 40;
+		remBut.setLayoutData(rd);
 
 		addBut.setToolTipText(langEngine.getMeaning("ADD"));
 		addBut.setImage(new Image(display, resource.getString("icon.add")));
@@ -143,14 +152,14 @@ public class SearchScopeForm extends BaseForm {
 		gd.horizontalSpan = 2;
 		gd.horizontalAlignment = SWT.TRAIL;
 
-		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
+		rl = new RowLayout(SWT.HORIZONTAL);
 
 		Composite butComposite = new Composite(body, SWT.NONE);
 		butComposite.setLayout(rl);
 		butComposite.setLayoutData(gd);
 
-		RowData rd = new RowData();
-		rd.width = 70;
+		rd = new RowData();
+		rd.width = 80;
 
 		Button okBut = new Button(butComposite, SWT.PUSH);
 		Button cancelBut = new Button(butComposite, SWT.PUSH);
@@ -176,7 +185,8 @@ public class SearchScopeForm extends BaseForm {
 		shell.setDefaultButton(okBut);
 
 		rd = new RowData();
-		rd.width = 70;
+		rd.width = 80;
+
 		cancelBut.setText("&" + langEngine.getMeaning("CANCEL"));
 		cancelBut.setLayoutData(rd);
 		cancelBut.addSelectionListener(new SelectionAdapter() {

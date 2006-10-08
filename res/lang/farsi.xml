@@ -130,6 +130,7 @@
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="تنظیم محدوده‌ی جستجو" />
+			<text id="SEARCH_SCOPE" value="محدوده‌ی جستجو" />
 			<text id="FROM_SURA" value="از سوره" />
 			<text id="FROM_AYA" value="از آیه" />
 			<text id="TO_SURA" value="تا سوره" />

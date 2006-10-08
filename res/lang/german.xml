@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Riyad Preukschas" version="0.3">
+<language author="Riyad Preukschas" version="0.4">
 	<locale localizedName="Deutsch" name="German" id="de_DE" direction="ltr" />
 	<word>
 		<common>
@@ -130,6 +130,7 @@
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configure Search Scope"   />
+			<text id="SEARCH_SCOPE" value="Search scope"   />
 			<text id="FROM_SURA" value="From sura"   />
 			<text id="FROM_AYA" value="From aya"   />
 			<text id="TO_SURA" value="To sura"   />

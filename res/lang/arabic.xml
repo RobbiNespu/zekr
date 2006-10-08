@@ -130,6 +130,7 @@
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configure Search Scope"   />
+			<text id="SEARCH_SCOPE" value="Search scope"   />
 			<text id="FROM_SURA" value="From sura"   />
 			<text id="FROM_AYA" value="From aya"   />
 			<text id="TO_SURA" value="To sura"   />

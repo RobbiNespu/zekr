@@ -192,7 +192,7 @@ public class ManageScopesForm extends BaseForm {
 		butComposite.setLayoutData(gd);
 
 		rd = new RowData();
-		rd.width = 70;
+		rd.width = 80;
 		Button okBut = new Button(butComposite, SWT.PUSH);
 		Button cancelBut = new Button(butComposite, SWT.PUSH);
 		okBut.setText("&" + langEngine.getMeaning("OK"));
@@ -211,7 +211,7 @@ public class ManageScopesForm extends BaseForm {
 		shell.setDefaultButton(okBut);
 
 		rd = new RowData();
-		rd.width = 70;
+		rd.width = 80;
 		cancelBut.setText("&" + langEngine.getMeaning("CANCEL"));
 		cancelBut.setLayoutData(rd);
 		cancelBut.addSelectionListener(new SelectionAdapter() {
@@ -250,24 +250,6 @@ public class ManageScopesForm extends BaseForm {
 	public int getSelectedIndex() {
 		return selectedIndex;
 	}
-
-	// public static void main(String[] args) {
-	// List list = new ArrayList();
-	// SearchScope ss1 = new SearchScope();
-	// ss1.add(new SearchScopeItem());
-	// SearchScope ss3 = new SearchScope();
-	// ss3.add(new SearchScopeItem(1, 2, 3, 4, true));
-	// SearchScope ss2 = new SearchScope();
-	// ss2.add(new SearchScopeItem());
-	// ss2.add(new SearchScopeItem(3, 4, 6, 7, false));
-	// ss2.add(new SearchScopeItem(6, 7, 99, 1, false));
-	//
-	// list.add(ss1);
-	// list.add(ss2);
-	// list.add(ss3);
-	// ManageScopesForm nsl = new ManageScopesForm(new Display(), list);
-	// nsl.open();
-	// }
 
 	/**
 	 * @return <code>true</code> if ok pressed, <code>false</code> otherwise.
