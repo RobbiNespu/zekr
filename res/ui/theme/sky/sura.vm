@@ -33,6 +33,16 @@
 	$AYA_MSG: <input dir="ltr" id="ayaNav" type="text" style="width: 3em" value="${AYA_NUM}" />
 	<input type="button" value="${GOTO_MSG}" onclick="navtoSuraAya()" />
 </div>
+<script>
+$("input#ayaNav").keyup(function(e) {
+	if (e.keyCode == 13 || e.keyCode == 10)
+		navtoSuraAya();
+});
+$("input#suraNav").keyup(function(e) {
+	if (e.keyCode == 13 || e.keyCode == 10)
+		navtoSuraAya();
+});
+</script>
 <div id="body" class="body">
 	<div class="bodyTop" align="center">
 	#putBismillah()

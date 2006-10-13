@@ -13,17 +13,13 @@ String.prototype.trim = function() {
 };
 
 $(document).ready(function() {
-	// todo backspace enable
+	// backspace: history.back()
 	if (!$.browser.msie) {
 		$(document).keyup(function(e) {
-			if (e.keyCode == 9)
+			if (e.keyCode == 8)
 				history.go(-1);
 		});
 	}
-	$("input#ayaNav").keyup(function(e) {
-		if (e.keyCode == 13 || e.keyCode == 10)
-			navtoSuraAya();
-	});
 });
 
 navtoSuraAya = function(){
@@ -34,7 +30,7 @@ navtoSuraAya = function(){
 		if (origSuraNum != sura)
 			gotoSuraAya(sura + "-" + aya);
 		else
-			gotoAya(aya);
+			gotoAya(sura + "-" + aya); // sura should also be passed (may user change the sura combo box)
 };
 
 function focusOnAya(suraNum, ayaNum) {
@@ -70,7 +66,7 @@ function unHighlightAya(id) {
 
 // Browser <-> SWT communication
 function gotoSuraAya(suraAya) { setMessage('ZEKR::GOTO ' + suraAya + ';'); } // use it when sura changed
-function gotoAya(aya) { setMessage('ZEKR::NAVTO ' + aya + ';'); } // only use it when sura is not changed
+function gotoAya(suraAya) { setMessage('ZEKR::NAVTO ' + suraAya + ';'); } // only use it when sura is not changed
 function translate(location) { setMessage('ZEKR::TRANS ' + location + ';'); }
 function setMessage(msg) { window.status = msg; }
 

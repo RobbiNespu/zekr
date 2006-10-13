@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
@@ -145,6 +146,30 @@ public class QuranForm extends BaseForm {
 	private boolean clearOnExit = false;
 	private SearchScope searchScope;
 	private List searchScopeList;
+	
+	private Listener globalKeyListener = new Listener() {
+		public void handleEvent(Event event) {
+			if (NAV_BUTTON.equals(event.widget.getData())) {
+				boolean isRTL = ((langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.isWindows);
+				int d = event.keyCode ^ SWT.KEYCODE_BIT;
+				if (d == 1) {
+					gotoPrevSura();
+				} else if (d == 2) {
+					gotoNextSura();
+				} else if (d == 3) {
+					if (isRTL)
+						gotoNextAya();
+					else
+						gotoPrevAya();
+				} else if (d == 4) {
+					if (isRTL)
+						gotoPrevAya();
+					else
+						gotoNextAya();
+				}
+			}
+		}
+	};
 
 
 	/**
@@ -201,28 +226,8 @@ public class QuranForm extends BaseForm {
 			}
 		});
 
-		display.addFilter(SWT.KeyDown, new Listener() {
-			public void handleEvent(Event event) {
-				if (NAV_BUTTON.equals(event.widget.getData())) {
-					int d = event.keyCode ^ SWT.KEYCODE_BIT;
-					if (d == 1) {
-						gotoPrevSura();
-					} else if (d == 2) {
-						gotoNextSura();
-					} else if (d == 3) {
-						if (langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT)
-							gotoNextAya();
-						else
-							gotoPrevAya();
-					} else if (d == 4) {
-						if (langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT)
-							gotoPrevAya();
-						else
-							gotoNextAya();
-					}
-				}
-			}
-		});
+		display.removeFilter(SWT.KeyDown,globalKeyListener);
+		display.addFilter(SWT.KeyDown, globalKeyListener);
 	}
 
 	protected void reload() {
@@ -296,6 +301,9 @@ public class QuranForm extends BaseForm {
 			private void doBrowserCallback(String message) {
 				if (message.startsWith("ZEKR::")) {
 					quranBrowser.execute("window.status='';"); // clear the status text
+					if (transBrowser != null)
+						transBrowser.execute("window.status='';"); // clear the status text
+
 					if (message.substring(6, 10).equals("GOTO")) {
 						int sura = Integer.parseInt(message.substring(message.indexOf(' '),
 								message.indexOf('-')).trim());
@@ -304,10 +312,12 @@ public class QuranForm extends BaseForm {
 						logger.info("Goto (" + sura + ", " + aya + ")");
 						gotoSuraAya(sura, aya);
 					} else if (message.substring(6, 11).equals("NAVTO")) {
-						int aya = Integer.parseInt(message.substring(message.indexOf(' '),
+						int sura = Integer.parseInt(message.substring(message.indexOf(' '),
+								message.indexOf('-')).trim());
+						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1,
 								message.indexOf(';')).trim());
 						logger.info("Goto (" + aya + ")");
-						gotoAya(aya);
+						gotoAya(sura, aya);
 					} else if (message.substring(6, 11).equals("TRANS")) {
 						int sura = Integer.parseInt(message.substring(message.indexOf(' '),
 								message.indexOf('-')).trim());
@@ -332,7 +342,6 @@ public class QuranForm extends BaseForm {
 
 						Point p = display.getCursorLocation();
 						p.y += 15;
-						// int x = (int) (quranBrowser.getSize().x * (.5));
 						int x = 300;
 						pe.open(new Point(x, 100), new Point(p.x - x / 2, p.y));
 					}
@@ -422,7 +431,7 @@ public class QuranForm extends BaseForm {
 		gd.horizontalSpan = 2;
 		navComposite.setLayoutData(gd);
 
-		int style = SWT.PUSH | SWT.FLAT;
+		int style = SWT.PUSH;
 		Button prevSura = new Button(navComposite, style);
 		Button prevAya = new Button(navComposite, style);
 		Button nextAya = new Button(navComposite, style);
@@ -442,14 +451,23 @@ public class QuranForm extends BaseForm {
 		nextSura.setLayoutData(gd);
 
 		int l = langEngine.getSWTDirection();
-		prevSura.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.nextNext")
-				: resource.getString("icon.prevPrev")));
-		prevAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.next")
-				: resource.getString("icon.prev")));
-		nextAya.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prev")
-				: resource.getString("icon.next")));
-		nextSura.setImage(new Image(display, l == SWT.RIGHT_TO_LEFT ? resource.getString("icon.prevPrev")
-				: resource.getString("icon.nextNext")));
+
+		// isRTL is only applicable for Windows
+		boolean isRTL = ((l == SWT.RIGHT_TO_LEFT) && GlobalConfig.isWindows);
+
+		Image prevSuraImg = new Image(display, isRTL ? resource.getString("icon.nextNext")
+				: resource.getString("icon.prevPrev"));
+		Image prevAyaImg = new Image(display, isRTL ? resource.getString("icon.next")
+				: resource.getString("icon.prev"));
+		Image nextAyaImg = new Image(display, isRTL ? resource.getString("icon.prev")
+				: resource.getString("icon.next"));
+		Image nextSuraImg = new Image(display, isRTL ? resource.getString("icon.prevPrev")
+				: resource.getString("icon.nextNext"));
+
+		prevSura.setImage(prevSuraImg);
+		prevAya.setImage(prevAyaImg);
+		nextAya.setImage(nextAyaImg);
+		nextSura.setImage(nextSuraImg);
 
 		prevSura.setToolTipText(langEngine.getMeaning("PREV_SURA"));
 		prevAya.setToolTipText(langEngine.getMeaning("PREV_AYA"));
@@ -500,7 +518,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
 		searchGroup.setLayoutData(gd);
 
-		searchText = new Combo(searchGroup, SWT.DROP_DOWN | SWT.RIGHT_TO_LEFT);
+		searchText = new Combo(searchGroup, SWT.DROP_DOWN);
 		searchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		searchText.setVisibleItemCount(8);
 		searchText.addSelectionListener(new SelectionAdapter() {
@@ -512,12 +530,12 @@ public class QuranForm extends BaseForm {
 		gl = new GridLayout(2, false);
 		gl.horizontalSpacing = 0;
 		gl.marginWidth = 0;
-		gl.horizontalSpacing = 0;
+		gl.verticalSpacing = 0;
 
 		Composite searchButComp = new Composite(searchGroup, SWT.NONE);
 		searchButComp.setLayout(gl);
 
-		gd = new GridData(GridData.FILL_BOTH);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		searchButton = new Button(searchButComp, SWT.PUSH);
 		searchButton.setText(langEngine.getMeaning("SEARCH"));
@@ -529,7 +547,7 @@ public class QuranForm extends BaseForm {
 		});
 
 		// search option button
-		gd = new GridData(GridData.FILL_BOTH);
+		gd = new GridData(GlobalConfig.isLinux ? GridData.FILL_BOTH : GridData.FILL_HORIZONTAL);
 		gd.horizontalIndent = -1;
 
 		searchArrowBut = new Button(searchButComp, SWT.TOGGLE);
@@ -560,7 +578,6 @@ public class QuranForm extends BaseForm {
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
-		gd.verticalSpan = -15;
 		final Composite searchScopeComp = new Composite(searchGroup, SWT.NONE);
 		searchScopeComp.setLayoutData(gd);
 		searchScopeComp.setLayout(new FillLayout());
@@ -686,17 +703,23 @@ public class QuranForm extends BaseForm {
 	}
 
 	/**
+	 * @param sura sura number (counted from 1)
 	 * @param aya aya number (counted from 1)
 	 */
-	private void gotoAya(int aya) {
-		int ayaCount = QuranProperties.getInstance().getSura(quranLoc.getSura()).getAyaCount();
-		if (aya <= ayaCount && aya >= 1) {
-			ayaSelector.select(aya - 1);
-			ayaChanged = true;
-			apply();
+	private void gotoAya(int sura, int aya) {
+		int sur = suraSelector.getSelectionIndex() + 1;
+		if (sur != sura) { // user changed sura, should be fully updated
+			gotoSuraAya(sura, aya);
 		} else {
-			// illegal aya, will update view to the previous legal one
-			updateView();
+			int ayaCount = QuranProperties.getInstance().getSura(quranLoc.getSura()).getAyaCount();
+			if (aya <= ayaCount && aya >= 1) {
+				ayaSelector.select(aya - 1);
+				ayaChanged = true;
+				apply();
+			} else {
+				// illegal aya, will update view to the previous legal one
+				updateView();
+			}
 		}
 	}
 

@@ -3,7 +3,7 @@
 	<base href="$APP_PATH">
 	<link rel="stylesheet" type="text/css" href="${CSS_DIR}style.css">
 
-	<script src="$UI_DIR/js/jquery-1.0.1.js" language="javascript" type="text/javascript"></script>
+	<script src="$UI_DIR/js/jquery.js" language="javascript" type="text/javascript"></script>
 	<script src="$UI_DIR/js/ifx.js" language="javascript" type="text/javascript"></script>
 	<script src="$UI_DIR/js/iutil.js" language="javascript" type="text/javascript"></script>
 	<script src="$UI_DIR/js/ifxscrollto.js" language="javascript" type="text/javascript"></script>

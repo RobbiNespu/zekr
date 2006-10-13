@@ -143,19 +143,28 @@ Bug fixes:
 	A small bug with JavaScript when there was no search result.
 	Invalid content of textboxes (sura and aya) when there is no search result.
 
-Version 0.4.0 release - [1-11-06]
+Version 0.4.0 release - [21-10-06]
 Features/Enhancements:
-	TODO: Quran transliteration
-	TODO: Update language packs
-	TODO: Custom mixed layout for an arbitrary number of translations
-	TODO: Navigation button for "current page" search result
-	TODO: Add version to about form.
 	Search scope button (near search button) changed to SWT.TOGGLE (so that it will be pushed while user not clicked any menu item).
+	In nav bar (on the top of Quran view) one can change sura number as well as aya.
+	Nav buttons are not flat more.
+	Translations list (in menu) is sorted on locale.
+	Backspace in non-IE browsers acts as back button.
+	Platform-specific button size for search scope button.
+	Enhancement (icons, and short keys) for navigation buttons for non-Windows platforms when using SWT.RIGHT_TO_LEFT.
 Bug fixes:
 	Button size: all ok/cancel/apply buttons are 80 point
+	Filter on arror keys (nav keys) is now removed and reinstalled (it was doubled before as user changed the language)
 	Typo in Quran text (9-123): æóáöíóÌöÏõæÇú which should be æóáúíóÌöÏõæÇú.
 	Typo in Quran text (12-10): ãøóäúåõãú which should be ãøöäúåõãú.
 	Typo in Quran text (12-24): æóÇÓõÊóÈóŞóÇ which should be æóÇÓúÊóÈóŞóÇ.
 	Typo in Quran text (12-111): ßõáøó which should be ßõáøö
 	Typo in Quran text (13-20): íöäŞõÖõæäó which should be íóäŞõÖõæäó
+	Typo in Quran text (18-39): ÊõÑóäö which should be ÊóÑóäö
+	Typo in Quran text (23-113): İóÇÓúÃóáú which should be İóÇÓúÃóáö
 
+Version 0.5.0 release - [21-10-06]
+	TODO: Quran transliteration
+	TODO: Update language packs
+	TODO: Navigation button for "current page" search result
+	TODO: Add version to about form.

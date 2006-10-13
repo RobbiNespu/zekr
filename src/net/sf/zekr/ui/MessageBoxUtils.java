@@ -91,6 +91,7 @@ public class MessageBoxUtils {
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 1;
+		gd.widthHint = 100;
 
 		Button ok = new Button(c, SWT.PUSH);
 		ok.setLayoutData(gd);
@@ -109,6 +110,8 @@ public class MessageBoxUtils {
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 1;
+		gd.widthHint = 100;
+
 		Button cancel = new Button(c, SWT.PUSH);
 		cancel.setLayoutData(gd);
 		cancel.setText(dict.getMeaning("CANCEL"));

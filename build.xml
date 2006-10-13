@@ -9,7 +9,7 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.4.0b2" />
+	<property name="component_version" value="0.4.0" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->

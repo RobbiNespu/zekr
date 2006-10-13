@@ -16,7 +16,7 @@
 	<property name="EXPORT_RELEASE" value="zekr-040.jar" />
 	<property name="EXPORT_SRC" value="zekr-src.jar" />
 	<property name="EXPORT_BIN" value="zekr.jar" />
-	<property name="DIST_DIR" value="D:\Java\Programs\Zekr\dist\0.4.0\b2" />
+	<property name="DIST_DIR" value="D:\Java\Programs\Zekr\dist\0.4.0\release" />
 	
 	<target name="default" depends="depends" description="--> The Zekr Project">
 		<javac srcdir="../src" destdir="../bin/d"

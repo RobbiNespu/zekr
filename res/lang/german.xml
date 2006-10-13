@@ -10,7 +10,7 @@
 			<text id="APPLY"  value="Übernehmen" />
 			<text id="START"  value="Start" />
 			<text id="RESET"  value="Zurücksetzen" />
-			<text id="NEW"  value="Nein" />
+			<text id="NEW"  value="Neu" />
 			<text id="SAVE_AS"  value="Speichern unter" />
 			<text id="HELP"   value="Hilfe" />
 			<text id="EDIT"   value="Bearbeiten" />
@@ -46,7 +46,7 @@
 			<text id="HOMEPAGE" value="Homepage" />
 			<text id="WHOLE_QURAN" value="Den ganzen Quran" />
 			<text id="MATCH_DIACRITIC" value="Diakritische Zeichen einbeziehen" />
-			<text id="MATCH_CASE" value="Match case"   />
+			<text id="MATCH_CASE" value="Groß-/Kleinschreibung beachten" />
 			<text id="NEXT_AYA" value="Nächste Aya" />
 			<text id="NEXT_SURA" value="Nächste Sura" />
 			<text id="PREV_AYA" value="Vorherige Aya" />
@@ -58,19 +58,19 @@
 			<text id="DELETE" value="Löschen" />
 			<text id="REMOVE" value="Entfernen" />
 			<text id="TRANSLATION" value="Übersetzung" />
-			<text id="OPEN"   value="Öffnen" />
-			<text id="IMPORT" value="Importieren" />
-			<text id="COPY"   value="Kopieren" />
+			<text id="OPEN"     value="Öffnen" />
+			<text id="IMPORT"   value="Importieren" />
+			<text id="COPY"     value="Kopieren" />
 			<text id="SEPARATE" value="Getrennt" />
-			<text id="MIXED"  value="Vereinigt" />
+			<text id="MIXED"    value="Vereinigt" />
 			<text id="OPTIONS"  value="Einstellungen" />
 			<text id="QUESTION" value="Frage" />
-			<text id="FONT"   value="Schriftart" />
+			<text id="FONT"     value="Schriftart" />
 			<text id="GENERAL"  value="Allgemein" />
-			<text id="EXIT"   value="Beenden" />
-			<text id="EXCLUDE"  value="Exclude"   />
-			<text id="TRUE"     value="True"   />
-			<text id="FALSE"    value="False"   />
+			<text id="EXIT"     value="Beenden" />
+			<text id="EXCLUDE"  value="Ausschließen" />
+			<text id="TRUE"     value="Wahr" />
+			<text id="FALSE"    value="Falsch" />
 		</common>
 		<special>
 			<text id="QURAN"  value="Quran" />
@@ -115,10 +115,10 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="NEW_SCOPE" value="New scope"   />
-			<text id="EDIT_SCOPES" value="Edit scopes"   />
-			<text id="NO_SCOPE" value="No scope"   />
-			<text id="CURRENT_PAGE" value="Current page"   />
+			<text id="NEW_SCOPE" value="Neuer Suchbereich" />
+			<text id="EDIT_SCOPES" value="Suchbereich bearbeiten" />
+			<text id="NO_SCOPE" value="Kein Suchbereich" />
+			<text id="CURRENT_PAGE" value="Auf dieser Seite" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Einstellungen" />
@@ -129,16 +129,16 @@
 			<text id="MAX_SEARCH_RESULT" value="Maximale Anzahl an Suchergebnissen" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="Configure Search Scope"   />
-			<text id="SEARCH_SCOPE" value="Search scope"   />
-			<text id="FROM_SURA" value="From sura"   />
-			<text id="FROM_AYA" value="From aya"   />
-			<text id="TO_SURA" value="To sura"   />
-			<text id="TO_AYA" value="To aya"   />
-			<text id="ILLEGAL_SEARCH_SCOPE" value="Illegal search scope items"   />
+			<text id="TITLE" value="Suchbereich einstellen" />
+			<text id="SEARCH_SCOPE" value="Suchbereich" />
+			<text id="FROM_SURA" value="Von Sura" />
+			<text id="FROM_AYA" value="Von Aya" />
+			<text id="TO_SURA" value="Bis Sura" />
+			<text id="TO_AYA" value="Bis Aya" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="Ungültige Suchbereichseinstellung" />
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="Edit Search Scopes"   />
+			<text id="TITLE" value="Suchbereiche bearbeiten" />
 		</form>
 	</forms>
 </language>

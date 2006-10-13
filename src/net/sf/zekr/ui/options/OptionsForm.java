@@ -415,11 +415,14 @@ public class OptionsForm {
 
 		gd = new GridData(GridData.BEGINNING);
 		gd.horizontalSpan = 2;
+
 		Composite addDel = new Composite(viewTab, SWT.NONE);
-		FillLayout fl = new FillLayout(SWT.HORIZONTAL);
-		fl.spacing = 4;
-		addDel.setLayout(fl);
+		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
+		rl.spacing = 4;
+
+		addDel.setLayout(rl);
 		addDel.setLayoutData(gd);
+
 		Button add = new Button(addDel, SWT.PUSH);
 		add.setToolTipText(lang.getMeaning("ADD"));
 		add.setImage(new Image(display, resource.getString("icon.add")));
@@ -434,11 +437,13 @@ public class OptionsForm {
 				refreshView = true;
 			}
 		});
+		RowData rd = new RowData();
+		rd.width = 40;
+		add.setLayoutData(rd);
 
 		final TableEditor editor = new TableEditor(table);
 		editor.grabHorizontal = true;
         editor.horizontalAlignment = SWT.LEFT;
-//		editor.minimumWidth = 50;
 
 		table.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -492,6 +497,10 @@ public class OptionsForm {
 					}
 			}
 		});
+
+		rd = new RowData();
+		rd.width = 40;
+		del.setLayoutData(rd);
 
 //		gd = new GridData(GridData.BEGINNING);
 //		gd.widthHint = 40;

@@ -32,21 +32,21 @@
 			<text id="OPTION"   value="هه‌ڵبژاردن" />
 			<text id="FILE"     value="په‌ڕگه‌" />
 			<text id="RELOAD"   value="باركردنه‌وه‌" />
-			<text id="TYPE"     value="بنووسه‌" />
+			<text id="TYPE"     value="جۆر‌" />
 			<text id="MESSAGE"  value="په‌یام" />
-			<text id="BLOCK"    value="پیتی گه‌وره‌" />
+			<text id="BLOCK"    value="بڕگه‌بڕگه‌‌" />
 			<text id="LINE_BY_LINE" value="دێڕبه‌دێڕ" />
 			<text id="AND"      value="و" />
 			<text id="COMMA"    value="،" />
 			<text id="SYNCHRONOUS" value="هاوكات" />
 			<text id="ERROR"    value="هه‌ڵه‌" />
 			<text id="LANGUAGE" value="زمان" />
-			<text id="ABOUT"    value="سه‌باره‌ت" />
+			<text id="ABOUT"    value="ده‌رباره‌ی‌" />
 			<text id="PRINT"    value="چاپی بكه‌" />
 			<text id="HOMEPAGE" value="لاپه‌ڕه‌ی ماڵه‌وه‌" />
 			<text id="WHOLE_QURAN" value="ته‌واوی قورئان" />
-			<text id="MATCH_DIACRITIC" value="سه‌روژێر دیاری بكه‌" />
-			<text id="MATCH_CASE" value="Match case"   />
+			<text id="MATCH_DIACRITIC" value="سه‌روژێر پیشان بده‌‌" />
+			<text id="MATCH_CASE" value="له‌ دۆخی پیته‌کان ورد ببه‌وه‌" />
 			<text id="NEXT_AYA" value="ئایه‌تی داهاتوو" />
 			<text id="NEXT_SURA" value="سووره‌تی داهاتوو" />
 			<text id="PREV_AYA" value="ئایه‌تی پێشوو" />
@@ -64,24 +64,24 @@
 			<text id="SEPARATE" value="جیا بكه‌ره‌وه‌" />
 			<text id="MIXED"    value="تێكه‌ڵاو" />
 			<text id="OPTIONS"  value="هه‌ڵبژاردنه‌كان" />
-			<text id="QUESTION" value="Question" />
+			<text id="QUESTION" value="پرسیار" />
 			<text id="FONT"     value="فۆنت" />
 			<text id="GENERAL"  value="گشتی" />
 			<text id="EXIT"     value="بڕۆ ده‌ره‌وه‌" />
-			<text id="EXCLUDE"  value="Exclude"   />
-			<text id="TRUE"     value="True"   />
-			<text id="FALSE"    value="False"   />
+			<text id="EXCLUDE"  value="به‌ده‌ری بکه‌" />
+			<text id="TRUE"     value="ڕاست" />
+			<text id="FALSE"    value="چه‌وت" />
 		</common>
 		<special>
 			<text id="QURAN"    value="قورئان" />
 			<text id="SURA"    value="سووره‌ت" />
 			<text id="AYA"      value="ئایه‌ت" />
 			<text id="SAJDA"    value="سوجده‌" />
-			<text id="JUZ"      value="به‌ش" />
+			<text id="JUZ"      value="جوزئـ" />
 			<text id="MAKKI"    value="مه‌ككه‌یی" />
 			<text id="MADANI"   value="مه‌دینه‌یی" />
-			<text id="DESCENT"  value="Descent" />
-			<text id="AYA_COUNT"  value="Aya count" />
+			<text id="DESCENT"  value="هاتنه‌خوار" />
+			<text id="AYA_COUNT"  value="ژماره‌ی ئایه‌ته‌کانی" />
 			<text id="MINOR_SAJDA" value="سوژده‌ی بچووك" />
 			<text id="MAJOR_SAJDA" value="سوژده‌ی گه‌وره‌" />
 		</special>
@@ -89,10 +89,10 @@
 
 	<message>
 		<inform>
-			<text id="SEARCH_RESULT_TITLE" value="Search result for: &quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_TITLE" value="ئه‌نجامی گه‌ڕان بۆ:  &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} ئه‌نجام دۆزرایه‌وه‌ له‌ {2} ئایه‌تدا." />
 			<text id="TOO_MANY_RESULT" value="له‌ ئه‌نجام بگه‌ڕێ له‌ زیاتر له‌ {1} ئایه‌تدا" />
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
+			<text id="FILE_ALREADY_EXISTS" value="ئێستا په‌ڕگه‌یه‌ك به‌ ناوی &quot;{1}&quot; هه‌یه‌. ئایا ده‌ته‌وێت بیخه‌یته‌ شوێنی" />
 			<text id="RESTART_APP" value="ده‌بێت به‌رنامه‌كه‌ دابگیرسێنیته‌وه‌ تا گۆڕانكارییه‌كان چالاك ببن." />
 		</inform>
 		<confirm>
@@ -111,34 +111,33 @@
 			<text id="APP_NAME" value="زیكر" />
 			<text id="APP_FULL_NAME" value="پرۆژه‌ی 'زیكر'ی قورئانی" />
 			<text id="FORM_TITLE" value="زیكر" />
-			<text id="COPYRIGHT_DISCLAIMER" value="ئه‌م به‌رنامه‌یه‌ به‌خۆڕایی په‌خش ده‌كرێته‌وه‌ كه‌ هیوادارین سوودبه‌خش بێت، به‌ڵام به‌ بێ هیچ گه‌ره‌نتییه‌ك." />
+			<text id="COPYRIGHT_DISCLAIMER" value="ئه‌م به‌رنامه‌یه‌ به‌خۆڕایی په‌خش ده‌كرێته‌وه‌ كه‌ هیوادارین سوودبه‌خش بێت، به‌ڵام هیچ ده‌سته‌به‌رییه‌كی له‌ته‌کدا نییه‌." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="زیكر" />
-			<text id="NEW_SCOPE" value="New scope"   />
-			<text id="EDIT_SCOPES" value="Edit scopes"   />
-			<text id="NO_SCOPE" value="No scope"   />
-			<text id="CURRENT_PAGE" value="Current page"   />
+			<text id="NEW_SCOPE" value="مه‌ودایه‌کی نوێ" />
+			<text id="EDIT_SCOPES" value="ده‌ستکاریی مه‌وداکان" />
+			<text id="NO_SCOPE" value="بێ مه‌ودا" />
+			<text id="CURRENT_PAGE" value="لاپه‌ڕه‌ی ئێستا" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="هه‌ڵبژاردنه‌كانی به‌رنامه‌" />
 			<text id="SHOW_SPLASH" value="لۆگۆ له‌ 'ستارتاپ'دا پیشان بده‌" />
 			<text id="NEW_KEY" value="كلیلێكی تر بخه‌ره‌ ناو" />
 			<text id="THEME_SETTING" value="سازكارییه‌كانی ڕوواڵه‌ت" />
-			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied." />
-			<text id="MAX_SEARCH_RESULT" value="Maximum search result count" />
+			<text id="PRESS_OK_TO_APPLY" value="دوگمه‌ی &quot;OK&quot; پاڵ بنی تا گۆڕانکارییه‌كان جێبه‌جێ بن" />
+			<text id="MAX_SEARCH_RESULT" value="لانی زۆری ژماره‌ی ئه‌نجامی گه‌ڕان" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="Configure Search Scope"   />
-			<text id="SEARCH_SCOPE" value="Search scope"   />
-			<text id="FROM_SURA" value="From sura"   />
-			<text id="FROM_AYA" value="From aya"   />
-			<text id="TO_SURA" value="To sura"   />
-			<text id="TO_AYA" value="To aya"   />
-			<text id="ILLEGAL_SEARCH_SCOPE" value="Illegal search scope items"   />
+			<text id="TITLE" value="ڕێکخستنی مه‌ودای گه‌ڕان" />
+			<text id="FROM_SURA" value="له‌ سووره‌تی" />
+			<text id="FROM_AYA" value="له‌ ئایه‌تی" />
+			<text id="TO_SURA" value="بۆ سووره‌تی" />
+			<text id="TO_AYA" value="بۆ ئایه‌تی" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="بابه‌تی مه‌ودای گه‌ڕان نایاسایییه‌" />
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="Edit Search Scopes"   />
+			<text id="TITLE" value="ده‌ستکاریی مه‌وداکانی گه‌ڕان بکه‌" />
 		</form>
 	</forms>
 </language>
