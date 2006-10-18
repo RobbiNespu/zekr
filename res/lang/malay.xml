@@ -23,14 +23,14 @@
 			<text id="MORE"     value="Lagi..." />
 			<text id="NEXT"     value="Selanjutnya" />
 			<text id="PREVIOUS" value="Sebelumnya" />
-			<text id="REFRESH"  value="Refresh" />
+			<text id="REFRESH"  value="Perbahrui" />
 			<text id="UPDATE"   value="Perbaharui" />
 			<text id="SHOW"     value="Papar" />
 			<text id="NAME"     value="Nama" />
 			<text id="VALUE"    value="Nilai" />
 			<text id="NUMBER"   value="Nombor" />
 			<text id="OPTION"   value="Pilihan" />
-			<text id="FILE"     value="Fail" />
+			<text id="FILE"     value="File" />
 			<text id="RELOAD"   value="Reload" />
 			<text id="TYPE"     value="Jenis" />
 			<text id="MESSAGE"  value="Pesan" />
@@ -38,15 +38,15 @@
 			<text id="LINE_BY_LINE" value="Per Baris" />
 			<text id="AND"      value="dan" />
 			<text id="COMMA"    value="," />
-			<text id="SYNCHRONOUS" value="Gerak Serentak" />
-			<text id="ERROR"    value="Error" />
+			<text id="SYNCHRONOUS" value="Serentak" />
+			<text id="ERROR"    value="Ralat" />
 			<text id="LANGUAGE" value="Bahasa" />
 			<text id="ABOUT"    value="Tentang Program" />
 			<text id="PRINT"    value="Cetak"/>
-			<text id="HOMEPAGE" value="Home page" />
+			<text id="HOMEPAGE" value="Laman web" />
 			<text id="WHOLE_QURAN" value="Quran Keseluruhan" />
 			<text id="MATCH_DIACRITIC" value="Pengenal ditemukan" />
-			<text id="MATCH_CASE" value="Match case"   />
+			<text id="MATCH_CASE" value="Persamaan huruf" />
 			<text id="NEXT_AYA" value="Ayat Selanjutnya" />
 			<text id="NEXT_SURA" value="Surah Selanjutnya" />
 			<text id="PREV_AYA" value="Ayat Sebelumnya" />
@@ -68,9 +68,9 @@
 			<text id="FONT"     value="Mukataip" />
 			<text id="GENERAL"  value="Umum" />
 			<text id="EXIT"     value="Keluar" />
-			<text id="EXCLUDE"  value="Exclude"   />
-			<text id="TRUE"     value="True"   />
-			<text id="FALSE"    value="False"   />
+			<text id="EXCLUDE"  value="Exclude" />
+			<text id="TRUE"     value="True" />
+			<text id="FALSE"    value="False" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -82,8 +82,8 @@
 			<text id="MADANI"   value="Madaniah" />
 			<text id="DESCENT"  value="Turun" />
 			<text id="AYA_COUNT"  value="Jumlah Ayat" />
-			<text id="MINOR_SAJDA" value="Sajda Minor" />
-			<text id="MAJOR_SAJDA" value="Sajda Mayor" />
+			<text id="MINOR_SAJDA" value="Sajda Kecil" />
+			<text id="MAJOR_SAJDA" value="Sajda Besar" />
 		</special>
 	</word>
 
@@ -109,16 +109,16 @@
 	<forms>
 		<global>
 			<text id="APP_NAME" value="Zekr" />
-			<text id="APP_FULL_NAME" value="Proyek Qur'an Dzikir" />
+			<text id="APP_FULL_NAME" value="Projek Quran (Zekr)" />
 			<text id="FORM_TITLE" value="Zekr" />
 			<text id="COPYRIGHT_DISCLAIMER" value="Program ini dikeluarkan secara percuma dengan harapan dapat bermanfaat, namun tanpa jaminan" />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="NEW_SCOPE" value="New scope"   />
-			<text id="EDIT_SCOPES" value="Edit scopes"   />
-			<text id="NO_SCOPE" value="No scope"   />
-			<text id="CURRENT_PAGE" value="Current page"   />
+			<text id="NEW_SCOPE" value="Skop Baru" />
+			<text id="EDIT_SCOPES" value="Sunting Skop" />
+			<text id="NO_SCOPE" value="Tiada Skop" />
+			<text id="CURRENT_PAGE" value="Mukasurat Semasa" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Pilihan  Aplikasi" />
@@ -129,16 +129,16 @@
 			<text id="MAX_SEARCH_RESULT" value="Jumlah hasil pencarian maksimal" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="Configure Search Scope"   />
-			<text id="SEARCH_SCOPE" value="Search scope"   />
-			<text id="FROM_SURA" value="From sura"   />
-			<text id="FROM_AYA" value="From aya"   />
-			<text id="TO_SURA" value="To sura"   />
-			<text id="TO_AYA" value="To aya"   />
-			<text id="ILLEGAL_SEARCH_SCOPE" value="Illegal search scope items"   />
+			<text id="TITLE" value="Konfigurasi Skop Carian" />
+			<text id="SEARCH_SCOPE" value="Skop Carian" />
+			<text id="FROM_SURA" value="Dari surah" />
+			<text id="FROM_AYA" value="Dari ayat" />
+			<text id="TO_SURA" value="Kepada surah" />
+			<text id="TO_AYA" value="Kepada ayat" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="Item skop carian yang tidak dibenarkan" />
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="Edit Search Scopes"   />
+			<text id="TITLE" value="Sunting carian skop" />
 		</form>
 	</forms>
 </language>

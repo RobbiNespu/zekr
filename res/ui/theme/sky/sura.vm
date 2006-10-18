@@ -27,6 +27,7 @@
 </head>
 <body id="${BODY_ID}" dir="${DIR}">
 <input type="hidden" id="hiddenSuraNum" value="${SURA_NUM}" />
+<input type="hidden" id="hiddenAyaNum" value="${AYA_NUM}" />
 <div id="headerBar" class="headerBar" dir="${DIRECTION}">
 	$SURA_MSG: <input dir="ltr" id="suraNav" type="text" style="width: 3em" value="${SURA_NUM}" />
 	&nbsp;&nbsp;|&nbsp;&nbsp;

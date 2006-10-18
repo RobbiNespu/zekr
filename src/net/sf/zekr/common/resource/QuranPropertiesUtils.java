@@ -192,7 +192,7 @@ public class QuranPropertiesUtils {
 		map.put(dict.getMeaning("NAME"), suraNames[suraNum - 1]);
 		map.put(dict.getMeaning("NUMBER"), new Integer(sura.getIndex()));
 		map.put(dict.getMeaning("AYA_COUNT"), new Integer(sura.getAyaCount()));
-		map.put(dict.getMeaning("TYPE"), getSuraDescent(sura.isMadani()));
+		map.put(dict.getMeaning("DESCENT"), getSuraDescent(sura.isMadani()));
 		map.put(dict.getMeaning("JUZ"), getSuraJuz(suraNum));
 
 		return map;

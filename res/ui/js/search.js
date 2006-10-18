@@ -126,21 +126,25 @@ function indexOfMatchDiacritic(src, key) {
 	return {startIndex: start, endIndex: end};
 }
 
-function highlightWordInNode(aWord, aNode, matchDiac) {
+function highlightWordInNode(aWord, aNode, matchDiac, matchCase) {
 	if (aNode.nodeType == 1){
 		var children = aNode.childNodes;
 		for(var i = 0; i < children.length; i++) {
-			highlightWordInNode(aWord, children[i], matchDiac);
+			highlightWordInNode(aWord, children[i], matchDiac, matchCase);
 		}
     }
 	else if (aNode.nodeType == 3){
-		highlightWordInText(aWord, aNode, matchDiac);
+		highlightWordInText(aWord, aNode, matchDiac, matchCase);
 	}
 }
 
-function highlightWordInText(aWord, textNode, matchDiac){
-	allText = new String(textNode.data);
-	lower = allText.toLowerCase();
+function highlightWordInText(aWord, textNode, matchDiac, matchCase){
+	var allText = new String(textNode.data);
+
+	var lower = ""
+	if (!matchCase) { lower = allText.toLowerCase(); aWord = aWord.toLowerCase(); }
+	else lower = allText;
+
 	var myIndexOf;
 	if (matchDiac)
 		myIndexOf = indexOfMatchDiacritic;
@@ -167,7 +171,7 @@ function highlightWordInText(aWord, textNode, matchDiac){
 		boldText = document.createTextNode(allText.substring(sIndex, eIndex));
 		spanNode.appendChild(boldText);
 		allText = allText.substring(eIndex);
-		lower = allText.toLowerCase();
+		lower = matchCase ? allText : allText.toLowerCase();
 		loc = myIndexOf(lower, aWord);
 	}
 	newAfter = document.createTextNode(allText);
@@ -182,11 +186,11 @@ Finder = function(matchDiac, matchCase) {
 
 Finder.prototype.find = function(str) {
 	if (str == "") return;
-	highlightWordInNode(str, document.getElementById("searchableSection"), this.matchDiac);
+	highlightWordInNode(str, document.getElementById("searchableSection"), this.matchDiac, this.matchCase);
 }
 
 find = function(str, matchDiac, matchCase) {
-	if (matchCase === undefined) matchCase = true;
+	if (matchCase === undefined) matchCase = false;
 	var finder = new Finder(matchDiac, matchCase);
 	finder.find(str);
 };

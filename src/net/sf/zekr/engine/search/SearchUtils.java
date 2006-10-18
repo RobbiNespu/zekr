@@ -58,7 +58,8 @@ public class SearchUtils {
 	 * @return updated <code>String</code> result
 	 */
 	public static String replaceLayoutSimilarCharacters(String str) {
-		str = str.replaceAll(FARSI_YEH + "", ARABIC_YEH + "");
+		str = str.replaceAll(FARSI_YEH + "", ARABIC_YEH + ""); // TODO: change to relace(char, char)
+		str = str.replace(ALEF_MAKSURA, ARABIC_YEH);
 		str = str.replaceAll(FARSI_KEHEH + "", ARABIC_KAF + "");
 		return str;
 	}
@@ -78,7 +79,8 @@ public class SearchUtils {
 	 * @return updated <code>String</code> result
 	 */
 	public static String replaceSimilarArabic(String str) {
-		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + "");
+		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + ""); // TODO: change to relace(char, char)
+		str = str.replace(FARSI_YEH, ARABIC_YEH);
 		str = str.replaceAll(ALEF_HAMZA_ABOVE + "", ALEF + "");
 		str = str.replaceAll(ALEF_HAMZA_BELOW + "", ALEF + "");
 		str = str.replaceAll(ALEF_MADDA + "", ALEF + "");
@@ -101,11 +103,11 @@ public class SearchUtils {
 		char[] arr = new char[] { SUKUN, SHADDA, KASRA, DAMMA, FATHA, KASRATAN, DAMMATAN, FATHATAN,
 				SUPERSCRIPT_ALEF };
 		for (int i = 0; i < arr.length; i++) {
-			str = str.replaceAll("" + arr[i], "");
+			str = str.replaceAll("" + arr[i], ""); // TODO: change to relace(char, char)
 		}
 
 		// YEH, ALEF replacements
-		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + "");
+//		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + "");
 		str = str.replaceAll(ALEF_HAMZA_ABOVE + "", ALEF + "");
 		str = str.replaceAll(ALEF_HAMZA_BELOW + "", ALEF + "");
 		str = str.replaceAll(ALEF_MADDA + "", ALEF + "");
@@ -224,6 +226,7 @@ public class SearchUtils {
 	 */
 	public static Range indexOfMatchDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = replaceLayoutSimilarCharacters(key);
+		src = replaceLayoutSimilarCharacters(src); // TODO: are you sure?
 		if (!matchCase) {
 			if (locale != null) {
 				key = key.toLowerCase(locale);

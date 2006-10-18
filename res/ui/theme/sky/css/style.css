@@ -57,9 +57,9 @@ div.bodyBottom {
 }
 
 div.headerBar {
-	-moz-opacity: 0.80;
-	filter: alpha(opacity=80);
-	opacity: 0.80;
+	-moz-opacity: 0.75;
+	filter: alpha(opacity=75);
+	opacity: 0.75;
 	border: 1px solid gray;
 
 	position: fixed;

@@ -20,9 +20,24 @@ $(document).ready(function() {
 				history.go(-1);
 		});
 	}
+
+	$(window).resize(function(e) {
+		refocus();
+	});
 });
 
-navtoSuraAya = function(){
+refocus = function() {
+	var suraNum = $("input#hiddenSuraNum").val();
+	var ayaNum = $("input#hiddenAyaNum").val();
+
+	var ayaId = suraNum + "_" + ayaNum;	
+	var aya = document.getElementById(ayaId);
+	if (!aya) return;
+	$(aya).ScrollTo(1, 'original', getBrowserHeight() > getObjectHeight(aya) ? 
+					getBrowserHeight()/5 : 0);
+}
+
+navtoSuraAya = function() {
 	var sura = $("input#suraNav").val();
 	var aya = $("input#ayaNav").val();
 	var origSuraNum = $("input#hiddenSuraNum").val();
@@ -40,13 +55,15 @@ function focusOnAya(suraNum, ayaNum) {
 
 	$("input#suraNav").val(suraNum);
 	$("input#ayaNav").val(ayaNum);
+	$("input#hiddenSuraNum").val(suraNum);
+	$("input#hiddenAyaNum").val(ayaNum);
 
 	if (oldAyaId != null)
 		unHighlightAya(oldAyaId);
 	highlightAya(ayaId);
 
 	$(aya).ScrollTo(400, 'original', getBrowserHeight() > getObjectHeight(aya) ? 
-					getBrowserHeight()/6 : 0);
+					getBrowserHeight()/5 : 0);
 	oldAyaId = ayaId;
 }
 
@@ -97,7 +114,7 @@ SearchResult = function() {
 
 		var bh = getBrowserHeight();
 		$("#result_" + (1+oldNum)).children("div").attr("className", "item");
-		$("#result_" + (1+num)).children("div").attr("className", "selectedAya").ScrollTo(500, 'original', bh > h  ? bh/6 : 0);
+		$("#result_" + (1+num)).children("div").attr("className", "selectedAya").ScrollTo(500, 'original', bh > h  ? bh/5 : 0);
 
 		var suraAya = $("#itemNum_" + (1+num)).attr("title").split('-');
 		$("#suraNum").val(suraAya[0]);

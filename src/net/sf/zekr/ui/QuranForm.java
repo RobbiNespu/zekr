@@ -33,6 +33,7 @@ import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -42,6 +43,7 @@ import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
@@ -431,7 +433,7 @@ public class QuranForm extends BaseForm {
 		gd.horizontalSpan = 2;
 		navComposite.setLayoutData(gd);
 
-		int style = SWT.PUSH;
+		int style = SWT.PUSH | SWT.FLAT;
 		Button prevSura = new Button(navComposite, style);
 		Button prevAya = new Button(navComposite, style);
 		Button nextAya = new Button(navComposite, style);
@@ -585,6 +587,8 @@ public class QuranForm extends BaseForm {
 		quranScopeBut = new Button(searchScopeComp, SWT.RADIO);
 		quranScopeBut.setText(langEngine.getMeaning("QURAN"));
 		quranScopeBut.setSelection(true);
+		quranScopeBut.addKeyListener(ka);
+
 		transScopeBut = new Button(searchScopeComp, SWT.RADIO);
 		transScopeBut.setText(langEngine.getMeaning("TRANSLATION"));
 		transScopeBut.addSelectionListener(new SelectionAdapter() {
@@ -600,6 +604,7 @@ public class QuranForm extends BaseForm {
 				}
 			};
 		});
+		transScopeBut.addKeyListener(ka);
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
@@ -613,10 +618,19 @@ public class QuranForm extends BaseForm {
 					searchArrowBut.setEnabled(false);
 					quranScopeBut.setEnabled(false);
 					transScopeBut.setEnabled(false);
+					matchCaseCheckBox.setEnabled(true);
+					matchDiacCheckBox.setEnabled(true);
 				} else {
 					searchArrowBut.setEnabled(true);
 					quranScopeBut.setEnabled(true);
 					transScopeBut.setEnabled(true);
+					if (transScopeBut.getSelection()) {
+						matchCaseCheckBox.setEnabled(true);
+						matchDiacCheckBox.setEnabled(false);
+					} else {
+						matchCaseCheckBox.setEnabled(false);
+						matchDiacCheckBox.setEnabled(true);
+					}
 				}
 			};
 		});
@@ -627,7 +641,6 @@ public class QuranForm extends BaseForm {
 		matchDiacCheckBox.setText(langEngine.getMeaning("MATCH_DIACRITIC"));
 		matchDiacCheckBox.setLayoutData(gd);
 		matchDiacCheckBox.addKeyListener(ka);
-		matchDiacCheckBox.pack();
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
@@ -635,7 +648,6 @@ public class QuranForm extends BaseForm {
 		matchCaseCheckBox.setText(langEngine.getMeaning("MATCH_CASE"));
 		matchCaseCheckBox.setLayoutData(gd);
 		matchCaseCheckBox.addKeyListener(ka);
-		matchCaseCheckBox.pack();
 		matchCaseCheckBox.setEnabled(false);
 		matchCaseCheckBox.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -736,11 +748,7 @@ public class QuranForm extends BaseForm {
 				if (ayaChanged) {
 					quranBrowser.execute("focusOnAya(" + sura + "," + aya + ");");
 				}
-				removeProgressListener(qpl);
-			}
-
-			void removeProgressListener(ProgressListener pl) {
-				quranBrowser.removeProgressListener(pl);
+				quranBrowser.removeProgressListener(this);
 			}
 		};
 		tpl = new ProgressAdapter() {
@@ -748,11 +756,7 @@ public class QuranForm extends BaseForm {
 				if (ayaChanged) {
 					transBrowser.execute("focusOnAya(" + sura + "," + aya + ");");
 				}
-				removeProgressListener(tpl);
-			}
-
-			void removeProgressListener(ProgressListener pl) {
-				transBrowser.removeProgressListener(pl);
+				transBrowser.removeProgressListener(this);
 			}
 		};
 		if (updateQuran)
@@ -820,7 +824,8 @@ public class QuranForm extends BaseForm {
 				logger.info("Start searching the current page for \"" + str
 						+ "\" with diacritic match set to " + matchDiacCheckBox.getSelection() + ".");
 				if (viewLayout != TRANS_ONLY)
-					quranBrowser.execute("find(\"" + str + "\", " + matchDiacCheckBox.getSelection() + ");");
+					quranBrowser.execute("find(\"" + str + "\", " + matchDiacCheckBox.getSelection() + ", "
+							+ matchCaseCheckBox.getSelection() + ");");
 				else
 					transBrowser.execute("find(\"" + str + "\", " + matchDiacCheckBox.getSelection() + ", "
 							+ matchCaseCheckBox.getSelection() + ");");
