@@ -8,7 +8,7 @@ SetCompressor /SOLID lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_UNIX_NAME "zekr"
 !define VERSION 0.4.0.0
-!define RELEASE_VERSION "0.4.0b2"
+!define RELEASE_VERSION "0.4.0"
 !define COMPANY siahe.com
 !define URL http://siahe.com/zekr
 
@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.4.0\b2\win"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.4.0\release\win"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME

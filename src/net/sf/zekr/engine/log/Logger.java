@@ -9,9 +9,9 @@
 
 package net.sf.zekr.engine.log;
 
-import net.sf.zekr.ZekrMain;
+import java.io.File;
+
 import net.sf.zekr.common.runtime.Naming;
-import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.ui.error.ErrorForm;
 
 import org.apache.log4j.Level;
@@ -40,6 +40,14 @@ public class Logger {
 
 	private Logger() {
 		System.setProperty("zekr.home", Naming.HOME_PATH);
+
+		// make sure that ~/.zekr directory is created before logger startup
+		File file = new File(Naming.HOME_PATH);
+		if (!file.exists()) {
+			if (!file.exists() && !file.mkdirs())
+				throw new RuntimeException("Can not create \'" + file.getAbsoluteFile() + "\'.");
+		}
+
 		PropertyConfigurator.configure("res/config/lib/logger.properties");
 		logger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
 		sysInfo();

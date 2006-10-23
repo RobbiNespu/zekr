@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.config.BrowserShop;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.TranslationData;
@@ -498,11 +499,12 @@ public class QuranFormMenuFactory {
 	}
 
 	private void homepage() {
-		new Thread() {
-			public void run() {
-				Program.launch(GlobalConfig.HOME_PAGE);
-			}
-		}.start();
+//		new Thread() {
+//			public void run() {
+//				Program.launch(GlobalConfig.HOME_PAGE);
+//			}
+//		}.start();
+		BrowserShop.openLink(GlobalConfig.HOME_PAGE);
 	}
 
 	private void print() {

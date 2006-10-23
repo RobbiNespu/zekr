@@ -8,6 +8,7 @@
  */
 package net.sf.zekr.ui;
 
+import net.sf.zekr.common.config.BrowserShop;
 import net.sf.zekr.common.config.GlobalConfig;
 
 import org.eclipse.swt.SWT;
@@ -85,11 +86,12 @@ public class AboutForm extends BaseForm {
 		link.setText(s);
 		link.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				new Thread() {
-					public void run() {
-						Program.launch(GlobalConfig.HOME_PAGE);
-					}
-				}.start();
+//				new Thread() {
+//					public void run() {
+//						Program.launch(GlobalConfig.HOME_PAGE);
+//					}
+//				}.start();
+				BrowserShop.openLink(GlobalConfig.HOME_PAGE);
 			}
 		});
 

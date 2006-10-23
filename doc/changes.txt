@@ -151,12 +151,13 @@ Features/Enhancements:
 	Backspace in non-IE browsers acts as back button.
 	Platform-specific button size for search scope button.
 	Enhancement (icons, and short keys) for navigation buttons for non-Windows platforms when using SWT.RIGHT_TO_LEFT.
-	Refocus on aya when browser is resized (browser-JavaScript level)
+	Refocus on aya when browser is resized (browser-JavaScript level).
 	All language packs updated (except Dutch).
 Bug fixes:
-	Button size: all ok/cancel/apply buttons are 80 point
-	Filter on arrow keys (nav keys) is now removed and reinstalled (it was doubled as user changed the language)
-	Problem with searching Farsi translation with Arabic letter ALEF MAKSURA
+	Button size: all ok/cancel/apply buttons are 80 point.
+	Filter on arrow keys (nav keys) is now removed and reinstalled (it was doubled as user changed the language).
+	Problem with searching Farsi translation with Arabic letter ALEF MAKSURA.
+	Links of about form and home page menu item now works on Mac/Linux.
 	Typo in Quran text (9-123): æóáöíóÌöÏõæÇú which should be æóáúíóÌöÏõæÇú.
 	Typo in Quran text (12-10): ãøóäúåõãú which should be ãøöäúåõãú.
 	Typo in Quran text (12-24): æóÇÓõÊóÈóŞóÇ which should be æóÇÓúÊóÈóŞóÇ.
@@ -173,5 +174,5 @@ Version 0.5.0 release - [20-12-06]
 	TODO: Quran transliteration
 	TODO: Update language packs
 	TODO: lang="fa/en/ar/.." in HTML genereted, for multilinguality!
-	TODO: Navigation button for "current page" search result
+	TODO: Navigation button for "current page" search result.
 	TODO: Add version to about form.
