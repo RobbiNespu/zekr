@@ -3,7 +3,16 @@
 <index>
 	<allnews>
 
-	<news title="Zekr 0.4.0 first beta release" date="15-9-06" icon="news.png">
+	<news title="Zekr 0.4.0 beta 2 release" date="3-10-06" icon="news.png">
+	Zekr 0.4.0 beta 2 is available.<br />
+	This would be the last beta relase, and God willing, the final 0.4.0 release will be available in 2 weeks.
+	The main feature of this release is fully manageable <i>scoped search</i> (through both Quran and translation).
+	SWT also updated to a newer one (which should work better on Mac).<br /><br />
+	<img alt="Download Zekr 0.4.0 beta 1" src="img/down16.png"/>
+	<a href="download.html">Download!</a>
+	</news>
+
+	<news title="Zekr 0.4.0 first beta release" date="15-9-06">
 	The Zekr 0.4.0 beta 1 is available.<br />
 	There are three new language packs (Turkish, Malay, Kurdish) plus a number of visual enhancements.<br /><br />
 	Find the new features yourself :)<br />

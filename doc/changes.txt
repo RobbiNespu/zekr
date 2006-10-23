@@ -129,7 +129,7 @@ Bug fixes:
 	Theme's cached style.css will not be deleted every time Zekr starts.
 	style.css: "text-align: justify" will be ignored for Mozilla (due to its rendering problem). It now works only for IE now.
 
-Version 0.4.0 b1 - [3-10-06]
+Version 0.4.0 b2 - [3-10-06]
 Features/Enhancements:
 	Search in a range:
 		fully manageable search scopes
@@ -143,7 +143,7 @@ Bug fixes:
 	A small bug with JavaScript when there was no search result.
 	Invalid content of textboxes (sura and aya) when there is no search result.
 
-Version 0.4.0 release - [21-10-06]
+Version 0.4.0 release - [24-10-06]
 Features/Enhancements:
 	Search scope button (near search button) changed to SWT.TOGGLE (so that it will be pushed while user not clicked any menu item).
 	In nav bar (on the top of Quran view) one can change sura number as well as aya.
@@ -155,7 +155,7 @@ Features/Enhancements:
 	All language packs updated (except Dutch).
 Bug fixes:
 	Button size: all ok/cancel/apply buttons are 80 point
-	Filter on arror keys (nav keys) is now removed and reinstalled (it was doubled before as user changed the language)
+	Filter on arrow keys (nav keys) is now removed and reinstalled (it was doubled as user changed the language)
 	Problem with searching Farsi translation with Arabic letter ALEF MAKSURA
 	Typo in Quran text (9-123): æóáöíóÌöÏõæÇú which should be æóáúíóÌöÏõæÇú.
 	Typo in Quran text (12-10): ãøóäúåõãú which should be ãøöäúåõãú.
@@ -169,7 +169,7 @@ Bug fixes:
 	Typo in makarem.txt (33-32): ÂäÇä which should be ÒäÇä
 	Typo in makarem.txt (33-50): Ñä which should be Òä
 
-Version 0.5.0 release - [21-10-06]
+Version 0.5.0 release - [20-12-06]
 	TODO: Quran transliteration
 	TODO: Update language packs
 	TODO: lang="fa/en/ar/.." in HTML genereted, for multilinguality!

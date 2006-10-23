@@ -40,7 +40,7 @@
 		<Program_Name>Zekr</Program_Name>
 		<Program_Version>0.4.0</Program_Version>
 		<Program_Release_Month>10</Program_Release_Month>
-		<Program_Release_Day>15</Program_Release_Day>
+		<Program_Release_Day>24</Program_Release_Day>
 		<Program_Release_Year>2006</Program_Release_Year>
 		<Program_Cost_Dollars>0.0</Program_Cost_Dollars>
 		<Program_Cost_Other_Code>USD</Program_Cost_Other_Code>
@@ -51,7 +51,7 @@
 		<Program_OS_Support>Win95,Win98,WinME,WinNT 4.x,Windows2000,WinXP,Windows2003,Unix,Linux,
 Linux GPL,Linux Open Source,Java, Max OS X</Program_OS_Support>
 		<Program_Language>English,Farsi,Arabic,German,Indonesian,French,Russian,Dutch,Malay,Turkish,Kurdish</Program_Language>
-		<Program_Change_Info>Quran managed search in customized scopes. Search through translations.</Program_Change_Info>
+		<Program_Change_Info>Managed Quran search in customized scopes. Search through translations.</Program_Change_Info>
 		<Program_Specific_Category>Home/Hobby</Program_Specific_Category>
 		<Program_Categories>Education, Research on Quran</Program_Categories>
 		<Program_System_Requirements>Java VM 1.4.2+</Program_System_Requirements>
@@ -80,7 +80,7 @@ Linux GPL,Linux Open Source,Java, Max OS X</Program_OS_Support>
 	</Program_Info>
 	<Program_Descriptions>
 		<English>
-		    <Keywords>Quran, Quran View, Islamic, Islam, Quranic, Bible, Holy Quran, Quran Text, Quran translation, Research on Quran, Search the Quran, View Quran sura by sura</Keywords>
+		    <Keywords>Quran, Quran View, Islamic, Islam, Quranic, Bible, Holy Quran, Quran Text, Quran translation, Search the Quran translation, Research on Quran, Search the Quran, View Quran sura by sura</Keywords>
 			<Char_Desc_45>Zekr - The Open Quranic Project</Char_Desc_45>
 			<Char_Desc_80>Zekr open source Quranic project</Char_Desc_80>
 			<Char_Desc_250>Zekr is an open source Quranic project to ease everyone's access to the
