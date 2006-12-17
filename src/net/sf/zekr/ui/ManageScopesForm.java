@@ -182,7 +182,6 @@ public class ManageScopesForm extends BaseForm {
 		new Label(body, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(gd);
 
 		gd = new GridData();
-		gd.horizontalSpan = 2;
 		gd.horizontalAlignment = SWT.TRAIL;
 
 		rl = new RowLayout(SWT.HORIZONTAL);
@@ -205,7 +204,7 @@ public class ManageScopesForm extends BaseForm {
 			public void widgetSelected(SelectionEvent e) {
 				canceled = false;
 				selectedIndex = listWidget.getSelectionIndex();
-				dispose();
+				shell.close();
 			};
 		});
 		shell.setDefaultButton(okBut);
@@ -221,7 +220,7 @@ public class ManageScopesForm extends BaseForm {
 
 			public void widgetSelected(SelectionEvent e) {
 				canceled = true;
-				dispose();
+				shell.close();
 			};
 		});
 

@@ -174,7 +174,7 @@ public class SearchScopeForm extends BaseForm {
 					MessageBoxUtils.showError(meaning("ILLEGAL_SEARCH_SCOPE"));
 					return;
 				}
-				dispose();
+				shell.close();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -192,7 +192,7 @@ public class SearchScopeForm extends BaseForm {
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				canceled = true;
-				dispose();
+				shell.close();
 			}
 		});
 

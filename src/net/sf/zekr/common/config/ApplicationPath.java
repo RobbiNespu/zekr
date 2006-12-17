@@ -53,6 +53,10 @@ public class ApplicationPath {
 	public static final String MAIN_CONFIG = rm.getString("config.original"); // original config
 	public static final String USER_CONFIG = rm.getString("config.user", new String[]{Naming.CONFIG_PATH}); // user customized config
 
+	public static final String BOOKMARK_DIR = rm.getString("bookmark.baseDir");
+//	public static final String MAIN_BOOKMARK = rm.getString("bookmark.original"); // original bookmarks
+//	public static final String BUILTIN_USER_BOOKMARK = rm.getString("bookmark.user", new String[]{Naming.CONFIG_PATH}); // user customized bookmarks
+
 	// Velocity Files
 //	/**
 //	 * Please note that this string contains only the file name, not the full path,

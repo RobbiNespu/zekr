@@ -194,7 +194,10 @@ public class MessageBoxUtils {
 	}
 */
 	private static Shell getShell() {
-		return Display.getCurrent().getActiveShell();
+		// This causes bug on Linux
+		// return Display.getCurrent().getActiveShell();
+		Shell shells[] = Display.getCurrent().getShells();
+		return shells.length > 0 ? shells[0] : null;
 	}
 
 }

@@ -121,3 +121,36 @@ SearchResult = function() {
 		$("#ayaNum").val(suraAya[1]);
 	};
 };
+
+
+CurrentPageSearchResult = function() {
+	var cnt;
+	var num = 0;
+	var oldNum = 0;
+	var list;
+	$(document).ready(function() {
+		try{
+			list = $(".jsHighlight");
+			cnt = list.size();
+		} catch(e) {return;}
+		focus();
+	});
+
+	this.next = function() {
+		if (num < cnt - 1) { oldNum = num; num++; focus(); }
+	};
+
+	this.prev = function() {
+		if (num > 0) { oldNum = num; num--; focus(); }
+	};
+
+	function focus() {
+		var h = list.eq(num).height();
+		var bh = getBrowserHeight();
+		var item = list.get(num);
+		$("#focusedWord").html("\"" + $(item).text() + "\"");
+		if (num > 0)
+			$(list.get(oldNum)).attr("className", "jsHighlight");
+		$(item).ScrollTo(500, 'original', bh > h  ? bh/5 : 0).attr("className", "jsHighlightFocused");
+	};
+};

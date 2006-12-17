@@ -15,10 +15,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.util.FileUtils;
+import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.theme.ITransformer;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeTemplate;
+
+import org.apache.commons.io.FileUtils;
 
 /**
  * @author Mohsen Saboorian
@@ -35,6 +38,7 @@ public class ApplicationRuntime {
 		dirList.add(Naming.MIXED_CACHE_DIR);
 		dirList.add(Naming.SEARCH_CACHE_DIR);
 		dirList.add(Naming.CONFIG_PATH);
+		dirList.add(Naming.BOOKMARK_PATH);
 	}
 
 	/**
@@ -63,7 +67,7 @@ public class ApplicationRuntime {
 
 		File cache = new File(Naming.CACHE_DIR);
 		if (cache.exists())
-			org.apache.commons.io.FileUtils.deleteDirectory(cache);
+			FileUtils.deleteDirectory(cache);
 		cache.mkdir();
 		new File(Naming.QURAN_CACHE_DIR).mkdir();
 		new File(Naming.TRANS_CACHE_DIR).mkdir();
@@ -77,10 +81,14 @@ public class ApplicationRuntime {
 	}
 
 	private void createCommonFiles() {
-		logger.info("Create common configuration files.");
+		logger.info("Create common configuration files...");
+
+		// theme
 		Theme theme = ApplicationConfig.getInstance().getTheme();
-		ThemeTemplate ct = new ThemeTemplate(theme.getCurrent());
+		ITransformer ct = new ThemeTemplate(theme.getCurrent());
 		ct.transform();
+
+		logger.info("Creating common configuration files done.");
 	}
 
 	/**
@@ -99,23 +107,35 @@ public class ApplicationRuntime {
 	}
 
 	public void recreateQuranCache() throws IOException {
-		FileUtils.recreateDirectory(Naming.QURAN_CACHE_DIR);
+		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.QURAN_CACHE_DIR);
 	}
 
 	public void recreateTransCache() throws IOException {
-		FileUtils.recreateDirectory(Naming.TRANS_CACHE_DIR);
+		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.TRANS_CACHE_DIR);
 	}
 
 	public void recreateMixedCache() throws IOException {
-		FileUtils.recreateDirectory(Naming.MIXED_CACHE_DIR);
+		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.MIXED_CACHE_DIR);
 	}
 
 	public void clearCache() {
-		FileUtils.delete(new File(Naming.CACHE_DIR));
+		// net.sf.zekr.common.util.FileUtils.delete(new File(Naming.CACHE_DIR));
+		try {
+			FileUtils.deleteDirectory(new File(Naming.CACHE_DIR));
+		} catch (IOException e) {
+			logger.error("Error while deleting directory: " + new File(Naming.CACHE_DIR));
+			logger.log(e);
+		}
 	}
 
 	public void clearConfig() {
-		FileUtils.delete(new File(Naming.CONFIG_PATH));
+		// net.sf.zekr.common.util.FileUtils.delete(new File(Naming.CONFIG_PATH));
+		try {
+			FileUtils.deleteDirectory(new File(Naming.CONFIG_PATH));
+		} catch (IOException e) {
+			logger.error("Error while deleting directory: " + new File(Naming.CONFIG_PATH));
+			logger.log(e);
+		}
 	}
 
 	/**

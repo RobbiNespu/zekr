@@ -45,7 +45,8 @@
 							</div>
 							<div class="buttons">
 							<xsl:apply-templates select="/index/buttons" />								
-							<a href="http://fusion.google.com/add?moduleurl=http%3A//base.google.com/base/a/1096661/D12554424364135394330"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to Google" /></a>
+							<a href="http://fusion.google.com/add?moduleurl=http%3A//base.google.com/base/a/1096661/D12554424364135394330">
+							<img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to Google" /></a>
 							</div>
 						</td>
 						<td class="right">
@@ -86,20 +87,14 @@
 										for its tasks.
 									</p>
 									<p>
-										The current release, 0.3.0 supports
-										a fully customizable theme mangement and
-										translation management. See <a href="plan.xml">Zekr plan</a> for more details on the Zekr plan.
+										The current release, 0.4.0 supports	scoped search through bot Quran and translations.
+										See <a href="plan.xml">Zekr plan</a> for more details on the Zekr plan.
 									</p>
 									<p>
 										The program is written in Java, on
-										<a href="http://www.eclipse.org">Eclipse IDE</a>
-										, and
-										<a href="http://www.eclipse.org/swt/"
-											title="Standard Widget Toolkit">
-											SWT
-										</a>
-										as the widget toolkit. Please refer to
-										<a href="relnotes.html">release notes</a>
+										<a href="http://www.eclipse.org">Eclipse IDE</a>, and
+										<a href="http://www.eclipse.org/swt/" title="Standard Widget Toolkit">SWT</a>
+										as the widget toolkit. Please refer to <a href="relnotes.html">release notes</a>
 										page for more technical details.
 									</p>
 								</div>

@@ -121,5 +121,9 @@ public class XmlUtils {
 	public static String getParentAttr(Node node, String parentAttr) {
 		return node.getParentNode().getAttributes().getNamedItem(parentAttr).getNodeValue();
 	}
+
+	public static boolean isElement(Node node, String string) {
+		return node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals(string);
+	}
 	
 }

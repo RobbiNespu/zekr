@@ -13,25 +13,17 @@ html,body {
 body {
 	font: 13pt "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
 	color: rgb(30, 40, 70);
-	background-color: threedface;
+/*	background-color: white;*/
 }
 body#search {
-	background: threedface url('${APP_PATH}res/image/zekr-bg.png') no-repeat fixed center;
+/*	background: white;*/
 }
 body#quranBody {
-#if($quran_hasBG.equals("true"))
-	background: $quran_bgColor url('${APP_PATH}res/image/zekr-bg.png') no-repeat fixed center;
-#else
-	background-color: $quran_bgColor;
-#end
+/*	background-color: white;*/
 }
 
 body#transBody {
-#if($trans_hasBG.equals("true"))
-	background: $trans_bgColor url('${APP_PATH}res/image/zekr-bg.png') no-repeat fixed center;
-#else
-	background-color: $trans_bgColor;
-#end
+/*	background-color: white;*/
 }
 
 div.body {
@@ -48,7 +40,7 @@ td.searchBarTop {
 	height: 50px;
 	font-size: 0.9em;
 	font-family: Tahoma, Arial, Sans-serif;
-	border: 1px dashed silver;
+	border: 1px solid silver;
 	padding: 2px;
 }
 
@@ -56,39 +48,17 @@ div.bodyBottom {
 	height: 30px;
 }
 
-div.headerBar {
-	-moz-opacity: 0.75;
-	filter: alpha(opacity=75);
-	opacity: 0.75;
-	border: 1px solid gray;
-
-	position: fixed;
-	_position: absolute;
-
-	top: 2px;
-	_top: expression(eval(document.body.scrollTop) + 2 + 'px');
-	left: 2px;
-	_left: 3px;
-	right: 2px;
-	_right: 3px;
-	_width: expression(eval(document.body.clientWidth - 6) + 'px');
-	padding: 2px;
-
-	background-color: threedhighlight;
-	font: 0.82em Sans serif, Tahoma, Arial;
-}
-div.headerBar input {
-	font: 0.82em Sans serif, Tahoma, Arial;
+div.headerBar { /* IE 5.0+ */
+	visibility: hidden;
 }
 
 div.main {
-	vertical-align: top;
+	vertical-align: top;/*
 	border-left: 1px solid rgb(190, 220, 255);
 	border-right: 1px solid rgb(190, 220, 255);
 	border-top: 3px double rgb(140, 150, 250);
-	border-bottom: 3px double rgb(140, 150, 250);
+	border-bottom: 3px double rgb(140, 150, 250);*/
 	padding: 7 8;
-	_text-align: justify;
 	line-height: 150%;
 }
 
@@ -104,6 +74,7 @@ div.searchBody {
 }
 
 .quran {
+	text-align: justify;
 #set($qBold = "")
 #set($qItalic = "")
 #if ($quran_fontBold.equals("true"))
@@ -142,26 +113,25 @@ div.searchBody {
 #end
 	font-size: ${fontSize}pt;
 }
-
+/*
 div.selectedAya {
 	border-right: 4px solid rgb(100, 100, 100);
 	border-left: 4px solid rgb(100, 100, 100);
 }
 
-#quranSection div.selectedAya { /* selected aya for the Quran/translation view */
+#quranSection div.selectedAya {
 	border-bottom: 1px dashed rgb(100, 200, 250);
 	padding-left: 6px;
 	padding-right: 6px;
 	margin: 3px 0px 3px 0;
 }
 
-#searchResultSection div.selectedAya { /* selected aya for the search result item */
+#searchResultSection div.selectedAya {
 	border-bottom: 1px solid rgb(100, 100, 100);
 	border-top: 1px solid rgb(100, 100, 100);
 	padding-left: 3px;
 	padding-right: 3px;
 }
-
 span.selectedSearchItemNum {
 	font-weight: bold;
 }
@@ -169,9 +139,10 @@ span.selectedSearchItemNum {
 span.selectedAya {
 	color: rgb(0, 50, 250);
 }
+*/
 
 div.aya {
-	border-bottom: 1px dashed rgb(100, 200, 250);
+	border-bottom: 1px solid rgb(100, 200, 250);
 	padding-right: 10px;
 	padding-left: 10px;
 	margin: 3px 0 3px 0;
@@ -204,25 +175,38 @@ span.selectedAyaSign {
 td.searchResult {
 	vertical-align: top;
 }
+/*
 div.searchResult {
 	border: 4px solid rgb(200, 210, 240);
 }
-
+*/
 .searchResult div.item {
-	padding: 1px 7px 1px 7px;
+	padding: 0px 7px 0px 7px;
 }
 
 .searchResult div.odd {
+	background-color: white;
+	margin: 9px 0px;
 }
 
 .searchResult div.even {
-	background-color: rgb(200, 210, 240);
+	background-color: rgb(200, 210, 240); /* a bit darker than screen media rendering */
+	margin: 9px 0px;
+}
+.searchResult div img { /* hides translation button at the end of each aya in search result */
+	display: none;
 }
 
-.searchResult span.highlight {
+.searchResult .even span.highlight {
 	color: blue;
 	font-weight: bold;
 	background-color: white;
+}
+
+.searchResult .odd span.highlight {
+	color: blue;
+	font-weight: bold;
+	background-color: rgb(220, 220, 220);
 }
 
 .jsHighlight {
@@ -231,16 +215,22 @@ div.searchResult {
 	background-color: white;
 }
 
+.jsHighlightFocused { /* in printing it is of no sense to have a different selected item, all items should look the same */
+	color: red;
+	font-weight: bold;
+	background-color: white;
+}
+
 .searchResult a:link { 
-	color: rgb(10, 100, 240);
+	color: rgb(0, 80, 120);
 	text-decoration: none;;
 }
 
 .searchResult a:visited { 
-	color: rgb(10, 100, 240);
+	color: rgb(0, 40, 200);
 	text-decoration: none;
 }
-
+/*
 .searchResult a:hover { 
 	color: red;
 }
@@ -249,4 +239,16 @@ div.searchResult {
 	cursor: pointer;
 	cursor: hand;
 }
-
+*/
+.printWatermark {
+#if($print_showWatermark.equals("true"))
+	margin: 3px;
+	background-color: rgb(240, 240, 240);
+	color: black;
+	border: 1px solid gray;
+	text-align: center;
+	padding: 2px;
+	display: block;
+	font: 9pt Tahoma, Arial, Sans-serif;
+#end
+}

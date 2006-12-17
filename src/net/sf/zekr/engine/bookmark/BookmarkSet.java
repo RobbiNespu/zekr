@@ -1,0 +1,294 @@
+/*
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * Author:         Mohsen Saboorian
+ * Start Date:     Dec 1, 2006
+ */
+package net.sf.zekr.engine.bookmark;
+
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.transform.TransformerException;
+
+import net.sf.zekr.common.resource.QuranLocation;
+import net.sf.zekr.common.util.CollectionUtils;
+import net.sf.zekr.engine.language.LanguageEngine;
+import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.xml.XmlReadException;
+import net.sf.zekr.engine.xml.XmlReader;
+import net.sf.zekr.engine.xml.XmlWriter;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class BookmarkSet {
+	private final static Logger logger = Logger.getLogger(BookmarkSet.class);
+
+	private File bookmarkFile;
+	private String name;
+	private String author;
+	private String language = "English";
+	private String dir = LanguageEngine.LEFT_TO_RIGHT;
+	private String desc;
+	private Date modifyDate;
+	private Date createDate;
+
+	/**
+	 * A dummy parent item to hold all the bookmark set
+	 */
+	private BookmarkItem parentItem;
+
+	private Document xmlDocument;
+
+	private boolean called = false;
+
+	/**
+	 * This c'tor will not load all the bookmark set file. A call to <code>load()</code> is needed first.
+	 * Hence, this class is in fact lazy-load.
+	 * 
+	 * @param bookmarkFile
+	 */
+	public BookmarkSet(File bookmarkFile) {
+		this.bookmarkFile = bookmarkFile;
+	}
+
+	/**
+	 * Should be called only once. Nothing happens if this method be called more.
+	 */
+	public void load() {
+		if (!called) {
+			try {
+				XmlReader bookmarkXmlReader = new XmlReader(bookmarkFile);
+				xmlDocument = bookmarkXmlReader.getDocument();
+				loadXml(parentItem = new BookmarkItem(), xmlDocument.getFirstChild());
+			} catch (XmlReadException e) {
+				logger.error("Error loading bookmark set XML file.");
+				logger.log(e);
+			}
+			called = true;
+		}
+	}
+
+	public void save() {
+		updateXml();
+		try {
+			XmlWriter.writeXML(xmlDocument, bookmarkFile);
+		} catch (TransformerException e) {
+			logger.error("Error saving bookmark set XML file.");
+			logger.log(e);
+		}
+	}
+
+	private void updateXml() {
+		// remove all items first
+		Element root = xmlDocument.getDocumentElement();
+		NodeList nodes = root.getChildNodes();
+		int childNodeCount = nodes.getLength();
+		// it should carefully remove from the end of the list (because nodes.getLenth() is decreased as nodes
+		// are removed)
+		for (int i = childNodeCount - 1; i >= 0; i--) {
+			Node node = nodes.item(i);
+			root.removeChild(node);
+		}
+
+		Element infoElem = xmlDocument.createElement("info");
+		root.appendChild(infoElem);
+
+		Element nameElem = xmlDocument.createElement("name");
+		nameElem.appendChild(xmlDocument.createTextNode(getName()));
+		infoElem.appendChild(nameElem);
+		Element authorElem = xmlDocument.createElement("author");
+		authorElem.appendChild(xmlDocument.createTextNode(getAuthor()));
+		infoElem.appendChild(authorElem);
+		Element langElem = xmlDocument.createElement("langElem");
+		langElem.appendChild(xmlDocument.createTextNode(getLanguage()));
+		infoElem.appendChild(langElem);
+		Element dirElem = xmlDocument.createElement("dir");
+		dirElem.appendChild(xmlDocument.createTextNode(getDirection()));
+		infoElem.appendChild(dirElem);
+		Element descElem = xmlDocument.createElement("desc");
+		descElem.appendChild(xmlDocument.createTextNode(getDescription()));
+		infoElem.appendChild(descElem);
+		Element modifyDataElem = xmlDocument.createElement("modifyDate");
+		setModifyDate(new Date());
+		modifyDataElem.appendChild(xmlDocument.createTextNode(dateToString(getModifyDate())));
+		infoElem.appendChild(modifyDataElem);
+		Element createDateElem = xmlDocument.createElement("createDate");
+		createDateElem.appendChild(xmlDocument.createTextNode(getCreateDate() == null ? dateToString(getModifyDate())
+				: dateToString(getCreateDate())));
+		infoElem.appendChild(createDateElem);
+
+		_updateXml(parentItem, root);
+	}
+
+	private void _updateXml(BookmarkItem item, Node node) {
+		List list = item.getChildren();
+		for (Iterator iter = list.iterator(); iter.hasNext();) {
+			BookmarkItem childItem = (BookmarkItem) iter.next();
+			if (childItem.isFolder()) {
+				Element fe = xmlDocument.createElement("folder");
+				fe.setAttribute("name", childItem.getName());
+				fe.setAttribute("desc", childItem.getDescription());
+				_updateXml(childItem, fe);
+				node.appendChild(fe);
+			} else {
+				Element ie = xmlDocument.createElement("item");
+				ie.setAttribute("name", childItem.getName());
+				ie.setAttribute("desc", childItem.getDescription());
+				ie.setAttribute("data", CollectionUtils.toString(childItem.getLocations(), ","));
+				node.appendChild(ie);
+			}
+		}
+	}
+
+	private void loadXml(BookmarkItem item, Node node) {
+		NodeList nodeList = node.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node n = nodeList.item(i);
+			if (n.getNodeType() == Node.ELEMENT_NODE && n.getNodeName().equals("info")) {
+				NodeList infoChildren = n.getChildNodes();
+				for (int j = 0; j < infoChildren.getLength(); j++) {
+					Node nd = infoChildren.item(j);
+					if (nd.getNodeType() != Node.ELEMENT_NODE)
+						continue;
+					String name = nd.getNodeName();
+					String value = nd.getFirstChild().getNodeValue();
+					if (name.equals("name")) {
+						setName(value);
+					} else if (name.equals("desc")) {
+						setDescription(value);
+					} else if (name.equals("author")) {
+						setAuthor(value);
+					} else if (name.equals("language")) {
+						setLanguage(value);
+					} else if (name.equals("dir")) {
+						setDirection(value);
+					} else if (name.equals("modifyDate")) {
+						setCreateDate(toDateFormat(value));
+					} else if (name.equals("createDate")) {
+						setCreateDate(toDateFormat(value));
+					}
+				}
+				break;
+			}
+		}
+		_loadXml(item, node);
+	}
+
+	private void _loadXml(BookmarkItem item, Node node) {
+		NodeList nodeList = node.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node n = nodeList.item(i);
+			if (n.getNodeType() == Node.ELEMENT_NODE) {
+				Element e = (Element) n;
+				BookmarkItem bi = new BookmarkItem();
+				if (e.getTagName().equals("folder")) {
+					bi.setFolder(true);
+					bi.setName(e.getAttribute("name"));
+					bi.setDescription(e.getAttribute("desc"));
+					item.addChild(bi);
+					_loadXml(bi, e);
+				} else if (e.getTagName().equals("item")) {
+					bi.setFolder(false);
+					bi.setName(e.getAttribute("name"));
+					try {
+						bi.setLocations(CollectionUtils.fromString(e.getAttribute("data"), ",", QuranLocation.class));
+					} catch (Exception exc) {
+						logger.implicitLog(exc);
+					}
+					bi.setDescription(e.getAttribute("desc"));
+					item.addChild(bi);
+				}
+			}
+		}
+	}
+
+	private Date toDateFormat(String dateStr) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		try {
+			return sdf.parse(dateStr);
+		} catch (ParseException e) {
+			logger.implicitLog(e);
+		}
+		return null;
+	}
+
+	private String dateToString(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		return sdf.format(date);
+	}
+
+	public List getBookmarksItems() {
+		return parentItem.getChildren();
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getDescription() {
+		return desc;
+	}
+
+	public void setDescription(String description) {
+		this.desc = description;
+	}
+
+	public String getDirection() {
+		return dir;
+	}
+
+	public void setDirection(String direction) {
+		this.dir = direction;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+
+	public String toString() {
+		return "BookmarkSet-" + name;
+	}
+}

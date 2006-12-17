@@ -27,4 +27,5 @@ public class Naming {
 	public static final String MIXED_CACHE_DIR = CACHE_DIR + "/mixed";
 	public static final String SEARCH_CACHE_DIR = CACHE_DIR + "/search";
 	public static final String CONFIG_PATH = HOME_PATH + "/config";
+	public static final String BOOKMARK_PATH = HOME_PATH + "/bookmark";
 }

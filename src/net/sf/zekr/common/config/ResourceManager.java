@@ -10,23 +10,26 @@ package net.sf.zekr.common.config;
 
 import java.util.PropertyResourceBundle;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * This class is used to handle dynamic resource bundles which use <i>Velocity</i> as the
- * template engine.
+ * This class is used to handle dynamic resource bundles which use <i>Velocity</i> as the template engine.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
 public class ResourceManager {
-	private static PropertyResourceBundle resource;
+	// private static PropertyResourceBundle resource;
 	private static ResourceManager thisInstance;
+	private static PropertiesConfiguration resource;
 
 	private ResourceManager() {
 		try {
-			resource = new PropertyResourceBundle(new VelocityInputStream(
-					"res/resource-path.properties"));
+			resource = new PropertiesConfiguration();
+			resource.load(new VelocityInputStream("res/resource-path.properties"), "utf-8");
+			// resource = new PropertyResourceBundle(new VelocityInputStream(
+			// "res/resource-path.properties"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -42,10 +45,14 @@ public class ResourceManager {
 		return resource.getString(key);
 	}
 
+	public String[] getStrings(String key) {
+		return resource.getStringArray(key);
+	}
+
 	public String getString(String key, Object[] strArray) {
 		String val = getString(key);
 		for (int i = 0; i < strArray.length; i++) {
-			val = StringUtils.replace(val, "{" +  (i + 1) + "}", strArray[i].toString());
+			val = StringUtils.replace(val, "{" + (i + 1) + "}", strArray[i].toString());
 			// val = val.replaceAll("\\{" + (i + 1) + "\\}", strArray[i].toString());
 		}
 		return val;

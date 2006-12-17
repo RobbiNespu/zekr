@@ -84,10 +84,17 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	/**
-	 * Makes a string presentation of this class: <tt>sura#-aya#</tt>
+	 * Makes a string representation of this class as: <tt>sura#-aya#</tt>
 	 */
 	public String toString() {
-		return new StringBuffer("" + sura).append("-").append(aya).toString();
+		return new StringBuffer(String.valueOf(sura)).append("-").append(aya).toString();
+	}
+
+	/**
+	 * Makes a string representation of this class as: <tt>sura(sura#) - aya#</tt>
+	 */
+	public String toDetailedString() {
+		return new StringBuffer(getSuraName()).append(" (").append(sura).append(") - ").append(aya).toString();
 	}
 
 	public boolean equals(Object obj) {

@@ -71,6 +71,18 @@
 			<text id="EXCLUDE"  value="Exclude" />
 			<text id="TRUE"     value="True" />
 			<text id="FALSE"    value="False" />
+			<text id="SELECT"   value="Select" />
+			<text id="EXPORT"   value="Export" />
+			<text id="IMPORT"   value="Import" />
+			<text id="DESCRIPTION" value="Description" />
+			<text id="BOOKMARKS" value="Bookmarks" />
+			<text id="CONFIGURE" value="Configure" />
+			<text id="CONFIGURE_BOOKMARK_SETS" value="Configure bookmark sets" />
+			<text id="DIRECTION" value="Direction" />
+			<text id="LANG_DIRECTION" value="Language direction" />
+			<text id="RTL"      value="Right to left" />
+			<text id="LTR"      value="Left to right" />
+			<text id="AUTHOR"   value="Author" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -84,6 +96,7 @@
 			<text id="AYA_COUNT"  value="Aya count" />
 			<text id="MINOR_SAJDA" value="Minor sajda" />
 			<text id="MAJOR_SAJDA" value="Major sajda" />
+			<text id="LOCATION" value="Location" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -139,6 +152,20 @@
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
 			<text id="TITLE" value="Edit Search Scopes" />
+		</form>
+		<form id="BOOKMARKS_FORM">
+			<text id="TITLE" value="Manage bookmarks" />
+			<text id="NEW_BOOKMARK_FOLDER" value="New bookmark folder" />
+			<text id="NEW_BOOKMARK_ITEM" value="New bookmark item" />
+		</form>
+		<form id="BOOKMARKS_SET_FORM">
+			<text id="TITLE" value="Manage bookmarks sets" />
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="Edit bookmark properties" />
+			<text id="QURAN_LOCATIONS" value="Quran locations" />
+			<text id="NEW_BOOKMARK" value="New Bookmark" />
+			<text id="NEW_FOLDER" value="New Folder" />
 		</form>
 	</forms>
 </language>

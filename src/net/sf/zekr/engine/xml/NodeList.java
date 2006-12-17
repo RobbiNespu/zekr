@@ -25,13 +25,13 @@ import org.w3c.dom.Node;
 public class NodeList implements org.w3c.dom.NodeList {
 	ArrayList list = null;
 
-	NodeList(org.w3c.dom.NodeList nodeList) {
+	public NodeList(org.w3c.dom.NodeList nodeList) {
 		list = new ArrayList();
 		for (int i = 0; i < nodeList.getLength(); i++)
 			list.add(nodeList.item(i));
 	}
 
-	NodeList() {
+	public NodeList() {
 		list = new ArrayList();
 	}
 

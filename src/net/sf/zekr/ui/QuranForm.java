@@ -17,6 +17,7 @@ import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
@@ -218,12 +219,22 @@ public class QuranForm extends BaseForm {
 
 		shell.addTraverseListener(new TraverseListener() {
 			public void keyTraversed(TraverseEvent e) {
-				if (REFRESH_VIEW.equals(e.data)) {
-					reload();
-				} else if (RECREATE_VIEW.equals(e.data)) {
-					recreate();
-				} else if (CLEAR_CACHE_ON_EXIT.equals(e.data)) {
-					clearOnExit = true;
+				if (e.data != null) {
+					if (REFRESH_VIEW.equals(e.data)) {
+						reload();
+					} else if (RECREATE_VIEW.equals(e.data)) {
+						recreate();
+					} else if (CLEAR_CACHE_ON_EXIT.equals(e.data)) {
+						clearOnExit = true;
+					} else if (UPDATE_BOOKMARKS_MENU.equals(e.data)) {
+						qmf.createOrUpdateBookmarkMenu();
+					} else if (((String) e.data).startsWith(GOTO_LOCATION)) {
+						String s = (String) e.data;
+						s = s.substring(GOTO_LOCATION.length() + 1);
+						IQuranLocation loc = new QuranLocation(s);
+						gotoSuraAya(loc.getSura(), loc.getAya());
+					}
+					e.doit = false;
 				}
 			}
 		});

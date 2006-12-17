@@ -19,21 +19,21 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.Translation;
 import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
+import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.runtime.RuntimeConfig;
 import net.sf.zekr.common.util.CollectionUtils;
+import net.sf.zekr.engine.bookmark.BookmarkSet;
+import net.sf.zekr.engine.bookmark.BookmarkSetGroup;
 import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
@@ -43,8 +43,8 @@ import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.xml.XmlReader;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 /**
  * This singleton class reads the config files by the first invocation of <code>getInstance()</code>. You
@@ -73,6 +73,8 @@ public class ApplicationConfig extends ConfigNaming {
 	private ApplicationRuntime runtime;
 	private QuranLocation quranLocation;
 	private PropertiesConfiguration props;
+	private BookmarkSet bookmarkSet;
+	private BookmarkSetGroup bookmarkSetGroup;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -82,6 +84,7 @@ public class ApplicationConfig extends ConfigNaming {
 		// viewElem = configReader.getElement(VIEW_TAG);
 		// transElem = configReader.getElement(TRANSLATIONS_TAG);
 		loadConfig();
+		loadBookmarkSetGroup();
 		extractLangProps();
 		extractRuntimeConfig();
 		extractTransProps();
@@ -137,7 +140,53 @@ public class ApplicationConfig extends ConfigNaming {
 
 		if (createConfig)
 			saveConfig();
+	}
 
+	private void loadBookmarkSetGroup() {
+		File bookmarkDir = new File(Naming.BOOKMARK_PATH);
+
+		// bookmarks
+		try {
+			File bmDir = new File(Naming.BOOKMARK_PATH);
+			if (!bmDir.exists() || !bmDir.isDirectory() || bmDir.list().length == 0)
+				FileUtils.deleteDirectory(bmDir);
+				FileUtils.copyDirectory(new File(ResourceManager.getInstance().getString("bookmark.baseDir")), 
+						bmDir);
+		} catch (IOException e) {
+			logger.implicitLog(e);
+		}
+		
+		FileFilter filter = new FileFilter() { // accept xml files
+			public boolean accept(File pathname) {
+				if (pathname.getName().toLowerCase().endsWith(".xml"))
+					return true;
+				return false;
+			}
+		};
+		File[] bookmarkSets = bookmarkDir.listFiles(filter);
+		for (int i = 0; i < bookmarkSets.length; i++) {
+			bookmarkSetGroup.addBookmarkSet(new BookmarkSet(bookmarkSets[i]));
+		}
+		String def = props.getString("bookmark.default");
+		bookmarkSetGroup.setAsDefault(def);
+		loadDefaultBookmarkSet();
+	}
+
+	private void loadDefaultBookmarkSet() {
+		bookmarkSetGroup.getDefault().load();
+//		File userBM = new File(Naming.BOOKMARK_PATH + "/" + props.getString("bookmark.default"));
+//		if (!userBM.exists()) {
+//			logger.info("Create bookrmark file.");
+//			try {
+//				FileUtils.copyFile(new File(ApplicationPath.MAIN_BOOKMARK), userBM);
+//			} catch (IOException e) {
+//				logger.error("Error while copying the original bookmark file to user config directory.");
+//				logger.log(e);
+//			}
+//		}
+//		logger.info("Load bookmarks.");
+//		bookmarkSet = new BookmarkSet(new File(ApplicationPath.BUILTIN_USER_BOOKMARK));
+		
 	}
 
 	/**
@@ -180,7 +229,7 @@ public class ApplicationConfig extends ConfigNaming {
 		logger.info("Default language pack is " + def);
 		FileFilter filter = new FileFilter() { // accept xml files
 			public boolean accept(File pathname) {
-				if (pathname.getName().endsWith(".xml"))
+				if (pathname.getName().toLowerCase().endsWith(".xml"))
 					return true;
 				return false;
 			}
@@ -213,7 +262,7 @@ public class ApplicationConfig extends ConfigNaming {
 			lp.name = locale.getAttribute("name");
 			lp.id = locale.getAttribute("id");
 			lp.direction = locale.getAttribute("direction");
-			lp.author = reader.getParentNode().getAttribute("creator");
+			lp.author = reader.getDocumentElement().getAttribute("creator");
 			if (lp.localizedName == null)
 				lp.localizedName = lp.name;
 			language.add(lp);
@@ -235,7 +284,7 @@ public class ApplicationConfig extends ConfigNaming {
 		logger.info("Default translation is " + def);
 		FileFilter filter = new FileFilter() { // accept zip files
 			public boolean accept(File pathname) {
-				if (pathname.getName().endsWith(".zip"))
+				if (pathname.getName().toLowerCase().endsWith(".zip"))
 					return true;
 				return false;
 			}
@@ -470,6 +519,10 @@ public class ApplicationConfig extends ConfigNaming {
 
 	public void setRuntime(ApplicationRuntime runtime) {
 		this.runtime = runtime;
+	}
+
+	public BookmarkSet getBookmark() {
+		return bookmarkSet;
 	}
 
 }

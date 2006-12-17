@@ -12,8 +12,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
-import org.apache.velocity.tools.generic.MathTool;
-
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
 
@@ -23,6 +21,7 @@ import net.sf.zekr.engine.log.Logger;
  */
 public class ThemeTemplate extends BaseViewTemplate {
 
+	private static final Logger logger = Logger.getLogger(ThemeTemplate.class);
 	private ThemeData themeData;
 
 	public ThemeTemplate(ThemeData themeData) {
@@ -30,27 +29,32 @@ public class ThemeTemplate extends BaseViewTemplate {
 	}
 
 	/**
-	 * Transforms and persists the theme CSS file if doesn't exists in the cache (<tt>Naming.CACHE_DIR</tt>).
+	 * Transforms and persists all the theme CSS files if doesn't exists in the cache (<tt>Naming.CACHE_DIR</tt>).
 	 * 
 	 * @return result CSS, or null if no transformation done
 	 */
 	public String transform() {
 		String retStr = null;
-		File destFile = new File(Naming.CACHE_DIR + "/" + resource.getString("theme.css.fileName"));
+		String[] cssFileNames = resource.getStrings("theme.css.fileName");
+		for (int i = 0; i < cssFileNames.length; i++) {
+			File destFile = new File(Naming.CACHE_DIR + "/" + cssFileNames[i]);
 
-		// create destination CSS file if it doesn't exist
-		if (!destFile.exists() || destFile.length() == 0) {
-			File srcFile = new File(resource.getString("theme.css", new String[] { themeData.id }));
-			themeData.process(config.getTranslation().getDefault().locale.getLanguage());
-			engine.putAll(themeData.processedProps);
+			// create destination CSS file if it doesn't exist
+			if (!destFile.exists() || destFile.length() == 0) {
+				logger.debug("Theme doesn't exist, will create it.");
+				File srcFile = new File(resource.getString("theme.css.srcDir", new String[] { themeData.id })
+						+ "/" + cssFileNames[i]);
+				themeData.process(config.getTranslation().getDefault().locale.getLanguage());
+				engine.putAll(themeData.processedProps);
 
-			try {
-				OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(destFile));
-				retStr = engine.getUpdated(srcFile.getPath());
-				osw.write(retStr);
-				osw.close();
-			} catch (Exception e) {
-				Logger.getLogger(this.getClass()).log(e);
+				try {
+					OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(destFile));
+					retStr = engine.getUpdated(srcFile.getPath());
+					osw.write(retStr);
+					osw.close();
+				} catch (Exception e) {
+					Logger.getLogger(this.getClass()).log(e);
+				}
 			}
 		}
 		return retStr;

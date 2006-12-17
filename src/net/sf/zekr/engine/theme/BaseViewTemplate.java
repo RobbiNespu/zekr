@@ -43,6 +43,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 	 * <ul>
 	 * <li><tt>DIRECTION</tt>: "rtl" or "ltr" based on the current language pack</li>
 	 * <li><tt>TRANS_DIRECTION</tt>: "rtl" or "ltr" based on the current translation</li>
+	 * <li><tt>TRANS_LANG</tt>: 2-char language code, e.g. "fa" for Farsi, "en" for English, ...</li>
 	 * <li><tt>APP_PATH</tt>: an absolute URI ending with slash</li>
 	 * <li><tt>CSS_DIR</tt>: an absolute URI ending with slash</li>
 	 * <li><tt>THEME_DIR</tt>: relative theme directory path</li>
@@ -54,7 +55,9 @@ public abstract class BaseViewTemplate implements ITransformer {
 		ThemeData td = config.getTheme().getCurrent();
 		engine.put("DIRECTION", langEngine.getDirection());
 		engine.put("TRANS_DIRECTION", config.getTranslation().getDefault().direction);
+		engine.put("TRANS_LANG", config.getTranslation().getDefault().locale.getLanguage());
 		engine.put("APP_PATH", UriUtils.toURI(GlobalConfig.RUNTIME_DIR));
+		engine.put("APP_VERSION", GlobalConfig.ZEKR_VERSION);
 		engine.put("THEME_DIR", td.getPath());
 		engine.put("UI_DIR", ApplicationPath.UI_DIR);
 		engine.put("CSS_DIR", UriUtils.toURI(Naming.CACHE_DIR));

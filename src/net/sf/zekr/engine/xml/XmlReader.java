@@ -47,7 +47,7 @@ public class XmlReader {
 		this(file.getAbsolutePath());
 	}
 
-	public Element getParentNode() {
+	public Element getDocumentElement() {
 		return xmlDocument.getDocumentElement();
 	}
 

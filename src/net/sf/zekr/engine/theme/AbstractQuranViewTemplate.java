@@ -33,6 +33,8 @@ public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 			engine.put("GOTO_MSG", langEngine.getMeaning("GOTO"));
 			engine.put("SURA_MSG", langEngine.getMeaning("SURA"));
 			engine.put("AYA_MSG", langEngine.getMeaning("AYA"));
+			engine.put("PREV", langEngine.getMeaning("PREVIOUS"));
+			engine.put("NEXT", langEngine.getMeaning("NEXT"));
 			engine.put("TITLE", "");
 
 			retStr = engine.getUpdated(resource.getString("theme.sura", new String[] { config.getTheme()

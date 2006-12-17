@@ -28,9 +28,9 @@ public abstract class BaseForm implements EventProtocol {
 
 	abstract protected Display getDisplay();
 
-	public void dispose() {
-		getShell().dispose();
-	}
+//	public void dispose() {
+//		getShell().close();
+//	}
 
 	public boolean isDisposed() {
 		return getShell().isDisposed();

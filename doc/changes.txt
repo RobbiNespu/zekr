@@ -153,6 +153,7 @@ Features/Enhancements:
 	Enhancement (icons, and short keys) for navigation buttons for non-Windows platforms when using SWT.RIGHT_TO_LEFT.
 	Refocus on aya when browser is resized (browser-JavaScript level).
 	All language packs updated (except Dutch).
+	mac-run.sh updated (for making an application bundle).
 Bug fixes:
 	Button size: all ok/cancel/apply buttons are 80 point.
 	Filter on arrow keys (nav keys) is now removed and reinstalled (it was doubled as user changed the language).
@@ -171,8 +172,31 @@ Bug fixes:
 	Typo in makarem.txt (33-50): Ñä which should be Òä
 
 Version 0.5.0 release - [20-12-06]
+Features/Enhancements:
+	Add>Translation and Add>Theme can import multiple files now.
+	linux-run.sh updated.
+	lang="fa/en/ar/.." in HTML genereted, for Quran and translation text.
+	Next/Previous buttons for current page searches + showing current search result in the sura-nav bar
+	Bookmark management (Bookmark menu):
+		Add/Delete/Update bookmarks
+		Folder and Bookmark items (tree-like structure for easier classification)
+		Bookmarks may hold multiple Quran locations (and act as a label/tag): in this case will show a list of locations on item selection.
+		User can navigate to each bookmark item's Quran location.
+		Bookmarks are directly accessible through Bookmark menu.
+		Menu items change from open to close folder (and reversely) if menu groups or tree group toggles.
+	StringUtils.abbreviate(GlobalConfig.MAX_MENU_STRING_LENGTH) is used to shorten large menu item names (which are usually user defined: bookmarks, translation names, ...).
+	Enhanced printing support:
+		3 CSS defined: common-style.css for common rules, print-style.css for printing stylesheet, and
+		               screen-style.css for normal application on a monitor.
+		CSS rules customized for Search view and Sura view (for better printing)
+		A watermark added to printing view (at the bottom of the page); can be removed through a style property
+Bug fixes:
+	display.getActiveShell() which caused problem on Linux, changed to display.getShells()[0]
+
+
 	TODO: Quran transliteration
 	TODO: Update language packs
 	TODO: lang="fa/en/ar/.." in HTML genereted, for multilinguality!
 	TODO: Navigation button for "current page" search result.
 	TODO: Add version to about form.
+	TODO: Import/Export bookmarks

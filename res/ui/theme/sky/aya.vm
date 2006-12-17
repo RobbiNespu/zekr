@@ -36,9 +36,9 @@
 			#if ($MIXED == "true")
 				#foreach ($A in $AYA)
 					#if ($velocityCount != 1)
-					<div dir="${TRANS_DIRECTION}" class="trans">
+					<div dir="${TRANS_DIRECTION}" class="trans" lang="${TRANS_LANG}">
 					#else
-					<div class="quran">
+					<div class="quran" lang="ar">
 					#end
 					$A <span class="suraAyaNum">[${SURA_NUM}-${AYA_NUM}]</span>
 					</div>

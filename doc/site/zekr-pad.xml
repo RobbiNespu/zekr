@@ -49,7 +49,7 @@
 		<Program_Release_Status>Release</Program_Release_Status>
 		<Program_Install_Support>Install and Uninstall</Program_Install_Support>
 		<Program_OS_Support>Win95,Win98,WinME,WinNT 4.x,Windows2000,WinXP,Windows2003,Unix,Linux,
-Linux GPL,Linux Open Source,Java, Max OS X</Program_OS_Support>
+Linux GPL,Linux Open Source,Java,Mac,Mac OS,Mac OS X</Program_OS_Support>
 		<Program_Language>English,Farsi,Arabic,German,Indonesian,French,Russian,Dutch,Malay,Turkish,Kurdish</Program_Language>
 		<Program_Change_Info>Managed Quran search in customized scopes. Search through translations.</Program_Change_Info>
 		<Program_Specific_Category>Home/Hobby</Program_Specific_Category>
@@ -64,9 +64,9 @@ Linux GPL,Linux Open Source,Java, Max OS X</Program_OS_Support>
 			<Filename_Previous>zekr-0.3.0-setup.exe</Filename_Previous>
 			<Filename_Generic>zekr-setup.exe</Filename_Generic>
 			<Filename_Long>zekr-0.4.0-setup.exe</Filename_Long>
-			<File_Size_Bytes>3921717</File_Size_Bytes>
-			<File_Size_K>3830</File_Size_K>
-			<File_Size_MB>3.73</File_Size_MB>
+			<File_Size_Bytes>4122673</File_Size_Bytes>
+			<File_Size_K>4027</File_Size_K>
+			<File_Size_MB>3.93</File_Size_MB>
 		</File_Info>
 		<Expire_Info>
 			<Has_Expire_Info>N</Has_Expire_Info>

@@ -27,4 +27,10 @@ public interface EventProtocol {
 	 * Clear <tt>cache</tt> directory on application exit
 	 */
 	String CLEAR_CACHE_ON_EXIT = "CLEAR_CACHE_ON_EXIT";
+
+	/**
+	 * Tells the shell to update bookmarks menu (as bookmark tree changed)
+	 */
+	String UPDATE_BOOKMARKS_MENU = "UPDATE_BOOKMARKS_MENU";
+	String GOTO_LOCATION = "GOTO_LOCATION";
 }

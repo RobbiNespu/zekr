@@ -59,4 +59,6 @@ public class GlobalConfig {
 	 * etc.
 	 */
 	public static final String USER_LANGUAGE = System.getProperty("user.language");
+	
+	public static final int MAX_MENU_STRING_LENGTH = 40;
 }

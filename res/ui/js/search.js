@@ -193,4 +193,9 @@ find = function(str, matchDiac, matchCase) {
 	if (matchCase === undefined) matchCase = false;
 	var finder = new Finder(matchDiac, matchCase);
 	finder.find(str);
+
+	// reveal next-prev buttons (if possible: this is not possible in a whole-quran search view)
+	$("#nextPrevButtons").show("", new function() {
+		$("#nextPrevButtons").attr("_res", new CurrentPageSearchResult());
+	});
 };

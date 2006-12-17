@@ -244,7 +244,7 @@ public class OptionsForm {
 				logger.log(e);
 			}
 //			config.saveConfig(); // not needed, RECREATE_VIEW will saveConfig before close.
-			createEvent(EventProtocol.RECREATE_VIEW);
+			sendEvent(EventProtocol.RECREATE_VIEW);
 		}
 	}
 
@@ -270,11 +270,13 @@ public class OptionsForm {
 //			createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
 		}
 		if (refreshView)
-			createEvent(EventProtocol.REFRESH_VIEW);
+			sendEvent(EventProtocol.REFRESH_VIEW);
 	}
 
-	/** trivial event for communication with QuranForm. */
-	private void createEvent(String eventName) {
+	/**
+	 * Creates and sends an event to the shell for communication with QuranForm.
+	 */
+	private void sendEvent(String eventName) {
 		Event te = new Event();
 		te.data = eventName;
 		te.type = SWT.Traverse;
