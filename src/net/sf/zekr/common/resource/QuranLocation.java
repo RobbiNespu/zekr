@@ -35,9 +35,10 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	/**
-	 * load a QuranLocation with the format <tt>sura#-aya#</tt>. Sura and Aya numbers are both counted from
-	 * 1. If <code>location</code> is not of format <tt>sura#-aya#</tt>, an
-	 * <code>IllegalArgumentException</code> is thrown.
+	 * Loads a QuranLocation with the format <tt>sura#-aya#</tt>. Sura and Aya numbers are both counted
+	 * from 1. If <code>location</code> is not of format <tt>sura#-aya#</tt>, an
+	 * <code>IllegalArgumentException</code> is thrown.<br>
+	 * Please note that no range check is performed for this method.
 	 * 
 	 * @param location <code>location.toString()</code> will be used
 	 * @throws IllegalArgumentException if <code>location</code> is not well-formed, ie. <tt>sura#-aya#</tt>
@@ -48,6 +49,41 @@ public class QuranLocation implements IQuranLocation {
 			throw new IllegalArgumentException(location.toString());
 		setSura(Integer.parseInt(location.substring(0, i)));
 		setAya(Integer.parseInt(location.substring(i + 1)));
+	}
+
+	/**
+	 * Checks if the given QuranLocation's compliant string is valid (is of the form of sura#-aya# and the
+	 * location actually exists).
+	 * 
+	 * @param loc the location string to be verified
+	 * @return <code>true</code> if this is a valid Quran location, <code>false</code> otherwise.
+	 */
+	public static boolean isValidLocation(String loc) {
+		QuranLocation qloc;
+		try {
+			qloc = new QuranLocation(loc);
+		} catch (RuntimeException e) {
+			return false;
+		}
+		return qloc.isValid();
+	}
+
+	/**
+	 * Checks if the location (sura, aya) actually exists.
+	 * 
+	 * @return <code>true</code> if this is a valid Quran location, <code>false</code> otherwise.
+	 */
+	public static boolean isValidLocation(int suraNum, int ayaNum) {
+		return new QuranLocation(suraNum, ayaNum).isValid();
+	}
+
+	private boolean isValid() {
+		QuranProperties qp = QuranProperties.getInstance();
+		return between(getSura(), 1, 114) && between(getAya(), 1, qp.getSura(getSura()).ayaCount);
+	}
+
+	private static boolean between(int num, int from, int to) {
+		return num >= from && num <= to;
 	}
 
 	public final int getAya() {

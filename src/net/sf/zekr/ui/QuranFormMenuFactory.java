@@ -11,28 +11,34 @@ package net.sf.zekr.ui;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.BrowserShop;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.resource.TranslationData;
-import net.sf.zekr.common.util.IExcractor;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
+import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.common.util.ZipUtils;
-import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
+import net.sf.zekr.engine.bookmark.BookmarkSet;
+import net.sf.zekr.engine.bookmark.ui.BookmarkSetForm;
 import net.sf.zekr.engine.bookmark.ui.BookmarkUtils;
-import net.sf.zekr.engine.bookmark.ui.BookmarksForm;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.options.OptionsForm;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.WildcardFilter;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
@@ -45,8 +51,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * @author Mohsen Saboorian
@@ -82,6 +86,7 @@ public class QuranFormMenuFactory {
 	private MenuItem separate;
 	private MenuItem mixed;
 	private int direction;
+	private MenuItem randomAyaItem;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.form = form;
@@ -150,6 +155,16 @@ public class QuranFormMenuFactory {
 		suraReloadItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				form.reload();
+			}
+		});
+
+		randomAyaItem = new MenuItem(viewMenu, SWT.PUSH);
+		randomAyaItem.setText("&" + dict.getMeaning("RANDOM_AYA") + "\tCtrl + Shift + R");
+		randomAyaItem.setAccelerator(SWT.CTRL | SWT.SHIFT | 'R');
+		randomAyaItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.randomAya")));
+		randomAyaItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				gotoRandomAya();
 			}
 		});
 
@@ -437,6 +452,13 @@ public class QuranFormMenuFactory {
 		return menu;
 	}
 
+	protected void gotoRandomAya() {
+		Random rnd = new Random(new Date().getTime());
+		int sura = rnd.nextInt(114) + 1;
+		int aya = rnd.nextInt(QuranPropertiesUtils.getSura(sura).getAyaCount()) + 1;
+		form.gotoSuraAya(sura, aya);
+	}
+
 	protected void createOrUpdateBookmarkMenu() {
 		Menu bookmarksMenu;
 		MenuItem bookmarks;
@@ -464,15 +486,14 @@ public class QuranFormMenuFactory {
 			}
 		});
 
-		MenuItem bookmarkSetConfigItem = new MenuItem(bookmarksMenu, SWT.PUSH);
-		bookmarkSetConfigItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.manager")));
-		bookmarkSetConfigItem.setText(dict.getMeaning("CONFIGURE_BOOKMARK_SETS") + "...");
-		bookmarkSetConfigItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				manageBookmarkSets();
-			}
-		});
-
+//		MenuItem bookmarkSetConfigItem = new MenuItem(bookmarksMenu, SWT.PUSH);
+//		bookmarkSetConfigItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.manager")));
+//		bookmarkSetConfigItem.setText(dict.getMeaning("CONFIGURE_BOOKMARK_SETS") + "...");
+//		bookmarkSetConfigItem.addListener(SWT.Selection, new Listener() {
+//			public void handleEvent(Event e) {
+//				manageBookmarkSets();
+//			}
+//		});
 
 		new MenuItem(bookmarksMenu, SWT.SEPARATOR);
 
@@ -480,79 +501,135 @@ public class QuranFormMenuFactory {
 		List bmItems = bookmark.getBookmarksItems();
 		for (int i = 0; i < bmItems.size(); i++) {
 			BookmarkItem item = (BookmarkItem) bmItems.get(i);
-			BookmarkUtils.addBookmarkItemToMenu(shell, bookmarksMenu, item);
+			BookmarkUtils.addBookmarkItemToMenu(bookmarksMenu, item);
 		}
 	}
 
+	BookmarkSetForm bsf = null;
 	private void manageBookmarks() {
-		new BookmarksForm(shell).open();
+		if (bsf != null && Arrays.asList(shell.getShells()).contains(bsf.getShell())) { // shell is already open
+			bsf.getShell().forceActive();
+			return;
+		}
+
+		bsf = new BookmarkSetForm(shell);
+		bsf.open();
 	}
 
 	private void manageBookmarkSets() {
-		new BookmarksForm(shell).open();
+		new BookmarkSetForm(shell).open();
 	}
 
 	private void importTrans() {
+		String destDir = ApplicationPath.TRANSLATION_DIR;
 		try {
-			if (doImportFile(ApplicationPath.TRANSLATION_DIR, new String[] { "Zipped Translation File" },
-					new String[] { "*.zip" }, null))
-				MessageBoxUtils.showMessage(dict.getMeaning("RESTART_APP"));
-		} catch (IOException e) {
-			MessageBoxUtils.showError(dict.getMeaning("ACTION_FAILED"));
-			logger.implicitLog(e);
-		}
-	}
+			List list = chooseFile(new String[] { "*.zip Translation Files", "*.ZIP Translation Files" }, new String[] { "*.zip", "*.ZIP" });
 
-	private void importTheme() {
-		try {
-			if (doImportFile(ApplicationPath.THEME_DIR, new String[] { "Zipped Theme File" },
-					new String[] { "*.zip" }, new IExcractor() {
-						public void extract(File srcFile, String destDir) throws IOException {
-							ZipUtils.extract(srcFile, destDir);
-						}
-					}))
-				MessageBoxUtils.showMessage(dict.getMeaning("RESTART_APP"));
+			if (list.size() <= 0)
+				return;
+
+			int result = MessageBoxUtils.radioQuestionPrompt(new String[] {
+					dict.getMeaningById("IMPORT_QUESTION", "ALL_USERS"),
+					dict.getMeaningById("IMPORT_QUESTION", "ME_ONLY") },
+					dict.getMeaningById("IMPORT_QUESTION", "IMPORT_FOR"),
+					dict.getMeaning("QUESTION"));
+
+			if (result == -1)
+				return;
+
+			if (result == 1) // import for "me only"
+				destDir = Naming.TRANS_DIR;
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				File file2Import = (File) iterator.next();
+
+				logger.info("Copy translation \"" + file2Import.getName() + "\" to " + destDir);
+				FileUtils.copyFile(file2Import, new File(destDir + "/" + file2Import.getName()));
+
+				logger.debug("Importing translation done successfully.");
+			}
+
+			MessageBoxUtils.showMessage(dict.getMeaning("RESTART_APP"));
 		} catch (IOException e) {
-			MessageBoxUtils.showError(dict.getMeaning("ACTION_FAILED"));
+			MessageBoxUtils.showError(dict.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
 			logger.implicitLog(e);
 		}
 	}
 
 	/**
-	 * This method can import multiple files (or optionaly extract it) to a destination directory.
+	 * This method imports one or more themes into Zekr theme installation directory. Imported theme is in
+	 * <tt>zip</tt> format, and after importing, it is extracted to <tt>res/ui/theme</tt>.
+	 * theme.properties is then copied into <tt>~/.zekr/config/theme</tt>, renaming to
+	 * <tt>[theme ID].properties</tt>.<br>
+	 * Note that imported zip file should have the same base name as theme ID (theme directory name).
+	 */
+	private void importTheme() {
+		String destDir = ApplicationPath.THEME_DIR;
+		try {
+			List list = chooseFile(new String[] { "*.zip Theme Files", "*.ZIP Theme Files" }, new String[] { "*.zip", "*.ZIP" });
+
+			if (list.size() <= 0)
+				return;
+
+			int result = MessageBoxUtils.radioQuestionPrompt(new String[] {
+					dict.getMeaningById("IMPORT_QUESTION", "ALL_USERS"),
+					dict.getMeaningById("IMPORT_QUESTION", "ME_ONLY") },
+					dict.getMeaningById("IMPORT_QUESTION", "IMPORT_FOR"),
+					dict.getMeaning("QUESTION"));
+
+			if (result == -1)
+				return;
+
+			if (result == 1) // import for "me only"
+				destDir = Naming.THEME_DIR;
+
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				File file2Import = (File) iterator.next();
+				logger.info("Copy and extract theme file \"" + file2Import.getName() + "\" to " + destDir);
+				ZipUtils.extract(file2Import, destDir);
+				
+				String themeId = FilenameUtils.getBaseName(file2Import.getName());
+				File origTheme = new File(destDir + "/" + themeId + "/" + resource.getString("theme.desc"));
+				logger.debug("Copy customizable theme properties " + origTheme.getName() + " to " + Naming.THEME_PROPS_DIR);
+				FileUtils.copyFile(origTheme, new File(Naming.THEME_PROPS_DIR + "/" + themeId + ".properties"));
+				logger.debug("Importing theme done successfully.");
+			}
+			MessageBoxUtils.showMessage(dict.getMeaning("RESTART_APP"));
+		} catch (IOException e) {
+			MessageBoxUtils.showError(dict.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			logger.implicitLog(e);
+		}
+	}
+
+	/**
+	 * This method opens a file chooser dialog and selects file filtering with the given wildcards.
 	 * 
-	 * @param destDir destination path to which files should be imported
 	 * @param filterNames names of the filters
 	 * @param filterWildcards wildcard filters (e.g. *.zip)
-	 * @param extractor a user-defined extractor for optionally (if not <code>null</code>) extracting
-	 *            source files in <tt>destDir</tt>
-	 * @return <code>true</code> if any file imported successfully, false otherwise.
-	 * @throws IOException if any exception occured during importing.
+	 * @return a 0-item list if action cancelled, no item was selected or selected items did not fit the
+	 *         extension criteria. Otherwise, returns a list of selected files (of type <tt>java.io.File</tt>).
+	 * @throws IOException if any exception occurred during importing.
 	 */
-	private boolean doImportFile(String destDir, String[] filterNames, String[] filterWildcards,
-			IExcractor extractor) throws IOException {
+	private List chooseFile(String[] filterNames, String[] filterWildcards) throws IOException {
 		FileDialog fd = new FileDialog(shell, SWT.OPEN | SWT.MULTI);
 		fd.setFilterNames(filterNames);
-		fd.setFilterExtensions(filterWildcards); // Windows wild
+		fd.setFilterExtensions(filterWildcards); // Windows wild card
 		fd.setText(dict.getMeaning("IMPORT"));
+
+		FileFilter fileFilter = new WildcardFilter(filterWildcards);
+		List fileList = new ArrayList();
 
 		String res = fd.open();
 		if (res == null)
-			return false;
+			return fileList;
+
 		String fileNames[] = fd.getFileNames();
 		for (int i = 0; i < fileNames.length; i++) {
 			File srcFile = new File(fd.getFilterPath(), fileNames[i]);
-			FileFilter fileFilter = new WildcardFilter(filterWildcards);
-
-			if (fileFilter.accept(srcFile)) {
-				logger.info("Importing selected file: " + srcFile.getName());
-				if (extractor != null)
-					extractor.extract(srcFile, destDir);
-				else
-					FileUtils.copyFile(srcFile, new File(destDir + "/" + srcFile.getName()));
-			}
+			if (fileFilter.accept(srcFile))
+				fileList.add(srcFile);
 		}
-		return true;
+		logger.debug("Selected files to import: " + fileList);
+		return fileList;
 	}
 
 	private void export() {
@@ -604,25 +681,25 @@ public class QuranFormMenuFactory {
 
 	private void reconfigureViewLayout() {
 		// very nice business logic!
-		boolean uq = form.updateQuran;
-		boolean ut = form.updateTrans;
-		int oldLayout = form.viewLayout;
+//		boolean uq = form.updateQuran;
+//		boolean ut = form.updateTrans;
+//		int oldLayout = form.viewLayout;
 		form.setLayout(config.getViewProp("view.viewLayout"));
-		boolean uqNew = form.updateQuran;
-		boolean utNew = form.updateTrans;
-		if (form.viewLayout != QuranForm.MIXED && oldLayout != QuranForm.MIXED) {
-			if (uq && form.updateQuran)
-				form.updateQuran = false;
-			if (ut && form.updateTrans)
-				form.updateTrans = false;
-		}
+//		boolean uqNew = form.updateQuran;
+//		boolean utNew = form.updateTrans;
+//		if (form.viewLayout != QuranForm.MIXED && oldLayout != QuranForm.MIXED) {
+//			if (uq && form.updateQuran)
+//				form.updateQuran = false;
+//			if (ut && form.updateTrans)
+//				form.updateTrans = false;
+//		}
 		form.suraChanged = true;
 		form.updateView();
 		form.suraChanged = false;
-		if (form.viewLayout != QuranForm.MIXED && oldLayout != QuranForm.MIXED) {
-			form.updateQuran = uqNew;
-			form.updateTrans = utNew;
-		}
+//		if (form.viewLayout != QuranForm.MIXED && oldLayout != QuranForm.MIXED) {
+//			form.updateQuran = uqNew;
+//			form.updateTrans = utNew;
+//		}
 	}
 
 	private void reloadQuran() {

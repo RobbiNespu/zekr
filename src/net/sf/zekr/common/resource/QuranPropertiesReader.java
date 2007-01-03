@@ -78,6 +78,10 @@ class QuranPropertiesReader extends QuranBaseProperties {
 					QuranPropertiesNaming.SURA_NUM_ATTR)));
 			juz.setAyaNumber(Integer.parseInt(XmlUtils.getAttr(juzNodeList.item(i),
 					QuranPropertiesNaming.AYA_NUM_ATTR)));
+			for (int j = 0; j < 4; j++) {
+				juz.setHizbQuarters(1, j + 1, new QuranLocation(hizbQuads[8 * i + j][0], hizbQuads[8 * i + j][1]));
+				juz.setHizbQuarters(2, j + 1, new QuranLocation(hizbQuads[8 * i + j + 4][0], hizbQuads[8 * i + j + 4][1]));
+			}
 
 			juzProp.add(juz);
 		}

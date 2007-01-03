@@ -16,7 +16,7 @@ body {
 	background-color: threedface;
 }
 body#search {
-	background: threedface url('${APP_PATH}res/image/zekr-bg.png') no-repeat fixed center;
+	background: $quran_bgColor url('${APP_PATH}res/image/zekr-bg.png') no-repeat fixed center;
 }
 body#quranBody {
 #if($quran_hasBG.equals("true"))
@@ -182,17 +182,15 @@ div.aya {
 	padding-left: 10px;
 	margin: 3px 0 3px 0;
 }
-
+/*
 span.sajda#minor {
 	font-family: serif;
 	color: rgb(200, 40, 40);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.sajda#major {
 	font-family: serif;
 	color: rgb(240, 10, 10);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.juzSign {
@@ -202,7 +200,7 @@ span.juzSign {
 
 span.ayaSign {
 }
-
+*/
 span.selectedAyaSign {
 	font-weight: bold;
 }

@@ -9,12 +9,13 @@
 package net.sf.zekr.engine.bookmark;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
@@ -26,6 +27,7 @@ import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlWriter;
 
+import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -34,7 +36,7 @@ import org.w3c.dom.NodeList;
 public class BookmarkSet {
 	private final static Logger logger = Logger.getLogger(BookmarkSet.class);
 
-	private File bookmarkFile;
+	private File file;
 	private String name;
 	private String author;
 	private String language = "English";
@@ -42,15 +44,22 @@ public class BookmarkSet {
 	private String desc;
 	private Date modifyDate;
 	private Date createDate;
+	private int _idCounter = 1;
+
+	/** A dummy parent item to hold all the bookmark set. */
+	private BookmarkItem parentItem;
 
 	/**
-	 * A dummy parent item to hold all the bookmark set
+	 * Altought items are stored as a tree DS in <code>parentItem</code>, a reference to each item is
+	 * stored in a map of id-items.
 	 */
-	private BookmarkItem parentItem;
+	private Map itemMap = new HashMap();
 
 	private Document xmlDocument;
 
 	private boolean called = false;
+
+	private String id;
 
 	/**
 	 * This c'tor will not load all the bookmark set file. A call to <code>load()</code> is needed first.
@@ -58,8 +67,9 @@ public class BookmarkSet {
 	 * 
 	 * @param bookmarkFile
 	 */
-	public BookmarkSet(File bookmarkFile) {
-		this.bookmarkFile = bookmarkFile;
+	public BookmarkSet(String filePath) {
+		file = new File(filePath);
+		id = FilenameUtils.getBaseName(filePath);
 	}
 
 	/**
@@ -68,13 +78,14 @@ public class BookmarkSet {
 	public void load() {
 		if (!called) {
 			try {
-				XmlReader bookmarkXmlReader = new XmlReader(bookmarkFile);
+				XmlReader bookmarkXmlReader = new XmlReader(file);
 				xmlDocument = bookmarkXmlReader.getDocument();
 				loadXml(parentItem = new BookmarkItem(), xmlDocument.getFirstChild());
 			} catch (XmlReadException e) {
-				logger.error("Error loading bookmark set XML file.");
+				logger.error("Error reading/parsing bookmark set XML file.");
 				logger.log(e);
 			}
+
 			called = true;
 		}
 	}
@@ -82,7 +93,7 @@ public class BookmarkSet {
 	public void save() {
 		updateXml();
 		try {
-			XmlWriter.writeXML(xmlDocument, bookmarkFile);
+			XmlWriter.writeXML(xmlDocument, file);
 		} catch (TransformerException e) {
 			logger.error("Error saving bookmark set XML file.");
 			logger.log(e);
@@ -196,6 +207,10 @@ public class BookmarkSet {
 					bi.setFolder(true);
 					bi.setName(e.getAttribute("name"));
 					bi.setDescription(e.getAttribute("desc"));
+
+					String id = nextItemId();
+					bi.setId(id);
+					itemMap.put(id, bi);
 					item.addChild(bi);
 					_loadXml(bi, e);
 				} else if (e.getTagName().equals("item")) {
@@ -204,9 +219,14 @@ public class BookmarkSet {
 					try {
 						bi.setLocations(CollectionUtils.fromString(e.getAttribute("data"), ",", QuranLocation.class));
 					} catch (Exception exc) {
-						logger.implicitLog(exc);
+						// logger.implicitLog(exc);
+						logger.log(exc);
 					}
 					bi.setDescription(e.getAttribute("desc"));
+
+					String id = nextItemId();
+					bi.setId(id);
+					itemMap.put(id, bi);
 					item.addChild(bi);
 				}
 			}
@@ -218,7 +238,8 @@ public class BookmarkSet {
 		try {
 			return sdf.parse(dateStr);
 		} catch (ParseException e) {
-			logger.implicitLog(e);
+			// logger.implicitLog(e);
+			logger.log(e);
 		}
 		return null;
 	}
@@ -291,4 +312,33 @@ public class BookmarkSet {
 	public String toString() {
 		return "BookmarkSet-" + name;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+//	public BookmarkItem getItemById(String id) {
+//		return (BookmarkItem) itemMap.get(id);
+//	}
+
+//	/**
+//	 * Adds a new bookmark item to the root items, assigning a new id to it.
+//	 * 
+//	 * @param item the <code>BookmarkItem</code> to be added
+//	 */
+//	public void addBookmarkItem(BookmarkItem item) {
+//		item.setId(nextItemId());
+//		parentItem.addChild(item);
+//		itemMap.put(item.getId(), item);
+//	}
+
+	public String nextItemId() {
+		return String.valueOf(_idCounter++);
+	}
+
+//	public void removeBookmarkItem(BookmarkItem item) {
+//		parentItem.removeChild(item);
+//		itemMap.remove(item.getId());
+//	}
+
 }

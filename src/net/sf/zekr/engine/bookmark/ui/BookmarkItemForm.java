@@ -12,16 +12,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
+import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.FormUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -59,17 +63,29 @@ public class BookmarkItemForm extends BaseForm {
 	private BookmarkItem bookmarkItem;
 	private Text nameText;
 	private Text descText;
+	private int bookmarkSetDirection;
+	private static final ApplicationConfig config = ApplicationConfig.getInstance();
 
 	public static final String FORM_ID = "BOOKMARK_ITEM_FORM";
 
-	public BookmarkItemForm(Shell parent, BookmarkItem bookmarkItem) {
+	public BookmarkItemForm(Shell parent, BookmarkItem bookmarkItem, int bookmarkSetDirection) {
 		this.parent = parent;
 		this.bookmarkItem = bookmarkItem;
+		this.bookmarkSetDirection = bookmarkSetDirection;
 		_init();
 	}
 
-	public BookmarkItemForm(Shell parent, boolean isFolder) {
+	/**
+	 * Makes a new <code>BookmarkItemForm</code>. The underling <code>BookmarkItem</code> is also
+	 * created, but its ID is not assigned.
+	 * 
+	 * @param parent the parent shell
+	 * @param isFolder
+	 * @param bookmarkSetDirection 
+	 */
+	public BookmarkItemForm(Shell parent, boolean isFolder, int bookmarkSetDirection) {
 		this.parent = parent;
+		this.bookmarkSetDirection = bookmarkSetDirection;
 		bookmarkItem = new BookmarkItem();
 		bookmarkItem.setFolder(isFolder);
 		bookmarkItem.setLocations(new ArrayList());
@@ -88,7 +104,6 @@ public class BookmarkItemForm extends BaseForm {
 		shell.setImage(new Image(display, resource.getString(bookmarkItem.isFolder() ? "icon.bookmark.closeFolder" : "icon.bookmark.item")));
 
 		init();
-		// shell.pack();
 		shell.setSize(bookmarkItem.isFolder() ? 280: 360, bookmarkItem.isFolder() ? 220 : 350);
 	}
 
@@ -110,7 +125,7 @@ public class BookmarkItemForm extends BaseForm {
 		label.setText(langEngine.getMeaning("NAME"));
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		nameText = new Text(tableGroup, SWT.BORDER);
+		nameText = new Text(tableGroup, SWT.BORDER | bookmarkSetDirection);
 		nameText.setText(bookmarkItem.getName());
 		nameText.setLayoutData(gd);
 		nameText.selectAll();
@@ -120,9 +135,9 @@ public class BookmarkItemForm extends BaseForm {
 		label.setText(langEngine.getMeaning("DESCRIPTION"));
 		label.setLayoutData(gd);
 
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd = new GridData(GridData.FILL_HORIZONTAL | (bookmarkItem.isFolder() ? GridData.FILL_VERTICAL : 0));
 		gd.heightHint = 70;
-		descText = new Text(tableGroup, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		descText = new Text(tableGroup, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | bookmarkSetDirection);
 		descText.setText(bookmarkItem.getDescription());
 		descText.setLayoutData(gd);
 
@@ -254,7 +269,7 @@ public class BookmarkItemForm extends BaseForm {
 							if (rect.contains(pt)) {
 								final int column = i;
 								if (column == 2) {
-									Text t = new Text(table, SWT.NONE);
+									final Text t = new Text(table, SWT.NONE);
 									t.setText((String) item.getData("2"));
 									itemEditor = t;
 								} else {
@@ -264,7 +279,7 @@ public class BookmarkItemForm extends BaseForm {
 											CCombo c = (CCombo) e.widget;
 											item.setData(String.valueOf(column), new Integer(c
 													.getSelectionIndex() + 1));
-											item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+//											item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
 										}
 									});
 									cc.setVisibleItemCount(10);
@@ -281,27 +296,61 @@ public class BookmarkItemForm extends BaseForm {
 									public void handleEvent(final Event e) {
 										switch (e.type) {
 										case SWT.FocusOut:
-											if (column == 2)
-												item.setText(column, ((Text) itemEditor).getText());
-											else
+											if (column == 2) {
+												Text t = (Text) itemEditor;
+												if (QuranLocation.isValidLocation(t.getText())) {
+													IQuranLocation loc = new QuranLocation(t.getText());
+													Integer sura = new Integer(loc.getSura());
+													Integer aya = new Integer(loc.getAya());
+													item.setText(0, QuranPropertiesUtils.getIndexedSuraName(sura.intValue()));
+													item.setText(1, aya.toString());
+													item.setData("0", sura);
+													item.setData("1", aya);
+													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+												}
+												item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+											} else {
 												item.setText(column, ((CCombo) itemEditor).getText());
+											}
 											itemEditor.dispose();
 											if (column == 0) {
-												item.setText(column + 1, "1");
-												item.setData(String.valueOf(column + 1), new Integer(1));
+												// reset aya number to 1 if aya is not in range of selected sura's aya count
+												if (!QuranLocation.isValidLocation(((Integer)item.getData("0")).intValue(), ((Integer)item.getData("1")).intValue())) {
+													item.setText(1, "1");
+													item.setData("1", new Integer(1));
+												}
+												item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+											} else if (column == 1){
 												item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
 											}
 											break;
 										case SWT.Traverse:
 											switch (e.detail) {
 											case SWT.TRAVERSE_RETURN:
-												if (column == 2)
-													item.setText(column, ((Text) itemEditor).getText());
-												else
+												if (column == 2) {
+													Text t = (Text) itemEditor;
+													if (QuranLocation.isValidLocation(t.getText())) {
+														IQuranLocation loc = new QuranLocation(t.getText());
+														Integer sura = new Integer(loc.getSura());
+														Integer aya = new Integer(loc.getAya());
+														item.setText(0, QuranPropertiesUtils.getIndexedSuraName(sura.intValue()));
+														item.setText(1, aya.toString());
+														item.setData("0", sura);
+														item.setData("1", aya);
+														item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+													}
+													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+												} else {
 													item.setText(column, ((CCombo) itemEditor).getText());
+												}
 												if (column == 0) {
-													item.setText(column + 1, "1");
-													item.setData(String.valueOf(column + 1), new Integer(1));
+													// reset aya number to 1 if aya is not in range of selected sura's aya count
+													if (!QuranLocation.isValidLocation(((Integer)item.getData("0")).intValue(), ((Integer)item.getData("1")).intValue())) {
+														item.setText(1, "1");
+														item.setData("1", new Integer(1));
+													}
+													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+												} else if (column == 1){
 													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
 												}
 											// FALL THROUGH
@@ -356,6 +405,7 @@ public class BookmarkItemForm extends BaseForm {
 	}
 
 	public void updateBookmarkItem() {
+		String id = bookmarkItem.getId();
 		if (!bookmarkItem.isFolder()) {
 			bookmarkItem = new BookmarkItem();
 			List locations = new ArrayList();
@@ -373,6 +423,7 @@ public class BookmarkItemForm extends BaseForm {
 		}
 		bookmarkItem.setName(nameText.getText());
 		bookmarkItem.setDescription(descText.getText());
+		bookmarkItem.setId(id);
 	}
 
 	public BookmarkItem getBookmarkItem() {

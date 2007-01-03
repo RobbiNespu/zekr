@@ -51,13 +51,9 @@ public class FormUtils {
 		return new Point((p.x - widgetSize.width) / 2, (p.y - widgetSize.height) / 2);
 	}
 
-	/**
-	 * For internal use only.
-	 * @param style 
-	 */
-	public static Table getTableForMap(Composite parent, Map map, String title1, String title2,
+	public static Table getTableFromMap(Composite parent, Map map, String title1, String title2,
 			int width1, int width2, Object layoutData, int style) {
-		Table table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | style);
+		Table table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION | style);
 		table.setLayoutData(layoutData);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -82,7 +78,7 @@ public class FormUtils {
 
 	public static Table getEditableTable(Composite parent, Map map, String title1, String title2,
 			int width1, int width2, Object layoutData, int style) {
-		Table table = getTableForMap(parent, map, title1, title2, width1, width2, layoutData, style);
+		Table table = getTableFromMap(parent, map, title1, title2, width1, width2, layoutData, style);
 		TableItem[] items = table.getItems();
 		Iterator it = map.values().iterator();
 		for (int i = 0; i < items.length; i++) {

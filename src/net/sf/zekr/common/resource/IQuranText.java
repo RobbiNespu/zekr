@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.common.resource;
 
+import net.sf.zekr.engine.translation.TranslationData;
+
 /**
  * A general interface for Quran text access. All classes/methods who need Quran access should have this
  * through <code>IQuranText</code> interface.<br>

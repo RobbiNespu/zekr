@@ -51,7 +51,7 @@ public class ApplicationPath {
 	// XML Files
 //	public static final String XML_CONFIG = rm.getString("config.zekr");
 	public static final String MAIN_CONFIG = rm.getString("config.original"); // original config
-	public static final String USER_CONFIG = rm.getString("config.user", new String[]{Naming.CONFIG_PATH}); // user customized config
+	public static final String USER_CONFIG = rm.getString("config.user", new String[]{Naming.CONFIG_DIR}); // user customized config
 
 	public static final String BOOKMARK_DIR = rm.getString("bookmark.baseDir");
 //	public static final String MAIN_BOOKMARK = rm.getString("bookmark.original"); // original bookmarks

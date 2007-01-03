@@ -20,7 +20,6 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.IRangedQuranText;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.RangedQuranText;
-import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchScope;
@@ -31,6 +30,7 @@ import net.sf.zekr.engine.theme.QuranSearchResultTemplate;
 import net.sf.zekr.engine.theme.QuranViewTemplate;
 import net.sf.zekr.engine.theme.TransSearchResultTemplate;
 import net.sf.zekr.engine.theme.TranslationViewTemplate;
+import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * @author Mohsen Saboorian
@@ -41,13 +41,13 @@ public class HtmlRepository {
 	private static ApplicationConfig config = ApplicationConfig.getInstance();
 
 	/**
-	 * The method will create a new html file if
+	 * The method will create a new HTML file if
 	 * <ul>
-	 * <li>Sura html file does not exist at <code>QURAN_CACHE_DIR</code>
+	 * <li>Sura HTML file does not exist at <code>QURAN_CACHE_DIR</code>
 	 * <li>HTML file exists but the file size is zero
 	 * <li><code>update</code> is true
 	 * </ul>
-	 * Otherwise the file will be read from the html cache.
+	 * Otherwise the file will be read from the HTML cache.
 	 * 
 	 * @param sura sura number <b>(which is counted from 1) </b>
 	 * @param aya the aya number (this will affect on the end of the URL, which appends
@@ -56,7 +56,7 @@ public class HtmlRepository {
 	 *            <code>aya</code> should be sent and counted from 1. </b> If
 	 *            <code>aya</code> is 0 the URL will not have <code>#ayaNumber</code>
 	 *            at the end of it.
-	 * @param update Specify whether recreate the html file if it also exists.
+	 * @param update Specify whether recreate the HTML file if it also exists.
 	 * @return URL to the sura HTML file
 	 */
 	public static String getQuranUri(int sura, int aya, boolean update) {
@@ -81,7 +81,7 @@ public class HtmlRepository {
 
 	public static String getMixedUri(int sura, int aya, boolean update) {
 		TranslationData td = config.getTranslation().getDefault();
-		File file = new File(Naming.MIXED_CACHE_DIR + File.separator + sura + ".html");
+		File file = new File(Naming.MIXED_CACHE_DIR + File.separator + sura + "_" + td.id + ".html");
 		try {
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
@@ -125,12 +125,10 @@ public class HtmlRepository {
 
 	public static String getSearchTransUri(String keyword, boolean matchDiac, boolean matchCase, SearchScope searchScope) {
 		TranslationData td = config.getTranslation().getDefault();
-//		RangedTranslationData trans = new RangedTranslationData(td, searchScope);
 		IRangedQuranText eqt = new RangedQuranText(td, searchScope);
 
-		String prefix = td.id + "-" + matchCase + "-";
-		File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + prefix + keyword.hashCode()
-				+ ".html");
+		String suffix = "_" + td.id + "_" + matchCase + ".html";
+		File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + keyword.hashCode() + suffix);
 
 		try {
 //			if (!file.exists() || file.length() == 0) {

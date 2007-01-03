@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.search.IllegalSearchScopeItemException;
 import net.sf.zekr.engine.search.SearchScope;
@@ -20,6 +21,7 @@ import net.sf.zekr.engine.search.SearchScopeItem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -52,11 +54,11 @@ public class SearchScopeForm extends BaseForm {
 	private Display display;
 	private Table table;
 	private TableEditor editor;
-	private List excList = new ArrayList();
 	private Composite body;
 	private Shell parent;
 	private boolean canceled = true;
 	private SearchScope searchScope;
+	private Button addBut, remBut;
 
 	public static final String FORM_ID = "SEARCH_SCOPE_FORM";
 
@@ -107,6 +109,14 @@ public class SearchScopeForm extends BaseForm {
 		table.setLayoutData(gd);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
+		table.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (table.getSelectionCount() == 0)
+					remBut.setEnabled(false);
+				else
+					remBut.setEnabled(true);
+			}
+		});
 
 		gd = new GridData();
 		gd.horizontalSpan = 2;
@@ -118,8 +128,8 @@ public class SearchScopeForm extends BaseForm {
 		addRemComp.setLayout(rl);
 		addRemComp.setLayoutData(gd);
 
-		Button addBut = new Button(addRemComp, SWT.PUSH);
-		Button remBut = new Button(addRemComp, SWT.PUSH);
+		addBut = new Button(addRemComp, SWT.PUSH);
+		remBut = new Button(addRemComp, SWT.PUSH);
 
 		RowData rd = new RowData();
 		rd.width = 40;
@@ -145,8 +155,11 @@ public class SearchScopeForm extends BaseForm {
 				for (int i = rows.length - 1; i >= 0; i--) {
 					table.remove(rows[i]);
 				}
+				remBut.setEnabled(false);
 			}
 		});
+
+		remBut.setEnabled(false);
 
 		gd = new GridData();
 		gd.horizontalSpan = 2;
@@ -261,18 +274,29 @@ public class SearchScopeForm extends BaseForm {
 									case SWT.FocusOut:
 										item.setText(column, itemEditor.getText());
 										itemEditor.dispose();
-										if (column % 2 == 0) {
-											item.setText(column + 1, "1");
-											item.setData(String.valueOf(column + 1), new Integer(1));
+										if (column % 2 == 0 && column != 4) {
+											// reset aya number to 1 if aya is not in range of selected sura's aya count
+											System.out.println(item.getData(String.valueOf(column)));
+											if (!QuranLocation.isValidLocation(((Integer) item.getData(String
+													.valueOf(column))).intValue(), ((Integer) item.getData(String
+													.valueOf(column + 1))).intValue())) {
+												item.setText(column + 1, "1");
+												item.setData(String.valueOf(column + 1), new Integer(1));
+											}
 										}
 										break;
 									case SWT.Traverse:
 										switch (e.detail) {
 										case SWT.TRAVERSE_RETURN:
 											item.setText(column, itemEditor.getText());
-											if (column % 2 == 0) {
-												item.setText(column + 1, "1");
-												item.setData(String.valueOf(column + 1), new Integer(1));
+											if (column % 2 == 0 && column != 4) {
+												// reset aya number to 1 if aya is not in range of selected sura's aya count
+												if (!QuranLocation.isValidLocation(((Integer) item.getData(String
+														.valueOf(column))).intValue(), ((Integer) item.getData(String
+														.valueOf(column + 1))).intValue())) {
+													item.setText(column + 1, "1");
+													item.setData(String.valueOf(column + 1), new Integer(1));
+												}
 											}
 										// FALL THROUGH
 										case SWT.TRAVERSE_ESCAPE:

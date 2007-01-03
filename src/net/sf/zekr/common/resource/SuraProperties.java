@@ -49,8 +49,8 @@ public class SuraProperties {
 	}
 
 	/**
-	 * @return <code>true</code> if <code>sura</code> is <i>madani </i> or (otherwise) <code>false</code>
-	 *         if it is <i>makki </i>
+	 * @return <code>true</code> if <code>sura</code> is <i>Madani</i> or (otherwise) <code>false</code>
+	 *         if it is <i>Makki</i>
 	 */
 	public boolean isMadani() {
 		return madani;

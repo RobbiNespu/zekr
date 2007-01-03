@@ -16,15 +16,14 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.AbstractSplachScreen;
 import net.sf.zekr.ui.QuranForm;
-import net.sf.zekr.ui.SplashScreen;
 import net.sf.zekr.ui.helper.AdvancedSplashScreen;
 
 import org.eclipse.swt.widgets.Display;
 
 /**
+ * Application main class. This class launches Zekr platform.
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class ZekrMain {
 	private final static Logger logger = Logger.getLogger(ZekrMain.class);
@@ -33,6 +32,7 @@ public class ZekrMain {
 	 * Will start the Zekr platform
 	 */
 	static void startZekr() {
+		Date date1 = new Date();
 		Display display = new Display();
 		QuranForm quranForm = null;
 		try {
@@ -43,9 +43,13 @@ public class ZekrMain {
 			splash.show();
 
 			logger.info("Configure runtime configurations...");
-			ApplicationConfig.getInstance().getRuntime().configure();
+			ApplicationConfig.getInstance().getRuntime().configure();// TODO: some directories already created in ApplicationConfig
 			quranForm = new QuranForm(display);
 			quranForm.show();
+
+			Date date2 = new Date();
+			logger.info("Startup took " + (date2.getTime() - date1.getTime()) + " ms.");
+			
 			splash.dispose(); // close splash screen
 
 			while (!quranForm.isDisposed()) {
@@ -64,6 +68,8 @@ public class ZekrMain {
 			else
 				t.printStackTrace();
 		} finally {
+			if (display != null)
+				display.dispose();
 			if (logger != null)
 				logger.info("Zekr is now down.\n");
 		}

@@ -20,10 +20,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.program.Program;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
@@ -32,13 +34,13 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.3
  */
 public class AboutForm extends BaseForm {
 	private Shell parent;
 	private Shell shell;
 	private Display display;
 	private String title;
+	private Label mem;
 
 	public AboutForm(Shell parent) {
 		this.parent = parent;
@@ -55,12 +57,13 @@ public class AboutForm extends BaseForm {
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
 				new Image(display, resource.getString("icon.form32")) });
 		shell.setText(title);
-		gl = new GridLayout(2, false);
-		shell.setLayout(gl);
-		shell.setSize(460, 155);
-		shell.setFocus();
+		shell.setLayout(new FillLayout());
 
-		Composite imageComp = new Composite(shell, SWT.NONE);
+		gl = new GridLayout(2, false);
+		Composite body = new Composite(shell, SWT.NONE | langEngine.getSWTDirection());
+		body.setLayout(gl);
+
+		Composite imageComp = new Composite(body, SWT.NONE);
 		final Image image = new Image(display, resource.getString("image.smallLogo"));
 		gd = new GridData(GridData.CENTER);
 		gd.heightHint = image.getBounds().height;
@@ -74,48 +77,57 @@ public class AboutForm extends BaseForm {
 			}
 		});
 
-		Composite detailCom = new Composite(shell, langEngine.getSWTDirection());
-		detailCom.setLayout(new FillLayout(SWT.VERTICAL));
+		Composite detailCom = new Group(body, langEngine.getSWTDirection());
+		detailCom.setLayout(new GridLayout(1, false));
 		gd = new GridData(GridData.FILL_BOTH);
-		gd.widthHint = 200;
 		detailCom.setLayoutData(gd);
+
 		Link link = new Link(detailCom, SWT.NONE);
 		String s = langEngine.getMeaning("APP_FULL_NAME")
 				+ ".\n\t<a href=\"http://siahe.com/zekr\">http://siahe.com/zekr</a>\n";
 
+		gd = new GridData(GridData.FILL_HORIZONTAL);
 		link.setText(s);
+		link.setLayoutData(gd);
 		link.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-//				new Thread() {
-//					public void run() {
-//						Program.launch(GlobalConfig.HOME_PAGE);
-//					}
-//				}.start();
 				BrowserShop.openLink(GlobalConfig.HOME_PAGE);
 			}
 		});
 
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		Label versionLabel = new Label(detailCom, SWT.NONE);
+		versionLabel.setText(langEngine.getMeaning("VERSION") + ": " + GlobalConfig.ZEKR_VERSION);
+		versionLabel.setLayoutData(gd);
+
+		gd = new GridData(GridData.FILL_HORIZONTAL);
 		Text text = new Text(detailCom, SWT.MULTI | SWT.WRAP | SWT.SCROLL_LINE);
 		text.setText(langEngine.getMeaning("COPYRIGHT_DISCLAIMER"));
 		text.setEditable(false);
 		text.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		text.setLayoutData(gd);
 
-		Composite buttons = new Composite(shell, SWT.NO_FOCUS);
-		buttons.setLayoutData(new GridData(GridData.FILL));
-		buttons.setLayout(new FillLayout(SWT.HORIZONTAL));
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		gd.horizontalSpan = 2;
+		Label delim = new Label(body, SWT.SEPARATOR | SWT.HORIZONTAL);
+		delim.setLayoutData(gd);
 
-		Button forceGC = new Button(buttons, SWT.PUSH);
-		forceGC.setText("Force GC");
+		Button forceGC = new Button(body, SWT.PUSH);
+		forceGC.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		forceGC.setText("&Force GC");
 
-		final Label mem = new Label(shell, SWT.NONE);
+		mem = new Label(body, SWT.NONE);
 		mem.setText(getMemText());
 
 		forceGC.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				System.gc();
-				mem.setText(getMemText());
+				updateMemText();
 			}
 		});
+
+		shell.pack();
+		shell.setSize(440, shell.getSize().y);
 	}
 
 	/**
@@ -133,5 +145,9 @@ public class AboutForm extends BaseForm {
 
 	protected Display getDisplay() {
 		return display;
+	}
+
+	private void updateMemText() {
+		mem.setText(getMemText());
 	}
 }

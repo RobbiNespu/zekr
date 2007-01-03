@@ -13,7 +13,6 @@ import net.sf.zekr.engine.language.LanguageEngine;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class JuzProperties {
 	private int index;
@@ -25,7 +24,7 @@ public class JuzProperties {
 	private int ayaNumber;
 
 	/** an 8-item array for addressing locations of each hizb quads in a juz */
-	private QuranLocation[] hizbQuads = new QuranLocation[8];
+	private QuranLocation[] hizbQuarters = new QuranLocation[8];
 
 	/**
 	 * @return Returns the ayaNumber.
@@ -76,10 +75,14 @@ public class JuzProperties {
 	 * @param hizb can be either 1 or 2
 	 * @param quad can be either 1, 2, 3, or 4
 	 */
-	public void setHizbQuad(int hizb, int quad, QuranLocation loc) {
-		hizbQuads[(hizb - 1) * 4 + quad] = loc;
+	public void setHizbQuarters(int hizb, int quad, QuranLocation loc) {
+		hizbQuarters[(hizb - 1) * 4 + (quad - 1)] = loc;
 	}
-	
+
+	public QuranLocation[] getHizbQuarters() {
+		return hizbQuarters;
+	}
+
 	public String toString() {
 		return LanguageEngine.getInstance().getMeaning("JUZ") + ": " + getIndex();
 	}

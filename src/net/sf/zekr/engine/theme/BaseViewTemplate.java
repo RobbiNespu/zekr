@@ -8,8 +8,6 @@
  */
 package net.sf.zekr.engine.theme;
 
-import org.apache.velocity.tools.generic.MathTool;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
@@ -18,6 +16,8 @@ import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
+
+import org.apache.velocity.tools.generic.MathTool;
 
 /**
  * @author Mohsen Saboorian
@@ -46,21 +46,21 @@ public abstract class BaseViewTemplate implements ITransformer {
 	 * <li><tt>TRANS_LANG</tt>: 2-char language code, e.g. "fa" for Farsi, "en" for English, ...</li>
 	 * <li><tt>APP_PATH</tt>: an absolute URI ending with slash</li>
 	 * <li><tt>CSS_DIR</tt>: an absolute URI ending with slash</li>
-	 * <li><tt>THEME_DIR</tt>: relative theme directory path</li>
 	 * <li><tt>UI_DIR</tt>: relative UI directory path</li>
 	 * </ul>
 	 * It will also put all processed properties related to the current theme (<code>ThemeData.processedProps</code>).
 	 */
 	protected BaseViewTemplate() {
 		ThemeData td = config.getTheme().getCurrent();
+		engine.put("DICT", langEngine);
 		engine.put("DIRECTION", langEngine.getDirection());
 		engine.put("TRANS_DIRECTION", config.getTranslation().getDefault().direction);
 		engine.put("TRANS_LANG", config.getTranslation().getDefault().locale.getLanguage());
 		engine.put("APP_PATH", UriUtils.toURI(GlobalConfig.RUNTIME_DIR));
 		engine.put("APP_VERSION", GlobalConfig.ZEKR_VERSION);
-		engine.put("THEME_DIR", td.getPath());
 		engine.put("UI_DIR", ApplicationPath.UI_DIR);
 		engine.put("CSS_DIR", UriUtils.toURI(Naming.CACHE_DIR));
+		engine.put("THEME_DIR", td.getPath());
 		engine.put("MATH", new MathTool());
 
 		engine.putAll(td.processedProps);

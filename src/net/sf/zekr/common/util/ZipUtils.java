@@ -26,14 +26,14 @@ import net.sf.zekr.engine.log.Logger;
  * @since Zekr 1.0
  */
 public class ZipUtils {
-	private final static Logger logger = Logger.getLogger(ZipUtils.class);
+	private final Logger logger = Logger.getLogger(ZipUtils.class);
 
 	/**
 	 * Extracts zip file <code>zipFile</code> info <code>destDir</code>
 	 * 
 	 * @param zipFile source zip file to be unzipped
-	 * @param destDir destination directory to extract content of the zip file into it.
-	 *            Will be created first, if does not exist.
+	 * @param destDir destination directory to extract content of the zip file into it. Will be created first,
+	 *            if does not exist.
 	 * @throws IOException
 	 */
 	public static void extract(File zipFile, String destDir) throws IOException {

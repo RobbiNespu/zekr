@@ -24,14 +24,14 @@ public class BookmarkSetGroup {
 	}
 
 	/**
-	 * Adds a bookmark set to the list of bookmark sets group. <code>bookmarkSet.getName()</code> should not
-	 * be null, and should be unique among other bookmark sets, since it is used as a key to store this
+	 * Adds a bookmark set to the list of bookmark sets group. <code>bookmarkSet.getFileName()</code> should
+	 * not be null, and should be unique among other bookmark sets, since it is used as a key to store this
 	 * bookmark set.
 	 * 
 	 * @param bookmarkSet the bookmark set to be added
 	 */
 	public void addBookmarkSet(BookmarkSet bookmarkSet) {
-		map.put(bookmarkSet.getName(), bookmarkSet);
+		map.put(bookmarkSet.getId(), bookmarkSet);
 	}
 
 	public void removeBookmarkSet(String bookmarkSetName) {
@@ -50,10 +50,12 @@ public class BookmarkSetGroup {
 	}
 
 	/**
-	 * Makes a previously-added bookmark set as the default bookmark set
+	 * Makes a previously-added bookmark set as the default bookmark set.
+	 * 
+	 * @param bookmarkSetId the bookmark set ID (base file name without any extension)
 	 */
-	public void setAsDefault(String bookmarkSetName) {
-		defaultBookmarkSet = (BookmarkSet) map.get(bookmarkSetName);
+	public void setAsDefault(String bookmarkSetId) {
+		defaultBookmarkSet = (BookmarkSet) map.get(bookmarkSetId);
 	}
 
 	Collection getBookmarkSets() {

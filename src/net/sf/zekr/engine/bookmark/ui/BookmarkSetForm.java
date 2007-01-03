@@ -8,21 +8,33 @@
  */
 package net.sf.zekr.engine.bookmark.ui;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.util.CollectionUtils;
-import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
+import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.language.LanguageEngine;
+import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.EventProtocol;
 import net.sf.zekr.ui.FormUtils;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetAdapter;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
@@ -33,7 +45,7 @@ import org.eclipse.swt.events.TreeAdapter;
 import org.eclipse.swt.events.TreeEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
@@ -41,10 +53,8 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
@@ -60,8 +70,8 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
-public class BookmarksForm {
-	public static final String FORM_ID = "BOOKMARKS_FORM";
+public class BookmarkSetForm {
+	public static final String FORM_ID = "BOOKMARK_SET_FORM";
 	private static final LanguageEngine lang = LanguageEngine.getInstance();
 	private static final ResourceManager resource = ResourceManager.getInstance();
 	private final Logger logger = Logger.getLogger(this.getClass());
@@ -84,30 +94,45 @@ public class BookmarksForm {
 	private TabItem detailsTabItem;
 	private Text nameText, authorText, descText, languageText;
 	private Combo dirCombo;
-	private BookmarkSet bookmark;
+	private BookmarkSet bookmarkSet;
+	private int bookmarkSetDirection;
 
-	public BookmarksForm(Shell parent) {
+	public BookmarkSetForm(Shell parent) {
 		this(config.getBookmark(), parent);
 	}
 
-	public BookmarksForm(BookmarkSet bookmark, Shell parent) {
+	public BookmarkSetForm(BookmarkSet bookmarkSet, Shell parent) {
 		this.parent = parent;
-		this.bookmark = bookmark;
+		this.bookmarkSet = bookmarkSet;
+		bookmarkSetDirection = getBookmarkDirection();
 
 		display = parent.getDisplay();
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
+		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.MAX | SWT.MIN | SWT.RESIZE);
 
 		GridLayout gl = new GridLayout(1, false);
 		shell.setLayout(gl);
 		shell.setText(meaning("TITLE"));
 		shell.setImage(new Image(display, resource.getString("icon.bookmark.manager")));
 
+		shell.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				Rectangle r = shell.getBounds();
+				config.getProps().setProperty("bookmark.bookarkSetForm.location", 
+					new String[] {"" + r.x, "" + r.y, "" + r.width, "" + r.height});
+			}
+		});
+
 		makeForm();
+	}
+
+	private int getBookmarkDirection() {
+		return LanguageEngineNaming.RIGHT_TO_LEFT.equals(bookmarkSet.getDirection()) ? SWT.RIGHT_TO_LEFT
+				: SWT.LEFT_TO_RIGHT;
 	}
 
 	private void makeForm() {
 		gd = new GridData(GridData.FILL_BOTH);
-		tabFolder = new TabFolder(shell, SWT.NONE);
+		tabFolder = new TabFolder(shell, lang.getSWTDirection());
 		tabFolder.setLayoutData(gd);
 
 		bookmarksTabItem = new TabItem(tabFolder, SWT.NONE);
@@ -137,12 +162,11 @@ public class BookmarksForm {
 		descCol.setText(lang.getMeaning("DESCRIPTION"));
 		descCol.setWidth(160);
 
-		BookmarkSet bm = config.getBookmark();
-		List bookmarks = bm.getBookmarksItems();
+		List bookmarks = bookmarkSet.getBookmarksItems();
 		for (Iterator iter = bookmarks.iterator(); iter.hasNext();) {
 			BookmarkItem bmItem = (BookmarkItem) iter.next();
 			TreeItem item = new TreeItem(tree, SWT.FULL_SELECTION);
-			BookmarkUtils.addBookmarkItemToTree(shell, item, bmItem);
+			BookmarkUtils.addBookmarkItemToTree(item, bmItem);
 		}
 
 		tree.addSelectionListener(new SelectionAdapter() {
@@ -193,6 +217,143 @@ public class BookmarksForm {
 			public void keyPressed(KeyEvent e) {
 				if (e.stateMask == SWT.CTRL && e.keyCode == 'g' && gotoBut.isEnabled())
 					gotoBookmark();
+			}
+		});
+
+		Transfer[] types = new Transfer[] { TextTransfer.getInstance() };
+		int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
+
+		final DragSource source = new DragSource(tree, operations);
+		source.setTransfer(types);
+		final TreeItem[] dragSourceItem = new TreeItem[1];
+		source.addDragListener(new DragSourceListener() {
+			public void dragStart(DragSourceEvent event) {
+				TreeItem[] selection = tree.getSelection();
+				if (selection.length > 0/* && selection[0].getItemCount() == 0*/) {
+					event.doit = true;
+					dragSourceItem[0] = selection[0];
+				} else {
+					event.doit = false;
+				}
+			};
+
+			public void dragSetData(DragSourceEvent event) {
+				event.data = ((BookmarkItem) dragSourceItem[0].getData()).getId();
+			}
+
+			public void dragFinished(DragSourceEvent event) {
+				if (event.detail == DND.DROP_MOVE) {
+					dragSourceItem[0].dispose();
+				}
+				dragSourceItem[0] = null;
+			}
+		});
+
+		DropTarget target = new DropTarget(tree, operations);
+		target.setTransfer(types);
+		target.addDropListener(new DropTargetAdapter() {
+			public void dragOver(DropTargetEvent event) {
+				event.feedback = DND.FEEDBACK_EXPAND | DND.FEEDBACK_SCROLL;
+				event.detail = DND.DROP_MOVE;
+				if (event.item != null) {
+					TreeItem item = (TreeItem) event.item;
+
+					// check not to add a folder to it's descendants
+					BookmarkItem sourceItem = (BookmarkItem) dragSourceItem[0].getData();
+					if (sourceItem.isFolder() && hasDescendant(dragSourceItem[0], item)) {
+						event.detail = DND.DROP_NONE;
+						return;
+					}
+					if (sourceItem.isFolder() && item.getData().equals(sourceItem)) {
+						event.detail = DND.DROP_NONE;
+						return;
+					}
+					if (Arrays.asList(item.getItems()).contains(dragSourceItem[0])) {
+						event.detail = DND.DROP_NONE;
+						return;
+					}
+
+					Point pt = display.map(null, tree, event.x, event.y);
+					Rectangle bounds = item.getBounds();
+					if (pt.y < bounds.y + bounds.height / 3) {
+						event.feedback |= DND.FEEDBACK_INSERT_BEFORE;
+					} else if (pt.y > bounds.y + 2 * bounds.height / 3) {
+						event.feedback |= DND.FEEDBACK_INSERT_AFTER;
+					} else {
+						if (!((BookmarkItem) item.getData()).isFolder()) {
+							event.detail = DND.DROP_NONE;
+							return;
+						}
+						event.feedback |= DND.FEEDBACK_SELECT;
+					}
+				}
+			}
+
+			public void drop(DropTargetEvent event) {
+				if (event.data == null) {
+					event.detail = DND.DROP_NONE;
+					return;
+				}
+				TreeItem targetItem = (TreeItem) event.item;
+//				String id = (String) event.data;
+//				BookmarkItem bookmarkItem = bookmarkSet.getItemById(id);
+				BookmarkItem sourceItem = (BookmarkItem) dragSourceItem[0].getData();
+
+				if (targetItem != null && (targetItem.getData().equals(sourceItem))) {
+					event.detail = DND.DROP_NONE;
+					return; // do nothing
+				}
+
+				TreeItem parentItem = dragSourceItem[0].getParentItem();
+				if (targetItem != null) {
+					if (parentItem != null)
+						if (((BookmarkItem) targetItem.getData()).isFolder() && parentItem.getItemCount() == 1)
+							parentItem.setImage(new Image(display, resource.getString("icon.bookmark.closeFolder")));
+					if (((BookmarkItem) targetItem.getData()).isFolder() && targetItem.getItemCount() == 0)
+						targetItem.setImage(new Image(display, resource.getString("icon.bookmark.openFolder")));
+				}
+
+				if (targetItem == null) {
+					// No child for this item to be added. Will be add to the root of the tree
+					BookmarkUtils.moveTreeItem(tree, dragSourceItem[0]);
+				} else {
+					Point pt = display.map(null, tree, event.x, event.y);
+					Rectangle bounds = targetItem.getBounds();
+					TreeItem parent = targetItem.getParentItem();
+					if (parent != null) {
+						TreeItem[] items = parent.getItems();
+						int index = 0;
+						for (int i = 0; i < items.length; i++) {
+							if (items[i] == targetItem) {
+								index = i;
+								break;
+							}
+						}
+						if (pt.y < bounds.y + bounds.height / 3) {
+							BookmarkUtils.moveTreeItem(parent, dragSourceItem[0], index);
+						} else if (pt.y > bounds.y + 2 * bounds.height / 3) {
+							BookmarkUtils.moveTreeItem(parent, dragSourceItem[0], index + 1);
+						} else {
+							BookmarkUtils.moveTreeItem(targetItem, dragSourceItem[0]);
+						}
+					} else {
+						TreeItem[] items = tree.getItems();
+						int index = 0;
+						for (int i = 0; i < items.length; i++) {
+							if (items[i] == targetItem) {
+								index = i;
+								break;
+							}
+						}
+						if (pt.y < bounds.y + bounds.height / 3) {
+							BookmarkUtils.moveTreeItem(tree, dragSourceItem[0], index);
+						} else if (pt.y > bounds.y + 2 * bounds.height / 3) {
+							BookmarkUtils.moveTreeItem(tree, dragSourceItem[0], index + 1);
+						} else {
+							BookmarkUtils.moveTreeItem(targetItem, dragSourceItem[0]);
+						}
+					}
+				}
 			}
 		});
 
@@ -259,6 +420,10 @@ public class BookmarksForm {
 
 			public void widgetSelected(SelectionEvent e) {
 				remove();
+				if (tree.getSelectionCount() == 0) {
+					removeBut.setEnabled(false);
+					editBut.setEnabled(false);
+				}
 			};
 		});
 
@@ -306,9 +471,6 @@ public class BookmarksForm {
 		removeBut.setEnabled(false);
 		editBut.setEnabled(false);
 		gotoBut.setEnabled(false);
-
-		// gd = new GridData(GridData.FILL_HORIZONTAL);
-		// new Label(body, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(gd);
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalAlignment = SWT.TRAIL;
@@ -358,6 +520,22 @@ public class BookmarksForm {
 		shell.setDefaultButton(ok);
 	}
 
+	protected boolean hasDescendant(TreeItem parent, TreeItem child) {
+		if (parent.getItemCount() == 0)
+			return false;
+
+		TreeItem[] children = parent.getItems();
+		for (int i = 0; i < children.length; i++)
+			if (children[i].getData().equals(child.getData()))
+				return true;
+
+		for (int i = 0; i < children.length; i++)
+			if (hasDescendant(children[i], child))
+				return true;
+
+		return false;
+	}
+
 	private void createDetailsTab() {
 		gl = new GridLayout(3, false);
 		bookmarksInfoTabBody = new Composite(tabFolder, lang.getSWTDirection());
@@ -370,10 +548,10 @@ public class BookmarksForm {
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.widthHint = 200;
 		gd.horizontalSpan = 2;
-		nameText = new Text(bookmarksInfoTabBody, SWT.BORDER);
+		nameText = new Text(bookmarksInfoTabBody, SWT.BORDER | bookmarkSetDirection);
 		nameText.setLayoutData(gd);
-		nameText.setToolTipText("Use a unique name");
-		nameText.setText(getNotNull(bookmark.getName()));
+		nameText.setToolTipText(meaning("UNIQUE_NAME"));
+		nameText.setText(getNotNull(bookmarkSet.getName()));
 
 		Label authorLabel = new Label(bookmarksInfoTabBody, SWT.NONE);
 		authorLabel.setText(lang.getMeaning("AUTHOR") + ":");
@@ -381,10 +559,10 @@ public class BookmarksForm {
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.widthHint = 200;
 		gd.horizontalSpan = 2;
-		authorText = new Text(bookmarksInfoTabBody, SWT.BORDER);
+		authorText = new Text(bookmarksInfoTabBody, SWT.BORDER | bookmarkSetDirection);
 		authorText.setLayoutData(gd);
-		authorText.setToolTipText("Use comma seperated values, if there are more than one author");
-		authorText.setText(getNotNull(bookmark.getAuthor()));
+		authorText.setToolTipText(meaning("COMMA_SEPARATED"));
+		authorText.setText(getNotNull(bookmarkSet.getAuthor()));
 
 		Label languageLabel = new Label(bookmarksInfoTabBody, SWT.NONE);
 		languageLabel.setText(lang.getMeaning("LANGUAGE") + ":");
@@ -394,8 +572,8 @@ public class BookmarksForm {
 		gd.horizontalSpan = 2;
 		languageText = new Text(bookmarksInfoTabBody, SWT.BORDER);
 		languageText.setLayoutData(gd);
-		languageText.setToolTipText("Use only English names (e.g. English, Farsi, Arabic, ...)");
-		languageText.setText(getNotNull(bookmark.getLanguage()));
+		languageText.setToolTipText(meaning("ONLY_ENGLISH"));
+		languageText.setText(getNotNull(bookmarkSet.getLanguage()));
 
 		Label directionLabel = new Label(bookmarksInfoTabBody, SWT.NONE);
 		directionLabel.setText(lang.getMeaning("DIRECTION") + ":");
@@ -405,7 +583,7 @@ public class BookmarksForm {
 		dirCombo = new Combo(bookmarksInfoTabBody, SWT.BORDER | SWT.READ_ONLY);
 		dirCombo.setItems(new String[] { lang.getMeaning("LTR"), lang.getMeaning("RTL") });
 		dirCombo.setData(new String[] { "ltr", "rtl" });
-		dirCombo.select(LanguageEngine.RIGHT_TO_LEFT.equals(bookmark.getDirection()) ? 1 : 0);
+		dirCombo.select(LanguageEngine.RIGHT_TO_LEFT.equals(bookmarkSet.getDirection()) ? 1 : 0);
 		dirCombo.setLayoutData(gd);
 		dirCombo.setToolTipText(lang.getMeaning("LANG_DIRECTION"));
 
@@ -423,19 +601,22 @@ public class BookmarksForm {
 		descLabel.setText(lang.getMeaning("DESCRIPTION") + ":");
 		descLabel.setLayoutData(gd);
 
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
-		gd.minimumWidth = 200;
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_VERTICAL | GridData.FILL_HORIZONTAL);
+//		gd.minimumWidth = 200;
 		gd.widthHint = 200;
-		gd.minimumHeight = 100;
-		descText = new Text(bookmarksInfoTabBody, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		gd.heightHint = 100;
+//		gd.minimumHeight = 100;
+		gd.horizontalSpan = 2;
+		descText = new Text(bookmarksInfoTabBody, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | bookmarkSetDirection);
 		descText.setLayoutData(gd);
-		descText.setText(getNotNull(bookmark.getDescription()));
-
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
-		gd.grabExcessHorizontalSpace = true;
-		Label descDetailLabel = new Label(bookmarksInfoTabBody, SWT.WRAP);
-		descDetailLabel.setText("Conventions, quotes, references, and other bookmark-related topics go here");
-		descDetailLabel.setLayoutData(gd);
+		descText.setText(getNotNull(bookmarkSet.getDescription()));
+		descText.setToolTipText(meaning("DESC_TOOLTIP"));
+//
+//		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
+//		gd.grabExcessHorizontalSpace = true;
+//		Label descDetailLabel = new Label(bookmarksInfoTabBody, SWT.WRAP);
+//		descDetailLabel.setText("Conventions, quotes, references, and other bookmark-related topics go here");
+//		descDetailLabel.setLayoutData(gd);
 	}
 
 	private String getNotNull(String str) {
@@ -450,10 +631,11 @@ public class BookmarksForm {
 	}
 
 	private void add(boolean isFolder) {
-		BookmarkItemForm bmItemForm = new BookmarkItemForm(shell, isFolder);
+		BookmarkItemForm bmItemForm = new BookmarkItemForm(shell, isFolder, bookmarkSetDirection);
 		logger.debug("Add a new bookmark item/folder");
 		if (bmItemForm.open()) {
 			BookmarkItem newBookmarkItem = bmItemForm.getBookmarkItem();
+			newBookmarkItem.setId(bookmarkSet.nextItemId());
 			TreeItem[] tis = tree.getSelection();
 			TreeItem newTreeItem;
 			if (tis.length == 0) {
@@ -490,9 +672,8 @@ public class BookmarksForm {
 	}
 
 	private void apply() {
-		logger.info("Apply bookmark settings for " + bookmark);
-		BookmarkSet bookmark = config.getBookmark();
-		List bookmarkItems = bookmark.getBookmarksItems();
+		logger.info("Apply bookmark settings for " + bookmarkSet);
+		List bookmarkItems = bookmarkSet.getBookmarksItems();
 		bookmarkItems.clear();
 
 		TreeItem[] tis = tree.getItems();
@@ -500,17 +681,18 @@ public class BookmarksForm {
 			BookmarkItem bi = BookmarkUtils.getBookmarkItemFromTreeItem(tis[i]);
 			bookmarkItems.add(bi);
 		}
-		bookmark.setName(nameText.getText());
-		bookmark.setAuthor(authorText.getText());
-		bookmark.setLanguage(languageText.getText());
-		bookmark.setDirection(languageText.getText());
-		bookmark.setDescription(descText.getText());
-		bookmark.save();
+		bookmarkSet.setName(nameText.getText());
+		bookmarkSet.setAuthor(authorText.getText());
+		bookmarkSet.setLanguage(languageText.getText());
+		bookmarkSet.setDirection(((String[]) dirCombo.getData())[dirCombo.getSelectionIndex()]);
+		bookmarkSetDirection = getBookmarkDirection();
+		bookmarkSet.setDescription(descText.getText());
+		bookmarkSet.save();
 
 		logger.info("Update bookmark menu (reconstruct it)");
 		sendEvent(EventProtocol.UPDATE_BOOKMARKS_MENU);
 
-		logger.info("Apply bookmark settings for " + bookmark + " done");
+		logger.info("Apply bookmark settings for " + bookmarkSet + " done");
 	}
 
 	/**
@@ -527,23 +709,28 @@ public class BookmarksForm {
 								new Image(display, resource.getString("icon.bookmark.closeFolder")));
 			tis[i].dispose();
 		}
+		if (tree.getSelectionCount() == 0) {
+			removeBut.setEnabled(false);
+			editBut.setEnabled(false);
+		}
 		logger.debug("Remove " + tis.length + " bookmark items.");
 	}
 
 	private void edit() {
 		// there should be exactly one item selected (otherwise edit shall not be called)
 		TreeItem item = tree.getSelection()[0];
-		BookmarkItemForm bmItemForm = new BookmarkItemForm(shell, (BookmarkItem) item.getData());
+		BookmarkItemForm bmItemForm = new BookmarkItemForm(shell, (BookmarkItem) item.getData(), bookmarkSetDirection);
 		logger.debug("Open bookmark item/folder editor.");
 		if (bmItemForm.open()) {
 			BookmarkItem newBookmarkItem = bmItemForm.getBookmarkItem();
-			item.setData(newBookmarkItem);
 			if (newBookmarkItem.isFolder()) {
-				item.setText(new String[] { newBookmarkItem.getName(), newBookmarkItem.getDescription(), "" });
+				item.setText(new String[] { newBookmarkItem.getName(), "", newBookmarkItem.getDescription()});
 			} else {
-				item.setText(new String[] { newBookmarkItem.getName(), newBookmarkItem.getDescription(),
-						CollectionUtils.toString(newBookmarkItem.getLocations(), ",") });
+				item.setText(new String[] { newBookmarkItem.getName(),
+					CollectionUtils.toString(newBookmarkItem.getLocations(), ","),
+					newBookmarkItem.getDescription() });
 			}
+			item.setData(newBookmarkItem);
 			logger.debug("BookmarkSet item/folder edit done.");
 		}
 	}
@@ -563,29 +750,25 @@ public class BookmarksForm {
 	}
 
 	public void open() {
-		shell.pack();
-		Point size = shell.getSize();
-		if (size.x > 500)
-			size.x = 500;
-		if (size.y > 330)
-			size.y = 330;
-		// shell.setSize(480, 340);
-		shell.setSize(size);
-		shell.setLocation(FormUtils.getCenter(parent, shell));
+		List b = config.getProps().getList("bookmark.bookarkSetForm.location");
+		if (b.size() != 0) {
+			shell.setBounds(Integer.parseInt(b.get(0).toString()), Integer.parseInt(b.get(1).toString()),
+				Integer.parseInt(b.get(2).toString()), Integer.parseInt(b.get(3).toString()));
+		} else {
+			shell.pack();
+			Point size = shell.getSize();
+			if (size.x > 500)
+				size.x = 500;
+			if (size.y > 360)
+				size.y = 360;
+			shell.setSize(size);
+			shell.setLocation(FormUtils.getCenter(parent, shell));
+		}
 		shell.open();
 		logger.debug("Open bookmarks form");
 	}
 
-	public static void main(String[] args) {
-		Display display = new Display();
-		Shell sh = new Shell(display, SWT.NO_TRIM);
-		sh.setLayout(new FillLayout());
-		sh.open();
-		// new BookmarksForm(sh).open();
-		while (!sh.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
+	public Shell getShell() {
+		return shell;
 	}
 }

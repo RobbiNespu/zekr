@@ -9,7 +9,7 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.4.0" />
+	<property name="component_version" value="0.5.0b1" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
@@ -109,7 +109,7 @@
 
 	<target name="compile">
 		<mkdir dir="${build_classdir}" />
-		<javac srcdir="${javamain}" destdir="${build_classdir}" includes="${packagedir}/**" debug="true" verbose="${verbose}">
+		<javac srcdir="${javamain}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="true" verbose="${verbose}">
 			<classpath refid="buildlibs" />
 		</javac>
 	</target>

@@ -104,6 +104,8 @@ public class OptionsForm {
 	private LanguagePack selectedLangPack;
 	private ThemeData selectedTheme;
 	private Combo themeSelect;
+	private Button addBut;
+	private Button delBut;
 	
 	private static final List packs = new ArrayList(lang.getLangPacks());
 	private static final List themes = new ArrayList(config.getTheme().getAllThemes());
@@ -314,17 +316,11 @@ public class OptionsForm {
 	}
 
 	private void createGeneralTab() {
-//		GridData gd = new GridData();
-//		RowLayout rl = new RowLayout(SWT.VERTICAL);
-//		rl.spacing = 10;
-//		rl.wrap = false;
-//		rl.fill = true;
 		RowLayout rl;
 		gl = new GridLayout(1, false);
 
 		generalTab = new Composite(detGroup, SWT.NONE);
 		generalTab.setLayout(gl);
-//		generalTab.setLayoutData(gd);
 		showSplash = new Button(generalTab, SWT.CHECK);
 		showSplash.setText(meaning("SHOW_SPLASH"));
 		showSplash.setSelection(props.getBoolean("options.general.showSplash"));
@@ -412,7 +408,7 @@ public class OptionsForm {
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
-		table = FormUtils.getTableForMap(viewTab, td.props, lang.getMeaning("NAME"), lang.getMeaning("VALUE"), 140, 200, gd,
+		table = FormUtils.getTableFromMap(viewTab, td.props, lang.getMeaning("NAME"), lang.getMeaning("VALUE"), 140, 200, gd,
 				SWT.LEFT_TO_RIGHT);
 
 		gd = new GridData(GridData.BEGINNING);
@@ -425,10 +421,10 @@ public class OptionsForm {
 		addDel.setLayout(rl);
 		addDel.setLayoutData(gd);
 
-		Button add = new Button(addDel, SWT.PUSH);
-		add.setToolTipText(lang.getMeaning("ADD"));
-		add.setImage(new Image(display, resource.getString("icon.add")));
-		add.addSelectionListener(new SelectionAdapter() {
+		addBut = new Button(addDel, SWT.PUSH);
+		addBut.setToolTipText(lang.getMeaning("ADD"));
+		addBut.setImage(new Image(display, resource.getString("icon.add")));
+		addBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				String key = MessageBoxUtils.textBoxPrompt(meaning("NEW_KEY"), lang
 						.getMeaning("QUESTION"));
@@ -441,13 +437,20 @@ public class OptionsForm {
 		});
 		RowData rd = new RowData();
 		rd.width = 40;
-		add.setLayoutData(rd);
+		addBut.setLayoutData(rd);
 
 		final TableEditor editor = new TableEditor(table);
 		editor.grabHorizontal = true;
         editor.horizontalAlignment = SWT.LEFT;
 
 		table.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				int c = table.getSelectionCount();
+				if (c >= 1)
+					delBut.setEnabled(true);
+				else
+					delBut.setEnabled(false);
+			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// Clean up any previous editor control
 				Control oldEditor = editor.getEditor();
@@ -482,14 +485,15 @@ public class OptionsForm {
 			}
 		});
 
-		Button del = new Button(addDel, SWT.PUSH);
-		del.setToolTipText(lang.getMeaning("DELETE"));
-		del.setImage(new Image(display, resource.getString("icon.remove")));
-		del.addSelectionListener(new SelectionAdapter() {
+		delBut = new Button(addDel, SWT.PUSH);
+		delBut.setToolTipText(lang.getMeaning("REMOVE"));
+		delBut.setImage(new Image(display, resource.getString("icon.remove")));
+		delBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (table.getSelectionCount() > 0)
 					if (MessageBoxUtils.yesNoQuestion(lang.getMeaning("YES_NO"), lang
-							.getMeaning("DELETE"))) {
+							.getMeaning("REMOVE"))) {
+						shell.forceActive();
 						logger.info("Remove table row: " + table.getSelectionIndex());
 						refreshView = true;
 						Control oldEditor = editor.getEditor();
@@ -499,10 +503,11 @@ public class OptionsForm {
 					}
 			}
 		});
+		delBut.setEnabled(false);
 
 		rd = new RowData();
 		rd.width = 40;
-		del.setLayoutData(rd);
+		delBut.setLayoutData(rd);
 
 //		gd = new GridData(GridData.BEGINNING);
 //		gd.widthHint = 40;

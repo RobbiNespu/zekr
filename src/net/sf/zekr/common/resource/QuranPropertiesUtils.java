@@ -9,17 +9,21 @@
 package net.sf.zekr.common.resource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 
 /**
- * This class tightly depends on the class <code>QuranProperties</code>.
+ * This class tightly depends on the class <code>QuranProperties</code>. Almost all public methods on this
+ * class cache the static results once called, and if called more, read it from the cache.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -87,10 +91,18 @@ public class QuranPropertiesUtils {
 			QuranProperties props = QuranProperties.getInstance();
 			for (Iterator iter = props.getSuraList().iterator(); iter.hasNext();) {
 				SuraProperties element = (SuraProperties) iter.next();
-				indexedSuraNames[element.getIndex() - 1] = element.getIndex() + " - " + element.getName();
+				indexedSuraNames[element.getIndex() - 1] = getIndexedSuraName(element.getIndex(), element.getName());
 			}
 		}
 		return indexedSuraNames;
+	}
+
+	public static final String getIndexedSuraName(int suraNum, String suraName) {
+		return suraName + " - " + suraNum;
+	}
+
+	public static final String getIndexedSuraName(int suraNum) {
+		return getIndexedSuraName(suraNum, getSura(suraNum).name);
 	}
 
 	/**
@@ -100,7 +112,7 @@ public class QuranPropertiesUtils {
 	 * @param suraNum sura number (counted from 1)
 	 * @return a <code>List</code> of <code>JuzProperties</code>
 	 */
-	public static final List getJuzInsideList(int suraNum) {
+	public static final List getJuzInsideSura(int suraNum) {
 		if (juzInside[0] == null) { // not loaded yet
 			QuranProperties props = QuranProperties.getInstance();
 			for (Iterator iter = props.getSuraList().iterator(); iter.hasNext();) {
@@ -126,7 +138,7 @@ public class QuranPropertiesUtils {
 	 * @return <code>int</code> array of juz numbers
 	 */
 	public static final int[] getJuzInside(int suraNum) {
-		return getJuz(getJuzInsideList(suraNum));
+		return getJuz(getJuzInsideSura(suraNum));
 	}
 
 	private static final int[] getJuz(List list) {
@@ -139,7 +151,7 @@ public class QuranPropertiesUtils {
 		return juzArray;
 	}
 
-	public static final int getFirstJuzOf(int suraNum) {
+	public static final JuzProperties getFirstJuzOf(int suraNum) {
 		QuranProperties props = QuranProperties.getInstance();
 		List list = props.getJuzList();
 
@@ -149,12 +161,12 @@ public class QuranPropertiesUtils {
 			JuzProperties juz2 = (JuzProperties) iter.next();
 			if (suraNum >= juz1.getSuraNumber() && suraNum <= juz2.getSuraNumber()) {
 				if (juz2.getSuraNumber() == suraNum && juz2.getAyaNumber() == 1)
-					return juz2.getIndex();
-				return juz1.getIndex();
+					return juz2;
+				return juz1;
 			}
 			juz1 = juz2;
 		}
-		return juz1.getIndex(); // 30th juz
+		return juz1; // 30th juz
 	}
 
 	/**
@@ -184,7 +196,7 @@ public class QuranPropertiesUtils {
 	 * @param suraNum sura number (counted from 1)
 	 * @return Sura properties as a <code>Map</code>
 	 */
-	public static final Map getSuraPropMap(int suraNum) {
+	public static final Map getSuraPropsMap(int suraNum) {
 		LanguageEngine dict = ApplicationConfig.getInstance().getLanguageEngine();
 		QuranPropertiesUtils.getSuraNames(); // load!
 		SuraProperties sura = QuranProperties.getInstance().getSura(suraNum);
@@ -198,6 +210,14 @@ public class QuranPropertiesUtils {
 		return map;
 	}
 
+	public static final String propsToClipboadrFormat(Map suraProps) {
+		StringBuffer ret = new StringBuffer();
+		for (Iterator iterator = suraProps.entrySet().iterator(); iterator.hasNext();) {
+			Entry entry = (Entry) iterator.next();
+			ret.append(entry.getKey() + ": " + entry.getValue() + GlobalConfig.LINE_SEPARATOR);
+		}
+		return ret.length() > 0 ? ret.substring(0, ret.length() - GlobalConfig.LINE_SEPARATOR.length()) : ret.toString();
+	}
 	/**
 	 * @param isMadani
 	 * @return localized <code>String</code> of descent type of a sura (Makki or Madani)
@@ -209,7 +229,7 @@ public class QuranPropertiesUtils {
 
 	public static final String getSuraJuz(int suraNum) {
 		int[] juzList = getJuzInside(suraNum);
-		int firstJuz = getFirstJuzOf(suraNum);
+		int firstJuz = getFirstJuzOf(suraNum).getIndex();
 		if (juzList.length == 0) {
 			juzList = new int[1];
 			juzList[0] = firstJuz;
@@ -217,6 +237,17 @@ public class QuranPropertiesUtils {
 			juzList = CollectionUtils.concat(new int[] { firstJuz }, juzList);
 		}
 		return CollectionUtils.getLocalizedList(juzList);
+	}
+
+	public static final List getSuraJuzAsList(int suraNum) {
+		List retList = new ArrayList(getJuzInsideSura(suraNum));
+		JuzProperties firstJuz = getFirstJuzOf(suraNum);
+		if (retList.size() == 0) {
+			retList.add(firstJuz);
+		} else if (retList.get(0) != firstJuz) {
+			retList.add(0, firstJuz);
+		}
+		return retList;
 	}
 
 }

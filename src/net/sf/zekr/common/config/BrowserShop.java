@@ -37,10 +37,11 @@ import java.io.IOException;
 
 import net.sf.zekr.engine.log.Logger;
 
-import org.eclipse.swt.SWTError;
 import org.eclipse.swt.program.Program;
 
 /**
+ * This class is widely inspired/copied from RSSOwl.
+ * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
@@ -51,7 +52,7 @@ public class BrowserShop {
 	/** Either netscape or mozilla for Linux / Solaris */
 	static String webBrowser;
 
-	/** Flag to indicate a successfull launch on Linux / Solaris */
+	/** Flag to indicate a successful launch on Linux / Solaris */
 	static boolean webBrowserSuccessfullyOpened;
 
 	private final static Logger logger = Logger.getLogger(BrowserShop.class);
@@ -59,20 +60,6 @@ public class BrowserShop {
 	/** This utility class constructor is hidden */
 	private BrowserShop() {
 		// Protect default constructor
-	}
-
-	/**
-	 * Create a human readable Error message from the given SWTError. Point the user to the FAQ as it includes
-	 * the required help.
-	 * 
-	 * @param e The SWTError that occured while creating the Browser.
-	 * @return String Human readable Error Message pointing to the FAQ.
-	 */
-	public static String createBrowserError(SWTError e) {
-		StringBuffer error = new StringBuffer();
-		error.append("Please refer to the FAQ on how to setup your").append("\n");
-		error.append("system to use the Internal Browser in RSSOwl.");
-		return error.toString();
 	}
 
 	/**
@@ -93,7 +80,7 @@ public class BrowserShop {
 
 		localHref = href;
 
-		/** Surround href with double quotes if it containes spaces */
+		/** Surround href with double quotes if it contains spaces */
 		if (localHref.indexOf(" ") >= 0)
 			localHref = "\"" + localHref + "\"";
 
@@ -103,7 +90,7 @@ public class BrowserShop {
 	}
 
 	/**
-	 * Open the webbrowser on Linux or Solaris
+	 * Open the web browser on Linux or Solaris
 	 * 
 	 * @param href An URL
 	 * @return Process The process that was executed
@@ -167,15 +154,14 @@ public class BrowserShop {
 		/** Launch default browser on Linux & Solaris */
 		else {
 
-			/** Run browser in a seperate thread */
+			/** Run browser in a separate thread */
 			Thread launcher = new Thread("Browser Launcher") {
 				public void run() {
 					try {
 
 						/** The default browser was successfully launched once, use again */
 						if (webBrowserSuccessfullyOpened) {
-							Runtime.getRuntime().exec(
-									webBrowser + " -remote openURL(" + localHref + ")");
+							Runtime.getRuntime().exec(webBrowser + " -remote openURL(" + localHref + ")");
 						}
 
 						/** The default browser was not yet launched, try NS and Mozilla */

@@ -14,6 +14,8 @@ import java.util.List;
 import net.sf.zekr.engine.search.SearchScope;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -99,6 +101,13 @@ public class ManageScopesForm extends BaseForm {
 					edit();
 			}
 		});
+		listWidget.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				if (e.character == SWT.DEL) {
+					remove();
+				}
+			}
+		});
 
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.LEAD;
@@ -142,16 +151,7 @@ public class ManageScopesForm extends BaseForm {
 			};
 
 			public void widgetSelected(SelectionEvent e) {
-				int[] indices = listWidget.getSelectionIndices();
-				for (int i = indices.length - 1; i >= 0; i--) {
-					searchScopeList.remove(indices[i]);
-					listWidget.remove(indices[i]);
-				}
-				if (listWidget.getSelectionCount() == 0) {
-					removeBut.setEnabled(false);
-					editBut.setEnabled(false);
-				}
-					
+				remove();
 			};
 		});
 
@@ -224,6 +224,18 @@ public class ManageScopesForm extends BaseForm {
 			};
 		});
 
+	}
+
+	private void remove() {
+		int[] indices = listWidget.getSelectionIndices();
+		for (int i = indices.length - 1; i >= 0; i--) {
+			searchScopeList.remove(indices[i]);
+			listWidget.remove(indices[i]);
+		}
+		if (listWidget.getSelectionCount() == 0) {
+			removeBut.setEnabled(false);
+			editBut.setEnabled(false);
+		}
 	}
 
 	private void edit() {

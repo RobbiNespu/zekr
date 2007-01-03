@@ -6,17 +6,20 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Feb 17, 2006
  */
-package net.sf.zekr.common.resource;
+package net.sf.zekr.engine.translation;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Locale;
-import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.engine.log.Logger;
+
+import org.apache.commons.io.FileUtils;
 
 /**
  * @author Mohsen Saboorian
@@ -111,6 +114,7 @@ public class TranslationData implements IQuranText {
 			Reader reader;
 			reader = new InputStreamReader(archiveFile.getInputStream(ze), encoding);
 			loadTranslation(reader, (int) ze.getSize());
+			
 			logger.log("Translation pack " + this + " loaded successfully.");
 		} catch (IOException e) {
 			logger.error("Problem while loading translation pack " + this + ".");
@@ -121,8 +125,9 @@ public class TranslationData implements IQuranText {
 	private void loadTranslation(Reader reader, int length) throws IOException {
 		char buffer[] = new char[16384];
 		StringBuffer strBuf = new StringBuffer();
-		while (reader.read(buffer) != -1) {
-			strBuf.append(buffer);
+		int len = 0;
+		while ((len = reader.read(buffer)) != -1) {
+			strBuf.append(buffer, 0, len);
 		}
 
 		refineText(strBuf.toString());

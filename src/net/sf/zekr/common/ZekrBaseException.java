@@ -11,7 +11,7 @@ package net.sf.zekr.common;
 public class ZekrBaseException extends Exception {
 	private static final long serialVersionUID = -1507511837671369953L;
 
-	protected ZekrBaseException() {
+	public ZekrBaseException() {
 		super();
 	}
 
@@ -19,7 +19,7 @@ public class ZekrBaseException extends Exception {
 		super(message, cause);
 	}
 
-	protected ZekrBaseException(String message) {
+	public ZekrBaseException(String message) {
 		super(message);
 	}
 

@@ -60,8 +60,8 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
-public class BookmarksSetsForm {
-	public static final String FORM_ID = "BOOKMARKS_SETS_FORM";
+public class BookmarkSetGroupForm {
+	public static final String FORM_ID = "BOOKMARK_SET_GROUP_FORM";
 	private static final LanguageEngine lang = LanguageEngine.getInstance();
 	private static final ResourceManager resource = ResourceManager.getInstance();
 	private final Logger logger = Logger.getLogger(this.getClass());
@@ -79,7 +79,7 @@ public class BookmarksSetsForm {
 	private Button removeBut;
 	private Button newBut;
 
-	public BookmarksSetsForm(Shell parent) {
+	public BookmarkSetGroupForm(Shell parent) {
 		this.parent = parent;
 		bookmark = config.getBookmark();
 

@@ -35,7 +35,7 @@ refocus = function() {
 	if (!aya) return;
 	$(aya).ScrollTo(1, 'original', getBrowserHeight() > getObjectHeight(aya) ? 
 					getBrowserHeight()/5 : 0);
-}
+};
 
 navtoSuraAya = function() {
 	var sura = $("input#suraNav").val();
@@ -85,7 +85,7 @@ function unHighlightAya(id) {
 function gotoSuraAya(suraAya) { setMessage('ZEKR::GOTO ' + suraAya + ';'); } // use it when sura changed
 function gotoAya(suraAya) { setMessage('ZEKR::NAVTO ' + suraAya + ';'); } // only use it when sura is not changed
 function translate(location) { setMessage('ZEKR::TRANS ' + location + ';'); }
-function setMessage(msg) { window.status = msg; }
+function setMessage(msg) { document.title = msg; }
 
 
 SearchResult = function() {
@@ -130,18 +130,25 @@ CurrentPageSearchResult = function() {
 	var list;
 	$(document).ready(function() {
 		try{
-			list = $(".jsHighlight");
+			list = $("span.jsHighlight");
 			cnt = list.size();
-		} catch(e) {return;}
-		focus();
+		} catch(e) {error(e); return;}
+		if (cnt > 0)
+			focus();
 	});
 
 	this.next = function() {
-		if (num < cnt - 1) { oldNum = num; num++; focus(); }
+		if (cnt <= 0) return;
+		oldNum = num;
+		num < cnt - 1 ? num++ : num = 0;
+		focus();
 	};
 
 	this.prev = function() {
-		if (num > 0) { oldNum = num; num--; focus(); }
+		if (cnt <= 0) return;
+		oldNum = num;
+		num > 0 ? num-- : num = cnt - 1; 
+		focus(); 
 	};
 
 	function focus() {
@@ -149,8 +156,11 @@ CurrentPageSearchResult = function() {
 		var bh = getBrowserHeight();
 		var item = list.get(num);
 		$("#focusedWord").html("\"" + $(item).text() + "\"");
-		if (num > 0)
-			$(list.get(oldNum)).attr("className", "jsHighlight");
+		$(list.get(oldNum)).attr("className", "jsHighlight");
 		$(item).ScrollTo(500, 'original', bh > h  ? bh/5 : 0).attr("className", "jsHighlightFocused");
 	};
 };
+
+function error(e) {
+	alert("An unexpected error occurred:\n" + "[" + e.name + ":" + e.number + "] " + e.message + "\n");
+}

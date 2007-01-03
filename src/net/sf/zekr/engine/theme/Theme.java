@@ -17,10 +17,20 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.ConfigUtils;
 
 import org.apache.commons.configuration.MapConfiguration;
 
+/**
+ * This file holds all the theme data loaded at the startup. Themes are specific directories (now on
+ * res/ui/theme/) with a theme.properties in it. When importing themes, a zip file ([theme ID].zip), is
+ * imported and extracted in theme location on base zekr installation directory, and a copy of
+ * theme.properties is copied to user's zekr home.
+ * 
+ * @author Mohsen Saboorian
+ * @since Zekr 1.0
+ */
 public class Theme {
 	private ThemeData current;
 	private Map themes = new HashMap();
@@ -54,8 +64,7 @@ public class Theme {
 	 * @throws IOException
 	 */
 	public static void save(ThemeData td) throws IOException {
-		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(
-				ApplicationPath.THEME_DIR + "/" + td.id + "/" + ApplicationPath.THEME_DESC));
+		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(Naming.THEME_PROPS_DIR + "/" + td.fileName));
 		LinkedHashMap map = new LinkedHashMap();
 		map.put("name", td.name);
 		map.put("author", td.author);

@@ -141,23 +141,21 @@ span.selectedAya {
 }
 */
 
-div.aya {
-	border-bottom: 1px solid rgb(100, 200, 250);
+div.aya, div.selectedAya {
+	border-bottom: 0.3pt solid rgb(180, 180, 180); /* dashed border in IE is shown only in the first page of printed doc! */
 	padding-right: 10px;
 	padding-left: 10px;
-	margin: 3px 0 3px 0;
+	margin: 5px 0px;
 }
-
+/*
 span.sajda#minor {
 	font-family: serif;
 	color: rgb(200, 40, 40);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.sajda#major {
 	font-family: serif;
 	color: rgb(240, 10, 10);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.juzSign {
@@ -167,7 +165,7 @@ span.juzSign {
 
 span.ayaSign {
 }
-
+*/
 span.selectedAyaSign {
 	font-weight: bold;
 }
@@ -234,7 +232,6 @@ div.searchResult {
 .searchResult a:hover { 
 	color: red;
 }
-
 .handCursor {
 	cursor: pointer;
 	cursor: hand;

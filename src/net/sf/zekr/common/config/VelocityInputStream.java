@@ -14,12 +14,11 @@ import java.io.InputStream;
 import net.sf.zekr.engine.theme.TemplateEngine;
 
 /**
- * This is a wrapper class for wrapping a velocity output result <code>String</code>
- * into an <code>InputStream</code>.
+ * This is a wrapper class for converting velocity output result <code>String</code>
+ * into a <code>{@link java.io.InputStream}</code>.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class VelocityInputStream extends InputStream {
 	private String buffer;

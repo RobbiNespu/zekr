@@ -18,20 +18,19 @@ Bug fixes:
 Version 0.2.0 b1 - [9-12-05]
 Features/Enhancements:
 	Print a Quran view
-	Search the whole Quran and also current view (a search result or a sura) with matching
-		and non-matching diacritics
-	Simple search statistics
-	Help menu: Zekr homepage, About
-	Language switch menu item for changins UI language while application is runnung through view menu
+	Search the whole Quran and also current view (a search result or a sura) with matching and non-matching diacritics
+	Simple search statistics.
+	Help menu: Zekr homepage, About.
+	Language switch menu item for changing UI language while application is running through view menu.
 	Configuration (layout, language, ...) is now saved in the xml file
 Bug fixed:
-	All misspelling for the wrong term sujda was chenged to sajda.
+	All misspelling for the wrong term sujda was changed to sajda.
 
 Version 0.2.0 b2 - [24-12-05]
 Features/Enhancements:
 	Simple Save as menu for exporting a single sura or a search result
 	Five language packs: Farsi (by Zekr team), Arabic (by Younes Moumen), English, French (by Younes Moumen), Indonesian (by Ari R. Fikri).
-	Aya navigation enhancement: choosing to show an aya will also displays some previous ays.
+	Aya navigation enhancement: choosing to show an aya will also displays some previous ayas.
 	Country flag icon for each language
 
 Version 0.2.0 release - [20-1-06]
@@ -59,7 +58,7 @@ Features/Enhancements:
 		Basic support for translation packs.
 		2 Different views for translation: 2 frames and inline.
 		Ayatollah Makarem Shirazi's translation is added under a non-commercial use license
-		A number of enhancements for bidi support for translations view
+		A number of enhancements for BIDI support for translations view
 	Theme support:
 		A basic default theme (sky) is available.
 		All themes are read at startup from [zekr]/res/theme, so every folder there is a potential theme!
@@ -96,7 +95,7 @@ Features/Enhancements:
 	All paths are now passed as URIs (instead of File.getAbsolutioPath()) to Velocity.
 	Flag icons updated to more nice looking ones.
 	Added Russian language pack (translated by Michael Kalinin).
-	3 Russian translations (Porokhova, Osmanov, and Kuliev) provided by Michael Kalinin (under a non-commercial license). Will be as translation pack in the website (not present in the default distrbution).
+	3 Russian translations (Porokhova, Osmanov, and Kuliev) provided by Michael Kalinin (under a non-commercial license). Will be as translation pack in the website (not present in the default distribution).
 	The Quran text file completely changed from the old one to a more accurate one (after finding two typos in the old text file)
 	View>Language moved to Tools>Options form, and now has a more nice look.
 	View>Theme moved to Tools>Options form.
@@ -125,7 +124,7 @@ Features/Enhancements:
 	Small optional sura-aya sign added to view (after each aya)
 Bug fixes:
 	Using java.net.URI for making "file://" paths causes problems with IE 7.0, will make URIs manually (UriUtils class).
-	zekr.exe JVM checking chaged as follows: 1. JAVA_HOME 2. JDK in registry 3. JRE in registry.
+	zekr.exe JVM checking changed as follows: 1. JAVA_HOME 2. JDK in registry 3. JRE in registry.
 	Theme's cached style.css will not be deleted every time Zekr starts.
 	style.css: "text-align: justify" will be ignored for Mozilla (due to its rendering problem). It now works only for IE now.
 
@@ -171,11 +170,11 @@ Bug fixes:
 	Typo in makarem.txt (33-32): ÂäÇä which should be ÒäÇä
 	Typo in makarem.txt (33-50): Ñä which should be Òä
 
-Version 0.5.0 release - [20-12-06]
+Version 0.5.0 b1 - [23-12-06]
 Features/Enhancements:
 	Add>Translation and Add>Theme can import multiple files now.
 	linux-run.sh updated.
-	lang="fa/en/ar/.." in HTML genereted, for Quran and translation text.
+	lang="fa/en/ar/.." in HTML generated, for Quran and translation text.
 	Next/Previous buttons for current page searches + showing current search result in the sura-nav bar
 	Bookmark management (Bookmark menu):
 		Add/Delete/Update bookmarks
@@ -184,19 +183,62 @@ Features/Enhancements:
 		User can navigate to each bookmark item's Quran location.
 		Bookmarks are directly accessible through Bookmark menu.
 		Menu items change from open to close folder (and reversely) if menu groups or tree group toggles.
+		Full drag and drop support for folders and items.
 	StringUtils.abbreviate(GlobalConfig.MAX_MENU_STRING_LENGTH) is used to shorten large menu item names (which are usually user defined: bookmarks, translation names, ...).
 	Enhanced printing support:
 		3 CSS defined: common-style.css for common rules, print-style.css for printing stylesheet, and
 		               screen-style.css for normal application on a monitor.
-		CSS rules customized for Search view and Sura view (for better printing)
-		A watermark added to printing view (at the bottom of the page); can be removed through a style property
+		CSS rules customized for Search view and Sura view (for better printing).
+		A watermark added to printing view (at the bottom of the page); can be removed through a style property.
+	run.bat, linux-run.sh, and mac-run.sh updated (for possibly insufficient memory problem).
+	Logger.log(), updated and now can be used instead of implicitLog(), even when ApplicationConfig is not initialized.
+	Zekr version added to about dialog.
+	Debian-compliant (originally for Ubuntu) package created by Mohammad Derakhshani.
+	Goto random aya menu item added. 
 Bug fixes:
 	display.getActiveShell() which caused problem on Linux, changed to display.getShells()[0]
+	XmlReader c'tor changed to parse a java.io.File instead of path to that file (sometimes path is not in URI format, which causes errors in JDK 6.0)
+	Remove button for search scope table items made disabled when no item is selected.
+	On layout change, all visible browsers are reloaded.
+	Copy each theme.properties to a ~/.zekr/theme
+	Styles should be copied into  ~/.zekr/theme, not ~/.zekr/cache
 
+Version 0.5.0 b2 - [10-1-07]
+Features/Enhancements:
+	There is now an Ant build file for building sources on Linux, Windows and Mac.
+	About form made cleaner: layout and arrangement + Zekr small image
+	Import theme/translation asks for who to import: 1. all users, 2. me only.
+	       If me only is selected, imports selected resources to ~/.zekr/somewhere, 
+	       otherwise the resource will be copied into the mail installation directory.
+	One can have translations in [zekr]/res/text/trans as well as ~/.zekr/trans. List of the latter translations is added to the first one, and hence overriding duplicates.
+	One can have themes in [zekr]/res/ui/theme as well as ~/.zekr/theme. List of the latter themes is added to the first one, and hence overriding duplicates.
+	A menu item for sura properties table to copy its content.
+	Hizb signs: hizb sign is shown at the end of each hizb quarter. 
+Bug fixes:
+	Yes/No dialog on removing view props does nothing if user closes it.
+	Bug in loading translation data, method loadTranslation() fixed.
+	Integer.valueOf(int) changed to new Integer(int), since the method was introduced in 1.5.
+	StatusListener replaced with TitleListener, so that Firefox on Linux works.
+
+	TODO: Save as.. buttons on search result on linux
+	TODO: Save as.. should export something completely
+	TODO: Save as.. should have another CSS
+
+	TODO: different config.properties for Linux, Windows and Mac distributions.
+	
+	TODO: Multilingual translations for sura names on combos (an option should also be added to options menu).
 
 	TODO: Quran transliteration
 	TODO: Update language packs
-	TODO: lang="fa/en/ar/.." in HTML genereted, for multilinguality!
+	TODO: lang="fa/en/ar/.." in HTML generated, for multilinguality!
 	TODO: Navigation button for "current page" search result.
 	TODO: Add version to about form.
 	TODO: Import/Export bookmarks
+	TODO: Mohsin Khan's English translation.
+	TODO: Add transliteration
+	TODO: Store search scopes, so that the next time it loads previous settings
+	
+	TODO: Change all menu items "Xxxx yyy zzz" string in UI which belongs to "Xxxx Yyy Zzz"
+	TODO: Add a stand-alone (no dependency to ApplicationConfig) Error Form to show startup errors
+
+	TODO: Zekr seems not work when there is no translation.

@@ -83,6 +83,8 @@
 			<text id="RTL"      value="Right to left" />
 			<text id="LTR"      value="Left to right" />
 			<text id="AUTHOR"   value="Author" />
+			<text id="VERSION"  value="Version" />
+			<text id="RANDOM_AYA" value="Random aya" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -90,6 +92,8 @@
 			<text id="AYA"      value="Aya" />
 			<text id="SAJDA"    value="Sajda" />
 			<text id="JUZ"      value="Juz" />
+			<text id="HIZB"     value="Hizb" />
+			<text id="QUARTER"  value="Quarter" />
 			<text id="MAKKI"    value="Makki" />
 			<text id="MADANI"   value="Madani" />
 			<text id="DESCENT"  value="Descent" />
@@ -112,7 +116,7 @@
 			<text id="YES_NO" value="Are you sure?" />
 		</confirm>
 		<error>
-			<text id="GENERAL_ERROR" value="An unexpected error occured" />
+			<text id="GENERAL_ERROR" value="An unexpected error occurred" />
 			<text id="ACTION_FAILED" value="Action failed!" />
 		</error>
 		<tooltip>
@@ -153,19 +157,28 @@
 		<form id="MANAGE_SCOPES_FORM">
 			<text id="TITLE" value="Edit Search Scopes" />
 		</form>
-		<form id="BOOKMARKS_FORM">
-			<text id="TITLE" value="Manage bookmarks" />
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="Manage bookmark sets" />
 			<text id="NEW_BOOKMARK_FOLDER" value="New bookmark folder" />
 			<text id="NEW_BOOKMARK_ITEM" value="New bookmark item" />
+			<text id="UNIQUE_NAME" value="A unique name" />
+			<text id="COMMA_SEPARATED" value="Use comma separated values, if there are more than one author" />
+			<text id="ONLY_ENGLISH" value="Use only English names (e.g. English, Farsi, Arabic, ...)" />
+			<text id="DESC_TOOLTIP" value="Conventions, quotes, references, and other bookmark-related topics go here" />
 		</form>
-		<form id="BOOKMARKS_SET_FORM">
-			<text id="TITLE" value="Manage bookmarks sets" />
+		<form id="BOOKMARK_SET_GROUP_FORM">
+			<text id="TITLE" value="Manage bookmark set groups" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Edit bookmark properties" />
 			<text id="QURAN_LOCATIONS" value="Quran locations" />
 			<text id="NEW_BOOKMARK" value="New Bookmark" />
 			<text id="NEW_FOLDER" value="New Folder" />
+		</form>
+		<form id="IMPORT_QUESTION">
+			<text id="IMPORT_FOR" value="Import for the following users:" />
+			<text id="ME_ONLY" value="Me only" />
+			<text id="ALL_USERS" value="All users (requires write access to installation directory)" />
 		</form>
 	</forms>
 </language>

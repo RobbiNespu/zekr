@@ -25,9 +25,8 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import net.sf.zekr.common.ZekrBaseException;
 import net.sf.zekr.common.resource.QuranLocation;
-import net.sf.zekr.common.resource.Translation;
-import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.runtime.RuntimeConfig;
@@ -40,6 +39,8 @@ import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
+import net.sf.zekr.engine.translation.Translation;
+import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.engine.xml.XmlReader;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -74,7 +75,7 @@ public class ApplicationConfig extends ConfigNaming {
 	private QuranLocation quranLocation;
 	private PropertiesConfiguration props;
 	private BookmarkSet bookmarkSet;
-	private BookmarkSetGroup bookmarkSetGroup;
+	private BookmarkSetGroup bookmarkSetGroup = new BookmarkSetGroup();
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -83,13 +84,19 @@ public class ApplicationConfig extends ConfigNaming {
 		// quranElem = configReader.getElement(QURAN_TAG);
 		// viewElem = configReader.getElement(VIEW_TAG);
 		// transElem = configReader.getElement(TRANSLATIONS_TAG);
+		runtime = new ApplicationRuntime();
+		try {
+			runtime.configureDirectories();
+		} catch (IOException e) {
+			logger.log(e);
+		}
+
 		loadConfig();
 		loadBookmarkSetGroup();
 		extractLangProps();
 		extractRuntimeConfig();
 		extractTransProps();
 		extractViewProps();
-		runtime = new ApplicationRuntime();
 		logger.info("Application configurations initialized.");
 	}
 
@@ -119,7 +126,7 @@ public class ApplicationConfig extends ConfigNaming {
 		}
 		try {
 			InputStream fis = new FileInputStream(conf);
-			Reader reader = new InputStreamReader(fis, "UTF8");
+			Reader reader = new InputStreamReader(fis, "utf-8");
 			props = new PropertiesConfiguration();
 			props.load(reader);
 			if (!GlobalConfig.ZEKR_VERSION.equals(props.getString("version"))) {
@@ -128,14 +135,14 @@ public class ApplicationConfig extends ConfigNaming {
 						+ ApplicationPath.MAIN_CONFIG);
 				conf = ApplicationPath.MAIN_CONFIG;
 				fis = new FileInputStream(conf);
-				reader = new InputStreamReader(fis, "UTF8");
+				reader = new InputStreamReader(fis, "utf-8");
 				props = new PropertiesConfiguration();
 				props.load(reader);
 				createConfig = true;
 			}
 		} catch (Exception e) {
 			logger.warn("IO Error in loading/reading config file " + ApplicationPath.MAIN_CONFIG);
-			logger.implicitLog(e);
+			logger.log(e);
 		}
 
 		if (createConfig)
@@ -143,29 +150,39 @@ public class ApplicationConfig extends ConfigNaming {
 	}
 
 	private void loadBookmarkSetGroup() {
-		File bookmarkDir = new File(Naming.BOOKMARK_PATH);
+		File bookmarkDir = new File(Naming.BOOKMARK_DIR);
+		File origBookmarkDir = new File(ResourceManager.getInstance().getString("bookmark.baseDir"));
 
-		// bookmarks
-		try {
-			File bmDir = new File(Naming.BOOKMARK_PATH);
-			if (!bmDir.exists() || !bmDir.isDirectory() || bmDir.list().length == 0)
-				FileUtils.deleteDirectory(bmDir);
-				FileUtils.copyDirectory(new File(ResourceManager.getInstance().getString("bookmark.baseDir")), 
-						bmDir);
-		} catch (IOException e) {
-			logger.implicitLog(e);
-		}
-		
-		FileFilter filter = new FileFilter() { // accept xml files
+		FileFilter xmlFilter = new FileFilter() { // accept xml files
 			public boolean accept(File pathname) {
 				if (pathname.getName().toLowerCase().endsWith(".xml"))
 					return true;
 				return false;
 			}
 		};
-		File[] bookmarkSets = bookmarkDir.listFiles(filter);
+
+		// bookmarks
+		try {
+			if (!bookmarkDir.exists() || !bookmarkDir.isDirectory()) {
+				logger.info("Copy all bookmarks to " + Naming.BOOKMARK_DIR);
+				FileUtils.copyDirectory(origBookmarkDir, bookmarkDir);
+			} else {
+				File[] origs = origBookmarkDir.listFiles(xmlFilter);
+				for(int i = 0; i < origs.length; i++) {
+					File destFile = new File(bookmarkDir + "/" + origs[i].getName());
+					if (!destFile.exists()) {
+						logger.info("Copy bookmark " + origs[i] + " to " + Naming.BOOKMARK_DIR);
+						FileUtils.copyFile(origs[i], destFile);
+					}
+				}
+			}
+		} catch (IOException e) {
+			logger.log(e);
+		}
+		
+		File[] bookmarkSets = bookmarkDir.listFiles(xmlFilter);
 		for (int i = 0; i < bookmarkSets.length; i++) {
-			bookmarkSetGroup.addBookmarkSet(new BookmarkSet(bookmarkSets[i]));
+			bookmarkSetGroup.addBookmarkSet(new BookmarkSet(Naming.BOOKMARK_DIR + "/" + bookmarkSets[i].getName()));
 		}
 		String def = props.getString("bookmark.default");
 		bookmarkSetGroup.setAsDefault(def);
@@ -190,13 +207,13 @@ public class ApplicationConfig extends ConfigNaming {
 	}
 
 	/**
-	 * Save properties configuration file, wich was read into <code>props</code>, to
-	 * <code>ApplicationPath.USER_CONFIGwh</code>.
+	 * Save properties configuration file, which was read into <code>props</code>, to
+	 * <code>ApplicationPath.USER_CONFIG</code>.
 	 */
 	public void saveConfig() {
 		try {
 			logger.info("Save user config file to " + ApplicationPath.USER_CONFIG);
-			props.save(new OutputStreamWriter(new FileOutputStream(ApplicationPath.USER_CONFIG), "UTF8"));
+			props.save(new OutputStreamWriter(new FileOutputStream(ApplicationPath.USER_CONFIG), "utf-8"));
 		} catch (Exception e) {
 			logger.error("Error while saving config to " + ApplicationPath.USER_CONFIG);
 		}
@@ -275,79 +292,105 @@ public class ApplicationConfig extends ConfigNaming {
 	}
 
 	/**
-	 * This method extracts translation properties from the corresponding node in the config file.
+	 * This method extracts translation properties from the corresponding node in the config file.<br>
+	 * Will first look inside global translations, and then user-specific ones, overwriting global
+	 * translations with user-defined ones if duplicates found.
 	 */
 	private void extractTransProps() {
 		String def = props.getString("trans.default");
-		File transDir = new File(ApplicationPath.TRANSLATION_DIR);
-		logger.info("Loading translation files info from \"" + transDir + "\".");
 		logger.info("Default translation is " + def);
-		FileFilter filter = new FileFilter() { // accept zip files
-			public boolean accept(File pathname) {
-				if (pathname.getName().toLowerCase().endsWith(".zip"))
-					return true;
-				return false;
-			}
-		};
-		File[] trans = transDir.listFiles(filter);
 
-		TranslationData td;
-		ZipFile zipFile = null;
-		for (int i = 0; i < trans.length; i++) {
-			try {
-				zipFile = new ZipFile(trans[i]);
-				InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.TRANSLATION_DESC));
-				if (is == null) {
-					logger.warn("Will ignore invalid translation archive \"" + zipFile.getName() + "\".");
-					continue;
+		String[] paths = { ApplicationPath.TRANSLATION_DIR, Naming.TRANS_DIR };
+		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
+
+			File transDir = new File(paths[pathIndex]);
+			logger.info("Loading translation files info from \"" + transDir);
+			FileFilter filter = new FileFilter() { // accept zip files
+				public boolean accept(File pathname) {
+					if (pathname.getName().toLowerCase().endsWith(".zip"))
+						return true;
+					return false;
 				}
-				Reader reader = new InputStreamReader(is, "UTF8");
-				PropertiesConfiguration pc = new PropertiesConfiguration();
-				pc.load(reader);
-				td = new TranslationData();
-				td.id = pc.getString(ID_ATTR);
-				td.locale = new Locale(pc.getString(LANG_ATTR), pc.getString(COUNTRY_ATTR));
-				td.encoding = pc.getString(ENCODING_ATTR);
-				td.direction = pc.getString(DIRECTION_ATTR);
-				td.file = pc.getString(FILE_ATTR);
-				td.name = pc.getString(NAME_ATTR);
-				td.localizedName = pc.getString(LOCALIZED_NAME_ATTR);
-				td.archiveFile = zipFile;
-				td.lineDelimiter = pc.getString(LINE_DELIMITER_ATTR);
-				if (td.localizedName == null)
-					td.localizedName = td.name;
+			};
+			File[] trans = transDir.listFiles(filter);
 
-				translation.add(td);
-				if (td.id.equals(def))
-					translation.setDefault(td);
+			TranslationData td;
+			ZipFile zipFile = null;
+			for (int transIndex = 0; transIndex < trans.length; transIndex++) {
+				try {
+					zipFile = new ZipFile(trans[transIndex]);
+					InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.TRANSLATION_DESC));
+					if (is == null) {
+						logger.warn("Will ignore invalid translation archive \"" + zipFile.getName() + "\".");
+						continue;
+					}
+					Reader reader = new InputStreamReader(is, "utf-8");
+					PropertiesConfiguration pc = new PropertiesConfiguration();
+					pc.load(reader);
+					td = new TranslationData();
+					td.id = pc.getString(ID_ATTR);
+					td.locale = new Locale(pc.getString(LANG_ATTR), pc.getString(COUNTRY_ATTR));
+					td.encoding = pc.getString(ENCODING_ATTR);
+					td.direction = pc.getString(DIRECTION_ATTR);
+					td.file = pc.getString(FILE_ATTR);
+					td.name = pc.getString(NAME_ATTR);
+					td.localizedName = pc.getString(LOCALIZED_NAME_ATTR);
+					td.archiveFile = zipFile;
+					td.lineDelimiter = pc.getString(LINE_DELIMITER_ATTR);
+					if (td.localizedName == null)
+						td.localizedName = td.name;
 
-			} catch (Exception e) {
-				logger.warn("Can not load translation pack \"" + zipFile
-						+ "\" properly because of the following exception:");
-				logger.implicitLog(e);
+					translation.add(td);
+					if (td.id.equals(def)) {
+						translation.setDefault(td);
+					}
+
+				} catch (Exception e) {
+					logger.warn("Can not load translation pack \"" + zipFile
+							+ "\" properly because of the following exception:");
+					logger.log(e);
+				}
 			}
+		}
+		if (translation.getDefault() == null) {
+			logger.doFatal(new ZekrBaseException("Could not find default translation: " + def));
 		}
 	}
 
 	private void extractViewProps() {
-		String def = props.getString("theme.default");
-		File themeDir = new File(ApplicationPath.THEME_DIR);
-		logger.info("Loading theme files info from \"" + themeDir + "\".");
-		File[] themes = themeDir.listFiles();
 		ThemeData td;
-
 		Reader reader;
-		for (int i = 0; i < themes.length; i++) {
-			if (themes[i].isFile()) {
+		String def = props.getString("theme.default");
+		logger.info("Loading theme properties files.");
+
+		String[] paths = {ApplicationPath.THEME_DIR, Naming.THEME_DIR};
+		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
+
+
+		File targetThemeDir = new File(Naming.THEME_PROPS_DIR);
+//		if (!targetThemeDir.exists())
+//			targetThemeDir.mkdir();
+		logger.info("Loading theme files info from \"" + paths[pathIndex]);
+		File[] targetThemes = targetThemeDir.listFiles();
+
+		File origThemeDir = new File(paths[pathIndex]);
+		File[] origThemes = origThemeDir.listFiles();
+		for (int i = 0; i < origThemes.length; i++) {
+			String targetThemeDesc = Naming.THEME_PROPS_DIR + "/" + origThemes[i].getName() + ".properties";
+			File origThemeDesc = new File(origThemes[i] + "/" + ApplicationPath.THEME_DESC);
+			File targetThemeFile = new File(targetThemeDesc);
+
+			if (!origThemeDesc.exists()) {
+				logger.warn("\"" + origThemes[i] + "\" is not a standard theme! Will ignore it.");
 				continue;
 			}
+
 			try {
-				File themeDesc = new File(themes[i] + File.separator + ApplicationPath.THEME_DESC);
-				if (!themeDesc.exists()) {
-					logger.warn("\"" + themes[i] + "\" is not a standard theme! Will ignore it.");
-					continue;
+				if (!targetThemeFile.exists()) {
+					logger.info("Copy theme " + origThemes[i].getName() + " to " + Naming.THEME_PROPS_DIR);
+					FileUtils.copyFile(origThemeDesc, targetThemeFile);
 				}
-				reader = new InputStreamReader(new FileInputStream(themeDesc), "UTF8");
+				reader = new InputStreamReader(new FileInputStream(targetThemeFile), "utf-8");
 				PropertiesConfiguration pc = new PropertiesConfiguration();
 				pc.load(reader);
 				td = new ThemeData();
@@ -358,7 +401,8 @@ public class ApplicationConfig extends ConfigNaming {
 				}
 				td.author = pc.getString("author");
 				td.name = pc.getString("name");
-				td.id = themes[i].getName();
+				td.id = origThemes[i].getName();
+				td.fileName = targetThemeFile.getName();
 				td.props.remove("author");
 				td.props.remove("name");
 
@@ -366,18 +410,18 @@ public class ApplicationConfig extends ConfigNaming {
 				td.process(getTranslation().getDefault().locale.getLanguage());
 
 				theme.add(td);
-				logger.info("Theme \"" + td + "\" was loaded successfully.");
+
 				if (td.id.equals(def))
 					theme.setCurrent(td);
 			} catch (Exception e) {
-				logger.warn("Can not load theme \"" + themes[i].getName()
-						+ "\" properly because of the following exception:");
-				logger.implicitLog(e);
+				logger.warn("Can not load theme \"" + targetThemes[i].getName()
+						+ "\", because of the following exception:");
+				logger.log(e);
 			}
 		}
+		}
 		if (theme.getCurrent() == null) {
-			logger.warn("No default theme was set in main configuration file.");
-			theme.setCurrent(theme.get("default")); // FIXME ?!!
+			logger.doFatal(new ZekrBaseException("Could not find default theme: " + def));
 		}
 	}
 
@@ -428,9 +472,9 @@ public class ApplicationConfig extends ConfigNaming {
 		// transElem.setAttribute(DEFAULT_ATTR, transId);
 	}
 
-	public static String getQuranTrans(String name) {
-		return ApplicationPath.TRANSLATION_DIR + "/" + name;
-	}
+//	public static String getQuranTrans(String name) {
+//		return ApplicationPath.TRANSLATION_DIR + "/" + name;
+//	}
 
 	public String getViewProp(String propKey) {
 		// return (String) theme.commonProps.get(propKey);
@@ -521,8 +565,19 @@ public class ApplicationConfig extends ConfigNaming {
 		this.runtime = runtime;
 	}
 
+	public BookmarkSetGroup getBookmarkSetGroup() {
+		return bookmarkSetGroup;
+	}
+
 	public BookmarkSet getBookmark() {
-		return bookmarkSet;
+		return bookmarkSetGroup.getDefault();
+	}
+
+	/**
+	 * @return <code>true</code> if an instance of this class is initialized, and <code>false</code> otherwise.
+	 */
+	public static boolean isFullyInitialized() {
+		return thisInstance != null;
 	}
 
 }

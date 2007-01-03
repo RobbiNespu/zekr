@@ -191,11 +191,30 @@ Finder.prototype.find = function(str) {
 
 find = function(str, matchDiac, matchCase) {
 	if (matchCase === undefined) matchCase = false;
+
+	$("span.jsHighlight").each(function() {
+		var p = $(this).parent().eq(0);
+		p.after(p.text()).remove();
+	});
+	$("span.jsHighlight").each(function() {
+		$(this).after($(this).text()).remove();
+	});
+	$("span.jsHighlightFocused").each(function() {
+		var p = $(this).parent().eq(0);
+		p.after(p.text()).remove();
+	});
+	$("span.jsHighlightFocused").each(function() {
+		$(this).after($(this).text()).remove();
+	});
+
+//	$("span.jsHighlightFocused").removeClass("jsHighlightFocused");
+//	$("span.jsHighlight").removeClass("jsHighlight");
+
 	var finder = new Finder(matchDiac, matchCase);
 	finder.find(str);
 
 	// reveal next-prev buttons (if possible: this is not possible in a whole-quran search view)
 	$("#nextPrevButtons").show("", new function() {
-		$("#nextPrevButtons").attr("_res", new CurrentPageSearchResult());
+		$("#nextPrevButtons")[0]._res = new CurrentPageSearchResult();
 	});
 };

@@ -25,7 +25,8 @@ public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 	public String transform() {
 		String retStr = null;
 		try {
-			engine.put("JUZ_LIST", QuranPropertiesUtils.getJuzInsideList(suraNum));
+			engine.put("JUZ_LIST", QuranPropertiesUtils.getJuzInsideSura(suraNum));
+			engine.put("ALL_JUZ_LIST", QuranPropertiesUtils.getSuraJuzAsList(suraNum));
 			engine.put("SAJDA_LIST", QuranPropertiesUtils.getSajdaInsideList(suraNum));
 			engine.put("SURA_NUM", new Integer(suraNum)); // Note: suraNum is counted from 1
 			engine.put("AYA_NUM", new Integer(ayaNum)); // Note: ayaNum is counted from 1
@@ -35,7 +36,7 @@ public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 			engine.put("AYA_MSG", langEngine.getMeaning("AYA"));
 			engine.put("PREV", langEngine.getMeaning("PREVIOUS"));
 			engine.put("NEXT", langEngine.getMeaning("NEXT"));
-			engine.put("TITLE", "");
+			engine.put("TITLE", langEngine.getMeaning("SURA") + ": " + QuranProperties.getInstance().getSura(suraNum).getName()); // the same as SURA_NAME
 
 			retStr = engine.getUpdated(resource.getString("theme.sura", new String[] { config.getTheme()
 					.getCurrent().id }));

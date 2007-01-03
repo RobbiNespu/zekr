@@ -11,7 +11,9 @@ package net.sf.zekr.engine.log;
 
 import java.io.File;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.runtime.Naming;
+import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.ui.error.ErrorForm;
 
 import org.apache.log4j.Level;
@@ -20,6 +22,8 @@ import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.swt.widgets.Display;
 
 /**
+ * Zekr default logger wrapper class for Log4J library.
+ * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
@@ -54,18 +58,16 @@ public class Logger {
 	}
 
 	/**
-	 * dumps all neccessary system properties.
+	 * Dumps all necessary system properties.
 	 */
 	private void sysInfo() {
 		String n = System.getProperty("line.separator");
 		logger.info("System information:" + "\n" + "OS info:\t\t" + System.getProperty("os.name") + " - "
-				+ System.getProperty("os.version") + " - " + System.getProperty("os.arch") + n
-				+ "JVM info:\t\t" + System.getProperty("java.runtime.name") + " - "
-				+ System.getProperty("java.vm.specification.vendor") + " - "
-				+ System.getProperty("java.version") + n + "User info:\t\t" + System.getProperty("user.home")
+				+ System.getProperty("os.version") + " - " + System.getProperty("os.arch") + n + "JVM info:\t\t"
+				+ System.getProperty("java.runtime.name") + " - " + System.getProperty("java.vm.specification.vendor")
+				+ " - " + System.getProperty("java.version") + n + "User info:\t\t" + System.getProperty("user.home")
 				+ " - " + System.getProperty("user.dir") + " - " + System.getProperty("user.language") + "-"
-				+ System.getProperty("user.country") + n + "Encoding info:\t"
-				+ System.getProperty("file.encoding"));
+				+ System.getProperty("user.country") + n + "Encoding info:\t" + System.getProperty("file.encoding"));
 	}
 
 	/**
@@ -114,6 +116,12 @@ public class Logger {
 	}
 
 	/**
+	 * This method logs <code>msg.toString()</code> if msg is not of type
+	 * <code>{@link java.lang.Throwable}</code> (exception). If the msg is in fact a <code>Throwable</code>
+	 * object, it logs it as an error message implicitly. Then if
+	 * <code>ApplicationConfig.isFullyInitialized()</code>, it brings up an error dialog and show the
+	 * exception to user.
+	 * 
 	 * @param msg any object of type <code>String</code> or <code>Throwable</code>
 	 */
 	final public void log(Object msg) {
@@ -138,7 +146,7 @@ public class Logger {
 			logger.log(Priority.ERROR, STACK_TRACE_INDENRAION + elements[i].toString());
 		}
 		logger.log(level, "[/\"" + th.toString() + "\"]");
-		if (showForm) {
+		if (showForm && ApplicationConfig.isFullyInitialized()) {
 			ErrorForm ef = new ErrorForm(Display.getCurrent(), th);
 			ef.show();
 		}
@@ -161,8 +169,7 @@ public class Logger {
 	 * @param th throwable object
 	 */
 	public void doFatal(Throwable th) {
-		logException(Level.FATAL, th, false);
+		logException(Level.FATAL, th, true);
 		Runtime.getRuntime().exit(1);
 	}
-
 }

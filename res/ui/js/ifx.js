@@ -10,17 +10,20 @@
  *   
  * $Revision$
  * $Log$
+ * Revision 1.2  2007/01/03 12:14:28  mohsen_s
+ * *** empty log message ***
+ *
  * Revision 1.1  2006/09/23 07:51:00  mohsen_s
  * *** empty log message ***
  *
  * Revision 1.10  2006/09/01 21:23:51  Stef
- * Fixed geting the sizes of the lement to wrap
+ * Fixed getting the sizes of the element to wrap
  *
  * Revision 1.9  2006/08/31 16:08:15  Stef
- * Added dual licencing
+ * Added dual licensing
  *
  * Revision 1.8  2006/08/29 18:46:32  Stef
- * Changed the way fx wrapper is destoyed. first apply old style, then move element
+ * Changed the way fx wrapper is destroyed. first apply old style, then move element
  *
  * Revision 1.7  2006/08/27 19:05:55  Stef
  * *** empty log message ***

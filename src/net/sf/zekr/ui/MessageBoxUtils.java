@@ -12,11 +12,16 @@ import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.language.LanguageEngine;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -48,41 +53,40 @@ public class MessageBoxUtils {
 	}
 
 	public static boolean yesNoQuestion(String msg, String title) {
-		MessageBox mb = new MessageBox(getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION
-				| dict.getSWTDirection());
+		MessageBox mb = new MessageBox(getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION | dict.getSWTDirection());
 		mb.setMessage(msg);
 		mb.setText(title);
-		if (mb.open() == SWT.NO)
-			return false;
-		return true;
+		if (mb.open() == SWT.YES)
+			return true;
+		return false;
 	}
 
+	// TODO: not a good idea!
 	private static String _ret;
 
 	public static String textBoxPrompt(String question, String title) {
 		Shell parent = getShell();
-		
-		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL
-				| dict.getSWTDirection());
+
+		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | dict.getSWTDirection());
 		shell.setImage(parent.getDisplay().getSystemImage(SWT.ICON_QUESTION));
 		shell.setText(title);
 		shell.setLayout(new FillLayout());
-//		shell.setSize(400, 150);
-		
+		// shell.setSize(400, 150);
+
 		GridLayout gl = new GridLayout(2, false);
 		Composite c = new Composite(shell, SWT.NONE);
 		c.setLayout(gl);
-//		RowData rd = new RowData();
-//		rd.width = 300;
-//		c.setLayoutData(rd);
-		
+		// RowData rd = new RowData();
+		// rd.width = 300;
+		// c.setLayoutData(rd);
+
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gd.horizontalSpan = 2;
 
 		Label label = new Label(c, SWT.NONE);
 		label.setText(question);
 		label.setLayoutData(gd);
-		
+
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gd.horizontalSpan = 2;
 		gd.widthHint = 200;
@@ -134,65 +138,128 @@ public class MessageBoxUtils {
 
 		return _ret;
 	}
-/*
-	public static String textBoxPrompt(String question, String title) {
+
+	static int __ret;
+
+	/**
+	 * @param options answer options
+	 * @param question the string to be placed as a question on the top of the dialog
+	 * @param title the text to be displayed as a title of this dialog
+	 * @return -1 if nothing was selected, or dialog closed/cancelled, or a 0-base selected item number
+	 */
+	public static int radioQuestionPrompt(String[] options, String question, String title) {
 		Shell parent = getShell();
-		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL
-				| dict.getSWTDirection());
+		Display display = parent.getDisplay();
+
+		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | dict.getSWTDirection());
 		shell.setImage(parent.getDisplay().getSystemImage(SWT.ICON_QUESTION));
 		shell.setText(title);
-		// shell.setLayout(new RowLayout(SWT.VERTICAL));
+		shell.setLayout(new FillLayout());
 
-		Label label = new Label(shell, SWT.LEAD);
-		label.setText(question);
-		label.setBounds(10, 10, 300, 20);
-		final Text text = new Text(shell, SWT.BORDER | SWT.SINGLE);
-		text.setBounds(40, 40, 220, 20);
+		GridLayout gl = new GridLayout(2, false);
+		Composite c = new Composite(shell, SWT.NONE);
+		c.setLayout(gl);
 
-		new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
+		Composite imageComp = new Composite(c, SWT.NONE);
+		final Image img = display.getSystemImage(SWT.ICON_QUESTION);
+		GridData gd = new GridData(GridData.CENTER);
+		int h = img.getBounds().height;
+		gd.heightHint = h;
+		gd.widthHint = img.getBounds().width;
+		gd.verticalIndent = gd.horizontalIndent = 6;
+		imageComp.setToolTipText(dict.getMeaning("APP_NAME"));
+		imageComp.setLayoutData(gd);
+		imageComp.setBounds(img.getBounds());
+		imageComp.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent e) {
+				e.gc.drawImage(img, 0, 0);
+			}
+		});
 
-		GridData gd = new GridData();
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL);
+		gd.verticalIndent = gd.horizontalIndent = 15;
+		Label l = new Label(c, SWT.NONE);
+		l.setText(question);
+		l.setLayoutData(gd);
+
+		final Button buts[] = new Button[options.length];
+		for (int i = 0; i < options.length; i++) {
+			gd = new GridData();
+			gd.horizontalIndent = 10;
+			if (i == 0)
+				gd.verticalIndent = 10;
+			else
+				gd.verticalIndent = 2;
+			gd.horizontalSpan = 2;
+
+			buts[i] = new Button(c, SWT.RADIO);
+			buts[i].setText(options[i]);
+			buts[i].setLayoutData(gd);
+		}
+
+		if (buts.length > 0)
+			buts[0].setSelection(true);
+
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalAlignment = SWT.TRAIL;
 		gd.horizontalSpan = 2;
-		gd.horizontalAlignment = SWT.END;
+		gd.verticalIndent = 5;
 
-		Button ok = new Button(shell, SWT.PUSH);
-		ok.setBounds(150, 70, 55, 22);
-		ok.setText(dict.getMeaning("OK"));
+		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
+
+		Composite butComposite = new Composite(c, SWT.NONE);
+		butComposite.setLayout(rl);
+		butComposite.setLayoutData(gd);
+
+		RowData rd = new RowData();
+		rd.width = 80;
+		Button ok = new Button(butComposite, SWT.NONE);
+		ok.setText("&" + dict.getMeaning("OK"));
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				_ret = text.getText();
+				for (int i = 0; i < buts.length; i++) {
+					if (buts[i].getSelection()) {
+						__ret = i;
+						break;
+					}
+				}
 				shell.close();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
+				this.widgetSelected(e);
 			}
 		});
-		shell.setDefaultButton(ok);
+		ok.setLayoutData(rd);
 
-		Button cancel = new Button(shell, SWT.PUSH);
-		cancel.setBounds(90, 70, 55, 22);
-		cancel.setText(dict.getMeaning("CANCEL"));
+		rd = new RowData();
+		rd.width = 80;
+		Button cancel = new Button(butComposite, SWT.NONE);
+		cancel.setText("&" + dict.getMeaning("CANCEL"));
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				__ret = -1;
 				shell.close();
 			}
 		});
+		cancel.setLayoutData(rd);
 
-		_ret = null;
-		shell.setSize(300, 135);
+		__ret = -1;
+
+		shell.pack();
+		if (shell.getSize().x < 350)
+			shell.setSize(350, shell.getSize().y);
 		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.open();
-
 		while (!shell.isDisposed()) {
-			if (!shell.getDisplay().readAndDispatch()) {
-				shell.getDisplay().sleep();
+			if (!display.readAndDispatch()) {
+				display.sleep();
 			}
 		}
 
-		return _ret;
+		return __ret;
 	}
-*/
+
 	private static Shell getShell() {
 		// This causes bug on Linux
 		// return Display.getCurrent().getActiveShell();

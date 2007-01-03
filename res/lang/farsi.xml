@@ -67,23 +67,40 @@
 			<text id="QUESTION" value="سؤال" />
 			<text id="FONT"     value="قلم" />
 			<text id="GENERAL"  value="عمومی" />
+			<text id="EXIT"     value="خروج" />
 			<text id="EXCLUDE"  value="استثنا" />
 			<text id="TRUE"     value="درست" />
 			<text id="FALSE"    value="نادرست" />
-			<text id="EXIT"     value="خروج" />
+			<text id="SELECT"   value="انتخاب" />
+			<text id="EXPORT"   value="صادر" />
+			<text id="IMPORT"   value="وارد" />
+			<text id="DESCRIPTION" value="توضیحات" />
+			<text id="BOOKMARKS" value="نشان‌ها" />
+			<text id="CONFIGURE" value="تنظیم" />
+			<text id="CONFIGURE_BOOKMARK_SETS" value="تنظیم مجموعه نشان‌ها" />
+			<text id="DIRECTION" value="جهت" />
+			<text id="LANG_DIRECTION" value="جهت زبان" />
+			<text id="RTL"      value="راست به چپ" />
+			<text id="LTR"      value="چپ به راست" />
+			<text id="AUTHOR"   value="نویسنده" />
+			<text id="VERSION"  value="نسخه" />
+			<text id="RANDOM_AYA" value="آیه‌ی تصادفی" />
 		</common>
 		<special>
 			<text id="QURAN"    value="قرآن" />
-			<text id="SURA"    value="سوره" />
+			<text id="SURA"     value="سوره" />
 			<text id="AYA"      value="آیه" />
 			<text id="SAJDA"    value="سجده" />
 			<text id="JUZ"      value="جزء" />
+			<text id="HIZB"     value="حزب" />
+			<text id="QUARTER" value="ربع" />
 			<text id="MAKKI"    value="مکّی" />
 			<text id="MADANI"   value="مدنی" />
 			<text id="DESCENT"  value="محل نزول" />
 			<text id="AYA_COUNT"  value="تعداد آیات" />
 			<text id="MINOR_SAJDA" value="سجده مستحب" />
 			<text id="MAJOR_SAJDA" value="سجده واجب" />
+			<text id="LOCATION" value="مکان" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -139,6 +156,24 @@
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
 			<text id="TITLE" value="ویرایش محدوده‌ی جستجو" />
+		</form>
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="مدیریت نشان‌ها" />
+			<text id="NEW_BOOKMARK_FOLDER" value="پوشه‌ی نشان جدید" />
+			<text id="NEW_BOOKMARK_ITEM" value="فقره نشان جدید" />
+			<text id="UNIQUE_NAME" value="یک نام یکتا" />
+			<text id="COMMA_SEPARATED" value="در صورتی که بیش از یک نویسنده دارد، نام‌ها را با کاما جدا کنید" />
+			<text id="ONLY_ENGLISH" value="فقط از نام‌های انگلیسی استفاد کنید (مثلاً English ،Farsi ،Arabic و ...)" />
+			<text id="DESC_TOOLTIP" value="قراردادها، نقل قول‌ها، مراجع و هر مورد دیگری مربوط به نشان‌ها در اینجا قرار می‌گیرد" />
+		</form>
+		<form id="BOOKMARK_SET_GROUP_FORM">
+			<text id="TITLE" value="مدیریت گروه نشان‌ها" />
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="ویرایش جزئیات نشان" />
+			<text id="QURAN_LOCATIONS" value="مکان‌های قرآن" />
+			<text id="NEW_BOOKMARK" value="نشان جدید" />
+			<text id="NEW_FOLDER" value="پوشه‌ی جدید" />
 		</form>
 	</forms>
 </language>

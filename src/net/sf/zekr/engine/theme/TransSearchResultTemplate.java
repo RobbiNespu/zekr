@@ -18,11 +18,11 @@ import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IRangedQuranText;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.RangedQuranText;
-import net.sf.zekr.common.resource.TranslationData;
 import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.search.SearchUtils;
 import net.sf.zekr.engine.search.TranslationSearch;
+import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * @author Mohsen Saboorian

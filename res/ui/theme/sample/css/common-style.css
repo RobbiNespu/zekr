@@ -1,0 +1,8 @@
+/*
+		size: 6.5in 10in;
+@import url("${CSS_DIR}print-style.css") print;
+@import url("${CSS_DIR}screen-style.css") screen;
+*/
+.printWatermark {
+	display: none;
+}

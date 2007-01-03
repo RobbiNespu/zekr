@@ -25,26 +25,38 @@ import org.w3c.dom.Node;
  * @version 0.1
  */
 public class XmlReader {
-	private Document xmlDocument = null;
-	private Node parentNode = null;
+	private Document xmlDocument;
+	private Node parentNode;
 
+	/**
+	 * Reads the given XML file (with absolute or relative path of <tt>filePath</tt>).
+	 * 
+	 * @param filePath the path of the file to be read
+	 * @throws XmlReadException if any error encountered during XML loading/parsig.
+	 */
 	public XmlReader(String filePath) throws XmlReadException {
+		this(new File(filePath));
+	}
+
+	/**
+	 * Reads the given XML file.
+	 * 
+	 * @param file the file to be read
+	 * @throws XmlReadException if any error encountered during XML loading/parsig.
+	 */
+	public XmlReader(File file) throws XmlReadException {
 		try {
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder parser;
 			parser = documentBuilderFactory.newDocumentBuilder();
-			xmlDocument = parser.parse(filePath);
+			xmlDocument = parser.parse(file);
 
 			parentNode = xmlDocument.getFirstChild();
 			if (parentNode.getNodeType() == Node.COMMENT_NODE)
 				parentNode = parentNode.getNextSibling();
 		} catch (Exception e) {
-			throw new XmlReadException("Error while loading XML: " + filePath + ": " + e.getMessage(), e);
+			throw new XmlReadException("Error while loading XML: " + file + ": " + e.getMessage(), e);
 		}
-	}
-
-	public XmlReader(File file) throws XmlReadException {
-		this(file.getAbsolutePath());
 	}
 
 	public Element getDocumentElement() {

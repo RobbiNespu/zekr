@@ -37,12 +37,15 @@ public class ApplicationRuntime {
 		dirList.add(Naming.TRANS_CACHE_DIR);
 		dirList.add(Naming.MIXED_CACHE_DIR);
 		dirList.add(Naming.SEARCH_CACHE_DIR);
-		dirList.add(Naming.CONFIG_PATH);
-		dirList.add(Naming.BOOKMARK_PATH);
+		dirList.add(Naming.CONFIG_DIR);
+		dirList.add(Naming.THEME_PROPS_DIR);
+		dirList.add(Naming.BOOKMARK_DIR);
+		dirList.add(Naming.TRANS_DIR);
+		dirList.add(Naming.THEME_DIR);
 	}
 
 	/**
-	 * Makes the application home directory
+	 * Makes the application home directory.
 	 * 
 	 * @throws IOException
 	 */
@@ -131,9 +134,9 @@ public class ApplicationRuntime {
 	public void clearConfig() {
 		// net.sf.zekr.common.util.FileUtils.delete(new File(Naming.CONFIG_PATH));
 		try {
-			FileUtils.deleteDirectory(new File(Naming.CONFIG_PATH));
+			FileUtils.deleteDirectory(new File(Naming.CONFIG_DIR));
 		} catch (IOException e) {
-			logger.error("Error while deleting directory: " + new File(Naming.CONFIG_PATH));
+			logger.error("Error while deleting directory: " + new File(Naming.CONFIG_DIR));
 			logger.log(e);
 		}
 	}

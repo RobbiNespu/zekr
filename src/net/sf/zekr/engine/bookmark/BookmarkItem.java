@@ -9,6 +9,7 @@
 package net.sf.zekr.engine.bookmark;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sf.zekr.common.resource.IQuranLocation;
@@ -19,6 +20,9 @@ public class BookmarkItem {
 	private List locations;
 	private List children = new ArrayList();
 	private boolean folder;
+
+	/** A unique identifier (among other bookmark items in a single tree) for looking up this bookmark item. */
+	private String id;
 
 	public String getName() {
 		return name;
@@ -78,4 +82,49 @@ public class BookmarkItem {
 	public void clearChilrden() {
 		children.clear();
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * Looks for a <code>BookmarkItem</code> in the children of this bookmark recursively.
+	 * 
+	 * @param bookmarkItem the bookmark to be looked up
+	 * @return <code>true</code> if such a bookmark item found, <code>false</code> otherwise.
+	 */
+	public boolean hasDescendant(BookmarkItem bookmarkItem) {
+		if (children.size() == 0)
+			return false;
+
+		int i = children.indexOf(bookmarkItem);
+		if (i != -1)
+			return true;
+
+		for (Iterator iterator = children.iterator(); iterator.hasNext();) {
+			BookmarkItem child = (BookmarkItem) iterator.next();
+			if (child.hasDescendant(bookmarkItem))
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * If <code>obj</code> is of type <code>BookmarkItem</code>, just checks if its ID is the same with
+	 * <code>this.id</code>. Returns <code>obj.equals(this)</code> otherwise.
+	 */
+	public boolean equals(Object obj) {
+		if (obj instanceof BookmarkItem)
+			return ((BookmarkItem) obj).id == id;
+		return obj.equals(this);
+	}
+
+//	public void removeChild(BookmarkItem item) {
+//		children.remove(item);
+//	}
 }

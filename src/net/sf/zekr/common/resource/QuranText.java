@@ -14,6 +14,7 @@ import java.io.RandomAccessFile;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
+import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * This class is a repository for the whole quran text. All public methods act as 1-relative arrays.

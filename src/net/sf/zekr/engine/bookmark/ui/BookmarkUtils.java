@@ -8,7 +8,7 @@
  */
 package net.sf.zekr.engine.bookmark.ui;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sf.zekr.common.config.GlobalConfig;
@@ -23,6 +23,8 @@ import net.sf.zekr.ui.FormUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MenuAdapter;
@@ -31,17 +33,19 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-
-import sun.util.logging.resources.logging;
+import org.eclipse.swt.widgets.Widget;
 
 /**
  * This class handles a number of functions related to bookmarks as static methods. There functions include
@@ -55,15 +59,14 @@ public class BookmarkUtils {
 	private static final LanguageEngine lang = LanguageEngine.getInstance();
 	private final static Logger logger = Logger.getLogger(BookmarkUtils.class);
 
-	public static void addBookmarkItemToMenu(final Shell shell, Menu parentMenu,
-			final BookmarkItem bookmarkItem) {
+	public static void addBookmarkItemToMenu(Menu parentMenu, final BookmarkItem bookmarkItem) {
+		final Shell shell = parentMenu.getShell();
+
 		MenuItem menuItem;
 		if (bookmarkItem.isFolder()) {
 			menuItem = new MenuItem(parentMenu, SWT.CASCADE);
-			menuItem.setText(StringUtils.abbreviate(bookmarkItem.getName(),
-					GlobalConfig.MAX_MENU_STRING_LENGTH));
-			menuItem.setImage(new Image(shell.getDisplay(), resource
-					.getString("icon.menu.bookmark.closeFolder")));
+			menuItem.setText(StringUtils.abbreviate(bookmarkItem.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH));
+			menuItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.closeFolder")));
 			Menu menu = new Menu(shell, SWT.DROP_DOWN);
 			menuItem.setMenu(menu);
 			menu.addMenuListener(new MenuAdapter() {
@@ -71,8 +74,8 @@ public class BookmarkUtils {
 					Menu m = (Menu) e.widget;
 					MenuItem pmi = m.getParentItem();
 					if (pmi != null) {
-						pmi.setImage(new Image(shell.getDisplay(), resource
-								.getString("icon.menu.bookmark.openFolder")));
+						pmi.setImage(new Image(shell.getDisplay(),
+							resource.getString("icon.menu.bookmark.openFolder")));
 					}
 				}
 
@@ -80,8 +83,8 @@ public class BookmarkUtils {
 					Menu m = (Menu) e.widget;
 					MenuItem pmi = m.getParentItem();
 					if (pmi != null) {
-						pmi.setImage(new Image(shell.getDisplay(), resource
-								.getString("icon.menu.bookmark.closeFolder")));
+						pmi.setImage(new Image(shell.getDisplay(), 
+							resource.getString("icon.menu.bookmark.closeFolder")));
 					}
 				}
 			});
@@ -89,23 +92,23 @@ public class BookmarkUtils {
 			List bmChildren = bookmarkItem.getChildren();
 			for (int i = 0; i < bmChildren.size(); i++) {
 				BookmarkItem newBookmarkItem = (BookmarkItem) bmChildren.get(i);
-				BookmarkUtils.addBookmarkItemToMenu(shell, menu, newBookmarkItem);
+				BookmarkUtils.addBookmarkItemToMenu(menu, newBookmarkItem);
 			}
 		} else {
 			menuItem = new MenuItem(parentMenu, SWT.PUSH);
 			menuItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.item")));
-			menuItem.setText(StringUtils.abbreviate(bookmarkItem.getName() + " - "
-					+ bookmarkItem.getLocations(), GlobalConfig.MAX_MENU_STRING_LENGTH));
+			menuItem.setText(StringUtils.abbreviate(bookmarkItem.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH) 
+					+ " - " + StringUtils.abbreviate(bookmarkItem.getLocations().toString(), 15));
 			menuItem.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
 					gotoBookmarkLocations(shell, shell, bookmarkItem);
 				}
 			});
 		}
-
 	}
 
-	public static void addBookmarkItemToTree(Shell shell, TreeItem treeItem, BookmarkItem bookmarkItem) {
+	public static void addBookmarkItemToTree(TreeItem treeItem, BookmarkItem bookmarkItem) {
+		Shell shell = treeItem.getParent().getShell();
 		if (bookmarkItem.isFolder()) {
 			treeItem.setText(new String[] { bookmarkItem.getName(), "", bookmarkItem.getDescription() });
 			treeItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.bookmark.closeFolder")));
@@ -114,16 +117,62 @@ public class BookmarkUtils {
 			for (int i = 0; i < bmChildren.size(); i++) {
 				BookmarkItem newBookmarkItem = (BookmarkItem) bmChildren.get(i);
 				TreeItem childItem = new TreeItem(treeItem, SWT.FULL_SELECTION);
-				BookmarkUtils.addBookmarkItemToTree(shell, childItem, newBookmarkItem);
+				BookmarkUtils.addBookmarkItemToTree(childItem, newBookmarkItem);
 			}
 		} else {
 			treeItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.bookmark.item")));
-			treeItem
-					.setText(new String[] { bookmarkItem.getName(),
-							CollectionUtils.toString(bookmarkItem.getLocations(), ","),
-							bookmarkItem.getDescription() });
+			treeItem.setText(new String[] { bookmarkItem.getName(),
+					CollectionUtils.toString(bookmarkItem.getLocations(), ","), bookmarkItem.getDescription() });
 		}
 		treeItem.setData(bookmarkItem);
+	}
+
+	public static TreeItem moveTreeItem(Tree parentTree, TreeItem treeItem) {
+		return _moveTreeItem(parentTree, treeItem, -1);
+	}
+
+	public static TreeItem moveTreeItem(Tree parentTree, TreeItem treeItem, int index) {
+		return _moveTreeItem(parentTree, treeItem, index);
+	}
+
+	public static TreeItem moveTreeItem(TreeItem parentItem, TreeItem treeItem) {
+		return _moveTreeItem(parentItem, treeItem, -1);
+	}
+
+	public static TreeItem moveTreeItem(TreeItem parentItem, TreeItem treeItem, int index) {
+		return _moveTreeItem(parentItem, treeItem, index);
+	}
+
+	private static TreeItem _moveTreeItem(Widget parent, TreeItem treeItem, int index) {
+		TreeItem newTreeItem;
+		if (parent instanceof Tree) {
+			if (index == -1)
+				newTreeItem = new TreeItem((Tree) parent, SWT.NONE);
+			else
+				newTreeItem = new TreeItem((Tree) parent, SWT.NONE, index);
+		} else { // should be of type TreeItem
+			if (index == -1)
+				newTreeItem = new TreeItem((TreeItem) parent, SWT.NONE);
+			else
+				newTreeItem = new TreeItem((TreeItem) parent, SWT.NONE, index);
+		}
+
+		BookmarkItem bookmarkItem = (BookmarkItem) treeItem.getData();
+		newTreeItem.setData(treeItem.getData());
+		if (bookmarkItem.isFolder()) {
+			newTreeItem.setText(new String[] { bookmarkItem.getName(), "", bookmarkItem.getDescription() });
+			newTreeItem.setImage(new Image(parent.getDisplay(), resource.getString("icon.bookmark.closeFolder")));
+		} else {
+			newTreeItem.setText(new String[] { bookmarkItem.getName(),
+					CollectionUtils.toString(bookmarkItem.getLocations(), ","), bookmarkItem.getDescription() });
+			newTreeItem.setImage(new Image(parent.getDisplay(), resource.getString("icon.bookmark.item")));
+		}
+
+		if (treeItem.getItemCount() > 0)
+			for (int i = 0; i < treeItem.getItems().length; i++) {
+				_moveTreeItem(newTreeItem, treeItem.getItem(i), -1);
+			}
+		return newTreeItem;
 	}
 
 	public static BookmarkItem getBookmarkItemFromTreeItem(TreeItem treeItem) {
@@ -147,7 +196,6 @@ public class BookmarkUtils {
 			sendEvent(quranShell, EventProtocol.GOTO_LOCATION + ":" + location);
 		} else {
 			int i = chooseBookmarkItem(parent, bookmarkItem);
-			parent.forceFocus();
 			if (i != -1) {
 				IQuranLocation location = (IQuranLocation) locs.get(i);
 				sendEvent(quranShell, EventProtocol.GOTO_LOCATION + ":" + location);
@@ -158,14 +206,14 @@ public class BookmarkUtils {
 	static private int _listIndex;
 
 	private static int chooseBookmarkItem(Shell parent, BookmarkItem bookmarkItem) {
-		final Shell shell = new Shell(parent, lang.getSWTDirection() | SWT.TOOL | SWT.APPLICATION_MODAL);
+		final Shell shell = new Shell(parent, lang.getSWTDirection() | SWT.TOOL);
 		FillLayout fl = new FillLayout();
 		fl.marginHeight = fl.marginWidth = 2;
 		shell.setLayout(fl);
 		_listIndex = -1;
 
 		Group body = new Group(shell, SWT.NONE);
-		body.setText(lang.getMeaning("SELECT"));
+		body.setText(StringUtils.abbreviate(bookmarkItem.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH));
 		fl = new FillLayout();
 		fl.marginHeight = fl.marginWidth = 2;
 		body.setLayout(fl);
@@ -201,12 +249,19 @@ public class BookmarkUtils {
 			shell.setSize(shell.getSize().x, 300);
 		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.open();
+
+		shell.addShellListener(new ShellAdapter() {
+			public void shellDeactivated(ShellEvent e) {
+				shell.close();
+			}
+		});
+
 		while (!shell.isDisposed()) {
 			if (!shell.getDisplay().readAndDispatch()) {
 				shell.getDisplay().sleep();
 			}
 		}
-
+		parent.forceActive();
 		return _listIndex;
 	}
 

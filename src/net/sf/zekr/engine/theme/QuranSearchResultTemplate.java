@@ -45,8 +45,8 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 			Date date1 = new Date();
 			boolean ok = qs.findAll(result, keyword); // find over the whole Quran
 			Date date2 = new Date();
-			logger.info("Search on " + keyword + " finnished; took " + (date2.getTime() - date1.getTime())
-					+ "ms.");
+			logger.info("Search for " + keyword + " finished; it took " + (date2.getTime() - date1.getTime())
+					+ " ms.");
 
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {
 					"" + qs.getResultCount(), "" + result.size() }));
@@ -86,7 +86,7 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 	 * @param result
 	 * @return a map of locations
 	 */
-	Map refineQuranResult(Map result) {
+	private final Map refineQuranResult(Map result) {
 		Map ret = new LinkedHashMap(result.size());
 		List l;
 		for (Iterator iter = result.keySet().iterator(); iter.hasNext();) {
