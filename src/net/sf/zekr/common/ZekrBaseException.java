@@ -15,7 +15,7 @@ public class ZekrBaseException extends Exception {
 		super();
 	}
 
-	protected ZekrBaseException(String message, Throwable cause) {
+	public ZekrBaseException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
@@ -23,7 +23,7 @@ public class ZekrBaseException extends Exception {
 		super(message);
 	}
 
-	protected ZekrBaseException(Throwable cause) {
+	public ZekrBaseException(Throwable cause) {
 		super(cause);
 	}
 }

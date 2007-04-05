@@ -14,7 +14,7 @@ import java.util.List;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 
-public class BookmarkItem {
+public class BookmarkItem implements Cloneable {
 	private String name;
 	private String description;
 	private List locations;
@@ -68,6 +68,9 @@ public class BookmarkItem {
 		return folder ? name : name + "-" + locations;
 	}
 
+	/**
+	 * Non-recursively clone a bookmark item.
+	 */
 	public Object clone() {
 		BookmarkItem bi = new BookmarkItem();
 		bi.setName(getName());
@@ -75,7 +78,13 @@ public class BookmarkItem {
 		if (locations != null)
 			bi.setLocations(new ArrayList(locations));
 		bi.setFolder(isFolder());
-		bi.children = new ArrayList(children);
+		bi.id = this.id; // TODO: ID should be removed from this class. No need more!
+//		List newList = new ArrayList(bi.children.size());
+//		for (int i = 0; i < bi.children.size(); i++) {
+//			BookmarkItem childItem = (BookmarkItem) bi.children.get(i);
+//			newList.add(childItem);
+//		}
+		bi.children = new ArrayList(bi.children);
 		return bi;
 	}
 
@@ -118,13 +127,9 @@ public class BookmarkItem {
 	 * If <code>obj</code> is of type <code>BookmarkItem</code>, just checks if its ID is the same with
 	 * <code>this.id</code>. Returns <code>obj.equals(this)</code> otherwise.
 	 */
-	public boolean equals(Object obj) {
-		if (obj instanceof BookmarkItem)
-			return ((BookmarkItem) obj).id == id;
-		return obj.equals(this);
-	}
-
-//	public void removeChild(BookmarkItem item) {
-//		children.remove(item);
+//	public boolean equals(Object obj) {
+//		if (obj instanceof BookmarkItem)
+//			return ((BookmarkItem) obj).id == id;
+//		return obj.equals(this);
 //	}
 }

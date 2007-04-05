@@ -8,9 +8,11 @@
  */
 package net.sf.zekr.engine.translation;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Date;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -24,7 +26,6 @@ import org.apache.commons.io.FileUtils;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.3
  */
 public class TranslationData implements IQuranText {
 	private final static Logger logger = Logger.getLogger(TranslationData.class);
@@ -95,8 +96,14 @@ public class TranslationData implements IQuranText {
 	 * Loads the tranalation data file, if not already loaded.
 	 */
 	public void load() {
-		if (!loaded())
+		if (!loaded()) {
+			Date date1 = new Date();
 			loadFile();
+			Date date2 = new Date();
+			logger.debug("Loading translation \"" + id + "\" took " + (date2.getTime() - date1.getTime()) + " ms.");
+		} else {
+			logger.debug("Translation already loaded:" + id);
+		}
 	}
 
 	public boolean loaded() {
@@ -112,9 +119,10 @@ public class TranslationData implements IQuranText {
 				return;
 			}
 			Reader reader;
-			reader = new InputStreamReader(archiveFile.getInputStream(ze), encoding);
+
+			reader = new BufferedReader(new InputStreamReader(archiveFile.getInputStream(ze), encoding), 262144);
 			loadTranslation(reader, (int) ze.getSize());
-			
+
 			logger.log("Translation pack " + this + " loaded successfully.");
 		} catch (IOException e) {
 			logger.error("Problem while loading translation pack " + this + ".");
@@ -123,7 +131,7 @@ public class TranslationData implements IQuranText {
 	}
 
 	private void loadTranslation(Reader reader, int length) throws IOException {
-		char buffer[] = new char[16384];
+		char buffer[] = new char[65536];
 		StringBuffer strBuf = new StringBuffer();
 		int len = 0;
 		while ((len = reader.read(buffer)) != -1) {
@@ -152,5 +160,21 @@ public class TranslationData implements IQuranText {
 
 	public TranslationData getTranslationData() {
 		return this;
+	}
+
+	public String toText() {
+		return localizedName + " / " + name;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public String getId() {
+		return id;
 	}
 }

@@ -14,6 +14,7 @@ import junit.framework.TestSuite;
 import net.sf.zekr.common.resource.RangedQuranTextTest;
 import net.sf.zekr.engine.search.SearchScopeItemTest;
 import net.sf.zekr.engine.search.SearchScopeTest;
+import net.sf.zekr.engine.search.lucene.ArabicFilterTest;
 
 public class AllTests extends TestCase {
 
@@ -22,6 +23,7 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(RangedQuranTextTest.class));
 		suite.addTest(new TestSuite(SearchScopeItemTest.class));
 		suite.addTest(new TestSuite(SearchScopeTest.class));
+		suite.addTest(new TestSuite(ArabicFilterTest.class));
 		return suite;
 	}
 

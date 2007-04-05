@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="يونس مومن" version="0.4">
+<language author="يونس مومن, Akram Rey" version="0.5">
 	<locale localizedName="Français" name="French" id="fr_FR" direction="ltr" />
 	<word>
 		<common>
@@ -46,7 +46,7 @@
 			<text id="HOMEPAGE" value="Page d'accueil" />
 			<text id="WHOLE_QURAN" value="Tout le Coran" /> 
 			<text id="MATCH_DIACRITIC" value="Correspondre diacritique" /> 
-			<text id="MATCH_CASE" value="Respecter la casse"   />
+			<text id="MATCH_CASE" value="Respecter la casse" />
 			<text id="NEXT_AYA" value="Aya suivante" /> 
 			<text id="NEXT_SURA" value="Sura suivante" /> 
 			<text id="PREV_AYA" value="Aya précédente" /> 
@@ -61,16 +61,42 @@
 			<text id="OPEN"   value="Ouvrir" />
 			<text id="IMPORT" value="Importer" />
 			<text id="COPY"   value="Copier" />
-			<text id="SEPARATE" value="Separée" />
+			<text id="SEPARATE" value="Séparée" />
 			<text id="MIXED"  value="Mélangée" />
 			<text id="OPTIONS"  value="Options" />
 			<text id="QUESTION" value="Question" />
-			<text id="FONT"   value="Police" />
+			<text id="FONT"     value="Police" />
 			<text id="GENERAL"  value="Général" />
 			<text id="EXIT"     value="Quitter" />
 			<text id="EXCLUDE"  value="Exclure" />
 			<text id="TRUE"     value="Vrai" />
 			<text id="FALSE"    value="Faux" />
+			<text id="SELECT"   value="Sélectionner" />
+			<text id="EXPORT"   value="Exporter" />
+			<text id="IMPORT"   value="Importer" />
+			<text id="DESCRIPTION" value="Description" />
+			<text id="BOOKMARKS" value="Signets" />
+			<text id="CONFIGURE" value="Configurer" />
+			<text id="CONFIGURE_BOOKMARK_SETS" value="Configurer les ensembles des signets" />
+			<text id="DIRECTION" value="Sens" />
+			<text id="LANG_DIRECTION" value="Sens du langage" />
+			<text id="RTL"      value="De droite à gauche" />
+			<text id="LTR"      value="De gauche à droite" />
+			<text id="AUTHOR"   value="Auteur" />
+			<text id="VERSION"  value="Version" />
+			<text id="RANDOM_AYA" value="Aya aléatoire" /> 			<text id="UNTITLED" value="Non titré " />
+			<text id="SET_DEFAULT" value="Mettre par défaut" />
+			<text id="NOT_LOADED" value="Non chargé" />
+			<text id="ID"       value="ID" />
+			<text id="OVERWRITE" value="Ecraser" />
+			<text id="SAVE"     value="Enregistrer" />
+			<text id="PATH"     value="Chemin" />
+			<text id="FIND_REFS" value="Trouver les Références" />
+			<text id="MOVE_UP" value="Bouger en haut" />
+			<text id="MOVE_DOWN" value="Bouger en bas" />
+			<text id="CUSTOM_MIXED" value="Personnalisée " />
+			<text id="CONFIG_CUSTOM_TRANS" value="Configurer les traductions " />
+			<text id="GO" value="Go" />
 		</common>
 		<special>
 			<text id="QURAN"  value="Coran" />
@@ -78,12 +104,15 @@
 			<text id="AYA"  value="Aya" />
 			<text id="SAJDA"  value="Sajda" />
 			<text id="JUZ"  value="Juz" />
+			<text id="HIZB"     value="Hizb" />
+			<text id="QUARTER"  value="Quarter" />
 			<text id="MAKKI"  value="Makki" />
 			<text id="MADANI" value="Madani" />
 			<text id="DESCENT"  value="Descente" />
 			<text id="AYA_COUNT"  value="Nombre d'Aya" />
-			<text id="MINOR_SAJDA" value="Sajda Mineure" />
-			<text id="MAJOR_SAJDA" value="Sajda Majeure" />
+			<text id="MINOR_SAJDA" value="Sajda Mineure" /> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="Sajda Majeure" /> <!-- Wajib Sajda -->
+			<text id="LOCATION" value="Location" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -97,13 +126,15 @@
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Etes-vous sûre?" />
+			<text id="DEL_YES_NO" value="Supprimer continuellement {1} item(s)?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Erreur inattendue" />
+			<text id="FNF" value="Fichier non trouvé" />
 			<text id="ACTION_FAILED" value="Action échouée!" />
 		</error>
-		<tooltip>
-		</tooltip>
+		<hint>
+		</hint>
 	</message>
 
 	<forms>
@@ -111,7 +142,7 @@
 			<text id="APP_NAME" value="Zekr" />
 			<text id="APP_FULL_NAME" value="Le projet Coranique Zekr" />
 			<text id="FORM_TITLE" value="Zekr" />
-			<text id="COPYRIGHT_DISCLAIMER" value="Ce program est destribué gratuitement dans l'espoire qu'il vous sera utile, mais sans aucune garantie." />
+			<text id="COPYRIGHT_DISCLAIMER" value="Ce programme est distribué gratuitement dans l'espoir qu'il vous sera utile, mais sans aucune garantie." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
@@ -124,7 +155,7 @@
 			<text id="TITLE" value="Options de l'application" />
 			<text id="SHOW_SPLASH" value="Afficher le logo au démarrage" />
 			<text id="NEW_KEY" value="Entrez une nouvelle touche" />
-			<text id="THEME_SETTING" value="Configuation du thème" />
+			<text id="THEME_SETTING" value="Configuration du thème" />
 			<text id="PRESS_OK_TO_APPLY" value="Appuyez sur le bouton &quot;OK&quot; afin d'appliquer les modifications." />
 			<text id="MAX_SEARCH_RESULT" value="Nombre maximum des résultats de la recherche." />
 		</form>
@@ -139,6 +170,43 @@
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
 			<text id="TITLE" value="Editer la zone de recherche" />
+		</form>
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="Gérer l'ensemble du signet: {1}" />
+			<text id="NEW_BOOKMARK_FOLDER" value="Nouveau dossier d'un signet " />
+			<text id="NEW_BOOKMARK_ITEM" value="Nouveau item d'un signet" />
+			<text id="UNIQUE_NAME" value=" Unique nom" />
+			<text id="COMMA_SEPARATED" value=" utiliser les valeurs séparées par virgule, s'il y a plus d'un auteur " />
+			<text id="ONLY_ENGLISH" value="Utiliser seulement les noms anglais (e.g. English, Farsi, Arabic, ...)" />
+			<text id="DESC_TOOLTIP" value="Conventions, citations, références, et autres thèmes associés au signet vont ici  " />
+		</form>
+		<form id="BOOKMARK_SET_GROUP_FORM">
+			<text id="TITLE" value=" gérer l'ensemble des groups de signets" />
+			<text id="DBL_CLICK" value="Double click sur les items pour charger et/ou éditer." />
+			<text id="SET_AS_DEFAULT" value=" Voulez vous mettre        &quot;{1}&quot; par défaut votre ensemble du signet?" />
+			<text id="CANNOT_REMOVE_DEFAULT" value="Impossible d'effacer le signet par défaut." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Impossible d'écraser sur l'ensemble du signet par défaut. Sélectionner un autre ensemble  d'un signet par défaut, et essayer d'importer." />
+			<text id="ENTER_ID" value="Enter l'ID du signet " />
+			<text id="NEW_BOOKMARK_SET" value="Nouveau ensemble de signet" />
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="Editer les propriétés du signet" />
+			<text id="QURAN_LOCATIONS" value="Endroits du coran" />
+			<text id="NEW_BOOKMARK" value="Nouveau signet" />
+			<text id="NEW_FOLDER" value="Nouveau dossier" />
+		</form>
+		<form id="BOOKMARK_REF">
+			<text id="TITLE" value="Références de l'ensemble du signet à: {1}" />
+		</form>
+		<form id="IMPORT_QUESTION">
+			<text id="IMPORT_FOR" value=" Importation pour les utilisateurs suivants:" />
+			<text id="ME_ONLY" value="Seulement moi" />
+			<text id="ALL_USERS" value="Tous les utilisateurs (requires write access to installation directory)" />
+		</form>
+		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="TITLE" value=" Configurer les traductions personnalisées " />
+			<text id="AVAILABLE" value=" Traductions disponibles " />
+			<text id="CURRENT" value=" Traductions courantes " />
 		</form>
 	</forms>
 </language>

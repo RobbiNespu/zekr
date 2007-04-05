@@ -19,7 +19,7 @@ import org.eclipse.swt.SWT;
 public class GlobalConfig {
 
 	/** Zekr version: e.g. 0.2.0b1 for beta1 or 0.2.0 for release. */
-	public static String ZEKR_VERSION = "0.5.0b1";
+	public static String ZEKR_VERSION = "0.6.0M1";
 
 	/** Flag specifying if OS is Linux */
 	public static boolean isLinux = SWT.getPlatform().equalsIgnoreCase("gtk");
@@ -38,9 +38,10 @@ public class GlobalConfig {
 
 	public static final String HOME_PAGE = "http://siahe.com/zekr";
 
+	public static final String RESOURCE_PAGE = HOME_PAGE + "/resources.html";
+
 	/**
-	 * Holds user country (runtime property <code>user.country</code>). e.g. IR, US,
-	 * etc.
+	 * Holds user country (runtime property <code>user.country</code>). e.g. IR, US, etc.
 	 */
 	public static final String USER_COUNTRY = System.getProperty("user.country");
 
@@ -51,14 +52,13 @@ public class GlobalConfig {
 	public static final String USER_HOME_PATH = System.getProperty("user.home").replace('\\', '/');
 
 	/**
-	 * \n on Linux, \r\n on Win32 and \n\r on Mac.
+	 * <tt>\n</tt> on Linux, <tt>\r\n</tt> on Win32 and <tt>\n\r</tt> on Mac.
 	 */
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	/**
-	 * Holds user language (runtime property <code>user.language</code>). e.g. fa, en,
-	 * etc.
+	 * Holds user language (runtime property <code>user.language</code>). e.g. fa, en, etc.
 	 */
 	public static final String USER_LANGUAGE = System.getProperty("user.language");
-	
+
 	public static final int MAX_MENU_STRING_LENGTH = 40;
 }

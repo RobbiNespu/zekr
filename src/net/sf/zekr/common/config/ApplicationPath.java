@@ -33,7 +33,9 @@ public class ApplicationPath {
 	/**
 	 * This is the directory containing quran source and other related sources.
 	 */
-	public static final String TEXT_DIR = rm.getString("text.quran.baseDir");
+	public static final String QURAN_TEXT_DIR = rm.getString("text.quran.baseDir");
+	public static final String QURAN_TEXT_FILE = rm.getString("text.quran.file");
+	public static final String QURAN_INDEX_DIR = rm.getString("text.quran.indexDir");
 	public static final String TRANSLATION_DIR = rm.getString("text.trans.baseDir");
 	public static final String TRANSLATION_DESC = rm.getString("text.trans.desc");
 
@@ -69,6 +71,4 @@ public class ApplicationPath {
 
 	// Velocity Property Files
 	public static final String VELOCITY_CONFIG = rm.getString("config.template");
-
-
 }

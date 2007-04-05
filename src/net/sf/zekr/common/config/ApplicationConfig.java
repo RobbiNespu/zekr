@@ -18,33 +18,41 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import net.sf.zekr.common.ZekrBaseException;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.runtime.RuntimeConfig;
 import net.sf.zekr.common.util.CollectionUtils;
+import net.sf.zekr.engine.bookmark.BookmarkException;
 import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.bookmark.BookmarkSetGroup;
 import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.search.lucene.IndexFactory;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.Translation;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.engine.xml.XmlReader;
+import net.sf.zekr.ui.helper.EventProtocol;
+import net.sf.zekr.ui.helper.EventUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
+import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
 
 /**
@@ -62,12 +70,7 @@ public class ApplicationConfig extends ConfigNaming {
 
 	private XmlReader configReader;
 	private LanguageEngine langEngine;
-	private Language language = new Language();
-
-	// private Element langElem;
-	// private Element quranElem;
-	// private Element viewElem;
-	// private Element transElem;
+	private Language language;
 
 	private Translation translation = new Translation();
 	private Theme theme = new Theme();
@@ -79,25 +82,37 @@ public class ApplicationConfig extends ConfigNaming {
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
-		// configReader = new XmlReader(ApplicationPath.XML_CONFIG);
-		// langElem = configReader.getElement(LANGUAGE_TAG);
-		// quranElem = configReader.getElement(QURAN_TAG);
-		// viewElem = configReader.getElement(VIEW_TAG);
-		// transElem = configReader.getElement(TRANSLATIONS_TAG);
-		runtime = new ApplicationRuntime();
-		try {
-			runtime.configureDirectories();
-		} catch (IOException e) {
-			logger.log(e);
-		}
 
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Initializing Language Engine");
+		language = Language.getInstance();
+
+		runtime = new ApplicationRuntime();
+//		try {
+//			runtime.configure();
+//		} catch (IOException e) {
+//			logger.log(e);
+//		}
+
+		// language packs should be loaded before bookmarks
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Configuration Files");
 		loadConfig();
-		loadBookmarkSetGroup();
+
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Language Packs");
 		extractLangProps();
-		extractRuntimeConfig();
+
+//		extractRuntimeConfig();
+
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Bookmark Sets");
+		loadBookmarkSetGroup();
+
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Translation Packs");
 		extractTransProps();
+
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading View Properties");
 		extractViewProps();
+
 		logger.info("Application configurations initialized.");
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
 	}
 
 	public static ApplicationConfig getInstance() {
@@ -145,8 +160,10 @@ public class ApplicationConfig extends ConfigNaming {
 			logger.log(e);
 		}
 
-		if (createConfig)
+		if (createConfig) {
+			runtime.recreateThemePropertiesDirectory();
 			saveConfig();
+		}
 	}
 
 	private void loadBookmarkSetGroup() {
@@ -167,12 +184,15 @@ public class ApplicationConfig extends ConfigNaming {
 				logger.info("Copy all bookmarks to " + Naming.BOOKMARK_DIR);
 				FileUtils.copyDirectory(origBookmarkDir, bookmarkDir);
 			} else {
-				File[] origs = origBookmarkDir.listFiles(xmlFilter);
-				for(int i = 0; i < origs.length; i++) {
-					File destFile = new File(bookmarkDir + "/" + origs[i].getName());
-					if (!destFile.exists()) {
-						logger.info("Copy bookmark " + origs[i] + " to " + Naming.BOOKMARK_DIR);
-						FileUtils.copyFile(origs[i], destFile);
+				File bookmarkFolderAlreadyCopied = new File(Naming.BOOKMARK_DIR + "/.DONOTDELETE");
+				if (!bookmarkFolderAlreadyCopied.exists()) {
+					File[] origs = origBookmarkDir.listFiles(xmlFilter);
+					for (int i = 0; i < origs.length; i++) {
+						File destFile = new File(bookmarkDir + "/" + origs[i].getName());
+						if (!destFile.exists()) {
+							logger.info("Copy bookmark " + origs[i] + " to " + Naming.BOOKMARK_DIR);
+							FileUtils.copyFile(origs[i], destFile);
+						}
 					}
 				}
 			}
@@ -180,30 +200,19 @@ public class ApplicationConfig extends ConfigNaming {
 			logger.log(e);
 		}
 		
+		String def = props.getString("bookmark.default");
 		File[] bookmarkSets = bookmarkDir.listFiles(xmlFilter);
 		for (int i = 0; i < bookmarkSets.length; i++) {
-			bookmarkSetGroup.addBookmarkSet(new BookmarkSet(Naming.BOOKMARK_DIR + "/" + bookmarkSets[i].getName()));
+			// bookmarks should be lazily loaded
+			BookmarkSet bms = new BookmarkSet(Naming.BOOKMARK_DIR + "/" + bookmarkSets[i].getName());
+			bookmarkSetGroup.addBookmarkSet(bms);
+			if (bms.getId().equals(def))
+				bookmarkSetGroup.setAsDefault(bms);
 		}
-		String def = props.getString("bookmark.default");
-		bookmarkSetGroup.setAsDefault(def);
-		loadDefaultBookmarkSet();
-	}
-
-	private void loadDefaultBookmarkSet() {
+		if (bookmarkSetGroup.getDefault() == null) {
+			logger.doFatal(new BookmarkException("No default bookmark set, or cannot load the default bookmark set: " + def));
+		}
 		bookmarkSetGroup.getDefault().load();
-//		File userBM = new File(Naming.BOOKMARK_PATH + "/" + props.getString("bookmark.default"));
-//		if (!userBM.exists()) {
-//			logger.info("Create bookrmark file.");
-//			try {
-//				FileUtils.copyFile(new File(ApplicationPath.MAIN_BOOKMARK), userBM);
-//			} catch (IOException e) {
-//				logger.error("Error while copying the original bookmark file to user config directory.");
-//				logger.log(e);
-//			}
-//		}
-//		logger.info("Load bookmarks.");
-//		bookmarkSet = new BookmarkSet(new File(ApplicationPath.BUILTIN_USER_BOOKMARK));
-		
 	}
 
 	/**
@@ -229,10 +238,10 @@ public class ApplicationConfig extends ConfigNaming {
 	/**
 	 * This method extracts the application runtime configurations and store it into RuntimeConfig bean.
 	 */
-	private void extractRuntimeConfig() {
-		// runtimeConfig.setLanguage(langElem.getAttribute(ApplicationConfig.CURRENT_LANGUAGE_ATTR));
-		runtimeConfig.setTextLayout(getQuranLayout());
-	}
+//	private void extractRuntimeConfig() {
+//		 runtimeConfig.setLanguage(langElem.getAttribute(ApplicationConfig.CURRENT_LANGUAGE_ATTR));
+//		runtimeConfig.setTextLayout(getQuranLayout());
+//	}
 
 	/**
 	 * This method extracts language properties from the corresponding node in the config file.
@@ -352,8 +361,34 @@ public class ApplicationConfig extends ConfigNaming {
 				}
 			}
 		}
+		if (translation.getAllTranslation().size() <= 0) {
+			logger.doFatal(new ZekrBaseException("Zekr should have at least one translation to start."));
+		}
 		if (translation.getDefault() == null) {
-			logger.doFatal(new ZekrBaseException("Could not find default translation: " + def));
+			logger.error(new ZekrBaseException("Could not find default translation: " + def));
+			logger.warn("Will use Shakir translation instead.");
+			TranslationData td = translation.get("shakir");
+			if (td == null)
+				logger.doFatal(new ZekrBaseException("Could not find Shakir translation."));
+			translation.setDefault(td); // TODO: this is bad to hard code trans name here.
+		}
+
+		// load default translation
+		translation.getDefault().load();
+
+		// load custom translation list
+		logger.info("Load custom translation list.");
+		List customList = translation.getCustomGroup();
+		List customs = props.getList("trans.custom");
+		for (int i = 0; i < customs.size(); i++) {
+			String tid = (String) customs.get(i);
+			TranslationData td = translation.get(tid);
+			if (td == null) {
+				logger.error("No such translation: " + tid);
+				continue;
+			}
+			td.load();
+			customList.add(td);
 		}
 	}
 
@@ -365,60 +400,57 @@ public class ApplicationConfig extends ConfigNaming {
 
 		String[] paths = {ApplicationPath.THEME_DIR, Naming.THEME_DIR};
 		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
+			File targetThemeDir = new File(paths[pathIndex]);
+			logger.info("Loading theme files info from \"" + paths[pathIndex]);
+			File[] targetThemes = targetThemeDir.listFiles();
 
+			File origThemeDir = new File(paths[pathIndex]);
+			File[] origThemes = origThemeDir.listFiles();
+			for (int i = 0; i < origThemes.length; i++) {
+				String targetThemeDesc = Naming.THEME_PROPS_DIR + "/" + origThemes[i].getName() + ".properties";
+				File origThemeDesc = new File(origThemes[i] + "/" + ApplicationPath.THEME_DESC);
+				File targetThemeFile = new File(targetThemeDesc);
 
-		File targetThemeDir = new File(Naming.THEME_PROPS_DIR);
-//		if (!targetThemeDir.exists())
-//			targetThemeDir.mkdir();
-		logger.info("Loading theme files info from \"" + paths[pathIndex]);
-		File[] targetThemes = targetThemeDir.listFiles();
-
-		File origThemeDir = new File(paths[pathIndex]);
-		File[] origThemes = origThemeDir.listFiles();
-		for (int i = 0; i < origThemes.length; i++) {
-			String targetThemeDesc = Naming.THEME_PROPS_DIR + "/" + origThemes[i].getName() + ".properties";
-			File origThemeDesc = new File(origThemes[i] + "/" + ApplicationPath.THEME_DESC);
-			File targetThemeFile = new File(targetThemeDesc);
-
-			if (!origThemeDesc.exists()) {
-				logger.warn("\"" + origThemes[i] + "\" is not a standard theme! Will ignore it.");
-				continue;
-			}
-
-			try {
-				if (!targetThemeFile.exists()) {
-					logger.info("Copy theme " + origThemes[i].getName() + " to " + Naming.THEME_PROPS_DIR);
-					FileUtils.copyFile(origThemeDesc, targetThemeFile);
+				if (!origThemeDesc.exists()) {
+					logger.warn("\"" + origThemes[i] + "\" is not a standard theme! Will ignore it.");
+					continue;
 				}
-				reader = new InputStreamReader(new FileInputStream(targetThemeFile), "utf-8");
-				PropertiesConfiguration pc = new PropertiesConfiguration();
-				pc.load(reader);
-				td = new ThemeData();
-				td.props = new LinkedHashMap(); // order is important for options table!
-				for (Iterator iter = pc.getKeys(); iter.hasNext();) {
-					String key = (String) iter.next();
-					td.props.put(key, CollectionUtils.toString(pc.getList(key), ", "));
+
+				try {
+					if (!targetThemeFile.exists()) {
+						logger.info("Copy theme " + origThemes[i].getName() + " to " + Naming.THEME_PROPS_DIR);
+						FileUtils.copyFile(origThemeDesc, targetThemeFile);
+					}
+					reader = new InputStreamReader(new FileInputStream(targetThemeFile), "utf-8");
+					PropertiesConfiguration pc = new PropertiesConfiguration();
+					pc.load(reader);
+					td = new ThemeData();
+					td.props = new LinkedHashMap(); // order is important for options table!
+					for (Iterator iter = pc.getKeys(); iter.hasNext();) {
+						String key = (String) iter.next();
+						td.props.put(key, CollectionUtils.toString(pc.getList(key), ", "));
+					}
+					td.author = pc.getString("author");
+					td.name = pc.getString("name");
+					td.id = origThemes[i].getName();
+					td.fileName = targetThemeFile.getName();
+					td.baseDir = paths[pathIndex];
+					td.props.remove("author");
+					td.props.remove("name");
+
+					// extractTransProps must be called before it!
+					td.process(getTranslation().getDefault().locale.getLanguage());
+
+					theme.add(td);
+
+					if (td.id.equals(def))
+						theme.setCurrent(td);
+				} catch (Exception e) {
+					logger.warn("Can not load theme \"" + targetThemes[i].getName()
+							+ "\", because of the following exception:");
+					logger.log(e);
 				}
-				td.author = pc.getString("author");
-				td.name = pc.getString("name");
-				td.id = origThemes[i].getName();
-				td.fileName = targetThemeFile.getName();
-				td.props.remove("author");
-				td.props.remove("name");
-
-				// extractTransProps must be called before it!
-				td.process(getTranslation().getDefault().locale.getLanguage());
-
-				theme.add(td);
-
-				if (td.id.equals(def))
-					theme.setCurrent(td);
-			} catch (Exception e) {
-				logger.warn("Can not load theme \"" + targetThemes[i].getName()
-						+ "\", because of the following exception:");
-				logger.log(e);
 			}
-		}
 		}
 		if (theme.getCurrent() == null) {
 			logger.doFatal(new ZekrBaseException("Could not find default theme: " + def));
@@ -438,7 +470,7 @@ public class ApplicationConfig extends ConfigNaming {
 	public void setCurrentLanguage(String langId) {
 		logger.info("Set current language to " + langId);
 		language.setActiveLanguagePack(langId);
-		LanguageEngine.getInstance().reload();
+		langEngine.reload();
 		props.setProperty("lang.default", langId);
 		// try {
 		// runtime.recreateCache();
@@ -461,20 +493,17 @@ public class ApplicationConfig extends ConfigNaming {
 	}
 
 	public void setCurrentTranslation(String transId) {
-		logger.info("Set current translation to " + transId);
-		translation.setDefault(getTranslation().get(transId));
+		logger.info("Change translation to " + transId);
+		TranslationData newTrans = getTranslation().get(transId);
+		translation.setDefault(newTrans);
+		newTrans.load();
 		props.setProperty("trans.default", transId);
 		try {
 			runtime.recreateCache();
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		// transElem.setAttribute(DEFAULT_ATTR, transId);
 	}
-
-//	public static String getQuranTrans(String name) {
-//		return ApplicationPath.TRANSLATION_DIR + "/" + name;
-//	}
 
 	public String getViewProp(String propKey) {
 		// return (String) theme.commonProps.get(propKey);
@@ -502,7 +531,7 @@ public class ApplicationConfig extends ConfigNaming {
 		props.setProperty("view.quranLayout", newLayout);
 	}
 
-	public QuranLocation getQuranLocation() {
+	public IQuranLocation getQuranLocation() {
 		// return new QuranLocation(theme.commonProps.get(QURAN_LOCATION));
 		return new QuranLocation(props.getString("view.quranLoc"));
 	}
@@ -580,4 +609,73 @@ public class ApplicationConfig extends ConfigNaming {
 		return thisInstance != null;
 	}
 
+	public void setShowSplash(boolean showSplash) {
+		File splashFile = new File(Naming.CONFIG_DIR + "/.DONTSHOWSPASH");
+		if (showSplash) {
+			splashFile.delete();
+		} else {
+			try {
+				splashFile.createNewFile();
+			} catch (IOException e) {
+				logger.error("Error changing show splash property: " + e.getMessage());
+			}
+		}
+	}
+
+	public boolean getShowSplash() {
+		File splashFile = new File(Naming.CONFIG_DIR + "/.DONTSHOWSPASH");
+		return !splashFile.exists();
+	}
+
+	/**
+	 * @return A list of <code>TranslationData</code>
+	 */
+	public List getCustomTranslationList() {
+		return translation.getCustomGroup();
+	}
+
+	/**
+	 * @param newIdList a list of new translation data IDs (list contains Strings).
+	 */
+	public void setCustomTranslationList(List newIdList) {
+		List newList = new ArrayList();
+		for (int i = 0; i < newIdList.size(); i++) {
+			String id = (String) newIdList.get(i);
+			TranslationData td = translation.get(id);
+			td.load();
+			newList.add(td);
+		}
+		translation.setCustomGroup(newList);
+
+		props.setProperty("trans.custom", newIdList);
+		saveConfig();
+	}
+
+	/**
+	 * This methods first checks if the Quran is previously indexed. If not, it will try to index it, asking user where
+	 * to index this. If this is already indexed, it will return the directory where Quran index is.
+	 * 
+	 * @return directory of the Quran index if indexing was successful (or found index somewhere), <code>null</code>
+	 *         otherwise
+	 */
+	public String createQuranIndex() {
+		if (props.getProperty("index.quran.done") != null && props.getBoolean("index.quran.done")) {
+			File meOnlyIndex = new File(Naming.QURAN_INDEX_DIR);
+			File allUsersIndex = new File(ApplicationPath.QURAN_INDEX_DIR);
+			if (meOnlyIndex.exists() && meOnlyIndex.isDirectory() && meOnlyIndex.list().length != 0)
+				return meOnlyIndex.getAbsolutePath();
+			if (allUsersIndex.exists() && allUsersIndex.isDirectory() && allUsersIndex.list().length != 0)
+				return allUsersIndex.getAbsolutePath();
+			
+			// otherwise do index again...
+		}
+		// not indexed yet, try to index now
+		IndexFactory indFact = new IndexFactory(Display.getCurrent());
+		boolean succeed = indFact.indexQuranText();
+		if (succeed) {
+			props.setProperty("index.quran.done", "true");
+			return indFact.getIndexDir();
+		} else
+			return null;
+	}
 }

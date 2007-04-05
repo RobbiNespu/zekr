@@ -16,8 +16,13 @@ $(document).ready(function() {
 	// backspace: history.back()
 	if (!$.browser.msie) {
 		$(document).keyup(function(e) {
-			if (e.keyCode == 8)
+			if (e.keyCode == 8) {
+				var inp = e.target;
+				if ("INPUT" == inp.nodeName.toUpperCase() && inp.type 
+					&& "TEXT" == inp.type.toUpperCase())
+					return; // by-pass this event
 				history.go(-1);
+			}
 		});
 	}
 
@@ -33,6 +38,7 @@ refocus = function() {
 	var ayaId = suraNum + "_" + ayaNum;	
 	var aya = document.getElementById(ayaId);
 	if (!aya) return;
+
 	$(aya).ScrollTo(1, 'original', getBrowserHeight() > getObjectHeight(aya) ? 
 					getBrowserHeight()/5 : 0);
 };
@@ -62,8 +68,9 @@ function focusOnAya(suraNum, ayaNum) {
 		unHighlightAya(oldAyaId);
 	highlightAya(ayaId);
 
-	$(aya).ScrollTo(400, 'original', getBrowserHeight() > getObjectHeight(aya) ? 
-					getBrowserHeight()/5 : 0);
+	var oh = getObjectHeight(aya);
+	var bh = getBrowserHeight();
+	$(aya).ScrollTo(400, 'original', bh > (oh + bh/5) ? bh/5 : 35);
 	oldAyaId = ayaId;
 }
 
@@ -87,7 +94,6 @@ function gotoAya(suraAya) { setMessage('ZEKR::NAVTO ' + suraAya + ';'); } // onl
 function translate(location) { setMessage('ZEKR::TRANS ' + location + ';'); }
 function setMessage(msg) { document.title = msg; }
 
-
 SearchResult = function() {
 	var cnt;
 	var num = 0;
@@ -97,7 +103,7 @@ SearchResult = function() {
 		try{
 			cnt = $("div.searchResult/div").size();
 			list = $("div.searchResult/div");
-		} catch(e) {return;}
+		} catch(e) {error(e); return;}
 		focus();
 	});
 
@@ -110,6 +116,8 @@ SearchResult = function() {
 	};
 
 	function focus() {
+		if (cnt <= 0)
+			return;
 		var h = list.eq(num).height();
 
 		var bh = getBrowserHeight();
@@ -119,6 +127,7 @@ SearchResult = function() {
 		var suraAya = $("#itemNum_" + (1+num)).attr("title").split('-');
 		$("#suraNum").val(suraAya[0]);
 		$("#ayaNum").val(suraAya[1]);
+		
 	};
 };
 

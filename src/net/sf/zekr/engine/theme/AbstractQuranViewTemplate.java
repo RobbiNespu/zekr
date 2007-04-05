@@ -24,6 +24,7 @@ public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 	 */
 	public String transform() {
 		String retStr = null;
+		ThemeData td = config.getTheme().getCurrent();
 		try {
 			engine.put("JUZ_LIST", QuranPropertiesUtils.getJuzInsideSura(suraNum));
 			engine.put("ALL_JUZ_LIST", QuranPropertiesUtils.getSuraJuzAsList(suraNum));
@@ -31,15 +32,14 @@ public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 			engine.put("SURA_NUM", new Integer(suraNum)); // Note: suraNum is counted from 1
 			engine.put("AYA_NUM", new Integer(ayaNum)); // Note: ayaNum is counted from 1
 			engine.put("SURA_NAME", QuranProperties.getInstance().getSura(suraNum).getName());
-			engine.put("GOTO_MSG", langEngine.getMeaning("GOTO"));
+			engine.put("GO_MSG", langEngine.getMeaning("GO"));
 			engine.put("SURA_MSG", langEngine.getMeaning("SURA"));
 			engine.put("AYA_MSG", langEngine.getMeaning("AYA"));
 			engine.put("PREV", langEngine.getMeaning("PREVIOUS"));
 			engine.put("NEXT", langEngine.getMeaning("NEXT"));
 			engine.put("TITLE", langEngine.getMeaning("SURA") + ": " + QuranProperties.getInstance().getSura(suraNum).getName()); // the same as SURA_NAME
 
-			retStr = engine.getUpdated(resource.getString("theme.sura", new String[] { config.getTheme()
-					.getCurrent().id }));
+			retStr = engine.getUpdated(td.getPath() + "/" + resource.getString("theme.sura"));
 		} catch (Exception e) {
 			Logger.getLogger(this.getClass()).log(e);
 		}

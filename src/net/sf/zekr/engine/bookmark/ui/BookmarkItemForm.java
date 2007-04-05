@@ -19,7 +19,7 @@ import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
 import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.ui.BaseForm;
-import net.sf.zekr.ui.FormUtils;
+import net.sf.zekr.ui.helper.FormUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -64,6 +64,12 @@ public class BookmarkItemForm extends BaseForm {
 	private Text nameText;
 	private Text descText;
 	private int bookmarkSetDirection;
+	private Button okBut;
+	private Button cancelBut;
+	private Button addBut;
+	private Button remBut;
+	private boolean readOnly;
+
 	private static final ApplicationConfig config = ApplicationConfig.getInstance();
 
 	public static final String FORM_ID = "BOOKMARK_ITEM_FORM";
@@ -135,7 +141,7 @@ public class BookmarkItemForm extends BaseForm {
 		label.setText(langEngine.getMeaning("DESCRIPTION"));
 		label.setLayoutData(gd);
 
-		gd = new GridData(GridData.FILL_HORIZONTAL | (bookmarkItem.isFolder() ? GridData.FILL_VERTICAL : 0));
+		gd = new GridData(GridData.FILL_BOTH);
 		gd.heightHint = 70;
 		descText = new Text(tableGroup, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | bookmarkSetDirection);
 		descText.setText(bookmarkItem.getDescription());
@@ -154,6 +160,16 @@ public class BookmarkItemForm extends BaseForm {
 			table.setLayoutData(gd);
 			table.setLinesVisible(true);
 			table.setHeaderVisible(true);
+			table.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent e) {
+					if (!readOnly){
+						if (table.getSelectionCount() == 0)
+							remBut.setEnabled(false);
+						else
+							remBut.setEnabled(true);
+					}
+				}
+			});
 
 			gd = new GridData();
 			gd.horizontalSpan = 2;
@@ -165,8 +181,8 @@ public class BookmarkItemForm extends BaseForm {
 			addRemComp.setLayout(rl);
 			addRemComp.setLayoutData(gd);
 
-			Button addBut = new Button(addRemComp, SWT.PUSH);
-			Button remBut = new Button(addRemComp, SWT.PUSH);
+			addBut = new Button(addRemComp, SWT.PUSH);
+			remBut = new Button(addRemComp, SWT.PUSH);
 
 			RowData rd = new RowData();
 			rd.width = 40;
@@ -188,12 +204,10 @@ public class BookmarkItemForm extends BaseForm {
 			remBut.setImage(new Image(display, resource.getString("icon.remove")));
 			remBut.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
-					int[] rows = table.getSelectionIndices();
-					for (int i = rows.length - 1; i >= 0; i--) {
-						table.remove(rows[i]);
-					}
+					remove();
 				}
 			});
+			remBut.setEnabled(false);
 		}
 
 		gd = new GridData();
@@ -209,8 +223,8 @@ public class BookmarkItemForm extends BaseForm {
 		RowData rd = new RowData();
 		rd.width = 80;
 
-		Button okBut = new Button(butComposite, SWT.PUSH);
-		Button cancelBut = new Button(butComposite, SWT.PUSH);
+		okBut = new Button(butComposite, SWT.PUSH);
+		cancelBut = new Button(butComposite, SWT.PUSH);
 		okBut.setText("&" + langEngine.getMeaning("OK"));
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -431,10 +445,19 @@ public class BookmarkItemForm extends BaseForm {
 	}
 
 	/**
+	 * @param readOnly disables OK button if <code>true</code>.
 	 * @return <code>true</code> if ok pressed, <code>false</code> otherwise.
 	 */
-	public boolean open() {
+	public boolean open(boolean readOnly) {
 		shell.setLocation(FormUtils.getCenter(parent, shell));
+		this.readOnly = readOnly;
+		if (readOnly) {
+			okBut.setEnabled(false);
+			addBut.setEnabled(false);
+			remBut.setEnabled(false);
+			nameText.setEditable(false);
+			descText.setEditable(false);
+		}
 		super.show();
 		loopEver();
 		return !canceled;
@@ -444,12 +467,22 @@ public class BookmarkItemForm extends BaseForm {
 		return langEngine.getMeaningById(FORM_ID, key);
 	}
 
-	protected Shell getShell() {
+	public Shell getShell() {
 		return shell;
 	}
 
-	protected Display getDisplay() {
+	public Display getDisplay() {
 		return display;
+	}
+
+	private void remove() {
+		int[] rows = table.getSelectionIndices();
+		if (rows.length <= 0)
+			return;
+		for (int i = rows.length - 1; i >= 0; i--) {
+			table.remove(rows[i]);
+			remBut.setEnabled(false);
+		}
 	}
 
 }

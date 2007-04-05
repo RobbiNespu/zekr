@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.ITransformer;
@@ -147,5 +148,14 @@ public class ApplicationRuntime {
 	public void clearAll() {
 		clearCache();
 		clearConfig();
+	}
+
+	public void recreateThemePropertiesDirectory() {
+		try {
+			FileUtils.deleteDirectory(new File(Naming.THEME_PROPS_DIR));
+			new File(Naming.THEME_PROPS_DIR).mkdir();
+		} catch (IOException e) {
+			logger.error("Error while saving config to " + ApplicationPath.USER_CONFIG);
+		}
 	}
 }

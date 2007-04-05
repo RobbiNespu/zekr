@@ -21,7 +21,7 @@ public class LanguageEngineNaming {
 	public static final String INFORM_MSG = "message.inform";
 	public static final String CONFIRM_MSG = "message.confirm";
 	public static final String ERROR_MSG = "message.error";
-	public static final String TOOLTIP_MSG = "message.tooltip";
+	public static final String HINT_MSG = "message.hint";
 	public static final String FORM = "forms.form";
 	public static final String GLOBAL = "forms.global";
 

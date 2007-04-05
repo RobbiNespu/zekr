@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Zekr Team" version="0.4">
+<language author="Dangleislam" version="0.5">
 	<locale localizedName="کوردی" name="Kurdish" id="ku_IQ" direction="rtl" />
 	<word>
 		<common>
@@ -71,6 +71,33 @@
 			<text id="EXCLUDE"  value="به‌ده‌ری بکه‌" />
 			<text id="TRUE"     value="ڕاست" />
 			<text id="FALSE"    value="چه‌وت" />
+			<text id="SELECT"   value="Select"   />
+			<text id="EXPORT"   value="Export"   />
+			<text id="IMPORT"   value="Import"   />
+			<text id="DESCRIPTION" value="Description"   />
+			<text id="BOOKMARKS" value="Bookmarks"   />
+			<text id="CONFIGURE" value="Configure"   />
+			<text id="CONFIGURE_BOOKMARK_SETS" value="Configure Bookmark Sets"   />
+			<text id="DIRECTION" value="Direction"   />
+			<text id="LANG_DIRECTION" value="Language direction"   />
+			<text id="RTL"      value="Right to left"   />
+			<text id="LTR"      value="Left to right"   />
+			<text id="AUTHOR"   value="Author"   />
+			<text id="VERSION"  value="Version"   />
+			<text id="RANDOM_AYA" value="Random Aya"   />
+			<text id="UNTITLED" value="Untitled"   />
+			<text id="SET_DEFAULT" value="Set as default"   />
+			<text id="NOT_LOADED" value="Not loaded"   />
+			<text id="ID"       value="ID"   />
+			<text id="OVERWRITE" value="Overwrite"   />
+			<text id="SAVE"     value="Save"   />
+			<text id="PATH"     value="Path"   />
+			<text id="FIND_REFS" value="Find References"   />
+			<text id="MOVE_UP" value="Move up"   />
+			<text id="MOVE_DOWN" value="Move down"   />
+			<text id="CUSTOM_MIXED" value="Custom Mixed"   />
+			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations"   />
+			<text id="GO" value="Go"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="قورئان" />
@@ -78,12 +105,15 @@
 			<text id="AYA"      value="ئایه‌ت" />
 			<text id="SAJDA"    value="سوجده‌" />
 			<text id="JUZ"      value="جوزئـ" />
+			<text id="HIZB"     value="Hizb"   />
+			<text id="QUARTER"  value="Quarter"   />
 			<text id="MAKKI"    value="مه‌ككه‌یی" />
 			<text id="MADANI"   value="مه‌دینه‌یی" />
 			<text id="DESCENT"  value="هاتنه‌خوار" />
 			<text id="AYA_COUNT"  value="ژماره‌ی ئایه‌ته‌کانی" />
-			<text id="MINOR_SAJDA" value="سوژده‌ی بچووك" />
-			<text id="MAJOR_SAJDA" value="سوژده‌ی گه‌وره‌" />
+			<text id="MINOR_SAJDA" value="سوژده‌ی بچووك" /> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="سوژده‌ی گه‌وره‌" /> <!-- Wajib Sajda -->
+			<text id="LOCATION" value="Location"   /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -97,13 +127,15 @@
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="ئایا دڵنیایت؟" />
+			<text id="DEL_YES_NO" value="Permanently delete {1} item(s)?"   />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="هه‌ڵه‌یه‌کی چاوه‌ڕواننه‌کراو ڕووی دا" />
+			<text id="FNF" value="File not found"   />
 			<text id="ACTION_FAILED" value="كرداره‌كه‌ ئه‌نجام نه‌درا!" />
 		</error>
-		<tooltip>
-		</tooltip>
+		<hint>
+		</hint>
 	</message>
 
 	<forms>
@@ -130,6 +162,7 @@
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="ڕێکخستنی مه‌ودای گه‌ڕان" />
+			<text id="SEARCH_SCOPE" value="Search scope"   />
 			<text id="FROM_SURA" value="له‌ سووره‌تی" />
 			<text id="FROM_AYA" value="له‌ ئایه‌تی" />
 			<text id="TO_SURA" value="بۆ سووره‌تی" />
@@ -138,6 +171,43 @@
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
 			<text id="TITLE" value="ده‌ستکاریی مه‌وداکانی گه‌ڕان بکه‌" />
+		</form>
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="Manage Bookmark Set: {1}"   />
+			<text id="NEW_BOOKMARK_FOLDER" value="New bookmark folder"   />
+			<text id="NEW_BOOKMARK_ITEM" value="New bookmark item"   />
+			<text id="UNIQUE_NAME" value="A unique name"   />
+			<text id="COMMA_SEPARATED" value="Use comma separated values, if there are more than one author"   />
+			<text id="ONLY_ENGLISH" value="Use only English names (e.g. English, Farsi, Arabic, ...)"   />
+			<text id="DESC_TOOLTIP" value="Conventions, quotes, references, and other bookmark-related topics go here"   />
+		</form>
+		<form id="BOOKMARK_SET_GROUP_FORM">
+			<text id="TITLE" value="Manage Bookmark Set Groups"   />
+			<text id="DBL_CLICK" value="Double click on items to load and/or edit them."   />
+			<text id="SET_AS_DEFAULT" value="Do you want to set &quot;{1}&quot; as your default bookmark set?"   />
+			<text id="CANNOT_REMOVE_DEFAULT" value="Cannot remove default bookmark."   />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Cannot overwrite on the default bookmark set. Select another bookmark set as default, and try to import."   />
+			<text id="ENTER_ID" value="Enter the bookmark ID"   />
+			<text id="NEW_BOOKMARK_SET" value="New Bookmark Set"   />
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="Edit Bookmark Properties"   />
+			<text id="QURAN_LOCATIONS" value="Quran locations"   />
+			<text id="NEW_BOOKMARK" value="New Bookmark"   />
+			<text id="NEW_FOLDER" value="New Folder"   />
+		</form>
+		<form id="BOOKMARK_REF">
+			<text id="TITLE" value="Bookmark Set References To: {1}"   />
+		</form>
+		<form id="IMPORT_QUESTION">
+			<text id="IMPORT_FOR" value="Import For The Following Users:"   />
+			<text id="ME_ONLY" value="Me only"   />
+			<text id="ALL_USERS" value="All users (requires write access to installation directory)"   />
+		</form>
+		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="TITLE" value="Configure Custom Translations"   />
+			<text id="AVAILABLE" value="Available translations"   />
+			<text id="CURRENT" value="Current translations"   />
 		</form>
 	</forms>
 </language>

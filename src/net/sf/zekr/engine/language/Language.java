@@ -15,14 +15,24 @@ import java.util.Map;
 import net.sf.zekr.common.config.ApplicationPath;
 
 /**
+ * This class is singleton.
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
 public class Language {
-	private String langPackId;
+	private static Language thisInstance;
 	private LanguagePack currentLangPack;
 	private Map languageMap = new HashMap();
 	private String defaultPackId;
+
+	private Language() {
+	}
+
+	public static Language getInstance() {
+		if (thisInstance == null)
+			thisInstance = new Language();
+		return thisInstance;
+	}
 
 	public String getPackPath() {
 		return getPackPath(currentLangPack);

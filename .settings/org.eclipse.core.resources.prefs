@@ -1,10 +1,5 @@
-#Tue Dec 26 20:14:32 GMT+03:30 2006
+#Thu Apr 05 17:38:31 GMT+03:30 2007
 eclipse.preferences.version=1
 encoding//doc/site/faq.html=UTF-8
 encoding//doc/site/glossary.html=UTF-8
 encoding//doc/site/resources.html=UTF-8
-encoding//res/config/config.properties=UTF-8
-encoding//res/lang/french.xml=UTF-8
-encoding//res/lang/russian.xml=UTF-8
-encoding//res/ui/theme/sky/aya.vm=utf-8
-encoding//res/ui/theme/sky/sura.vm=UTF-8

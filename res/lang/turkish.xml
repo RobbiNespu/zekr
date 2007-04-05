@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="smacker" version="0.4">
+<language author="smacker" version="0.5">
 	<locale localizedName="Türkçe" name="Turkish" id="tr_TR" direction="ltr" />
 	<word>
 		<common>
@@ -9,16 +9,16 @@
 			<text id="NO"       value="Hayır" />
 			<text id="APPLY"    value="Uygula" />
 			<text id="START"    value="Başlat" />
-			<text id="RESET"    value="Tekrar Kur" />
+			<text id="RESET"    value="Sıfırla" />
 			<text id="NEW"      value="Yeni" />
 			<text id="SAVE_AS"  value="Farklı Kaydet" />
 			<text id="HELP"     value="Yardım" />
-			<text id="EDIT"     value="Düzenle" />
-			<text id="SEARCH"   value="Araştır" />
+			<text id="EDIT"     value="Düzen" />
+			<text id="SEARCH"   value="Ara" />
 			<text id="GOTO"     value="Git" />
-			<text id="VIEW"     value="Görüntüle" />
+			<text id="VIEW"     value="Görünüm" />
 			<text id="CLOSE"    value="Kapat" />
-			<text id="INSERT"   value="Gir" />
+			<text id="INSERT"   value="Ekle" />
 			<text id="DETAILS"  value="Detaylar" />
 			<text id="MORE"     value="Ayrıca" />
 			<text id="NEXT"     value="İleri" />
@@ -31,7 +31,7 @@
 			<text id="NUMBER"   value="Sayı" />
 			<text id="OPTION"   value="Tercih" />
 			<text id="FILE"     value="Dosya" />
-			<text id="RELOAD"   value="Yükle" />
+			<text id="RELOAD"   value="Tekrar Yükle" />
 			<text id="TYPE"     value="Tür" />
 			<text id="MESSAGE"  value="İleti" />
 			<text id="BLOCK"    value="Engelle" />
@@ -58,19 +58,46 @@
 			<text id="DELETE"   value="Sil" />
 			<text id="REMOVE"   value="Kaldır" />
 			<text id="TRANSLATION" value="Tercüme" />
-			<text id="OPEN"     value="Açık" />
+			<text id="OPEN"     value="Aç" />
 			<text id="IMPORT"   value="Getir" />
 			<text id="COPY"     value="Kopyala" />
 			<text id="SEPARATE" value="Ayır" />
 			<text id="MIXED"    value="Karma" />
 			<text id="OPTIONS"  value="Ayarlar" />
-			<text id="QUESTION" value="Sorular" />
+			<text id="QUESTION" value="Soru" />
 			<text id="FONT"     value="Yazı tipi" />
 			<text id="GENERAL"  value="Genel" />
 			<text id="EXIT"     value="Çıkış" />
 			<text id="EXCLUDE"  value="Hariç" />
 			<text id="TRUE"     value="Doğru" />
 			<text id="FALSE"    value="Yanlış" />
+			<text id="SELECT"   value="Seç" />
+			<text id="EXPORT"   value="Dışa Aktar" />
+			<text id="IMPORT"   value="İçe Aktar" />
+			<text id="DESCRIPTION" value="Açıklama" />
+			<text id="BOOKMARKS" value="Yer İmleri" />
+			<text id="CONFIGURE" value="Yapılandır" />
+			<text id="CONFIGURE_BOOKMARK_SETS" value="Yer İmlerini Yapılandır" />
+			<text id="DIRECTION" value="Yönetim" />
+			<text id="LANG_DIRECTION" value="Dil Yönetimi" />
+			<text id="RTL"      value="Sağdan Sola" />
+			<text id="LTR"      value="Soldan Sağa" />
+			<text id="AUTHOR"   value="Yazar" />
+			<text id="VERSION"  value="Versiyon" />
+			<text id="RANDOM_AYA" value="Rastgele Ayet" />
+			<text id="UNTITLED" value="İsimsiz" />
+			<text id="SET_DEFAULT" value="Varsayılan Olarak Ata" />
+			<text id="NOT_LOADED" value="Yüklenmemiş" />
+			<text id="ID"       value="ID" />
+			<text id="OVERWRITE" value="Üzerine Yaz" />
+			<text id="SAVE"     value="Kaydet" />
+			<text id="PATH"     value="Dizin" />
+			<text id="FIND_REFS" value="Referansları Bul" />
+			<text id="MOVE_UP" value="Üste Al" />
+			<text id="MOVE_DOWN" value="Alta Al" />
+			<text id="CUSTOM_MIXED" value="Özel Karma" />
+			<text id="CONFIG_CUSTOM_TRANS" value="Özel Çevirileri Yapılandır" />
+			<text id="GO" value="Git" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Kuran-ı Kerim" />
@@ -78,12 +105,15 @@
 			<text id="AYA"      value="Ayet" />
 			<text id="SAJDA"    value="Secde Ayeti" />
 			<text id="JUZ"      value="Cüz" />
+			<text id="HIZB"     value="Hizip" />
+			<text id="QUARTER"  value="Çeyrek" />
 			<text id="MAKKI"    value="Mekki Sure " />
 			<text id="MADANI"   value="Medini Sure" />
 			<text id="DESCENT"  value="Azalt" />
-			<text id="AYA_COUNT"  value="Ayet sayısı" />
+			<text id="AYA_COUNT"  value="Ayet Sayısı" />
 			<text id="MINOR_SAJDA" value="Büyük Secde" />
 			<text id="MAJOR_SAJDA" value="Küçük Secde" />
+			<text id="LOCATION" value="Konum" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -92,18 +122,20 @@
 			<text id="SEARCH_RESULT_TITLE" value="Arama Sonucu: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{2} ayette {1} Sonuç Bulundu." />
 			<text id="TOO_MANY_RESULT" value="Arama sonucu {1} ayetten fazla" />
-			<text id="FILE_ALREADY_EXISTS" value=" &quot;{1}&quot; isimli dosya daha önceden vardır. Değiştirmek ister misiniz?" />
+			<text id="FILE_ALREADY_EXISTS" value=" &quot;{1}&quot; isimli dosya daha önceden var. Değiştirmek ister misiniz?" />
 			<text id="RESTART_APP" value="Değişiklileri kaydetmek için lütfen programı yeniden başlatın." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Emin misiniz?" />
+			<text id="DEL_YES_NO" value="{1} Öğeyi Kalıcı Olarak Silmek İster misiniz?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Beklenmedik bir hata oluştu!" />
+			<text id="FNF" value="Dosya Bulunamadı" />
 			<text id="ACTION_FAILED" value="İşlem Başarısız!" />
 		</error>
-		<tooltip>
-		</tooltip>
+		<hint>
+		</hint>
 	</message>
 
 	<forms>
@@ -111,7 +143,7 @@
 			<text id="APP_NAME" value="Zekr" />
 			<text id="APP_FULL_NAME" value="Zekr Kuran-ı Kerim Projesi" />
 			<text id="FORM_TITLE" value="Zekr" />
-			<text id="COPYRIGHT_DISCLAIMER" value="Bu program yardımcı olması amacıyla bedava dağıtılmaktadır, fakat garantisi yoktur." />
+			<text id="COPYRIGHT_DISCLAIMER" value="Bu program yardım amacıyla bedava dağıtılmaktadır, garantisi yoktur." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
@@ -123,9 +155,9 @@
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Uygulama Seçenekleri" />
 			<text id="SHOW_SPLASH" value="Açılış Logosu" />
-			<text id="NEW_KEY" value="Yeni bir sözcük giriniz" />
-			<text id="THEME_SETTING" value="Tema ayarları" />
-			<text id="PRESS_OK_TO_APPLY" value="Değişikliklerin geçerli olabilmesi için &quot;TAMAM&quot; butonuna basınız." />
+			<text id="NEW_KEY" value="Yeni Bir Sözcük Giriniz" />
+			<text id="THEME_SETTING" value="Tema Ayarları" />
+			<text id="PRESS_OK_TO_APPLY" value="Değişikliklerin Geçerli Olabilmesi İçin &quot;TAMAM&quot; Butonuna Basınız." />
 			<text id="MAX_SEARCH_RESULT" value="En fazla arama sonucu sayıcısı" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
@@ -139,6 +171,43 @@
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
 			<text id="TITLE" value="Arama Alanlarını Düzenle" />
+		</form>
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="Yer İmini Yapılandır: {1}" />
+			<text id="NEW_BOOKMARK_FOLDER" value="Yeni Yer İmi Klasörü" />
+			<text id="NEW_BOOKMARK_ITEM" value="Yeni Yer İmi" />
+			<text id="UNIQUE_NAME" value="Eşi Olmayan Bir İsim" />
+			<text id="COMMA_SEPARATED" value="Eğer Birden Fazla Varsa 'virgül' İle Ayrılmış Kelimeler Kullanın" />
+			<text id="ONLY_ENGLISH" value="Yalnızca İngilizce İsimleri Kullan (yani English, Farsi, Arabic, ...)" />
+			<text id="DESC_TOOLTIP" value="Anlaşmalar, Kotalar, Referanslar, ve Yer İmleriyle İlgili Diğer Başlıklar Buraya" />
+		</form>
+		<form id="BOOKMARK_SET_GROUP_FORM">
+			<text id="TITLE" value="Yer İmi Gruplarını Yapılandır" />
+			<text id="DBL_CLICK" value="Yüklemek ve/veya Düzenlemek İçin Öğelere Çift Tıkla." />
+			<text id="SET_AS_DEFAULT" value="&quot;{1}&quot;'i Varsayılan Yer İmi Olarak Atamak İstiyor musunuz?" />
+			<text id="CANNOT_REMOVE_DEFAULT" value="Varsayılan Yer İmi Kaldırılamıyor." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Varsayılan Yer İmi'nin Üzerine Yazılamıyor. Başka Bir Yer İmi'ni Varsayılan Olarak Seçin ve İçe Aktarmayı Deneyin." />
+			<text id="ENTER_ID" value="Yer İmi ID Numarasını Girin" />
+			<text id="NEW_BOOKMARK_SET" value="Yeni Yer İmi" />
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="Yer İmi Özelliklerini Düzenle" />
+			<text id="QURAN_LOCATIONS" value="Kur'an Konumları" />
+			<text id="NEW_BOOKMARK" value="Yeni Yer İmi" />
+			<text id="NEW_FOLDER" value="Yeni Klasör" />
+		</form>
+		<form id="BOOKMARK_REF">
+			<text id="TITLE" value="Yer İmi {1} ile İlgili" />
+		</form>
+		<form id="IMPORT_QUESTION">
+			<text id="IMPORT_FOR" value="Aşağıdaki Kullanıcılar İçin İçe Aktar:" />
+			<text id="ME_ONLY" value="Yalnızca Benim İçin" />
+			<text id="ALL_USERS" value="Tüm Kullanıcılar (Yükleme Dizinine Yazma İzni Gerektirir)" />
+		</form>
+		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="TITLE" value="Özel Çevirileri Yapılandır" />
+			<text id="AVAILABLE" value="Kullanılabilir Çeviriler" />
+			<text id="CURRENT" value="Şu Anki Çeviri" />
 		</form>
 	</forms>
 </language>

@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.engine.log.Logger;
@@ -29,6 +30,7 @@ public class Translation {
 	TranslationData defaultTrans;
 
 	private Map translations = new HashMap();
+	private List customGroup = new ArrayList();
 
 	private Comparator localeComparator = new Comparator() {
 		public int compare(Object o1, Object o2) {
@@ -55,10 +57,21 @@ public class Translation {
 		translations.put(td.id, td);
 	}
 
+	/**
+	 * @return a sorted collection representation of translations. Changing this list may not affect on the underling
+	 *         translation list.
+	 */
 	public Collection getAllTranslation() {
 		ArrayList ret = new ArrayList(translations.values());
 		Collections.sort(ret, localeComparator);
 		return ret;
 	}
 
+	public List getCustomGroup() {
+		return customGroup;
+	}
+
+	public void setCustomGroup(List customGroup) {
+		this.customGroup = customGroup;
+	}
 }

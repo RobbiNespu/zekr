@@ -10,6 +10,8 @@ package net.sf.zekr.engine.search;
 
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * This file contains several useful <code>public static</code> methods for finding
@@ -18,7 +20,6 @@ import java.util.Locale;
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.2
  */
 public class SearchUtils {
 	final public static char SUKUN = 0x652;
@@ -58,9 +59,9 @@ public class SearchUtils {
 	 * @return updated <code>String</code> result
 	 */
 	public static String replaceLayoutSimilarCharacters(String str) {
-		str = str.replaceAll(FARSI_YEH + "", ARABIC_YEH + ""); // TODO: change to relace(char, char)
+		str = str.replace(FARSI_YEH, ARABIC_YEH);
 		str = str.replace(ALEF_MAKSURA, ARABIC_YEH);
-		str = str.replaceAll(FARSI_KEHEH + "", ARABIC_KAF + "");
+		str = str.replace(FARSI_KEHEH, ARABIC_KAF);
 		return str;
 	}
 
@@ -69,21 +70,24 @@ public class SearchUtils {
 	 * is a helper method for easing the search.<br>
 	 * Characters which are replaced are listed below:
 	 * <ul>
-	 * <li><tt>ALEF_MAKSURA</tt> replaces with <tt>ARABIC_YEH</tt></li>
-	 * <li><tt>ALEF_HAMZA_ABOVE</tt> replaces with <tt>ALEF</tt></li>
-	 * <li><tt>ALEF_HAMZA_BELOW</tt> replaces with <tt>ALEF</tt></li>
-	 * <li><tt>ALEF_MADDA</tt> replaces with <tt>ALEF</tt></li>
+	 * <li><tt>FARSI_YEH</tt> is replaced with <tt>ARABIC_YEH</tt></li>
+	 * <li><tt>ALEF_MAKSURA</tt> is replaced with <tt>ARABIC_YEH</tt></li>
+	 * <li><tt>ALEF_HAMZA_ABOVE</tt> is replaced with <tt>ALEF</tt></li>
+	 * <li><tt>ALEF_HAMZA_BELOW</tt> is replaced with <tt>ALEF</tt></li>
+	 * <li><tt>ALEF_MADDA</tt> is replaced with <tt>ALEF</tt></li>
+	 * <li><tt>WAW_HAMZA_ABOVE</tt> is replaced with <tt>WAW</tt></li>
 	 * <ul>
 	 * 
 	 * @param str
 	 * @return updated <code>String</code> result
 	 */
 	public static String replaceSimilarArabic(String str) {
-		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + ""); // TODO: change to relace(char, char)
+		str = str.replace(ALEF_MAKSURA, ARABIC_YEH);
 		str = str.replace(FARSI_YEH, ARABIC_YEH);
-		str = str.replaceAll(ALEF_HAMZA_ABOVE + "", ALEF + "");
-		str = str.replaceAll(ALEF_HAMZA_BELOW + "", ALEF + "");
-		str = str.replaceAll(ALEF_MADDA + "", ALEF + "");
+		str = str.replace(ALEF_HAMZA_ABOVE, ALEF);
+		str = str.replace(ALEF_HAMZA_BELOW, ALEF);
+		str = str.replace(ALEF_MADDA, ALEF);
+		str = str.replace(WAW_HAMZA_ABOVE, WAW);
 		return str;
 	}
 
@@ -103,14 +107,14 @@ public class SearchUtils {
 		char[] arr = new char[] { SUKUN, SHADDA, KASRA, DAMMA, FATHA, KASRATAN, DAMMATAN, FATHATAN,
 				SUPERSCRIPT_ALEF };
 		for (int i = 0; i < arr.length; i++) {
-			str = str.replaceAll("" + arr[i], ""); // TODO: change to relace(char, char)
+			str = StringUtils.remove(str, arr[i]);
 		}
 
-		// YEH, ALEF replacements
-//		str = str.replaceAll(ALEF_MAKSURA + "", ARABIC_YEH + "");
-		str = str.replaceAll(ALEF_HAMZA_ABOVE + "", ALEF + "");
-		str = str.replaceAll(ALEF_HAMZA_BELOW + "", ALEF + "");
-		str = str.replaceAll(ALEF_MADDA + "", ALEF + "");
+		// YEH, ALEF, WAW replacements
+		str = str.replace(ALEF_HAMZA_ABOVE, ALEF);
+		str = str.replace(ALEF_HAMZA_BELOW, ALEF);
+		str = str.replace(ALEF_MADDA, ALEF);
+		str = str.replace(WAW_HAMZA_ABOVE, WAW);
 
 		str = replaceLayoutSimilarCharacters(str);
 		return str;
@@ -226,7 +230,7 @@ public class SearchUtils {
 	 */
 	public static Range indexOfMatchDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = replaceLayoutSimilarCharacters(key);
-		src = replaceLayoutSimilarCharacters(src); // TODO: are you sure?
+		src = replaceLayoutSimilarCharacters(src); // TODO: are you sure? yes :)
 		if (!matchCase) {
 			if (locale != null) {
 				key = key.toLowerCase(locale);

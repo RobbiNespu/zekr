@@ -35,6 +35,7 @@ public class MixedViewTemplate extends AbstractQuranViewTemplate {
 		this.trans = trans;
 		engine.put("TEXT_LAYOUT", ApplicationConfig.LINE_BY_LINE);
 		engine.put("MIXED", "true");
+		engine.put("CUSTOM", "false"); // TODO: it should not be set!
 
 		String[] quranSura = quran.getSura(suraNum);
 		String[] transSura = trans.getSura(suraNum);

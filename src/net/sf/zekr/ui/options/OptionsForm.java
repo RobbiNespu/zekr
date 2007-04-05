@@ -10,7 +10,10 @@ package net.sf.zekr.ui.options;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
@@ -20,9 +23,10 @@ import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
-import net.sf.zekr.ui.EventProtocol;
-import net.sf.zekr.ui.FormUtils;
 import net.sf.zekr.ui.MessageBoxUtils;
+import net.sf.zekr.ui.helper.EventProtocol;
+import net.sf.zekr.ui.helper.EventUtils;
+import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.swt.SWT;
@@ -36,8 +40,6 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -50,7 +52,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -118,12 +119,6 @@ public class OptionsForm {
 		shell.setText(lang.getMeaning("OPTIONS"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
 				new Image(display, resource.getString("icon.options32")) });
-//		shell.addShellListener(new ShellAdapter() {
-//			public void shellClosed(ShellEvent e) {
-//				if (pressOkToApply)
-//					createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
-//			}
-//		});
 		makeForm();
 	}
 
@@ -245,8 +240,7 @@ public class OptionsForm {
 			} catch (IOException e) {
 				logger.log(e);
 			}
-//			config.saveConfig(); // not needed, RECREATE_VIEW will saveConfig before close.
-			sendEvent(EventProtocol.RECREATE_VIEW);
+			EventUtils.sendEvent(EventProtocol.RECREATE_VIEW);
 		}
 	}
 
@@ -263,7 +257,7 @@ public class OptionsForm {
 				Theme.save(td);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.log(e);
 		}
 
 		if (pressOkToApply && !fromOk) {
@@ -272,17 +266,7 @@ public class OptionsForm {
 //			createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
 		}
 		if (refreshView)
-			sendEvent(EventProtocol.REFRESH_VIEW);
-	}
-
-	/**
-	 * Creates and sends an event to the shell for communication with QuranForm.
-	 */
-	private void sendEvent(String eventName) {
-		Event te = new Event();
-		te.data = eventName;
-		te.type = SWT.Traverse;
-		parent.notifyListeners(SWT.Traverse, te);
+			EventUtils.sendEvent(EventProtocol.REFRESH_VIEW);
 	}
 
 	private void updateGeneralModel(boolean fromOk) {
@@ -293,10 +277,10 @@ public class OptionsForm {
 			pressOkToApply = true;
 		}
 
-		props.setProperty("options.general.showSplash", Boolean.toString(showSplash.getSelection()));
+		// props.setProperty("options.general.showSplash", Boolean.toString(showSplash.getSelection()));
+		config.setShowSplash(showSplash.getSelection());
 		props.setProperty("options.search.maxResult", "" + spinner.getSelection());
-
-		if (pressOkToApply && fromOk) {
+		if (fromOk && pressOkToApply) {
 			props.setProperty("lang.default", selectedLangPack.id);
 			props.setProperty("theme.default", selectedTheme.id);
 		}
@@ -323,7 +307,7 @@ public class OptionsForm {
 		generalTab.setLayout(gl);
 		showSplash = new Button(generalTab, SWT.CHECK);
 		showSplash.setText(meaning("SHOW_SPLASH"));
-		showSplash.setSelection(props.getBoolean("options.general.showSplash"));
+		showSplash.setSelection(config.getShowSplash());
 
 		rl = new RowLayout(SWT.HORIZONTAL);
 		rl.spacing = 10;
@@ -373,14 +357,15 @@ public class OptionsForm {
 		Label ct = new Label(themeComp, SWT.NONE);
 		ct.setText(lang.getMeaning("THEME") + ":");
 		themeSelect = new Combo(themeComp, SWT.READ_ONLY | SWT.DROP_DOWN);
-		String[] themeArr = CollectionUtils.toStringArray(themes);
-		themeSelect.setItems(themeArr);
-		for (int i = 0; i < themeArr.length; i++) {
-			if (td.toString().equals(themeArr[i])) {
-				themeSelect.select(i);
-				break;
-			}
+		Map themeMap = new LinkedHashMap();
+		int selectedNum = 0;
+		for (int i = 0; i < themes.size(); i++) {
+			themeMap.put(((ThemeData)themes.get(i)).id, ((ThemeData)themes.get(i)).name);
+			if (((ThemeData) themes.get(i)).id.equals(td.id))
+				selectedNum = i;
 		}
+		themeSelect.setItems((String[]) themeMap.values().toArray(new String[0]));
+		themeSelect.select(selectedNum);
 		
 		rl = new RowLayout(SWT.HORIZONTAL);
 		rl.spacing = 10;
@@ -491,7 +476,7 @@ public class OptionsForm {
 		delBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (table.getSelectionCount() > 0)
-					if (MessageBoxUtils.yesNoQuestion(lang.getMeaning("YES_NO"), lang
+					if (MessageBoxUtils.showYesNoConfirmation(lang.getMeaning("YES_NO"), lang
 							.getMeaning("REMOVE"))) {
 						shell.forceActive();
 						logger.info("Remove table row: " + table.getSelectionIndex());
@@ -500,6 +485,8 @@ public class OptionsForm {
 						if (oldEditor != null)
 							oldEditor.dispose();
 						table.remove(table.getSelectionIndex());
+						if (table.getSelectionCount() <= 0)
+							delBut.setEnabled(false);
 					}
 			}
 		});

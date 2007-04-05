@@ -15,8 +15,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import net.sf.zekr.common.ZekrBaseException;
+import net.sf.zekr.common.ZekrBaseRuntimeException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.NodeList;
@@ -51,12 +54,12 @@ public class LanguageEngine extends LanguageEngineNaming {
 	private Map informMessages = null; // message.inform
 	private Map confirmMessages = null; // message.confirm
 	private Map errorMessages = null; // message.error
-	private Map tooltipMessages = null; // message.tooltip
+	private Map hintMessages = null; // message.tooltip
 	private Map forms = null; // forms.frame
 	private Map globals = null; // forms.global
 
 	private final static Logger logger = Logger.getLogger(LanguageEngine.class);
-	private final ApplicationConfig config = ApplicationConfig.getInstance();
+//	private final ApplicationConfig config = ApplicationConfig.getInstance();
 
 	private Language language;
 	private File packFile;
@@ -67,8 +70,8 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 */
 	private LanguageEngine() {
 		logger.info("Initializing language engine...");
-		language = config.getLanguage();
-		packFile = new File(config.getLanguage().getPackPath());
+		language = Language.getInstance();
+		packFile = new File(language.getPackPath());
 		if (!packFile.exists()) {
 			logger.warn("Can not find language pack " + language.getActiveLanguagePack());
 			logger.warn("Will load the default (en_US) language pack");
@@ -94,7 +97,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 		informMessages = makeDictionary(reader.getNode(INFORM_MSG).getChildNodes());
 		confirmMessages = makeDictionary(reader.getNode(CONFIRM_MSG).getChildNodes());
 		errorMessages = makeDictionary(reader.getNode(ERROR_MSG).getChildNodes());
-		tooltipMessages = makeDictionary(reader.getNode(TOOLTIP_MSG).getChildNodes());
+		hintMessages = makeDictionary(reader.getNode(HINT_MSG).getChildNodes());
 
 		forms = makeMultipleDictionaries(reader.getNodes(FORM));
 		globals = makeDictionary(reader.getNode(GLOBAL).getChildNodes());
@@ -161,8 +164,8 @@ public class LanguageEngine extends LanguageEngineNaming {
 			meaning = (String) confirmMessages.get(word);
 		else if (scope.equalsIgnoreCase(ERROR_MSG))
 			meaning = (String) errorMessages.get(word);
-		else if (scope.equalsIgnoreCase(TOOLTIP_MSG))
-			meaning = (String) tooltipMessages.get(word);
+		else if (scope.equalsIgnoreCase(HINT_MSG))
+			meaning = (String) hintMessages.get(word);
 		else
 			meaning = word; // return the original word
 		return meaning;
@@ -182,7 +185,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 			;
 		else if ((meaning = (String) errorMessages.get(word)) != null)
 			;
-		else if ((meaning = (String) tooltipMessages.get(word)) != null)
+		else if ((meaning = (String) hintMessages.get(word)) != null)
 			;
 		else if ((meaning = (String) globals.get(word)) != null)
 			;
@@ -221,6 +224,25 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	/**
+	 * Will replace any pattern of {x} (when x is an integer number between 1 and
+	 * <code>strArray.length</code>) in <code>word</code> with corresponding item of
+	 * strArray (here <code>strArray[x]</code>).
+	 * 
+	 * @param id
+	 * @param word
+	 * @param strArray replacement array of strings
+	 */
+	public String getDynamicMeaningById(String id, String word, String[] strArray) {
+		if (!forms.containsKey(id))
+			return "";
+		String meaning = (String) ((Map) forms.get(id)).get(word);
+		for (int i = 0; i < strArray.length; i++) {
+			meaning = meaning.replaceAll("\\{" + (i + 1) + "\\}", strArray[i]);
+		}
+		return meaning;
+	}
+
+	/**
 	 * @return the language direction:
 	 *         <ul>
 	 *         <li><code>rtl</code> if it is right to left</li>
@@ -228,10 +250,19 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 *         </ul>
 	 */
 	public String getDirection() {
-		// return RIGHT_TO_LEFT.equals(XmlUtils.getAttr(reader.getParentNode(),
-		// DIRECTION_ATTR)) ? RIGHT_TO_LEFT
-		// : LEFT_TO_RIGHT;
 		return RIGHT_TO_LEFT.equals(languagePack.direction) ? RIGHT_TO_LEFT : LEFT_TO_RIGHT;
+	}
+	
+	/**
+	 * @return current language pack locale.
+	 */
+	public Locale getLocale() {
+		String[] l = languagePack.id.split("_");
+		if (l.length != 2)
+			throw new LanguagePackException(
+					"Illegal language pack id. ID should be of the form: xx_YY, where xx is a 2-character language ID"
+							+ " and YY is a 2-character country ID.");
+		return new Locale(l[0], l[1]);
 	}
 
 	/**
@@ -243,6 +274,10 @@ public class LanguageEngine extends LanguageEngineNaming {
 
 	public int getSWTDirection() {
 		return RIGHT_TO_LEFT.equals(getDirection()) ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT;
+	}
+
+	public static int getSWTDirection(String dir) {
+		return RIGHT_TO_LEFT.equals(dir) ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT;
 	}
 
 	/**
@@ -257,5 +292,4 @@ public class LanguageEngine extends LanguageEngineNaming {
 		});
 		return list;
 	}
-
 }

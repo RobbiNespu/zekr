@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="محمد بشير النعيمي , يونس مومن" version="0.4">
+<language author="محمد بشير النعيمي" version="0.5.0">
 	<locale localizedName="عربي" name="Arabic" id="ar_SY" direction="rtl" />
 	<word>
 		<common>
@@ -23,9 +23,9 @@
 			<text id="MORE" value="أكثر" />
 			<text id="NEXT" value="التالي" />
 			<text id="PREVIOUS" value="السابق" />
-			<text id="REFRESH" value="إنعاش" />
-			<text id="UPDATE" value="تحديث" ></text>
-			<text id="SHOW" value="أظهر" />
+			<text id="REFRESH" value="تحديث" />
+			<text id="UPDATE" value="تحديث" />
+			<text id="SHOW" value="عرض" />
 			<text id="NAME" value="إسم" />
 			<text id="VALUE" value="قيمة" />
 			<text id="NUMBER" value="عدد" />
@@ -46,7 +46,7 @@
 			<text id="HOMEPAGE" value="الصفحة الرئيسية" />
 			<text id="WHOLE_QURAN" value="كل القرآن" />
 			<text id="MATCH_DIACRITIC" value="إستعمال الحركات" />
-			<text id="MATCH_CASE" value="التدقيق بحالة الأحرف" /> 
+			<text id="MATCH_CASE" value="التدقيق بحالة الأحرف" />
 			<text id="NEXT_AYA" value="الآية التالية" />
 			<text id="NEXT_SURA" value="السورة التالية" />
 			<text id="PREV_AYA" value="الآية السابقة" />
@@ -71,6 +71,33 @@
 			<text id="EXCLUDE"  value="إستثناء" />
 			<text id="TRUE"     value="محقق" />
 			<text id="FALSE"    value="غير محقق" />
+			<text id="SELECT"   value="تحديد" />
+			<text id="EXPORT"   value="تصدير" />
+			<text id="IMPORT"   value="إستيراد" />
+			<text id="DESCRIPTION" value="الوصف" />
+			<text id="BOOKMARKS" value="إشارات مرجعية" />
+			<text id="CONFIGURE" value="إعدادات" />
+			<text id="CONFIGURE_BOOKMARK_SETS" value="إعداد مجموعات الإشارات المرجعية" />
+			<text id="DIRECTION" value="الإتجاه" />
+			<text id="LANG_DIRECTION" value="إتجاه اللغة" />
+			<text id="RTL"      value="يمين لليسار" />
+			<text id="LTR"      value="يسار لليمين" />
+			<text id="AUTHOR"   value="المؤلف" />
+			<text id="VERSION"  value="الإصدار" />
+			<text id="RANDOM_AYA" value="آية عشوائية" />
+			<text id="UNTITLED" value="بدون تسمية" />
+			<text id="SET_DEFAULT" value="تخصيص كإفتراضي" />
+			<text id="NOT_LOADED" value="لم يتم تحميله" />
+			<text id="ID"       value="الرقم المعرّف" />
+			<text id="OVERWRITE" value="إعادة الكتابة" />
+			<text id="SAVE"     value="حفظ" />
+			<text id="PATH"     value="المسار" />
+			<text id="FIND_REFS" value="بحث عن المراجع" />
+			<text id="MOVE_UP" value="تحريك للأعلى" />
+			<text id="MOVE_DOWN" value="تحريك للأسفل" />
+			<text id="CUSTOM_MIXED" value="تخصيص العرض المختلط" />
+			<text id="CONFIG_CUSTOM_TRANS" value="إعداد ترجمات مخصّصة" />
+			<text id="GO" value="إذهب" />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -78,12 +105,15 @@
 			<text id="AYA" value="آية" />
 			<text id="SAJDA" value="سجدة" />
 			<text id="JUZ" value="جزء" />
+			<text id="HIZB"     value="حزب" />
+			<text id="QUARTER"  value="ربع" />
 			<text id="MAKKI" value="مكي" />
 			<text id="MADANI" value="مدني" />
 			<text id="DESCENT" value="نزول" />
 			<text id="AYA_COUNT" value="عدد الآيات" />
-			<text id="MINOR_SAJDA" value="سجدة صغيرة" />
-			<text id="MAJOR_SAJDA" value="سجدة كبيرة" />
+			<text id="MINOR_SAJDA" value="سجدة صغيرة" /> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="سجدة كبيرة" /> <!-- Wajib Sajda -->
+			<text id="LOCATION" value="مسار" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -97,21 +127,23 @@
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="هل أنت متأكد؟" />
+			<text id="DEL_YES_NO" value="هل تريد حذف العناصر {1} بشكل دائم؟" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="خطأ غير متوقع" />
+			<text id="FNF" value="الملف غير موجود" />
 			<text id="ACTION_FAILED" value="لم تنجح العملية!" />
 		</error>
-		<tooltip>
-		</tooltip>
+		<hint>
+		</hint>
 	</message>
-	
+
 	<forms>
 		<global>
 			<text id="APP_NAME" value="ذكر" />
 			<text id="APP_FULL_NAME" value="مشروع ذكر القرآني" />
 			<text id="FORM_TITLE" value="ذكر" />
-			<text id="COPYRIGHT_DISCLAIMER" value="هذا البرنامج يوزع مجانا في أمل أن يكون لكم نافعا، لكنه غير مصحوب بأية ضمانة." />
+			<text id="COPYRIGHT_DISCLAIMER" value="هذا البرنامج يوزع مجانا في أمل أن يكون نافعا بإذن الله، لكنه غير مصحوب بأية ضمانة." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="ذكر" />
@@ -139,6 +171,43 @@
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
 			<text id="TITLE" value="تحرير مجالات البحث" />
+		</form>
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="إدارة مجموعة الإشارة المرجعية: {1}" />
+			<text id="NEW_BOOKMARK_FOLDER" value="مجلد جديد للإشارة المرجعية" />
+			<text id="NEW_BOOKMARK_ITEM" value="عنصر إشارة مرجعية جديد" />
+			<text id="UNIQUE_NAME" value="تسمية مميّزة" />
+			<text id="COMMA_SEPARATED" value="إستعمل قيماً مفصولة بفواصل، في حالة وجود أكثر من مؤلف" />
+			<text id="ONLY_ENGLISH" value="إستعمل أسماءً إنكليزية فقط (مثل: English, Farsi, Arabic, ...)" />
+			<text id="DESC_TOOLTIP" value="إصطلاحات، مراجع، إقتباسات، و غير ذلك" />
+		</form>
+		<form id="BOOKMARK_SET_GROUP_FORM">
+			<text id="TITLE" value="إدارة مجموعات الإشارات المرجعية" />
+			<text id="DBL_CLICK" value="نقر مزدوج على العنصر للفتح أو التحرير" />
+			<text id="SET_AS_DEFAULT" value='هل تريد تخصيص "{1}" كإشارة مرجعية إفتراضية؟' />
+			<text id="CANNOT_REMOVE_DEFAULT" value="غير قادر على حذف الإشارة المرجعية الإفتراضية" />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="غير قادر على إعادة الكتابة على مجموعة الإشارة المرجعية الإفتراضية. حدد مجموعة إشارة مرجعية أخرى كإفتراضية، ثم حاول عملية الإستيراد مرة ثانية" />
+			<text id="ENTER_ID" value="أدخل الرقم المعرّف للإشارة المرجعية" />
+			<text id="NEW_BOOKMARK_SET" value="مجموعة إشارة مرجعية جديدة" />
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="تحرير خصائص الإشارة المرجعية" />
+			<text id="QURAN_LOCATIONS" value="مسارات القرآن" />
+			<text id="NEW_BOOKMARK" value="إشارة مرجعية جديدة" />
+			<text id="NEW_FOLDER" value="مجلد جديد" />
+		</form>
+		<form id="BOOKMARK_REF">
+			<text id="TITLE" value="مجموعة إشارة مرجعية تشير لـ: {1}" />
+		</form>
+		<form id="IMPORT_QUESTION">
+			<text id="IMPORT_FOR" value="إستيراد من أجل المستخدمين:" />
+			<text id="ME_ONLY" value="لي فقط" />
+			<text id="ALL_USERS" value="جميع المستخدمين  (يحتاج لسماحية الكتابة على مجلد التنصيب)" />
+		</form>
+		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="TITLE" value="إعداد ترجمات مخصّصة" />
+			<text id="AVAILABLE" value="الترجمات متاحة" />
+			<text id="CURRENT" value="الترجمات حالية" />
 		</form>
 	</forms>
 </language>

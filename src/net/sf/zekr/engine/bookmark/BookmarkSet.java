@@ -9,6 +9,7 @@
 package net.sf.zekr.engine.bookmark;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +20,10 @@ import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
+import net.sf.zekr.common.ZekrBaseException;
+import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.QuranLocation;
+import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
@@ -27,6 +31,7 @@ import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlWriter;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,6 +40,7 @@ import org.w3c.dom.NodeList;
 
 public class BookmarkSet {
 	private final static Logger logger = Logger.getLogger(BookmarkSet.class);
+	private final static LanguageEngine lang = LanguageEngine.getInstance();
 
 	private File file;
 	private String name;
@@ -50,14 +56,14 @@ public class BookmarkSet {
 	private BookmarkItem parentItem;
 
 	/**
-	 * Altought items are stored as a tree DS in <code>parentItem</code>, a reference to each item is
+	 * Although items are stored as a tree DS in <code>parentItem</code>, a reference to each item is
 	 * stored in a map of id-items.
 	 */
 	private Map itemMap = new HashMap();
 
 	private Document xmlDocument;
 
-	private boolean called = false;
+	private boolean loaded = false;
 
 	private String id;
 
@@ -73,30 +79,60 @@ public class BookmarkSet {
 	}
 
 	/**
+	 * This c'tor is used for creating new bookmark sets. ID of the bookmark in addition to a boolean value is
+	 * provided in order to differ it from the other c'tor. However, <code>isNew</code> parameter is
+	 * ignored.<br>
+	 * This method will load blank bookmark, and the bookmark will not be saved until a call to
+	 * <code>save()</code> be performed.<br>
+	 * Note that after a call to this, bookmark would be loaded as well as initialized, hence there is no need
+	 * more to call <code>load()</code>.
+	 * 
+	 * @param id bookmark id
+	 * @param isNew a dummy parameter
+	 * @throws IOException if any IO error occurred during blank bookmark copy
+	 */
+	public BookmarkSet(String id, boolean isNew) {
+		ResourceManager res = ResourceManager.getInstance();
+		String bbPath = res.getString("bookmark.blank");
+		file = new File(Naming.BOOKMARK_DIR + "/" + id + ".xml");
+		this.id = id;
+		Date d = new Date();
+		load(bbPath);
+		setCreateDate(d);
+		setModifyDate(d);
+	}
+
+	/**
 	 * Should be called only once. Nothing happens if this method be called more.
 	 */
 	public void load() {
-		if (!called) {
+		load(file.getPath());
+	}
+
+	/**
+	 * Should be called only once. Nothing happens if this method be called more.
+	 */
+	private void load(String filePath) {
+		if (!loaded) {
 			try {
-				XmlReader bookmarkXmlReader = new XmlReader(file);
+				XmlReader bookmarkXmlReader = new XmlReader(filePath);
 				xmlDocument = bookmarkXmlReader.getDocument();
 				loadXml(parentItem = new BookmarkItem(), xmlDocument.getFirstChild());
+				loaded = true;
 			} catch (XmlReadException e) {
 				logger.error("Error reading/parsing bookmark set XML file.");
 				logger.log(e);
 			}
-
-			called = true;
 		}
 	}
 
-	public void save() {
+	public void save() throws BookmarkSaveException {
 		updateXml();
 		try {
 			XmlWriter.writeXML(xmlDocument, file);
 		} catch (TransformerException e) {
-			logger.error("Error saving bookmark set XML file.");
-			logger.log(e);
+			logger.error("Error saving bookmark XML file: " + e);
+			throw new BookmarkSaveException("Error saving bookmark: " + e.getMessage());
 		}
 	}
 
@@ -173,7 +209,9 @@ public class BookmarkSet {
 					if (nd.getNodeType() != Node.ELEMENT_NODE)
 						continue;
 					String name = nd.getNodeName();
-					String value = nd.getFirstChild().getNodeValue();
+					String value = "";
+					if (nd.getFirstChild() != null)
+						value = nd.getFirstChild().getNodeValue();
 					if (name.equals("name")) {
 						setName(value);
 					} else if (name.equals("desc")) {
@@ -238,8 +276,7 @@ public class BookmarkSet {
 		try {
 			return sdf.parse(dateStr);
 		} catch (ParseException e) {
-			// logger.implicitLog(e);
-			logger.log(e);
+			logger.warn("Data parse error: " + e);
 		}
 		return null;
 	}
@@ -310,35 +347,52 @@ public class BookmarkSet {
 	}
 
 	public String toString() {
-		return "BookmarkSet-" + name;
+		String[] idn = getIdAndName();
+		return idn[0] + " <" + idn[1] + ">";
 	}
 
 	public String getId() {
 		return id;
 	}
 
-//	public BookmarkItem getItemById(String id) {
-//		return (BookmarkItem) itemMap.get(id);
-//	}
-
-//	/**
-//	 * Adds a new bookmark item to the root items, assigning a new id to it.
-//	 * 
-//	 * @param item the <code>BookmarkItem</code> to be added
-//	 */
-//	public void addBookmarkItem(BookmarkItem item) {
-//		item.setId(nextItemId());
-//		parentItem.addChild(item);
-//		itemMap.put(item.getId(), item);
-//	}
-
 	public String nextItemId() {
 		return String.valueOf(_idCounter++);
 	}
 
-//	public void removeBookmarkItem(BookmarkItem item) {
-//		parentItem.removeChild(item);
-//		itemMap.remove(item.getId());
-//	}
+	public void remove() throws ZekrBaseException {
+		if (!file.delete()) {
+			throw new ZekrBaseException("Error removing bookmark: " + id);
+		}
+	}
 
+	public void changeIdIfPossible(String newId) throws ZekrBaseException {
+		File newFile = new File(Naming.BOOKMARK_DIR + "/" + newId + ".xml");
+		if (newFile.exists())
+			throw new ZekrBaseException("A bookmark with the ID \"" + newId + "\" already exists.");
+		try {
+			FileUtils.copyFile(file, newFile);
+		} catch (IOException e) {
+			throw new ZekrBaseException("IO Error during ID change: " + e.getMessage());
+		}
+		if (!file.delete()) {
+			newFile.delete();
+			throw new ZekrBaseException("Could not delete the old bookmark: " + id);
+		}
+		file = newFile;
+		id = newId;
+	}
+	public String[] getIdAndName() {
+		if (loaded)
+			return new String[] {id, name};
+		else
+			return new String[] {id, "[" + lang.getMeaning("NOT_LOADED") + "]"};
+	}
+
+	public boolean isLoaded() {
+		return loaded;
+	}
+
+	public File getFile() {
+		return file;
+	}
 }

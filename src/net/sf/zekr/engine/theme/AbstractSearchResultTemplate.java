@@ -33,12 +33,12 @@ public abstract class AbstractSearchResultTemplate extends BaseViewTemplate {
 		engine.put("KEYWORD", keyword);
 		engine.put("ICON_TRANSLATE", resource.getString("icon.translate"));
 
-		engine.put("NEXT_AYA", langEngine.getMeaning("NEXT_AYA"));
-		engine.put("PREV_AYA", langEngine.getMeaning("PREV_AYA"));
-
-		engine.put("GOTO_MSG", langEngine.getMeaning("GOTO"));
-		engine.put("SURA_MSG", langEngine.getMeaning("SURA"));
-		engine.put("AYA_MSG", langEngine.getMeaning("AYA"));
+//		engine.put("NEXT_AYA", langEngine.getMeaning("NEXT_AYA"));
+//		engine.put("PREV_AYA", langEngine.getMeaning("PREV_AYA"));
+//
+//		engine.put("GO_MSG", langEngine.getMeaning("GO"));
+//		engine.put("SURA_MSG", langEngine.getMeaning("SURA"));
+//		engine.put("AYA_MSG", langEngine.getMeaning("AYA"));
 	}
 
 	/**

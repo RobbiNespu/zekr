@@ -22,7 +22,6 @@ import org.w3c.dom.Node;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class XmlReader {
 	private Document xmlDocument;
@@ -42,7 +41,7 @@ public class XmlReader {
 	 * Reads the given XML file.
 	 * 
 	 * @param file the file to be read
-	 * @throws XmlReadException if any error encountered during XML loading/parsig.
+	 * @throws XmlReadException if any error encountered during XML loading/parsing.
 	 */
 	public XmlReader(File file) throws XmlReadException {
 		try {

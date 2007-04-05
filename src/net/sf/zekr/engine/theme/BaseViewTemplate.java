@@ -13,11 +13,11 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.runtime.Naming;
+import net.sf.zekr.common.util.I18N;
 import net.sf.zekr.common.util.UriUtils;
+import net.sf.zekr.common.util.VelocityUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
-
-import org.apache.velocity.tools.generic.MathTool;
 
 /**
  * @author Mohsen Saboorian
@@ -61,7 +61,8 @@ public abstract class BaseViewTemplate implements ITransformer {
 		engine.put("UI_DIR", ApplicationPath.UI_DIR);
 		engine.put("CSS_DIR", UriUtils.toURI(Naming.CACHE_DIR));
 		engine.put("THEME_DIR", td.getPath());
-		engine.put("MATH", new MathTool());
+		engine.put("UTILS", new VelocityUtils());
+		engine.put("I18N", new I18N(langEngine.getLocale()));
 
 		engine.putAll(td.processedProps);
 	}

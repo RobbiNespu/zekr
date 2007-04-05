@@ -31,7 +31,6 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 
 	public QuranSearchResultTemplate(IRangedQuranText quran, String keyword, boolean matchDiac) {
 		super(quran, keyword, matchDiac);
-		engine.put("TRANSLATE", langEngine.getMeaning("TRANSLATION"));
 	}
 
 	public String transform() {
@@ -43,7 +42,7 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 
 			logger.info("Search started: " + keyword);
 			Date date1 = new Date();
-			boolean ok = qs.findAll(result, keyword); // find over the whole Quran
+			boolean ok = qs.findAll(result, keyword); // find...
 			Date date2 = new Date();
 			logger.info("Search for " + keyword + " finished; it took " + (date2.getTime() - date1.getTime())
 					+ " ms.");
@@ -59,8 +58,8 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 					.arabicSimplify(keyword);
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));
 
-			ret = engine.getUpdated(ResourceManager.getInstance().getString("theme.search.result",
-					new String[] { config.getTheme().getCurrent().id }));
+			ThemeData theme = config.getTheme().getCurrent();
+			ret = engine.getUpdated(theme.getPath() + "/" + resource.getString("theme.search.result"));
 		} catch (Exception e) {
 			logger.log(e);
 		}

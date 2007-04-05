@@ -12,15 +12,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.language.LanguageEngine;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Mohsen Saboorian
@@ -64,7 +62,8 @@ public class CollectionUtils {
 	}
 
 	/**
-	 * @param col collection parameter to be returned as array
+	 * @param col
+	 *           collection parameter to be returned as array
 	 * @return an array of <code>collection.eachElement.toString()</code>.
 	 */
 	public static String[] toStringArray(Collection col) {
@@ -78,9 +77,11 @@ public class CollectionUtils {
 	}
 
 	/**
-	 * @param col collection parameter to be returned as array
-	 * @param methodName the method name to be called on each item. The method's signature should have no
-	 *            argument, and return <code>String</code>.
+	 * @param col
+	 *           collection parameter to be returned as array
+	 * @param methodName
+	 *           the method name to be called on each item. The method's signature should have no argument, and return
+	 *           <code>String</code>.
 	 * @return an array of <code>collection.eachElement.toString()</code>.
 	 * @throws InvocationTargetException
 	 * @throws NoSuchMethodException
@@ -92,8 +93,7 @@ public class CollectionUtils {
 		int i = 0;
 		for (Iterator iter = col.iterator(); iter.hasNext(); i++) {
 			Object element = iter.next();
-			s[i] = (String) element.getClass().getMethod(methodName, new Class[] {}).invoke(element,
-					new Object[] {});
+			s[i] = (String) element.getClass().getMethod(methodName, new Class[] {}).invoke(element, new Object[] {});
 		}
 		return s;
 	}
@@ -107,10 +107,20 @@ public class CollectionUtils {
 		if (!StringUtils.isBlank(strList)) {
 			String[] strs = strList.split(delim);
 			for (int i = 0; i < strs.length; i++) {
-				list.add(clazz.getConstructor(new Class[] { String.class }).newInstance(
-						new Object[] { strs[i].trim() }));
+				list.add(clazz.getConstructor(new Class[] { String.class }).newInstance(new Object[] { strs[i].trim() }));
 			}
 		}
 		return list;
+	}
+
+	public static Object indexOf(Collection collection, String method, Object value) throws IllegalArgumentException,
+			SecurityException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		for (Iterator iter = collection.iterator(); iter.hasNext();) {
+			Object elem = iter.next();
+			Object res = elem.getClass().getMethod(method, new Class[] {}).invoke(elem, new Object[] {});
+			if (res.equals(value))
+				return elem;
+		}
+		return null;
 	}
 }

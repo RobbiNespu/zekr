@@ -11,6 +11,7 @@ package net.sf.zekr.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,18 +26,23 @@ import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.runtime.HtmlRepository;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchScope;
+import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
+import net.sf.zekr.engine.search.ui.ManageScopesForm;
+import net.sf.zekr.engine.search.ui.SearchScopeForm;
 import net.sf.zekr.engine.translation.TranslationData;
+import net.sf.zekr.ui.helper.EventProtocol;
+import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.lucene.search.Sort;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressAdapter;
 import org.eclipse.swt.browser.ProgressEvent;
-import org.eclipse.swt.browser.StatusTextEvent;
-import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.browser.TitleEvent;
 import org.eclipse.swt.browser.TitleListener;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
@@ -48,6 +54,7 @@ import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
@@ -67,7 +74,10 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * Main Zekr form. This class contains all the Zekr main screen, except menus which are in
@@ -87,7 +97,8 @@ public class QuranForm extends BaseForm {
 	private Combo ayaSelector;
 	private Label suraLabel;
 	private Label ayaLabel;
-	private Combo searchCombo;
+	private Combo searchCombo, advancedSearchCombo;
+	private Text advancedSearchBox;
 	private Button applyButton;
 	private Button searchButton;
 	private Button searchArrowBut;
@@ -97,6 +108,7 @@ public class QuranForm extends BaseForm {
 	private Button matchDiacCheckBox;
 	private Button currentPageCheckBox;
 	private Button matchCaseCheckBox;
+	private Button toggleMultiLine;
 	private Table suraTable;
 	private Map suraMap;
 	private Group navigationGroup;
@@ -106,6 +118,10 @@ public class QuranForm extends BaseForm {
 	private Group detailGroup;
 	private SashForm sashForm;
 	private Menu searchMenu;
+	private StackLayout advancedSearchStackLayout;
+	private Button advancedSearchButton;
+	private Button advancedSearchArrowBut;
+	private Menu advancedSearchMenu;
 
 	private ProgressAdapter qpl, tpl;
 	private String title;
@@ -116,6 +132,7 @@ public class QuranForm extends BaseForm {
 	static final int SEPARATE = 2;
 	static final int QURAN_ONLY = 3;
 	static final int TRANS_ONLY = 4;
+	static final int CUSTOM_MIXED = 5;
 	static final String NAV_BUTTON = "NAV_BUTTON";
 
 	private int searchTarget;
@@ -152,6 +169,10 @@ public class QuranForm extends BaseForm {
 	private boolean clearOnExit = false;
 	private SearchScope searchScope;
 	private List searchScopeList;
+	private TabFolder searchTabFolder;
+	private Composite searchTabBody, advancedSearchTabBody;
+	private Menu _searchScopeMenu;
+	private Combo advancedSearchOrderCombo;
 	
 	private Listener globalKeyListener = new Listener() {
 		public void handleEvent(Event event) {
@@ -177,6 +198,12 @@ public class QuranForm extends BaseForm {
 		}
 	};
 
+	public KeyAdapter textSelectAll = new KeyAdapter() {
+		public void keyPressed(KeyEvent e) {
+			if (e.stateMask == SWT.CTRL && (e.keyCode == 'a' || e.keyCode == 'A'))
+				((Text) e.widget).selectAll();
+		}
+	};
 
 	/**
 	 * Initialize the QuranForm.
@@ -200,7 +227,8 @@ public class QuranForm extends BaseForm {
 		shell = new Shell(display, SWT.SHELL_TRIM);
 		shell.setText(title);
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
-				new Image(display, resource.getString("icon.form32")) });
+				new Image(display, resource.getString("icon.form32")), new Image(display, resource.getString("icon.form48")),
+				new Image(display, resource.getString("icon.form128")), new Image(display, resource.getString("icon.form256"))});
 		shell.setMenuBar((qmf = new QuranFormMenuFactory(this, shell)).getQuranFormMenu());
 
 		ayaChanged = false;
@@ -222,8 +250,8 @@ public class QuranForm extends BaseForm {
 		};
 		shell.addDisposeListener(dl);
 
-		shell.addTraverseListener(new TraverseListener() {
-			public void keyTraversed(TraverseEvent e) {
+		shell.addListener(EventProtocol.CUSTOM_ZEKR_EVENT, new Listener() {
+			public void handleEvent(Event e) {
 				if (e.data != null) {
 					if (REFRESH_VIEW.equals(e.data)) {
 						reload();
@@ -248,6 +276,9 @@ public class QuranForm extends BaseForm {
 		display.addFilter(SWT.KeyDown, globalKeyListener);
 	}
 
+	/**
+	 * Recreates the whole cache. All previous cached data are removed.
+	 */
 	protected void reload() {
 		try {
 			config.getRuntime().recreateCache();
@@ -286,7 +317,8 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(GridData.FILL_VERTICAL);
 		workPane.setLayoutData(gd);
 		gl = new GridLayout(1, false);
-		gl.marginHeight = gl.marginWidth = 2;
+		gl.marginHeight = gl.marginWidth = 0;
+		gl.marginLeft = gl.marginRight = gl.marginTop = gl.marginBottom = 2;
 		workPane.setLayout(gl);
 
 		Composite bgroup = new Composite(body, SWT.NONE);
@@ -304,7 +336,7 @@ public class QuranForm extends BaseForm {
 		sashForm.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
 		sashForm.SASH_WIDTH = 3;
 
-		quranBrowser = new Browser(sashForm, SWT.NONE);
+		quranBrowser = new Browser(sashForm, SWT.NO_MERGE_PAINTS);
 		fl = new FillLayout(SWT.VERTICAL);
 		fl.marginHeight = 2;
 		quranBrowser.setLayout(fl);
@@ -346,7 +378,6 @@ public class QuranForm extends BaseForm {
 						if (searchTarget == QURAN_ONLY) {
 							logger.info("Show translation: (" + sura + ", " + aya + ")");
 							TranslationData td = config.getTranslation().getDefault();
-							td.load(); // make sure that translation is loaded.
 							pe = new PopupBox(shell, langEngine.getMeaning("TRANSLATION"), td.get(sura, aya),
 									FormUtils.toSwtDirection(td.direction));
 						} else {
@@ -372,14 +403,12 @@ public class QuranForm extends BaseForm {
 		fl = new FillLayout(SWT.VERTICAL);
 		transBrowser.setLayout(fl);
 
-//		quranBrowser.addStatusTextListener(stl);
-//		transBrowser.addStatusTextListener(stl);
 		quranBrowser.addTitleListener(tl);
 		transBrowser.addTitleListener(tl);
 
+		gl = new GridLayout(2, false);
 		navGroup = new Group(workPane, SWT.NONE);
 		navGroup.setText(langEngine.getMeaning("SELECT") + ":");
-		gl = new GridLayout(2, false);
 		navGroup.setLayout(gl);
 		navGroup.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
 
@@ -409,8 +438,7 @@ public class QuranForm extends BaseForm {
 		ayaLabel = new Label(navGroup, SWT.NONE);
 		ayaLabel.setText(langEngine.getMeaning("AYA") + ":");
 
-		ayaSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.VERTICAL_ALIGN_BEGINNING));
+		ayaSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		ayaSelector.setItems(QuranPropertiesUtils.getSuraAyas(1));
 		ayaSelector.setVisibleItemCount(10);
 		ayaSelector.addSelectionListener(new SelectionAdapter() {
@@ -546,14 +574,182 @@ public class QuranForm extends BaseForm {
 				.getMeaning("VALUE"), 80, 80, gd, SWT.HIDE_SELECTION);
 		suraTable.setMenu(propsMenu);
 
-		searchGroup = new Group(workPane, SWT.NONE);
-		searchGroup.setText(langEngine.getMeaning("SEARCH"));
-		gl = new GridLayout(2, false);
-		searchGroup.setLayout(gl);
-		gd = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
-		searchGroup.setLayoutData(gd);
+//		searchGroup = new Group(workPane, SWT.NONE);
+//		searchGroup.setText(langEngine.getMeaning("SEARCH"));
+//		searchGroup.setLayout(new FillLayout());
+//		gd = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
+//		searchGroup.setLayoutData(gd);
 
-		searchCombo = new Combo(searchGroup, SWT.DROP_DOWN);
+		gd = new GridData(GridData.FILL_BOTH);
+		searchTabFolder = new TabFolder(workPane, langEngine.getSWTDirection());
+		searchTabFolder.setLayoutData(gd);
+
+		TabItem normalSearchTab = new TabItem(searchTabFolder, SWT.NONE);
+		TabItem advancedSearchTab = new TabItem(searchTabFolder, SWT.NONE);
+		normalSearchTab.setText(langEngine.getMeaning("SEARCH"));
+		advancedSearchTab.setText(langEngine.getMeaning("ADVANCED"));
+		
+		if (config.getProps().getInt("view.search.tab") != 0)
+			searchTabFolder.setSelection(1);
+
+		searchTabFolder.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				config.getProps().setProperty("view.search.tab", searchTabFolder.getSelectionIndex() + "");
+			}
+		});
+
+		searchTabBody = new Composite(searchTabFolder, langEngine.getSWTDirection());
+		searchTabBody.setLayout(new GridLayout(2, false));
+		normalSearchTab.setControl(searchTabBody);
+		
+		advancedSearchTabBody = new Composite(searchTabFolder, langEngine.getSWTDirection());
+		advancedSearchTabBody.setLayout(new GridLayout(2, false));
+		advancedSearchTab.setControl(advancedSearchTabBody);
+		
+		_searchScopeMenu = createSearchScopeMenu();
+		addAdvancedTabContent();
+		addNormalSearchTabContent();
+	}
+
+	private void addAdvancedTabContent() {
+		SelectionListener advancedSearchListener = new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				doAdvancedFind();
+			}
+		};
+
+		GridData gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		gd.verticalSpan = 2;
+		gd.heightHint = 60;
+		gd.verticalIndent = 6;
+		advancedSearchStackLayout = new StackLayout();
+		final Composite searchTextComp = new Composite(advancedSearchTabBody, SWT.NONE);
+		searchTextComp.setLayout(advancedSearchStackLayout);
+		searchTextComp.setLayoutData(gd);
+
+		advancedSearchCombo = new Combo(searchTextComp, SWT.DROP_DOWN);
+		advancedSearchCombo.setVisibleItemCount(8);
+		advancedSearchCombo.addTraverseListener(new TraverseListener() {
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_RETURN) {
+					doAdvancedFind();
+				}
+			}
+		});
+		// advancedSearchCombo.addKeyListener(comboSelectAll);
+		
+		advancedSearchBox = new Text(searchTextComp, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		advancedSearchBox.addSelectionListener(advancedSearchListener);
+		advancedSearchBox.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if ((e.stateMask & SWT.CTRL) == SWT.CTRL && e.keyCode == 13) { // Ctrl + Enter
+					doAdvancedFind();
+					e.doit = false;
+				}
+			}
+		});
+		advancedSearchBox.addKeyListener(textSelectAll);
+
+		advancedSearchStackLayout.topControl = advancedSearchCombo;
+
+		GridLayout gl = new GridLayout(2, false);
+		gl.horizontalSpacing = 0;
+		gl.marginWidth = 0;
+		gl.verticalSpacing = 0;
+
+		gd = new GridData(SWT.FILL, SWT.BEGINNING, false, false);
+		Composite searchButComp = new Composite(advancedSearchTabBody, SWT.NONE);
+		searchButComp.setLayout(gl);
+		searchButComp.setLayoutData(gd);
+
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		advancedSearchButton = new Button(searchButComp, SWT.PUSH);
+		advancedSearchButton.setText(langEngine.getMeaning("SEARCH"));
+		advancedSearchButton.setLayoutData(gd);
+		advancedSearchButton.addSelectionListener(advancedSearchListener);
+
+		// search option button
+		gd = new GridData(GlobalConfig.isLinux ? GridData.FILL_BOTH : GridData.FILL_HORIZONTAL);
+		gd.horizontalIndent = -1;
+
+		advancedSearchArrowBut = new Button(searchButComp, SWT.TOGGLE);
+		advancedSearchMenu = _searchScopeMenu;
+		advancedSearchMenu.addMenuListener(new MenuAdapter() {
+			public void menuHidden(MenuEvent e) {
+				advancedSearchArrowBut.setSelection(false);
+			}
+		});
+		advancedSearchArrowBut.setImage(new Image(display, resource.getString("icon.down")));
+		advancedSearchArrowBut.setLayoutData(gd);
+		advancedSearchArrowBut.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Point loc = display.map(advancedSearchArrowBut, null, 0, 0);
+				Point size = advancedSearchArrowBut.getSize();
+				advancedSearchMenu.setLocation(loc.x, loc.y + size.y);
+				advancedSearchMenu.setVisible(true);
+			}
+		});
+
+		gd = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
+		toggleMultiLine = new Button(advancedSearchTabBody, SWT.CHECK);
+		toggleMultiLine.setLayoutData(gd);
+		toggleMultiLine.setText("Multiline");
+		toggleMultiLine.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				config.getProps().setProperty("view.search.multiLine", "" + toggleMultiLine.getSelection());
+				if (toggleMultiLine.getSelection() == true) {
+					advancedSearchStackLayout.topControl = advancedSearchBox;
+					advancedSearchBox.setText(advancedSearchCombo.getText());
+				} else {
+					advancedSearchStackLayout.topControl = advancedSearchCombo;
+					advancedSearchCombo.setText(advancedSearchBox.getText());
+				}
+				searchTextComp.layout();
+			}
+		});
+		toggleMultiLine.setSelection(config.getProps().getBoolean("view.search.multiLine"));
+		if (toggleMultiLine.getSelection()) {
+			advancedSearchStackLayout.topControl = advancedSearchBox;
+		} else {
+			advancedSearchStackLayout.topControl = advancedSearchCombo;
+		}
+		
+		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd.horizontalSpan = 2;
+		gl = new GridLayout(2, false);
+		gl.marginWidth = 0;
+		Composite searchOptionsComp = new Composite(advancedSearchTabBody, SWT.NONE);
+		searchOptionsComp.setLayout(gl);
+		searchOptionsComp.setLayoutData(gd);
+		
+		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		Label sortResult = new Label(searchOptionsComp, SWT.NONE);
+		sortResult.setLayoutData(gd);
+		sortResult.setText("Sort results by: ");
+
+		gd = new GridData(SWT.FILL, SWT.BEGINNING, false, false);
+		advancedSearchOrderCombo = new Combo(searchOptionsComp, SWT.READ_ONLY);
+		advancedSearchOrderCombo.setItems(new String[]{"Relevance", "Natural Order"});
+		advancedSearchOrderCombo.setLayoutData(gd);
+		advancedSearchOrderCombo.select(config.getProps().getInt("view.search.sortBy"));
+		advancedSearchOrderCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				config.getProps().setProperty("view.search.sortBy", "" + advancedSearchOrderCombo.getSelectionIndex());
+			}
+		});
+	}
+
+	private void doAdvancedFind() {
+		if (toggleMultiLine.getSelection()) {
+			advancedSearchCombo.setText(advancedSearchBox.getText());
+		} else {
+			advancedSearchBox.setText(advancedSearchCombo.getText());
+		}
+		advancedFind();
+	}
+
+	private void addNormalSearchTabContent() {
+		searchCombo = new Combo(searchTabBody, SWT.DROP_DOWN);
 		searchCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		searchCombo.setVisibleItemCount(8);
 		searchCombo.addSelectionListener(new SelectionAdapter() {
@@ -561,16 +757,17 @@ public class QuranForm extends BaseForm {
 				find();
 			}
 		});
+		// searchCombo.addKeyListener(comboSelectAll);
 
-		gl = new GridLayout(2, false);
+		GridLayout gl = new GridLayout(2, false);
 		gl.horizontalSpacing = 0;
 		gl.marginWidth = 0;
 		gl.verticalSpacing = 0;
 
-		Composite searchButComp = new Composite(searchGroup, SWT.NONE);
+		Composite searchButComp = new Composite(searchTabBody, SWT.NONE);
 		searchButComp.setLayout(gl);
 
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		searchButton = new Button(searchButComp, SWT.PUSH);
 		searchButton.setText(langEngine.getMeaning("SEARCH"));
@@ -586,7 +783,7 @@ public class QuranForm extends BaseForm {
 		gd.horizontalIndent = -1;
 
 		searchArrowBut = new Button(searchButComp, SWT.TOGGLE);
-		searchMenu = createSearchScopeMenu();
+		searchMenu = _searchScopeMenu;
 		searchMenu.addMenuListener(new MenuAdapter() {
 			public void menuHidden(MenuEvent e) {
 				searchArrowBut.setSelection(false);
@@ -613,7 +810,7 @@ public class QuranForm extends BaseForm {
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
-		final Composite searchScopeComp = new Composite(searchGroup, SWT.NONE);
+		final Composite searchScopeComp = new Composite(searchTabBody, SWT.NONE);
 		searchScopeComp.setLayoutData(gd);
 		searchScopeComp.setLayout(new FillLayout());
 
@@ -641,7 +838,7 @@ public class QuranForm extends BaseForm {
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
-		currentPageCheckBox = new Button(searchGroup, SWT.CHECK);
+		currentPageCheckBox = new Button(searchTabBody, SWT.CHECK);
 		currentPageCheckBox.setText(meaning("CURRENT_PAGE"));
 		currentPageCheckBox.setLayoutData(gd);
 		currentPageCheckBox.addKeyListener(ka);
@@ -670,14 +867,14 @@ public class QuranForm extends BaseForm {
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
-		matchDiacCheckBox = new Button(searchGroup, SWT.CHECK);
+		matchDiacCheckBox = new Button(searchTabBody, SWT.CHECK);
 		matchDiacCheckBox.setText(langEngine.getMeaning("MATCH_DIACRITIC"));
 		matchDiacCheckBox.setLayoutData(gd);
 		matchDiacCheckBox.addKeyListener(ka);
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
-		matchCaseCheckBox = new Button(searchGroup, SWT.CHECK);
+		matchCaseCheckBox = new Button(searchTabBody, SWT.CHECK);
 		matchCaseCheckBox.setText(langEngine.getMeaning("MATCH_CASE"));
 		matchCaseCheckBox.setLayoutData(gd);
 		matchCaseCheckBox.addKeyListener(ka);
@@ -812,12 +1009,14 @@ public class QuranForm extends BaseForm {
 		if (suraChanged) {
 			quranBrowser.addProgressListener(qpl);
 			logger.info("Set Quran location to " + quranLoc);
-			if (viewLayout == MIXED)
-				quranBrowser.setUrl(quranUri = HtmlRepository.getMixedUri(quranLoc.getSura(), quranLoc
-						.getAya()));
-			else
-				quranBrowser.setUrl(quranUri = HtmlRepository.getQuranUri(quranLoc.getSura(), quranLoc
-						.getAya()));
+			if (viewLayout == MIXED) {
+				quranUri = HtmlRepository.getMixedUri(quranLoc.getSura(), quranLoc.getAya());
+			} else if (viewLayout == CUSTOM_MIXED) {
+				quranUri = HtmlRepository.getCustomMixedUri(quranLoc.getSura(), quranLoc.getAya());
+			} else {
+				quranUri = HtmlRepository.getQuranUri(quranLoc.getSura(), quranLoc.getAya());
+			}
+			quranBrowser.setUrl(quranUri);
 		} else {
 			quranBrowser.execute("focusOnAya(" + quranLoc.getSura() + "," + quranLoc.getAya() + ");");
 		}
@@ -830,26 +1029,67 @@ public class QuranForm extends BaseForm {
 		suraChanged = true; // It must be set to false after apply()
 	}
 
+	private void advancedFind() {
+		String str;
+		if (toggleMultiLine.getSelection())
+			str = advancedSearchBox.getText();
+		else
+			str = advancedSearchCombo.getText();
+		if ("".equals(str.trim()))
+			return; // do nothing
+
+		String indexDir = config.createQuranIndex();
+
+		if (indexDir == null) {
+			return;
+		}
+
+		Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
+
+		str = str.trim();
+		if (!"".equals(str)) {
+			if (advancedSearchCombo.getItemCount() <= 0 || !str.equals(advancedSearchCombo.getItem(0)))
+				advancedSearchCombo.add(str, 0);
+			if (advancedSearchCombo.getItemCount() > 40)
+				advancedSearchCombo.remove(40, advancedSearchCombo.getItemCount() - 1);
+
+			logger.info("Search started: " + str);
+			Date date1 = new Date();
+
+			boolean relevance = config.getProps().getInt("view.search.sortBy") == 0 ? true : false;
+			QuranTextSearcher qts = new QuranTextSearcher(indexDir, searchScope);
+			qts.setSortResultOrder(relevance ? Sort.RELEVANCE : Sort.INDEXORDER);
+			qts.search(str); // search...
+
+			Date date2 = new Date();
+			logger.info("Search for " + str + " finished; it took " + (date2.getTime() - date1.getTime()) + " ms.");
+			searchBrowser.setUrl(HtmlRepository.getAdvancedSearchQuranUri(qts, str));
+			ayaChanged = true;
+			suraChanged = true;
+		}
+	}
+
 	private void find() {
 		String str = searchCombo.getText();
 		Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
 
-		if (searchCombo.getItemCount() <= 0 || !str.equals(searchCombo.getItem(0)))
-			if (!"".equals(str))
-				searchCombo.add(str, 0);
-		if (searchCombo.getItemCount() > 40)
-			searchCombo.remove(40, searchCombo.getItemCount() - 1);
 		if (!"".equals(str.trim()) && str.indexOf('$') == -1 && str.indexOf('\\') == -1) {
+
+			if (searchCombo.getItemCount() <= 0 || !str.equals(searchCombo.getItem(0)))
+				searchCombo.add(str, 0);
+			if (searchCombo.getItemCount() > 40)
+				searchCombo.remove(40, searchCombo.getItemCount() - 1);
+
 			if (!currentPageCheckBox.getSelection()) {
 				ayaChanged = true;
 				suraChanged = true;
 				if (searchTarget == QURAN_ONLY) {
-					logger.info("Search the whole Quran for \"" + str + "\" with diacritic match set to "
+					logger.info("Search on the Quran for \"" + str + "\" with diacritic match set to "
 							+ matchDiacCheckBox.getSelection()  + ", on scope: " + searchScope);
 					searchBrowser.setUrl(quranUri = HtmlRepository.getSearchQuranUri(str, matchDiacCheckBox
 							.getSelection(), searchScope));
 				} else { // TRANS_ONLY
-					logger.info("Search the whole translation for \"" + str
+					logger.info("Search on the translation for \"" + str
 							+ "\" with diacritic match set to " + matchDiacCheckBox.getSelection() + ", on scope: " + searchScope);
 					searchBrowser.setUrl(quranUri = HtmlRepository.getSearchTransUri(str, matchDiacCheckBox
 							.getSelection(), matchCase, searchScope));
@@ -858,10 +1098,6 @@ public class QuranForm extends BaseForm {
 			} else {
 				logger.info("Start searching the current page for \"" + str
 						+ "\" with diacritic match set to " + matchDiacCheckBox.getSelection() + ".");
-//				if (viewLayout != TRANS_ONLY)
-//					quranBrowser.execute("find(\"" + str + "\", " + matchDiacCheckBox.getSelection() + ", "
-//							+ matchCaseCheckBox.getSelection() + ");");
-//				else
 				searchBrowser.execute("find(\"" + str + "\", " + matchDiacCheckBox.getSelection() + ", "
 							+ matchCaseCheckBox.getSelection() + ");");
 				logger.info("End of search.");
@@ -870,7 +1106,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	void recreate() {
-		logger.info("Recreating the form...");
+		logger.info("Recreating Quran form...");
 		shell.close();
 		init();
 		show();
@@ -943,6 +1179,11 @@ public class QuranForm extends BaseForm {
 		} else if (layout.equals(ApplicationConfig.MIXED_LAYOUT)) {
 			sashForm.setMaximizedControl(quranBrowser);
 			viewLayout = MIXED;
+			updateQuran = true;
+			updateTrans = false;
+		} else if (layout.equals(ApplicationConfig.CUSTOM_MIXED_LAYOUT)) {
+			sashForm.setMaximizedControl(quranBrowser);
+			viewLayout = CUSTOM_MIXED;
 			updateQuran = true;
 			updateTrans = false;
 		}
@@ -1075,5 +1316,4 @@ public class QuranForm extends BaseForm {
 	private String meaning(String key) {
 		return langEngine.getMeaningById(FORM_ID, key);
 	}
-
 }

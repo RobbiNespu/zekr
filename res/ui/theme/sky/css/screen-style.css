@@ -68,7 +68,7 @@ div.headerBar { /* IE 5.0+ */
 	width: expression(eval(document.body.clientWidth - 6) + 'px');
 	padding: 2px;
 	background-color: threedhighlight;
-	font: 0.82em Sans serif, Tahoma, Arial;
+	font: 0.82em Sans-serif, Tahoma, Arial;
 }
 html>body div.headerBar { /* Override some properties for IE 7, Mozilla and Safari */
 	-moz-opacity: 0.75;
@@ -81,7 +81,7 @@ html>body div.headerBar { /* Override some properties for IE 7, Mozilla and Safa
 	right: 2px;
 }
 div.headerBar input {
-	font: 0.82em Sans serif, Tahoma, Arial;
+	font: 0.82em Sans-serif, Tahoma, Arial;
 }
 .headerBar .focusedWord{
 	color: blue;
@@ -137,12 +137,12 @@ div.searchBody {
 #if(!$trans_showSuraAyaSign.equals("true"))
 	display: none;
 #end
-#set($fontSize = $MATH.round($MATH.mul($MATH.toInteger($trans_fontSize),"0.65")))
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.65")))
 	font-size: ${fontSize}pt;
 }
 
 .quran .suraAyaNum {
-#set($fontSize = $MATH.round($MATH.mul($MATH.toInteger($quran_fontSize),"0.65")))
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($quran_fontSize),"0.65")))
 #if(!$quran_showSuraAyaSign.equals("true"))
 	display: none;
 #end
@@ -182,25 +182,7 @@ div.aya {
 	padding-left: 10px;
 	margin: 3px 0 3px 0;
 }
-/*
-span.sajda#minor {
-	font-family: serif;
-	color: rgb(200, 40, 40);
-}
 
-span.sajda#major {
-	font-family: serif;
-	color: rgb(240, 10, 10);
-}
-
-span.juzSign {
-	font-family: serif;
-	color: rgb(0, 40, 200);
-}
-
-span.ayaSign {
-}
-*/
 span.selectedAyaSign {
 	font-weight: bold;
 }
@@ -253,6 +235,20 @@ div.searchResult {
 
 .searchResult a:hover { 
 	color: red;
+}
+
+.queryDetail {
+	font: 0.82em Tahoma, Arial, Sans-serif;
+	border: 1px dashed silver;
+	padding: 2px;
+}
+.queryDetail a:link, a:visited { 
+	color: rgb(40, 90, 230);
+	text-decoration: none;
+}
+
+.queryDetail a:hover { 
+	color: rgb(200, 50, 10);
 }
 
 .handCursor {

@@ -55,7 +55,8 @@ public class AboutForm extends BaseForm {
 
 		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL);
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
-				new Image(display, resource.getString("icon.form32")) });
+				new Image(display, resource.getString("icon.form32")), new Image(display, resource.getString("icon.form48")),
+				new Image(display, resource.getString("icon.form128")), new Image(display, resource.getString("icon.form256"))});
 		shell.setText(title);
 		shell.setLayout(new FillLayout());
 
@@ -77,8 +78,10 @@ public class AboutForm extends BaseForm {
 			}
 		});
 
+		gl = new GridLayout(1, false);
+		gl.marginWidth = gl.marginHeight = 0;
 		Composite detailCom = new Group(body, langEngine.getSWTDirection());
-		detailCom.setLayout(new GridLayout(1, false));
+		detailCom.setLayout(gl);
 		gd = new GridData(GridData.FILL_BOTH);
 		detailCom.setLayoutData(gd);
 
@@ -86,7 +89,7 @@ public class AboutForm extends BaseForm {
 		String s = langEngine.getMeaning("APP_FULL_NAME")
 				+ ".\n\t<a href=\"http://siahe.com/zekr\">http://siahe.com/zekr</a>\n";
 
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd = new GridData(GridData.BEGINNING);
 		link.setText(s);
 		link.setLayoutData(gd);
 		link.addSelectionListener(new SelectionAdapter() {
@@ -95,15 +98,16 @@ public class AboutForm extends BaseForm {
 			}
 		});
 
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd = new GridData(GridData.BEGINNING);
 		Label versionLabel = new Label(detailCom, SWT.NONE);
 		versionLabel.setText(langEngine.getMeaning("VERSION") + ": " + GlobalConfig.ZEKR_VERSION);
 		versionLabel.setLayoutData(gd);
 
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		Text text = new Text(detailCom, SWT.MULTI | SWT.WRAP | SWT.SCROLL_LINE);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.grabExcessVerticalSpace = true;
+		gd.heightHint = 50;
+		Text text = new Text(detailCom, SWT.MULTI | SWT.WRAP | SWT.SCROLL_LINE | SWT.READ_ONLY);
 		text.setText(langEngine.getMeaning("COPYRIGHT_DISCLAIMER"));
-		text.setEditable(false);
 		text.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 		text.setLayoutData(gd);
 
@@ -127,7 +131,7 @@ public class AboutForm extends BaseForm {
 		});
 
 		shell.pack();
-		shell.setSize(440, shell.getSize().y);
+		shell.setSize(480, shell.getSize().y);
 	}
 
 	/**

@@ -29,7 +29,7 @@ Zekr 0.4.0 (release)
 
 Zekr 1.0.0
   + Translation system: easily adding different translations
-  + Theme system: easily adding defferent themes
+  + Theme system: easily adding different themes
   + Linguistics analysis (morphology)
   + Options
     . Color

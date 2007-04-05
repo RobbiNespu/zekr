@@ -25,4 +25,6 @@ public interface IQuranLocation {
 	 * @return the next Quran location.
 	 */
 	public IQuranLocation getNext();
+	
+	public String toSortableString();
 }

@@ -41,9 +41,8 @@ public class ThemeTemplate extends BaseViewTemplate {
 
 			// create destination CSS file if it doesn't exist
 			if (!destFile.exists() || destFile.length() == 0) {
-				logger.debug("Theme doesn't exist, will create it.");
-				File srcFile = new File(resource.getString("theme.css.srcDir", new String[] { themeData.id })
-						+ "/" + cssFileNames[i]);
+				logger.debug("Theme CSS doesn't exist, will create it: " + cssFileNames[i]);
+				File srcFile = new File(themeData.getPath() + "/" + resource.getString("theme.cssDir") + "/" + cssFileNames[i]);
 				themeData.process(config.getTranslation().getDefault().locale.getLanguage());
 				engine.putAll(themeData.processedProps);
 

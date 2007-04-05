@@ -8,23 +8,30 @@
  */
 package net.sf.zekr.engine.bookmark.ui;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
+import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.ui.EventProtocol;
-import net.sf.zekr.ui.FormUtils;
+import net.sf.zekr.ui.helper.EventProtocol;
+import net.sf.zekr.ui.helper.EventUtils;
+import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MenuAdapter;
@@ -35,10 +42,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -48,16 +53,17 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
 /**
- * This class handles a number of functions related to bookmarks as static methods. There functions include
- * making bookmark menu, making bookmark tree, bookmark location selector pop-up, and more.
+ * This class handles a number of functions related to bookmarks as static methods. There functions include making
+ * bookmark menu, making bookmark tree, bookmark location selector pop-up, and more.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
 public class BookmarkUtils {
-	private static final ResourceManager resource = ResourceManager.getInstance();
-	private static final LanguageEngine lang = LanguageEngine.getInstance();
 	private final static Logger logger = Logger.getLogger(BookmarkUtils.class);
+	private final static ApplicationConfig config = ApplicationConfig.getInstance();
+	private final static LanguageEngine lang = LanguageEngine.getInstance();
+	private final static ResourceManager resource = ResourceManager.getInstance();
 
 	public static void addBookmarkItemToMenu(Menu parentMenu, final BookmarkItem bookmarkItem) {
 		final Shell shell = parentMenu.getShell();
@@ -69,13 +75,14 @@ public class BookmarkUtils {
 			menuItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.closeFolder")));
 			Menu menu = new Menu(shell, SWT.DROP_DOWN);
 			menuItem.setMenu(menu);
+			// Windows paints the whole menu, if icon changes
+			/*
 			menu.addMenuListener(new MenuAdapter() {
 				public void menuShown(MenuEvent e) {
 					Menu m = (Menu) e.widget;
 					MenuItem pmi = m.getParentItem();
 					if (pmi != null) {
-						pmi.setImage(new Image(shell.getDisplay(),
-							resource.getString("icon.menu.bookmark.openFolder")));
+						pmi.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.openFolder")));
 					}
 				}
 
@@ -83,12 +90,11 @@ public class BookmarkUtils {
 					Menu m = (Menu) e.widget;
 					MenuItem pmi = m.getParentItem();
 					if (pmi != null) {
-						pmi.setImage(new Image(shell.getDisplay(), 
-							resource.getString("icon.menu.bookmark.closeFolder")));
+						pmi.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.closeFolder")));
 					}
 				}
 			});
-
+			 */
 			List bmChildren = bookmarkItem.getChildren();
 			for (int i = 0; i < bmChildren.size(); i++) {
 				BookmarkItem newBookmarkItem = (BookmarkItem) bmChildren.get(i);
@@ -97,11 +103,11 @@ public class BookmarkUtils {
 		} else {
 			menuItem = new MenuItem(parentMenu, SWT.PUSH);
 			menuItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.item")));
-			menuItem.setText(StringUtils.abbreviate(bookmarkItem.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH) 
-					+ " - " + StringUtils.abbreviate(bookmarkItem.getLocations().toString(), 15));
+			menuItem.setText(StringUtils.abbreviate(bookmarkItem.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH) + " - "
+					+ StringUtils.abbreviate(bookmarkItem.getLocations().toString(), 15));
 			menuItem.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
-					gotoBookmarkLocations(shell, shell, bookmarkItem);
+					gotoBookmarkLocations(shell, bookmarkItem);
 				}
 			});
 		}
@@ -127,23 +133,23 @@ public class BookmarkUtils {
 		treeItem.setData(bookmarkItem);
 	}
 
-	public static TreeItem moveTreeItem(Tree parentTree, TreeItem treeItem) {
-		return _moveTreeItem(parentTree, treeItem, -1);
+	public static TreeItem moveTreeItem(Tree parentTree, TreeItem treeItem, boolean duplicate) {
+		return _moveTreeItem(parentTree, treeItem, -1, duplicate);
 	}
 
-	public static TreeItem moveTreeItem(Tree parentTree, TreeItem treeItem, int index) {
-		return _moveTreeItem(parentTree, treeItem, index);
+	public static TreeItem moveTreeItem(Tree parentTree, TreeItem treeItem, int index, boolean duplicate) {
+		return _moveTreeItem(parentTree, treeItem, index, duplicate);
 	}
 
-	public static TreeItem moveTreeItem(TreeItem parentItem, TreeItem treeItem) {
-		return _moveTreeItem(parentItem, treeItem, -1);
+	public static TreeItem moveTreeItem(TreeItem parentItem, TreeItem treeItem, boolean duplicate) {
+		return _moveTreeItem(parentItem, treeItem, -1, duplicate);
 	}
 
-	public static TreeItem moveTreeItem(TreeItem parentItem, TreeItem treeItem, int index) {
-		return _moveTreeItem(parentItem, treeItem, index);
+	public static TreeItem moveTreeItem(TreeItem parentItem, TreeItem treeItem, int index, boolean duplicate) {
+		return _moveTreeItem(parentItem, treeItem, index, duplicate);
 	}
 
-	private static TreeItem _moveTreeItem(Widget parent, TreeItem treeItem, int index) {
+	private static TreeItem _moveTreeItem(Widget parent, TreeItem treeItem, int index, boolean duplicate) {
 		TreeItem newTreeItem;
 		if (parent instanceof Tree) {
 			if (index == -1)
@@ -158,7 +164,10 @@ public class BookmarkUtils {
 		}
 
 		BookmarkItem bookmarkItem = (BookmarkItem) treeItem.getData();
-		newTreeItem.setData(treeItem.getData());
+		if (duplicate) {
+			bookmarkItem = (BookmarkItem) bookmarkItem.clone();
+		}
+		newTreeItem.setData(bookmarkItem);
 		if (bookmarkItem.isFolder()) {
 			newTreeItem.setText(new String[] { bookmarkItem.getName(), "", bookmarkItem.getDescription() });
 			newTreeItem.setImage(new Image(parent.getDisplay(), resource.getString("icon.bookmark.closeFolder")));
@@ -170,7 +179,7 @@ public class BookmarkUtils {
 
 		if (treeItem.getItemCount() > 0)
 			for (int i = 0; i < treeItem.getItems().length; i++) {
-				_moveTreeItem(newTreeItem, treeItem.getItem(i), -1);
+				_moveTreeItem(newTreeItem, treeItem.getItem(i), -1, duplicate);
 			}
 		return newTreeItem;
 	}
@@ -187,18 +196,18 @@ public class BookmarkUtils {
 		return bi;
 	}
 
-	public static void gotoBookmarkLocations(Shell parent, Shell quranShell, BookmarkItem bookmarkItem) {
+	public static void gotoBookmarkLocations(Shell parent, BookmarkItem bookmarkItem) {
 		List locs = bookmarkItem.getLocations();
 		if (locs.size() == 0) {
 			return;
 		} else if (locs.size() == 1) {
 			IQuranLocation location = (IQuranLocation) locs.get(0);
-			sendEvent(quranShell, EventProtocol.GOTO_LOCATION + ":" + location);
+			EventUtils.sendEvent(EventProtocol.GOTO_LOCATION + ":" + location);
 		} else {
 			int i = chooseBookmarkItem(parent, bookmarkItem);
 			if (i != -1) {
 				IQuranLocation location = (IQuranLocation) locs.get(i);
-				sendEvent(quranShell, EventProtocol.GOTO_LOCATION + ":" + location);
+				EventUtils.sendEvent(EventProtocol.GOTO_LOCATION + ":" + location);
 			}
 		}
 	}
@@ -265,13 +274,40 @@ public class BookmarkUtils {
 		return _listIndex;
 	}
 
-	/**
-	 * Creates and sends an event to the shell for communication with QuranForm.
-	 */
-	private static void sendEvent(Shell shell, String eventName) {
-		Event te = new Event();
-		te.data = eventName;
-		te.type = SWT.Traverse;
-		shell.notifyListeners(SWT.Traverse, te);
+	public static List findReferences(BookmarkSet bms, IQuranLocation loc) {
+		List bmItems = bms.getBookmarksItems();
+		List foundItems = new ArrayList();
+		for (int i = 0; i < bmItems.size(); i++) {
+			BookmarkItem item = (BookmarkItem) bmItems.get(i);
+			foundItems.addAll(_findReferences(new ArrayList(), item, loc));
+		}
+		return foundItems;
+	}
+
+	private static List _findReferences(List path, BookmarkItem bmItem, IQuranLocation loc) {
+		List childItems = bmItem.getChildren();
+		List foundItems = new ArrayList();
+		List l = new ArrayList(path);
+		l.add(bmItem.getName());
+		if (!bmItem.isFolder()) {
+			if (bmItem.getLocations().contains(loc)) {
+				foundItems.add(new Object[]{l, bmItem});
+			}
+		} else {
+			for (int i = 0; i < childItems.size(); i++) {
+				BookmarkItem item = (BookmarkItem) childItems.get(i);
+				foundItems.addAll(_findReferences(l, item, loc));
+			}
+		}
+		return foundItems;
+	}
+
+	public static void main(String[] args) {
+		BookmarkSet bms = config.getBookmark();
+		List l = findReferences(bms, new QuranLocation(12, 13));
+		for (int i = 0; i < l.size(); i++) {
+			Object[] entry = (Object[]) l.get(i);
+			System.out.println(entry[0] + ": " + entry[1]);
+		}
 	}
 }

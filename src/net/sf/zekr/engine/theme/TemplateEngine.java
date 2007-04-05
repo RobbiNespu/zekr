@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
 
 import org.apache.commons.collections.ExtendedProperties;
@@ -38,6 +39,7 @@ public class TemplateEngine {
 	 */
 	private TemplateEngine() {
 		try {
+			System.setProperty("zekr.home", Naming.HOME_PATH);
 			Velocity.setExtendedProperties(new ExtendedProperties("res/config/lib/velocity.properties"));
 			// Velocity.addProperty("file.resource.loader.path",
 			// ApplicationPath.THEME_DIR);

@@ -5,10 +5,8 @@
  *
  * @version 1
  *#
-
 #set ($MINOR = 0)
 #set ($MAJOR = 1)
-
 #if($TRANSLATION == "true")
 	#set($CLASS="trans")
 	#set($DIR=${TRANS_DIRECTION})
@@ -20,10 +18,9 @@
 	#set($RPAREN = "&#64831;")
 	#set($LPAREN = "&#64830;")
 #end
-
 <div class="$CLASS" dir="$DIR">
 	<div id="searchableSection" class="searchResult">
-	    #foreach ($AYA in $AYA_LIST)
+	    #foreach ($ITEM in $AYA_LIST)
 	    	#set($AYA_NUM = $velocityCount)
 			#if ($AYA_NUM % 2 == 0)
 				#set($ROW_CLASS = "even")
@@ -32,18 +29,27 @@
 			#end
 			<div id="result_$velocityCount" class="$ROW_CLASS">
 			<div class="item">
-	    		<span title="${AYA.Key}" class="searchItemNum" id="itemNum_$velocityCount">($AYA_NUM)</span>
-		    	#foreach ($AYA_SEGMENT in $AYA.Value)
+			#if($ADVANCED == "true")
+	    		<span title="${ITEM.Location}" class="searchItemNum" id="itemNum_$velocityCount">($AYA_NUM)</span>
+	    		$ITEM.contents
+		    	<span title="${ITEM.Location}" dir="$DIR">
+					<a onclick="gotoSuraAya('${ITEM.Location.toString()}')" href="javascript:void(0)">$RPAREN${ITEM.Location.SuraName}: ${ITEM.Location.Aya}$LPAREN</a>
+					<span title="$DICT.getMeaning('TRANSLATION')" class="handCursor" onclick="translate('${ITEM.Location}')"><img src="${ICON_TRANSLATE}"></span>
+				</span>
+			#else
+	    		<span title="${ITEM.Key}" class="searchItemNum" id="itemNum_$AYA_NUM">($AYA_NUM)</span>
+		    	#foreach ($AYA_SEGMENT in $ITEM.Value)
 		    		#if ($velocityCount % 2 == 1)
 		    			$AYA_SEGMENT
 		    		#elseif ($AYA_SEGMENT.length() > 0)
 						<span class="highlight" title="$KEYWORD">$AYA_SEGMENT</span>
 		    		#end
 		    	#end
-		    	<span title="${AYA.Key}" dir="$DIR">
-					<a onclick="gotoSuraAya('${AYA.Key}')" href="javascript:void(0)">$RPAREN${AYA.Key.SuraName}: ${AYA.Key.Aya}$LPAREN</a>
-					<span title="${TRANSLATE}" class="handCursor" onclick="translate('${AYA.Key}')"><img src="${ICON_TRANSLATE}"></span>
+		    	<span title="${ITEM.Key}" dir="$DIR">
+					<a onclick="gotoSuraAya('${ITEM.Key}')" href="javascript:void(0)">$RPAREN${ITEM.Key.SuraName}: ${ITEM.Key.Aya}$LPAREN</a>
+					<span title="$DICT.getMeaning('TRANSLATION')" class="handCursor" onclick="translate('${ITEM.Key}')"><img src="${ICON_TRANSLATE}"></span>
 				</span>
+			#end
 			</div>
 			</div>
 	    #end

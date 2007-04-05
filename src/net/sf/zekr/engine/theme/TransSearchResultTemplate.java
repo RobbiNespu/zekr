@@ -62,9 +62,8 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 			engine.put("AYA_LIST", refineQuranResult(result).entrySet());
 			String k = SearchUtils.arabicSimplify(keyword);
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));
-
-			ret = engine.getUpdated(ResourceManager.getInstance().getString("theme.search.result",
-					new String[] { config.getTheme().getCurrent().id }));
+			ThemeData theme = config.getTheme().getCurrent();
+			ret = engine.getUpdated(theme.getPath() + "/" + resource.getString("theme.search.result"));
 		} catch (Exception e) {
 			logger.log(e);
 		}

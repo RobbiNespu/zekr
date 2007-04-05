@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Zekr Team" version="0.4">
+<language author="Mohsen Saboorian" version="0.5">
 	<locale localizedName="English" name="English" id="en_US" direction="ltr" />
 	<word>
 		<common>
@@ -15,7 +15,7 @@
 			<text id="HELP"     value="Help" />
 			<text id="EDIT"     value="Edit" />
 			<text id="SEARCH"   value="Search" />
-			<text id="GOTO"     value="Goto" />
+			<text id="GOTO"     value="Go to" />
 			<text id="VIEW"     value="View" />
 			<text id="CLOSE"    value="Close" />
 			<text id="INSERT"   value="Insert" />
@@ -35,7 +35,7 @@
 			<text id="TYPE"     value="Type" />
 			<text id="MESSAGE"  value="Message" />
 			<text id="BLOCK"    value="Block" />
-			<text id="LINE_BY_LINE" value="Line by line" />
+			<text id="LINE_BY_LINE" value="Line By Line" />
 			<text id="AND"      value="and" />
 			<text id="COMMA"    value="," />
 			<text id="SYNCHRONOUS" value="Synchronous" />
@@ -43,7 +43,7 @@
 			<text id="LANGUAGE" value="Language" />
 			<text id="ABOUT"    value="About" />
 			<text id="PRINT"    value="Print" />
-			<text id="HOMEPAGE" value="Home page" />
+			<text id="HOMEPAGE" value="Home Page" />
 			<text id="WHOLE_QURAN" value="Whole Quran" />
 			<text id="MATCH_DIACRITIC" value="Match diacritic" />
 			<text id="MATCH_CASE" value="Match case" />
@@ -77,14 +77,30 @@
 			<text id="DESCRIPTION" value="Description" />
 			<text id="BOOKMARKS" value="Bookmarks" />
 			<text id="CONFIGURE" value="Configure" />
-			<text id="CONFIGURE_BOOKMARK_SETS" value="Configure bookmark sets" />
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="Direction" />
 			<text id="LANG_DIRECTION" value="Language direction" />
 			<text id="RTL"      value="Right to left" />
 			<text id="LTR"      value="Left to right" />
 			<text id="AUTHOR"   value="Author" />
 			<text id="VERSION"  value="Version" />
-			<text id="RANDOM_AYA" value="Random aya" />
+			<text id="RANDOM_AYA" value="Random Aya" />
+			<text id="UNTITLED" value="Untitled" />
+			<text id="SET_DEFAULT" value="Set as default" />
+			<text id="NOT_LOADED" value="Not loaded" />
+			<text id="ID"       value="ID" />
+			<text id="OVERWRITE" value="Overwrite" />
+			<text id="SAVE"     value="Save" />
+			<text id="PATH"     value="Path" />
+			<text id="FIND_REFS" value="Show References"   />
+			<text id="MOVE_UP" value="Move up" />
+			<text id="MOVE_DOWN" value="Move down" />
+			<text id="CUSTOM_MIXED" value="Custom Mixed" />
+			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations" />
+			<text id="GO" value="Go" />
+			<text id="CAUTIOUS" value="cautious"   />
+			<text id="ADVANCED" value="Advanced"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -98,8 +114,8 @@
 			<text id="MADANI"   value="Madani" />
 			<text id="DESCENT"  value="Descent" />
 			<text id="AYA_COUNT"  value="Aya count" />
-			<text id="MINOR_SAJDA" value="Minor sajda" />
-			<text id="MAJOR_SAJDA" value="Major sajda" />
+			<text id="MINOR_SAJDA" value="Minor sajda" /> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="Major sajda" /> <!-- Wajib Sajda -->
 			<text id="LOCATION" value="Location" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
@@ -114,13 +130,15 @@
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Are you sure?" />
+			<text id="DEL_YES_NO" value="Permanently delete {1} item(s)?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="An unexpected error occurred" />
+			<text id="FNF" value="File not found" />
 			<text id="ACTION_FAILED" value="Action failed!" />
 		</error>
-		<tooltip>
-		</tooltip>
+		<hint>
+		</hint>
 	</message>
 
 	<forms>
@@ -157,28 +175,48 @@
 		<form id="MANAGE_SCOPES_FORM">
 			<text id="TITLE" value="Edit Search Scopes" />
 		</form>
-		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Manage bookmark sets" />
+		<form id="BOOKMARK_SET_FORM"  >
+			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
 			<text id="NEW_BOOKMARK_FOLDER" value="New bookmark folder" />
 			<text id="NEW_BOOKMARK_ITEM" value="New bookmark item" />
 			<text id="UNIQUE_NAME" value="A unique name" />
-			<text id="COMMA_SEPARATED" value="Use comma separated values, if there are more than one author" />
+			<text id="COMMA_SEPARATED" value="Separate multiple authors by commas"   />
 			<text id="ONLY_ENGLISH" value="Use only English names (e.g. English, Farsi, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="Conventions, quotes, references, and other bookmark-related topics go here" />
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
-			<text id="TITLE" value="Manage bookmark set groups" />
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Manage Bookmark Sets"   />
+			<text id="DBL_CLICK" value="Double click on items to load and/or edit them." />
+			<text id="SET_AS_DEFAULT" value="Do you want to set &quot;{1}&quot; as your default bookmark set?" />
+			<text id="CANNOT_REMOVE_DEFAULT" value="Cannot remove default bookmark." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Cannot overwrite on the default bookmark set. Select another bookmark set as default, and try to import." />
+			<text id="ENTER_ID" value="Enter the bookmark ID" />
+			<text id="NEW_BOOKMARK_SET" value="New Bookmark Set" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
-			<text id="TITLE" value="Edit bookmark properties" />
+			<text id="TITLE" value="Edit Bookmark"   />
 			<text id="QURAN_LOCATIONS" value="Quran locations" />
 			<text id="NEW_BOOKMARK" value="New Bookmark" />
 			<text id="NEW_FOLDER" value="New Folder" />
 		</form>
+		<form id="BOOKMARK_REF">
+			<text id="TITLE" value="Bookmark References To: {1}"   />
+		</form>
 		<form id="IMPORT_QUESTION">
-			<text id="IMPORT_FOR" value="Import for the following users:" />
+			<text id="IMPORT_FOR" value="Import For The Following Users:" />
 			<text id="ME_ONLY" value="Me only" />
 			<text id="ALL_USERS" value="All users (requires write access to installation directory)" />
+			<text id="FOLLOWING_USERS" value="Index for the following users" />
+		</form>
+		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="TITLE" value="Configure Custom Translations" />
+			<text id="AVAILABLE" value="Available translations" />
+			<text id="CURRENT" value="Currently used translations"   />
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Please wait" />
+			<text id="INDEXING" value="Indexing" /> <!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed." />
 		</form>
 	</forms>
 </language>

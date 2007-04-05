@@ -27,15 +27,20 @@ span.ayaSign {
 }
 
 .quran span.hizbSign {
-#set($fontSize = $MATH.round($MATH.mul($MATH.toInteger($quran_fontSize),"0.8")))
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($quran_fontSize),"0.8")))
 	font: ${fontSize}pt serif;
 	font-weight: bold;
 	font-family: serif;
 	color: rgb(60, 120, 230);
 }
+
 .trans span.hizbSign {
-#set($fontSize = $MATH.round($MATH.mul($MATH.toInteger($trans_fontSize),"0.8")))
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.8")))
 	font: ${fontSize}pt serif;
 	font-weight: bold;
 	color: rgb(60, 120, 230);
+}
+
+#custom.trans {
+	padding: 4px 0px;
 }

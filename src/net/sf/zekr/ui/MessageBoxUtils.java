@@ -8,14 +8,27 @@
  */
 package net.sf.zekr.ui;
 
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.engine.language.LanguageEngine;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.util.UriUtils;
+import net.sf.zekr.engine.language.LanguageEngine;
+import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.ui.helper.FormUtils;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.WildcardFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -25,6 +38,7 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -35,14 +49,15 @@ import org.eclipse.swt.widgets.Text;
  * @since Zekr 1.0
  */
 public class MessageBoxUtils {
-	final private static LanguageEngine dict = ApplicationConfig.getInstance().getLanguageEngine();
+	final private static LanguageEngine lang = ApplicationConfig.getInstance().getLanguageEngine();
+	final private static Logger logger = Logger.getLogger(MessageBoxUtils.class);
 
 	public static void showError(String msg) {
-		show(msg, dict.getMeaning("ERROR"), SWT.ICON_ERROR | dict.getSWTDirection());
+		show(msg, lang.getMeaning("ERROR"), SWT.ICON_ERROR | lang.getSWTDirection());
 	}
 
 	public static void showMessage(String msg) {
-		show(msg, dict.getMeaning("MESSAGE"), SWT.ICON_INFORMATION | dict.getSWTDirection());
+		show(msg, lang.getMeaning("MESSAGE"), SWT.ICON_INFORMATION | lang.getSWTDirection());
 	}
 
 	public static void show(String msg, String title, int style) {
@@ -52,8 +67,8 @@ public class MessageBoxUtils {
 		mb.open();
 	}
 
-	public static boolean yesNoQuestion(String msg, String title) {
-		MessageBox mb = new MessageBox(getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION | dict.getSWTDirection());
+	public static boolean showYesNoConfirmation(String msg, String title) {
+		MessageBox mb = new MessageBox(getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION | lang.getSWTDirection());
 		mb.setMessage(msg);
 		mb.setText(title);
 		if (mb.open() == SWT.YES)
@@ -67,7 +82,7 @@ public class MessageBoxUtils {
 	public static String textBoxPrompt(String question, String title) {
 		Shell parent = getShell();
 
-		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | dict.getSWTDirection());
+		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | lang.getSWTDirection());
 		shell.setImage(parent.getDisplay().getSystemImage(SWT.ICON_QUESTION));
 		shell.setText(title);
 		shell.setLayout(new FillLayout());
@@ -99,7 +114,7 @@ public class MessageBoxUtils {
 
 		Button ok = new Button(c, SWT.PUSH);
 		ok.setLayoutData(gd);
-		ok.setText(dict.getMeaning("OK"));
+		ok.setText(lang.getMeaning("OK"));
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				_ret = text.getText();
@@ -118,7 +133,7 @@ public class MessageBoxUtils {
 
 		Button cancel = new Button(c, SWT.PUSH);
 		cancel.setLayoutData(gd);
-		cancel.setText(dict.getMeaning("CANCEL"));
+		cancel.setText(lang.getMeaning("CANCEL"));
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				shell.close();
@@ -139,19 +154,24 @@ public class MessageBoxUtils {
 		return _ret;
 	}
 
-	static int __ret;
+	private static int __ret;
 
 	/**
-	 * @param options answer options
-	 * @param question the string to be placed as a question on the top of the dialog
-	 * @param title the text to be displayed as a title of this dialog
+	 * @param options
+	 *           answer options
+	 * @param selectedOption
+	 *           option number to be selected by default. This field is 0-base.
+	 * @param question
+	 *           the string to be placed as a question on the top of the dialog
+	 * @param title
+	 *           the text to be displayed as a title of this dialog
 	 * @return -1 if nothing was selected, or dialog closed/cancelled, or a 0-base selected item number
 	 */
-	public static int radioQuestionPrompt(String[] options, String question, String title) {
+	public static int radioQuestionPrompt(String[] options, int selectedOption, String question, String title) {
 		Shell parent = getShell();
 		Display display = parent.getDisplay();
 
-		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | dict.getSWTDirection());
+		final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | lang.getSWTDirection());
 		shell.setImage(parent.getDisplay().getSystemImage(SWT.ICON_QUESTION));
 		shell.setText(title);
 		shell.setLayout(new FillLayout());
@@ -167,7 +187,7 @@ public class MessageBoxUtils {
 		gd.heightHint = h;
 		gd.widthHint = img.getBounds().width;
 		gd.verticalIndent = gd.horizontalIndent = 6;
-		imageComp.setToolTipText(dict.getMeaning("APP_NAME"));
+		imageComp.setToolTipText(lang.getMeaning("APP_NAME"));
 		imageComp.setLayoutData(gd);
 		imageComp.setBounds(img.getBounds());
 		imageComp.addPaintListener(new PaintListener() {
@@ -197,8 +217,8 @@ public class MessageBoxUtils {
 			buts[i].setLayoutData(gd);
 		}
 
-		if (buts.length > 0)
-			buts[0].setSelection(true);
+		if (buts.length > selectedOption)
+			buts[selectedOption].setSelection(true);
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalAlignment = SWT.TRAIL;
@@ -214,7 +234,7 @@ public class MessageBoxUtils {
 		RowData rd = new RowData();
 		rd.width = 80;
 		Button ok = new Button(butComposite, SWT.NONE);
-		ok.setText("&" + dict.getMeaning("OK"));
+		ok.setText("&" + lang.getMeaning("OK"));
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				for (int i = 0; i < buts.length; i++) {
@@ -231,11 +251,13 @@ public class MessageBoxUtils {
 			}
 		});
 		ok.setLayoutData(rd);
+		
+		shell.setDefaultButton(ok);
 
 		rd = new RowData();
 		rd.width = 80;
 		Button cancel = new Button(butComposite, SWT.NONE);
-		cancel.setText("&" + dict.getMeaning("CANCEL"));
+		cancel.setText("&" + lang.getMeaning("CANCEL"));
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				__ret = -1;
@@ -260,11 +282,87 @@ public class MessageBoxUtils {
 		return __ret;
 	}
 
-	private static Shell getShell() {
+	/**
+	 * @param options
+	 *           answer options
+	 * @param question
+	 *           the string to be placed as a question on the top of the dialog
+	 * @param title
+	 *           the text to be displayed as a title of this dialog
+	 * @return -1 if nothing was selected, or dialog closed/cancelled, or a 0-base selected item number
+	 */
+	public static int radioQuestionPrompt(String[] options, String question, String title) {
+		return radioQuestionPrompt(options, 0, question, title);
+	}
+
+	public static Shell getShell() {
 		// This causes bug on Linux
 		// return Display.getCurrent().getActiveShell();
 		Shell shells[] = Display.getCurrent().getShells();
 		return shells.length > 0 ? shells[0] : null;
 	}
 
+	/**
+	 * This method opens a file chooser dialog and selects file filtering with the given wildcards.
+	 * 
+	 * @param filterNames
+	 *           names of the filters
+	 * @param filterWildcards
+	 *           wildcard filters (e.g. *.zip)
+	 * @return a 0-item list if action cancelled, no item was selected or selected items did not fit the extension
+	 *         criteria. Otherwise, returns a list of selected files (of type <tt>java.io.File</tt>).
+	 * @throws IOException
+	 *            if any exception occurred during importing.
+	 */
+	public static List importFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards)
+			throws IOException {
+		FileDialog fd = new FileDialog(parentShall, SWT.OPEN | SWT.MULTI);
+		fd.setFilterNames(filterNames);
+		fd.setFilterExtensions(filterWildcards); // Windows wild card
+		fd.setText(lang.getMeaning("OPEN"));
+
+		FileFilter fileFilter = new WildcardFilter(filterWildcards);
+		List fileList = new ArrayList();
+
+		String res = fd.open();
+		if (res == null)
+			return fileList;
+
+		String fileNames[] = fd.getFileNames();
+		for (int i = 0; i < fileNames.length; i++) {
+			File srcFile = new File(fd.getFilterPath(), fileNames[i]);
+			if (fileFilter.accept(srcFile)) {
+				if (!srcFile.exists()) {
+					logger.warn("File not found: " + srcFile);
+					MessageBoxUtils.showError(lang.getMeaning("FNF") + ":\n" + srcFile);
+					return new ArrayList();
+				}
+				fileList.add(srcFile);
+			}
+		}
+		logger.debug("Files chosen: " + fileList);
+		return fileList;
+	}
+
+	public static File exportFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards)
+			throws IOException {
+		FileDialog fd = new FileDialog(parentShall, SWT.SAVE);
+		fd.setFilterNames(filterNames);
+		fd.setFilterExtensions(filterWildcards); // Windows wild card
+		fd.setText(lang.getMeaning("SAVE"));
+
+		String res = fd.open();
+		if (res == null)
+			return null;
+		File f = new File(res);
+		if (f.exists()) {
+			if (!MessageBoxUtils.showYesNoConfirmation(lang.getDynamicMeaning("FILE_ALREADY_EXISTS", new String[] { f
+					.getName() }), lang.getMeaning("OVERWRITE")))
+				return null;
+			if (!f.delete())
+				throw new IOException("Can not delete already existing file \"" + f + "\".");
+		}
+		logger.debug("Save to file: " + f);
+		return f;
+	}
 }

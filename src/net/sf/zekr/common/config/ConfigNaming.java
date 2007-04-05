@@ -58,6 +58,7 @@ public class ConfigNaming {
 	public static final String BLOCK = "block";
 
 	public static final String MIXED_LAYOUT = "mixed";
+	public static final String CUSTOM_MIXED_LAYOUT = "customMixed";
 	public static final String SEPARATE_LAYOUT = "separate";
 	public static final String QURAN_ONLY_LAYOUT = "quran_only";
 	public static final String TRANS_ONLY_LAYOUT = "trans_only";

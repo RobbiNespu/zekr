@@ -10,7 +10,10 @@
  *   
  * $Revision$
  * $Log$
- * Revision 1.1  2006/09/23 07:51:00  mohsen_s
+ * Revision 1.2  2007/04/05 14:25:07  mohsen_s
+ * Update before first 0.6.0 milestone
+ *
+ * Revision 1.1  2006/09/23 07:51:00  Mohsen Saboorian
  * *** empty log message ***
  *
  * Revision 1.4  2006/08/31 16:08:16  Stef

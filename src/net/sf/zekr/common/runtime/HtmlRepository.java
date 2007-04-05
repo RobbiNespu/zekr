@@ -4,7 +4,7 @@
  * license terms.
  *
  * Author:         Mohsen Saboorian
- * Start Date:     21/01/2005
+ * Start Date:     Jan 21, 2005
  */
 
 package net.sf.zekr.common.runtime;
@@ -14,16 +14,24 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
 
+import org.apache.lucene.search.BooleanClause;
+
+import net.sf.zekr.common.ZekrBaseRuntimeException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.IRangedQuranText;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.RangedQuranText;
+import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchScope;
+import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
 import net.sf.zekr.engine.theme.AbstractQuranViewTemplate;
+import net.sf.zekr.engine.theme.AdvancedQuranSearchResultTemplate;
+import net.sf.zekr.engine.theme.CustomMixedViewTemplate;
 import net.sf.zekr.engine.theme.ITransformer;
 import net.sf.zekr.engine.theme.MixedViewTemplate;
 import net.sf.zekr.engine.theme.QuranSearchResultTemplate;
@@ -65,7 +73,7 @@ public class HtmlRepository {
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
 			if (!file.exists() || file.length() == 0 || update) {
-				logger.info("Create Quran file: " + file);
+				logger.info("Create simple Quran HTML file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
 				AbstractQuranViewTemplate aqvt;
@@ -86,10 +94,9 @@ public class HtmlRepository {
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
 			if (!file.exists() || file.length() == 0 || update) {
-				logger.info("Create Quran file: " + file);
+				logger.info("Create Quran mixed HTML file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
-				td.load(); // load if not loaded before
 				MixedViewTemplate mvt = new MixedViewTemplate(QuranText.getInstance(), td, sura, aya);
 				osw.write(mvt.transform());
 				osw.close();
@@ -98,6 +105,48 @@ public class HtmlRepository {
 			logger.log(e);
 		}
 		return UriUtils.toURI(file);// + ((aya == 0) ? "" : "#" + aya);
+	}
+
+	public static String getCustomMixedUri(int sura, int aya, boolean update) {
+		List tdList = config.getCustomTranslationList();
+		StringBuffer tidList = new StringBuffer();
+		for (int i = 0; i < tdList.size(); i++) {
+			String tid = ((TranslationData)tdList.get(i)).id;
+			tidList.append(tid);
+			if (i + 1 < tdList.size())
+				tidList.append("-");
+		}
+		try {
+			File file = new File(Naming.MIXED_CACHE_DIR + File.separator + sura + "_" + tidList + ".html");
+			if (!file.exists() || file.length() == 0 || update) {
+				logger.info("Create Quran file: " + file);
+				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
+						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
+				TranslationData[] transData = (TranslationData[]) tdList.toArray(new TranslationData[]{});
+				CustomMixedViewTemplate cmvt = new CustomMixedViewTemplate(QuranText.getInstance(), transData, sura, aya);
+				osw.write(cmvt.transform());
+				osw.close();
+			}
+			return UriUtils.toURI(file);// + ((aya == 0) ? "" : "#" + aya);
+		} catch (Exception e) {
+			logger.log(e);
+			throw new ZekrBaseRuntimeException(e);
+		}
+	}
+
+	public static String getAdvancedSearchQuranUri(QuranTextSearcher searcher, String keyword) {
+		File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + keyword.hashCode() + ".html");
+		try {
+			logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
+			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
+					GlobalConfig.OUT_HTML_ENCODING);
+			ITransformer qsrt = new AdvancedQuranSearchResultTemplate(searcher, keyword);
+			osw.write(qsrt.transform());
+			osw.close();
+		} catch (IOException e) {
+			logger.log(e);
+		}
+		return UriUtils.toURI(file);
 	}
 
 	public static String getSearchQuranUri(String keyword, boolean matchDiac, SearchScope searchScope) {
@@ -162,10 +211,10 @@ public class HtmlRepository {
 		try {
 			// if the file doesn't exist, or a zero-byte file exists
 			if (!file.exists() || file.length() == 0) {
-				logger.info("Create translation file: " + file);
+				logger.info("Create simple translation HTML file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(
 						new FileOutputStream(file)), GlobalConfig.OUT_HTML_ENCODING);
-				td.load(); // load if not loaded before
+//				td.load(); // load if not loaded before
 				AbstractQuranViewTemplate qvt = new TranslationViewTemplate(td, sura, aya);
 				osw.write(qvt.transform());
 				osw.close();
@@ -183,6 +232,15 @@ public class HtmlRepository {
 	 */
 	public static String getMixedUri(int sura, int aya) {
 		return getMixedUri(sura, aya, false);
+	}
+
+	/**
+	 * @param sura
+	 * @param aya
+	 * @return <code>HtmlRepository#getCustomMixedUri(sura, aya, false);</code>
+	 */
+	public static String getCustomMixedUri(int sura, int aya) {
+		return getCustomMixedUri(sura, aya, false);
 	}
 
 }

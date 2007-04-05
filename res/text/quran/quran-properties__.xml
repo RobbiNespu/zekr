@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quran>
+	<sura-detail>
+		<sura index="1" ayaCount="7" enName="Al-Fatihah" name="الفاتحة" descent="makki" />
+		<sura index="2" ayaCount="286" enName="Al Baqarah" name="البقرة" descent="madani" />
+		<sura index="3" ayaCount="200" enName="Al-i-Imran" name="آل‌عمران" descent="madani" />
+		<sura index="4" ayaCount="176" enName="an-Nisa" name="النساء" descent="madani" />
+		<sura index="5" ayaCount="120" enName="al-Maida" name="المائدة" descent="madani" />
+		<sura index="6" ayaCount="165" enName="al-Anam" name="الأنعام" descent="makki" />
+		<sura index="7" ayaCount="206" enName="al-Araf" name="الأعراف" descent="makki" />
+		<sura index="8" ayaCount="75" enName="al-Anfal" name="الأنفال" descent="madani" />
+		<sura index="9" ayaCount="129" enName="at-Tauba" name="التوبة" descent="madani" />
+		<sura index="10" ayaCount="109" enName="Yunus" name="يونس" descent="makki" />
+		<sura index="11" ayaCount="123" enName="Hud" name="هود" descent="makki" />
+		<sura index="12" ayaCount="111" enName="Yusuf" name="يوسف" descent="makki" />
+		<sura index="13" ayaCount="43" enName="ar-Rad" name="الرعد" descent="madani" />
+		<sura index="14" ayaCount="52" enName="Ibrahim" name="ابراهيم" descent="makki" />
+		<sura index="15" ayaCount="99" enName="al-Hijr" name="الحجر" descent="makki" />
+		<sura index="16" ayaCount="128" enName="an-Nahl" name="النحل" descent="makki" />
+		<sura index="17" ayaCount="111" enName="al-Isra" name="الإسراء" descent="makki" />
+		<sura index="18" ayaCount="110" enName="al-Kahf" name="الكهف" descent="makki" />
+		<sura index="19" ayaCount="98" enName="Maryam" name="مريم" descent="makki" />
+		<sura index="20" ayaCount="135" enName="Ta-Ha" name="طه" descent="makki" />
+		<sura index="21" ayaCount="112" enName="al-Anbiya" name="الأنبياء" descent="makki" />
+		<sura index="22" ayaCount="78" enName="al-Hadsch" name="الحج" descent="madani" />
+		<sura index="23" ayaCount="118" enName="" name="المؤمنون" descent="makki" />
+		<sura index="24" ayaCount="64" enName="" name="النور" descent="madani" />
+		<sura index="25" ayaCount="77" enName="" name="الفرقان" descent="makki" />
+		<sura index="26" ayaCount="227" enName="" name="الشعراء" descent="makki" />
+		<sura index="27" ayaCount="93" enName="" name="النمل" descent="makki" />
+		<sura index="28" ayaCount="88" enName="" name="القصص" descent="makki" />
+		<sura index="29" ayaCount="69" enName="" name="العنكبوت" descent="makki" />
+		<sura index="30" ayaCount="60" enName="" name="الروم" descent="makki" />
+		<sura index="31" ayaCount="34" enName="" name="لقمان" descent="makki" />
+		<sura index="32" ayaCount="30" enName="" name="السجدة" descent="makki" />
+		<sura index="33" ayaCount="73" enName="" name="الأحزاب" descent="madani" />
+		<sura index="34" ayaCount="54" enName="" name="سبإ" descent="makki" />
+		<sura index="35" ayaCount="45" enName="" name="فاطر" descent="makki" />
+		<sura index="36" ayaCount="83" enName="" name="يس" descent="makki" />
+		<sura index="37" ayaCount="182" enName="" name="الصافات" descent="makki" />
+		<sura index="38" ayaCount="88" enName="" name="ص" descent="makki" />
+		<sura index="39" ayaCount="75" enName="" name="الزمر" descent="makki" />
+		<sura index="40" ayaCount="85" enName="" name="غافر" descent="makki" />
+		<sura index="41" ayaCount="54" enName="" name="فصلت" descent="makki" />
+		<sura index="42" ayaCount="53" enName="" name="الشورى" descent="makki" />
+		<sura index="43" ayaCount="89" enName="" name="الزخرف" descent="makki" />
+		<sura index="44" ayaCount="59" enName="" name="الدخان" descent="makki" />
+		<sura index="45" ayaCount="37" enName="" name="الجاثية" descent="makki" />
+		<sura index="46" ayaCount="35" enName="" name="الأحقاف" descent="makki" />
+		<sura index="47" ayaCount="38" enName="" name="محمد" descent="madani" />
+		<sura index="48" ayaCount="29" enName="" name="الفتح" descent="madani" />
+		<sura index="49" ayaCount="18" enName="" name="الحجرات" descent="madani" />
+		<sura index="50" ayaCount="45" enName="" name="ق" descent="makki" />
+		<sura index="51" ayaCount="60" enName="" name="الذاريات" descent="makki" />
+		<sura index="52" ayaCount="49" enName="" name="الطور" descent="makki" />
+		<sura index="53" ayaCount="62" enName="" name="النجم" descent="makki" />
+		<sura index="54" ayaCount="55" enName="" name="القمر" descent="makki" />
+		<sura index="55" ayaCount="78" enName="" name="الرحمن" descent="madani" />
+		<sura index="56" ayaCount="96" enName="" name="الواقعة" descent="makki" />
+		<sura index="57" ayaCount="29" enName="" name="الحديد" descent="madani" />
+		<sura index="58" ayaCount="22" enName="" name="المجادلة" descent="madani" />
+		<sura index="59" ayaCount="24" enName="" name="الحشر" descent="madani" />
+		<sura index="60" ayaCount="13" enName="" name="الممتحنة" descent="madani" />
+		<sura index="61" ayaCount="14" enName="" name="الصف" descent="madani" />
+		<sura index="62" ayaCount="11" enName="" name="الجمعة" descent="madani" />
+		<sura index="63" ayaCount="11" enName="" name="المنافقون" descent="madani" />
+		<sura index="64" ayaCount="18" enName="" name="التغابن" descent="madani" />
+		<sura index="65" ayaCount="12" enName="" name="الطلاق" descent="madani" />
+		<sura index="66" ayaCount="12" enName="" name="التحريم" descent="madani" />
+		<sura index="67" ayaCount="30" enName="" name="الملك" descent="makki" />
+		<sura index="68" ayaCount="52" enName="" name="القلم" descent="makki" />
+		<sura index="69" ayaCount="52" enName="" name="الحاقة" descent="makki" />
+		<sura index="70" ayaCount="44" enName="" name="المعارج" descent="makki" />
+		<sura index="71" ayaCount="28" enName="" name="نوح" descent="makki" />
+		<sura index="72" ayaCount="28" enName="" name="الجن" descent="makki" />
+		<sura index="73" ayaCount="20" enName="" name="المزمل" descent="makki" />
+		<sura index="74" ayaCount="56" enName="" name="المدثر" descent="makki" />
+		<sura index="75" ayaCount="40" enName="" name="القيامة" descent="makki" />
+		<sura index="76" ayaCount="31" enName="" name="الانسان" descent="madani" />
+		<sura index="77" ayaCount="50" enName="" name="المرسلات" descent="makki" />
+		<sura index="78" ayaCount="40" enName="" name="النبإ" descent="makki" />
+		<sura index="79" ayaCount="46" enName="" name="النازعات" descent="makki" />
+		<sura index="80" ayaCount="42" enName="" name="عبس" descent="makki" />
+		<sura index="81" ayaCount="29" enName="" name="التكوير" descent="makki" />
+		<sura index="82" ayaCount="19" enName="" name="الإنفطار" descent="makki" />
+		<sura index="83" ayaCount="36" enName="" name="المطففين" descent="makki" />
+		<sura index="84" ayaCount="25" enName="" name="الإنشقاق" descent="makki" />
+		<sura index="85" ayaCount="22" enName="" name="البروج" descent="makki" />
+		<sura index="86" ayaCount="17" enName="" name="الطارق" descent="makki" />
+		<sura index="87" ayaCount="19" enName="" name="الأعلى" descent="makki" />
+		<sura index="88" ayaCount="26" enName="" name="الغاشية" descent="makki" />
+		<sura index="89" ayaCount="30" enName="" name="الفجر" descent="makki" />
+		<sura index="90" ayaCount="20" enName="" name="البلد" descent="makki" />
+		<sura index="91" ayaCount="15" enName="" name="الشمس" descent="makki" />
+		<sura index="92" ayaCount="21" enName="" name="الليل" descent="makki" />
+		<sura index="93" ayaCount="11" enName="" name="الضحى" descent="makki" />
+		<sura index="94" ayaCount="8" enName="" name="الشرح" descent="makki" />
+		<sura index="95" ayaCount="8" enName="" name="التين" descent="makki" />
+		<sura index="96" ayaCount="19" enName="" name="العلق" descent="makki" />
+		<sura index="97" ayaCount="5" enName="" name="القدر" descent="makki" />
+		<sura index="98" ayaCount="8" enName="" name="البينة" descent="madani" />
+		<sura index="99" ayaCount="8" enName="" name="الزلزلة" descent="madani" />
+		<sura index="100" ayaCount="11" enName="" name="العاديات" descent="makki" />
+		<sura index="101" ayaCount="11" enName="" name="القارعة" descent="makki" />
+		<sura index="102" ayaCount="8" enName="" name="التكاثر" descent="makki" />
+		<sura index="103" ayaCount="3" enName="" name="العصر" descent="makki" />
+		<sura index="104" ayaCount="9" enName="" name="الهمزة" descent="makki" />
+		<sura index="105" ayaCount="5" enName="" name="الفيل" descent="makki" />
+		<sura index="106" ayaCount="4" enName="" name="قريش" descent="makki" />
+		<sura index="107" ayaCount="7" enName="" name="الماعون" descent="makki" />
+		<sura index="108" ayaCount="3" enName="" name="الكوثر" descent="makki" />
+		<sura index="109" ayaCount="6" enName="" name="الكافرون" descent="makki" />
+		<sura index="110" ayaCount="3" enName="" name="النصر" descent="madani" />
+		<sura index="111" ayaCount="5" enName="" name="المسد" descent="makki" />
+		<sura index="112" ayaCount="4" enName="" name="الإخلاص" descent="makki" />
+		<sura index="113" ayaCount="5" enName="" name="الفلق" descent="makki" />
+		<sura index="114" ayaCount="6" enName="" name="الناس" descent="makki" />
+	</sura-detail>
+	<juz-detail>
+		<juz index="1" suraNumber="1" ayaNumber="1"/>
+		<juz index="2" suraNumber="2" ayaNumber="142"/>
+		<juz index="3" suraNumber="2" ayaNumber="253"/>
+		<juz index="4" suraNumber="3" ayaNumber="93"/>
+		<juz index="5" suraNumber="4" ayaNumber="24"/>
+		<juz index="6" suraNumber="4" ayaNumber="148"/>
+		<juz index="7" suraNumber="5" ayaNumber="82"/>
+		<juz index="8" suraNumber="6" ayaNumber="111"/>
+		<juz index="9" suraNumber="7" ayaNumber="88"/>
+		<juz index="10" suraNumber="8" ayaNumber="40"/>
+		<juz index="11" suraNumber="9" ayaNumber="93"/>
+		<juz index="12" suraNumber="11" ayaNumber="6"/>
+		<juz index="13" suraNumber="12" ayaNumber="53"/>
+		<juz index="14" suraNumber="15" ayaNumber="1"/>
+		<juz index="15" suraNumber="17" ayaNumber="1"/>
+		<juz index="16" suraNumber="18" ayaNumber="75"/>
+		<juz index="17" suraNumber="21" ayaNumber="1"/>
+		<juz index="18" suraNumber="23" ayaNumber="1"/>
+		<juz index="19" suraNumber="25" ayaNumber="21"/>
+		<juz index="20" suraNumber="27" ayaNumber="56"/>
+		<juz index="21" suraNumber="29" ayaNumber="46"/>
+		<juz index="22" suraNumber="33" ayaNumber="31"/>
+		<juz index="23" suraNumber="36" ayaNumber="28"/>
+		<juz index="24" suraNumber="39" ayaNumber="32"/>
+		<juz index="25" suraNumber="41" ayaNumber="47"/>
+		<juz index="26" suraNumber="46" ayaNumber="1"/>
+		<juz index="27" suraNumber="51" ayaNumber="31"/>
+		<juz index="28" suraNumber="58" ayaNumber="1"/>
+		<juz index="29" suraNumber="67" ayaNumber="1"/>
+		<juz index="30" suraNumber="78" ayaNumber="1"/>
+	</juz-detail>
+	<sajda-detail>
+		<sajda index="1" suraNumber="7" ayaNumber="206" type="minor"/>
+		<sajda index="2" suraNumber="13" ayaNumber="15" type="minor"/>
+		<sajda index="3" suraNumber="16" ayaNumber="50" type="minor"/>
+		<sajda index="4" suraNumber="17" ayaNumber="109" type="minor"/>
+		<sajda index="5" suraNumber="19" ayaNumber="58" type="minor"/>
+		<sajda index="6" suraNumber="22" ayaNumber="18" type="minor"/>
+		<sajda index="7" suraNumber="22" ayaNumber="77" type="minor"/>
+		<sajda index="8" suraNumber="25" ayaNumber="60" type="minor"/>
+		<sajda index="9" suraNumber="27" ayaNumber="26" type="minor"/>
+		<sajda index="11" suraNumber="38" ayaNumber="24" type="minor"/>
+		<sajda index="14" suraNumber="84" ayaNumber="21" type="minor"/>
+
+		<sajda index="10" suraNumber="32" ayaNumber="15" type="major"/> <!--سجدة-->
+		<sajda index="12" suraNumber="41" ayaNumber="38" type="major"/> <!--فصلت-->
+		<sajda index="13" suraNumber="53" ayaNumber="62" type="major"/> <!--نجم-->
+		<sajda index="15" suraNumber="96" ayaNumber="19" type="major"/> <!--علق-->
+	</sajda-detail>
+</quran>

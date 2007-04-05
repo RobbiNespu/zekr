@@ -11,19 +11,19 @@ package net.sf.zekr.common;
 public class ZekrBaseRuntimeException extends RuntimeException {
 	private static final long serialVersionUID = 5681293967162130227L;
 
-	protected ZekrBaseRuntimeException() {
+	public ZekrBaseRuntimeException() {
 		super();
 	}
 
-	protected ZekrBaseRuntimeException(String message, Throwable cause) {
+	public ZekrBaseRuntimeException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	protected ZekrBaseRuntimeException(String message) {
+	public ZekrBaseRuntimeException(String message) {
 		super(message);
 	}
 
-	protected ZekrBaseRuntimeException(Throwable cause) {
+	public ZekrBaseRuntimeException(Throwable cause) {
 		super(cause);
 	}
 }

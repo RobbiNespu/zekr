@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language author="Mohsin Shafeeque Hijazee" version="0.5">
+	<locale localizedName="اردو" name="Urdu" id="ur_PK" direction="rtl"/>
+	<word>
+		<common>
+			<text id="OK" value="ٹھیک"/>
+			<text id="CANCEL" value="منسوخ"/>
+			<text id="YES" value="ہاں"/>
+			<text id="NO" value="نہیں"/>
+			<text id="APPLY" value="اطلاق"/>
+			<text id="START" value="شروع"/>
+			<text id="RESET" value="ازسر نو"/>
+			<text id="NEW" value="نیا"/>
+			<text id="SAVE_AS" value="محفوظ بطور"/>
+			<text id="HELP" value="مدد"/>
+			<text id="EDIT" value="تدوین"/>
+			<text id="SEARCH" value="تلاش"/>
+			<text id="GOTO" value="جائیں "/>
+			<text id="VIEW" value="دیکھیں"/>
+			<text id="CLOSE" value="بند کریں"/>
+			<text id="INSERT" value="داخل کریں"/>
+			<text id="DETAILS" value="تفصیلات"/>
+			<text id="MORE" value="مزید"/>
+			<text id="NEXT" value="اگلا"/>
+			<text id="PREVIOUS" value="پچھلا"/>
+			<text id="REFRESH" value="تازہ کریں"/>
+			<text id="UPDATE" value="تجدید"/>
+			<text id="SHOW" value="دکھائیں"/>
+			<text id="NAME" value="نام"/>
+			<text id="VALUE" value="قدر"/>
+			<text id="NUMBER" value="نمبر"/>
+			<text id="OPTION" value="اختیار"/>
+			<text id="FILE" value="فائل"/>
+			<text id="RELOAD" value="دوبارہ لوڈ کریں"/>
+			<text id="TYPE" value="قسم"/>
+			<text id="MESSAGE" value="پیغام"/>
+			<text id="BLOCK" value="بلاک"/>
+			<text id="LINE_BY_LINE" value="سطر بہ سطر"/>
+			<text id="AND" value="اور"/>
+			<text id="COMMA" value=","/>
+			<text id="SYNCHRONOUS" value="ہم آہنگ"/>
+			<text id="ERROR" value="غلطی"/>
+			<text id="LANGUAGE" value="زبان"/>
+			<text id="ABOUT" value="متعلق"/>
+			<text id="PRINT" value="چھاپیں"/>
+			<text id="HOMEPAGE" value="ہوم پیج"/>
+			<text id="WHOLE_QURAN" value="مکمل قرآن"/>
+			<text id="MATCH_DIACRITIC" value="اعراب ملائیں"/>
+			<text id="MATCH_CASE" value="کیس ملائیں"/>
+			<text id="NEXT_AYA" value="اگلی آیت"/>
+			<text id="NEXT_SURA" value="اگلی سورت"/>
+			<text id="PREV_AYA" value="پچھلی آیت"/>
+			<text id="PREV_SURA" value="پچھلی سورت"/>
+			<text id="THEME" value="خیالیہ"/>
+			<text id="LAYOUT" value="حلیہ"/>
+			<text id="TOOLS" value="اوزار"/>
+			<text id="ADD" value="شامل کریں"/>
+			<text id="DELETE" value="ختم کریں"/>
+			<text id="REMOVE" value="ہٹائیں"/>
+			<text id="TRANSLATION" value="ترجمہ"/>
+			<text id="OPEN" value="کھولیں"/>
+			<text id="IMPORT" value="درآمد کریں"/>
+			<text id="COPY" value="نقل کریں"/>
+			<text id="SEPARATE" value="علیحدہ"/>
+			<text id="MIXED" value="مخلوط"/>
+			<text id="OPTIONS" value="اختیارات"/>
+			<text id="QUESTION" value="سوال"/>
+			<text id="FONT" value="فونٹ"/>
+			<text id="GENERAL" value="عمومی"/>
+			<text id="EXIT" value="اخراج"/>
+			<text id="EXCLUDE" value="نکالیں"/>
+			<text id="TRUE" value="ہاں"/>
+			<text id="FALSE" value="نہیں"/>
+			<text id="SELECT" value="منتخب کریں"/>
+			<text id="EXPORT" value="پرآمد کریں"/>
+			<text id="IMPORT" value="درآمد کریں"/>
+			<text id="DESCRIPTION" value="وضاحت"/>
+			<text id="BOOKMARKS" value="نشانات"/>
+			<text id="CONFIGURE" value="منظم کریں"/>
+			<text id="CONFIGURE_BOOKMARK_SETS" value="نشانات کے سیٹ منظم کریں"/>
+			<text id="DIRECTION" value="سمت"/>
+			<text id="LANG_DIRECTION" value="زبان کی سمت"/>
+			<text id="RTL" value="دائیں سے بائیں"/>
+			<text id="LTR" value="بائیں تا دائیں"/>
+			<text id="AUTHOR" value="مصنف"/>
+			<text id="VERSION" value="ورژن"/>
+			<text id="RANDOM_AYA" value="کوئی بھی آیت"/>
+			<text id="UNTITLED" value="بلا عنوان"/>
+			<text id="SET_DEFAULT" value="عام مقرر کریں"/>
+			<text id="NOT_LOADED" value="نہیں اٹھایا گیا"/>
+			<text id="ID" value="شناخت"/>
+			<text id="OVERWRITE" value="اوپر لکھیں"/>
+			<text id="SAVE" value="محفوظ"/>
+			<text id="PATH" value="راستہ"/>
+			<text id="FIND_REFS" value="حوالہ جات تلاش کریں"/>
+			<text id="MOVE_UP" value="اوپر کریں"/>
+			<text id="MOVE_DOWN" value="نیچے کریں"/>
+			<text id="CUSTOM_MIXED" value=" مخلوط حسب منشاء"/>
+			<text id="CONFIG_CUSTOM_TRANS" value="دیگر ترجمہ جات منظم کریں"/>
+			<text id="GO" value="جائیں"/>
+		</common>
+		<special>
+			<text id="QURAN" value="قرآن"/>
+			<text id="SURA" value="سورت"/>
+			<text id="AYA" value="آیت"/>
+			<text id="SAJDA" value="سجدہ"/>
+			<text id="JUZ" value="جز"/>
+			<text id="HIZB" value="حزب"/>
+			<text id="QUARTER" value="ربع"/>
+			<text id="MAKKI" value="مکی"/>
+			<text id="MADANI" value="مدنی"/>
+			<text id="DESCENT" value="مقام نزول"/>
+			<text id="AYA_COUNT" value="تعداد آیت"/>
+			<text id="MINOR_SAJDA" value="مستحب سجدہ"/> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="واجب سجدہ"/> <!-- Wajib Sajda -->
+			<text id="LOCATION" value="مقام"/> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+		</special>
+	</word>
+
+	<message>
+		<inform>
+			<text id="SEARCH_RESULT_TITLE" value="کے لیے تلاش کے نتائج &quot;{1}&quot;"/>
+			<text id="SEARCH_RESULT_COUNT" value="{2} آیات میں {1} نتائج ملے"/>
+			<text id="TOO_MANY_RESULT" value="تلاش کے نتائج میں {1} سے زائد آیات ہیں"/>
+			<text id="FILE_ALREADY_EXISTS" value="ایک فائل &quot;{1}&quot;  کے نام سے پہلے ہی موجود ہے کیا آپ اسے تبدیل کرنا چاہتے ہیں؟"/>
+			<text id="RESTART_APP" value="تبدیلیوں کو مؤثر کرنے کے لیے آپ کو اطلاقیہ دوبارہ چلانا ہوگا۔"/>
+		</inform>
+		<confirm>
+			<text id="YES_NO" value="کیا آپ کو یقین ہے؟"/>
+			<text id="DEL_YES_NO" value="مستقلاً{1} شے (اشیاء) حذف کردیں؟"/>
+		</confirm>
+		<error>
+			<text id="GENERAL_ERROR" value="ایک غیر متوقع مسئلہ آ گیا"/>
+			<text id="FNF" value="فائل نہیں ملی"/>
+			<text id="ACTION_FAILED" value="کاروائی ناکام ہوگئی!"/>
+		</error>
+		<hint>
+		</hint>
+	</message>
+
+	<forms>
+		<global>
+			<text id="APP_NAME" value="ذکر"/>
+			<text id="APP_FULL_NAME" value="ذکر قرآنی منصوبہ"/>
+			<text id="FORM_TITLE" value="Zekr"/>
+			<text id="COPYRIGHT_DISCLAIMER" value="یہ اطلاقیہ  کسی ضمانت کے بغیر مفت تقسیم کیا جاتا ہے  اس امید کے ساتھ   کہ یہ مفید ثابت ہوگا "/>
+		</global>
+		<form id="QURAN_FORM">
+			<text id="TITLE" value="ذکر"/>
+			<text id="NEW_SCOPE" value="نیا تناظر"/>
+			<text id="EDIT_SCOPES" value="تناظرات کی تدوین کریں"/>
+			<text id="NO_SCOPE" value="کوئی تناظر نہیں"/>
+			<text id="CURRENT_PAGE" value="موجودہ صفحہ"/>
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="TITLE" value="اطلاقیہ کے اختیارات"/>
+			<text id="SHOW_SPLASH" value="آغاز پر لوگو دکھائیں"/>
+			<text id="NEW_KEY" value="ایک نئی کلید داخل کریں"/>
+			<text id="THEME_SETTING" value="خیالیے کی ترتیبات"/>
+			<text id="PRESS_OK_TO_APPLY" value=" تبدیلیوں کو مؤثر کرنے کے لیے&quot;OK&quot; کا بٹن دبائیں"/>
+			<text id="MAX_SEARCH_RESULT" value="زیادہ سے زیادہ تلاش کے نتائج کی تعداد"/>
+		</form>
+		<form id="SEARCH_SCOPE_FORM">
+			<text id="TITLE" value="تلاش کے تناظر منظم کریں"/>
+			<text id="SEARCH_SCOPE" value="تلاش کا تناظر"/>
+			<text id="FROM_SURA" value="از سورت"/>
+			<text id="FROM_AYA" value="از آیت"/>
+			<text id="TO_SURA" value="تا سورت"/>
+			<text id="TO_AYA" value="تا آیت"/>
+			<text id="ILLEGAL_SEARCH_SCOPE" value="غلط تلاش کی تناظری تفصیلات"/>
+		</form>
+		<form id="MANAGE_SCOPES_FORM">
+			<text id="TITLE" value="تلاش کے تناظر کی تدوین کریں"/>
+		</form>
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="{1} کے نشانات کا سیٹ منظم کریں"/>
+			<text id="NEW_BOOKMARK_FOLDER" value="نئے نشانات کا فولڈر"/>
+			<text id="NEW_BOOKMARK_ITEM" value="نیا نشانی آئٹم"/>
+			<text id="UNIQUE_NAME" value="ایک منفرد نام"/>
+			<text id="COMMA_SEPARATED" value="اگر ایک سے زائد مصنفین ہیں تو ناموں کو کوموں سے علیحدہ کریں"/>
+			<text id="ONLY_ENGLISH" value="صرف انگریزی نام استعمال کریں (مثلاً English, Persian, Arabic)"/>
+			<text id="DESC_TOOLTIP" value="روایات، اقتباس، حوالہ جات و دیگر نشانیوں سے متعلقہ مضامین یہاں آتے ہیں"/>
+		</form>
+		<form id="BOOKMARK_SET_GROUP_FORM">
+			<text id="TITLE" value="نشانیوں کے سیٹوں کو منظم کریں"/>
+			<text id="DBL_CLICK" value="آئٹمز کی تدوین یا لوڈ کرنے کےلیے ڈبل کلک کریں"/>
+			<text id="SET_AS_DEFAULT" value="کیا آپ &quot;{1}&quot; کو اپنے عام نشانیوں کے سیٹ کے طور پر مقرر کرنا چاہتے ہیں؟"/>
+			<text id="CANNOT_REMOVE_DEFAULT" value="عام نشانی کو نہیں مٹایا جا سکتا"/>
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="عام نشانی کے اوپر نہیں لکھ سکتا۔ کوئی اور نشانیوں کا سیٹ منتخب کر کے درآمد کرنےکی کوشش کریں"/>
+			<text id="ENTER_ID" value="نشانی کی شناخت درج کریں"/>
+			<text id="NEW_BOOKMARK_SET" value="نیا نشانیوں کا سیٹ"/>
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="نشانیوں کے خواص کی تدوین کریں"/>
+			<text id="QURAN_LOCATIONS" value="قرآنی مقامات"/>
+			<text id="NEW_BOOKMARK" value="نئی نشانی"/>
+			<text id="NEW_FOLDER" value="نیا فولڈر"/>
+		</form>
+		<form id="BOOKMARK_REF">
+			<text id="TITLE" value="نشانیوں کے سیٹ کے حوالہ جات بطرف {1"/>
+		</form>
+		<form id="IMPORT_QUESTION">
+			<text id="IMPORT_FOR" value="مندرجہ ذیل صارفین کے لیے درآمد کریں:"/>
+			<text id="ME_ONLY" value="صرف میرے لیے"/>
+			<text id="ALL_USERS" value="تمام صارفین کے لیے (تنصیب کی ڈائریکٹری میں لکھنے کی رسائی درکار ہے)"/>
+		</form>
+		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="TITLE" value="دیگر ترجمہ جات منظم کریں"/>
+			<text id="AVAILABLE" value="دستیاب ترجمہ جات"/>
+			<text id="CURRENT" value="موجود ترجمہ جات"/>
+		</form>
+	</forms>
+</language>

@@ -86,7 +86,7 @@ public abstract class AbstractQuranSearch {
 					}
 				}
 			}
-		} else {
+		} else { // scoped search
 			do {
 				IQuranLocation loc = quran.getCurrentLocation();
 				if (loc == null) return true;

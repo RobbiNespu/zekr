@@ -137,12 +137,12 @@ div.searchBody {
 #if(!$trans_showSuraAyaSign.equals("true"))
 	display: none;
 #end
-#set($fontSize = $MATH.round($MATH.mul($MATH.toInteger($trans_fontSize),"0.65")))
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.65")))
 	font-size: ${fontSize}pt;
 }
 
 .quran .suraAyaNum {
-#set($fontSize = $MATH.round($MATH.mul($MATH.toInteger($quran_fontSize),"0.65")))
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($quran_fontSize),"0.65")))
 #if(!$quran_showSuraAyaSign.equals("true"))
 	display: none;
 #end
@@ -181,26 +181,6 @@ div.aya {
 	padding-right: 10px;
 	padding-left: 10px;
 	margin: 3px 0 3px 0;
-}
-
-span.sajda#minor {
-	font-family: serif;
-	color: rgb(200, 40, 40);
-/*	border: 1px rgb(200, 40, 40) solid;*/
-}
-
-span.sajda#major {
-	font-family: serif;
-	color: rgb(240, 10, 10);
-/*	border: 1px rgb(200, 40, 40) solid;*/
-}
-
-span.juzSign {
-	font-family: serif;
-	color: rgb(0, 40, 200);
-}
-
-span.ayaSign {
 }
 
 span.selectedAyaSign {

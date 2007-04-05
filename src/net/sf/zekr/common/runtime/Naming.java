@@ -31,6 +31,10 @@ public class Naming {
 	public static final String THEME_PROPS_DIR = CONFIG_DIR + "/theme";
 	public static final String BOOKMARK_DIR = HOME_PATH + "/bookmark";
 
+	/* Cache Directories */
+	public static final String INDEX_DIR = HOME_PATH + "/index";
+	public static final String QURAN_INDEX_DIR = INDEX_DIR + "/quran";
+
 	/** Directory to import a translation for a user only. */
 	public static final String TRANS_DIR = HOME_PATH + "/text/trans";
 

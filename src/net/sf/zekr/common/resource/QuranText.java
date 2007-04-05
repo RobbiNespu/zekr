@@ -40,7 +40,7 @@ public class QuranText implements IQuranText {
 	 * @throws IOException
 	 */
 	private QuranText() throws IOException {
-		RandomAccessFile raf = new RandomAccessFile(resource.getString("quran.text.file"), "r");
+		RandomAccessFile raf = new RandomAccessFile(resource.getString("text.quran.file"), "r");
 		byte[] buf = new byte[(int) raf.length()];
 		raf.readFully(buf);
 		rawText = new String(buf, config.getProps().getString("quran.text.encoding"));

@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.common.resource;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * This data structure is the primitive structure of addressing somewhere in the Quran. Addressing is possible
  * by just having aya number and sura number. <br>
@@ -40,13 +42,13 @@ public class QuranLocation implements IQuranLocation {
 	 * <code>IllegalArgumentException</code> is thrown.<br>
 	 * Please note that no range check is performed for this method.
 	 * 
-	 * @param location <code>location.toString()</code> will be used
+	 * @param location Quran location to be parsed
 	 * @throws IllegalArgumentException if <code>location</code> is not well-formed, ie. <tt>sura#-aya#</tt>
 	 */
 	public QuranLocation(String location) {
 		int i = location.indexOf('-');
 		if (i == -1)
-			throw new IllegalArgumentException(location.toString());
+			throw new IllegalArgumentException(location);
 		setSura(Integer.parseInt(location.substring(0, i)));
 		setAya(Integer.parseInt(location.substring(i + 1)));
 	}
@@ -131,6 +133,12 @@ public class QuranLocation implements IQuranLocation {
 	 */
 	public String toDetailedString() {
 		return new StringBuffer(getSuraName()).append(" (").append(sura).append(") - ").append(aya).toString();
+	}
+	
+	public String toSortableString() {
+		String suraStr = StringUtils.leftPad(String.valueOf(sura), 3, '0');
+		String ayaStr = StringUtils.leftPad(String.valueOf(aya), 3, '0');
+		return new StringBuffer(suraStr).append("-").append(ayaStr).toString();
 	}
 
 	public boolean equals(Object obj) {

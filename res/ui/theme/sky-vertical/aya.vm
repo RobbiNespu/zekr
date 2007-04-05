@@ -1,0 +1,96 @@
+#**
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * @version 1
+ *#
+#macro (putHizbSignIfPossible)
+	#foreach ($JUZ in $ALL_JUZ_LIST) #foreach ($LOC in $JUZ.HizbQuarters) #set($hizbQuarter = $velocityCount - 1)
+		#if ($SURA_NUM == $LOC.Sura && $AYA_NUM == $LOC.Aya)
+			#set( $hizbNum = $hizbQuarter / 4 + 1)
+			#set( $hizbQuarter = $hizbQuarter % 4 )
+			#if ($hizbQuarter != 0)
+				<nobr><span class="hizbSign" title="$JUZ - $DICT.getMeaning("HIZB"): ${hizbNum} - $DICT.getMeaning("QUARTER"): $hizbQuarter">&#1758;</span></nobr>
+			#end
+		#end
+	#end #end
+#end
+#set ($MINOR = 0)
+#set ($MAJOR = 1)
+#if($TRANSLATION == "true")
+	#set ($OPEN_PAREN = "(")
+	#set ($CLOSE_PAREN = ")")
+	#set ($AYA_CLASS = "trans")
+	#set ($DIR = ${TRANS_DIRECTION})
+#else
+	#set ($OPEN_PAREN = "&#64831;")
+	#set ($CLOSE_PAREN = "&#64830;")
+	#set ($AYA_CLASS = "quran")
+	#set ($DIR = "rtl")
+#end
+#set ($SAJDA_SIGN = "&#1769;")
+<div id="searchableSection" class="$AYA_CLASS">
+#foreach ($AYA in $AYA_LIST)
+	#set($AYA_NUM = $velocityCount)
+	#foreach ($JUZ in $JUZ_LIST)
+		#if ($JUZ.AyaNumber == $AYA_NUM)
+			<nobr><span class="juzSign" title="$JUZ">[$I18N.localize($JUZ.Index)]</span></nobr>
+		#end
+	#end
+	#if ($TEXT_LAYOUT == "line_by_line")
+		<div class="aya" id="${SURA_NUM}_${AYA_NUM}">
+	#elseif ($TEXT_LAYOUT == "block")
+		<span class="aya" id="${SURA_NUM}_${AYA_NUM}">
+	#end
+	#if ($CUSTOM != "true" && $MIXED == "true") #foreach ($A in $AYA)
+		#if ($velocityCount != 1)
+		<div dir="${TRANS_DIRECTION}" class="trans" lang="${TRANS_LANG}">
+		#else
+		<div class="quran" lang="ar">#putHizbSignIfPossible()
+		#end
+		${A}
+		#if (($velocityCount == 1 && $quran_showSuraAyaSign == "true") || ($velocityCount == 2 && $trans_showSuraAyaSign == "true"))
+		&#8204;<span class="suraAyaNum">[$I18N.localize( ${SURA_NUM} )-$I18N.localize( ${AYA_NUM} )]</span> #end
+		</div>
+	#end #elseif ($CUSTOM == "true" && $MIXED == "true")
+		<div class="quran" lang="ar">#putHizbSignIfPossible()
+		$AYA
+		#if ($quran_showSuraAyaSign == "true")
+		&#8204;<span class="suraAyaNum">[$I18N.localize( ${SURA_NUM} )-$I18N.localize( ${AYA_NUM} )]</span>
+		#end
+		#set ($NUM = $UTILS.arraySize($TRANS_DATA))
+		<table lang="zz" class="customTrans" cellpadding="2" border="2" cellspacing="2"><tr>
+		#foreach ($TD in $TRANS_DATA)
+			#if ($trans_showTransId == "true") #set ($TRANS_ID = "[<i>${TD.id}</i>]") #else
+				#set ($TRANS_ID = "")
+			#end
+			<td valign="top" width="$UTILS.div1(100, $NUM)%"><div title="$TD.toText()" id="custom" dir="${TD.direction}" class="trans" lang="${TD.locale.language}">
+			$TRANS_ID $TD.get(${SURA_NUM}, ${AYA_NUM})
+			#if ($trans_showSuraAyaSign == "true") &#8204;<span class="suraAyaNum">[${SURA_NUM}-${AYA_NUM}]</span> #end
+			</div></td>
+		#end
+		</tr></table>
+		</div>
+	#else
+		#putHizbSignIfPossible() $AYA
+	#end
+	<span title="${SURA_NAME} - ${AYA_NUM}">
+		<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" class="ayaSign">$OPEN_PAREN$I18N.localize( $AYA_NUM )$CLOSE_PAREN</span></nobr>
+	</span>
+	#foreach ($SAJDA in $SAJDA_LIST)
+		#if ($SAJDA.AyaNumber == $AYA_NUM)
+			#if ($SAJDA.Type == $MINOR)
+				<span id="minor" class="sajda" title="$SAJDA">[$SAJDA_SIGN]</span>
+			#elseif ($SAJDA.Type == $MAJOR)
+				<span id="major" class="sajda" title="$SAJDA">[[$SAJDA_SIGN]]</span>
+			#end
+		#end
+	#end
+	#if ($TEXT_LAYOUT == "line_by_line")
+		</div>
+	#elseif ($TEXT_LAYOUT == "block")
+		</span>
+	#end
+#end
+</div>

@@ -31,7 +31,7 @@ public class TranslationSearch extends AbstractQuranSearch {
 	public TranslationSearch(IRangedQuranText trans, boolean matchCase, Locale locale) {
 		super(trans, true, matchCase, locale);
 
-		trans.getTranslationData().load();
+		// trans.getTranslationData().load();
 	}
 
 	protected final List find(String src, String keyword) {

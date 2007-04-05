@@ -1,0 +1,212 @@
+/*
+ *               In the name of Allah
+ * This file is part of The Zekr Project. Use is subject to
+ * license terms.
+ *
+ * Author:         Mohsen Saboorian
+ * @version 1
+ */
+html,body {
+	padding: 0px;
+	margin: 0px;
+}
+body {
+	font: 13pt "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
+	color: rgb(30, 40, 70);
+/*	background-color: white;*/
+}
+body#search {
+/*	background: white;*/
+}
+body#quranBody {
+/*	background-color: white;*/
+}
+
+body#transBody {
+/*	background-color: white;*/
+}
+
+div.body {
+	padding-top: 30px;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+div.bodyTop {
+	margin: 5px;
+}
+
+td.searchBarTop {
+	height: 50px;
+	font-size: 0.9em;
+	font-family: Tahoma, Arial, Sans-serif;
+	border: 1px solid silver;
+	padding: 2px;
+}
+
+div.bodyBottom {
+	height: 30px;
+}
+
+div.headerBar { /* IE 5.0+ */
+	visibility: hidden;
+}
+
+div.main {
+	vertical-align: top;/*
+	border-left: 1px solid rgb(190, 220, 255);
+	border-right: 1px solid rgb(190, 220, 255);
+	border-top: 3px double rgb(140, 150, 250);
+	border-bottom: 3px double rgb(140, 150, 250);*/
+	padding: 7 8;
+	line-height: 150%;
+}
+
+div.searchBody {
+	padding: 0px 10px 0px 10px;
+	text-align: center;
+	_width: 100%;
+	padding-top: 40px;
+}
+
+.searchBody table {
+	width: 100%;
+}
+
+.quran {
+	text-align: justify;
+#set($qBold = "")
+#set($qItalic = "")
+#if ($quran_fontBold.equals("true"))
+	#set($qBold = "bold")
+#end
+#if ($quran_fontItalic.equals("true"))
+	#set($qItalic = "italic")
+#end
+	font: $qBold $qItalic ${quran_fontSize}pt ${quran_fontName}, Badr, Nazanin, Tahoma, Nazli, Koodak, Times, Verdana, Helvetica, Arial, Sans-serif;
+}
+
+.trans {
+#set($tBold = "")
+#set($tItalic = "")
+#if ($trans_fontBold.equals("true"))
+	#set($tBold = "bold")
+#end
+#if ($trans_fontItalic.equals("true"))
+	#set($tItalic = "italic")
+#end
+	font: $tBold $tItalic ${trans_fontSize}pt ${trans_fontName}, Tahoma, Arial, Times, Verdana, Helvetica;
+}
+
+.trans .suraAyaNum {
+#if(!$trans_showSuraAyaSign.equals("true"))
+	display: none;
+#end
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.65")))
+	font-size: ${fontSize}pt;
+}
+
+.quran .suraAyaNum {
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($quran_fontSize),"0.65")))
+#if(!$quran_showSuraAyaSign.equals("true"))
+	display: none;
+#end
+	font-size: ${fontSize}pt;
+}
+
+div.aya, div.selectedAya {
+	border-bottom: 0.3pt solid rgb(180, 180, 180); /* dashed border in IE is shown only in the first page of printed doc! */
+	padding-right: 10px;
+	padding-left: 10px;
+	margin: 5px 0px;
+}
+
+span.selectedAyaSign {
+	font-weight: bold;
+}
+
+td.searchResult {
+	vertical-align: top;
+}
+/*
+div.searchResult {
+	border: 4px solid rgb(200, 210, 240);
+}
+*/
+.searchResult div.item {
+	padding: 0px 7px 0px 7px;
+}
+
+.searchResult div.odd {
+	background-color: white;
+	margin: 9px 0px;
+}
+
+.searchResult div.even {
+	background-color: rgb(200, 210, 240); /* a bit darker than screen media rendering */
+	margin: 9px 0px;
+}
+.searchResult div img { /* hides translation button at the end of each aya in search result */
+	display: none;
+}
+
+.searchResult .even span.highlight {
+	color: blue;
+	font-weight: bold;
+	background-color: white;
+}
+
+.searchResult .odd span.highlight {
+	color: blue;
+	font-weight: bold;
+	background-color: rgb(220, 220, 220);
+}
+
+.jsHighlight {
+	color: red;
+	font-weight: bold;
+	background-color: white;
+}
+
+.jsHighlightFocused { /* in printing it is of no sense to have a different selected item, all items should look the same */
+	color: red;
+	font-weight: bold;
+	background-color: white;
+}
+
+.searchResult a:link { 
+	color: rgb(0, 80, 120);
+	text-decoration: none;;
+}
+
+.searchResult a:visited { 
+	color: rgb(0, 40, 200);
+	text-decoration: none;
+}
+/*
+.searchResult a:hover { 
+	color: red;
+}
+.handCursor {
+	cursor: pointer;
+	cursor: hand;
+}
+*/
+.printWatermark {
+#if($print_showWatermark.equals("true"))
+	margin: 3px;
+	background-color: rgb(240, 240, 240);
+	color: black;
+	border: 1px solid gray;
+	text-align: center;
+	padding: 2px;
+	display: block;
+	font: 9pt Tahoma, Arial, Sans-serif;
+#end
+}
+
+table.customTrans {
+}
+
+table.customTrans td {
+}

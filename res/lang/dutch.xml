@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Erik van Luxzenburg" version="0.4">
+<language author="Johan Laenen" version="0.5">
 	<locale localizedName="Dutch" name="Nederlands" id="nl_NL" direction="ltr" />
 	<word>
 		<common>
@@ -30,7 +30,7 @@
 			<text id="VALUE"  value="Waarde" />
 			<text id="NUMBER" value="Nummer" />
 			<text id="OPTION" value="Opties" />
-			<text id="FILE"   value="File" />
+			<text id="FILE"   value="Bestand" />
 			<text id="RELOAD" value="Herladen" />
 			<text id="TYPE"   value="Type" />
 			<text id="MESSAGE"  value="Bericht" />
@@ -46,7 +46,7 @@
 			<text id="HOMEPAGE" value="Homepage" />
 			<text id="WHOLE_QURAN" value="De Volledige Koran" />
 			<text id="MATCH_DIACRITIC" value="Match_Diakritisch" />
-			<text id="MATCH_CASE" value="Match case"   />
+			<text id="MATCH_CASE" value="Match case" />
 			<text id="NEXT_AYA" value="Volgende Aya" />
 			<text id="NEXT_SURA" value="Volgende Soera" />
 			<text id="PREV_AYA" value="Vorige Aya" />
@@ -68,22 +68,52 @@
 			<text id="FONT"   value="Font" />
 			<text id="GENERAL"  value="Algemeen" />
 			<text id="EXIT"   value="Afsluiten" />
-			<text id="EXCLUDE"  value="Exclude"   />
-			<text id="TRUE"     value="True"   />
-			<text id="FALSE"    value="False"   />
+			<text id="EXCLUDE"  value="Uitsluiten" />
+			<text id="TRUE"     value="Waar" />
+			<text id="FALSE"    value="Onwaar" />
+			<text id="SELECT"   value="Selecteer" />
+			<text id="EXPORT"   value="Exporteer" />
+			<text id="IMPORT"   value="Importeer" />
+			<text id="DESCRIPTION" value="Beschrijving" />
+			<text id="BOOKMARKS" value="Bladwijzers" />
+			<text id="CONFIGURE" value="Configureer" />
+			<text id="CONFIGURE_BOOKMARK_SETS" value="Configureer bladwijzersets" />
+			<text id="DIRECTION" value="Richting" />
+			<text id="LANG_DIRECTION" value="Richting van de taal" />
+			<text id="RTL"      value="Rechts naar links" />
+			<text id="LTR"      value="Links naar rechts" />
+			<text id="AUTHOR"   value="Auteur" />
+			<text id="VERSION"  value="Versie" />
+			<text id="RANDOM_AYA" value="Willekeurige Aya" />
+			<text id="UNTITLED" value="Zonder titel" />
+			<text id="SET_DEFAULT" value="Zet als basis" />
+			<text id="NOT_LOADED" value="Niet geladen" />
+			<text id="ID"       value="ID" />
+			<text id="OVERWRITE" value="Overschrijf" />
+			<text id="SAVE"     value="Bewaar" />
+			<text id="PATH"     value="Pad" />
+			<text id="FIND_REFS" value="Vind Referenties" />
+			<text id="MOVE_UP" value="Naar boven" />
+			<text id="MOVE_DOWN" value="Naar beneden" />
+			<text id="CUSTOM_MIXED" value="Eigen mix" />
+			<text id="CONFIG_CUSTOM_TRANS" value="Configureer Eigen Vertalingen" />
+			<text id="GO" value="Start" />
 		</common>
 		<special>
 			<text id="QURAN"  value="Koran" />
-			<text id="SURA"  value="Soera" />
+			<text id="SURA"   value="Soera" />
 			<text id="AYA"  value="Aya" />
 			<text id="SAJDA"  value="Sajda" />
 			<text id="JUZ"  value="Juz" />
+			<text id="HIZB"     value="Hizb" />
+			<text id="QUARTER"  value="Quarter" />
 			<text id="MAKKI"  value="Makki" />
 			<text id="MADANI" value="Madani" />
 			<text id="DESCENT"  value="Geopenbaard" />
 			<text id="AYA_COUNT"  value="Aya_teling" />
-			<text id="MINOR_SAJDA" value="Kleine Sajda" />
-			<text id="MAJOR_SAJDA" value="Grote Sajda" />
+			<text id="MINOR_SAJDA" value="Kleine Sajda" /> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="Grote Sajda" /> <!-- Wajib Sajda -->
+			<text id="LOCATION" value="Locatie" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -91,19 +121,21 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Zoeken naar: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="Zoekresultaat {1} Overeenkomsten in {2} Ayas gevonden." />
-			<text id="TOO_MANY_RESULT" value="Zoekresultaat levert meer dan{1} Ayas op." />
-			<text id="FILE_ALREADY_EXISTS" value="Een file met de naam &quot;{1}&quot; bestaat reeds. Overschrijven?" />
+			<text id="TOO_MANY_RESULT" value="Zoekresultaat levert meer dan {1} Ayas op." />
+			<text id="FILE_ALREADY_EXISTS" value="Een bestand met de naam &quot;{1}&quot; bestaat reeds. Overschrijven?" />
 			<text id="RESTART_APP" value="Herstart de applicatie, daar reeds een versie werkzaam is." />
 		</inform>
 		<confirm>
-			<text id="YES_NO" value="Weet je het zeker?" />
+			<text id="YES_NO" value="Weet U het zeker?" />
+			<text id="DEL_YES_NO" value="Permanent verwijderen {1} onderde(e)l(en)?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Onbekende fout opgetreden" />
+			<text id="FNF" value="Bestand niet gevonden" />
 			<text id="ACTION_FAILED" value="Actie gefaald!" />
 		</error>
-		<tooltip>
-		</tooltip>
+		<hint>
+		</hint>
 	</message>
 
 	<forms>
@@ -115,13 +147,13 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="NEW_SCOPE" value="New scope"   />
-			<text id="EDIT_SCOPES" value="Edit scopes"   />
-			<text id="NO_SCOPE" value="No scope"   />
-			<text id="CURRENT_PAGE" value="Current page"   />
+			<text id="NEW_SCOPE" value="Nieuw bereik" />
+			<text id="EDIT_SCOPES" value="Pas bereik aan" />
+			<text id="NO_SCOPE" value="Geen bereik" />
+			<text id="CURRENT_PAGE" value="Huidige pagina" />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="TITLE" value="Application Options"   />
+			<text id="TITLE" value="Applicatie Opties" />
 			<text id="SHOW_SPLASH" value="Start splash scherm" />
 			<text id="NEW_KEY" value="Nieuwe bijdrage" />
 			<text id="THEME_SETTING" value="Thema-instellingen" />
@@ -129,16 +161,53 @@
 			<text id="MAX_SEARCH_RESULT" value="Maximale aantal zoekresultaten" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="Configure Search Scope"   />
-			<text id="SEARCH_SCOPE" value="Search scope"   />
-			<text id="FROM_SURA" value="From sura"   />
-			<text id="FROM_AYA" value="From aya"   />
-			<text id="TO_SURA" value="To sura"   />
-			<text id="TO_AYA" value="To aya"   />
-			<text id="ILLEGAL_SEARCH_SCOPE" value="Illegal search scope items"   />
+			<text id="TITLE" value="Configureer Zoekbereik" />
+			<text id="SEARCH_SCOPE" value="Zoekbereik" />
+			<text id="FROM_SURA" value="Vanaf soera" />
+			<text id="FROM_AYA" value="Vanaf aya" />
+			<text id="TO_SURA" value="Tot soera" />
+			<text id="TO_AYA" value="Tot aya" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="Onmogelijk zoekbereikonderdeel" />
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="Edit Search Scopes"   />
+			<text id="TITLE" value="Beheer zoekbereiken" />
+		</form>
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="Beheer bladwijzerset: {1}" />
+			<text id="NEW_BOOKMARK_FOLDER" value="Nieuwe bladwijzermap" />
+			<text id="NEW_BOOKMARK_ITEM" value="Nieuw bladwijzeronderdeel" />
+			<text id="UNIQUE_NAME" value="Een unieke naam" />
+			<text id="COMMA_SEPARATED" value="Gebruik door komma's gescheiden waarden wanneer er meer dan een auteur is" />
+			<text id="ONLY_ENGLISH" value="Gebruik enkel engelse namen (v.b. English, Farsi, Arabic, ...)" />
+			<text id="DESC_TOOLTIP" value="Afspraken, aanhalingen, referenties, en andere bladwijzergerelateerde onderwerpen komen hier" />
+		</form>
+		<form id="BOOKMARK_SET_GROUP_FORM">
+			<text id="TITLE" value="Beheer de bladwijzersetgroepen" />
+			<text id="DBL_CLICK" value="Dubbelklik op de onderdelen om ze in te laden en/of aan te passen." />
+			<text id="SET_AS_DEFAULT" value="Wilt U &quot;{1}&quot; als uw basisbladwijzerset?" />
+			<text id="CANNOT_REMOVE_DEFAULT" value="Ik kan de basisbladwijzer niet verwijderen." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Ik kan de basisbladwijzerset niet overschrijven. Selecteer een andere bladwijzerset als basis, and probeer te importeren." />
+			<text id="ENTER_ID" value="Geef de bladwijzerset-ID" />
+			<text id="NEW_BOOKMARK_SET" value="Nieuwe bladwijzerset" />
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="Pas bladwijzereigenschappen aan" />
+			<text id="QURAN_LOCATIONS" value="Locatie in de Koran" />
+			<text id="NEW_BOOKMARK" value="Nieuwe bladwijzer" />
+			<text id="NEW_FOLDER" value="Nieuwe map" />
+		</form>
+		<form id="BOOKMARK_REF">
+			<text id="TITLE" value="Bladwijzersetreferenties naar: {1}" />
+		</form>
+		<form id="IMPORT_QUESTION">
+			<text id="IMPORT_FOR" value="Importeer voor de volgende gebruikers:" />
+			<text id="ME_ONLY" value="Enkel ik" />
+			<text id="ALL_USERS" value="Alle gebruikers (schrijftoegang tot installatiemap noodzakelijk)" />
+		</form>
+		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="TITLE" value="Configureer Aanpasbare Vertalingen" />
+			<text id="AVAILABLE" value="Beschikbare vertalingen" />
+			<text id="CURRENT" value="Huidige vertalingen" />
 		</form>
 	</forms>
 </language>

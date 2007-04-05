@@ -30,7 +30,6 @@ import net.sf.zekr.engine.xml.XmlUtils;
 class QuranPropertiesReader extends QuranBaseProperties {
 	private XmlReader reader;
 	private NodeList suraNodeList, juzNodeList, sajdaNodeList;
-	private ApplicationConfig appConfig = ApplicationConfig.getInstance();
 	private ResourceManager resource = ResourceManager.getInstance();
 
 	ArrayList suraProp = new ArrayList();

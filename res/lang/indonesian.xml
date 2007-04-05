@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Ari R. Fikri" version="0.4">
+<language author="Ari R. Fikri" version="0.5">
 	<locale localizedName="Indonesian" name="Indonesian" id="id_ID" direction="ltr" />
 	<word>
 		<common>
@@ -46,7 +46,7 @@
 			<text id="HOMEPAGE" value="Home page" />
 			<text id="WHOLE_QURAN" value="Quran Keseluruhan" />
 			<text id="MATCH_DIACRITIC" value="Pengenal ditemukan" />
-			<text id="MATCH_CASE" value="Penulisan yang sama"   />
+			<text id="MATCH_CASE" value="Penulisan yang sama" />
 			<text id="NEXT_AYA" value="Ayat Selanjutnya" />
 			<text id="NEXT_SURA" value="Surat Selanjutnya" />
 			<text id="PREV_AYA" value="Ayat Sebelumnya" />
@@ -61,16 +61,43 @@
 			<text id="OPEN"     value="Buka" />
 			<text id="IMPORT"   value="Import" />
 			<text id="COPY"     value="Copy" />
-			<text id="SEPARATE" value="Pisahkan" />
-			<text id="MIXED"    value="Campurkan" />
+			<text id="SEPARATE" value="Dipisah" />
+			<text id="MIXED"    value="Disatukan" />
 			<text id="OPTIONS"  value="Opsi" />
 			<text id="QUESTION" value="Pertanyaan" />
 			<text id="FONT"     value="Font" />
 			<text id="GENERAL"  value="Umum" />
 			<text id="EXIT"     value="Keluar" />
-			<text id="EXCLUDE"  value="Exclude"   />
-			<text id="TRUE"     value="True"   />
-			<text id="FALSE"    value="False"   />
+			<text id="EXCLUDE"  value="Abaikan" />
+			<text id="TRUE"     value="Benar" />
+			<text id="FALSE"    value="Salah" />
+			<text id="SELECT"   value="Pilih" />
+			<text id="EXPORT"   value="Ekspor" />
+			<text id="IMPORT"   value="Impor" />
+			<text id="DESCRIPTION" value="Deskripsi" />
+			<text id="BOOKMARKS" value="Bookmark" />
+			<text id="CONFIGURE" value="Konfigurasi" />
+			<text id="CONFIGURE_BOOKMARK_SETS" value="Set posisi Bookmark" />
+			<text id="DIRECTION" value="Arah" />
+			<text id="LANG_DIRECTION" value="Arah Bahasa" />
+			<text id="RTL"      value="Kanan ke kiri" />
+			<text id="LTR"      value="Kiri ke kanan" />
+			<text id="AUTHOR"   value="Penulis" />
+			<text id="VERSION"  value="Versi" />
+			<text id="RANDOM_AYA" value="Ayat secara acak" />
+			<text id="UNTITLED" value="Nirjudul" />
+			<text id="SET_DEFAULT" value="Set sbg default" />
+			<text id="NOT_LOADED" value="Tidak dimasukan" />
+			<text id="ID"       value="ID" />
+			<text id="OVERWRITE" value="Timpa" />
+			<text id="SAVE"     value="Simpan" />
+			<text id="PATH"     value="Path" />
+			<text id="FIND_REFS" value="Cari Referensi" />
+			<text id="MOVE_UP" value="Naik" />
+			<text id="MOVE_DOWN" value="Turun" />
+			<text id="CUSTOM_MIXED" value="Disatukan terkustomisasi" />
+			<text id="CONFIG_CUSTOM_TRANS" value="Set Terjemahan" />
+			<text id="GO" value="Go" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -78,12 +105,15 @@
 			<text id="AYA"      value="Ayat" />
 			<text id="SAJDA"    value="Sajda" />
 			<text id="JUZ"      value="Juz" />
+			<text id="HIZB"     value="Hizab" />
+			<text id="QUARTER"  value="Seperempat" />
 			<text id="MAKKI"    value="Makkiah" />
 			<text id="MADANI"   value="Madaniah" />
 			<text id="DESCENT"  value="Turun" />
 			<text id="AYA_COUNT"  value="Jumlah Ayat" />
-			<text id="MINOR_SAJDA" value="Sajda Minor" />
-			<text id="MAJOR_SAJDA" value="Sajda Mayor" />
+			<text id="MINOR_SAJDA" value="Sunat Sujud" /> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="Wajib Sujud" /> <!-- Wajib Sajda -->
+			<text id="LOCATION" value="Lokasi" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -97,13 +127,15 @@
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Anda Yakin?" />
+			<text id="DEL_YES_NO" value="Hapus item-item {1} secara permanen ?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Kesalahan yang tidak diharapkan telah terjadi" />
+			<text id="FNF" value="File tidak ditemukan" />
 			<text id="ACTION_FAILED" value="Gagal!" />
 		</error>
-		<tooltip>
-		</tooltip>
+		<hint>
+		</hint>
 	</message>
 
 	<forms>
@@ -115,10 +147,10 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="NEW_SCOPE" value="Lingkup Baru"   />
-			<text id="EDIT_SCOPES" value="Edit Lingkup"   />
-			<text id="NO_SCOPE" value="Tidak ada Lingkup"   />
-			<text id="CURRENT_PAGE" value="Halaman saat ini"   />
+			<text id="NEW_SCOPE" value="Lingkup Baru" />
+			<text id="EDIT_SCOPES" value="Edit Lingkup" />
+			<text id="NO_SCOPE" value="Tidak ada Lingkup" />
+			<text id="CURRENT_PAGE" value="Halaman saat ini" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Opsi Aplikasi" />
@@ -129,16 +161,53 @@
 			<text id="MAX_SEARCH_RESULT" value="Jumlah hasil pencarian maksimal" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="Konfigurasi lingkup pencarian"   />
-			<text id="SEARCH_SCOPE" value="Lingkup Pencarian"   />
-			<text id="FROM_SURA" value="Dari Surat"   />
-			<text id="FROM_AYA" value="Dari Ayat"   />
-			<text id="TO_SURA" value="Ke Surat"   />
-			<text id="TO_AYA" value="Ke Ayat"   />
-			<text id="ILLEGAL_SEARCH_SCOPE" value="Lingkup item pencarian Ilegal"   />
+			<text id="TITLE" value="Konfigurasi lingkup pencarian" />
+			<text id="SEARCH_SCOPE" value="Lingkup Pencarian" />
+			<text id="FROM_SURA" value="Dari Surat" />
+			<text id="FROM_AYA" value="Dari Ayat" />
+			<text id="TO_SURA" value="Ke Surat" />
+			<text id="TO_AYA" value="Ke Ayat" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="Lingkup item pencarian Ilegal" />
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="Edit Lingkup Pencarian"   />
+			<text id="TITLE" value="Edit Lingkup Pencarian" />
+		</form>
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="Atur Bookmark setting: {1}" />
+			<text id="NEW_BOOKMARK_FOLDER" value="Folder bookmark baru" />
+			<text id="NEW_BOOKMARK_ITEM" value="Bookmark baru" />
+			<text id="UNIQUE_NAME" value="Sebuah nama unik" />
+			<text id="COMMA_SEPARATED" value="Pisahkan dengan koma jika ada lebih dari satu penulis" />
+			<text id="ONLY_ENGLISH" value="Gunakan nama hanya dalam bahasa Inggris (contoh: English, Farsi, Arabic, ...)" />
+			<text id="DESC_TOOLTIP" value="Konvensi, kutipan, referensi dan topik lain yg berhubungan dengan bookmark, Masukkan ke sini !!" />
+		</form>
+		<form id="BOOKMARK_SET_GROUP_FORM">
+			<text id="TITLE" value="Pengaturan Setting Group Bookmark" />
+			<text id="DBL_CLICK" value="Double klik pada item untuk menampilkan atau mengeditnya" />
+			<text id="SET_AS_DEFAULT" value="Apakah anda ingin mengeset &quot;{1}&quot; sebagai default bookmark anda?" />
+			<text id="CANNOT_REMOVE_DEFAULT" value="Tidak bisa membuang bookmark default." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Tidak bisa menimpa setting default bookmar. Pilih setting bookmark lain sebagai default dan coba untuk mengimportnya" />
+			<text id="ENTER_ID" value="Masukan nomor ID bookmark" />
+			<text id="NEW_BOOKMARK_SET" value="Setting Bookmark Baru" />
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="Edit Properti Bookmark " />
+			<text id="QURAN_LOCATIONS" value="Lokasi Quran" />
+			<text id="NEW_BOOKMARK" value="Bookmark baru" />
+			<text id="NEW_FOLDER" value="Folder Baru" />
+		</form>
+		<form id="BOOKMARK_REF">
+			<text id="TITLE" value="Bookmark menunjuk ke: {1}" />
+		</form>
+		<form id="IMPORT_QUESTION">
+			<text id="IMPORT_FOR" value="Impor user-user berikut ini:" />
+			<text id="ME_ONLY" value="Hanya saya saja" />
+			<text id="ALL_USERS" value="Semua user (membutuhkan hak akses untuk menulis ke direktori instalasi)" />
+		</form>
+		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="TITLE" value="Konfigurasi terjemahan" />
+			<text id="AVAILABLE" value="Terjemahan yg tersedia" />
+			<text id="CURRENT" value="Terjemahan saat ini" />
 		</form>
 	</forms>
 </language>

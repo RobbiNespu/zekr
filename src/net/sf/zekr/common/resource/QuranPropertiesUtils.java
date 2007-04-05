@@ -20,6 +20,7 @@ import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
+import net.sf.zekr.engine.search.Range;
 
 /**
  * This class tightly depends on the class <code>QuranProperties</code>. Almost all public methods on this
@@ -249,5 +250,25 @@ public class QuranPropertiesUtils {
 		}
 		return retList;
 	}
-
+	
+	/**
+	 * @param juz juz number to find its suras
+	 * @return a <code>{@link Range}</code> object whose from and to are both inclusive.
+	 */
+	public static final Range getSuraInsideJuz(int juz) {
+		QuranProperties props = QuranProperties.getInstance();
+		int startSura = props.getJuz(juz).getSuraNumber();
+		int fromSura, toSura;
+		fromSura = startSura;
+		if (juz >= 30) {
+			toSura = 114;
+		} else {
+			JuzProperties jp = props.getJuz(juz + 1);
+			if (jp.getAyaNumber() > 1)
+				toSura = jp.getSuraNumber();
+			else
+				toSura = jp.getSuraNumber() - 1;
+		}
+		return new Range(fromSura, toSura);
+	}
 }
