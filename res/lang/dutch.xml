@@ -77,7 +77,8 @@
 			<text id="DESCRIPTION" value="Beschrijving" />
 			<text id="BOOKMARKS" value="Bladwijzers" />
 			<text id="CONFIGURE" value="Configureer" />
-			<text id="CONFIGURE_BOOKMARK_SETS" value="Configureer bladwijzersets" />
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="Richting" />
 			<text id="LANG_DIRECTION" value="Richting van de taal" />
 			<text id="RTL"      value="Rechts naar links" />
@@ -92,12 +93,17 @@
 			<text id="OVERWRITE" value="Overschrijf" />
 			<text id="SAVE"     value="Bewaar" />
 			<text id="PATH"     value="Pad" />
-			<text id="FIND_REFS" value="Vind Referenties" />
+			<text id="SHOW_REFS" value="Show References"   />
 			<text id="MOVE_UP" value="Naar boven" />
 			<text id="MOVE_DOWN" value="Naar beneden" />
 			<text id="CUSTOM_MIXED" value="Eigen mix" />
 			<text id="CONFIG_CUSTOM_TRANS" value="Configureer Eigen Vertalingen" />
 			<text id="GO" value="Start" />
+			<text id="CAUTION" value="cautious"   />
+			<text id="ADVANCED" value="Advanced"   />
+			<text id="QUERY_DETAIL" value="Query detail"   />
+			<text id="PAGE" value="Page"   />
+			<text id="MULTILINE" value="Multiline"   />
 		</common>
 		<special>
 			<text id="QURAN"  value="Koran" />
@@ -121,6 +127,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Zoeken naar: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="Zoekresultaat {1} Overeenkomsten in {2} Ayas gevonden." />
+			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
 			<text id="TOO_MANY_RESULT" value="Zoekresultaat levert meer dan {1} Ayas op." />
 			<text id="FILE_ALREADY_EXISTS" value="Een bestand met de naam &quot;{1}&quot; bestaat reeds. Overschrijven?" />
 			<text id="RESTART_APP" value="Herstart de applicatie, daar reeds een versie werkzaam is." />
@@ -134,8 +141,7 @@
 			<text id="FNF" value="Bestand niet gevonden" />
 			<text id="ACTION_FAILED" value="Actie gefaald!" />
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -151,6 +157,9 @@
 			<text id="EDIT_SCOPES" value="Pas bereik aan" />
 			<text id="NO_SCOPE" value="Geen bereik" />
 			<text id="CURRENT_PAGE" value="Huidige pagina" />
+			<text id="NATURAL_ORDER" value="Natural Order"   />
+			<text id="RELEVANCE" value="Relevance"   />
+			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Applicatie Opties" />
@@ -173,7 +182,7 @@
 			<text id="TITLE" value="Beheer zoekbereiken" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Beheer bladwijzerset: {1}" />
+			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
 			<text id="NEW_BOOKMARK_FOLDER" value="Nieuwe bladwijzermap" />
 			<text id="NEW_BOOKMARK_ITEM" value="Nieuw bladwijzeronderdeel" />
 			<text id="UNIQUE_NAME" value="Een unieke naam" />
@@ -181,8 +190,8 @@
 			<text id="ONLY_ENGLISH" value="Gebruik enkel engelse namen (v.b. English, Farsi, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="Afspraken, aanhalingen, referenties, en andere bladwijzergerelateerde onderwerpen komen hier" />
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
-			<text id="TITLE" value="Beheer de bladwijzersetgroepen" />
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Manage Bookmark Sets"   />
 			<text id="DBL_CLICK" value="Dubbelklik op de onderdelen om ze in te laden en/of aan te passen." />
 			<text id="SET_AS_DEFAULT" value="Wilt U &quot;{1}&quot; als uw basisbladwijzerset?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Ik kan de basisbladwijzer niet verwijderen." />
@@ -203,11 +212,17 @@
 			<text id="IMPORT_FOR" value="Importeer voor de volgende gebruikers:" />
 			<text id="ME_ONLY" value="Enkel ik" />
 			<text id="ALL_USERS" value="Alle gebruikers (schrijftoegang tot installatiemap noodzakelijk)" />
+			<text id="FOLLOWING_USERS" value="Index for the following users"   />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="Configureer Aanpasbare Vertalingen" />
 			<text id="AVAILABLE" value="Beschikbare vertalingen" />
 			<text id="CURRENT" value="Huidige vertalingen" />
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Please wait"   />
+			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
 		</form>
 	</forms>
 </language>

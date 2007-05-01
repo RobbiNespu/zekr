@@ -20,14 +20,16 @@ res = new SearchResult();
 </script>
 <div id="headerBar" class="headerBar" dir="$DIRECTION">
 	<table width="100%" style="padding: 0px; margin: 0px" cellspacing="0" cellpadding="0">
-		<tr><td align="$LEAD" width="50%">
+		<tr><td align="$LEAD" width="40%">
 			<button title="$DICT.getMeaning('PREV_AYA')" style="padding: 0px 10px 0px 10px;" onclick="res.prev()">
-			<img src="res/image/icon/${LEAD}_arrow.gif" style="margin: 1px" alt="$DICT.getMeaning('PREV_AYA')" />
+			<img src="res/image/icon/up_arrow.gif" style="margin: 1px" alt="$DICT.getMeaning('PREV_AYA')" />
 			</button>&nbsp;
 			<button title="$DICT.getMeaning('NEXT_AYA')" style="padding: 0px 10px 0px 10px;" onclick="res.next()">
-			<img src="res/image/icon/${TRAIL}_arrow.gif" style="margin: 1px" alt="$DICT.getMeaning('NEXT_AYA')"/>
+			<img src="res/image/icon/down_arrow.gif" style="margin: 1px" alt="$DICT.getMeaning('NEXT_AYA')"/>
 			</button>
-		</td><td <td align="$TRAIL" width="50%">
+		</td><td align="center">
+		#if($ADVANCED == "true")<font size="-1">$PAGE_NUM_MSG</font>#end
+		</td><td align="$TRAIL" width="40%">
 		<input title="$DICT.getMeaning('SURA')" dir="ltr" id="suraNum" type="text" style="width: 3em" readonly="true" /> |
 		<input title="$DICT.getMeaning('AYA')" dir="ltr" id="ayaNum" type="text" style="width: 3em" readonly="true" />
 		<input type="button" value=" $DICT.getMeaning('GO') " onclick="if ($('#suraNum').val() != '' && $('#ayaNum').val() != '') gotoSuraAya($('#suraNum').val() + '-' + $('#ayaNum').val())" />
@@ -52,19 +54,18 @@ res = new SearchResult();
 		</td>
 	</tr>
 	#if ($ADVANCED == "true")<tr><td colspan="2" class="queryDetail">
-		<a onclick="$('#clauses').toggle();s=$('#clauses').css('display')=='none'?'plus.png':'minus.png';$('#searchDetailImg').attr('src','res/image/icon/'+s);" href="javascript:void(0)">
-				<img id="searchDetailImg" alt="toggle" border="0" src="res/image/icon/plus.png">
-				<span>Detailed query</span></a>
+		<span class="handCursor" onclick="$('#clauses').toggle();s=$('#clauses').css('display')=='none'?'plus.png':'minus.png';$('#searchDetailImg').attr('src','res/image/icon/'+s);">
+			<img id="searchDetailImg" alt="toggle" border="0" src="res/image/icon/plus.png">
+			<a href="javascript:void(0)" onclick="return false">$DICT.getMeaning("QUERY_DETAIL")</a></span>
 		<div id="clauses" style="display: none; padding: 0px 20px">$CLAUSE</div></td>
 	#end</tr>
 
 	<tr><td id="searchResultSection" colspan="2" class="searchResult">
 	#parse ("$THEME_DIR/aya-result.vm")
 	</td></tr>
-
 	<tr><td class="barBottom">&nbsp;</td></tr>
 </table>
-<div>
+</div>
 #parse("$THEME_DIR/watermark.vm")
 </body>
 </html>

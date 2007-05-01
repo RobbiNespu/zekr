@@ -6,12 +6,16 @@
  * Author:         Mohsen Saboorian
  * @version 1
  */
+
+/* {
+	line-height: 1.1em;
+}*/
 html,body {
 	padding: 0px;
 	margin: 0px;
 }
 body {
-	font: 13pt "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
+	font: 13pt Tahoma, Sans-serif, Arial, Verdana, Helvetica, Arial Unicode MS;
 	color: rgb(30, 40, 70);
 	background-color: threedface;
 }
@@ -68,7 +72,7 @@ div.headerBar { /* IE 5.0+ */
 	width: expression(eval(document.body.clientWidth - 6) + 'px');
 	padding: 2px;
 	background-color: threedhighlight;
-	font: 0.82em Sans serif, Tahoma, Arial;
+	font: 0.82em Tahoma, Sans-serif, Arial;
 }
 html>body div.headerBar { /* Override some properties for IE 7, Mozilla and Safari */
 	-moz-opacity: 0.75;
@@ -82,7 +86,8 @@ html>body div.headerBar { /* Override some properties for IE 7, Mozilla and Safa
 }
 
 div.headerBar input {
-	font: 0.82em Sans serif, Tahoma, Arial;
+	line-height: 1em;
+	font: 0.82em Tahoma, Sans-serif, Arial;
 }
 .headerBar .focusedWord{
 	color: blue;
@@ -96,7 +101,6 @@ div.main {
 	border-top: 3px double rgb(140, 150, 250);
 	border-bottom: 3px double rgb(140, 150, 250);
 	padding: 7 8;
-	line-height: 150%;
 }
 
 div.searchBody {
@@ -108,46 +112,6 @@ div.searchBody {
 
 .searchBody table {
 	width: 100%;
-}
-
-.quran {
-#set($qBold = "")
-#set($qItalic = "")
-#if ($quran_fontBold.equals("true"))
-	#set($qBold = "bold")
-#end
-#if ($quran_fontItalic.equals("true"))
-	#set($qItalic = "italic")
-#end
-	font: $qBold $qItalic ${quran_fontSize}pt ${quran_fontName}, Badr, Nazanin, Tahoma, Nazli, Koodak, Times, Verdana, Helvetica, Arial, Sans-serif;
-}
-
-.trans {
-#set($tBold = "")
-#set($tItalic = "")
-#if ($trans_fontBold.equals("true"))
-	#set($tBold = "bold")
-#end
-#if ($trans_fontItalic.equals("true"))
-	#set($tItalic = "italic")
-#end
-	font: $tBold $tItalic ${trans_fontSize}pt ${trans_fontName}, Tahoma, Arial, Times, Verdana, Helvetica;
-}
-
-.trans .suraAyaNum {
-#if(!$trans_showSuraAyaSign.equals("true"))
-	display: none;
-#end
-#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.65")))
-	font-size: ${fontSize}pt;
-}
-
-.quran .suraAyaNum {
-#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($quran_fontSize),"0.65")))
-#if(!$quran_showSuraAyaSign.equals("true"))
-	display: none;
-#end
-	font-size: ${fontSize}pt;
 }
 
 div.selectedAya {
@@ -184,10 +148,32 @@ div.aya {
 	margin: 3px 0 3px 0;
 }
 
-span.selectedAyaSign {
-	font-weight: bold;
+#quranSection, #searchableSection {
 }
 
+* html body table.customTrans {
+}
+table.customTrans[lang=zz] { /* ie ignores this */
+	width: 100%;
+}
+table.customTrans {
+	width: expression(eval(this.parentNode.offsetWidth) + 'px');
+#if($trans_showBorder.equals("true"))
+	border: 1px solid $trans_borderColor;
+	border-collapse: collapse;
+#end
+}
+table.customTrans td {
+#if($trans_showBorder.equals("true"))
+	border: 1px solid $trans_borderColor;
+#end
+	text-align: justify;
+}
+
+.quran .searchResult { /* IE6 bug with me_quran */
+	font-family: Traditional Arabic, Tahoma, Sans-serif, Nazli, Helvetica, Arial Unicode MS, Scheherazade;
+	font-size: 15pt;
+}
 td.searchResult {
 	vertical-align: top;
 }
@@ -238,30 +224,21 @@ div.searchResult {
 	color: red;
 }
 
+.queryDetail {
+	font: 0.82em Tahoma, Arial, Sans-serif;
+	border: 1px dashed silver;
+	padding: 2px;
+}
+.queryDetail a:link, a:visited { 
+	color: rgb(40, 90, 230);
+	text-decoration: none;
+}
+
+.queryDetail a:hover { 
+	color: rgb(200, 50, 10);
+}
+
 .handCursor {
 	cursor: pointer;
 	cursor: hand;
-}
-
-#quranSection, #searchableSection {
-}
-
-* html body table.customTrans {
-}
-
-table.customTrans[lang=zz] { /* ie ignores this */
-	width: 100%;
-}
-table.customTrans {
-	width: expression(eval(this.parentNode.offsetWidth) + 'px');
-#if($trans_showBorder.equals("true"))
-	border: 1px solid $trans_borderColor;
-	border-collapse: collapse;
-#end
-}
-
-table.customTrans td {
-#if($trans_showBorder.equals("true"))
-	border: 1px solid $trans_borderColor;
-#end
 }

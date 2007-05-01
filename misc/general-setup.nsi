@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.5.0\release\win"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.5.0\b2\win"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -73,7 +73,7 @@ Var JDK_HOME
 !insertmacro MUI_LANGUAGE Indonesian
 !insertmacro MUI_LANGUAGE Italian
 !insertmacro MUI_LANGUAGE Korean
-!insertmacro MUI_LANGUAGE Malay
+!insertmacro MUI_LANGUAGE Malaysian
 !insertmacro MUI_LANGUAGE Dutch
 !insertmacro MUI_LANGUAGE Norwegian
 !insertmacro MUI_LANGUAGE Portuguese
@@ -224,7 +224,7 @@ Function .onInit
     InitPluginsDir
     StrCpy $StartMenuGroup Zekr
     Push $R1
-    File /oname=$PLUGINSDIR\spltmp.bmp "${BASE_APP}\..\..\zekr-install-splash.bmp"
+    File /oname=$PLUGINSDIR\spltmp.bmp "${BASE_APP}\..\..\zekr-install-splash1.bmp"
     ; Delay - FadeIn - FadeOut - Keycolor - FileName
     advsplash::show 1000 700 600 -1 $PLUGINSDIR\spltmp
     Pop $R1
@@ -368,7 +368,7 @@ LangString ^UninstallLink ${LANG_HEBREW} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_INDONESIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_ITALIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_KOREAN} "Uninstall $(^Name)"
-LangString ^UninstallLink ${LANG_MALAY} "Uninstall $(^Name)"
+LangString ^UninstallLink ${LANG_MALAYSIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_DUTCH} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_NORWEGIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_PORTUGUESE} "Uninstall $(^Name)"

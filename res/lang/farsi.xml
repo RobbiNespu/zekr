@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Mohsen Saboorian" version="0.5">
+<language author="Mohsen Saboorian" version="0.6">
 	<locale localizedName="فارسی" name="Farsi" id="fa_IR" direction="rtl" />
 	<word>
 		<common>
-			<text id="OK"       value="قبول" />
-			<text id="CANCEL"   value="لغو" />
-			<text id="YES"      value="بله" />
-			<text id="NO"       value="خیر" />
-			<text id="APPLY"    value="اعمال" />
-			<text id="START"    value="آغاز" />
-			<text id="RESET"    value="خالی کردن" />
-			<text id="NEW"      value="جدید" />
-			<text id="SAVE_AS"  value="ذخیره" />
-			<text id="HELP"     value="کمک" />
-			<text id="EDIT"     value="ویرایش" />
-			<text id="SEARCH"   value="جستجو" />
-			<text id="GOTO"     value="برو به" />
-			<text id="VIEW"     value="نمایش" />
-			<text id="CLOSE"    value="بستن" />
-			<text id="INSERT"   value="درج" />
-			<text id="DETAILS"  value="جزئیات" />
-			<text id="MORE"     value="بیشتر" />
-			<text id="NEXT"     value="بعدی" />
+			<text id="OK" value="قبول" />
+			<text id="CANCEL" value="لغو" />
+			<text id="YES" value="بله" />
+			<text id="NO" value="خیر" />
+			<text id="APPLY" value="اعمال" />
+			<text id="START" value="آغاز" />
+			<text id="RESET" value="خالی کردن" />
+			<text id="NEW" value="جدید" />
+			<text id="SAVE_AS" value="ذخیره به نام" />
+			<text id="HELP" value="کمک" />
+			<text id="EDIT" value="ویرایش" />
+			<text id="SEARCH" value="جستجو" />
+			<text id="GOTO" value="برو به" />
+			<text id="VIEW" value="نمایش" />
+			<text id="CLOSE" value="بستن" />
+			<text id="INSERT" value="درج" />
+			<text id="DETAILS" value="جزئیات" />
+			<text id="MORE" value="بیشتر" />
+			<text id="NEXT" value="بعدی" />
 			<text id="PREVIOUS" value="قبلی" />
-			<text id="REFRESH"  value="تجدید" />
-			<text id="UPDATE"   value="به‌روز" />
-			<text id="SHOW"     value="نمایش" />
-			<text id="NAME"     value="نام" />
-			<text id="VALUE"    value="مقدار" />
-			<text id="NUMBER"   value="شماره" />
-			<text id="OPTION"   value="انتخاب" />
-			<text id="FILE"     value="فایل" />
-			<text id="RELOAD"   value="بازخوانی" />
-			<text id="TYPE"     value="نوع" />
-			<text id="MESSAGE"  value="پیام" />
-			<text id="BLOCK"    value="بلوک" />
+			<text id="REFRESH" value="تجدید" />
+			<text id="UPDATE" value="به‌روز" />
+			<text id="SHOW" value="نمایش" />
+			<text id="NAME" value="نام" />
+			<text id="VALUE" value="مقدار" />
+			<text id="NUMBER" value="شماره" />
+			<text id="OPTION" value="انتخاب" />
+			<text id="FILE" value="فایل" />
+			<text id="RELOAD" value="بازخوانی" />
+			<text id="TYPE" value="نوع" />
+			<text id="MESSAGE" value="پیام" />
+			<text id="BLOCK" value="بلوک" />
 			<text id="LINE_BY_LINE" value="خط به خط" />
-			<text id="AND"      value="و" />
-			<text id="COMMA"    value="،" />
+			<text id="AND" value="و" />
+			<text id="COMMA" value="،" />
 			<text id="SYNCHRONOUS" value="همگام" />
-			<text id="ERROR"    value="خطا" />
+			<text id="ERROR" value="خطا" />
 			<text id="LANGUAGE" value="زبان" />
-			<text id="ABOUT"    value="درباره" />
-			<text id="PRINT"    value="چاپ" />
+			<text id="ABOUT" value="درباره" />
+			<text id="PRINT" value="چاپ" />
 			<text id="HOMEPAGE" value="خانه" />
 			<text id="WHOLE_QURAN" value="تمامی قرآن" />
 			<text id="MATCH_DIACRITIC" value="مطابقت علائم" />
@@ -51,69 +51,75 @@
 			<text id="NEXT_SURA" value="سوره‌ی بعدی" />
 			<text id="PREV_AYA" value="آیه‌ی قبلی" />
 			<text id="PREV_SURA" value="سوره‌ی قبلی" />
-			<text id="THEME"    value="مضمون" />
-			<text id="LAYOUT"   value="طرح" />
-			<text id="TOOLS"    value="ابزار" />
-			<text id="ADD"      value="اضافه کردن" />
-			<text id="DELETE"   value="حذف کردن" />
-			<text id="REMOVE"   value="حذف کردن" />
+			<text id="THEME" value="مضمون" />
+			<text id="LAYOUT" value="طرح" />
+			<text id="TOOLS" value="ابزار" />
+			<text id="ADD" value="اضافه کردن" />
+			<text id="DELETE" value="حذف کردن" />
+			<text id="REMOVE" value="حذف کردن" />
 			<text id="TRANSLATION" value="ترجمه" />
-			<text id="OPEN"     value="باز کردن" />
-			<text id="IMPORT"   value="وارد کردن" />
-			<text id="COPY"     value="کپی" />
+			<text id="OPEN" value="باز کردن" />
+			<text id="IMPORT" value="وارد کردن" />
+			<text id="COPY" value="کپی" />
 			<text id="SEPARATE" value="مجزا" />
-			<text id="MIXED"    value="درهم" />
-			<text id="OPTIONS"  value="تنظیمات" />
+			<text id="MIXED" value="درهم" />
+			<text id="OPTIONS" value="تنظیمات" />
 			<text id="QUESTION" value="سؤال" />
-			<text id="FONT"     value="قلم" />
-			<text id="GENERAL"  value="عمومی" />
-			<text id="EXIT"     value="خروج" />
-			<text id="EXCLUDE"  value="استثنا" />
-			<text id="TRUE"     value="درست" />
-			<text id="FALSE"    value="نادرست" />
-			<text id="SELECT"   value="انتخاب" />
-			<text id="EXPORT"   value="صادر" />
-			<text id="IMPORT"   value="وارد" />
+			<text id="FONT" value="قلم" />
+			<text id="GENERAL" value="عمومی" />
+			<text id="EXIT" value="خروج" />
+			<text id="EXCLUDE" value="استثنا" />
+			<text id="TRUE" value="درست" />
+			<text id="FALSE" value="نادرست" />
+			<text id="SELECT" value="انتخاب" />
+			<text id="EXPORT" value="صادر" />
+			<text id="IMPORT" value="وارد" />
 			<text id="DESCRIPTION" value="توضیحات" />
 			<text id="BOOKMARKS" value="نشان‌ها" />
 			<text id="CONFIGURE" value="تنظیم" />
-			<text id="CONFIGURE_BOOKMARK_SETS" value="تنظیم مجموعه نشان‌ها" />
+			<text id="EDIT_BOOKMARK_SET" value="ویرایش نشان‌ها" />
+			<text id="MANAGE_BOOKMARK_SETS" value="مدیریت مجموعه نشان‌ها" />
 			<text id="DIRECTION" value="جهت" />
 			<text id="LANG_DIRECTION" value="جهت زبان" />
-			<text id="RTL"      value="راست به چپ" />
-			<text id="LTR"      value="چپ به راست" />
-			<text id="AUTHOR"   value="نویسنده" />
-			<text id="VERSION"  value="نسخه" />
+			<text id="RTL" value="راست به چپ" />
+			<text id="LTR" value="چپ به راست" />
+			<text id="AUTHOR" value="نویسنده" />
+			<text id="VERSION" value="نسخه" />
 			<text id="RANDOM_AYA" value="آیه‌ی تصادفی" />
 			<text id="UNTITLED" value="بی‌نام" />
 			<text id="SET_DEFAULT" value="انتخاب به‌عنوان پیش‌فرض" />
 			<text id="NOT_LOADED" value="پر نشده" />
-			<text id="ID"       value="شناسه" />
+			<text id="ID" value="شناسه" />
 			<text id="OVERWRITE" value="جانویسی" />
-			<text id="SAVE"     value="ذخیره" />
-			<text id="PATH"     value="مسیر" />
-			<text id="FIND_REFS" value="جستجوی ارجاعات" />
+			<text id="SAVE" value="ذخیره" />
+			<text id="PATH" value="مسیر" />
+			<text id="SHOW_REFS" value="جستجوی ارجاعات" />
 			<text id="MOVE_UP" value="انتقال به بالا" />
 			<text id="MOVE_DOWN" value="انتقال به پایین" />
 			<text id="CUSTOM_MIXED" value="درهم سفارشی‌شده" />
 			<text id="CONFIG_CUSTOM_TRANS" value="تنظیم ترجمه‌های سفارشی‌شده" />
 			<text id="GO" value="برو" />
+			<text id="CAUTION" value="توجه" />
+			<text id="ADVANCED" value="پیشرفته" />
+			<text id="QUERY_DETAIL" value="جزئیات جستجو" />
+			<text id="PAGE" value="صفحه" />
+			<text id="MULTILINE" value="چندخطی" />
 		</common>
 		<special>
-			<text id="QURAN"    value="قرآن" />
-			<text id="SURA"     value="سوره" />
-			<text id="AYA"      value="آیه" />
-			<text id="SAJDA"    value="سجده" />
-			<text id="JUZ"      value="جزء" />
-			<text id="HIZB"     value="حزب" />
+			<text id="QURAN" value="قرآن" />
+			<text id="SURA" value="سوره" />
+			<text id="AYA" value="آیه" />
+			<text id="SAJDA" value="سجده" />
+			<text id="JUZ" value="جزء" />
+			<text id="HIZB" value="حزب" />
 			<text id="QUARTER" value="ربع" />
-			<text id="MAKKI"    value="مکّی" />
-			<text id="MADANI"   value="مدنی" />
-			<text id="DESCENT"  value="محل نزول" />
-			<text id="AYA_COUNT"  value="تعداد آیات" />
+			<text id="MAKKI" value="مکّی" />
+			<text id="MADANI" value="مدنی" />
+			<text id="DESCENT" value="محل نزول" />
+			<text id="AYA_COUNT" value="تعداد آیات" />
 			<text id="MINOR_SAJDA" value="سجده مستحب" />
 			<text id="MAJOR_SAJDA" value="سجده واجب" />
-			<text id="LOCATION" value="مکان" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+			<text id="LOCATION" value="مکان" /><!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -121,6 +127,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="نتیجه‌ی جستجو برای «{1}»:" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} مورد در {2} آیه یافت شد." />
+			<text id="SEARCH_PAGE" value="صفحه‌ی {1} از {2}" />
 			<text id="TOO_MANY_RESULT" value="نتیجه‌ی جستجو بیش از {1} آیه است." />
 			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است. آیا می‌خواهید آن‌را جایگزین کنید؟" />
 			<text id="RESTART_APP" value="برای اعمال تغییرات، برنامه را بسته و مجدداً اجرا کنید." />
@@ -134,8 +141,7 @@
 			<text id="FNF" value="فایل پیدا نشد" />
 			<text id="ACTION_FAILED" value="انجام عملیات ناموفق بود!" />
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -151,6 +157,9 @@
 			<text id="EDIT_SCOPES" value="ویرایش محدوده‌ها" />
 			<text id="NO_SCOPE" value="بدون محدوده" />
 			<text id="CURRENT_PAGE" value="صفحه‌ی جاری" />
+			<text id="NATURAL_ORDER" value="ترتیب طبیعی" />
+			<text id="RELEVANCE" value="شباهت" />
+			<text id="SORT_BY" value="مرتب بر اساس" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="تنظیمات برنامه" />
@@ -173,7 +182,7 @@
 			<text id="TITLE" value="ویرایش محدوده‌ی جستجو" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="مدیریت نشان‌ها: {1}" />
+			<text id="TITLE" value="ویرایش نشان‌ها: {1}" />
 			<text id="NEW_BOOKMARK_FOLDER" value="پوشه‌ی نشان جدید" />
 			<text id="NEW_BOOKMARK_ITEM" value="فقره نشان جدید" />
 			<text id="UNIQUE_NAME" value="یک نام یکتا" />
@@ -181,7 +190,7 @@
 			<text id="ONLY_ENGLISH" value="فقط از نام‌های انگلیسی استفاد کنید (مثلاً English ،Farsi ،Arabic و ...)" />
 			<text id="DESC_TOOLTIP" value="قراردادها، نقل قول‌ها، مراجع و هر موضوع دیگری مربوط به نشان‌ها در اینجا قرار می‌گیرد" />
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
+		<form id="BOOKMARK_SET_MANAGE_FORM">
 			<text id="TITLE" value="مدیریت گروه نشان‌ها" />
 			<text id="DBL_CLICK" value="برای ویرایش و/یا بارگذاری هر فقره روی آن دوبار کلیک کنید." />
 			<text id="SET_AS_DEFAULT" value="آیا می‌خواهید &quot;{1}&quot; را به عنوان مجموعه نشان پیش‌فرض خود انتخاب کنید؟" />
@@ -203,11 +212,17 @@
 			<text id="IMPORT_FOR" value="وارد کردن برای این کاربران:" />
 			<text id="ME_ONLY" value="فقط من" />
 			<text id="ALL_USERS" value="همه‌ی کاربران (به حق نوشتن روی پوشه‌ی نصب نیاز دارد)" />
+			<text id="FOLLOWING_USERS" value="شاخص گذاری برای این کاربران" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="تنظیم ترجمه‌های سفارشی‌شده" />
 			<text id="AVAILABLE" value="ترجمه‌های موجود" />
 			<text id="CURRENT" value="ترجمه‌های کنونی" />
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="لطفاً صبر کنید" />
+			<text id="INDEXING" value="در حال شاخص گذاری" /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="این عملیات بسته به اندازه‌ی مستند، ممکن است تا چند دقیقه طول بکشد." />
 		</form>
 	</forms>
 </language>

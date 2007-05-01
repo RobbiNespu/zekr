@@ -84,7 +84,7 @@ function highlightAya(id) {
 }
 
 function unHighlightAya(id) {
-	$('#sign_' + id).attr('className', 'sign');
+	$('#sign_' + id).attr('className', 'ayaSign');
 	$('#' + id).attr('className', 'aya');
 }
 

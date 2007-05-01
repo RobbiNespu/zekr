@@ -125,6 +125,12 @@ span.selectedAyaSign {
 	font-weight: bold;
 }
 
+table.customTrans {
+	width: 100%
+}
+table.customTrans td {
+}
+
 td.searchResult {
 	vertical-align: top;
 }

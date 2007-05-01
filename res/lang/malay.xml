@@ -77,7 +77,8 @@
 			<text id="DESCRIPTION" value="Diskripsi"   />
 			<text id="BOOKMARKS" value="PenandaBuku"   />
 			<text id="CONFIGURE" value="Configure"   />
-			<text id="CONFIGURE_BOOKMARK_SETS" value="Configure Bookmark Sets"   />
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="Arah"   />
 			<text id="LANG_DIRECTION" value="Arah Bahasa"   />
 			<text id="RTL"      value="Kanan Ke Kiri"   />
@@ -92,12 +93,17 @@
 			<text id="OVERWRITE" value="Overwrite"   />
 			<text id="SAVE"     value="Simpan"   />
 			<text id="PATH"     value="Path"   />
-			<text id="FIND_REFS" value="Find References"   />
+			<text id="SHOW_REFS" value="Show References"   />
 			<text id="MOVE_UP" value="Ke atas"   />
 			<text id="MOVE_DOWN" value="Ke bawah"   />
 			<text id="CUSTOM_MIXED" value="Custom Mixed"   />
 			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations"   />
 			<text id="GO" value="Go"   />
+			<text id="CAUTION" value="cautious"   />
+			<text id="ADVANCED" value="Advanced"   />
+			<text id="QUERY_DETAIL" value="Query detail"   />
+			<text id="PAGE" value="Page"   />
+			<text id="MULTILINE" value="Multiline"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -121,6 +127,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Hasil Pencarian untuk: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} hasil ditemukan di {2} ayat." />
+			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
 			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
 			<text id="FILE_ALREADY_EXISTS" value="File dengan nama &quot;{1}&quot; sudah ada. Anda ingin menggantinya?" />
 			<text id="RESTART_APP" value="Untuk melihat kesan  perubahan yang telah dilakukan, Anda harus restart aplikasi ini." />
@@ -134,8 +141,7 @@
 			<text id="FNF" value="Fail Tidak Dijumpai"   />
 			<text id="ACTION_FAILED" value="Gagal!" />
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -151,6 +157,9 @@
 			<text id="EDIT_SCOPES" value="Sunting Skop" />
 			<text id="NO_SCOPE" value="Tiada Skop" />
 			<text id="CURRENT_PAGE" value="Mukasurat Semasa" />
+			<text id="NATURAL_ORDER" value="Natural Order"   />
+			<text id="RELEVANCE" value="Relevance"   />
+			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Pilihan  Aplikasi" />
@@ -173,7 +182,7 @@
 			<text id="TITLE" value="Sunting carian skop" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Urus Set Bookmark : {1}"   />
+			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
 			<text id="NEW_BOOKMARK_FOLDER" value="Folder bookmark baru"   />
 			<text id="NEW_BOOKMARK_ITEM" value="Item bookmark baru "   />
 			<text id="UNIQUE_NAME" value="Nama unik"   />
@@ -181,8 +190,8 @@
 			<text id="ONLY_ENGLISH" value="Gunakan Nama English Sahaja (e.g. English, Farsi, Arabic, ...)"   />
 			<text id="DESC_TOOLTIP" value="Conventions, quotes, references, and other bookmark-related topics go here"   />
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
-			<text id="TITLE" value="Urus Set Kumpulan Bookmark"   />
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Manage Bookmark Sets"   />
 			<text id="DBL_CLICK" value="Double click pada item untuk muat atau/dan sunting ."   />
 			<text id="SET_AS_DEFAULT" value="Anda mahu set  &quot;{1}&quot; sebagai default set bookmark?"   />
 			<text id="CANNOT_REMOVE_DEFAULT" value="tidak dapat membuang default bookmark."   />
@@ -203,11 +212,17 @@
 			<text id="IMPORT_FOR" value="Import For The Following Users:"   />
 			<text id="ME_ONLY" value="Saya Sahaja"   />
 			<text id="ALL_USERS" value="Semua Pengguna (requires write access to installation directory)"   />
+			<text id="FOLLOWING_USERS" value="Index for the following users" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="Configure Custom Translations"   />
 			<text id="AVAILABLE" value="Available translations"   />
 			<text id="CURRENT" value="Current translations"   />
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Please wait"   />
+			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
 		</form>
 	</forms>
 </language>

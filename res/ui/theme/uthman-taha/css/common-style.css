@@ -1,0 +1,106 @@
+div.quran {
+#set($qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.1"))
+#set($_qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.7"))
+	line-height: ${qht}px;
+	_line-height: ${_qht}px;
+/*	line-height: 26pt;*/
+}
+
+div.trans {
+#set($tht = $UTILS.mul($UTILS.toInteger($trans_fontSize),"0.14"))
+	line-height: ${tht}em;
+}
+
+.printWatermark {
+	display: none;
+}
+span.sajda#minor {
+	font-family: serif;
+	color: rgb(200, 40, 40);
+/*	border: 1px rgb(200, 40, 40) solid;*/
+}
+
+span.sajda#major {
+	font-family: serif;
+	color: rgb(240, 10, 10);
+/*	border: 1px rgb(200, 40, 40) solid;*/
+}
+
+span.juzSign {
+	font-family: serif;
+	color: rgb(0, 40, 200);	
+}
+
+span.ayaSign {
+	font-family: Traditional Arabic, Scheherazade, Tahoma, Arial, Sans-serif;
+	line-height: 1.8em;
+}
+
+span.selectedAyaSign {
+	font-weight: bold;
+	font-family: Traditional Arabic, Scheherazade, Tahoma, Arial, Sans-serif;
+	line-height: 1.8em;
+}
+
+.quran span.hizbSign {
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($quran_fontSize),"0.8")))
+	font: ${fontSize}pt serif;
+	font-weight: bold;
+	font-family: serif;
+	color: rgb(60, 120, 230);
+}
+
+.trans span.hizbSign {
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.8")))
+	font: ${fontSize}pt serif;
+	font-weight: bold;
+	color: rgb(60, 120, 230);
+}
+
+#custom.trans {
+	padding: 4px 0px;
+}
+
+.quran {
+#set($qBold = "")
+#set($qItalic = "")
+#if ($quran_fontBold.equals("true"))
+	#set($qBold = "bold")
+#end
+#if ($quran_fontItalic.equals("true"))
+	#set($qItalic = "italic")
+#end
+	font: $qBold $qItalic ${quran_fontSize}pt ${quran_fontName}, Badr, Nazanin, Tahoma, Nazli, Koodak, Times, Verdana, Helvetica, Arial, Sans-serif;
+}
+
+.trans {
+#set($tBold = "")
+#set($tItalic = "")
+#if ($trans_fontBold.equals("true"))
+	#set($tBold = "bold")
+#end
+#if ($trans_fontItalic.equals("true"))
+	#set($tItalic = "italic")
+#end
+	font: $tBold $tItalic ${trans_fontSize}pt ${trans_fontName}, Tahoma, Arial, Times, Verdana, Helvetica;
+}
+
+.suraAyaNum {
+	font-family: Traditional Arabic, Scheherazade, Tahoma, Arial, Sans-serif;
+}
+
+.trans .suraAyaNum {
+#if(!$trans_showSuraAyaSign.equals("true"))
+	display: none;
+#end
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.65")))
+	font-size: ${fontSize}pt;
+}
+
+.quran .suraAyaNum {
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($quran_fontSize),"0.65")))
+#if(!$quran_showSuraAyaSign.equals("true"))
+	display: none;
+#end
+	font-size: ${fontSize}pt;
+}

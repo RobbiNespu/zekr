@@ -6,12 +6,16 @@
  * Author:         Mohsen Saboorian
  * @version 1
  */
+
+* {
+	line-height: 1.5em;
+}
 html,body {
 	padding: 0px;
 	margin: 0px;
 }
 body {
-	font: 13pt "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
+	font: 13pt Tahoma, Sans-serif, Arial, Verdana, Helvetica, Arial Unicode MS;
 	color: rgb(30, 40, 70);
 	background-color: threedface;
 }
@@ -68,7 +72,7 @@ div.headerBar { /* IE 5.0+ */
 	width: expression(eval(document.body.clientWidth - 6) + 'px');
 	padding: 2px;
 	background-color: threedhighlight;
-	font: 0.82em Sans-serif, Tahoma, Arial;
+	font: 0.82em Tahoma, Sans-serif, Arial;
 }
 html>body div.headerBar { /* Override some properties for IE 7, Mozilla and Safari */
 	-moz-opacity: 0.75;
@@ -80,8 +84,9 @@ html>body div.headerBar { /* Override some properties for IE 7, Mozilla and Safa
 	left: 2px;
 	right: 2px;
 }
+
 div.headerBar input {
-	font: 0.82em Sans-serif, Tahoma, Arial;
+	font: 0.82em Tahoma, Sans-serif, Arial;
 }
 .headerBar .focusedWord{
 	color: blue;
@@ -187,6 +192,27 @@ span.selectedAyaSign {
 	font-weight: bold;
 }
 
+#quranSection, #searchableSection {
+}
+
+* html body table.customTrans {
+}
+table.customTrans[lang=zz] { /* ie ignores this */
+	width: 100%;
+}
+table.customTrans {
+	width: expression(eval(this.parentNode.offsetWidth) + 'px');
+#if($trans_showBorder.equals("true"))
+	border: 1px solid $trans_borderColor;
+	border-collapse: collapse;
+#end
+}
+table.customTrans td {
+#if($trans_showBorder.equals("true"))
+	border: 1px solid $trans_borderColor;
+#end
+}
+
 td.searchResult {
 	vertical-align: top;
 }
@@ -235,20 +261,6 @@ div.searchResult {
 
 .searchResult a:hover { 
 	color: red;
-}
-
-.queryDetail {
-	font: 0.82em Tahoma, Arial, Sans-serif;
-	border: 1px dashed silver;
-	padding: 2px;
-}
-.queryDetail a:link, a:visited { 
-	color: rgb(40, 90, 230);
-	text-decoration: none;
-}
-
-.queryDetail a:hover { 
-	color: rgb(200, 50, 10);
 }
 
 .handCursor {

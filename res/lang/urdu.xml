@@ -77,7 +77,8 @@
 			<text id="DESCRIPTION" value="وضاحت"/>
 			<text id="BOOKMARKS" value="نشانات"/>
 			<text id="CONFIGURE" value="منظم کریں"/>
-			<text id="CONFIGURE_BOOKMARK_SETS" value="نشانات کے سیٹ منظم کریں"/>
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="سمت"/>
 			<text id="LANG_DIRECTION" value="زبان کی سمت"/>
 			<text id="RTL" value="دائیں سے بائیں"/>
@@ -98,6 +99,11 @@
 			<text id="CUSTOM_MIXED" value=" مخلوط حسب منشاء"/>
 			<text id="CONFIG_CUSTOM_TRANS" value="دیگر ترجمہ جات منظم کریں"/>
 			<text id="GO" value="جائیں"/>
+			<text id="CAUTION" value="cautious"   />
+			<text id="ADVANCED" value="Advanced"   />
+			<text id="QUERY_DETAIL" value="Query detail"   />
+			<text id="PAGE" value="Page"   />
+			<text id="MULTILINE" value="Multiline"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن"/>
@@ -121,6 +127,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="کے لیے تلاش کے نتائج &quot;{1}&quot;"/>
 			<text id="SEARCH_RESULT_COUNT" value="{2} آیات میں {1} نتائج ملے"/>
+			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
 			<text id="TOO_MANY_RESULT" value="تلاش کے نتائج میں {1} سے زائد آیات ہیں"/>
 			<text id="FILE_ALREADY_EXISTS" value="ایک فائل &quot;{1}&quot;  کے نام سے پہلے ہی موجود ہے کیا آپ اسے تبدیل کرنا چاہتے ہیں؟"/>
 			<text id="RESTART_APP" value="تبدیلیوں کو مؤثر کرنے کے لیے آپ کو اطلاقیہ دوبارہ چلانا ہوگا۔"/>
@@ -134,8 +141,7 @@
 			<text id="FNF" value="فائل نہیں ملی"/>
 			<text id="ACTION_FAILED" value="کاروائی ناکام ہوگئی!"/>
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -151,6 +157,9 @@
 			<text id="EDIT_SCOPES" value="تناظرات کی تدوین کریں"/>
 			<text id="NO_SCOPE" value="کوئی تناظر نہیں"/>
 			<text id="CURRENT_PAGE" value="موجودہ صفحہ"/>
+			<text id="NATURAL_ORDER" value="Natural Order"   />
+			<text id="RELEVANCE" value="Relevance"   />
+			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="اطلاقیہ کے اختیارات"/>
@@ -173,7 +182,7 @@
 			<text id="TITLE" value="تلاش کے تناظر کی تدوین کریں"/>
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="{1} کے نشانات کا سیٹ منظم کریں"/>
+			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
 			<text id="NEW_BOOKMARK_FOLDER" value="نئے نشانات کا فولڈر"/>
 			<text id="NEW_BOOKMARK_ITEM" value="نیا نشانی آئٹم"/>
 			<text id="UNIQUE_NAME" value="ایک منفرد نام"/>
@@ -181,8 +190,8 @@
 			<text id="ONLY_ENGLISH" value="صرف انگریزی نام استعمال کریں (مثلاً English, Persian, Arabic)"/>
 			<text id="DESC_TOOLTIP" value="روایات، اقتباس، حوالہ جات و دیگر نشانیوں سے متعلقہ مضامین یہاں آتے ہیں"/>
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
-			<text id="TITLE" value="نشانیوں کے سیٹوں کو منظم کریں"/>
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Manage Bookmark Sets"   />
 			<text id="DBL_CLICK" value="آئٹمز کی تدوین یا لوڈ کرنے کےلیے ڈبل کلک کریں"/>
 			<text id="SET_AS_DEFAULT" value="کیا آپ &quot;{1}&quot; کو اپنے عام نشانیوں کے سیٹ کے طور پر مقرر کرنا چاہتے ہیں؟"/>
 			<text id="CANNOT_REMOVE_DEFAULT" value="عام نشانی کو نہیں مٹایا جا سکتا"/>
@@ -203,11 +212,17 @@
 			<text id="IMPORT_FOR" value="مندرجہ ذیل صارفین کے لیے درآمد کریں:"/>
 			<text id="ME_ONLY" value="صرف میرے لیے"/>
 			<text id="ALL_USERS" value="تمام صارفین کے لیے (تنصیب کی ڈائریکٹری میں لکھنے کی رسائی درکار ہے)"/>
+			<text id="FOLLOWING_USERS" value="Index for the following users"   />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="دیگر ترجمہ جات منظم کریں"/>
 			<text id="AVAILABLE" value="دستیاب ترجمہ جات"/>
 			<text id="CURRENT" value="موجود ترجمہ جات"/>
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Please wait"   />
+			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
 		</form>
 	</forms>
 </language>

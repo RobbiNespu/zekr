@@ -77,26 +77,33 @@
 			<text id="DESCRIPTION" value="Description" />
 			<text id="BOOKMARKS" value="Signets" />
 			<text id="CONFIGURE" value="Configurer" />
-			<text id="CONFIGURE_BOOKMARK_SETS" value="Configurer les ensembles des signets" />
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="Sens" />
 			<text id="LANG_DIRECTION" value="Sens du langage" />
 			<text id="RTL"      value="De droite à gauche" />
 			<text id="LTR"      value="De gauche à droite" />
 			<text id="AUTHOR"   value="Auteur" />
 			<text id="VERSION"  value="Version" />
-			<text id="RANDOM_AYA" value="Aya aléatoire" /> 			<text id="UNTITLED" value="Non titré " />
+			<text id="RANDOM_AYA" value="Aya aléatoire" />
+			<text id="UNTITLED" value="Non titré " />
 			<text id="SET_DEFAULT" value="Mettre par défaut" />
 			<text id="NOT_LOADED" value="Non chargé" />
 			<text id="ID"       value="ID" />
 			<text id="OVERWRITE" value="Ecraser" />
 			<text id="SAVE"     value="Enregistrer" />
 			<text id="PATH"     value="Chemin" />
-			<text id="FIND_REFS" value="Trouver les Références" />
+			<text id="SHOW_REFS" value="Show References"   />
 			<text id="MOVE_UP" value="Bouger en haut" />
 			<text id="MOVE_DOWN" value="Bouger en bas" />
 			<text id="CUSTOM_MIXED" value="Personnalisée " />
 			<text id="CONFIG_CUSTOM_TRANS" value="Configurer les traductions " />
 			<text id="GO" value="Go" />
+			<text id="CAUTION" value="cautious"   />
+			<text id="ADVANCED" value="Advanced"   />
+			<text id="QUERY_DETAIL" value="Query detail"   />
+			<text id="PAGE" value="Page"   />
+			<text id="MULTILINE" value="Multiline"   />
 		</common>
 		<special>
 			<text id="QURAN"  value="Coran" />
@@ -120,6 +127,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Résultat de la recherche pour: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} résultats trouvés dans {2} Ayas." /> 
+			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
 			<text id="TOO_MANY_RESULT" value="Le résultat de la recherche donne plus de {1} ayas" /> 
 			<text id="FILE_ALREADY_EXISTS" value="Un fichier portant le nom &quot;{1}&quot; existe déjà. Voulez-vous le remplacer?" />
 			<text id="RESTART_APP" value="Vous devez redémarrer l'application afin que les changements prennent effet." />
@@ -133,8 +141,7 @@
 			<text id="FNF" value="Fichier non trouvé" />
 			<text id="ACTION_FAILED" value="Action échouée!" />
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -150,6 +157,9 @@
 			<text id="EDIT_SCOPES" value="Editer la zone de recherche" />
 			<text id="NO_SCOPE" value="Pas de zone de recherche" />
 			<text id="CURRENT_PAGE" value="Page courante" />
+			<text id="NATURAL_ORDER" value="Natural Order"   />
+			<text id="RELEVANCE" value="Relevance"   />
+			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Options de l'application" />
@@ -172,7 +182,7 @@
 			<text id="TITLE" value="Editer la zone de recherche" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Gérer l'ensemble du signet: {1}" />
+			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
 			<text id="NEW_BOOKMARK_FOLDER" value="Nouveau dossier d'un signet " />
 			<text id="NEW_BOOKMARK_ITEM" value="Nouveau item d'un signet" />
 			<text id="UNIQUE_NAME" value=" Unique nom" />
@@ -180,8 +190,8 @@
 			<text id="ONLY_ENGLISH" value="Utiliser seulement les noms anglais (e.g. English, Farsi, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="Conventions, citations, références, et autres thèmes associés au signet vont ici  " />
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
-			<text id="TITLE" value=" gérer l'ensemble des groups de signets" />
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Manage Bookmark Sets"   />
 			<text id="DBL_CLICK" value="Double click sur les items pour charger et/ou éditer." />
 			<text id="SET_AS_DEFAULT" value=" Voulez vous mettre        &quot;{1}&quot; par défaut votre ensemble du signet?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Impossible d'effacer le signet par défaut." />
@@ -202,13 +212,17 @@
 			<text id="IMPORT_FOR" value=" Importation pour les utilisateurs suivants:" />
 			<text id="ME_ONLY" value="Seulement moi" />
 			<text id="ALL_USERS" value="Tous les utilisateurs (requires write access to installation directory)" />
+			<text id="FOLLOWING_USERS" value="Index for the following users" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value=" Configurer les traductions personnalisées " />
 			<text id="AVAILABLE" value=" Traductions disponibles " />
 			<text id="CURRENT" value=" Traductions courantes " />
 		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Please wait"   />
+			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
+		</form>
 	</forms>
 </language>
-
-

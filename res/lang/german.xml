@@ -77,7 +77,8 @@
 			<text id="DESCRIPTION" value="Beschreibung" />
 			<text id="BOOKMARKS" value="Lesezeichen" />
 			<text id="CONFIGURE" value="Lesezeichensammlung bearbeiten" />
-			<text id="CONFIGURE_BOOKMARK_SETS" value="Lesezeichensammlungen verwalten" />
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="Richtung" />
 			<text id="LANG_DIRECTION" value="Lese-/Schreibrichtung" />
 			<text id="RTL"      value="Von rechts nach links" />
@@ -92,12 +93,17 @@
 			<text id="OVERWRITE" value="Überschreiben" />
 			<text id="SAVE"     value="Speichern" />
 			<text id="PATH"     value="Pfad" />
-			<text id="FIND_REFS" value="Verweise anzeigen" /><!--TRANSNOTE: "SHOW references" describes better what the dialog does -->
+			<text id="SHOW_REFS" value="Verweise anzeigen" />
 			<text id="MOVE_UP" value="Nach oben" />
 			<text id="MOVE_DOWN" value="Nach unten" />
 			<text id="CUSTOM_MIXED" value="Vereinigt (Eigene Übersetzungen)" />
 			<text id="CONFIG_CUSTOM_TRANS" value="Eigene Überstzungen einstellen" />
 			<text id="GO" value="Hinspringen" />
+			<text id="CAUTION" value="cautious"   />
+			<text id="ADVANCED" value="Advanced"   />
+			<text id="QUERY_DETAIL" value="Query detail"   />
+			<text id="PAGE" value="Page"   />
+			<text id="MULTILINE" value="Multiline"   />
 		</common>
 		<special>
 			<text id="QURAN"  value="Quran" />
@@ -121,6 +127,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Ergebnis der Suche nach: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="Es wurden {1} Übereinstimmungen in {2} Ayas gefunden." />
+			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
 			<text id="TOO_MANY_RESULT" value="Ergebnis der Suche hat mehr als {1} Ayas." />
 			<text id="FILE_ALREADY_EXISTS" value="Eine Datei mit dem Namen &quot;{1}&quot; existiert bereits. Möchten Sie sie überschreiben?" />
 			<text id="RESTART_APP" value="Sie müssen die Anwendung neustarten, damit die Änderungen wirksam werden." />
@@ -134,8 +141,7 @@
 			<text id="FNF" value="Datei nicht gefunden" />
 			<text id="ACTION_FAILED" value="Aktion fehlgeschlagen!" />
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -151,6 +157,9 @@
 			<text id="EDIT_SCOPES" value="Suchbereich bearbeiten" />
 			<text id="NO_SCOPE" value="Kein Suchbereich" />
 			<text id="CURRENT_PAGE" value="Auf dieser Seite" />
+			<text id="NATURAL_ORDER" value="Natural Order"   />
+			<text id="RELEVANCE" value="Relevance"   />
+			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Einstellungen" />
@@ -173,7 +182,7 @@
 			<text id="TITLE" value="Suchbereiche bearbeiten" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Lesezeichensammlung bearbeiten: {1}" />
+			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
 			<text id="NEW_BOOKMARK_FOLDER" value="Neuer Lesezeichenordner" />
 			<text id="NEW_BOOKMARK_ITEM" value="Neues Lesezeichen" />
 			<text id="UNIQUE_NAME" value="Eine eindeutige Bezeichnung" />
@@ -181,8 +190,8 @@
 			<text id="ONLY_ENGLISH" value="Nur englische Bezeichnungen verwenden (z.B. English, Farsi, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="Gebrauch, Zitate, Referenzen und andere Informationen im Bezug zum Lesezeichen" />
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
-			<text id="TITLE" value="Lesezeichensammlungen verwalten" />
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Manage Bookmark Sets"   />
 			<text id="DBL_CLICK" value="Klicken Sie doppelt auf Einträge, um Sie laden und/oder bearbeiten." />
 			<text id="SET_AS_DEFAULT" value="Wollen Sie Lesezeichensammlung &quot;{1}&quot; zu Ihrer Standardlesezeichensammlung machen?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Eine Standardlesezeichensammlung kann nicht entfernt werden." />
@@ -203,11 +212,17 @@
 			<text id="IMPORT_FOR" value="Für folgende Benutzer importieren:" />
 			<text id="ME_ONLY" value="Mich alleine" />
 			<text id="ALL_USERS" value="Alle Benutzer (benötigt Schreibzugriff auf das Installationsverzeichnis)" />
+			<text id="FOLLOWING_USERS" value="Index for the following users" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="Eigene Übersetzungen einstellen" />
 			<text id="AVAILABLE" value="Verfügbare Übersetzungen" />
 			<text id="CURRENT" value="Verwendete Übersetzungen" />
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Please wait"   />
+			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
 		</form>
 	</forms>
 </language>

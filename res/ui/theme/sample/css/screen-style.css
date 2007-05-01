@@ -11,7 +11,7 @@ html,body {
 	margin: 0px;
 }
 body {
-	font: 13pt "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
+	font: 13pt Traditional Arabic, Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
 	color: rgb(30, 40, 70);
 	background-color: threedface;
 }
@@ -68,7 +68,7 @@ div.headerBar { /* IE 5.0+ */
 	width: expression(eval(document.body.clientWidth - 6) + 'px');
 	padding: 2px;
 	background-color: threedhighlight;
-	font: 0.82em Georgia, Sans serif, Tahoma, Arial;
+	font: 0.82em Georgia, Sans-serif, Tahoma, Arial;
 }
 html>body div.headerBar { /* Override some properties for IE 7, Mozilla and Safari */
 	-moz-opacity: 0.75;
@@ -81,7 +81,7 @@ html>body div.headerBar { /* Override some properties for IE 7, Mozilla and Safa
 	right: 2px;
 }
 div.headerBar input {
-	font: 0.82em Georgia, Sans serif, Tahoma, Arial;
+	font: 0.82em Georgia, Sans-serif, Tahoma, Arial;
 }
 .headerBar .focusedWord{
 	color: blue;
@@ -185,6 +185,27 @@ div.aya {
 
 span.selectedAyaSign {
 	font-weight: bold;
+}
+
+#quranSection, #searchableSection {
+}
+
+* html body table.customTrans {
+}
+table.customTrans[lang=zz] { /* ie ignores this */
+	width: 100%;
+}
+table.customTrans {
+	width: expression(eval(this.parentNode.offsetWidth) + 'px');
+#if($trans_showBorder.equals("true"))
+	border: 1px solid $trans_borderColor;
+	border-collapse: collapse;
+#end
+}
+table.customTrans td {
+#if($trans_showBorder.equals("true"))
+	border: 1px solid $trans_borderColor;
+#end
 }
 
 td.searchResult {

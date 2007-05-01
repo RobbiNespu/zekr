@@ -77,7 +77,8 @@
 			<text id="DESCRIPTION" value="Описание" />
 			<text id="BOOKMARKS" value="Закладки" />
 			<text id="CONFIGURE" value="Настройка набора закладок" />
-			<text id="CONFIGURE_BOOKMARK_SETS" value="Настройка группы закладок" />
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="Направление" />
 			<text id="LANG_DIRECTION" value="Направление текста" />
 			<text id="RTL"      value="Справа налево" />
@@ -92,12 +93,17 @@
 			<text id="OVERWRITE" value="Перезаписать" />
 			<text id="SAVE"     value="Сохранить" />
 			<text id="PATH"     value="Путь" />
-			<text id="FIND_REFS" value="Найти закладки для аята" />
+			<text id="SHOW_REFS" value="Show References"   />
 			<text id="MOVE_UP" value="Переместить вверх" />
 			<text id="MOVE_DOWN" value="Переместить вниз" />
 			<text id="CUSTOM_MIXED" value="Заказной" />
 			<text id="CONFIG_CUSTOM_TRANS" value="Настройка заказных переводов" />
 			<text id="GO" value="Перейти" />
+			<text id="CAUTION" value="cautious"   />
+			<text id="ADVANCED" value="Advanced"   />
+			<text id="QUERY_DETAIL" value="Query detail"   />
+			<text id="PAGE" value="Page"   />
+			<text id="MULTILINE" value="Multiline"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Коран" />
@@ -121,6 +127,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Результаты поиска для: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} результатов найдено в {2} аятах." />
+			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
 			<text id="TOO_MANY_RESULT" value="Результат поиска в более, чем {1} аятах" />
 			<text id="FILE_ALREADY_EXISTS" value="Файл с именем &quot;{1}&quot; уже существует. Вы хотите заменить его?" />
 			<text id="RESTART_APP" value="Требуется перезапуск приложения, чтобы изменения вступили в силу." />
@@ -134,8 +141,7 @@
 			<text id="FNF" value="Файл не найден" />
 			<text id="ACTION_FAILED" value="Действие не удалось!" />
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -151,6 +157,9 @@
 			<text id="EDIT_SCOPES" value="Редактировать правила" />
 			<text id="NO_SCOPE" value="Без правил" />
 			<text id="CURRENT_PAGE" value="Текущая страница" />
+			<text id="NATURAL_ORDER" value="Natural Order"   />
+			<text id="RELEVANCE" value="Relevance"   />
+			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Опции программы" />
@@ -173,7 +182,7 @@
 			<text id="TITLE" value="Редактировать правила поиска" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Настройка набора закладок: {1}" />
+			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
 			<text id="NEW_BOOKMARK_FOLDER" value="Новая папка" />
 			<text id="NEW_BOOKMARK_ITEM" value="Новый элемент списка" />
 			<text id="UNIQUE_NAME" value="Уникальное имя" />
@@ -181,8 +190,8 @@
 			<text id="ONLY_ENGLISH" value="Напишите название языка по-английски (например, English, Farsi, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="Впишите сюда условные обозначения, цитаты, ссылки и другие описания, связанные с закладкой" />
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
-			<text id="TITLE" value="Настройка группы закладок" />
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Manage Bookmark Sets"   />
 			<text id="DBL_CLICK" value="Для загрузки и/или редактирования дважды щелкните на элементе списка." />
 			<text id="SET_AS_DEFAULT" value="Вы хотите установить &quot;{1}&quot; как набор закладок по умолчанию?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Невозможно удалить закладку по умолчанию." />
@@ -203,11 +212,17 @@
 			<text id="IMPORT_FOR" value="Импортировать для следующих пользователей:" />
 			<text id="ME_ONLY" value="Только для меня" />
 			<text id="ALL_USERS" value="Все пользователи (требуется доступ для записи в инсталляционную директорию)" />
+			<text id="FOLLOWING_USERS" value="Index for the following users"   />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="Настройка заказных переводов" />
 			<text id="AVAILABLE" value="Доступные переводы" />
 			<text id="CURRENT" value="Текущие переводы" />
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Please wait"   />
+			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
 		</form>
 	</forms>
 </language>

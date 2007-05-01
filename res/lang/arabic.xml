@@ -77,7 +77,8 @@
 			<text id="DESCRIPTION" value="الوصف" />
 			<text id="BOOKMARKS" value="إشارات مرجعية" />
 			<text id="CONFIGURE" value="إعدادات" />
-			<text id="CONFIGURE_BOOKMARK_SETS" value="إعداد مجموعات الإشارات المرجعية" />
+			<text id="EDIT_BOOKMARK_SET" value="إعداد مجموعات الإشارات المرجعية"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="الإتجاه" />
 			<text id="LANG_DIRECTION" value="إتجاه اللغة" />
 			<text id="RTL"      value="يمين لليسار" />
@@ -92,12 +93,17 @@
 			<text id="OVERWRITE" value="إعادة الكتابة" />
 			<text id="SAVE"     value="حفظ" />
 			<text id="PATH"     value="المسار" />
-			<text id="FIND_REFS" value="بحث عن المراجع" />
+			<text id="SHOW_REFS" value="بحث عن المراجع"   />
 			<text id="MOVE_UP" value="تحريك للأعلى" />
 			<text id="MOVE_DOWN" value="تحريك للأسفل" />
 			<text id="CUSTOM_MIXED" value="تخصيص العرض المختلط" />
 			<text id="CONFIG_CUSTOM_TRANS" value="إعداد ترجمات مخصّصة" />
 			<text id="GO" value="إذهب" />
+			<text id="CAUTION" value="cautious"   />
+			<text id="ADVANCED" value="Advanced"   />
+			<text id="QUERY_DETAIL" value="Query detail"   />
+			<text id="PAGE" value="Page"   />
+			<text id="MULTILINE" value="Multiline"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -121,6 +127,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="نتيجة البحث ل: «{1}»" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} وجدت نتائج في {2} آية" />
+			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
 			<text id="TOO_MANY_RESULT" value="حصلت نتائج في أكثر من {1} آية" />
 			<text id="FILE_ALREADY_EXISTS" value="ملف يحمل الإسم &quot;{1}&quot; يوجد حاليا. هل تريد استبداله ؟" />
 			<text id="RESTART_APP" value="يجب إعادة تشغيل البرنامج لكي يتم تطبيق التغييرات." />
@@ -134,8 +141,7 @@
 			<text id="FNF" value="الملف غير موجود" />
 			<text id="ACTION_FAILED" value="لم تنجح العملية!" />
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -151,6 +157,9 @@
 			<text id="EDIT_SCOPES" value="تحرير المجالات" />
 			<text id="NO_SCOPE" value="بدون مجال" />
 			<text id="CURRENT_PAGE" value="الصفحة الحالية" />
+			<text id="NATURAL_ORDER" value="Natural Order"   />
+			<text id="RELEVANCE" value="Relevance"   />
+			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="خيارات البرنامج" />
@@ -173,7 +182,7 @@
 			<text id="TITLE" value="تحرير مجالات البحث" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="إدارة مجموعة الإشارة المرجعية: {1}" />
+			<text id="TITLE" value="Edit Bookmark Set: {1}" />
 			<text id="NEW_BOOKMARK_FOLDER" value="مجلد جديد للإشارة المرجعية" />
 			<text id="NEW_BOOKMARK_ITEM" value="عنصر إشارة مرجعية جديد" />
 			<text id="UNIQUE_NAME" value="تسمية مميّزة" />
@@ -181,8 +190,8 @@
 			<text id="ONLY_ENGLISH" value="إستعمل أسماءً إنكليزية فقط (مثل: English, Farsi, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="إصطلاحات، مراجع، إقتباسات، و غير ذلك" />
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
-			<text id="TITLE" value="إدارة مجموعات الإشارات المرجعية" />
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Manage Bookmark Sets"   />
 			<text id="DBL_CLICK" value="نقر مزدوج على العنصر للفتح أو التحرير" />
 			<text id="SET_AS_DEFAULT" value='هل تريد تخصيص "{1}" كإشارة مرجعية إفتراضية؟' />
 			<text id="CANNOT_REMOVE_DEFAULT" value="غير قادر على حذف الإشارة المرجعية الإفتراضية" />
@@ -203,11 +212,17 @@
 			<text id="IMPORT_FOR" value="إستيراد من أجل المستخدمين:" />
 			<text id="ME_ONLY" value="لي فقط" />
 			<text id="ALL_USERS" value="جميع المستخدمين  (يحتاج لسماحية الكتابة على مجلد التنصيب)" />
+			<text id="FOLLOWING_USERS" value="Index for the following users"   />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="إعداد ترجمات مخصّصة" />
 			<text id="AVAILABLE" value="الترجمات متاحة" />
 			<text id="CURRENT" value="الترجمات حالية" />
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Please wait"   />
+			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
 		</form>
 	</forms>
 </language>

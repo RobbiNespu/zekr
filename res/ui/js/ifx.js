@@ -10,8 +10,8 @@
  *   
  * $Revision$
  * $Log$
- * Revision 1.3  2007/04/05 14:25:07  mohsen_s
- * Update before first 0.6.0 milestone
+ * Revision 1.4  2007/05/01 16:29:39  mohsen_s
+ * Zekr 0.6.0 beta 1
  *
  * Revision 1.2  2007/01/03 12:14:28  Mohsen Saboorian
  * *** empty log message ***

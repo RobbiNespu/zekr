@@ -23,11 +23,13 @@
 	#set ($CLOSE_PAREN = ")")
 	#set ($AYA_CLASS = "trans")
 	#set ($DIR = ${TRANS_DIRECTION})
+	#set ($_DL = $I18N.Locale.Language) ## digit language
 #else
 	#set ($OPEN_PAREN = "&#64831;")
 	#set ($CLOSE_PAREN = "&#64830;")
 	#set ($AYA_CLASS = "quran")
 	#set ($DIR = "rtl")
+	#set ($_DL = "ar")
 #end
 #set ($SAJDA_SIGN = "&#1769;")
 <div id="searchableSection" class="$AYA_CLASS">
@@ -46,34 +48,28 @@
 	#if ($CUSTOM != "true" && $MIXED == "true") #foreach ($A in $AYA)
 		#if ($velocityCount != 1)
 		<div dir="${TRANS_DIRECTION}" class="trans" lang="${TRANS_LANG}">
+		#set ($_LANG=$TRANS_LANG)
 		#else
 		<div class="quran" lang="ar">#putHizbSignIfPossible()
+		#set ($_LANG="ar")
 		#end
 		${A}
 		#if (($velocityCount == 1 && $quran_showSuraAyaSign == "true") || ($velocityCount == 2 && $trans_showSuraAyaSign == "true"))
-		&#8204;<span class="suraAyaNum">[$I18N.localize( ${SURA_NUM} )-$I18N.localize( ${AYA_NUM} )]</span> #end
+		&#8204;<span class="suraAyaNum">[$I18N.localize(${SURA_NUM},"${_LANG}")-$I18N.localize(${AYA_NUM},"${_LANG}")]</span> #end
 		</div>
 	#end #elseif ($CUSTOM == "true" && $MIXED == "true")
 		<div class="quran" lang="ar">#putHizbSignIfPossible()
 		$AYA
 		#if ($quran_showSuraAyaSign == "true")
-		&#8204;<span class="suraAyaNum">[$I18N.localize( ${SURA_NUM} )-$I18N.localize( ${AYA_NUM} )]</span>
+		&#8204;<span class="suraAyaNum">[$I18N.localize(${SURA_NUM},"ar")-$I18N.localize(${AYA_NUM},"ar")]</span>
 		#end
-		#foreach ($TD in $TRANS_DATA)
-			#if ($trans_showTransId == "true") #set ($TRANS_ID = "[<i>${TD.id}</i>]") #else
-				#set ($TRANS_ID = "")
-			#end
-			<div title="$TD.toText()" id="custom" dir="${TD.direction}" class="trans" lang="${TD.locale.language}">
-			$TRANS_ID $TD.get(${SURA_NUM}, ${AYA_NUM})
-			#if ($trans_showSuraAyaSign == "true") &#8204;<span class="suraAyaNum">[${SURA_NUM}-${AYA_NUM}]</span> #end
-			</div>
-		#end
+		#parse("$THEME_DIR/multi-trans.vm")
 		</div>
 	#else
 		#putHizbSignIfPossible() $AYA
 	#end
 	<span title="${SURA_NAME} - ${AYA_NUM}">
-		<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" class="ayaSign">$OPEN_PAREN$I18N.localize( $AYA_NUM )$CLOSE_PAREN</span></nobr>
+		<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" class="ayaSign">$OPEN_PAREN$I18N.localize($AYA_NUM,"${_DL}")$CLOSE_PAREN</span></nobr>
 	</span>
 	#foreach ($SAJDA in $SAJDA_LIST)
 		#if ($SAJDA.AyaNumber == $AYA_NUM)

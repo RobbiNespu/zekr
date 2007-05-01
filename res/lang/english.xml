@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Mohsen Saboorian" version="0.5">
+<language author="Mohsen Saboorian" version="0.6">
 	<locale localizedName="English" name="English" id="en_US" direction="ltr" />
 	<word>
 		<common>
-			<text id="OK"       value="OK" />
-			<text id="CANCEL"   value="Cancel" />
-			<text id="YES"      value="Yes" />
-			<text id="NO"       value="No" />
-			<text id="APPLY"    value="Apply" />
-			<text id="START"    value="Start" />
-			<text id="RESET"    value="Reset" />
-			<text id="NEW"      value="New" />
-			<text id="SAVE_AS"  value="Save As" />
-			<text id="HELP"     value="Help" />
-			<text id="EDIT"     value="Edit" />
-			<text id="SEARCH"   value="Search" />
-			<text id="GOTO"     value="Go to" />
-			<text id="VIEW"     value="View" />
-			<text id="CLOSE"    value="Close" />
-			<text id="INSERT"   value="Insert" />
-			<text id="DETAILS"  value="Details" />
-			<text id="MORE"     value="More" />
-			<text id="NEXT"     value="Next" />
+			<text id="OK" value="OK" />
+			<text id="CANCEL" value="Cancel" />
+			<text id="YES" value="Yes" />
+			<text id="NO" value="No" />
+			<text id="APPLY" value="Apply" />
+			<text id="START" value="Start" />
+			<text id="RESET" value="Reset" />
+			<text id="NEW" value="New" />
+			<text id="SAVE_AS" value="Save As" />
+			<text id="HELP" value="Help" />
+			<text id="EDIT" value="Edit" />
+			<text id="SEARCH" value="Search" />
+			<text id="GOTO" value="Go to" />
+			<text id="VIEW" value="View" />
+			<text id="CLOSE" value="Close" />
+			<text id="INSERT" value="Insert" />
+			<text id="DETAILS" value="Details" />
+			<text id="MORE" value="More" />
+			<text id="NEXT" value="Next" />
 			<text id="PREVIOUS" value="Previous" />
-			<text id="REFRESH"  value="Refresh" />
-			<text id="UPDATE"   value="Update" />
-			<text id="SHOW"     value="Show" />
-			<text id="NAME"     value="Name" />
-			<text id="VALUE"    value="Value" />
-			<text id="NUMBER"   value="Number" />
-			<text id="OPTION"   value="Option" />
-			<text id="FILE"     value="File" />
-			<text id="RELOAD"   value="Reload" />
-			<text id="TYPE"     value="Type" />
-			<text id="MESSAGE"  value="Message" />
-			<text id="BLOCK"    value="Block" />
+			<text id="REFRESH" value="Refresh" />
+			<text id="UPDATE" value="Update" />
+			<text id="SHOW" value="Show" />
+			<text id="NAME" value="Name" />
+			<text id="VALUE" value="Value" />
+			<text id="NUMBER" value="Number" />
+			<text id="OPTION" value="Option" />
+			<text id="FILE" value="File" />
+			<text id="RELOAD" value="Reload" />
+			<text id="TYPE" value="Type" />
+			<text id="MESSAGE" value="Message" />
+			<text id="BLOCK" value="Block" />
 			<text id="LINE_BY_LINE" value="Line By Line" />
-			<text id="AND"      value="and" />
-			<text id="COMMA"    value="," />
+			<text id="AND" value="and" />
+			<text id="COMMA" value="," />
 			<text id="SYNCHRONOUS" value="Synchronous" />
-			<text id="ERROR"    value="Error" />
+			<text id="ERROR" value="Error" />
 			<text id="LANGUAGE" value="Language" />
-			<text id="ABOUT"    value="About" />
-			<text id="PRINT"    value="Print" />
+			<text id="ABOUT" value="About" />
+			<text id="PRINT" value="Print" />
 			<text id="HOMEPAGE" value="Home Page" />
 			<text id="WHOLE_QURAN" value="Whole Quran" />
 			<text id="MATCH_DIACRITIC" value="Match diacritic" />
@@ -51,29 +51,29 @@
 			<text id="NEXT_SURA" value="Next sura" />
 			<text id="PREV_AYA" value="Previous aya" />
 			<text id="PREV_SURA" value="Previous sura" />
-			<text id="THEME"    value="Theme" />
-			<text id="LAYOUT"   value="Layout" />
-			<text id="TOOLS"    value="Tools" />
-			<text id="ADD"      value="Add" />
-			<text id="DELETE"   value="Delete" />
-			<text id="REMOVE"   value="Remove" />
+			<text id="THEME" value="Theme" />
+			<text id="LAYOUT" value="Layout" />
+			<text id="TOOLS" value="Tools" />
+			<text id="ADD" value="Add" />
+			<text id="DELETE" value="Delete" />
+			<text id="REMOVE" value="Remove" />
 			<text id="TRANSLATION" value="Translation" />
-			<text id="OPEN"     value="Open" />
-			<text id="IMPORT"   value="Import" />
-			<text id="COPY"     value="Copy" />
+			<text id="OPEN" value="Open" />
+			<text id="IMPORT" value="Import" />
+			<text id="COPY" value="Copy" />
 			<text id="SEPARATE" value="Separate" />
-			<text id="MIXED"    value="Mixed" />
-			<text id="OPTIONS"  value="Options" />
+			<text id="MIXED" value="Mixed" />
+			<text id="OPTIONS" value="Options" />
 			<text id="QUESTION" value="Question" />
-			<text id="FONT"     value="Font" />
-			<text id="GENERAL"  value="General" />
-			<text id="EXIT"     value="Exit" />
-			<text id="EXCLUDE"  value="Exclude" />
-			<text id="TRUE"     value="True" />
-			<text id="FALSE"    value="False" />
-			<text id="SELECT"   value="Select" />
-			<text id="EXPORT"   value="Export" />
-			<text id="IMPORT"   value="Import" />
+			<text id="FONT" value="Font" />
+			<text id="GENERAL" value="General" />
+			<text id="EXIT" value="Exit" />
+			<text id="EXCLUDE" value="Exclude" />
+			<text id="TRUE" value="True" />
+			<text id="FALSE" value="False" />
+			<text id="SELECT" value="Select" />
+			<text id="EXPORT" value="Export" />
+			<text id="IMPORT" value="Import" />
 			<text id="DESCRIPTION" value="Description" />
 			<text id="BOOKMARKS" value="Bookmarks" />
 			<text id="CONFIGURE" value="Configure" />
@@ -81,42 +81,45 @@
 			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="Direction" />
 			<text id="LANG_DIRECTION" value="Language direction" />
-			<text id="RTL"      value="Right to left" />
-			<text id="LTR"      value="Left to right" />
-			<text id="AUTHOR"   value="Author" />
-			<text id="VERSION"  value="Version" />
+			<text id="RTL" value="Right to left" />
+			<text id="LTR" value="Left to right" />
+			<text id="AUTHOR" value="Author" />
+			<text id="VERSION" value="Version" />
 			<text id="RANDOM_AYA" value="Random Aya" />
 			<text id="UNTITLED" value="Untitled" />
 			<text id="SET_DEFAULT" value="Set as default" />
 			<text id="NOT_LOADED" value="Not loaded" />
-			<text id="ID"       value="ID" />
+			<text id="ID" value="ID" />
 			<text id="OVERWRITE" value="Overwrite" />
-			<text id="SAVE"     value="Save" />
-			<text id="PATH"     value="Path" />
-			<text id="FIND_REFS" value="Show References"   />
+			<text id="SAVE" value="Save" />
+			<text id="PATH" value="Path" />
+			<text id="SHOW_REFS" value="Show References"   />
 			<text id="MOVE_UP" value="Move up" />
 			<text id="MOVE_DOWN" value="Move down" />
 			<text id="CUSTOM_MIXED" value="Custom Mixed" />
 			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations" />
 			<text id="GO" value="Go" />
-			<text id="CAUTIOUS" value="cautious"   />
+			<text id="CAUTION" value="cautious"   />
 			<text id="ADVANCED" value="Advanced"   />
+			<text id="QUERY_DETAIL" value="Query detail"   />
+			<text id="PAGE" value="Page"   />
+			<text id="MULTILINE" value="Multiline"   />
 		</common>
 		<special>
-			<text id="QURAN"    value="Quran" />
-			<text id="SURA"     value="Sura" />
-			<text id="AYA"      value="Aya" />
-			<text id="SAJDA"    value="Sajda" />
-			<text id="JUZ"      value="Juz" />
-			<text id="HIZB"     value="Hizb" />
-			<text id="QUARTER"  value="Quarter" />
-			<text id="MAKKI"    value="Makki" />
-			<text id="MADANI"   value="Madani" />
-			<text id="DESCENT"  value="Descent" />
-			<text id="AYA_COUNT"  value="Aya count" />
-			<text id="MINOR_SAJDA" value="Minor sajda" /> <!-- Mustahab Sajda -->
-			<text id="MAJOR_SAJDA" value="Major sajda" /> <!-- Wajib Sajda -->
-			<text id="LOCATION" value="Location" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+			<text id="QURAN" value="Quran" />
+			<text id="SURA" value="Sura" />
+			<text id="AYA" value="Aya" />
+			<text id="SAJDA" value="Sajda" />
+			<text id="JUZ" value="Juz" />
+			<text id="HIZB" value="Hizb" />
+			<text id="QUARTER" value="Quarter" />
+			<text id="MAKKI" value="Makki" />
+			<text id="MADANI" value="Madani" />
+			<text id="DESCENT" value="Descent" />
+			<text id="AYA_COUNT" value="Aya count" />
+			<text id="MINOR_SAJDA" value="Minor sajda" /><!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="Major sajda" /><!-- Wajib Sajda -->
+			<text id="LOCATION" value="Location" /><!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -124,8 +127,9 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Search result for: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} results found in {2} ayas." />
+			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
 			<text id="TOO_MANY_RESULT" value="Search result is more than {1} ayas" />
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?"   />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?" />
 			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect." />
 		</inform>
 		<confirm>
@@ -137,8 +141,7 @@
 			<text id="FNF" value="File not found" />
 			<text id="ACTION_FAILED" value="Action failed!" />
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -154,6 +157,9 @@
 			<text id="EDIT_SCOPES" value="Edit scopes" />
 			<text id="NO_SCOPE" value="No scope" />
 			<text id="CURRENT_PAGE" value="Current page" />
+			<text id="NATURAL_ORDER" value="Natural Order"   />
+			<text id="RELEVANCE" value="Relevance"   />
+			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Application Options" />
@@ -175,7 +181,7 @@
 		<form id="MANAGE_SCOPES_FORM">
 			<text id="TITLE" value="Edit Search Scopes" />
 		</form>
-		<form id="BOOKMARK_SET_FORM"  >
+		<form id="BOOKMARK_SET_FORM">
 			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
 			<text id="NEW_BOOKMARK_FOLDER" value="New bookmark folder" />
 			<text id="NEW_BOOKMARK_ITEM" value="New bookmark item" />
@@ -194,13 +200,13 @@
 			<text id="NEW_BOOKMARK_SET" value="New Bookmark Set" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
-			<text id="TITLE" value="Edit Bookmark"   />
+			<text id="TITLE" value="Edit Bookmark" />
 			<text id="QURAN_LOCATIONS" value="Quran locations" />
 			<text id="NEW_BOOKMARK" value="New Bookmark" />
 			<text id="NEW_FOLDER" value="New Folder" />
 		</form>
 		<form id="BOOKMARK_REF">
-			<text id="TITLE" value="Bookmark References To: {1}"   />
+			<text id="TITLE" value="Bookmark References To: {1}" />
 		</form>
 		<form id="IMPORT_QUESTION">
 			<text id="IMPORT_FOR" value="Import For The Following Users:" />
@@ -211,12 +217,12 @@
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="Configure Custom Translations" />
 			<text id="AVAILABLE" value="Available translations" />
-			<text id="CURRENT" value="Currently used translations"   />
+			<text id="CURRENT" value="Currently used translations" />
 		</form>
 		<form id="PROGRESS">
-			<text id="PLEASE_WAIT" value="Please wait" />
-			<text id="INDEXING" value="Indexing" /> <!-- The process of indexing a document for faster search -->
-			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed." />
+			<text id="PLEASE_WAIT" value="Please wait"   />
+			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
 		</form>
 	</forms>
 </language>
