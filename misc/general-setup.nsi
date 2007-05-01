@@ -7,8 +7,8 @@ SetCompressor /SOLID lzma
 # Defines
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_UNIX_NAME "zekr"
-!define VERSION 0.5.0.0
-!define RELEASE_VERSION "0.5.0"
+!define VERSION 0.6.0.0
+!define RELEASE_VERSION "0.6.0beta1"
 !define COMPANY siahe.com
 !define URL http://siahe.com/zekr
 
@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.5.0\b2\win"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.0\beta1\win"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -73,7 +73,7 @@ Var JDK_HOME
 !insertmacro MUI_LANGUAGE Indonesian
 !insertmacro MUI_LANGUAGE Italian
 !insertmacro MUI_LANGUAGE Korean
-!insertmacro MUI_LANGUAGE Malaysian
+!insertmacro MUI_LANGUAGE Malay
 !insertmacro MUI_LANGUAGE Dutch
 !insertmacro MUI_LANGUAGE Norwegian
 !insertmacro MUI_LANGUAGE Portuguese
@@ -106,6 +106,11 @@ Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
     File /r "${BASE_APP}\*"
+
+    ; Arabic font copy
+    SetOverwrite try
+    File "/oname=$WINDIR\Fonts\me_quran_volt_mark2.ttf" "${BASE_APP}\..\..\me_quran_volt_mark2.ttf"
+
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 
@@ -144,7 +149,11 @@ Section -post SEC0001
     File "${BASE_APP}\res\javaw.exe.manifest"
     SetOutPath "$JDK_HOME\bin"
     File "${BASE_APP}\res\javaw.exe.manifest"
-    SetOverwrite on
+    
+    ; Arabic font copy
+    #SetOutPath "$WINDIR\Fonts"
+    #File "${BASE_APP}\res\me_quran_volt_mark2.ttf"
+    #SetOverwrite on
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -224,7 +233,7 @@ Function .onInit
     InitPluginsDir
     StrCpy $StartMenuGroup Zekr
     Push $R1
-    File /oname=$PLUGINSDIR\spltmp.bmp "${BASE_APP}\..\..\zekr-install-splash1.bmp"
+    File /oname=$PLUGINSDIR\spltmp.bmp "${BASE_APP}\..\..\zekr-install-splash.bmp"
     ; Delay - FadeIn - FadeOut - Keycolor - FileName
     advsplash::show 1000 700 600 -1 $PLUGINSDIR\spltmp
     Pop $R1
@@ -368,7 +377,7 @@ LangString ^UninstallLink ${LANG_HEBREW} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_INDONESIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_ITALIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_KOREAN} "Uninstall $(^Name)"
-LangString ^UninstallLink ${LANG_MALAYSIAN} "Uninstall $(^Name)"
+LangString ^UninstallLink ${LANG_MALAY} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_DUTCH} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_NORWEGIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_PORTUGUESE} "Uninstall $(^Name)"
