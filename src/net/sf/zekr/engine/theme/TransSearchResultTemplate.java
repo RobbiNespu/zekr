@@ -14,10 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IRangedQuranText;
 import net.sf.zekr.common.resource.QuranLocation;
-import net.sf.zekr.common.resource.RangedQuranText;
 import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.search.SearchUtils;
@@ -40,10 +38,10 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 		engine.put("KEYWORD", keyword);
 	}
 
-	public String transform() {
-		AbstractQuranSearch qs;
-		String ret = null;
+	public String transform() throws TemplateTransformationException {
 		try {
+			AbstractQuranSearch qs;
+			String ret = null;
 			TranslationData td = quran.getTranslationData();
 			qs = new TranslationSearch(quran, matchCase, td.locale);
 			Map result = new LinkedHashMap();
@@ -54,8 +52,8 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 					"" + qs.getResultCount(), "" + result.size() }));
 
 			if (!ok) // more that maxAyaMatch ayas was matched
-				engine.put("TOO_MANY_RESULT", langEngine.getDynamicMeaning("TOO_MANY_RESULT",
-						new String[] { "" + result.size() }));
+				engine.put("TOO_MANY_RESULT", langEngine.getDynamicMeaning("TOO_MANY_RESULT", new String[] { ""
+						+ result.size() }));
 			else
 				engine.put("TOO_MANY_RESULT", null);
 
@@ -64,17 +62,15 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));
 			ThemeData theme = config.getTheme().getCurrent();
 			ret = engine.getUpdated(theme.getPath() + "/" + resource.getString("theme.search.result"));
+			return ret;
 		} catch (Exception e) {
-			logger.log(e);
+			throw new TemplateTransformationException(e);
 		}
-		return ret;
-
 	}
 
 	/**
-	 * Converts a <code>Map</code> of <code>QuranLocation</code> to <code>List</code> of
-	 * <code>Rage</code>s to a <code>Map</code> of <code>QuranLocation</code> to list of aya string
-	 * fragments.
+	 * Converts a <code>Map</code> of <code>QuranLocation</code> to <code>List</code> of <code>Rage</code>s to a
+	 * <code>Map</code> of <code>QuranLocation</code> to list of aya string fragments.
 	 * 
 	 * @param result
 	 * @return a map of locations

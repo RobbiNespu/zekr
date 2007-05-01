@@ -10,7 +10,7 @@
 package net.sf.zekr.common.util;
 
 /**
- * This class contains some helper methods to be used in velocity templates. This is a replacement for
+ * This class contains some helper methods to be used in Velocity templates. This is a replacement for
  * velocity-tools-generic library.
  * 
  * @author Mohsen Saboorian
@@ -23,6 +23,13 @@ public class VelocityUtils {
 
 		double value = n1.doubleValue() * n2.doubleValue();
 		return value;
+	}
+
+	public int intAdd(Object num1, Object num2) {
+		Number n1 = toInteger(num1);
+		Number n2 = toInteger(num2);
+
+		return n1.intValue() + n2.intValue();
 	}
 
 	public double div1(Object num1, Object num2) {
@@ -38,7 +45,7 @@ public class VelocityUtils {
 	}
 
 	public Integer toInteger(Object num) {
-		return new Integer(num.toString());
+		return new Integer(toDouble(num).intValue());
 	}
 
 	public Integer round(Object num) {

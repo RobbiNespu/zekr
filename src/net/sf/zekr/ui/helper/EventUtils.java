@@ -8,7 +8,6 @@
  */
 package net.sf.zekr.ui.helper;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
@@ -39,7 +38,10 @@ public class EventUtils {
 	 *           <code>Event.data</code> to be sent
 	 */
 	public static void sendEvent(int eventType, String eventName) {
-		Shell shells[] = Display.getCurrent().getShells();
+		Display disp = Display.getCurrent();
+		if (disp == null)
+			return;
+		Shell shells[] = disp.getShells();
 		Event event = createEvent(eventType, eventName);
 		for (int i = 0; i < shells.length; i++) {
 			if (shells[i].isListening(eventType))

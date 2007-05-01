@@ -24,6 +24,7 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(SearchScopeItemTest.class));
 		suite.addTest(new TestSuite(SearchScopeTest.class));
 		suite.addTest(new TestSuite(ArabicFilterTest.class));
+		suite.addTest(new TestSuite(MiscJavaApiTest.class));
 		return suite;
 	}
 

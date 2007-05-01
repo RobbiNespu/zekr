@@ -8,6 +8,6 @@ package net.sf.zekr.engine.theme;
  */
 public interface ITransformer {
 
-	String transform();
+	String transform() throws TemplateTransformationException;
 
 }

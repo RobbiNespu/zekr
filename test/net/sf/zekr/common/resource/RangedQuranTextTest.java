@@ -26,7 +26,7 @@ public class RangedQuranTextTest extends ZekrBaseTest {
 	 */
 	public void testInit() throws Exception {
 		SearchScope ss = new SearchScope();
-		rqt = new RangedQuranText(QuranText.getInstance(), ss);
+		rqt = new RangedQuranText(QuranText.getSimpleTextInstance(), ss);
 		rqt.init();
 		assertNull(rqt.getCurrentLocation());
 
@@ -40,7 +40,7 @@ public class RangedQuranTextTest extends ZekrBaseTest {
 	public void testReset() throws Exception {
 		SearchScope ss = new SearchScope();
 		ss.add(new SearchScopeItem(1, 1, 114, 6, false));
-		rqt = new RangedQuranText(QuranText.getInstance(), ss);
+		rqt = new RangedQuranText(QuranText.getSimpleTextInstance(), ss);
 		rqt.findNext();
 		assertFalse(rqt.getCurrentLocation().equals(new QuranLocation(1, 1)));
 		rqt.reset();
@@ -54,7 +54,7 @@ public class RangedQuranTextTest extends ZekrBaseTest {
 		SearchScope ss = new SearchScope();
 		ss.add(new SearchScopeItem(1, 1, 2, 1, true));
 		ss.add(new SearchScopeItem(4, 1, 8, 1, true));
-		rqt = new RangedQuranText(QuranText.getInstance(), ss);
+		rqt = new RangedQuranText(QuranText.getSimpleTextInstance(), ss);
 	}
 
 }

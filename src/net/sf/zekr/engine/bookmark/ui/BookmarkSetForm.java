@@ -116,7 +116,8 @@ public class BookmarkSetForm {
 		GridLayout gl = new GridLayout(1, false);
 		shell.setLayout(gl);
 		shell.setText(meaning("TITLE", bookmarkSet.getId()));
-		shell.setImage(new Image(display, resource.getString("icon.bookmark.manager")));
+		shell.setImages(new Image[] { new Image(display, resource.getString("icon.bookmark.edit16")),
+				new Image(display, resource.getString("icon.bookmark.edit32")) });
 
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -250,6 +251,14 @@ public class BookmarkSetForm {
 					dragSourceItem[0].dispose();
 				}
 				dragSourceItem[0] = null;
+				
+				// update buttons status
+				int c = tree.getSelectionCount();
+				if (c <= 0) {
+					removeBut.setEnabled(false);
+					editBut.setEnabled(false);
+					gotoBut.setEnabled(false);
+				}
 			}
 		});
 
@@ -449,7 +458,7 @@ public class BookmarkSetForm {
 		rd.width = 40;
 		editBut = new Button(crudButtComposite, SWT.PUSH);
 		editBut.setToolTipText(lang.getMeaning("EDIT"));
-		editBut.setImage(new Image(display, resource.getString("icon.edit")));
+		editBut.setImage(new Image(display, resource.getString("icon.bookmark.edit16")));
 		editBut.setLayoutData(rd);
 		editBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -746,7 +755,8 @@ public class BookmarkSetForm {
 	}
 
 	private void edit() {
-		// there should be exactly one item selected (otherwise edit shall not be called)
+		if (tree.getSelectionCount() <= 0)
+			return;
 		TreeItem item = tree.getSelection()[0];
 		BookmarkItemForm bmItemForm = new BookmarkItemForm(shell, (BookmarkItem) item.getData(), bookmarkSetDirection);
 		logger.debug("Open bookmark item/folder editor.");

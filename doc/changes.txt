@@ -47,7 +47,7 @@ Bug fixes:
 	All the following misspelling was changed from column one to column two:
 	soora		sura
 	joz			juz
-	Search problem. ==> (�������� was found but ������� could not be found)
+	Search problem. ==> (أأنذرتهم was found but أنذرتهم could not be found)
 
 Version 0.3.0 b1 - [14-3-06]
 Features/Enhancements:
@@ -158,17 +158,17 @@ Bug fixes:
 	Filter on arrow keys (nav keys) is now removed and reinstalled (it was doubled as user changed the language).
 	Problem with searching Farsi translation with Arabic letter ALEF MAKSURA.
 	Links of about form and home page menu item now works on Mac/Linux.
-	Typo in Quran text (9-123): ������������� which should be �������������.
-	Typo in Quran text (12-10): ��������� which should be ���������.
-	Typo in Quran text (12-24): ������������ which should be ������������.
-	Typo in Quran text (12-111): ����� which should be �����.
-	Typo in Quran text (13-20): ���������� which should be ����������.
-	Typo in Quran text (18-39): ������ which should be ������.
-	Typo in Quran text (23-113): ��������� which should be ���������.
-	Type in Quran text (33-10): ������� which should be �������.
-	Typo in Quran text (33-71): ������ which should be ������.
-	Typo in makarem.txt (33-32): ���� which should be ����.
-	Typo in makarem.txt (33-50): �� which should be ��.
+	Typo in Quran text (9-123): وَلِيَجِدُواْ which should be وَلْيَجِدُواْ.
+	Typo in Quran text (12-10): مَّنْهُمْ which should be مِّنْهُمْ.
+	Typo in Quran text (12-24): وَاسُتَبَقَا which should be وَاسْتَبَقَا.
+	Typo in Quran text (12-111): كُلَّ which should be كُلِّ.
+	Typo in Quran text (13-20): يِنقُضُونَ which should be يَنقُضُونَ.
+	Typo in Quran text (18-39): تُرَنِ which should be تَرَنِ.
+	Typo in Quran text (23-113): فَاسْأَلْ which should be فَاسْأَلِ.
+	Type in Quran text (33-10): زَاغَتْ which should be زَاغَتِ.
+	Typo in Quran text (33-71): يُطِعْ which should be يُطِعِ.
+	Typo in makarem.txt (33-32): آنان which should be زنان.
+	Typo in makarem.txt (33-50): رن which should be زن.
 
 Version 0.5.0 b1 - [23-12-06]
 Features/Enhancements:
@@ -235,46 +235,66 @@ Bug fixes:
 	Bug in loading translation data, method loadTranslation() fixed.
 	Integer.valueOf(int) changed to new Integer(int), since the method was introduced in 1.5.
 	StatusListener replaced with TitleListener, so that Firefox on Linux works.
-	Search treats "�" and "�" the same, when match diacritics is not set.
+	Search treats "ؤ" and "و" the same, when match diacritics is not set.
 	Bug in ZipUtils.extract fixed. ZipEntry.getSize() seems not to correctly return unzipped entry size.
 	JavaScript bug with backspace key (which was fired on goto input textboxes) fixed.
 	Menu items text Capitalized in English language pack.
-	Typo in Quran text (4-90): ��������� which should be ��������.
+	Typo in Quran text (4-90): يقاتلونكم which should be يقاتلوكم.
 
 Version 0.5.0 release - [12-3-07]
 Features/Enhancements:
-	quran-text.txt changed to UTF-8 encoding (so there would be much less UEE error).
+	quran-text.txt changed to UTF-8 encoding (so that there would be no UnsupportedEncodingException for Arabic-incompatible JREs).
+	New language pack: Urdu (Mohsin Shafeeque Hijazee).
 Bug fixes:
 	Parent of a bookmark folder may not more drag-copy to its child (which caused stack overflow previously).
 	View>Translations>More is a SWT.PUSH button, not SWT.RADIO!
 	Ctrl+S works as Save as...
 	HTML saving and Bookmark exporting now checks to see if the exported/saved file has .html/.xml extension or not. If not a proper extension will be added accordingly.
-	Typo in Quran text (10-36): fixed diacritic for ���.
+	Typo in Quran text (10-36): fixed diacritic for إنّ.
 	SuraAyaSign numebers made localized based on the selected language.
 	Add/Remove buttons on CustomTranslationListForm are always LEFT_TO_RIGHT for non-Windows platforms.
 	Bug with importing (and overwriting) a newly imported bookmark set fixed. Thanks to Ali Rastegar for the report.
 
-Version 0.6.0 M1 - [20-4-07]
+Version 0.6.0 beta 1 - [1-5-07]
 Features/Enhancements:
+	JQuery library updated to 1.1.2 version.
 	Advanced search (with use of Apache's Lucene search library):
 		Indexing is done by the first time, user encounters an advanced search, if not done before 
 				(proper index directory was found neither in ~/.zekr, nor in installation directory).
 		Boolean queries (AND/&&, OR/||, NOT/!, -, + operators)
 		Wildcard queries (*, ?)
 		Fuzzy queris ("keyword"~x.y)
-		Grouped query clauses
+		Grouped query clauses (using parentheses)
 		Sort results in: 1. Natural order, 2. Relevance
 		Show all matched terms at the top of search result page
 		Multiline search box (switchable with normal search box)
+		Pagination: it is possible to navigate throught result pages (pagination buttons are shown iff search result count is enough for more than 1 page).
 	Ctrl+A performs "select all" when pressed on multiline search field.
+	Ctrl+Enter performs "advanced search" when pressed on multiline search field.
+	All search configuration propertis are now saved in when application is closed, and loaded and initialized on GUI at load time.
+	Left and right arrow icons changed to up and down arrow for search result navigation.
+	Latest SVN trunk version of Lucene is used to fix "*Foo*" (leading and trailing star wildcard together) query bug.
+	sky-vertical theme was removed and side-by-side translation view is now supported via "trans_showMultipleSideBySide" theme property of sky.
+	A flag "quran_detailedTextFile" can be set to true in theme.properties to force Zekr to use a detailed Quran text if avilable. Detailed Quran text is very similar to Uthman Taha Quran calligraphy.
+	An experimental "Uthman Taha" theme added.
+		It uses "me_quran" as the defulat font for rendering Quran text.
+		quran_detailedTextFile is true by default in this theme.
+		Several CSS hacks and enhancements are done to this theme in order to bypass IE6 bugs for rendering in screen and printed document.
+		This theme may have unexpected rendering errors with IE6, because of inherent IE6 bugs :). FF 2.0 and IE7 are OK.
+		Special thanks to Meor Ridzuan for providing such a nice font.
+	Some icons changed (made better): bookmark icons (manage, edit), search scope icons (manage, edit)
+	Import/Export file dialogs try to set ~/Desktop as default folder. If there is no such folder, user.home (~/) is used.
+	Quran aya sign and Sura-Aya sign are now shown in Arabic (not the selected user's language) for all themes.
 Bug fixes:
 	JavaScript aya focus now works better when focusing on ayas whose height is larger than the screen.
 	A bug with sky-vertical theme, which caused translation table width not to be 100% is now fixed. It has still problems when resizing the screen. 
 	A bug with search keyword combo box which caused to store all entered search keywords (even blank or illegal strings) fixed.
 	Bookmark item editing form now resizes Description field as well as table of references when the form is resized.
+	An HTML tag incompletion fixed in search-result.vm of all themes.
+	Typo in simple Quran text (8-29):  إَن تَتَّقُواْ which should be  إِن تَتَّقُواْ.
+	A bug with DnD in bookmark set form fixed, which caused edit and remove button not to be be disabled after a drop action even when no item/folder is selected.
 
-
-
+_____________________________________________________
 	TODO: History support: back/forward.
 
 	TODO: Set a rule set for each translation text in CSS, for fixing the bug with Custom Mixed layout fonts.
@@ -291,3 +311,6 @@ Bug fixes:
 
 	TODO: Add a stand-alone (no dependency to ApplicationConfig) Error Form to show startup errors
 	TODO: Zekr seems not work when there is no translation.
+
+	TODO: Move all explicit references to *.vm in a template file to resource-path.propertis
+	TODO: Pluggable (plug-in based) search.

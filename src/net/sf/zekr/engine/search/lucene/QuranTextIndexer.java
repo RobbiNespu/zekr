@@ -58,6 +58,8 @@ public class QuranTextIndexer implements IIndexer {
 			Date d1 = new Date();
 			logger.debug("Indexing Quran text started.");
 			IndexWriter indexWriter = new IndexWriter(indexDir, new ArabicAnalyzer(), true);
+			logger.debug("A new instance of IndexWriter created.");
+			logger.debug("Adding suras...");
 			for (int sura = 1; sura <= 114; sura++) {
 				int ayaCount = quranText.getSura(sura).length;
 				for (int aya = 1; aya <= ayaCount; aya++) {
@@ -67,6 +69,7 @@ public class QuranTextIndexer implements IIndexer {
 							Field.Index.UN_TOKENIZED));
 					indexWriter.addDocument(doc);
 				}
+				logger.debug("Sura " + sura + " indexed.");
 			}
 			logger.debug("Optimizing indices...");
 			indexWriter.optimize();
@@ -87,6 +90,10 @@ public class QuranTextIndexer implements IIndexer {
 		FileUtils.delete(indexDir);
 	}
 
+	/**
+	 * Testing code.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			String q = "ال*ك";

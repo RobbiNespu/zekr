@@ -8,18 +8,20 @@
  */
 package net.sf.zekr.common.config;
 
+import java.io.File;
+
 import org.eclipse.swt.SWT;
 
 /**
- * This class holds some global settings used by Zekr. <br>
+ * This class holds some global settings used by Zekr.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
 public class GlobalConfig {
 
-	/** Zekr version: e.g. 0.2.0b1 for beta1 or 0.2.0 for release. */
-	public static String ZEKR_VERSION = "0.6.0M1";
+	/** Zekr version: e.g. 0.2.0beta1 for beta1 or 0.2.0 for final release. */
+	public static String ZEKR_VERSION = "0.6.0beta1";
 
 	/** Flag specifying if OS is Linux */
 	public static boolean isLinux = SWT.getPlatform().equalsIgnoreCase("gtk");
@@ -61,4 +63,17 @@ public class GlobalConfig {
 	public static final String USER_LANGUAGE = System.getProperty("user.language");
 
 	public static final int MAX_MENU_STRING_LENGTH = 40;
+
+	/**
+	 * @return Tries to find user's desktop folder. If failed, returns <code>USER_HOME_PATH</code> (<tt>user.home</tt>
+	 *         system property).
+	 */
+	public static final String getDefaultStartFolder() {
+		String ret = USER_HOME_PATH;
+		if (new File(USER_HOME_PATH + "/" + "desktop").exists())
+			return USER_HOME_PATH + "/" + "desktop";
+		else if (new File(USER_HOME_PATH + "/" + "desktop").exists())
+			return USER_HOME_PATH + "/" + "Desktop";
+		return ret;
+	}
 }

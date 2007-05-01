@@ -79,7 +79,7 @@ public class LanguagePack {
 	}
 
 	/**
-	 * @return language pack xml file
+	 * @return language pack .xml file
 	 */
 	public String getPath() {
 		return ApplicationPath.LANGUAGE_DIR + "/" + getFile();

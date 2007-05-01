@@ -35,8 +35,9 @@ public abstract class BaseViewTemplate implements ITransformer {
 	 * This method will generate the result string of a view.
 	 * 
 	 * @return the String representation of a view
+	 * @throws TemplateTransformationException 
 	 */
-	public abstract String transform();
+	public abstract String transform() throws TemplateTransformationException;
 
 	/**
 	 * Will put some initial properties into context:

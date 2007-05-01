@@ -8,15 +8,17 @@
  */
 package net.sf.zekr.engine.search;
 
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
-
 /**
- * This file contains several useful <code>public static</code> methods for finding
- * occurrences of a source text in another text. Since the Arabic language has some
- * <i>Harakats</i> (diacritics), there is also functions to ignore or match diacritics.
+ * This file contains several useful <code>public static</code> methods for finding occurrences of a source text in
+ * another text. Since the Arabic language has some <i>Harakats</i> (diacritics), there is also functions to ignore or
+ * match diacritics.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -32,13 +34,24 @@ public class SearchUtils {
 	final public static char DAMMATAN = 0x64c;
 	final public static char FATHATAN = 0x64b;
 
-	final public static char SUPERSCRIPT_ALEF = 0x670;
-
 	final public static char HAMZA = 0x621;
+	final public static char HAMZA_ABOVE = 0x654;
+	final public static char HAMZA_BELOW = 0x655;
+	
+	final public static char MADDAH_ABOVE = 0x653;
+	final public static char SMALL_LOW_SEEN = 0x6e3;
+	final public static char SMALL_WAW = 0x6e5;
+	final public static char SMALL_YEH = 0x6e6;
+	final public static char SMALL_HIGH_MEEM = 0x6e2;
+
+	final public static char SUPERSCRIPT_ALEF = 0x670;
 	final public static char ALEF = 0x627;
 	final public static char ALEF_MADDA = 0x622;
 	final public static char ALEF_HAMZA_ABOVE = 0x623;
 	final public static char ALEF_HAMZA_BELOW = 0x625;
+	final public static char ALEF_WASLA = 0x671;
+
+	final public static char TATWEEL = 0x640;
 
 	final public static char YEH_HAMZA_ABOVE = 0x626;
 	final public static char WAW_HAMZA_ABOVE = 0x624;
@@ -50,10 +63,12 @@ public class SearchUtils {
 
 	final public static char ARABIC_KAF = 0x643;
 	final public static char FARSI_KEHEH = 0x6a9;
+	
+	final public static char ARABIC_QUESION_MARK = 0x61f;
 
 	/**
-	 * Replace Farsi unicode <code>Yeh</code> with Arabic one, and so about
-	 * <code>Kaf</code> (Farsi <code>Keheh</code>).
+	 * Replace Farsi unicode <code>Yeh</code> with Arabic one, and so about <code>Kaf</code> (Farsi
+	 * <code>Keheh</code>).
 	 * 
 	 * @param str
 	 * @return updated <code>String</code> result
@@ -66,8 +81,8 @@ public class SearchUtils {
 	}
 
 	/**
-	 * Replace similar arabic characters which are used commonly instead of others. This
-	 * is a helper method for easing the search.<br>
+	 * Replace similar arabic characters which are used commonly instead of others. This is a helper method for easing
+	 * the search.<br>
 	 * Characters which are replaced are listed below:
 	 * <ul>
 	 * <li><tt>FARSI_YEH</tt> is replaced with <tt>ARABIC_YEH</tt></li>
@@ -92,20 +107,18 @@ public class SearchUtils {
 	}
 
 	/**
-	 * This method removes specific diacritics form the string. Also replaces incorrect
-	 * charactrers (which are present due to keyboard layout problems) using
-	 * <code>replaceLayoutSimilarCharacters()</code>.<br>
+	 * This method removes specific diacritics form the string. Also replaces incorrect charactrers (which are present
+	 * due to keyboard layout problems) using <code>replaceLayoutSimilarCharacters()</code>.<br>
 	 * <br>
-	 * <b>NOTE:</b> This method is not complete. It is subject to change based other
-	 * Arabic-based keyboard layout problems.
+	 * <b>NOTE:</b> This method is not complete. It is subject to change based other Arabic-based keyboard layout
+	 * problems.
 	 * 
 	 * @param str
 	 * @return simplified form of the <code>str</code>
 	 */
 	public static String arabicSimplify(String str) {
 		// diacritics removal
-		char[] arr = new char[] { SUKUN, SHADDA, KASRA, DAMMA, FATHA, KASRATAN, DAMMATAN, FATHATAN,
-				SUPERSCRIPT_ALEF };
+		char[] arr = new char[] { SUKUN, SHADDA, KASRA, DAMMA, FATHA, KASRATAN, DAMMATAN, FATHATAN, SUPERSCRIPT_ALEF };
 		for (int i = 0; i < arr.length; i++) {
 			str = StringUtils.remove(str, arr[i]);
 		}
@@ -118,6 +131,20 @@ public class SearchUtils {
 
 		str = replaceLayoutSimilarCharacters(str);
 		return str;
+	}
+	
+	public static String simplifyAdvancedSearchQuery(String query) {
+		// diacritics removal
+		char[] arr = new char[] { SMALL_LOW_SEEN, SMALL_HIGH_MEEM, SMALL_WAW, SMALL_YEH, MADDAH_ABOVE };
+		for (int i = 0; i < arr.length; i++) {
+			query = StringUtils.	remove(query, arr[i]);
+		}
+
+		query = query.replaceAll("" + TATWEEL + SUPERSCRIPT_ALEF, "" + ALEF);
+		query = query.replaceAll("" + ALEF_MAKSURA + HAMZA_BELOW , "" + YEH_HAMZA_ABOVE);
+		query = query.replace(ARABIC_QUESION_MARK, '?');
+		query = query.replace(ALEF_WASLA, ALEF);
+		return arabicSimplify(query);
 	}
 
 	/**
@@ -134,30 +161,31 @@ public class SearchUtils {
 	 * <li>Superscript alef</li>
 	 * </ul>
 	 * 
-	 * @param ch the character to be examined
-	 * @return <code>true</code> if ch is an Arabic <i>Harakat</i>, otherwise
-	 *         <code>false</code>
+	 * @param ch
+	 *           the character to be examined
+	 * @return <code>true</code> if ch is an Arabic <i>Harakat</i>, otherwise <code>false</code>
 	 */
 	public static boolean isDiac(char ch) {
-		return (ch == SUKUN) || (ch == SHADDA) || (ch == KASRA) || (ch == DAMMA) || (ch == FATHA)
-				|| (ch == KASRATAN) || (ch == DAMMATAN) || (ch == FATHATAN)
-				|| (ch == SUPERSCRIPT_ALEF);
+		return (ch == SUKUN) || (ch == SHADDA) || (ch == KASRA) || (ch == DAMMA) || (ch == FATHA) || (ch == KASRATAN)
+				|| (ch == DAMMATAN) || (ch == FATHATAN) || (ch == SUPERSCRIPT_ALEF);
 	}
 
 	/**
-	 * Will find a <code>Range</code> of the first occurrence of <code>key</code> in
-	 * <code>src</code>. This method will ignore diacritics on both <code>src</code>
-	 * and <code>key</code>.
+	 * Will find a <code>Range</code> of the first occurrence of <code>key</code> in <code>src</code>. This method
+	 * will ignore diacritics on both <code>src</code> and <code>key</code>.
 	 * 
-	 * @param src source string to be searched on
-	 * @param key non-<code>null</code> target string to be found the first occurrence
-	 *            of which on the <code>src</code> string
-	 * @param matchCase specifies whether to search in a case sensitive manner or not
-	 * @param locale the text locale (for casing conversion)
-	 * @return a <code>Range</code> object from the previous space character just before
-	 *         the <code>key</code> (or start of the source string if no space found) to
-	 *         the first space just after the <code>key</code> in <code>src</code> (or
-	 *         end of src if no space found)
+	 * @param src
+	 *           source string to be searched on
+	 * @param key
+	 *           non-<code>null</code> target string to be found the first occurrence of which on the <code>src</code>
+	 *           string
+	 * @param matchCase
+	 *           specifies whether to search in a case sensitive manner or not
+	 * @param locale
+	 *           the text locale (for casing conversion)
+	 * @return a <code>Range</code> object from the previous space character just before the <code>key</code> (or
+	 *         start of the source string if no space found) to the first space just after the <code>key</code> in
+	 *         <code>src</code> (or end of src if no space found)
 	 */
 	public static Range indexOfIgnoreDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = arabicSimplify(key);
@@ -214,19 +242,20 @@ public class SearchUtils {
 	}
 
 	/**
-	 * Will find a range of the first occurrence of <code>key</code> in <code>src</code>.
-	 * This method will consider diacritics on both <code>src</code> and
-	 * <code>key</code>.
+	 * Will find a range of the first occurrence of <code>key</code> in <code>src</code>. This method will consider
+	 * diacritics on both <code>src</code> and <code>key</code>.
 	 * 
-	 * @param src source string to be searched on
-	 * @param key target string which is to search first occurrence of which on
-	 *            <code>src</code>
-	 * @param matchCase specifies whether to search in a case sensitive manner or not
-	 * @param locale the text locale (for casing conversion)
-	 * @return a <code>Range</code> object from the previous space character just before
-	 *         the <code>key</code> (or start of the source string if no space found) to
-	 *         the first space just after the <code>key</code> in <code>src</code> (or
-	 *         end of src if no space found)
+	 * @param src
+	 *           source string to be searched on
+	 * @param key
+	 *           target string which is to search first occurrence of which on <code>src</code>
+	 * @param matchCase
+	 *           specifies whether to search in a case sensitive manner or not
+	 * @param locale
+	 *           the text locale (for casing conversion)
+	 * @return a <code>Range</code> object from the previous space character just before the <code>key</code> (or
+	 *         start of the source string if no space found) to the first space just after the <code>key</code> in
+	 *         <code>src</code> (or end of src if no space found)
 	 */
 	public static Range indexOfMatchDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = replaceLayoutSimilarCharacters(key);
@@ -246,8 +275,8 @@ public class SearchUtils {
 			return null;
 
 		int spaceBefore = (key.charAt(0) != ' ') ? src.substring(0, start).lastIndexOf(' ') : start;
-		int spaceAfter = (key.charAt(key.length() - 1) != ' ') ? src.indexOf(' ', start
-				+ key.length()) : start + key.length();
+		int spaceAfter = (key.charAt(key.length() - 1) != ' ') ? src.indexOf(' ', start + key.length()) : start
+				+ key.length();
 		if (spaceBefore == -1)
 			spaceBefore = 0;
 		else

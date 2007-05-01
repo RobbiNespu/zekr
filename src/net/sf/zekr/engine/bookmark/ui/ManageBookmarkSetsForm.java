@@ -98,7 +98,8 @@ public class ManageBookmarkSetsForm {
 		GridLayout gl = new GridLayout(1, false);
 		shell.setLayout(gl);
 		shell.setText(meaning("TITLE"));
-		shell.setImage(new Image(display, resource.getString("icon.bookmark.manager")));
+		shell.setImages(new Image[] { new Image(display, resource.getString("icon.bookmark.manage16")),
+				new Image(display, resource.getString("icon.bookmark.manage32")) });
 
 		makeForm();
 	}
@@ -344,7 +345,7 @@ public class ManageBookmarkSetsForm {
 		rd.width = 40;
 		editButt = new Button(crudButtComposite, SWT.PUSH);
 		editButt.setToolTipText(lang.getMeaning("EDIT"));
-		editButt.setImage(new Image(display, resource.getString("icon.edit")));
+		editButt.setImage(new Image(display, resource.getString("icon.bookmark.edit16")));
 		editButt.setLayoutData(rd);
 		editButt.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {

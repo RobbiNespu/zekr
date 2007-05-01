@@ -505,7 +505,7 @@ public class QuranFormMenuFactory {
 		bookmarks.setMenu(bookmarksMenu);
 
 		MenuItem bmManagerItem = new MenuItem(bookmarksMenu, SWT.PUSH);
-		bmManagerItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.manager")));
+		bmManagerItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.edit")));
 		bmManagerItem.setText("&" + lang.getMeaning("EDIT_BOOKMARK_SET") + "...\tCtrl+M");
 		bmManagerItem.setAccelerator(SWT.CTRL | 'B');
 		bmManagerItem.addListener(SWT.Selection, new Listener() {
@@ -515,7 +515,7 @@ public class QuranFormMenuFactory {
 		});
 
 		MenuItem bookmarkSetConfigItem = new MenuItem(bookmarksMenu, SWT.PUSH);
-		bookmarkSetConfigItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.manager")));
+		bookmarkSetConfigItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.manage")));
 		bookmarkSetConfigItem.setText(lang.getMeaning("MANAGE_BOOKMARK_SETS") + "...");
 		bookmarkSetConfigItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
@@ -527,7 +527,7 @@ public class QuranFormMenuFactory {
 
 		MenuItem findRefItem = new MenuItem(bookmarksMenu, SWT.PUSH);
 		findRefItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.findRef")));
-		findRefItem.setText("&" + lang.getMeaning("FIND_REFS") + "...\tCtrl+Shift+F");
+		findRefItem.setText("&" + lang.getMeaning("SHOW_REFS") + "...\tCtrl+Shift+F");
 		findRefItem.setAccelerator(SWT.CTRL | SWT.SHIFT | 'F');
 		findRefItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {

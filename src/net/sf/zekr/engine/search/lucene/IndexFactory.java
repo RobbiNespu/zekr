@@ -62,11 +62,11 @@ public class IndexFactory {
 		}
 
 		// start a modal, non-cancelable progress bar
-		new Thread() {
-			public void run() {
+//		new Thread() {
+//			public void run() {
 				display.asyncExec(new ProgressThread());
-			}
-		}.start();
+//			}
+//		}.start();
 
 		// start indexing thread
 		logger.debug("Start Quran text indexer in a separate thread.");
@@ -74,14 +74,14 @@ public class IndexFactory {
 			public void run() {
 				QuranTextIndexer qti = null;
 				try {
-					qti = new QuranTextIndexer(QuranText.getInstance(), new File(indexDir));
+					qti = new QuranTextIndexer(QuranText.getSimpleTextInstance(), new File(indexDir));
 					qti.doIndex();
 					indexQuranText_finished = true;
 				} catch (Exception e) {
+					logger.log(e);
 					logger.error("Quran indexing failed! Rolling back indexing...");
 					if (qti != null)
 						qti.roleBack();
-					logger.log(e);
 				}
 			}
 		};

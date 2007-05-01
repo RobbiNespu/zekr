@@ -39,17 +39,30 @@ public class I18N {
 	}
 
 	/**
-	 * This method makes a localized number based on the input number and locale.
+	 * This method makes a localized number based on the input number and selected or default locale.
 	 * 
-	 * @param number the input number
-	 * @param locale the locale to be used for making numbers.
+	 * @param number
+	 *           the input number
 	 * @return localized number as <code>String</code>
 	 */
 	public String localize(Number number) {
+		return localize(number, locale.getLanguage());
+	}
+
+	/**
+	 * This method makes a localized number based on the input number and the locale parameter.
+	 * 
+	 * @param number
+	 *           the input number
+	 * @param lancCode
+	 *           target language code (e.g. en, fr, ar, ...) to be used for making numbers
+	 * @return localized number as <code>String</code>
+	 */
+	public String localize(Number number, String langCode) {
 		String s = number.toString();
 		int base;
-		if (baseMap.get(locale.getLanguage()) != null)
-			base = ((Integer) baseMap.get(locale.getLanguage())).intValue();
+		if (baseMap.get(langCode) != null)
+			base = ((Integer) baseMap.get(langCode)).intValue();
 		else
 			return number.toString();
 
@@ -62,5 +75,12 @@ public class I18N {
 				ret.append((char) (base + (sc[i] - '0')));
 		}
 		return ret.toString();
+	}
+
+	/**
+	 * @return the <code>java.util.Locale</code> instance used for encoding withing this object.
+	 */
+	public Locale getLocale() {
+		return locale;
 	}
 }

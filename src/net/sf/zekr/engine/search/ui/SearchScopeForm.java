@@ -88,7 +88,8 @@ public class SearchScopeForm extends BaseForm {
 		FillLayout fl = new FillLayout();
 		shell.setLayout(fl);
 		shell.setText(meaning("TITLE"));
-		shell.setImages(parent.getImages());
+		shell.setImages(new Image[] { new Image(display, resource.getString("icon.searchScope.edit16")),
+				new Image(display, resource.getString("icon.searchScope.edit32")) });
 
 		init();
 		shell.pack();

@@ -19,6 +19,7 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.ITransformer;
+import net.sf.zekr.engine.theme.TemplateTransformationException;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeTemplate;
 
@@ -90,7 +91,11 @@ public class ApplicationRuntime {
 		// theme
 		Theme theme = ApplicationConfig.getInstance().getTheme();
 		ITransformer ct = new ThemeTemplate(theme.getCurrent());
-		ct.transform();
+		try {
+			ct.transform();
+		} catch (TemplateTransformationException e) {
+			logger.log(e);
+		}
 
 		logger.info("Creating common configuration files done.");
 	}

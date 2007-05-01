@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
@@ -317,6 +318,7 @@ public class MessageBoxUtils {
 	public static List importFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards)
 			throws IOException {
 		FileDialog fd = new FileDialog(parentShall, SWT.OPEN | SWT.MULTI);
+		fd.setFilterPath(GlobalConfig.getDefaultStartFolder());
 		fd.setFilterNames(filterNames);
 		fd.setFilterExtensions(filterWildcards); // Windows wild card
 		fd.setText(lang.getMeaning("OPEN"));
@@ -347,6 +349,7 @@ public class MessageBoxUtils {
 	public static File exportFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards)
 			throws IOException {
 		FileDialog fd = new FileDialog(parentShall, SWT.SAVE);
+		fd.setFilterPath(GlobalConfig.getDefaultStartFolder());
 		fd.setFilterNames(filterNames);
 		fd.setFilterExtensions(filterWildcards); // Windows wild card
 		fd.setText(lang.getMeaning("SAVE"));

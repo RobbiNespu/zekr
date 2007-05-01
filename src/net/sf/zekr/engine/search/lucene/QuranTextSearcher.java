@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.NoSuchElementException;
 import net.sf.zekr.common.ZekrBaseRuntimeException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
@@ -28,6 +30,7 @@ import net.sf.zekr.engine.search.SearchScopeItem;
 import net.sf.zekr.engine.search.SearchUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
@@ -35,11 +38,11 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.Hit;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.QueryFilter;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.highlight.Formatter;
 import org.apache.lucene.search.highlight.Highlighter;
@@ -63,6 +66,7 @@ public class QuranTextSearcher implements Enumeration {
 	private int matchedItemCount;
 	private Query query;
 	private SearchScope searchScope;
+	private String rawQuery;
 
 	/**
 	 * Checks first user home directory and then installation directory for indices.
@@ -140,6 +144,13 @@ public class QuranTextSearcher implements Enumeration {
 		return results.size();
 	}
 
+	public int getResultPageCount() {
+		if (results == null)
+			throw new IllegalSearchStateException("Method search(String) should be called first.");
+
+		return (int) Math.ceil((double) results.size() / maxResultPerPage);
+	}
+
 	public int getMatchedItemCount() {
 		if (results == null)
 			throw new IllegalSearchStateException("Method search(String) should be called first.");
@@ -155,24 +166,40 @@ public class QuranTextSearcher implements Enumeration {
 		return searchScope;
 	}
 
-	public void search(String query) {
-		try {
-			results = _search(SearchUtils.arabicSimplify(query));
-		} catch (Exception e) {
-			logger.log(e);
-		}
+	public String getRawQuery() {
+		if (rawQuery == null)
+			throw new IllegalSearchStateException("Method search(String) should be called first.");
+		return rawQuery;
 	}
 
-	private List getNextPage() {
+	public void search(String query) throws IOException, ParseException {
+		this.rawQuery = query;
+		String s = SearchUtils.simplifyAdvancedSearchQuery(query);
+		results = _search(s);
+	}
+
+	/**
+	 * Retrieves the specified page of search results.
+	 * 
+	 * @param page
+	 *           page number a zero-based page number
+	 * @return a specific page
+	 * @throws NoSuchElementException
+	 *            if no such page exists
+	 * @throws IllegalSearchStateException
+	 *            if <code>search(String)</code> is not called yet
+	 */
+	public List getPage(int page) {
 		if (results == null)
 			throw new IllegalSearchStateException("Method search(String) should be called first.");
-		if (pageNum * maxResultPerPage > results.size())
-			throw new NoSuchElementException("No such page: " + pageNum);
+		if (page * maxResultPerPage > results.size())
+			throw new NoSuchElementException("No such page: " + page);
 
-		if ((pageNum + 1) * maxResultPerPage <= results.size())
-			return results.subList(pageNum * maxResultPerPage, (pageNum + 1) * maxResultPerPage);
+		if ((page + 1) * maxResultPerPage <= results.size())
+			return results.subList(page * maxResultPerPage, (page + 1) * maxResultPerPage);
 
-		return results.subList(pageNum * maxResultPerPage, results.size());
+		return results.subList(page * maxResultPerPage, results.size());
+
 	}
 
 	private List _search(String q) throws IOException, ParseException {
@@ -194,7 +221,7 @@ public class QuranTextSearcher implements Enumeration {
 		if (searchScope != null && searchScope.getScopeItems().size() > 0) {
 			String scopeQuery = makeSearchScope();
 			logger.debug("Scope is: " + scopeQuery);
-			_hits = is.search(query, new QueryFilter(parser.parse(scopeQuery)), sortResultOrder);
+			_hits = is.search(query, new QuranRangeFilter(searchScope), sortResultOrder);
 		} else
 			_hits = is.search(query, sortResultOrder);
 
@@ -266,7 +293,7 @@ public class QuranTextSearcher implements Enumeration {
 	 */
 	public Object nextElement() {
 		List nextPageResult = null;
-		nextPageResult = getNextPage();
+		nextPageResult = getPage(pageNum + 1);
 
 		pageNum++;
 		return nextPageResult;
@@ -308,5 +335,42 @@ public class QuranTextSearcher implements Enumeration {
 			String results = highlighter.getBestFragment(tokenStream, text);
 			System.out.println(results);
 		}
+	}
+}
+
+/**
+ * Constrains search results to only match those which also match a provided search scope.
+ * 
+ */
+class QuranRangeFilter extends Filter {
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = -4081394885101418256L;
+	private SearchScope searchScope;
+
+	/**
+	 * Constructs a filter which only matches documents matching <code>searchScope</code>.
+	 * 
+	 * @param searchScope
+	 */
+	public QuranRangeFilter(SearchScope searchScope) {
+		this.searchScope = searchScope;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.apache.lucene.search.Filter#bits(org.apache.lucene.index.IndexReader)
+	 */
+	public BitSet bits(IndexReader reader) throws IOException {
+		BitSet bits = new BitSet(reader.maxDoc());
+		for (int i = 0; i < reader.maxDoc(); i++) {
+			Document doc = reader.document(i);
+			IQuranLocation loc = new QuranLocation(doc.getField("location").stringValue());
+			if (searchScope.includes(loc))
+				bits.set(i);
+		}
+		return bits;
 	}
 }

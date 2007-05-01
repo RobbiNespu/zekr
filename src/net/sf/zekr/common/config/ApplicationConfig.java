@@ -161,7 +161,8 @@ public class ApplicationConfig extends ConfigNaming {
 		}
 
 		if (createConfig) {
-			runtime.recreateThemePropertiesDirectory();
+			// runtime.recreateThemePropertiesDirectory();
+			runtime.clearAll();
 			saveConfig();
 		}
 	}
@@ -170,7 +171,7 @@ public class ApplicationConfig extends ConfigNaming {
 		File bookmarkDir = new File(Naming.BOOKMARK_DIR);
 		File origBookmarkDir = new File(ResourceManager.getInstance().getString("bookmark.baseDir"));
 
-		FileFilter xmlFilter = new FileFilter() { // accept xml files
+		FileFilter xmlFilter = new FileFilter() { // accept .xml files
 			public boolean accept(File pathname) {
 				if (pathname.getName().toLowerCase().endsWith(".xml"))
 					return true;
@@ -253,7 +254,7 @@ public class ApplicationConfig extends ConfigNaming {
 		File langDir = new File(ApplicationPath.LANGUAGE_DIR);
 		logger.info("Loading language pack files info");
 		logger.info("Default language pack is " + def);
-		FileFilter filter = new FileFilter() { // accept xml files
+		FileFilter filter = new FileFilter() { // accept .xml files
 			public boolean accept(File pathname) {
 				if (pathname.getName().toLowerCase().endsWith(".xml"))
 					return true;
@@ -311,9 +312,11 @@ public class ApplicationConfig extends ConfigNaming {
 
 		String[] paths = { ApplicationPath.TRANSLATION_DIR, Naming.TRANS_DIR };
 		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
-
 			File transDir = new File(paths[pathIndex]);
-			logger.info("Loading translation files info from \"" + transDir);
+			if (!transDir.exists())
+				continue;
+			
+			logger.info("Loading translation files info from: " + transDir);
 			FileFilter filter = new FileFilter() { // accept zip files
 				public boolean accept(File pathname) {
 					if (pathname.getName().toLowerCase().endsWith(".zip"))
@@ -325,6 +328,7 @@ public class ApplicationConfig extends ConfigNaming {
 
 			TranslationData td;
 			ZipFile zipFile = null;
+
 			for (int transIndex = 0; transIndex < trans.length; transIndex++) {
 				try {
 					zipFile = new ZipFile(trans[transIndex]);
@@ -401,6 +405,9 @@ public class ApplicationConfig extends ConfigNaming {
 		String[] paths = {ApplicationPath.THEME_DIR, Naming.THEME_DIR};
 		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
 			File targetThemeDir = new File(paths[pathIndex]);
+			if (!targetThemeDir.exists())
+				continue;
+
 			logger.info("Loading theme files info from \"" + paths[pathIndex]);
 			File[] targetThemes = targetThemeDir.listFiles();
 

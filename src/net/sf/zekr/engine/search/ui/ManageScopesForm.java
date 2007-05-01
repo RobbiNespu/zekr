@@ -57,8 +57,8 @@ public class ManageScopesForm extends BaseForm {
 		FillLayout fl = new FillLayout();
 		shell.setLayout(fl);
 		shell.setText(meaning("TITLE"));
-		shell.setImages(new Image[] { new Image(display, resource.getString("icon.editScope16")),
-				new Image(display, resource.getString("icon.editScope32")) });
+		shell.setImages(new Image[] { new Image(display, resource.getString("icon.searchScope16")),
+				new Image(display, resource.getString("icon.searchScope32")) });
 
 		init();
 		shell.pack();
@@ -162,7 +162,7 @@ public class ManageScopesForm extends BaseForm {
 		rd.width = 40;
 		editBut = new Button(manageButComposite, SWT.PUSH);
 		editBut.setToolTipText(langEngine.getMeaning("EDIT"));
-		editBut.setImage(new Image(display, resource.getString("icon.edit")));
+		editBut.setImage(new Image(display, resource.getString("icon.searchScope.edit16")));
 		editBut.setLayoutData(rd);
 		editBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
