@@ -13,14 +13,12 @@
 
 	<!-- Directory setup -->
 	<property name="srcdir" value="src" />
-	<property name="gcjdir" value="gcj" />
 	<property name="libdir" value="lib" />
 	<property name="docsdir" value="docs" />
 	<property name="javadocsdir" value="${docsdir}/javadocs" />
 
 	<property name="builddir" value="build" />
 	<property name="build_classdir" value="${builddir}/classes" />
-	<property name="build_gcjclassdir" value="${builddir}/gcj_classes" />
 
 	<property name="distdir" value="dist/${distfilename}.jar" />
 
@@ -42,7 +40,7 @@
 	</condition>
 	<condition property="swt.jar" value="${libdir}/swt-linux.jar">
 		<and>
-			<os family="unix" />
+			<os family="unix" arch="" />
 		</and>
 	</condition>
 	<condition property="swt.jar" value="${libdir}/swt-mac.jar">
@@ -54,11 +52,7 @@
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
 	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.1.1-dev.jar" />
 	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.1.0.jar" />
-	<property name="commons-collections.jar" value="${libdir}/commons-collections-3.1.jar" />
-	<property name="commons-logging.jar" value="${libdir}/commons-logging-1.0.4.jar" />
-	<property name="commons-io.jar" value="${libdir}/commons-io-1.1.jar" />
-	<property name="commons-lang.jar" value="${libdir}/commons-lang-2.1.jar" />
-	<property name="commons-configuration.jar" value="${libdir}/commons-configuration-1.2.jar" />
+	<property name="apache-commons.jar" value="${libdir}/apache-commons.jar" />
 
 	<path id="buildlibs">
 		<pathelement location="${log4j.jar}" />
@@ -66,38 +60,10 @@
 		<pathelement location="${lucene-core.jar}" />
 		<pathelement location="${lucene-highlighter.jar}" />
 		<pathelement location="${velocity.jar}" />
-		<pathelement location="${commons-collections.jar}" />
-		<pathelement location="${commons-logging.jar}" />
-		<pathelement location="${commons-io.jar}" />
-		<pathelement location="${commons-lang.jar}" />
-		<pathelement location="${commons-configuration.jar}" />
+		<pathelement location="${apache-commons.jar}" />
 	</path>
 
-	<target name="compile_libs">
-		<mkdir dir="${builddir}/common-conf" />
-		<javac srcdir="${libdir}/commons-configuration-1.2-src" source="1.4" target="1.4" destdir="${builddir}/common-conf" debug="true" verbose="${verbose}">
-			<classpath refid="buildlibs" />
-		</javac>
-		<jar basedir="${builddir}/common-conf" jarfile="${libdir}/commons-configuration-1.2.jar">
-		</jar>
-
-		<mkdir dir="${builddir}/common-io" />
-		<javac srcdir="${libdir}/commons-io-1.1-src" source="1.4" target="1.4" destdir="${builddir}/common-io" debug="true" verbose="${verbose}">
-			<classpath refid="buildlibs" />
-		</javac>
-		<jar basedir="${builddir}/common-io" jarfile="${libdir}/commons-io-1.1.jar">
-		</jar>
-	</target>
-<!--
-	<target name="gcj_support">
-		<mkdir dir="${build_gcjclassdir}" />
-		<javac srcdir="${gcjdir}" source="1.4" target="1.4" destdir="${build_gcjclassdir}" debug="true" verbose="${verbose}">
-			<classpath refid="buildlibs" />
-			<classpath path="lib/gcj-dom-impl-4.2.jar" />
-		</javac>
-	</target>
--->
-	<target name="compile" depends="compile_libs">
+	<target name="compile">
 		<mkdir dir="${build_classdir}" />
 		<unjar src="${src_dist.jar}" dest="${src_dir}">
 		</unjar>
