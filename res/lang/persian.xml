@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language author="Mohsen Saboorian" version="0.6">
-	<locale localizedName="فارسی" name="Farsi" id="fa_IR" direction="rtl" />
+	<locale localizedName="فارسی" name="Persian" id="fa_IR" direction="rtl" />
 	<word>
 		<common>
 			<text id="OK" value="قبول" />
@@ -47,10 +47,10 @@
 			<text id="WHOLE_QURAN" value="تمامی قرآن" />
 			<text id="MATCH_DIACRITIC" value="مطابقت علائم" />
 			<text id="MATCH_CASE" value="مطابقت بزرگی-کوچکی" />
-			<text id="NEXT_AYA" value="آیه‌ی بعدی" />
-			<text id="NEXT_SURA" value="سوره‌ی بعدی" />
-			<text id="PREV_AYA" value="آیه‌ی قبلی" />
-			<text id="PREV_SURA" value="سوره‌ی قبلی" />
+			<text id="NEXT_AYA" value="آیهٔ بعدی" />
+			<text id="NEXT_SURA" value="سورهٔ بعدی" />
+			<text id="PREV_AYA" value="آیهٔ قبلی" />
+			<text id="PREV_SURA" value="سورهٔ قبلی" />
 			<text id="THEME" value="مضمون" />
 			<text id="LAYOUT" value="طرح" />
 			<text id="TOOLS" value="ابزار" />
@@ -85,7 +85,7 @@
 			<text id="LTR" value="چپ به راست" />
 			<text id="AUTHOR" value="نویسنده" />
 			<text id="VERSION" value="نسخه" />
-			<text id="RANDOM_AYA" value="آیه‌ی تصادفی" />
+			<text id="RANDOM_AYA" value="آیهٔ تصادفی" />
 			<text id="UNTITLED" value="بی‌نام" />
 			<text id="SET_DEFAULT" value="انتخاب به‌عنوان پیش‌فرض" />
 			<text id="NOT_LOADED" value="پر نشده" />
@@ -96,14 +96,15 @@
 			<text id="SHOW_REFS" value="جستجوی ارجاعات" />
 			<text id="MOVE_UP" value="انتقال به بالا" />
 			<text id="MOVE_DOWN" value="انتقال به پایین" />
-			<text id="CUSTOM_MIXED" value="درهم سفارشی‌شده" />
+			<text id="MULTI_TRANS" value="چند ترجمه‌ای" />
 			<text id="CONFIG_CUSTOM_TRANS" value="تنظیم ترجمه‌های سفارشی‌شده" />
 			<text id="GO" value="برو" />
-			<text id="CAUTION" value="توجه" />
+			<text id="CAUTION" value="احتیاط" />
 			<text id="ADVANCED" value="پیشرفته" />
 			<text id="QUERY_DETAIL" value="جزئیات جستجو" />
 			<text id="PAGE" value="صفحه" />
 			<text id="MULTILINE" value="چندخطی" />
+			<text id="TOGGLE" value="باز/بسته" />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -125,10 +126,10 @@
 
 	<message>
 		<inform>
-			<text id="SEARCH_RESULT_TITLE" value="نتیجه‌ی جستجو برای «{1}»:" />
+			<text id="SEARCH_RESULT_TITLE" value="نتیجهٔ جستجو برای «{1}»:" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} مورد در {2} آیه یافت شد." />
-			<text id="SEARCH_PAGE" value="صفحه‌ی {1} از {2}" />
-			<text id="TOO_MANY_RESULT" value="نتیجه‌ی جستجو بیش از {1} آیه است." />
+			<text id="SEARCH_PAGE" value="صفحهٔ {1} از {2}" />
+			<text id="TOO_MANY_RESULT" value="نتیجهٔ جستجو بیش از {1} آیه است." />
 			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است. آیا می‌خواهید آن‌را جایگزین کنید؟" />
 			<text id="RESTART_APP" value="برای اعمال تغییرات، برنامه را بسته و مجدداً اجرا کنید." />
 		</inform>
@@ -147,16 +148,16 @@
 	<forms>
 		<global>
 			<text id="APP_NAME" value="ذکر" />
-			<text id="APP_FULL_NAME" value="پروژه‌ی قرآنی ذکر" />
+			<text id="APP_FULL_NAME" value="پروژهٔ قرآنی ذکر" />
 			<text id="FORM_TITLE" value="ذکر" />
 			<text id="COPYRIGHT_DISCLAIMER" value="این برنامه بصورت رایگان و به امید اینکه مفید باشد در اختیار شما قرار گرفته است، ولی بدون هیچگونه ضمانت." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="ذکر" />
-			<text id="NEW_SCOPE" value="محدوده‌ی جدید" />
+			<text id="NEW_SCOPE" value="محدودهٔ جدید" />
 			<text id="EDIT_SCOPES" value="ویرایش محدوده‌ها" />
 			<text id="NO_SCOPE" value="بدون محدوده" />
-			<text id="CURRENT_PAGE" value="صفحه‌ی جاری" />
+			<text id="CURRENT_PAGE" value="صفحهٔ جاری" />
 			<text id="NATURAL_ORDER" value="ترتیب طبیعی" />
 			<text id="RELEVANCE" value="شباهت" />
 			<text id="SORT_BY" value="مرتب بر اساس" />
@@ -168,26 +169,27 @@
 			<text id="THEME_SETTING" value="تنطیمات مضمون" />
 			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید &quot;قبول&quot; را فشار دهید." />
 			<text id="MAX_SEARCH_RESULT" value="حداکثر تعداد نتایج جستجو" />
+			<text id="RESIZEABLE_TASK_PANE" value="قابلیت تغییر اندازه برای قاب وظایف" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="تنظیم محدوده‌ی جستجو" />
-			<text id="SEARCH_SCOPE" value="محدوده‌ی جستجو" />
+			<text id="TITLE" value="تنظیم محدودهٔ جستجو" />
+			<text id="SEARCH_SCOPE" value="محدودهٔ جستجو" />
 			<text id="FROM_SURA" value="از سوره" />
 			<text id="FROM_AYA" value="از آیه" />
 			<text id="TO_SURA" value="تا سوره" />
 			<text id="TO_AYA" value="تا آیه" />
-			<text id="ILLEGAL_SEARCH_SCOPE" value="محدوده‌ی جستجو مجاز نمی‌باشد" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="محدودهٔ جستجو مجاز نمی‌باشد" />
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="ویرایش محدوده‌ی جستجو" />
+			<text id="TITLE" value="ویرایش محدودهٔ جستجو" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
 			<text id="TITLE" value="ویرایش نشان‌ها: {1}" />
-			<text id="NEW_BOOKMARK_FOLDER" value="پوشه‌ی نشان جدید" />
+			<text id="NEW_BOOKMARK_FOLDER" value="پوشهٔ نشان جدید" />
 			<text id="NEW_BOOKMARK_ITEM" value="فقره نشان جدید" />
 			<text id="UNIQUE_NAME" value="یک نام یکتا" />
 			<text id="COMMA_SEPARATED" value="در صورتی که بیش از یک نویسنده دارد، نام‌ها را با کاما جدا کنید" />
-			<text id="ONLY_ENGLISH" value="فقط از نام‌های انگلیسی استفاد کنید (مثلاً English ،Farsi ،Arabic و ...)" />
+			<text id="ONLY_ENGLISH" value="فقط از نام‌های انگلیسی استفاد کنید (مثلاً English ،Persian ،Arabic و ...)" />
 			<text id="DESC_TOOLTIP" value="قراردادها، نقل قول‌ها، مراجع و هر موضوع دیگری مربوط به نشان‌ها در اینجا قرار می‌گیرد" />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
@@ -196,14 +198,15 @@
 			<text id="SET_AS_DEFAULT" value="آیا می‌خواهید &quot;{1}&quot; را به عنوان مجموعه نشان پیش‌فرض خود انتخاب کنید؟" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="مجموعه نشان پیش‌فرض را نمی‌توان حذف کرد." />
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="مجموعه نشان پیش‌فرض را نمی‌توان جایگزیم کرد. ابتدا مجموعه نشان دیگری را به عنوان پیشفرض انتخاب نمایید و سپس اقدام به وارد کردن کنید." />
-			<text id="ENTER_ID" value="شناسه‌ی مجموعه نشان را وارد کنید" />
+			<text id="ENTER_ID" value="شناسهٔ مجموعه نشان را وارد کنید" />
 			<text id="NEW_BOOKMARK_SET" value="مجموعه نشان جدید" />
+			<text id="EXPORT4WEB" value="صادر برای وب" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="ویرایش جزئیات نشان" />
 			<text id="QURAN_LOCATIONS" value="مکان‌های قرآن" />
 			<text id="NEW_BOOKMARK" value="نشان جدید" />
-			<text id="NEW_FOLDER" value="پوشه‌ی جدید" />
+			<text id="NEW_FOLDER" value="پوشهٔ جدید" />
 		</form>
 		<form id="BOOKMARK_REF">
 			<text id="TITLE" value="ارجاعات مجموعه نشان‌ها به: {1}" />
@@ -211,7 +214,7 @@
 		<form id="IMPORT_QUESTION">
 			<text id="IMPORT_FOR" value="وارد کردن برای این کاربران:" />
 			<text id="ME_ONLY" value="فقط من" />
-			<text id="ALL_USERS" value="همه‌ی کاربران (به حق نوشتن روی پوشه‌ی نصب نیاز دارد)" />
+			<text id="ALL_USERS" value="همهٔ کاربران (به حق نوشتن روی پوشهٔ نصب نیاز دارد)" />
 			<text id="FOLLOWING_USERS" value="شاخص گذاری برای این کاربران" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
@@ -222,7 +225,7 @@
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="لطفاً صبر کنید" />
 			<text id="INDEXING" value="در حال شاخص گذاری" /><!-- The process of indexing a document for faster search -->
-			<text id="TAKE_TIME" value="این عملیات بسته به اندازه‌ی مستند، ممکن است تا چند دقیقه طول بکشد." />
+			<text id="TAKE_TIME" value="این عملیات بسته به اندازهٔ مستند، ممکن است تا چند دقیقه طول بکشد." />
 		</form>
 	</forms>
 </language>

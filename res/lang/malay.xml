@@ -96,14 +96,15 @@
 			<text id="SHOW_REFS" value="Show References"   />
 			<text id="MOVE_UP" value="Ke atas"   />
 			<text id="MOVE_DOWN" value="Ke bawah"   />
-			<text id="CUSTOM_MIXED" value="Custom Mixed"   />
+			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
 			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations"   />
 			<text id="GO" value="Go"   />
-			<text id="CAUTION" value="cautious"   />
+			<text id="CAUTION" value="Caution"   />
 			<text id="ADVANCED" value="Advanced"   />
 			<text id="QUERY_DETAIL" value="Query detail"   />
 			<text id="PAGE" value="Page"   />
 			<text id="MULTILINE" value="Multiline"   />
+			<text id="TOGGLE" value="Toggle"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -168,6 +169,7 @@
 			<text id="THEME_SETTING" value="Setting Tema" />
 			<text id="PRESS_OK_TO_APPLY" value="Tekan kekunci &quot;OK&quot; untuk perubahan." />
 			<text id="MAX_SEARCH_RESULT" value="Jumlah hasil pencarian maksimal" />
+			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Konfigurasi Skop Carian" />
@@ -187,7 +189,7 @@
 			<text id="NEW_BOOKMARK_ITEM" value="Item bookmark baru "   />
 			<text id="UNIQUE_NAME" value="Nama unik"   />
 			<text id="COMMA_SEPARATED" value="Gunakan koma untuk asingkan nilai, jika lebih dari seorang penterjemah"   />
-			<text id="ONLY_ENGLISH" value="Gunakan Nama English Sahaja (e.g. English, Farsi, Arabic, ...)"   />
+			<text id="ONLY_ENGLISH" value="Gunakan Nama English Sahaja (e.g. English, Persian, Arabic, ...)"   />
 			<text id="DESC_TOOLTIP" value="Conventions, quotes, references, and other bookmark-related topics go here"   />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
@@ -198,6 +200,7 @@
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="Cannot overwrite on the default bookmark set. Select another bookmark set as default, and try to import."   />
 			<text id="ENTER_ID" value="Masukkan bookmark ID"   />
 			<text id="NEW_BOOKMARK_SET" value="Set Bookmark Baru"   />
+			<text id="EXPORT4WEB" value="Export for Web"   />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Sunting Bookmark Properties"   />

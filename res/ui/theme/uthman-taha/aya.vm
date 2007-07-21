@@ -40,7 +40,7 @@
 			<nobr><span class="juzSign" title="$JUZ">[$I18N.localize($JUZ.Index)]</span></nobr>
 		#end
 	#end
-	#if ($TEXT_LAYOUT == "line_by_line")
+	#if ($TEXT_LAYOUT == "line-by-line")
 		<div class="aya" id="${SURA_NUM}_${AYA_NUM}">
 	#elseif ($TEXT_LAYOUT == "block")
 		<span class="aya" id="${SURA_NUM}_${AYA_NUM}">
@@ -80,7 +80,7 @@
 			#end
 		#end
 	#end
-	#if ($TEXT_LAYOUT == "line_by_line")
+	#if ($TEXT_LAYOUT == "line-by-line")
 		</div>
 	#elseif ($TEXT_LAYOUT == "block")
 		</span>

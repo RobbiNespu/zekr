@@ -28,7 +28,7 @@
 			<text id="SHOW"     value="Göster" />
 			<text id="NAME"     value="Ad" />
 			<text id="VALUE"    value="Değer" />
-			<text id="NUMBER"   value="Sayı" />
+			<text id="NUMBER"   value="Sure" />
 			<text id="OPTION"   value="Tercih" />
 			<text id="FILE"     value="Dosya" />
 			<text id="RELOAD"   value="Tekrar Yükle" />
@@ -57,7 +57,7 @@
 			<text id="ADD"     value="Ekle" />
 			<text id="DELETE"   value="Sil" />
 			<text id="REMOVE"   value="Kaldır" />
-			<text id="TRANSLATION" value="Tercüme" />
+			<text id="TRANSLATION" value="Meal" />
 			<text id="OPEN"     value="Aç" />
 			<text id="IMPORT"   value="Getir" />
 			<text id="COPY"     value="Kopyala" />
@@ -77,8 +77,8 @@
 			<text id="DESCRIPTION" value="Açıklama" />
 			<text id="BOOKMARKS" value="Yer İmleri" />
 			<text id="CONFIGURE" value="Yapılandır" />
-			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
-			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
+			<text id="EDIT_BOOKMARK_SET" value="Yeri imlerini düzenle"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Yer imlerini yönet"   />
 			<text id="DIRECTION" value="Yönetim" />
 			<text id="LANG_DIRECTION" value="Dil Yönetimi" />
 			<text id="RTL"      value="Sağdan Sola" />
@@ -93,17 +93,18 @@
 			<text id="OVERWRITE" value="Üzerine Yaz" />
 			<text id="SAVE"     value="Kaydet" />
 			<text id="PATH"     value="Dizin" />
-			<text id="SHOW_REFS" value="Show References"   />
+			<text id="SHOW_REFS" value="Referansı Göster"   />
 			<text id="MOVE_UP" value="Üste Al" />
 			<text id="MOVE_DOWN" value="Alta Al" />
-			<text id="CUSTOM_MIXED" value="Özel Karma" />
-			<text id="CONFIG_CUSTOM_TRANS" value="Özel Çevirileri Yapılandır" />
+			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->			<text id="CONFIG_CUSTOM_TRANS" value="Özel Çevirileri Yapılandır" />
+			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations"   />
 			<text id="GO" value="Git" />
-			<text id="CAUTION" value="cautious"   />
-			<text id="ADVANCED" value="Advanced"   />
-			<text id="QUERY_DETAIL" value="Query detail"   />
-			<text id="PAGE" value="Page"   />
-			<text id="MULTILINE" value="Multiline"   />
+			<text id="CAUTION" value="Uyarı"   />
+			<text id="ADVANCED" value="Gelişmiş"   />
+			<text id="QUERY_DETAIL" value="Sorgu Detayı"   />
+			<text id="PAGE" value="Sayfa"   />
+			<text id="MULTILINE" value="Çoklusatır"   />
+			<text id="TOGGLE" value="Toggle"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Kuran-ı Kerim" />
@@ -114,8 +115,8 @@
 			<text id="HIZB"     value="Hizip" />
 			<text id="QUARTER"  value="Çeyrek" />
 			<text id="MAKKI"    value="Mekki Sure " />
-			<text id="MADANI"   value="Medini Sure" />
-			<text id="DESCENT"  value="Azalt" />
+			<text id="MADANI"   value="Medeni Sure" />
+			<text id="DESCENT"  value="Nüzul Yeri" />
 			<text id="AYA_COUNT"  value="Ayet Sayısı" />
 			<text id="MINOR_SAJDA" value="Büyük Secde" />
 			<text id="MAJOR_SAJDA" value="Küçük Secde" />
@@ -127,7 +128,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Arama Sonucu: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{2} ayette {1} Sonuç Bulundu." />
-			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
+			<text id="SEARCH_PAGE" value="Sayfa {1} den {2} ye"   />
 			<text id="TOO_MANY_RESULT" value="Arama sonucu {1} ayetten fazla" />
 			<text id="FILE_ALREADY_EXISTS" value=" &quot;{1}&quot; isimli dosya daha önceden var. Değiştirmek ister misiniz?" />
 			<text id="RESTART_APP" value="Değişiklileri kaydetmek için lütfen programı yeniden başlatın." />
@@ -157,9 +158,9 @@
 			<text id="EDIT_SCOPES" value="Alanları Düzenle" />
 			<text id="NO_SCOPE" value="Alan Yok" />
 			<text id="CURRENT_PAGE" value="Bu Sayfa" />
-			<text id="NATURAL_ORDER" value="Natural Order"   />
-			<text id="RELEVANCE" value="Relevance"   />
-			<text id="SORT_BY" value="Sort results by"   />
+			<text id="NATURAL_ORDER" value="Doğal Düzen"   />
+			<text id="RELEVANCE" value="ilintili"   />
+			<text id="SORT_BY" value="Sonucu Sırala"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Uygulama Seçenekleri" />
@@ -168,6 +169,7 @@
 			<text id="THEME_SETTING" value="Tema Ayarları" />
 			<text id="PRESS_OK_TO_APPLY" value="Değişikliklerin Geçerli Olabilmesi İçin &quot;TAMAM&quot; Butonuna Basınız." />
 			<text id="MAX_SEARCH_RESULT" value="En fazla arama sonucu sayıcısı" />
+			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Arama Alanını Yapılandır" />
@@ -182,7 +184,7 @@
 			<text id="TITLE" value="Arama Alanlarını Düzenle" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
+			<text id="TITLE" value="Yer imlerini düzenle: {1}"   />
 			<text id="NEW_BOOKMARK_FOLDER" value="Yeni Yer İmi Klasörü" />
 			<text id="NEW_BOOKMARK_ITEM" value="Yeni Yer İmi" />
 			<text id="UNIQUE_NAME" value="Eşi Olmayan Bir İsim" />
@@ -191,13 +193,14 @@
 			<text id="DESC_TOOLTIP" value="Anlaşmalar, Kotalar, Referanslar, ve Yer İmleriyle İlgili Diğer Başlıklar Buraya" />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
-			<text id="TITLE" value="Manage Bookmark Sets"   />
+			<text id="TITLE" value="Yer imlerini yönet"   />
 			<text id="DBL_CLICK" value="Yüklemek ve/veya Düzenlemek İçin Öğelere Çift Tıkla." />
 			<text id="SET_AS_DEFAULT" value="&quot;{1}&quot;'i Varsayılan Yer İmi Olarak Atamak İstiyor musunuz?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Varsayılan Yer İmi Kaldırılamıyor." />
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="Varsayılan Yer İmi'nin Üzerine Yazılamıyor. Başka Bir Yer İmi'ni Varsayılan Olarak Seçin ve İçe Aktarmayı Deneyin." />
 			<text id="ENTER_ID" value="Yer İmi ID Numarasını Girin" />
 			<text id="NEW_BOOKMARK_SET" value="Yeni Yer İmi" />
+			<text id="EXPORT4WEB" value="Export for Web"   />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Yer İmi Özelliklerini Düzenle" />
@@ -212,7 +215,7 @@
 			<text id="IMPORT_FOR" value="Aşağıdaki Kullanıcılar İçin İçe Aktar:" />
 			<text id="ME_ONLY" value="Yalnızca Benim İçin" />
 			<text id="ALL_USERS" value="Tüm Kullanıcılar (Yükleme Dizinine Yazma İzni Gerektirir)" />
-			<text id="FOLLOWING_USERS" value="Index for the following users" />
+			<text id="FOLLOWING_USERS" value="Sonraki kullanıcı için fihrist" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="Özel Çevirileri Yapılandır" />
@@ -220,8 +223,8 @@
 			<text id="CURRENT" value="Şu Anki Çeviri" />
 		</form>
 		<form id="PROGRESS">
-			<text id="PLEASE_WAIT" value="Please wait"   />
-			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="PLEASE_WAIT" value="Lütfen Bekleyin..."   />
+			<text id="INDEXING" value="Fihrist hazırlanıyor."   /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
 		</form>
 	</forms>

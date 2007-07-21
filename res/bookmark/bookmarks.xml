@@ -3,7 +3,7 @@
 	<info>
 		<name>Sample Zekr Bookmark</name>
 		<author>Mohsen Saboorian</author>
-		<langElem>English</langElem>
+		<language>English</language>
 		<dir>ltr</dir>
 		<desc>This is the default bookmark set with the Zekr standard installation.&#13; &#13; In this bookmark set, you can find a basic categorization of some well-know Quran ayas. The possibility of having multiple bookmark sets at one time, sharing, and exporting/importing bookmark sets is now available through the menu item "Manage bookmark sets".</desc>
 		<modifyDate>22-12-2006</modifyDate>

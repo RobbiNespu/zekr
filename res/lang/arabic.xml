@@ -93,17 +93,18 @@
 			<text id="OVERWRITE" value="إعادة الكتابة" />
 			<text id="SAVE"     value="حفظ" />
 			<text id="PATH"     value="المسار" />
-			<text id="SHOW_REFS" value="بحث عن المراجع"   />
+			<text id="SHOW_REFS" value="بحث عن المراجع"   /> <!-- *SHOW* references -->
 			<text id="MOVE_UP" value="تحريك للأعلى" />
 			<text id="MOVE_DOWN" value="تحريك للأسفل" />
-			<text id="CUSTOM_MIXED" value="تخصيص العرض المختلط" />
+			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
 			<text id="CONFIG_CUSTOM_TRANS" value="إعداد ترجمات مخصّصة" />
 			<text id="GO" value="إذهب" />
-			<text id="CAUTION" value="cautious"   />
+			<text id="CAUTION" value="Caution"   />
 			<text id="ADVANCED" value="Advanced"   />
 			<text id="QUERY_DETAIL" value="Query detail"   />
 			<text id="PAGE" value="Page"   />
 			<text id="MULTILINE" value="Multiline"   />
+			<text id="TOGGLE" value="Toggle"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -168,6 +169,7 @@
 			<text id="THEME_SETTING" value="خصائص السمة" />
 			<text id="PRESS_OK_TO_APPLY" value="اضغط على الزر &quot;موافق&quot; لتطبيق التغييرات." />
 			<text id="MAX_SEARCH_RESULT" value="أكبر قيمة لنتائج البحث." />
+			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="إعداد مجال البحث" />
@@ -187,7 +189,7 @@
 			<text id="NEW_BOOKMARK_ITEM" value="عنصر إشارة مرجعية جديد" />
 			<text id="UNIQUE_NAME" value="تسمية مميّزة" />
 			<text id="COMMA_SEPARATED" value="إستعمل قيماً مفصولة بفواصل، في حالة وجود أكثر من مؤلف" />
-			<text id="ONLY_ENGLISH" value="إستعمل أسماءً إنكليزية فقط (مثل: English, Farsi, Arabic, ...)" />
+			<text id="ONLY_ENGLISH" value="إستعمل أسماءً إنكليزية فقط (مثل: English, Persian, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="إصطلاحات، مراجع، إقتباسات، و غير ذلك" />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
@@ -198,6 +200,7 @@
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="غير قادر على إعادة الكتابة على مجموعة الإشارة المرجعية الإفتراضية. حدد مجموعة إشارة مرجعية أخرى كإفتراضية، ثم حاول عملية الإستيراد مرة ثانية" />
 			<text id="ENTER_ID" value="أدخل الرقم المعرّف للإشارة المرجعية" />
 			<text id="NEW_BOOKMARK_SET" value="مجموعة إشارة مرجعية جديدة" />
+			<text id="EXPORT4WEB" value="Export for Web"   />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="تحرير خصائص الإشارة المرجعية" />

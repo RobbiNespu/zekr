@@ -96,14 +96,15 @@
 			<text id="SHOW_REFS" value="Verweise anzeigen" />
 			<text id="MOVE_UP" value="Nach oben" />
 			<text id="MOVE_DOWN" value="Nach unten" />
-			<text id="CUSTOM_MIXED" value="Vereinigt (Eigene Übersetzungen)" />
+			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
 			<text id="CONFIG_CUSTOM_TRANS" value="Eigene Überstzungen einstellen" />
 			<text id="GO" value="Hinspringen" />
-			<text id="CAUTION" value="cautious"   />
+			<text id="CAUTION" value="Caution"   />
 			<text id="ADVANCED" value="Advanced"   />
 			<text id="QUERY_DETAIL" value="Query detail"   />
 			<text id="PAGE" value="Page"   />
 			<text id="MULTILINE" value="Multiline"   />
+			<text id="TOGGLE" value="Toggle"   />
 		</common>
 		<special>
 			<text id="QURAN"  value="Quran" />
@@ -168,6 +169,7 @@
 			<text id="THEME_SETTING" value="Themeneinstellungen" />
 			<text id="PRESS_OK_TO_APPLY" value="Drücken Sie &quot;OK&quot;, damit die Änderungen wirksam werden!" />
 			<text id="MAX_SEARCH_RESULT" value="Maximale Anzahl an Suchergebnissen" />
+			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Suchbereich einstellen" />
@@ -187,7 +189,7 @@
 			<text id="NEW_BOOKMARK_ITEM" value="Neues Lesezeichen" />
 			<text id="UNIQUE_NAME" value="Eine eindeutige Bezeichnung" />
 			<text id="COMMA_SEPARATED" value="Trennen Sie mehrere Autoren durch Kommata" />
-			<text id="ONLY_ENGLISH" value="Nur englische Bezeichnungen verwenden (z.B. English, Farsi, Arabic, ...)" />
+			<text id="ONLY_ENGLISH" value="Nur englische Bezeichnungen verwenden (z.B. English, Persian, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="Gebrauch, Zitate, Referenzen und andere Informationen im Bezug zum Lesezeichen" />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
@@ -198,6 +200,7 @@
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="Standardlesezeichensammlung kann nicht überschrieben werden. Wählen Sie eine andere Lesezeichensammlung als Standard und versuchen Sie den Import erneut." />
 			<text id="ENTER_ID" value="Lesezeichen-ID eingeben" />
 			<text id="NEW_BOOKMARK_SET" value="Neue Lesezeichensammlung" />
+			<text id="EXPORT4WEB" value="Export for Web"   />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Lesezeichen bearbeiten" />

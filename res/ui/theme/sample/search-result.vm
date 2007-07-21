@@ -54,8 +54,8 @@ res = new SearchResult();
 		</td>
 	</tr>
 	#if ($ADVANCED == "true")<tr><td colspan="2" class="queryDetail">
-		<span class="handCursor" onclick="$('#clauses').toggle();s=$('#clauses').css('display')=='none'?'plus.png':'minus.png';$('#searchDetailImg').attr('src','res/image/icon/'+s);">
-			<img id="searchDetailImg" alt="toggle" border="0" src="res/image/icon/plus.png">
+		<span class="handCursor" title="$DICT.getMeaning('TOGGLE')" onclick="$('#clauses').toggle();s=$('#clauses').css('display')=='none'?'plus.png':'minus.png';$('#searchDetailImg').attr('src','res/image/icon/'+s);">
+			<img id="searchDetailImg" alt="toggle" title="$DICT.getMeaning('TOGGLE')" border="0" src="res/image/icon/plus.png">
 			<a href="javascript:void(0)" onclick="return false">$DICT.getMeaning("QUERY_DETAIL")</a></span>
 		<div id="clauses" style="display: none; padding: 0px 20px">$CLAUSE</div></td>
 	#end</tr>

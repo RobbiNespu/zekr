@@ -77,7 +77,8 @@
 			<text id="DESCRIPTION" value="Description"   />
 			<text id="BOOKMARKS" value="Bookmarks"   />
 			<text id="CONFIGURE" value="Configure"   />
-			<text id="CONFIGURE_BOOKMARK_SETS" value="Configure Bookmark Sets"   />
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
 			<text id="DIRECTION" value="Direction"   />
 			<text id="LANG_DIRECTION" value="Language direction"   />
 			<text id="RTL"      value="Right to left"   />
@@ -95,9 +96,15 @@
 			<text id="FIND_REFS" value="Find References"   />
 			<text id="MOVE_UP" value="Move up"   />
 			<text id="MOVE_DOWN" value="Move down"   />
-			<text id="CUSTOM_MIXED" value="Custom Mixed"   />
+			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
 			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations"   />
 			<text id="GO" value="Go"   />
+			<text id="CAUTION" value="Caution"   />
+			<text id="ADVANCED" value="Advanced"   />
+			<text id="QUERY_DETAIL" value="Query detail"   />
+			<text id="PAGE" value="Page"   />
+			<text id="MULTILINE" value="Multiline"   />
+			<text id="TOGGLE" value="Toggle"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="قورئان" />
@@ -121,6 +128,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="ئه‌نجامی گه‌ڕان بۆ:  &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} ئه‌نجام دۆزرایه‌وه‌ له‌ {2} ئایه‌تدا." />
+			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
 			<text id="TOO_MANY_RESULT" value="له‌ ئه‌نجام بگه‌ڕێ له‌ زیاتر له‌ {1} ئایه‌تدا" />
 			<text id="FILE_ALREADY_EXISTS" value="ئێستا په‌ڕگه‌یه‌ك به‌ ناوی &quot;{1}&quot; هه‌یه‌. ئایا ده‌ته‌وێت بیخه‌یته‌ شوێنی" />
 			<text id="RESTART_APP" value="ده‌بێت به‌رنامه‌كه‌ دابگیرسێنیته‌وه‌ تا گۆڕانكارییه‌كان چالاك ببن." />
@@ -134,8 +142,7 @@
 			<text id="FNF" value="File not found"   />
 			<text id="ACTION_FAILED" value="كرداره‌كه‌ ئه‌نجام نه‌درا!" />
 		</error>
-		<hint>
-		</hint>
+		<hint></hint>
 	</message>
 
 	<forms>
@@ -151,6 +158,9 @@
 			<text id="EDIT_SCOPES" value="ده‌ستکاریی مه‌وداکان" />
 			<text id="NO_SCOPE" value="بێ مه‌ودا" />
 			<text id="CURRENT_PAGE" value="لاپه‌ڕه‌ی ئێستا" />
+			<text id="NATURAL_ORDER" value="Natural Order"   />
+			<text id="RELEVANCE" value="Relevance"   />
+			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="هه‌ڵبژاردنه‌كانی به‌رنامه‌" />
@@ -159,6 +169,7 @@
 			<text id="THEME_SETTING" value="سازكارییه‌كانی ڕوواڵه‌ت" />
 			<text id="PRESS_OK_TO_APPLY" value="دوگمه‌ی &quot;OK&quot; پاڵ بنی تا گۆڕانکارییه‌كان جێبه‌جێ بن" />
 			<text id="MAX_SEARCH_RESULT" value="لانی زۆری ژماره‌ی ئه‌نجامی گه‌ڕان" />
+			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="ڕێکخستنی مه‌ودای گه‌ڕان" />
@@ -178,17 +189,18 @@
 			<text id="NEW_BOOKMARK_ITEM" value="New bookmark item"   />
 			<text id="UNIQUE_NAME" value="A unique name"   />
 			<text id="COMMA_SEPARATED" value="Use comma separated values, if there are more than one author"   />
-			<text id="ONLY_ENGLISH" value="Use only English names (e.g. English, Farsi, Arabic, ...)"   />
+			<text id="ONLY_ENGLISH" value="Use only English names (e.g. English, Persian, Arabic, ...)"   />
 			<text id="DESC_TOOLTIP" value="Conventions, quotes, references, and other bookmark-related topics go here"   />
 		</form>
-		<form id="BOOKMARK_SET_GROUP_FORM">
-			<text id="TITLE" value="Manage Bookmark Set Groups"   />
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Manage Bookmark Sets"   />
 			<text id="DBL_CLICK" value="Double click on items to load and/or edit them."   />
 			<text id="SET_AS_DEFAULT" value="Do you want to set &quot;{1}&quot; as your default bookmark set?"   />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Cannot remove default bookmark."   />
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="Cannot overwrite on the default bookmark set. Select another bookmark set as default, and try to import."   />
 			<text id="ENTER_ID" value="Enter the bookmark ID"   />
 			<text id="NEW_BOOKMARK_SET" value="New Bookmark Set"   />
+			<text id="EXPORT4WEB" value="Export for Web"   />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Edit Bookmark Properties"   />
@@ -203,11 +215,17 @@
 			<text id="IMPORT_FOR" value="Import For The Following Users:"   />
 			<text id="ME_ONLY" value="Me only"   />
 			<text id="ALL_USERS" value="All users (requires write access to installation directory)"   />
+			<text id="FOLLOWING_USERS" value="Index for the following users"   />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="Configure Custom Translations"   />
 			<text id="AVAILABLE" value="Available translations"   />
 			<text id="CURRENT" value="Current translations"   />
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Please wait"   />
+			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
 		</form>
 	</forms>
 </language>

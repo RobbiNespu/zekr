@@ -96,14 +96,15 @@
 			<text id="SHOW_REFS" value="Show References"   />
 			<text id="MOVE_UP" value="Bouger en haut" />
 			<text id="MOVE_DOWN" value="Bouger en bas" />
-			<text id="CUSTOM_MIXED" value="Personnalisée " />
+			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
 			<text id="CONFIG_CUSTOM_TRANS" value="Configurer les traductions " />
 			<text id="GO" value="Go" />
-			<text id="CAUTION" value="cautious"   />
+			<text id="CAUTION" value="Caution"   />
 			<text id="ADVANCED" value="Advanced"   />
 			<text id="QUERY_DETAIL" value="Query detail"   />
 			<text id="PAGE" value="Page"   />
 			<text id="MULTILINE" value="Multiline"   />
+			<text id="TOGGLE" value="Toggle"   />
 		</common>
 		<special>
 			<text id="QURAN"  value="Coran" />
@@ -168,6 +169,7 @@
 			<text id="THEME_SETTING" value="Configuration du thème" />
 			<text id="PRESS_OK_TO_APPLY" value="Appuyez sur le bouton &quot;OK&quot; afin d'appliquer les modifications." />
 			<text id="MAX_SEARCH_RESULT" value="Nombre maximum des résultats de la recherche." />
+			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configurer la zone de recherche" />
@@ -187,7 +189,7 @@
 			<text id="NEW_BOOKMARK_ITEM" value="Nouveau item d'un signet" />
 			<text id="UNIQUE_NAME" value=" Unique nom" />
 			<text id="COMMA_SEPARATED" value=" utiliser les valeurs séparées par virgule, s'il y a plus d'un auteur " />
-			<text id="ONLY_ENGLISH" value="Utiliser seulement les noms anglais (e.g. English, Farsi, Arabic, ...)" />
+			<text id="ONLY_ENGLISH" value="Utiliser seulement les noms anglais (e.g. English, Persian, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="Conventions, citations, références, et autres thèmes associés au signet vont ici  " />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
@@ -198,6 +200,7 @@
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="Impossible d'écraser sur l'ensemble du signet par défaut. Sélectionner un autre ensemble  d'un signet par défaut, et essayer d'importer." />
 			<text id="ENTER_ID" value="Enter l'ID du signet " />
 			<text id="NEW_BOOKMARK_SET" value="Nouveau ensemble de signet" />
+			<text id="EXPORT4WEB" value="Export for Web"   />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Editer les propriétés du signet" />

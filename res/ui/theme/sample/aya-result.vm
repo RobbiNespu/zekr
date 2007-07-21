@@ -11,12 +11,14 @@
 	#set($RPAREN = "(")
 	#set($LPAREN = ")")
 	#set($_DL = $I18N.Locale.Language) ## digit language
+	#set($TRANSLATE = "$DICT.getMeaning('QURAN')")
 #else
 	#set($CLASS="quran")
 	#set($DIR="rtl")
 	#set($RPAREN = "&#64831;")
 	#set($LPAREN = "&#64830;")
 	#set($_DL = "ar")
+	#set($TRANSLATE = "$DICT.getMeaning('TRANSLATION')")
 #end
 <div class="$CLASS" dir="$DIR">
 	<div id="searchableSection" class="searchResult">
@@ -35,7 +37,7 @@
 	    		$ITEM.contents
 		    	<span title="${ITEM.Location}" dir="$DIR">
 					<a onclick="gotoSuraAya('${ITEM.Location.toString()}')" href="javascript:void(0)">$RPAREN${ITEM.Location.SuraName}: $I18N.localize(${ITEM.Location.Aya},"${_DL}")$LPAREN</a>
-					<span title="$DICT.getMeaning('TRANSLATION')" class="handCursor" onclick="translate('${ITEM.Location}')"><img src="${ICON_TRANSLATE}"></span>
+					<span title="$TRANSLATE" class="handCursor" onclick="translate('${ITEM.Location}')"><img src="${ICON_TRANSLATE}"></span>
 				</span>
 			#else
 	    		<span title="${ITEM.Key}" class="searchItemNum" id="itemNum_$AYA_NUM">($I18N.localize($AYA_NUM))</span>
@@ -48,7 +50,7 @@
 		    	#end
 		    	<span title="${ITEM.Key}" dir="$DIR">
 					<a onclick="gotoSuraAya('${ITEM.Key}')" href="javascript:void(0)">$RPAREN${ITEM.Key.SuraName}: $I18N.localize(${ITEM.Key.Aya},"${_DL}")$LPAREN</a>
-					<span title="$DICT.getMeaning('TRANSLATION')" class="handCursor" onclick="translate('${ITEM.Key}')"><img src="${ICON_TRANSLATE}"></span>
+					<span title="$TRANSLATE" class="handCursor" onclick="translate('${ITEM.Key}')"><img src="${ICON_TRANSLATE}"></span>
 				</span>
 			#end
 			</div>

@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
 
-<project name="Zekr source build file" default="dist" basedir=".">
-
+<project name="Zekr Build File" default="dist" basedir=".">
 	<!-- Component parameters -->
 	<property name="component" value="Zekr" />
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.6.0beta1" />
 
 	<property name="main_class" value="${package}.ZekrMain" />
 
@@ -22,12 +20,11 @@
 	<property name="build_classdir" value="${builddir}/classes" />
 	<property name="build_gcjclassdir" value="${builddir}/gcj_classes" />
 
-	<property name="distdir" value="dist/${distfilename}.jar" />
+	<property name="distfile" value="${distfilename}.jar" />
 
 	<property name="src_dist.jar" value="dist/zekr-src.jar" />
-	<property name="src_dir" value="${builddir}/src" />
+	<property name="src_dir" value="src" />
 
-	<!-- Excevution tags -->
 	<property name="debug" value="off" />
 	<property name="verbose" value="no" />
 
@@ -35,30 +32,12 @@
 	<property name="dist_javadocs" value="${builddir}/${javadocsdir}" />
 
 	<!-- JAR file dependencies -->
-	<condition property="swt.jar" value="${libdir}/swt-win32.jar">
-		<and>
-			<os family="windows" />
-		</and>
-	</condition>
-	<condition property="swt.jar" value="${libdir}/swt-linux.jar">
-		<and>
-			<os family="unix" />
-		</and>
-	</condition>
-	<condition property="swt.jar" value="${libdir}/swt-mac.jar">
-		<and>
-			<os family="mac" />
-		</and>
-	</condition>
+	<property name="swt.jar" value="${libdir}/swt-3.3.0.jar" />
 	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
 	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.1.1-dev.jar" />
 	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.1.0.jar" />
-	<property name="commons-collections.jar" value="${libdir}/commons-collections-3.1.jar" />
-	<property name="commons-logging.jar" value="${libdir}/commons-logging-1.0.4.jar" />
-	<property name="commons-io.jar" value="${libdir}/commons-io-1.1.jar" />
-	<property name="commons-lang.jar" value="${libdir}/commons-lang-2.1.jar" />
-	<property name="commons-configuration.jar" value="${libdir}/commons-configuration-1.2.jar" />
+	<property name="apache-commons.jar" value="${libdir}/apache-commons.jar" />
 
 	<path id="buildlibs">
 		<pathelement location="${log4j.jar}" />
@@ -66,69 +45,50 @@
 		<pathelement location="${lucene-core.jar}" />
 		<pathelement location="${lucene-highlighter.jar}" />
 		<pathelement location="${velocity.jar}" />
-		<pathelement location="${commons-collections.jar}" />
-		<pathelement location="${commons-logging.jar}" />
-		<pathelement location="${commons-io.jar}" />
-		<pathelement location="${commons-lang.jar}" />
-		<pathelement location="${commons-configuration.jar}" />
+		<pathelement location="${apache-commons.jar}" />
 	</path>
 
-	<target name="compile_libs">
-		<mkdir dir="${builddir}/common-conf" />
-		<javac srcdir="${libdir}/commons-configuration-1.2-src" source="1.4" target="1.4" destdir="${builddir}/common-conf" debug="true" verbose="${verbose}">
-			<classpath refid="buildlibs" />
-		</javac>
-		<jar basedir="${builddir}/common-conf" jarfile="${libdir}/commons-configuration-1.2.jar">
-		</jar>
-
-		<mkdir dir="${builddir}/common-io" />
-		<javac srcdir="${libdir}/commons-io-1.1-src" source="1.4" target="1.4" destdir="${builddir}/common-io" debug="true" verbose="${verbose}">
-			<classpath refid="buildlibs" />
-		</javac>
-		<jar basedir="${builddir}/common-io" jarfile="${libdir}/commons-io-1.1.jar">
-		</jar>
-	</target>
-<!--
 	<target name="gcj_support">
 		<mkdir dir="${build_gcjclassdir}" />
-		<javac srcdir="${gcjdir}" source="1.4" target="1.4" destdir="${build_gcjclassdir}" debug="true" verbose="${verbose}">
+		<javac srcdir="${gcjdir}" source="1.4" target="1.4" destdir="${build_gcjclassdir}" debug="${debug}" verbose="${verbose}">
 			<classpath refid="buildlibs" />
 			<classpath path="lib/gcj-dom-impl-4.2.jar" />
+			<classpath path="D:\Devel\Java\Apache\XML\xercesImpl.jar" />
+			<classpath path="bin" />
 		</javac>
 	</target>
--->
-	<target name="compile" depends="compile_libs">
+
+	<target name="compile">
 		<mkdir dir="${build_classdir}" />
-		<unjar src="${src_dist.jar}" dest="${src_dir}">
-		</unjar>
-		<javac srcdir="${src_dir}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="true" verbose="${verbose}">
+		<unjar src="${src_dist.jar}" dest="${src_dir}" />
+		<javac srcdir="${src_dir}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
 			<classpath refid="buildlibs" />
 		</javac>
 	</target>
 
 	<target name="dist" depends="compile">
-		<jar jarfile="${distdir}" basedir="${build_classdir}" />
+		<jar jarfile="${builddir}/${distfile}" basedir="${build_classdir}" />
 	</target>
 
 	<target name="javadoc" depends="compile">
 		<mkdir dir="${dist_javadocs}" />
 		<javadoc packagenames="${package}.*" sourcepath="${src_dir}" classpath="${build_classdir}" classpathref="buildlibs" destdir="${dist_javadocs}" windowtitle="Zekr - Open Quranic Platform" verbose="${verbose}">
-			<tag name="copyright" description="Copyright: http://siahe.com" scope="types" />
+			<tag name="copyright" description="Copyright: http://zekr.org" scope="types" />
 		</javadoc>
 	</target>
 
 	<target name="run" depends="dist">
 		<java classname="${main_class}" fork="true">
 			<jvmarg value="-Djava.library.path=${libdir}" />
-			<env key="MOZILLA_FIVE_HOME" value="/usr/lib/firefox" />
-			<classpath location="${distdir}" />
+			<!--env key="MOZILLA_FIVE_HOME" value="/usr/lib/firefox" /-->
+			<classpath location="${distfile}" />
 			<classpath refid="buildlibs" />
 		</java>
 	</target>
 
 	<target name="clean">
 		<delete dir="${builddir}" />
-		<delete file="${distdir}" />
+		<delete file="${distfile}" />
 	</target>
 
 </project>

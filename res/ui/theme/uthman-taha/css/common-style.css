@@ -1,6 +1,6 @@
 div.quran {
-#set($qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.1"))
-#set($_qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.7"))
+#set($qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.3"))
+#set($_qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.6"))
 	line-height: ${qht}px;
 	_line-height: ${_qht}px;
 /*	line-height: 26pt;*/

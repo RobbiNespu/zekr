@@ -96,14 +96,15 @@
 			<text id="FIND_REFS" value="حوالہ جات تلاش کریں"/>
 			<text id="MOVE_UP" value="اوپر کریں"/>
 			<text id="MOVE_DOWN" value="نیچے کریں"/>
-			<text id="CUSTOM_MIXED" value=" مخلوط حسب منشاء"/>
+			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
 			<text id="CONFIG_CUSTOM_TRANS" value="دیگر ترجمہ جات منظم کریں"/>
 			<text id="GO" value="جائیں"/>
-			<text id="CAUTION" value="cautious"   />
+			<text id="CAUTION" value="Caution"   />
 			<text id="ADVANCED" value="Advanced"   />
 			<text id="QUERY_DETAIL" value="Query detail"   />
 			<text id="PAGE" value="Page"   />
 			<text id="MULTILINE" value="Multiline"   />
+			<text id="TOGGLE" value="Toggle"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن"/>
@@ -168,6 +169,7 @@
 			<text id="THEME_SETTING" value="خیالیے کی ترتیبات"/>
 			<text id="PRESS_OK_TO_APPLY" value=" تبدیلیوں کو مؤثر کرنے کے لیے&quot;OK&quot; کا بٹن دبائیں"/>
 			<text id="MAX_SEARCH_RESULT" value="زیادہ سے زیادہ تلاش کے نتائج کی تعداد"/>
+			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="تلاش کے تناظر منظم کریں"/>
@@ -198,6 +200,7 @@
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="عام نشانی کے اوپر نہیں لکھ سکتا۔ کوئی اور نشانیوں کا سیٹ منتخب کر کے درآمد کرنےکی کوشش کریں"/>
 			<text id="ENTER_ID" value="نشانی کی شناخت درج کریں"/>
 			<text id="NEW_BOOKMARK_SET" value="نیا نشانیوں کا سیٹ"/>
+			<text id="EXPORT4WEB" value="Export for Web"   />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="نشانیوں کے خواص کی تدوین کریں"/>
