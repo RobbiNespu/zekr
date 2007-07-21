@@ -1,9 +1,9 @@
 ;--------- CONFIGURATION ---------
 
 !define APP_NAME "The Zekr Project"
-!define APP_VER "0.6.0beta1"
+!define APP_VER "0.6.0beta2"
 !define APP_VER_DETAIL ""
-!define CLASS_PATH "lib\swt-win32.jar;lib\apache-commons.jar;lib\log4j-1.2.8.jar;lib\velocity-1.4.jar;lib\lucene-highlighter-2.1.0.jar;lib\lucene-core-2.1.1-dev.jar;dist\zekr.jar"
+!define CLASS_PATH "lib\swt-3.3.0.jar;lib\apache-commons.jar;lib\log4j-1.2.8.jar;lib\velocity-1.4.jar;lib\lucene-highlighter-2.1.0.jar;lib\lucene-core-2.1.1-dev.jar;dist\zekr.jar"
 !define JRE_OPT "-Xms10m -Xmx70m"
 !define MAIN_CLASS "net.sf.zekr.ZekrMain"
 #SetCompressor /SOLID lzma
@@ -24,11 +24,11 @@ VIProductVersion 0.6.0.0
 VIAddVersionKey ProductName Zekr
 VIAddVersionKey ProductVersion "${APP_VER}${APP_VER_DETAIL}"
 VIAddVersionKey OriginalFilename "zekr.exe"
-VIAddVersionKey CompanyName "Siahe.com"
-VIAddVersionKey CompanyWebsite "http://siahe.com/zekr"
+VIAddVersionKey CompanyName "zekr.org"
+VIAddVersionKey CompanyWebsite "http://zekr.org"
 VIAddVersionKey FileVersion "${APP_VER}"
-VIAddVersionKey FileDescription "The Zekr Open Quranic Project"
-VIAddVersionKey LegalCopyright "© 2004-2007 Mohsen Saboorian"
+VIAddVersionKey FileDescription "Zekr - Open Quranic Project"
+VIAddVersionKey LegalCopyright "© 2004-2007 Mohsen Saboorian and other contributore"
 
 ;InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails hide
@@ -72,7 +72,7 @@ Section ""
 ;  SetOutPath $TEMP
 ;  File "${JARFILE}"
 ;  StrCpy $R0 '$R0 -classpath "${CLASS_PATH}" ${JRE_OPT} net.sf.zekr.ZekrMain $R1'
-    StrCpy $R0 'javaw.exe -classpath ${CLASS_PATH} ${JRE_OPT} ${MAIN_CLASS}'
+    StrCpy $R0 'javaw.exe -classpath ${CLASS_PATH} ${JRE_OPT} ${MAIN_CLASS} $R1'
   ExecWait "$R0"
   Quit
 

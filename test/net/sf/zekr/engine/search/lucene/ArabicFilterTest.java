@@ -45,7 +45,7 @@ public class ArabicFilterTest extends TestCase {
 		assertEquals("لكل", filter.next().termText());
 		assertEquals("شيء", filter.next().termText());
 		assertEquals("وهدي", filter.next().termText());
-		assertEquals("ورحمة", filter.next().termText());
+		assertEquals("ورحمت", filter.next().termText());
 		assertEquals("وبشري", filter.next().termText());
 		assertEquals("للمسلمين", filter.next().termText());
 	}
@@ -60,7 +60,7 @@ public class ArabicFilterTest extends TestCase {
 		assertEquals("فاني", filter.next().termText());
 		assertEquals("قريب", filter.next().termText());
 		assertEquals("اجيب", filter.next().termText());
-		assertEquals("دعوة", filter.next().termText());
+		assertEquals("دعوت", filter.next().termText());
 		assertEquals("الداع", filter.next().termText());
 		assertEquals("اذا", filter.next().termText());
 		assertEquals("دعان", filter.next().termText());

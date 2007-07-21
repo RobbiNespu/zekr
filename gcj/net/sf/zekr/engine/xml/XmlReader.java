@@ -9,7 +9,10 @@
 
 package net.sf.zekr.engine.xml;
 
-import gnu.xml.dom.DomDocumentBuilderFactory;
+//import gnu.xml.dom.DomDocumentBuilderFactory;
+import org.apache.xerces.jaxp.*;
+
+import net.sf.zekr.engine.log.Logger;
 
 import java.io.File;
 import java.util.StringTokenizer;
@@ -26,6 +29,8 @@ import org.w3c.dom.Node;
  * @since Zekr 1.0
  */
 public class XmlReader {
+	private final static Logger logger = Logger.getLogger(XmlReader.class);
+
 	private Document xmlDocument;
 	private Node parentNode;
 
@@ -47,9 +52,12 @@ public class XmlReader {
 	 */
 	public XmlReader(File file) throws XmlReadException {
 		try {
-			DocumentBuilderFactory documentBuilderFactory = new DomDocumentBuilderFactory();
+			//DocumentBuilderFactory documentBuilderFactory = new DomDocumentBuilderFactory();
+			DocumentBuilderFactory documentBuilderFactory = new DocumentBuilderFactoryImpl();
+			logger.debug("documentBuilderFactory impl is: " + documentBuilderFactory.getClass().getName());
 			DocumentBuilder parser;
 			parser = documentBuilderFactory.newDocumentBuilder();
+			logger.debug("DocumentBuilder impl is: " + parser.getClass().getName());
 			xmlDocument = parser.parse(file);
 
 			parentNode = xmlDocument.getFirstChild();

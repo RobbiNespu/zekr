@@ -9,7 +9,10 @@
 
 package net.sf.zekr.engine.xml;
 
-import gnu.xml.dom.DomDocumentBuilderFactory;
+//import gnu.xml.dom.DomDocumentBuilderFactory;
+import org.apache.xerces.jaxp.*;
+
+import net.sf.zekr.engine.log.Logger;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -39,6 +42,7 @@ import org.w3c.dom.Node;
  * @version 0.1
  */
 public class XmlWriter {
+	private final static Logger logger = Logger.getLogger(XmlWriter.class);
 
 	Element rootElement;
 	Transformer transformer;
@@ -51,10 +55,15 @@ public class XmlWriter {
 	 */
 	public XmlWriter(String qualifiedName) throws ParserConfigurationException,
 			TransformerConfigurationException {
-		DocumentBuilderFactory factory = new DomDocumentBuilderFactory();
+		//DocumentBuilderFactory factory = new DomDocumentBuilderFactory();
+		DocumentBuilderFactory factory = new DocumentBuilderFactoryImpl();
+		logger.debug("documentBuilderFactory impl is: " + factory.getClass().getName());
+
 		factory.setNamespaceAware(true);
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		DOMImplementation impl = builder.getDOMImplementation();
+
+		logger.debug("DocumentBuilder impl is: " + builder.getClass().getName());
 
 		// Create the document
 		document = impl.createDocument(null, qualifiedName, null);

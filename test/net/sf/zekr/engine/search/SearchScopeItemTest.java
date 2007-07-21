@@ -78,7 +78,7 @@ public class SearchScopeItemTest extends ZekrBaseTest {
 		assertEquals(ssi.serialize(), "-3,4,5,6");
 
 		ssi = new SearchScopeItem(1, 2, 8, 9, false);
-		assertEquals(ssi.serialize(), "+1,2,8,9");
+		assertEquals(ssi.serialize(), "1,2,8,9");
 	}
 
 	public void testDeserialize() throws Exception {
@@ -86,7 +86,7 @@ public class SearchScopeItemTest extends ZekrBaseTest {
 		SearchScopeItem ssi2 = new SearchScopeItem(3, 4, 5, 6, true);
 		assertEquals(ssi1, ssi2);
 
-		ssi1 = SearchScopeItem.deserialize("+13,24,55,10");
+		ssi1 = SearchScopeItem.deserialize("13,24,55,10");
 		ssi2 = new SearchScopeItem(13, 24, 55, 10, false);
 		assertEquals(ssi1, ssi2);
 	}

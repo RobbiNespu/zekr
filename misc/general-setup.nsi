@@ -8,9 +8,9 @@ SetCompressor /SOLID lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_UNIX_NAME "zekr"
 !define VERSION 0.6.0.0
-!define RELEASE_VERSION "0.6.0beta1"
-!define COMPANY siahe.com
-!define URL http://siahe.com/zekr
+!define RELEASE_VERSION "0.6.0beta2"
+!define COMPANY zekr.org
+!define URL http://zekr.org
 
 # MUI defines
 !define MUI_ABORTWARNING
@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.0\beta1\win"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.0\beta2\win"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -95,8 +95,8 @@ VIAddVersionKey ProductVersion "${RELEASE_VERSION}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "${RELEASE_VERSION}"
-VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "The Zekr Open Quranic Project"
-VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2007 Mohsen Saboorian"
+VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Quranic Project"
+VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "Â© 2004-2007 Mohsen Saboorian and other contributore"
 InstallDirRegKey HKLM "${REGKEY}" Path
 UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 ShowUninstDetails show
@@ -109,7 +109,7 @@ Section -Main SEC0000
 
     ; Arabic font copy
     SetOverwrite try
-    File "/oname=$WINDIR\Fonts\me_quran_volt_mark2.ttf" "${BASE_APP}\..\..\me_quran_volt_mark2.ttf"
+    File "/oname=$WINDIR\Fonts\me_quran_volt_newmet.ttf" "${BASE_APP}\..\..\me_quran_volt_mark2.ttf"
 
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
@@ -149,11 +149,6 @@ Section -post SEC0001
     File "${BASE_APP}\res\javaw.exe.manifest"
     SetOutPath "$JDK_HOME\bin"
     File "${BASE_APP}\res\javaw.exe.manifest"
-    
-    ; Arabic font copy
-    #SetOutPath "$WINDIR\Fonts"
-    #File "${BASE_APP}\res\me_quran_volt_mark2.ttf"
-    #SetOverwrite on
 SectionEnd
 
 # Macro for selecting uninstaller sections
