@@ -14,6 +14,8 @@ import net.sf.zekr.ui.helper.FormUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -67,10 +69,16 @@ public class ProgressForm extends BaseForm {
 			public void handleEvent(Event e) {
 				if (e.data != null) {
 					if (e.data.equals(EventProtocol.END_WAITING)) {
-						state = FINISHED;
-						shell.close();
+						finish();
 					}
 				}
+			}
+		});
+
+		shell.addTraverseListener(new TraverseListener() {
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_ESCAPE)
+					close();
 			}
 		});
 
@@ -94,14 +102,16 @@ public class ProgressForm extends BaseForm {
 		gd = new GridData(SWT.END, SWT.CENTER, true, true);
 		Button cancelBut = new Button(body, SWT.PUSH);
 		cancelBut.setLayoutData(gd);
-		cancelBut.setText("   " + langEngine.getMeaning("CANCEL") + "   ");
-//		cancelBut.addSelectionListener(new SelectionAdapter() {
-//			public void widgetSelected(SelectionEvent e) {
-//				shell.close();
-//				state = CALCELED;
-//			}
-//		});
-		cancelBut.setEnabled(false);
+		cancelBut.setText("    " + langEngine.getMeaning("CANCEL") + "    ");
+		cancelBut.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				e.display.asyncExec(new Runnable() {
+					public void run() {
+						close();
+					}
+				});
+			}
+		});
 
 		shell.pack();
 		shell.setSize(400, shell.getSize().y);
@@ -122,5 +132,15 @@ public class ProgressForm extends BaseForm {
 
 	public Display getDisplay() {
 		return display;
+	}
+
+	public void finish() {
+		state = FINISHED;
+		shell.close();
+	}
+
+	public void close() {
+		state = CALCELED;
+		shell.close();
 	}
 }

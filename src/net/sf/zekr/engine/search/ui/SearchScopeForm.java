@@ -8,12 +8,11 @@
  */
 package net.sf.zekr.engine.search.ui;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
+import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.IllegalSearchScopeItemException;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.SearchScopeItem;
@@ -24,11 +23,8 @@ import net.sf.zekr.ui.helper.FormUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -65,6 +61,7 @@ public class SearchScopeForm extends BaseForm {
 	private SearchScope searchScope;
 	private Button addBut, remBut;
 
+	private static final Logger logger = Logger.getLogger(SearchScopeForm.class);
 	public static final String FORM_ID = "SEARCH_SCOPE_FORM";
 
 	public SearchScopeForm(Shell parent) {

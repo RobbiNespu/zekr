@@ -8,6 +8,15 @@
  */
 package net.sf.zekr.engine.search.lucene;
 
+/**
+ * Generic Indexer interface
+ */
 public interface IIndexer {
+	/**
+	 * Performs all the indexing process.
+	 * 
+	 * @throws IndexingException
+	 *            if any exception occurred during indexing process
+	 */
 	void doIndex() throws IndexingException;
 }

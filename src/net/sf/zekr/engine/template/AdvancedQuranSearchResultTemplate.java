@@ -6,11 +6,12 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Mar 25, 2007
  */
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
 import net.sf.zekr.engine.search.SearchUtils;
 import net.sf.zekr.engine.search.lucene.QuranTextIndexer;
 import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
+import net.sf.zekr.engine.theme.ThemeData;
 
 /**
  * @author Mohsen Saboorian

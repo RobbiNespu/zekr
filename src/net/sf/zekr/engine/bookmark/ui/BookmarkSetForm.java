@@ -57,7 +57,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
@@ -77,7 +76,7 @@ public class BookmarkSetForm {
 	public static final String FORM_ID = "BOOKMARK_SET_FORM";
 	private static final LanguageEngine lang = LanguageEngine.getInstance();
 	private static final ResourceManager resource = ResourceManager.getInstance();
-	private final Logger logger = Logger.getLogger(this.getClass());
+	private final static Logger logger = Logger.getLogger(BookmarkSetForm.class);
 	private static final ApplicationConfig config = ApplicationConfig.getInstance();
 	private Display display;
 
@@ -122,7 +121,7 @@ public class BookmarkSetForm {
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				Rectangle r = shell.getBounds();
-				config.getProps().setProperty("bookmark.bookarkSetForm.location", 
+				config.getProps().setProperty("view.bookmark.bookarkSetForm.location", 
 					new String[] {"" + r.x, "" + r.y, "" + r.width, "" + r.height});
 			}
 		});
@@ -789,7 +788,7 @@ public class BookmarkSetForm {
 		if (disposeListener != null) {
 			shell.addDisposeListener(disposeListener);
 		}
-		List b = config.getProps().getList("bookmark.bookarkSetForm.location");
+		List b = config.getProps().getList("view.bookmark.bookarkSetForm.location");
 		if (b.size() != 0) {
 			shell.setBounds(Integer.parseInt(b.get(0).toString()), Integer.parseInt(b.get(1).toString()),
 				Integer.parseInt(b.get(2).toString()), Integer.parseInt(b.get(3).toString()));

@@ -16,20 +16,16 @@ import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.helper.FormUtils;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -218,8 +214,10 @@ public class MessageBoxUtils {
 			buts[i].setLayoutData(gd);
 		}
 
-		if (buts.length > selectedOption)
+		if (buts.length > selectedOption) {
 			buts[selectedOption].setSelection(true);
+			buts[selectedOption].forceFocus();
+		}
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalAlignment = SWT.TRAIL;

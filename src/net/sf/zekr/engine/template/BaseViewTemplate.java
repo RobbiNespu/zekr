@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Feb 23, 2006
  */
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
@@ -18,13 +18,14 @@ import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.common.util.VelocityUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.theme.ThemeData;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
 public abstract class BaseViewTemplate implements ITransformer {
-	protected final Logger logger = Logger.getLogger(this.getClass());
+	protected final Logger logger = Logger.getLogger(BaseViewTemplate.class);
 
 	protected TemplateEngine engine = TemplateEngine.getInstance();
 	protected ApplicationConfig config = ApplicationConfig.getInstance();
@@ -55,12 +56,14 @@ public abstract class BaseViewTemplate implements ITransformer {
 		ThemeData td = config.getTheme().getCurrent();
 		engine.put("DICT", langEngine);
 		engine.put("DIRECTION", langEngine.getDirection());
-		engine.put("TRANS_DIRECTION", config.getTranslation().getDefault().direction);
-		engine.put("TRANS_LANG", config.getTranslation().getDefault().locale.getLanguage());
+		if (config.getTranslation().getDefault() != null) {
+			engine.put("TRANS_DIRECTION", config.getTranslation().getDefault().direction);
+			engine.put("TRANS_LANG", config.getTranslation().getDefault().locale.getLanguage());
+		}
 		engine.put("APP_PATH", UriUtils.toURI(GlobalConfig.RUNTIME_DIR));
 		engine.put("APP_VERSION", GlobalConfig.ZEKR_VERSION);
 		engine.put("UI_DIR", ApplicationPath.UI_DIR);
-		engine.put("CSS_DIR", UriUtils.toURI(Naming.CACHE_DIR));
+		engine.put("CSS_DIR", UriUtils.toURI(Naming.getCacheDir()));
 		engine.put("THEME_DIR", td.getPath());
 		engine.put("UTILS", new VelocityUtils());
 		engine.put("I18N", new I18N(langEngine.getLocale()));

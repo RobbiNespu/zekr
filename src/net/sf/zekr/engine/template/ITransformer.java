@@ -1,4 +1,5 @@
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
+
 
 /**
  * General transformer interface.
@@ -7,7 +8,5 @@ package net.sf.zekr.engine.theme;
  * @since Zekr 1.0
  */
 public interface ITransformer {
-
 	String transform() throws TemplateTransformationException;
-
 }

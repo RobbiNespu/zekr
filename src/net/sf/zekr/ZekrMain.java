@@ -11,11 +11,10 @@ package net.sf.zekr;
 
 import java.util.Date;
 
+import net.sf.zekr.common.commandline.CommandRunUtils;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.search.lucene.IndexFactory;
-import net.sf.zekr.ui.ProgressForm;
 import net.sf.zekr.ui.QuranForm;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
@@ -23,10 +22,10 @@ import net.sf.zekr.ui.splash.AbstractSplachScreen;
 import net.sf.zekr.ui.splash.AdvancedSplashScreen;
 
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.ProgressBar;
 
 /**
  * Application main class. This class launches Zekr platform.
+ * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
@@ -47,7 +46,8 @@ public class ZekrMain {
 			logger.debug("Display splash screen...");
 			splash.show();
 			logger.info("Configure runtime configurations...");
-			ApplicationConfig.getInstance().getRuntime().configure();// TODO: some directories already created in ApplicationConfig
+			ApplicationConfig.getInstance().getRuntime().configure();// TODO: some directories already created in
+																						// ApplicationConfig
 
 			quranForm = new QuranForm(display);
 			EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS_FULLY + ":" + "UI Initialized");
@@ -82,6 +82,7 @@ public class ZekrMain {
 	}
 
 	public static void main(String[] args) {
-		startZekr();
+		if (CommandRunUtils.performAll(args))
+			startZekr();
 	}
 }

@@ -54,7 +54,7 @@ public class I18N {
 	 * 
 	 * @param number
 	 *           the input number
-	 * @param lancCode
+	 * @param langCode
 	 *           target language code (e.g. en, fr, ar, ...) to be used for making numbers
 	 * @return localized number as <code>String</code>
 	 */

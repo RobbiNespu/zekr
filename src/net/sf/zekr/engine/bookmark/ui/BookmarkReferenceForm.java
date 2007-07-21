@@ -8,11 +8,7 @@
  */
 package net.sf.zekr.engine.bookmark.ui;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;

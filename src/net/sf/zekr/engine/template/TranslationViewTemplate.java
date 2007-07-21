@@ -7,7 +7,7 @@
  * Start Date:     Dec 28, 2004
  */
 
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
 import net.sf.zekr.common.resource.IQuranText;
 

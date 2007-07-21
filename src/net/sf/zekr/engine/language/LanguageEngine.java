@@ -18,9 +18,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sf.zekr.common.ZekrBaseException;
-import net.sf.zekr.common.ZekrBaseRuntimeException;
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.NodeList;
 import net.sf.zekr.engine.xml.XmlReadException;
@@ -58,8 +55,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	private Map forms = null; // forms.frame
 	private Map globals = null; // forms.global
 
-	private final static Logger logger = Logger.getLogger(LanguageEngine.class);
-//	private final ApplicationConfig config = ApplicationConfig.getInstance();
+	private final Logger logger = Logger.getLogger(LanguageEngine.class);
 
 	private Language language;
 	private File packFile;

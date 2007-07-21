@@ -1,9 +1,10 @@
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.theme.ThemeData;
 
 public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 	protected int suraNum;

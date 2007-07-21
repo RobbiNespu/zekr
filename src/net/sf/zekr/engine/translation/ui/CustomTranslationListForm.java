@@ -314,7 +314,7 @@ public class CustomTranslationListForm {
 
 	private void apply() {
 		config.setCustomTranslationList(targetData);
-		if (config.getViewLayout().equals(ApplicationConfig.CUSTOM_MIXED_LAYOUT))
+		if (config.getViewLayout().equals(ApplicationConfig.MULTI_TRANS_LAYOUT))
 			EventUtils.sendEvent(EventProtocol.REFRESH_VIEW);
 	}
 

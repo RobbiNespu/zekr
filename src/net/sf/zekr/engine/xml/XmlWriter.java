@@ -95,19 +95,4 @@ public class XmlWriter {
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.transform(input, output);
 	}
-	
-	/**
-	 * Writes a <code>org.w3c.dom.Document</code> object into an output file.
-	 * @param document Document object to be written to file
-	 * @param outputFile ouput file
-	 * @throws TransformerException
-	 */
-	public static void writeXML(Document document, File outputFile) throws TransformerException {
-		Source input = new DOMSource(document);
-		Result output = new StreamResult(outputFile);
-		TransformerFactory transFactory = TransformerFactory.newInstance();
-		Transformer transformer = transFactory.newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.transform(input, output);
-	}
 }

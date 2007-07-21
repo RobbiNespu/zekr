@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Nov 17, 2005
  */
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,13 +15,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IRangedQuranText;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.QuranSearch;
 import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.search.SearchUtils;
+import net.sf.zekr.engine.theme.ThemeData;
 
 /**
  * @author Mohsen Saboorian

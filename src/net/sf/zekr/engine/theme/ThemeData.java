@@ -8,13 +8,10 @@
  */
 package net.sf.zekr.engine.theme;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import net.sf.zekr.common.config.ApplicationPath;
 
 /**
  * @author Mohsen Saboorian

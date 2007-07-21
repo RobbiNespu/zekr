@@ -7,7 +7,7 @@
  * Start Date:     Oct 14, 2004
  */
 
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
 import java.io.StringWriter;
 import java.io.Writer;
@@ -39,7 +39,7 @@ public class TemplateEngine {
 	 */
 	private TemplateEngine() {
 		try {
-			System.setProperty("zekr.home", Naming.HOME_PATH);
+			System.setProperty("zekr.home", Naming.getWorkspace());
 			Velocity.setExtendedProperties(new ExtendedProperties("res/config/lib/velocity.properties"));
 			// Velocity.addProperty("file.resource.loader.path",
 			// ApplicationPath.THEME_DIR);
@@ -51,8 +51,7 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * @return the template engine instance. A call to this method will reset the context of the template
-	 *         engine.
+	 * @return the template engine instance. A call to this method will reset the context of the template engine.
 	 */
 	public static TemplateEngine getInstance() {
 		if (thisInstance == null) {
@@ -64,7 +63,8 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * @param name The file name of the desired template
+	 * @param name
+	 *           The file name of the desired template
 	 * @return The associated <code>Template</code> object
 	 * @throws Exception
 	 */
@@ -93,8 +93,7 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * Add a collection of key-value pairs to the template engine context. Keys should be of type
-	 * <code>String</code>.
+	 * Add a collection of key-value pairs to the template engine context. Keys should be of type <code>String</code>.
 	 */
 	public void putAll(Map map) {
 		for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
@@ -104,9 +103,9 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * @param name the file name of the desired template
-	 * @return the result <code>String</code> after the context map is merged (applied) into the source
-	 *         template file.
+	 * @param name
+	 *           the file name of the desired template
+	 * @return the result <code>String</code> after the context map is merged (applied) into the source template file.
 	 * @throws Exception
 	 */
 	public String getUpdated(String name) throws Exception {

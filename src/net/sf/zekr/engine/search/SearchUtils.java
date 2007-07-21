@@ -8,16 +8,13 @@
  */
 package net.sf.zekr.engine.search;
 
-import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
 /**
  * This file contains several useful <code>public static</code> methods for finding occurrences of a source text in
- * another text. Since the Arabic language has some <i>Harakats</i> (diacritics), there is also functions to ignore or
+ * another text. Since the Arabic language has some <i>diacritics</i>, there is also functions to ignore or
  * match diacritics.
  * 
  * @author Mohsen Saboorian
@@ -51,11 +48,16 @@ public class SearchUtils {
 	final public static char ALEF_HAMZA_BELOW = 0x625;
 	final public static char ALEF_WASLA = 0x671;
 
+	final public static char SMALL_ROUNDED_ZERO = 0x6df;
+
 	final public static char TATWEEL = 0x640;
 
 	final public static char YEH_HAMZA_ABOVE = 0x626;
 	final public static char WAW_HAMZA_ABOVE = 0x624;
 	final public static char WAW = 0x648;
+	
+	final public static char TEH = 0x62a;
+	final public static char TEH_MARBUTA = 0x629;
 
 	final public static char ALEF_MAKSURA = 0x649;
 	final public static char FARSI_YEH = 0x6cc;
@@ -82,7 +84,8 @@ public class SearchUtils {
 
 	/**
 	 * Replace similar arabic characters which are used commonly instead of others. This is a helper method for easing
-	 * the search.<br>
+	 * the search. This method should be applied on Quran text.<br>
+	 * 
 	 * Characters which are replaced are listed below:
 	 * <ul>
 	 * <li><tt>FARSI_YEH</tt> is replaced with <tt>ARABIC_YEH</tt></li>
@@ -107,7 +110,7 @@ public class SearchUtils {
 	}
 
 	/**
-	 * This method removes specific diacritics form the string. Also replaces incorrect charactrers (which are present
+	 * This method removes specific diacritics form the string. Also replaces incorrect characters (which are present
 	 * due to keyboard layout problems) using <code>replaceLayoutSimilarCharacters()</code>.<br>
 	 * <br>
 	 * <b>NOTE:</b> This method is not complete. It is subject to change based other Arabic-based keyboard layout
@@ -124,18 +127,46 @@ public class SearchUtils {
 		}
 
 		// YEH, ALEF, WAW replacements
-		str = str.replace(ALEF_HAMZA_ABOVE, ALEF);
-		str = str.replace(ALEF_HAMZA_BELOW, ALEF);
-		str = str.replace(ALEF_MADDA, ALEF);
-		str = str.replace(WAW_HAMZA_ABOVE, WAW);
+		// str = str.replace(ALEF_HAMZA_ABOVE, ALEF);
+		// str = str.replace(ALEF_HAMZA_BELOW, ALEF);
+		// str = str.replace(ALEF_MADDA, ALEF);
+		// str = str.replace(WAW_HAMZA_ABOVE, WAW);
 
 		str = replaceLayoutSimilarCharacters(str);
 		return str;
 	}
-	
+
+	/**
+	 * This method removes specific diacritics form the string, and also replaces Hamza characters with their base
+	 * character. It also replaces <tt>ARABIC_LETTER_TEH_MATBUTA</tt> with <tt>ARABIC_LETTER_TEH</tt>, and
+	 * <tt>ARABIC_LETTER_ALEF_MAKSURA</tt> with <tt>ARABIC_LETTER_YEH</tt>.
+	 * 
+	 * @param str
+	 *           string to be simplified
+	 * @return simplified form of the <code>str</code>
+	 */
+	public static String arabicSimplify4AdvancedSearch(String str) {
+		// diacritics removal
+		char[] arr = new char[] { SUKUN, SHADDA, KASRA, DAMMA, FATHA, KASRATAN, DAMMATAN, FATHATAN, SUPERSCRIPT_ALEF };
+		for (int i = 0; i < arr.length; i++) {
+			str = StringUtils.remove(str, arr[i]);
+		}
+
+		// YEH, ALEF, WAW, TEH replacements
+		str = str.replace(ALEF_HAMZA_ABOVE, ALEF);
+		str = str.replace(ALEF_HAMZA_BELOW, ALEF);
+		str = str.replace(WAW_HAMZA_ABOVE, WAW);
+		str = str.replace(YEH_HAMZA_ABOVE, ARABIC_YEH);
+		str = str.replace(ALEF_MAKSURA, ARABIC_YEH);
+		str = str.replace(TEH_MARBUTA, TEH);
+
+		return str;
+	}
+
 	public static String simplifyAdvancedSearchQuery(String query) {
 		// diacritics removal
-		char[] arr = new char[] { SMALL_LOW_SEEN, SMALL_HIGH_MEEM, SMALL_WAW, SMALL_YEH, MADDAH_ABOVE };
+		// TODO: sala, ghala, ...
+		char[] arr = new char[] { SMALL_LOW_SEEN, SMALL_HIGH_MEEM, SMALL_WAW, SMALL_YEH, MADDAH_ABOVE, SMALL_ROUNDED_ZERO};
 		for (int i = 0; i < arr.length; i++) {
 			query = StringUtils.	remove(query, arr[i]);
 		}
@@ -144,7 +175,7 @@ public class SearchUtils {
 		query = query.replaceAll("" + ALEF_MAKSURA + HAMZA_BELOW , "" + YEH_HAMZA_ABOVE);
 		query = query.replace(ARABIC_QUESION_MARK, '?');
 		query = query.replace(ALEF_WASLA, ALEF);
-		return arabicSimplify(query);
+		return replaceLayoutSimilarCharacters(arabicSimplify4AdvancedSearch(query));
 	}
 
 	/**
@@ -172,7 +203,8 @@ public class SearchUtils {
 
 	/**
 	 * Will find a <code>Range</code> of the first occurrence of <code>key</code> in <code>src</code>. This method
-	 * will ignore diacritics on both <code>src</code> and <code>key</code>.
+	 * will ignore diacritics on both <code>src</code> and <code>key</code> strings.<br>
+	 * This is a generic method, meaning it can be used to search on Quran text as well as translations.
 	 * 
 	 * @param src
 	 *           source string to be searched on
@@ -189,6 +221,7 @@ public class SearchUtils {
 	 */
 	public static Range indexOfIgnoreDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = arabicSimplify(key);
+		src = replaceLayoutSimilarCharacters(src);
 		src = replaceSimilarArabic(src);
 
 		if (!matchCase) {
@@ -210,7 +243,7 @@ public class SearchUtils {
 			if (k == key.length())
 				break;
 
-			if (source[s] == target[k]) {
+			if (charactersAreEquivalent(source[s], target[k])) {
 				if (start == -1)
 					start = s;
 				s++;
@@ -242,6 +275,58 @@ public class SearchUtils {
 	}
 
 	/**
+	 * Checks all the equivalency character checking tasks. These equivalency rules are applied in order to ease
+	 * searching. There are currently two type of rules, one for Teh matching, and another for Hamza matching.<br>
+	 * <br>
+	 * <b>Teh rule</b>:<br>
+	 * ARABIC_LETTER_TEH (&#1578;) and ARABIC_LETTER_TEH_MARBUTA (&#1577;) are regarded the same. <br>
+	 * <b>Hamza rule</b>:<br>
+	 * Asymmetric character matching, for special cases of Hamza matching.<br>
+	 * If keyword is one of Hamza characters (&#1569;, &#1573;, &#1574;, &#1650;, or &#1572;), it will match with all
+	 * other hamza characters.<br>
+	 * For example if user entered <tt>ARABIC_LETTER_HAMZA</tt> (&#1569;), <tt>ARABIC_LETTER_ALEF_WITH_HAMZA_ABOVE</tt>
+	 * (&#1650;), <tt>ARABIC_LETTER_ALEF_WITH_HAMZA_BELOW</tt> (&#1573;), <tt>ARABIC_LETTER_YEH_WITH_HAMZA_ABOVE</tt>
+	 * (&#1574;), or <tt>ARABIC_LETTER_WAW_WITH_HAMZA_ABOVE</tt> (&#1572;), they will all match with each other (say
+	 * <tt>ARABIC_LETTER_HAMZA</tt> will be matched with <tt>ARABIC_LETTER_ALEF_WITH_HAMZA_ABOVE</tt>,
+	 * <tt>ARABIC_LETTER_YEH_WITH_HAMZA_BELOW</tt> and so on).<br>
+	 * <br>
+	 * Alternatively if user entered one of Hamza base characters (AKA Kursi): <tt>ARABIC_LETTER_ALEF</tt> (&#1575;),
+	 * and <tt>ARABIC_LETTER_YEH</tt> (&#1610;), <tt>ARABIC_LETTER_WAW</tt> (&#1608;), they will only match with
+	 * themselves as well as their corresponding Hamza character (or characters for Alef case). For example if user
+	 * entered <tt>ARABIC_LETTER_ALEF</tt> (&#1575;), it will be matched with
+	 * <tt>ARABIC_LETTER_ALEF_WITH_HAMZA_ABOVE</tt> (&#1650;), <tt>ARABIC_LETTER_ALEF_WITH_HAMZA_BELOW</tt>
+	 * (&#1573;), and also <tt>ARABIC_LETTER_ALEF</tt> (&#1575;) itself.
+	 * 
+	 * @param source
+	 *           source character of the Quran text
+	 * @param keyword
+	 *           keyword character entered by user
+	 * @return <code>true</code> if two characters matched with special hamza matching rules, <code>false</code>
+	 *         otherwise.
+	 */
+	private static final boolean charactersAreEquivalent(char source, char keyword) {
+		if (source == keyword)
+			return true;
+		
+		// TEH
+		if (keyword == TEH || keyword == TEH_MARBUTA)
+			return source == TEH || source == TEH_MARBUTA;
+
+		// HAMZA
+		if (keyword == WAW)
+			return source == WAW_HAMZA_ABOVE;
+		if (keyword == ARABIC_YEH)
+			return source == YEH_HAMZA_ABOVE;
+		if (keyword == ALEF)
+			return source == ALEF_HAMZA_BELOW || source == ALEF_HAMZA_BELOW;
+		if (keyword == ALEF_HAMZA_ABOVE || keyword == ALEF_HAMZA_BELOW || keyword == WAW_HAMZA_ABOVE
+				|| keyword == YEH_HAMZA_ABOVE || keyword == HAMZA)
+			return source == ALEF_HAMZA_ABOVE || source == ALEF_HAMZA_BELOW || source == WAW_HAMZA_ABOVE
+					|| source == YEH_HAMZA_ABOVE || source == HAMZA;
+		return false;
+	}
+
+	/**
 	 * Will find a range of the first occurrence of <code>key</code> in <code>src</code>. This method will consider
 	 * diacritics on both <code>src</code> and <code>key</code>.
 	 * 
@@ -259,7 +344,7 @@ public class SearchUtils {
 	 */
 	public static Range indexOfMatchDiacritic(String src, String key, boolean matchCase, Locale locale) {
 		key = replaceLayoutSimilarCharacters(key);
-		src = replaceLayoutSimilarCharacters(src); // TODO: are you sure? yes :)
+		src = replaceLayoutSimilarCharacters(src);
 		if (!matchCase) {
 			if (locale != null) {
 				key = key.toLowerCase(locale);

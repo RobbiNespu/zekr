@@ -11,7 +11,7 @@ package net.sf.zekr.common.config;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.zekr.engine.theme.TemplateEngine;
+import net.sf.zekr.engine.template.TemplateEngine;
 
 /**
  * This is a wrapper class for converting velocity output result <code>String</code>

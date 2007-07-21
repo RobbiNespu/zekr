@@ -17,15 +17,15 @@ import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
-import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -69,6 +69,7 @@ public class BookmarkItemForm extends BaseForm {
 	private Button addBut;
 	private Button remBut;
 	private boolean readOnly;
+	private SashForm sashForm;
 
 	private static final ApplicationConfig config = ApplicationConfig.getInstance();
 
@@ -82,12 +83,13 @@ public class BookmarkItemForm extends BaseForm {
 	}
 
 	/**
-	 * Makes a new <code>BookmarkItemForm</code>. The underling <code>BookmarkItem</code> is also
-	 * created, but its ID is not assigned.
+	 * Makes a new <code>BookmarkItemForm</code>. The underling <code>BookmarkItem</code> is also created, but its
+	 * ID is not assigned.
 	 * 
-	 * @param parent the parent shell
+	 * @param parent
+	 *           the parent shell
 	 * @param isFolder
-	 * @param bookmarkSetDirection 
+	 * @param bookmarkSetDirection
 	 */
 	public BookmarkItemForm(Shell parent, boolean isFolder, int bookmarkSetDirection) {
 		this.parent = parent;
@@ -107,10 +109,23 @@ public class BookmarkItemForm extends BaseForm {
 		FillLayout fl = new FillLayout();
 		shell.setLayout(fl);
 		shell.setText(meaning("TITLE"));
-		shell.setImage(new Image(display, resource.getString(bookmarkItem.isFolder() ? "icon.bookmark.closeFolder" : "icon.bookmark.item")));
+		shell.setImage(new Image(display, resource.getString(bookmarkItem.isFolder() ? "icon.bookmark.closeFolder"
+				: "icon.bookmark.item")));
+
+		shell.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				if (!bookmarkItem.isFolder()) {
+					Rectangle r = shell.getBounds();
+					int[] w = sashForm.getWeights();
+					config.getProps().setProperty("view.bookmark.bookarkItemForm.location",
+							new String[] { "" + r.x, "" + r.y, "" + r.width, "" + r.height });
+					config.getProps().setProperty("view.bookmark.bookarkItemForm.sashWeight",
+							new String[] { "" + w[0], "" + w[1] });
+				}
+			}
+		});
 
 		init();
-		shell.setSize(bookmarkItem.isFolder() ? 280: 360, bookmarkItem.isFolder() ? 220 : 350);
 	}
 
 	private void init() {
@@ -118,51 +133,61 @@ public class BookmarkItemForm extends BaseForm {
 		body.setLayout(new GridLayout(1, false));
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
-
-		GridLayout gl = new GridLayout(2, false);
+		GridLayout gl = new GridLayout(1, false);
 		Group tableGroup = new Group(body, SWT.NONE);
 		tableGroup.setLayoutData(gd);
 		tableGroup.setLayout(gl);
 		tableGroup.setText(shell.getText());
 
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-		gd.horizontalSpan = 2;
-		Label label = new Label(tableGroup, SWT.NONE);
+		gd = new GridData(GridData.FILL_BOTH);
+		sashForm = new SashForm(tableGroup, SWT.SMOOTH | SWT.VERTICAL);
+		sashForm.setLayoutData(gd);
+		sashForm.SASH_WIDTH = 6;
+
+		gd = new GridData(GridData.FILL_BOTH);
+		gl = new GridLayout(2, false);
+		gl.marginWidth = gl.marginHeight = 0;
+		Composite topComp = new Composite(sashForm, SWT.NONE);
+		topComp.setLayout(gl);
+		topComp.setLayoutData(gd);
+
+		Label label = new Label(topComp, SWT.NONE);
 		label.setText(langEngine.getMeaning("NAME"));
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		nameText = new Text(tableGroup, SWT.BORDER | bookmarkSetDirection);
+		nameText = new Text(topComp, SWT.BORDER | bookmarkSetDirection);
 		nameText.setText(bookmarkItem.getName());
 		nameText.setLayoutData(gd);
 		nameText.selectAll();
 
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-		label = new Label(tableGroup, SWT.NONE | SWT.BEGINNING);
+		label = new Label(topComp, SWT.NONE | SWT.BEGINNING);
 		label.setText(langEngine.getMeaning("DESCRIPTION"));
 		label.setLayoutData(gd);
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.heightHint = 70;
-		descText = new Text(tableGroup, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | bookmarkSetDirection);
+		descText = new Text(topComp, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | bookmarkSetDirection);
 		descText.setText(bookmarkItem.getDescription());
 		descText.setLayoutData(gd);
 
 		if (!bookmarkItem.isFolder()) {
-			gd = new GridData(GridData.FILL_HORIZONTAL);
-			gd.horizontalSpan = 2;
-			gd.heightHint = 10;
-			Label sep = new Label(tableGroup, SWT.SEPARATOR | SWT.HORIZONTAL);
-			sep.setLayoutData(gd);
+			gd = new GridData(GridData.FILL_BOTH);
+			gl = new GridLayout(2, false);
+			gl.marginWidth = gl.marginHeight = 0;
+			Composite bottomComp = new Composite(sashForm, SWT.NONE);
+			bottomComp.setLayout(gl);
+			bottomComp.setLayoutData(gd);
 
 			gd = new GridData(GridData.FILL_BOTH);
 			gd.horizontalSpan = 2;
-			table = new Table(tableGroup, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+			table = new Table(bottomComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 			table.setLayoutData(gd);
 			table.setLinesVisible(true);
 			table.setHeaderVisible(true);
 			table.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
-					if (!readOnly){
+					if (!readOnly) {
 						if (table.getSelectionCount() == 0)
 							remBut.setEnabled(false);
 						else
@@ -174,7 +199,7 @@ public class BookmarkItemForm extends BaseForm {
 			gd = new GridData();
 			gd.horizontalSpan = 2;
 
-			Composite addRemComp = new Composite(tableGroup, SWT.NONE);
+			Composite addRemComp = new Composite(bottomComp, SWT.NONE);
 			RowLayout rl = new RowLayout(SWT.HORIZONTAL);
 			rl.spacing = 4;
 
@@ -291,17 +316,14 @@ public class BookmarkItemForm extends BaseForm {
 									cc.addSelectionListener(new SelectionAdapter() {
 										public void widgetSelected(SelectionEvent e) {
 											CCombo c = (CCombo) e.widget;
-											item.setData(String.valueOf(column), new Integer(c
-													.getSelectionIndex() + 1));
-//											item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+											item.setData(String.valueOf(column), new Integer(c.getSelectionIndex() + 1));
 										}
 									});
 									cc.setVisibleItemCount(10);
 									if (column == 0) {
 										cc.setItems(QuranPropertiesUtils.getIndexedSuraNames());
 									} else if (column == 1) {
-										int suraNum = ((Integer) item.getData(String.valueOf(column - 1)))
-												.intValue();
+										int suraNum = ((Integer) item.getData(String.valueOf(column - 1))).intValue();
 										cc.setItems(QuranPropertiesUtils.getSuraAyas(suraNum));
 									}
 									itemEditor = cc;
@@ -320,22 +342,27 @@ public class BookmarkItemForm extends BaseForm {
 													item.setText(1, aya.toString());
 													item.setData("0", sura);
 													item.setData("1", aya);
-													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(),
+															((Integer) item.getData("1")).intValue()).toString());
 												}
-												item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+												item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(),
+														((Integer) item.getData("1")).intValue()).toString());
 											} else {
 												item.setText(column, ((CCombo) itemEditor).getText());
 											}
 											itemEditor.dispose();
 											if (column == 0) {
 												// reset aya number to 1 if aya is not in range of selected sura's aya count
-												if (!QuranLocation.isValidLocation(((Integer)item.getData("0")).intValue(), ((Integer)item.getData("1")).intValue())) {
+												if (!QuranLocation.isValidLocation(((Integer) item.getData("0")).intValue(),
+														((Integer) item.getData("1")).intValue())) {
 													item.setText(1, "1");
 													item.setData("1", new Integer(1));
 												}
-												item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
-											} else if (column == 1){
-												item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+												item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(),
+														((Integer) item.getData("1")).intValue()).toString());
+											} else if (column == 1) {
+												item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(),
+														((Integer) item.getData("1")).intValue()).toString());
 											}
 											break;
 										case SWT.Traverse:
@@ -351,23 +378,28 @@ public class BookmarkItemForm extends BaseForm {
 														item.setText(1, aya.toString());
 														item.setData("0", sura);
 														item.setData("1", aya);
-														item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+														item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(),
+																((Integer) item.getData("1")).intValue()).toString());
 													}
-													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(),
+															((Integer) item.getData("1")).intValue()).toString());
 												} else {
 													item.setText(column, ((CCombo) itemEditor).getText());
 												}
 												if (column == 0) {
 													// reset aya number to 1 if aya is not in range of selected sura's aya count
-													if (!QuranLocation.isValidLocation(((Integer)item.getData("0")).intValue(), ((Integer)item.getData("1")).intValue())) {
+													if (!QuranLocation.isValidLocation(((Integer) item.getData("0")).intValue(),
+															((Integer) item.getData("1")).intValue())) {
 														item.setText(1, "1");
 														item.setData("1", new Integer(1));
 													}
-													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
-												} else if (column == 1){
-													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(), ((Integer) item.getData("1")).intValue()).toString());
+													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(),
+															((Integer) item.getData("1")).intValue()).toString());
+												} else if (column == 1) {
+													item.setText(2, new QuranLocation(((Integer) item.getData("0")).intValue(),
+															((Integer) item.getData("1")).intValue()).toString());
 												}
-											// FALL THROUGH
+												// FALL THROUGH
 											case SWT.TRAVERSE_ESCAPE:
 												itemEditor.dispose();
 												e.doit = false;
@@ -401,6 +433,12 @@ public class BookmarkItemForm extends BaseForm {
 					}
 				}
 			});
+
+			List weights = config.getProps().getList("view.bookmark.bookarkItemForm.sashWeight");
+			if (weights.size() != 0) {
+				sashForm.setWeights(new int[] { Integer.parseInt(weights.get(0).toString()),
+						Integer.parseInt(weights.get(1).toString()) });
+			}
 		}
 	}
 
@@ -445,11 +483,19 @@ public class BookmarkItemForm extends BaseForm {
 	}
 
 	/**
-	 * @param readOnly disables OK button if <code>true</code>.
+	 * @param readOnly
+	 *           disables OK button if <code>true</code>.
 	 * @return <code>true</code> if ok pressed, <code>false</code> otherwise.
 	 */
 	public boolean open(boolean readOnly) {
-		shell.setLocation(FormUtils.getCenter(parent, shell));
+		List b = config.getProps().getList("view.bookmark.bookarkItemForm.location");
+		if (b.size() != 0 && !bookmarkItem.isFolder()) {
+			shell.setBounds(Integer.parseInt(b.get(0).toString()), Integer.parseInt(b.get(1).toString()), Integer
+					.parseInt(b.get(2).toString()), Integer.parseInt(b.get(3).toString()));
+		} else {
+			shell.setSize(bookmarkItem.isFolder() ? 300 : 360, bookmarkItem.isFolder() ? 230 : 350);
+			shell.setLocation(FormUtils.getCenter(parent, shell));
+		}
 		this.readOnly = readOnly;
 		if (readOnly) {
 			okBut.setEnabled(false);

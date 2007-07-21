@@ -10,14 +10,12 @@ package net.sf.zekr.ui.options;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
@@ -72,7 +70,7 @@ public class OptionsForm {
 	public static final String FORM_ID = "OPTIONS_FORM";
 	private static final LanguageEngine lang = LanguageEngine.getInstance();
 	private static final ResourceManager resource = ResourceManager.getInstance();
-	private final Logger logger = Logger.getLogger(this.getClass());
+	private static final Logger logger = Logger.getLogger(OptionsForm.class);
 	private static final ApplicationConfig config = ApplicationConfig.getInstance();
 	private Display display;
 
@@ -83,7 +81,7 @@ public class OptionsForm {
 	Composite nav, det;
 
 	ToolItem general, view;
-	
+
 	Composite detGroup;
 	Composite navGroup;
 
@@ -107,7 +105,8 @@ public class OptionsForm {
 	private Combo themeSelect;
 	private Button addBut;
 	private Button delBut;
-	
+	private Button resizeablePane;
+
 	private static final List packs = new ArrayList(lang.getLangPacks());
 	private static final List themes = new ArrayList(config.getTheme().getAllThemes());
 
@@ -185,7 +184,7 @@ public class OptionsForm {
 		Composite buttons = new Composite(body, SWT.NONE);
 		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
 		buttons.setLayout(rl);
-		
+
 		buttons.setLayoutData(gd);
 
 		RowData rd = new RowData();
@@ -262,8 +261,8 @@ public class OptionsForm {
 
 		if (pressOkToApply && !fromOk) {
 			MessageBoxUtils.showMessage(meaning("PRESS_OK_TO_APPLY"));
-//			config.saveConfig();
-//			createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
+			// config.saveConfig();
+			// createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
 		}
 		if (refreshView)
 			EventUtils.sendEvent(EventProtocol.REFRESH_VIEW);
@@ -272,17 +271,19 @@ public class OptionsForm {
 	private void updateGeneralModel(boolean fromOk) {
 		selectedLangPack = (LanguagePack) packs.get(langSelect.getSelectionIndex());
 		selectedTheme = (ThemeData) themes.get(themeSelect.getSelectionIndex());
+		boolean isPaneResizeable = resizeablePane.getSelection();
 		if (!config.getLanguage().getActiveLanguagePack().id.equals(selectedLangPack.id)
-				|| !td.id.equals(selectedTheme.id)) {
+				|| !td.id.equals(selectedTheme.id)
+				|| props.getBoolean("options.general.resizeableTaskPane") != isPaneResizeable) {
 			pressOkToApply = true;
 		}
 
-		// props.setProperty("options.general.showSplash", Boolean.toString(showSplash.getSelection()));
 		config.setShowSplash(showSplash.getSelection());
 		props.setProperty("options.search.maxResult", "" + spinner.getSelection());
 		if (fromOk && pressOkToApply) {
 			props.setProperty("lang.default", selectedLangPack.id);
 			props.setProperty("theme.default", selectedTheme.id);
+			props.setProperty("options.general.resizeableTaskPane", new Boolean(isPaneResizeable));
 		}
 	}
 
@@ -311,12 +312,12 @@ public class OptionsForm {
 
 		rl = new RowLayout(SWT.HORIZONTAL);
 		rl.spacing = 10;
-		Composite lg = new Composite(generalTab, SWT.NONE);
-		lg.setLayout(rl);
-		
-		new Label(lg, SWT.NONE).setText(lang.getMeaning("LANGUAGE") + " :");
-		
-		langSelect = new Combo(lg , SWT.READ_ONLY | SWT.DROP_DOWN);
+		Composite comp = new Composite(generalTab, SWT.NONE);
+		comp.setLayout(rl);
+
+		new Label(comp, SWT.NONE).setText(lang.getMeaning("LANGUAGE") + " :");
+
+		langSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
 		langSelect.setVisibleItemCount(6);
 		String[] items = new String[lang.getLangPacks().size()];
 		int s = 0;
@@ -333,7 +334,7 @@ public class OptionsForm {
 
 		RowData rd = new RowData(24, 16);
 		image = new Image(shell.getDisplay(), activeLang.getIconPath());
-		final Canvas flag = new Canvas(lg , SWT.NONE);
+		final Canvas flag = new Canvas(comp, SWT.NONE);
 		flag.setLayoutData(rd);
 		flag.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
@@ -343,40 +344,44 @@ public class OptionsForm {
 
 		langSelect.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				image = new Image(shell.getDisplay(), 
-						((LanguagePack) packs.get(langSelect.getSelectionIndex())).getIconPath());
+				image = new Image(shell.getDisplay(), ((LanguagePack) packs.get(langSelect.getSelectionIndex()))
+						.getIconPath());
 				flag.redraw();
 			}
 		});
-		
+
 		rl = new RowLayout(SWT.HORIZONTAL);
 		rl.spacing = 10;
-		Composite themeComp = new Composite(generalTab, SWT.NONE);
-		themeComp.setLayout(rl);
+		comp = new Composite(generalTab, SWT.NONE);
+		comp.setLayout(rl);
 
-		Label ct = new Label(themeComp, SWT.NONE);
+		Label ct = new Label(comp, SWT.NONE);
 		ct.setText(lang.getMeaning("THEME") + ":");
-		themeSelect = new Combo(themeComp, SWT.READ_ONLY | SWT.DROP_DOWN);
+		themeSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
 		Map themeMap = new LinkedHashMap();
 		int selectedNum = 0;
 		for (int i = 0; i < themes.size(); i++) {
-			themeMap.put(((ThemeData)themes.get(i)).id, ((ThemeData)themes.get(i)).name);
+			themeMap.put(((ThemeData) themes.get(i)).id, ((ThemeData) themes.get(i)).name);
 			if (((ThemeData) themes.get(i)).id.equals(td.id))
 				selectedNum = i;
 		}
 		themeSelect.setItems((String[]) themeMap.values().toArray(new String[0]));
 		themeSelect.select(selectedNum);
-		
+
 		rl = new RowLayout(SWT.HORIZONTAL);
 		rl.spacing = 10;
-		Composite cg = new Composite(generalTab, SWT.NONE);
-		cg.setLayout(rl);
+		comp = new Composite(generalTab, SWT.NONE);
+		comp.setLayout(rl);
 
-		new Label(cg, SWT.NONE).setText(meaning("MAX_SEARCH_RESULT") + " :");
-		spinner = new Spinner(cg, SWT.BORDER);
+		new Label(comp, SWT.NONE).setText(meaning("MAX_SEARCH_RESULT") + " :");
+		spinner = new Spinner(comp, SWT.BORDER);
 		spinner.setMaximum(props.getInt("options.search.maxResult.maxSpinner"));
 		spinner.setSelection(props.getInt("options.search.maxResult"));
 		spinner.setMinimum(1);
+
+		resizeablePane = new Button(generalTab, SWT.CHECK);
+		resizeablePane.setText(meaning("RESIZEABLE_TASK_PANE"));
+		resizeablePane.setSelection(config.getProps().getBoolean("options.general.resizeableTaskPane"));
 	}
 
 	private void createViewTab() {
@@ -393,8 +398,8 @@ public class OptionsForm {
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
-		table = FormUtils.getTableFromMap(viewTab, td.props, lang.getMeaning("NAME"), lang.getMeaning("VALUE"), 140, 200, gd,
-				SWT.LEFT_TO_RIGHT);
+		table = FormUtils.getTableFromMap(viewTab, td.props, lang.getMeaning("NAME"), lang.getMeaning("VALUE"), 140, 200,
+				gd, SWT.LEFT_TO_RIGHT);
 
 		gd = new GridData(GridData.BEGINNING);
 		gd.horizontalSpan = 2;
@@ -411,8 +416,7 @@ public class OptionsForm {
 		addBut.setImage(new Image(display, resource.getString("icon.add")));
 		addBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				String key = MessageBoxUtils.textBoxPrompt(meaning("NEW_KEY"), lang
-						.getMeaning("QUESTION"));
+				String key = MessageBoxUtils.textBoxPrompt(meaning("NEW_KEY"), lang.getMeaning("QUESTION"));
 				if (key == null || "".equals(key.trim()))
 					return;
 				logger.info("Add a table row");
@@ -426,7 +430,7 @@ public class OptionsForm {
 
 		final TableEditor editor = new TableEditor(table);
 		editor.grabHorizontal = true;
-        editor.horizontalAlignment = SWT.LEFT;
+		editor.horizontalAlignment = SWT.LEFT;
 
 		table.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -436,6 +440,7 @@ public class OptionsForm {
 				else
 					delBut.setEnabled(false);
 			}
+
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// Clean up any previous editor control
 				Control oldEditor = editor.getEditor();
@@ -476,8 +481,7 @@ public class OptionsForm {
 		delBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (table.getSelectionCount() > 0)
-					if (MessageBoxUtils.showYesNoConfirmation(lang.getMeaning("YES_NO"), lang
-							.getMeaning("REMOVE"))) {
+					if (MessageBoxUtils.showYesNoConfirmation(lang.getMeaning("YES_NO"), lang.getMeaning("REMOVE"))) {
 						shell.forceActive();
 						logger.info("Remove table row: " + table.getSelectionIndex());
 						refreshView = true;
@@ -496,10 +500,10 @@ public class OptionsForm {
 		rd.width = 40;
 		delBut.setLayoutData(rd);
 
-//		gd = new GridData(GridData.BEGINNING);
-//		gd.widthHint = 40;
-//		gd.horizontalAlignment = SWT.FILL;
-//		del.setLayoutData(gd);
+		// gd = new GridData(GridData.BEGINNING);
+		// gd.widthHint = 40;
+		// gd.horizontalAlignment = SWT.FILL;
+		// del.setLayoutData(gd);
 	}
 
 	private String meaning(String key) {

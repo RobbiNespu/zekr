@@ -36,7 +36,6 @@ import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.Sort;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -66,6 +65,8 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -91,7 +92,6 @@ import org.eclipse.swt.widgets.Text;
  * @since Zekr 1.0
  */
 public class QuranForm extends BaseForm {
-	// Form widgets:
 	private Display display;
 	private Shell shell;
 	private Composite body;
@@ -102,6 +102,7 @@ public class QuranForm extends BaseForm {
 	private Label suraLabel;
 	private Label ayaLabel;
 	private Combo searchCombo, advancedSearchCombo;
+	private Composite advancedSearchComboComp;
 	private Text advancedSearchBox;
 	private Button applyButton;
 	private Button searchButton;
@@ -121,6 +122,7 @@ public class QuranForm extends BaseForm {
 	private Group leftGroup;
 	private Group detailGroup;
 	private SashForm sashForm;
+	private SashForm navSashForm;
 	private Menu searchMenu;
 	private StackLayout advancedSearchStackLayout;
 	private Button advancedSearchButton;
@@ -136,15 +138,16 @@ public class QuranForm extends BaseForm {
 	static final int SEPARATE = 2;
 	static final int QURAN_ONLY = 3;
 	static final int TRANS_ONLY = 4;
-	static final int CUSTOM_MIXED = 5;
-	static final String NAV_BUTTON = "NAV_BUTTON";
+	static final int MULTI_TRANS = 5;
+
+	private static final String NAV_BUTTON = "NAV_BUTTON";
 
 	private int searchTarget;
 	/** match case behavior for search */
 	// private boolean matchCase;
 	private final String FORM_ID = "QURAN_FORM";
 
-	private final Logger logger = Logger.getLogger(this.getClass());
+	private static final Logger logger = Logger.getLogger(QuranForm.class);
 
 	private QuranProperties quranProp;
 
@@ -163,6 +166,7 @@ public class QuranForm extends BaseForm {
 	private QuranTextSearcher qts;
 	private ApplicationConfig config;
 	private boolean isClosed;
+	private boolean isSashed;
 
 	private DisposeListener dl;
 	private QuranLocation quranLoc;
@@ -247,7 +251,12 @@ public class QuranForm extends BaseForm {
 		searchScopeList = new ArrayList();
 		makeFrame();
 
-		setLayout(config.getViewProp("view.viewLayout")); // set the layout
+		// set the layout
+		if (config.getTranslation().getDefault() == null) { // no translation found
+			setLayout(ApplicationConfig.QURAN_ONLY_LAYOUT);
+		} else {
+			setLayout(config.getViewProp("view.viewLayout"));
+		}
 		initQuranLocation();
 
 		dl = new DisposeListener() {
@@ -322,7 +331,14 @@ public class QuranForm extends BaseForm {
 		body = new Composite(shell, langEngine.getSWTDirection());
 		body.setLayout(pageLayout);
 
-		Composite workPane = new Composite(body, SWT.NONE);
+		isSashed = config.getProps().getBoolean("options.general.resizeableTaskPane");
+		if (isSashed) {
+			navSashForm = new SashForm(body, SWT.HORIZONTAL);
+			gd = new GridData(GridData.FILL_BOTH);
+			navSashForm.setLayoutData(gd);
+		}
+
+		Composite workPane = new Composite(isSashed ? navSashForm : body, SWT.NONE);
 		gd = new GridData(GridData.FILL_VERTICAL);
 		workPane.setLayoutData(gd);
 		gl = new GridLayout(1, false);
@@ -330,19 +346,29 @@ public class QuranForm extends BaseForm {
 		gl.marginLeft = gl.marginRight = gl.marginTop = gl.marginBottom = 2;
 		workPane.setLayout(gl);
 
-		Composite bgroup = new Composite(body, SWT.NONE);
+		Composite bgroup = new Composite(isSashed ? navSashForm : body, SWT.NONE);
 		gd = new GridData(GridData.FILL_BOTH);
 		bgroup.setLayoutData(gd);
 		fl = new FillLayout(SWT.VERTICAL);
 		fl.marginHeight = fl.marginWidth = 2;
 		bgroup.setLayout(fl);
 
+		if (isSashed) {
+			if (config.getProps().getProperty("view.quranForm.paneSashWeight") != null) {
+				List weights = config.getProps().getList("view.quranForm.paneSashWeight");
+				navSashForm.setWeights(new int[] { Integer.parseInt(weights.get(0).toString()),
+						Integer.parseInt(weights.get(1).toString()) });
+			} else {
+				navSashForm.setWeights(new int[] {2, 5});
+			}
+		}
+
 		Composite browsers = new Group(bgroup, SWT.NONE);
 		fl = new FillLayout(SWT.VERTICAL);
 		browsers.setLayout(fl);
 
 		sashForm = new SashForm(browsers, SWT.VERTICAL);
-		sashForm.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		sashForm.SASH_WIDTH = 3;
 
 		quranBrowser = new Browser(sashForm, SWT.NO_MERGE_PAINTS);
@@ -378,7 +404,7 @@ public class QuranForm extends BaseForm {
 							return; // do nothing
 						logger.info("Goto (" + aya + ")");
 						gotoAya(sura, aya);
-					} else if (message.substring(6, 11).equals("TRANS")) {
+					} else if (message.substring(6, 11).equals("TRANS") && config.getTranslation().getDefault() != null) {
 						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
 						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
 						PopupBox pe = null;
@@ -396,7 +422,6 @@ public class QuranForm extends BaseForm {
 								logger.log(e);
 							}
 						}
-
 						Point p = display.getCursorLocation();
 						p.y += 15;
 						int x = 300;
@@ -625,12 +650,20 @@ public class QuranForm extends BaseForm {
 		gd.verticalSpan = 2;
 		gd.heightHint = 60;
 		gd.verticalIndent = 6;
+
 		advancedSearchStackLayout = new StackLayout();
+
 		final Composite searchTextComp = new Composite(advancedSearchTabBody, SWT.NONE);
 		searchTextComp.setLayout(advancedSearchStackLayout);
 		searchTextComp.setLayoutData(gd);
 
-		advancedSearchCombo = new Combo(searchTextComp, SWT.DROP_DOWN);
+		GridLayout gl = new GridLayout(1, false);
+		gl.horizontalSpacing = gl.verticalSpacing = 0;
+		gl.marginHeight = gl.marginWidth = 0;
+		advancedSearchComboComp = new Composite(searchTextComp, SWT.NONE);
+		advancedSearchComboComp.setLayout(gl);
+
+		advancedSearchCombo = new Combo(advancedSearchComboComp, SWT.DROP_DOWN);
 		advancedSearchCombo.setVisibleItemCount(8);
 		advancedSearchCombo.addTraverseListener(new TraverseListener() {
 			public void keyTraversed(TraverseEvent e) {
@@ -639,7 +672,8 @@ public class QuranForm extends BaseForm {
 				}
 			}
 		});
-		// advancedSearchCombo.addKeyListener(comboSelectAll);
+		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		advancedSearchCombo.setLayoutData(gd);
 
 		advancedSearchBox = new Text(searchTextComp, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		advancedSearchBox.addSelectionListener(advancedSearchListener);
@@ -653,9 +687,9 @@ public class QuranForm extends BaseForm {
 		});
 		advancedSearchBox.addKeyListener(textSelectAll);
 
-		advancedSearchStackLayout.topControl = advancedSearchCombo;
+		advancedSearchStackLayout.topControl = advancedSearchComboComp;
 
-		GridLayout gl = new GridLayout(2, false);
+		gl = new GridLayout(2, false);
 		gl.horizontalSpacing = 0;
 		gl.marginWidth = 0;
 		gl.verticalSpacing = 0;
@@ -672,7 +706,8 @@ public class QuranForm extends BaseForm {
 		advancedSearchButton.addSelectionListener(advancedSearchListener);
 
 		// search option button
-		gd = new GridData(GlobalConfig.isLinux ? GridData.FILL_BOTH : GridData.FILL_HORIZONTAL);
+		//gd = new GridData(GlobalConfig.isLinux ? GridData.BEGINNING : GridData.BEGINNING);
+		gd = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
 		gd.horizontalIndent = -1;
 
 		advancedSearchArrowBut = new Button(searchButComp, SWT.TOGGLE);
@@ -701,10 +736,11 @@ public class QuranForm extends BaseForm {
 			public void widgetSelected(SelectionEvent e) {
 				if (toggleMultiLine.getSelection() == true) {
 					advancedSearchStackLayout.topControl = advancedSearchBox;
-					advancedSearchBox.setText(advancedSearchCombo.getText());
+					if (!advancedSearchBox.getText().replaceAll("\\r\\n|\\n|\\r", " ").equals(advancedSearchCombo.getText()))
+						advancedSearchBox.setText(advancedSearchCombo.getText());
 				} else {
-					advancedSearchStackLayout.topControl = advancedSearchCombo;
-					advancedSearchCombo.setText(advancedSearchBox.getText());
+					advancedSearchStackLayout.topControl = advancedSearchComboComp;
+					advancedSearchCombo.setText(advancedSearchBox.getText().replaceAll("\\r\\n|\\n|\\r", " "));
 				}
 				searchTextComp.layout();
 			}
@@ -713,7 +749,7 @@ public class QuranForm extends BaseForm {
 		if (toggleMultiLine.getSelection()) {
 			advancedSearchStackLayout.topControl = advancedSearchBox;
 		} else {
-			advancedSearchStackLayout.topControl = advancedSearchCombo;
+			advancedSearchStackLayout.topControl = advancedSearchComboComp;
 		}
 
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
@@ -855,7 +891,8 @@ public class QuranForm extends BaseForm {
 		});
 
 		// search option button
-		gd = new GridData(GlobalConfig.isLinux ? GridData.FILL_BOTH : GridData.FILL_HORIZONTAL);
+		gd = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
+//		gd = new GridData(GlobalConfig.isLinux ? GridData.FILL_BOTH : GridData.FILL_HORIZONTAL);
 		gd.horizontalIndent = -1;
 
 		searchArrowBut = new Button(searchButComp, SWT.TOGGLE);
@@ -916,6 +953,8 @@ public class QuranForm extends BaseForm {
 		transScopeBut.addKeyListener(ka);
 		transScopeBut.setSelection(!searchQuranContent);
 		transScopeBut.addSelectionListener(transScopeSA);
+		if (config.getTranslation().getDefault() == null)
+			transScopeBut.setEnabled(false);
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
@@ -934,7 +973,7 @@ public class QuranForm extends BaseForm {
 				} else {
 					searchArrowBut.setEnabled(true);
 					quranScopeBut.setEnabled(true);
-					transScopeBut.setEnabled(true);
+					transScopeBut.setEnabled(config.getTranslation().getDefault() != null);
 					if (transScopeBut.getSelection()) {
 						matchCaseCheckBox.setEnabled(true);
 						matchDiacCheckBox.setEnabled(false);
@@ -1104,7 +1143,7 @@ public class QuranForm extends BaseForm {
 				logger.info("Set Quran location to " + quranLoc);
 				if (viewLayout == MIXED) {
 					quranUri = HtmlRepository.getMixedUri(quranLoc.getSura(), quranLoc.getAya());
-				} else if (viewLayout == CUSTOM_MIXED) {
+				} else if (viewLayout == MULTI_TRANS) {
 					quranUri = HtmlRepository.getCustomMixedUri(quranLoc.getSura(), quranLoc.getAya());
 				} else {
 					quranUri = HtmlRepository.getQuranUri(quranLoc.getSura(), quranLoc.getAya());
@@ -1303,24 +1342,19 @@ public class QuranForm extends BaseForm {
 
 	protected void setLayout(String layout) {
 		logger.info("Set layout to " + layout);
-		if (layout.equals(ApplicationConfig.QURAN_ONLY_LAYOUT)) {
-			sashForm.setMaximizedControl(quranBrowser);
-			viewLayout = QURAN_ONLY;
-			updateQuran = true;
-			updateTrans = false;
-		} else if (layout.equals(ApplicationConfig.TRANS_ONLY_LAYOUT)) {
+		if (layout.equals(ApplicationConfig.TRANS_ONLY_LAYOUT)) {
 			sashForm.setMaximizedControl(transBrowser);
 			viewLayout = TRANS_ONLY;
 			updateQuran = false;
 			updateTrans = true;
 		} else if (layout.equals(ApplicationConfig.SEPARATE_LAYOUT)) {
-			if (viewLayout == SEPARATE) // if already is separate, do nothing
-				return;
+			if (viewLayout == SEPARATE) // if already is separate, reset sizing
+				sashForm.setWeights(new int[] { 1, 1 });
 			if (viewLayout == 0) { // Application just started up
-				List weights = config.getProps().getList("view.shell.sashWeight");
+				List weights = config.getProps().getList("view.quranForm.layoutSashWeight");
 				if (weights.size() != 0) {
-					sashForm.setWeights(new int[] { Integer.valueOf(weights.get(0).toString()).intValue(),
-							Integer.valueOf(weights.get(1).toString()).intValue() });
+					sashForm.setWeights(new int[] { Integer.parseInt(weights.get(0).toString()),
+							Integer.parseInt(weights.get(1).toString()) });
 				} else {
 					sashForm.setWeights(new int[] { 1, 1 });
 				}
@@ -1334,16 +1368,21 @@ public class QuranForm extends BaseForm {
 			viewLayout = MIXED;
 			updateQuran = true;
 			updateTrans = false;
-		} else if (layout.equals(ApplicationConfig.CUSTOM_MIXED_LAYOUT)) {
+		} else if (layout.equals(ApplicationConfig.MULTI_TRANS_LAYOUT)) {
 			sashForm.setMaximizedControl(quranBrowser);
-			viewLayout = CUSTOM_MIXED;
+			viewLayout = MULTI_TRANS;
 			updateQuran = true;
 			updateTrans = false;
+		} else { // assume layout is Quran-only
+			sashForm.setMaximizedControl(quranBrowser);
+			viewLayout = QURAN_ONLY;
+			updateQuran = true;
+			updateTrans = false;
+			config.setViewLayout(ApplicationConfig.QURAN_ONLY_LAYOUT);
 		}
 	}
 
 	private void saveConfigProps() {
-
 		// add form size and location
 		List list = new ArrayList();
 		Rectangle r = shell.getBounds();
@@ -1370,10 +1409,16 @@ public class QuranForm extends BaseForm {
 		// add search scopes
 		// searchScopeList
 
+		// sash props
 		if (viewLayout == SEPARATE) {
 			int[] w = sashForm.getWeights();
-			config.getProps().setProperty("view.shell.sashWeight", new String[] { "" + w[0], "" + w[1] });
+			config.getProps().setProperty("view.quranForm.layoutSashWeight", new String[] { "" + w[0], "" + w[1] });
 		}
+		if (isSashed) {
+			int[] w = navSashForm.getWeights();
+			config.getProps().setProperty("view.quranForm.paneSashWeight", new String[] { "" + w[0], "" + w[1] });
+		}
+
 	}
 
 	public void close() {

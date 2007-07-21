@@ -21,6 +21,7 @@ import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.bookmark.BookmarkSaveException;
 import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.bookmark.BookmarkSetGroup;
+import net.sf.zekr.engine.bookmark.BookmarkTransformer;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.MessageBoxUtils;
@@ -67,7 +68,7 @@ public class ManageBookmarkSetsForm {
 	public static final String FORM_ID = "BOOKMARK_SET_MANAGE_FORM";
 	private static final LanguageEngine lang = LanguageEngine.getInstance();
 	private static final ResourceManager resource = ResourceManager.getInstance();
-	private final Logger logger = Logger.getLogger(this.getClass());
+	private final static Logger logger = Logger.getLogger(ManageBookmarkSetsForm.class);
 	private static final ApplicationConfig config = ApplicationConfig.getInstance();
 
 	private BookmarkSet bookmark;
@@ -82,6 +83,7 @@ public class ManageBookmarkSetsForm {
 	private Button newButt;
 	private Button importButt;
 	private Button exportButt;
+	private Button export4webButt;
 	private Button defaultButt;
 	private Label hintLab;
 	private Table table;
@@ -128,14 +130,17 @@ public class ManageBookmarkSetsForm {
 					removeButt.setEnabled(false);
 					editButt.setEnabled(false);
 					exportButt.setEnabled(false);
+					export4webButt.setEnabled(false);
 				} else if (table.getSelectionCount() > 1) {
 					removeButt.setEnabled(true);
 					editButt.setEnabled(false);
 					exportButt.setEnabled(false);
+					export4webButt.setEnabled(false);
 				} else {
 					removeButt.setEnabled(true);
 					editButt.setEnabled(true);
 					exportButt.setEnabled(true);
+					export4webButt.setEnabled(true);
 				}
 
 				// default selected
@@ -385,6 +390,8 @@ public class ManageBookmarkSetsForm {
 		rd = new RowData();
 		rd.width = 40;
 		exportButt = new Button(gotoButComposite, SWT.PUSH);
+		export4webButt = new Button(gotoButComposite, SWT.PUSH);
+
 		exportButt.setToolTipText(lang.getMeaning("EXPORT"));
 		exportButt.setImage(new Image(display, resource.getString("icon.bookmark.export")));
 		exportButt.setLayoutData(rd);
@@ -397,9 +404,24 @@ public class ManageBookmarkSetsForm {
 				exportBookmark();
 			};
 		});
+
+		export4webButt.setToolTipText(meaning("EXPORT4WEB"));
+		export4webButt.setImage(new Image(display, resource.getString("icon.bookmark.export4web")));
+		export4webButt.setLayoutData(rd);
+		export4webButt.addSelectionListener(new SelectionAdapter() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			};
+
+			public void widgetSelected(SelectionEvent e) {
+				export4webBookmark();
+			};
+		});
+
 		removeButt.setEnabled(false);
 		editButt.setEnabled(false);
 		exportButt.setEnabled(false);
+		export4webButt.setEnabled(false);
 	}
 
 	private void importBookmark() {
@@ -410,7 +432,7 @@ public class ManageBookmarkSetsForm {
 				return;
 			for (Iterator iter = list.iterator(); iter.hasNext();) {
 				File srcFile = (File) iter.next();
-				File destFile = new File(Naming.BOOKMARK_DIR + "/" + srcFile.getName());
+				File destFile = new File(Naming.getBookmarkDir() + "/" + srcFile.getName());
 				BookmarkSet newBms = new BookmarkSet(destFile.getPath());
 				if (destFile.exists()) {
 					if (!MessageBoxUtils.showYesNoConfirmation(lang.getDynamicMeaning("FILE_ALREADY_EXISTS",
@@ -451,6 +473,30 @@ public class ManageBookmarkSetsForm {
 		}
 	}
 
+	private void export4webBookmark() {
+		int i = table.getSelectionIndex();
+		if (i <= -1)
+			return;
+		TableItem item = table.getItem(i);
+		try {
+			File destFile = MessageBoxUtils.exportFileDialog(shell,
+					new String[] { "HTML Files", "All Files (*.*)" }, new String[] { "*.html;*.htm", "*.*" });
+			if (destFile == null || destFile.isDirectory()) // cancelled
+				return;
+
+			String dfn = destFile.getName().toUpperCase();
+			if (!dfn.endsWith(".HTML") && !dfn.endsWith(".HTM"))
+				destFile = new File(destFile.getParent(), destFile.getName() + ".html");
+
+			BookmarkSet bms = (BookmarkSet) item.getData();
+			logger.info("Export (for web) bookmark " + bms.getId() + " to " + destFile);
+			//new BookmarkTransformer(bms, destFile).export();
+			BookmarkTransformer.getInstance().export(bms, destFile);
+		} catch (Exception e) {
+			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			logger.implicitLog(e);
+		}
+	}
 	private void exportBookmark() {
 		int i = table.getSelectionIndex();
 		if (i <= -1)
@@ -459,7 +505,7 @@ public class ManageBookmarkSetsForm {
 		try {
 			File destFile = MessageBoxUtils.exportFileDialog(shell,
 					new String[] { "XML Bookmark Files", "All Files (*.*)" }, new String[] { "*.xml", "*.*" });
-			if (destFile == null || destFile.isDirectory()) // canceled
+			if (destFile == null || destFile.isDirectory()) // cancelled
 				return;
 			if (!destFile.getName().toUpperCase().endsWith(".XML"))
 				destFile = new File(destFile.getParent(), destFile.getName() + ".xml");

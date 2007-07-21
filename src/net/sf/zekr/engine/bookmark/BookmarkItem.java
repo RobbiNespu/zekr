@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.zekr.common.resource.IQuranLocation;
-
 public class BookmarkItem implements Cloneable {
 	private String name;
 	private String description;

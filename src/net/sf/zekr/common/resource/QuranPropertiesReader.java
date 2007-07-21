@@ -11,7 +11,6 @@ package net.sf.zekr.common.resource;
 
 import java.util.ArrayList;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.NodeList;
@@ -20,8 +19,8 @@ import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 
 /**
- * A class used to read properties of the Quran suras from respective XML file. All operations on this class
- * are acted as zero-relative. This class is for internal use only.
+ * A class used to read properties of the Quran suras from respective XML file. All operations on this class are acted
+ * as zero-relative. This class is for internal use only.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -36,7 +35,7 @@ class QuranPropertiesReader extends QuranBaseProperties {
 	ArrayList juzProp = new ArrayList();
 	ArrayList sajdaProp = new ArrayList();
 
-	private Logger logger = Logger.getLogger(this.getClass());
+	private static final Logger logger = Logger.getLogger(QuranPropertiesReader.class);
 
 	QuranPropertiesReader() {
 		logger.info("Loading Quran properties from \"" + resource.getString("quran.props") + "\".");
@@ -62,7 +61,7 @@ class QuranPropertiesReader extends QuranBaseProperties {
 			sura.setMadani(QuranPropertiesUtils.isMadani(XmlUtils.getAttr(suraNodeList.item(i),
 					QuranPropertiesNaming.DESCENT_ATTR)));
 			sura.setName(XmlUtils.getAttr(suraNodeList.item(i), QuranPropertiesNaming.NAME_ATTR));
-			sura.setIndex(Integer.parseInt(XmlUtils.getAttr(suraNodeList.item(i),
+			sura.setIndex(Integer.parseInt(XmlUtils.getAttr(suraNodeList.item(i), 
 					QuranPropertiesNaming.INDEX_ATTR)));
 
 			suraProp.add(sura);
@@ -71,9 +70,8 @@ class QuranPropertiesReader extends QuranBaseProperties {
 		for (i = 0; i < juzNodeList.size(); i++) {
 			juz = new JuzProperties();
 
-			juz.setIndex(Integer.parseInt(XmlUtils.getAttr(juzNodeList.item(i),
-					QuranPropertiesNaming.INDEX_ATTR)));
-			juz.setSuraNumber(Integer.parseInt(XmlUtils.getAttr(juzNodeList.item(i),
+			juz.setIndex(Integer.parseInt(XmlUtils.getAttr(juzNodeList.item(i), QuranPropertiesNaming.INDEX_ATTR)));
+			juz.setSuraNumber(Integer.parseInt(XmlUtils.getAttr(juzNodeList.item(i), 
 					QuranPropertiesNaming.SURA_NUM_ATTR)));
 			juz.setAyaNumber(Integer.parseInt(XmlUtils.getAttr(juzNodeList.item(i),
 					QuranPropertiesNaming.AYA_NUM_ATTR)));
@@ -88,12 +86,11 @@ class QuranPropertiesReader extends QuranBaseProperties {
 		for (i = 0; i < sajdaNodeList.size(); i++) {
 			sajda = new SajdaProperties();
 
-			sajda.setIndex(Integer.parseInt(XmlUtils.getAttr(sajdaNodeList.item(i),
-					QuranPropertiesNaming.INDEX_ATTR)));
+			sajda.setIndex(Integer.parseInt(XmlUtils.getAttr(sajdaNodeList.item(i), QuranPropertiesNaming.INDEX_ATTR)));
 			sajda.setType(QuranPropertiesUtils.getSajdaType(XmlUtils.getAttr(sajdaNodeList.item(i),
 					QuranPropertiesNaming.TYPE_ATTR)));
-			sajda.setAyaNumber(Integer.parseInt(XmlUtils.getAttr(sajdaNodeList.item(i),
-					QuranPropertiesNaming.AYA_NUM_ATTR)));
+			sajda.setAyaNumber(Integer.parseInt(XmlUtils
+					.getAttr(sajdaNodeList.item(i), QuranPropertiesNaming.AYA_NUM_ATTR)));
 			sajda.setSuraNumber(Integer.parseInt(XmlUtils.getAttr(sajdaNodeList.item(i),
 					QuranPropertiesNaming.SURA_NUM_ATTR)));
 

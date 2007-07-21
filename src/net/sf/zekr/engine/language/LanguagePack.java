@@ -14,23 +14,23 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.ResourceManager;
 
 /**
- * A JavaBean for storing a <tt>pack</tt> node defined <tt>zekr-config.xml</tt>.
+ * A JavaBean for storing a language pack defined as an XML file in <tt>[zekr]/res/lang</tt> directory.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  * @version 0.2
  */
 public class LanguagePack {
-	
+
 	/** Java locale-like ID: en_US, fa_IR, ... */
 	public String id;
-	
+
 	public String localizedName;
-	
+
 	public String file;
-	
+
 	public String icon;
-	
+
 	public String direction;
 
 	/** English name */
@@ -73,18 +73,18 @@ public class LanguagePack {
 	public void setLatinName(String latinName) {
 		this.name = latinName;
 	}
-	
+
 	public String getIcon() {
 		return id.substring(3).toLowerCase() + ".gif";
 	}
 
 	/**
-	 * @return language pack .xml file
+	 * @return language pack .XML file
 	 */
 	public String getPath() {
 		return ApplicationPath.LANGUAGE_DIR + "/" + getFile();
 	}
-	
+
 	/**
 	 * @return language pack icon file or default icon if no icon specified
 	 */

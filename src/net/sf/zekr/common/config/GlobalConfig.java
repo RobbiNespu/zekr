@@ -21,21 +21,21 @@ import org.eclipse.swt.SWT;
 public class GlobalConfig {
 
 	/** Zekr version: e.g. 0.2.0beta1 for beta1 or 0.2.0 for final release. */
-	public static String ZEKR_VERSION = "0.6.0beta1";
+	public static String ZEKR_VERSION = "0.6.0beta2";
 
-	/** Flag specifying if OS is Linux */
+	/** Specifies if OS is Linux */
 	public static boolean isLinux = SWT.getPlatform().equalsIgnoreCase("gtk");
 
-	/** Flag specifying if OS is Mac */
+	/** Specifies if OS is Mac */
 	public static boolean isMac = SWT.getPlatform().equalsIgnoreCase("carbon");
 
-	/** Flag specifying if OS is Solaris */
+	/** Specifies if OS is Solaris */
 	public static boolean isSolaris = SWT.getPlatform().equalsIgnoreCase("motif");
 
-	/** Flag specifying if OS is Windows */
+	/** Specifies if OS is Windows */
 	public static boolean isWindows = SWT.getPlatform().equalsIgnoreCase("win32");
 
-	/** Default output encoding for html */
+	/** Default output encoding for HTML */
 	public static final String OUT_HTML_ENCODING = "UTF-8";
 
 	public static final String HOME_PAGE = "http://siahe.com/zekr";
@@ -70,10 +70,10 @@ public class GlobalConfig {
 	 */
 	public static final String getDefaultStartFolder() {
 		String ret = USER_HOME_PATH;
-		if (new File(USER_HOME_PATH + "/" + "desktop").exists())
-			return USER_HOME_PATH + "/" + "desktop";
-		else if (new File(USER_HOME_PATH + "/" + "desktop").exists())
-			return USER_HOME_PATH + "/" + "Desktop";
+		if (new File(USER_HOME_PATH + "/" + "desktop/").exists())
+			return USER_HOME_PATH + "/" + "desktop/";
+		else if (new File(USER_HOME_PATH + "/" + "Desktop/").exists())
+			return USER_HOME_PATH + "/" + "Desktop/";
 		return ret;
 	}
 }

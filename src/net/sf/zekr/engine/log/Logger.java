@@ -13,7 +13,6 @@ import java.io.File;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.runtime.Naming;
-import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.ui.error.ErrorForm;
 
 import org.apache.log4j.Level;
@@ -22,7 +21,9 @@ import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * Zekr default logger wrapper class for Log4J library.
+ * Zekr default logger wrapper class for Log4J library. This is not a singleton class. It creates a new instance of
+ * itself per each call to <code>getInstance()</code>, because different classes should have different Log4J loggers
+ * associated with.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -34,33 +35,35 @@ public class Logger {
 	public static final Level ERROR = Level.ERROR;
 	public static final Level FATAL = Level.FATAL;
 
-	private static org.apache.log4j.Logger logger;
+	private org.apache.log4j.Logger logger;
 
-	private static final String LOGGER_NAME = "Zekr";
 	private static final String STACK_TRACE_INDENRAION = "  ";
 	private static final Level DEAFALT_LEVEL = INFO;
 
-	private static Logger thisInstance;
-
-	private Logger() {
-		System.setProperty("zekr.home", Naming.HOME_PATH);
+	static {
+		System.setProperty("zekr.home", Naming.getWorkspace());
 
 		// make sure that ~/.zekr directory is created before logger startup
-		File file = new File(Naming.HOME_PATH);
+		File file = new File(Naming.getWorkspace());
 		if (!file.exists()) {
 			if (!file.exists() && !file.mkdirs())
 				throw new RuntimeException("Can not create \'" + file.getAbsoluteFile() + "\'.");
 		}
 
 		PropertyConfigurator.configure("res/config/lib/logger.properties");
-		logger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
-		sysInfo();
+		dumpSysInfo(org.apache.log4j.Logger.getLogger(Logger.class));
+	}
+
+	private Logger(Class clazz) {
+		logger = org.apache.log4j.Logger.getLogger(clazz);
 	}
 
 	/**
 	 * Dumps all necessary system properties.
+	 * 
+	 * @param logger
 	 */
-	private void sysInfo() {
+	private static void dumpSysInfo(org.apache.log4j.Logger logger) {
 		String n = System.getProperty("line.separator");
 		logger.info("System information:" + "\n" + "OS info:\t\t" + System.getProperty("os.name") + " - "
 				+ System.getProperty("os.version") + " - " + System.getProperty("os.arch") + n + "JVM info:\t\t"
@@ -71,28 +74,14 @@ public class Logger {
 	}
 
 	/**
-	 * @return logger with the <code>type</code> logger type which are:
-	 */
-	public static Logger getLogger() {
-		if (thisInstance == null)
-			thisInstance = new Logger();
-		logger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
-		return thisInstance;
-	}
-
-	/**
 	 * For logging more precisely by implying the class name from which log message is sent.
 	 * 
-	 * @param theClass logging source class
+	 * @param theClass
+	 *           logging source class
 	 * @return corresponding logger
 	 */
-	public static Logger getLogger(Class theClass) {
-		int i = theClass.getName().lastIndexOf('.');
-		String name = theClass.getName().substring(i + 1);
-		logger = org.apache.log4j.Logger.getLogger(name);
-		if (thisInstance == null)
-			thisInstance = new Logger();
-		return thisInstance;
+	synchronized final public static Logger getLogger(Class theClass) {
+		return new Logger(theClass);
 	}
 
 	final public void info(Object msg) {
@@ -116,13 +105,13 @@ public class Logger {
 	}
 
 	/**
-	 * This method logs <code>msg.toString()</code> if msg is not of type
-	 * <code>{@link java.lang.Throwable}</code> (exception). If the msg is in fact a <code>Throwable</code>
-	 * object, it logs it as an error message implicitly. Then if
-	 * <code>ApplicationConfig.isFullyInitialized()</code>, it brings up an error dialog and show the
+	 * This method logs <code>msg.toString()</code> if msg is not of type <code>{@link java.lang.Throwable}</code>
+	 * (exception). If the msg is in fact a <code>Throwable</code> object, it logs it as an error message implicitly.
+	 * Then if <code>ApplicationConfig.isFullyInitialized()</code>, it brings up an error dialog and show the
 	 * exception to user.
 	 * 
-	 * @param msg any object of type <code>String</code> or <code>Throwable</code>
+	 * @param msg
+	 *           any object of type <code>String</code> or <code>Throwable</code>
 	 */
 	final public void log(Object msg) {
 		if (msg instanceof Throwable)
@@ -139,7 +128,7 @@ public class Logger {
 		logger.log(level, msg);
 	}
 
-	private static void logException(Level level, Throwable th, boolean showForm) {
+	private void logException(Level level, Throwable th, boolean showForm) {
 		logger.log(level, "[Exception stack trace for \"" + th.toString() + "\"]");
 		StackTraceElement elements[] = th.getStackTrace();
 		for (int i = 0, n = elements.length; i < n; i++) {
@@ -152,7 +141,7 @@ public class Logger {
 		}
 	}
 
-	private static String getStackTrace(Throwable t) {
+	private String getStackTrace(Throwable t) {
 		StringBuffer ret = new StringBuffer();
 		StackTraceElement[] trace = t.getStackTrace();
 		if (t.getMessage() != null)
@@ -163,10 +152,11 @@ public class Logger {
 	}
 
 	/**
-	 * A call to this method will first log the <code>Throwable</code> error, and then <code>exit</code>s
-	 * the virtual machine with 1 error status.
+	 * A call to this method will first log the <code>Throwable</code> error, and then <code>exit</code>s the
+	 * virtual machine with 1 error status.
 	 * 
-	 * @param th throwable object
+	 * @param th
+	 *           throwable object
 	 */
 	public void doFatal(Throwable th) {
 		logException(Level.FATAL, th, true);

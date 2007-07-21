@@ -132,12 +132,13 @@ public class SearchScopeItem {
 	}
 
 	public String serialize() {
-		return "" + (exclusive ? '-' : '+') + suraFrom + DELIM + ayaFrom + DELIM + suraTo + DELIM + ayaTo;
+		return (exclusive ? "-" : "") + suraFrom + DELIM + ayaFrom + DELIM + suraTo + DELIM + ayaTo;
 	}
 
 	/**
 	 * Creates a SearchScopeItem from the given string <code>scopeItemStr</code>. A string representation of a search
-	 * scoope item is of the form <nobr><tt>[+|-]sura_from,aya_from,sura_to,aya_to</tt></nobr>
+	 * scoope item is of the form <tt>[-]sura_from,aya_from,sura_to,aya_to</tt>. "<tt>-</tt>" is used to specify that
+	 * this search scope is <b>exclusive</b>.
 	 * 
 	 * @param scopeItemStr
 	 *           input scope item in string format

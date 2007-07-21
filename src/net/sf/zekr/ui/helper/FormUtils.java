@@ -12,8 +12,6 @@ package net.sf.zekr.ui.helper;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sf.zekr.ui.ProgressForm;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.graphics.Point;

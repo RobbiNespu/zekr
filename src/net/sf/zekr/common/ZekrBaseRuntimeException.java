@@ -8,6 +8,12 @@
  */
 package net.sf.zekr.common;
 
+/**
+ * Zekr runtime exceptions should extend this class.
+ * 
+ * @author Mohsen Saboorian
+ * @since Zekr 1.0
+ */
 public class ZekrBaseRuntimeException extends RuntimeException {
 	private static final long serialVersionUID = 5681293967162130227L;
 

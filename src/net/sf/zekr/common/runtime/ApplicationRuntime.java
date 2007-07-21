@@ -16,12 +16,11 @@ import java.util.Iterator;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.theme.ITransformer;
-import net.sf.zekr.engine.theme.TemplateTransformationException;
+import net.sf.zekr.engine.template.ITransformer;
+import net.sf.zekr.engine.template.TemplateTransformationException;
+import net.sf.zekr.engine.template.ThemeTemplate;
 import net.sf.zekr.engine.theme.Theme;
-import net.sf.zekr.engine.theme.ThemeTemplate;
 
 import org.apache.commons.io.FileUtils;
 
@@ -34,16 +33,16 @@ public class ApplicationRuntime {
 	private static final Logger logger = Logger.getLogger(ApplicationRuntime.class);
 
 	public ApplicationRuntime() {
-		dirList.add(Naming.HOME_PATH);
-		dirList.add(Naming.QURAN_CACHE_DIR);
-		dirList.add(Naming.TRANS_CACHE_DIR);
-		dirList.add(Naming.MIXED_CACHE_DIR);
-		dirList.add(Naming.SEARCH_CACHE_DIR);
-		dirList.add(Naming.CONFIG_DIR);
-		dirList.add(Naming.THEME_PROPS_DIR);
-		dirList.add(Naming.BOOKMARK_DIR);
-		dirList.add(Naming.TRANS_DIR);
-		dirList.add(Naming.THEME_DIR);
+		dirList.add(Naming.getWorkspace());
+		dirList.add(Naming.getQuranCacheDir());
+		dirList.add(Naming.getTransCacheDir());
+		dirList.add(Naming.getMixedCacheDir());
+		dirList.add(Naming.getSearchCacheDir());
+		dirList.add(Naming.getConfigDir());
+		dirList.add(Naming.getThemePropsDir());
+		dirList.add(Naming.getBookmarkDir());
+		dirList.add(Naming.getTransDir());
+		dirList.add(Naming.getThemeDir());
 	}
 
 	/**
@@ -70,14 +69,14 @@ public class ApplicationRuntime {
 	public void recreateHtmlCache() throws IOException {
 		logger.info("Recreate HTML cache directory.");
 
-		File cache = new File(Naming.CACHE_DIR);
+		File cache = new File(Naming.getCacheDir());
 		if (cache.exists())
 			FileUtils.deleteDirectory(cache);
 		cache.mkdir();
-		new File(Naming.QURAN_CACHE_DIR).mkdir();
-		new File(Naming.TRANS_CACHE_DIR).mkdir();
-		new File(Naming.MIXED_CACHE_DIR).mkdir();
-		new File(Naming.SEARCH_CACHE_DIR).mkdir();
+		new File(Naming.getQuranCacheDir()).mkdir();
+		new File(Naming.getTransCacheDir()).mkdir();
+		new File(Naming.getMixedCacheDir()).mkdir();
+		new File(Naming.getSearchCacheDir()).mkdir();
 	}
 
 	public void configure() throws IOException {
@@ -116,23 +115,23 @@ public class ApplicationRuntime {
 	}
 
 	public void recreateQuranCache() throws IOException {
-		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.QURAN_CACHE_DIR);
+		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.getQuranCacheDir());
 	}
 
 	public void recreateTransCache() throws IOException {
-		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.TRANS_CACHE_DIR);
+		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.getTransCacheDir());
 	}
 
 	public void recreateMixedCache() throws IOException {
-		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.MIXED_CACHE_DIR);
+		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.getMixedCacheDir());
 	}
 
 	public void clearCache() {
 		// net.sf.zekr.common.util.FileUtils.delete(new File(Naming.CACHE_DIR));
 		try {
-			FileUtils.deleteDirectory(new File(Naming.CACHE_DIR));
+			FileUtils.deleteDirectory(new File(Naming.getCacheDir()));
 		} catch (IOException e) {
-			logger.error("Error while deleting directory: " + new File(Naming.CACHE_DIR));
+			logger.error("Error while deleting directory: " + new File(Naming.getCacheDir()));
 			logger.log(e);
 		}
 	}
@@ -140,9 +139,9 @@ public class ApplicationRuntime {
 	public void clearConfig() {
 		// net.sf.zekr.common.util.FileUtils.delete(new File(Naming.CONFIG_PATH));
 		try {
-			FileUtils.deleteDirectory(new File(Naming.CONFIG_DIR));
+			FileUtils.deleteDirectory(new File(Naming.getConfigDir()));
 		} catch (IOException e) {
-			logger.error("Error while deleting directory: " + new File(Naming.CONFIG_DIR));
+			logger.error("Error while deleting directory: " + new File(Naming.getConfigDir()));
 			logger.log(e);
 		}
 	}
@@ -157,8 +156,8 @@ public class ApplicationRuntime {
 
 	public void recreateThemePropertiesDirectory() {
 		try {
-			FileUtils.deleteDirectory(new File(Naming.THEME_PROPS_DIR));
-			new File(Naming.THEME_PROPS_DIR).mkdir();
+			FileUtils.deleteDirectory(new File(Naming.getThemePropsDir()));
+			new File(Naming.getThemePropsDir()).mkdir();
 		} catch (IOException e) {
 			logger.error("Error while saving config to " + ApplicationPath.USER_CONFIG);
 		}

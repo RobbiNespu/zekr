@@ -8,9 +8,6 @@
  */
 package net.sf.zekr.engine.bookmark;
 
-import javax.xml.transform.TransformerException;
-
-import net.sf.zekr.common.ZekrBaseException;
 
 public class BookmarkSaveException extends BookmarkException {
 	private static final long serialVersionUID = 752971009504165015L;

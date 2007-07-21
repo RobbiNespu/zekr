@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Nov 17, 2005
  */
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,6 +20,7 @@ import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.search.SearchUtils;
 import net.sf.zekr.engine.search.TranslationSearch;
+import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.TranslationData;
 
 /**
@@ -46,7 +47,7 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 			qs = new TranslationSearch(quran, matchCase, td.locale);
 			Map result = new LinkedHashMap();
 
-			boolean ok = qs.findAll(result, keyword); // searcg over the whole Quran translation
+			boolean ok = qs.findAll(result, keyword); // Search over the whole Quran translation
 
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {
 					"" + qs.getResultCount(), "" + result.size() }));

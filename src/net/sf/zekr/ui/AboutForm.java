@@ -8,7 +8,7 @@
  */
 package net.sf.zekr.ui;
 
-import net.sf.zekr.common.config.BrowserShop;
+import net.sf.zekr.common.config.BrowserUtils;
 import net.sf.zekr.common.config.GlobalConfig;
 
 import org.eclipse.swt.SWT;
@@ -20,8 +20,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -94,7 +92,7 @@ public class AboutForm extends BaseForm {
 		link.setLayoutData(gd);
 		link.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				BrowserShop.openLink(GlobalConfig.HOME_PAGE);
+				BrowserUtils.openLink(GlobalConfig.HOME_PAGE);
 			}
 		});
 

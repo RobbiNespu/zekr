@@ -29,6 +29,6 @@ public class ArabicFilter extends TokenFilter {
 		if (t == null)
 			return null;
 		// return a token with filtered characters.
-		return new Token(SearchUtils.arabicSimplify(t.termText()), t.startOffset(), t.endOffset(), t.type());
+		return new Token(SearchUtils.arabicSimplify4AdvancedSearch(t.termText()), t.startOffset(), t.endOffset(), t.type());
 	}
 }

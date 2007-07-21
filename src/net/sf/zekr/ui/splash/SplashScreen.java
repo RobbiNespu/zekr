@@ -9,9 +9,7 @@
 
 package net.sf.zekr.ui.splash;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.language.LanguageEngine;
-import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.eclipse.swt.SWT;

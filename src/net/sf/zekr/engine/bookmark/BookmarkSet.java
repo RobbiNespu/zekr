@@ -29,7 +29,7 @@ import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
-import net.sf.zekr.engine.xml.XmlWriter;
+import net.sf.zekr.engine.xml.XmlUtils;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -56,8 +56,8 @@ public class BookmarkSet {
 	private BookmarkItem parentItem;
 
 	/**
-	 * Although items are stored as a tree DS in <code>parentItem</code>, a reference to each item is
-	 * stored in a map of id-items.
+	 * Although items are stored as a tree DS in <code>parentItem</code>, a reference to each item is stored in a map
+	 * of id-items.
 	 */
 	private Map itemMap = new HashMap();
 
@@ -68,10 +68,10 @@ public class BookmarkSet {
 	private String id;
 
 	/**
-	 * This c'tor will not load all the bookmark set file. A call to <code>load()</code> is needed first.
-	 * Hence, this class is in fact lazy-load.
+	 * This constructor will not load all the bookmark set file. A call to <code>load()</code> is needed first. Hence,
+	 * this class is in fact lazy-load.
 	 * 
-	 * @param bookmarkFile
+	 * @param filePath
 	 */
 	public BookmarkSet(String filePath) {
 		file = new File(filePath);
@@ -79,22 +79,24 @@ public class BookmarkSet {
 	}
 
 	/**
-	 * This c'tor is used for creating new bookmark sets. ID of the bookmark in addition to a boolean value is
-	 * provided in order to differ it from the other c'tor. However, <code>isNew</code> parameter is
-	 * ignored.<br>
-	 * This method will load blank bookmark, and the bookmark will not be saved until a call to
-	 * <code>save()</code> be performed.<br>
-	 * Note that after a call to this, bookmark would be loaded as well as initialized, hence there is no need
-	 * more to call <code>load()</code>.
+	 * This constructor is used for creating new bookmark sets. ID of the bookmark in addition to a boolean value is
+	 * provided in order to differ it from the other c'tor. However, <code>isNew</code> parameter is ignored.<br>
+	 * This method will load blank bookmark, and the bookmark will not be saved until a call to <code>save()</code> be
+	 * performed.<br>
+	 * Note that after a call to this, bookmark would be loaded as well as initialized, hence there is no need more to
+	 * call <code>load()</code>.
 	 * 
-	 * @param id bookmark id
-	 * @param isNew a dummy parameter
-	 * @throws IOException if any IO error occurred during blank bookmark copy
+	 * @param id
+	 *           bookmark id
+	 * @param isNew
+	 *           a dummy parameter
+	 * @throws IOException
+	 *            if any IO error occurred during blank bookmark copy
 	 */
 	public BookmarkSet(String id, boolean isNew) {
 		ResourceManager res = ResourceManager.getInstance();
 		String bbPath = res.getString("bookmark.blank");
-		file = new File(Naming.BOOKMARK_DIR + "/" + id + ".xml");
+		file = new File(Naming.getBookmarkDir() + "/" + id + ".xml");
 		this.id = id;
 		Date d = new Date();
 		load(bbPath);
@@ -129,7 +131,17 @@ public class BookmarkSet {
 	public void save() throws BookmarkSaveException {
 		updateXml();
 		try {
-			XmlWriter.writeXML(xmlDocument, file);
+			XmlUtils.writeXml(xmlDocument, file);
+		} catch (TransformerException e) {
+			logger.error("Error saving bookmark XML file: " + e);
+			throw new BookmarkSaveException("Error saving bookmark: " + e.getMessage());
+		}
+	}
+
+	public void save(Document target) throws BookmarkSaveException {
+		updateXml();
+		try {
+			XmlUtils.writeXml(xmlDocument, file);
 		} catch (TransformerException e) {
 			logger.error("Error saving bookmark XML file: " + e);
 			throw new BookmarkSaveException("Error saving bookmark: " + e.getMessage());
@@ -157,9 +169,9 @@ public class BookmarkSet {
 		Element authorElem = xmlDocument.createElement("author");
 		authorElem.appendChild(xmlDocument.createTextNode(getAuthor()));
 		infoElem.appendChild(authorElem);
-		Element langElem = xmlDocument.createElement("langElem");
-		langElem.appendChild(xmlDocument.createTextNode(getLanguage()));
-		infoElem.appendChild(langElem);
+		Element language = xmlDocument.createElement("language");
+		language.appendChild(xmlDocument.createTextNode(getLanguage()));
+		infoElem.appendChild(language);
 		Element dirElem = xmlDocument.createElement("dir");
 		dirElem.appendChild(xmlDocument.createTextNode(getDirection()));
 		infoElem.appendChild(dirElem);
@@ -366,7 +378,7 @@ public class BookmarkSet {
 	}
 
 	public void changeIdIfPossible(String newId) throws ZekrBaseException {
-		File newFile = new File(Naming.BOOKMARK_DIR + "/" + newId + ".xml");
+		File newFile = new File(Naming.getBookmarkDir() + "/" + newId + ".xml");
 		if (newFile.exists())
 			throw new ZekrBaseException("A bookmark with the ID \"" + newId + "\" already exists.");
 		try {
@@ -381,11 +393,12 @@ public class BookmarkSet {
 		file = newFile;
 		id = newId;
 	}
+
 	public String[] getIdAndName() {
 		if (loaded)
-			return new String[] {id, name};
+			return new String[] { id, name };
 		else
-			return new String[] {id, "[" + lang.getMeaning("NOT_LOADED") + "]"};
+			return new String[] { id, "[" + lang.getMeaning("NOT_LOADED") + "]" };
 	}
 
 	public boolean isLoaded() {
@@ -394,5 +407,9 @@ public class BookmarkSet {
 
 	public File getFile() {
 		return file;
+	}
+
+	public Document getXmlDocument() {
+		return xmlDocument;
 	}
 }

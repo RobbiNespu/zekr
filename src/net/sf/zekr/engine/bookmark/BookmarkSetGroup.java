@@ -8,12 +8,8 @@
  */
 package net.sf.zekr.engine.bookmark;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.zekr.common.ZekrBaseRuntimeException;
-import net.sf.zekr.common.util.CollectionUtils;
 
 /**
  * @author Mohsen Saboorian

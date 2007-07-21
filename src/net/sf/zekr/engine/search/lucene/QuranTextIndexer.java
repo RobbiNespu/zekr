@@ -14,6 +14,7 @@ import java.io.StringReader;
 import java.util.Date;
 import java.util.Iterator;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.util.FileUtils;
@@ -45,6 +46,7 @@ public class QuranTextIndexer implements IIndexer {
 	public static final String CONTENTS_FIELD = "contents";
 
 	private final static Logger logger = Logger.getLogger(QuranTextIndexer.class);
+	private final static ApplicationConfig config = ApplicationConfig.getInstance();
 	private IQuranText quranText;
 	private File indexDir;
 
@@ -53,11 +55,18 @@ public class QuranTextIndexer implements IIndexer {
 		this.indexDir = indexDir;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.engine.search.lucene.IIndexer#doIndex()
+	 */
 	public void doIndex() throws IndexingException {
 		try {
 			Date d1 = new Date();
 			logger.debug("Indexing Quran text started.");
 			IndexWriter indexWriter = new IndexWriter(indexDir, new ArabicAnalyzer(), true);
+			indexWriter.setMergeFactor(15);
+			indexWriter.setMaxBufferedDocs(2 * (config.getProps().getInt("index.speed") + 2));
 			logger.debug("A new instance of IndexWriter created.");
 			logger.debug("Adding suras...");
 			for (int sura = 1; sura <= 114; sura++) {
@@ -68,6 +77,10 @@ public class QuranTextIndexer implements IIndexer {
 					doc.add(new Field(LOCATION_FIELD, new QuranLocation(sura, aya).toSortableString(), Store.YES,
 							Field.Index.UN_TOKENIZED));
 					indexWriter.addDocument(doc);
+
+					if (Thread.interrupted()) { // test and clear interrupted status
+						throw new IndexingException("Indexing thread interrupted!");
+					}
 				}
 				logger.debug("Sura " + sura + " indexed.");
 			}
@@ -75,7 +88,7 @@ public class QuranTextIndexer implements IIndexer {
 			indexWriter.optimize();
 			indexWriter.close();
 			Date d2 = new Date();
-			logger.debug("Indexing Quran text done. Took: " + (d2.getTime() - d1.getTime()) + "ms.");
+			logger.info("Indexing Quran text done. Took: " + (d2.getTime() - d1.getTime()) + "ms.");
 		} catch (IOException e) {
 			logger.debug("Error during indexing process: " + e);
 			throw new IndexingException(e);
@@ -83,15 +96,16 @@ public class QuranTextIndexer implements IIndexer {
 	}
 
 	/**
-	 * Should be called when doIndex is not successful (when returened any exception).
+	 * Should be called when doIndex is not successful (when returned any exception).
 	 */
-	public void roleBack() {
+	public void rollBack() {
 		logger.info("Remove index files inside " + indexDir);
 		FileUtils.delete(indexDir);
 	}
 
 	/**
 	 * Testing code.
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -118,7 +132,7 @@ public class QuranTextIndexer implements IIndexer {
 			for (int i = 0; i < hits.length(); i++) {
 				String text = hits.doc(i).get(CONTENTS_FIELD);
 				TokenStream tokenStream = arabicAnalyzer.tokenStream(CONTENTS_FIELD, new StringReader(text));
-				// Get 3 best fragments and seperate with a "..."
+				// Get 3 best fragments and separate with a "..."
 				String results = highlighter.getBestFragment(tokenStream, text);
 				System.out.println(results);
 			}

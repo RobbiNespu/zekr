@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 public abstract class AbstractSplachScreen {
-	protected final Logger logger = Logger.getLogger(this.getClass());
+	protected final Logger logger = Logger.getLogger(AbstractSplachScreen.class);
 
 	protected final ResourceManager resource = ResourceManager.getInstance();
 	protected Image splashImage = null;
@@ -23,7 +23,7 @@ public abstract class AbstractSplachScreen {
 	protected Display display;
 
 	public AbstractSplachScreen(Display display) {
-		showSplash = !new File(Naming.CONFIG_DIR + "/.DONTSHOWSPASH").exists();
+		showSplash = !new File(Naming.getConfigDir() + "/.DONTSHOWSPASH").exists();
 		this.display = display;
 		splashImage = new Image(display, resource.getString("image.splashScreen"));
 	}

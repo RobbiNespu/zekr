@@ -10,7 +10,6 @@ package net.sf.zekr.ui;
 
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.language.LanguageEngine;
-import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.helper.EventProtocol;
 
 import org.eclipse.swt.widgets.Display;
@@ -19,7 +18,6 @@ import org.eclipse.swt.widgets.Shell;
 public abstract class BaseForm implements EventProtocol {
 	protected LanguageEngine langEngine = LanguageEngine.getInstance();
 	protected final ResourceManager resource = ResourceManager.getInstance();
-	protected final Logger logger = Logger.getLogger(this.getClass());
 
 	public void show() {
 		getShell().open();
@@ -28,10 +26,6 @@ public abstract class BaseForm implements EventProtocol {
 	abstract protected Shell getShell();
 
 	abstract protected Display getDisplay();
-
-//	public void dispose() {
-//		getShell().close();
-//	}
 
 	public boolean isDisposed() {
 		return getShell().isDisposed();

@@ -9,12 +9,7 @@
 package net.sf.zekr.engine.bookmark.ui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
@@ -34,8 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.MenuAdapter;
-import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -73,7 +66,7 @@ public class BookmarkUtils {
 			menuItem = new MenuItem(parentMenu, SWT.CASCADE);
 			menuItem.setText(StringUtils.abbreviate(bookmarkItem.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH));
 			menuItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.bookmark.closeFolder")));
-			Menu menu = new Menu(shell, SWT.DROP_DOWN);
+			Menu menu = new Menu(shell, SWT.DROP_DOWN | lang.getSWTDirection());
 			menuItem.setMenu(menu);
 			// Windows paints the whole menu, if icon changes
 			/*

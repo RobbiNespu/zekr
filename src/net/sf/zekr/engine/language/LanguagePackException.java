@@ -9,13 +9,11 @@
 
 package net.sf.zekr.engine.language;
 
-import net.sf.zekr.common.ZekrBaseException;
 import net.sf.zekr.common.ZekrBaseRuntimeException;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class LanguagePackException extends ZekrBaseRuntimeException {
 	private static final long serialVersionUID = -7968091247753668046L;

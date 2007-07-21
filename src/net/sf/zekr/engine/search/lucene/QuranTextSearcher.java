@@ -30,7 +30,6 @@ import net.sf.zekr.engine.search.SearchScopeItem;
 import net.sf.zekr.engine.search.SearchUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
@@ -53,12 +52,14 @@ import org.apache.lucene.search.highlight.QueryScorer;
  * @since Zekr 1.0
  */
 public class QuranTextSearcher implements Enumeration {
+	private final Logger logger = Logger.getLogger(QuranTextSearcher.class);
+	private static final int MAX_CLAUSE_COUNT = 10000;
+
 	private File indexDir;
 	private Analyzer analyzer;
 	private int maxClauseCount;
 	private Sort sortResultOrder;
 	private IExtendedFormatter highlightFormatter;
-	private final static Logger logger = Logger.getLogger(QuranTextSearcher.class);
 	private int maxResultPerPage;
 	private int pageNum;
 	private List results;
@@ -72,7 +73,8 @@ public class QuranTextSearcher implements Enumeration {
 	 * Checks first user home directory and then installation directory for indices.
 	 */
 	public QuranTextSearcher() {
-		this(new File(Naming.QURAN_INDEX_DIR).exists() ? Naming.QURAN_INDEX_DIR : ApplicationPath.QURAN_INDEX_DIR, null);
+		this(new File(Naming.getQuranIndexDir()).exists() ? Naming.getQuranIndexDir() : ApplicationPath.QURAN_INDEX_DIR,
+				null);
 	}
 
 	public QuranTextSearcher(File indexDir, SearchScope searchScope) {
@@ -82,7 +84,7 @@ public class QuranTextSearcher implements Enumeration {
 		this.indexDir = indexDir;
 		this.searchScope = searchScope;
 		this.analyzer = new ArabicAnalyzer();
-		this.maxClauseCount = Integer.MAX_VALUE;
+		this.maxClauseCount = MAX_CLAUSE_COUNT;
 		this.sortResultOrder = Sort.RELEVANCE;
 		this.highlightFormatter = new ZekrHighlightFormatter();
 		this.maxResultPerPage = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");
@@ -202,6 +204,15 @@ public class QuranTextSearcher implements Enumeration {
 
 	}
 
+	/**
+	 * Main search method, for internal use.
+	 * 
+	 * @param q
+	 *           query string
+	 * @return a list of highlighted string objects.
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	private List _search(String q) throws IOException, ParseException {
 		logger.debug("Open index reader.");
 		IndexReader reader = IndexReader.open(indexDir);
@@ -210,6 +221,7 @@ public class QuranTextSearcher implements Enumeration {
 
 		// allow search terms like "*foo" with leading star
 		parser.setAllowLeadingWildcard(true);
+		// parser.setFuzzyPrefixLength(10);
 
 		logger.debug("Parse query.");
 		query = parser.parse(q);
@@ -306,7 +318,7 @@ public class QuranTextSearcher implements Enumeration {
 		ArabicAnalyzer myanalyzer = new ArabicAnalyzer();
 		QueryParser parser = new QueryParser(QuranTextIndexer.CONTENTS_FIELD, myanalyzer);
 		Query query = parser.parse(q);
-		BooleanQuery.setMaxClauseCount(10000);
+		BooleanQuery.setMaxClauseCount(MAX_CLAUSE_COUNT);
 		query = query.rewrite(reader); // required to expand search terms
 		System.out.println("Searching for: " + query.toString());
 		Hits hits = is.search(query, Sort.RELEVANCE);
@@ -372,5 +384,15 @@ class QuranRangeFilter extends Filter {
 				bits.set(i);
 		}
 		return bits;
+	}
+
+	/**
+	 * @param path
+	 *           directory to test against existence of lucene indices.
+	 * @return <code>true</code> if some some Lucene indices exists at the specified path, <code>false</code>
+	 *         otherwise
+	 */
+	public boolean indexExists(String path) {
+		return IndexReader.indexExists(path);
 	}
 }

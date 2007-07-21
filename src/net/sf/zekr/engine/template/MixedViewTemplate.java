@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Mar 19, 2006
  */
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranText;
@@ -22,13 +22,17 @@ public class MixedViewTemplate extends AbstractQuranViewTemplate {
 	private int suraNum;
 
 	/**
-	 * Creates a new mixed view template object. It will put a 2xN matrix in velocity context. There is 2 row
-	 * (first for the quran and second for translation). Each row holds the text of the sura (quran and
-	 * translation).
+	 * Creates a new mixed view template object. It will put a 2xN matrix in velocity context. There is 2 row (first for
+	 * the quran and second for translation). Each row holds the text of the sura (quran and translation).
 	 * 
-	 * @param quran the Quran text
-	 * @param trans the translation text
-	 * @param suraNum the sura number to be transformed (counted from 0)
+	 * @param quran
+	 *           the Quran text
+	 * @param trans
+	 *           the translation text
+	 * @param suraNum
+	 *           the sura number to be transformed (counted from 1)
+	 * @param ayaNum
+	 *           the selected aya number within the sura
 	 */
 	public MixedViewTemplate(IQuranText quran, IQuranText trans, int suraNum, int ayaNum) {
 		super(quran, suraNum, ayaNum);

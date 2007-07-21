@@ -6,9 +6,8 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Aug 22, 2006
  */
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
-import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.IRangedQuranText;
 
 /**

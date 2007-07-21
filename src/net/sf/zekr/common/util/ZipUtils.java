@@ -27,7 +27,7 @@ import net.sf.zekr.engine.log.Logger;
  * @since Zekr 1.0
  */
 public class ZipUtils {
-	private final Logger logger = Logger.getLogger(ZipUtils.class);
+	private final static Logger logger = Logger.getLogger(ZipUtils.class);
 
 	/**
 	 * Extracts zip file <code>zipFile</code> info <code>destDir</code>

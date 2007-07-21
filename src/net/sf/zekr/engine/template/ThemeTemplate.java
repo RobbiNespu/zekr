@@ -6,7 +6,7 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Mar 2, 2006
  */
-package net.sf.zekr.engine.theme;
+package net.sf.zekr.engine.template;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +14,7 @@ import java.io.OutputStreamWriter;
 
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.theme.ThemeData;
 
 /**
  * @author Mohsen Saboorian
@@ -37,13 +38,16 @@ public class ThemeTemplate extends BaseViewTemplate {
 		String retStr = null;
 		String[] cssFileNames = resource.getStrings("theme.css.fileName");
 		for (int i = 0; i < cssFileNames.length; i++) {
-			File destFile = new File(Naming.CACHE_DIR + "/" + cssFileNames[i]);
+			File destFile = new File(Naming.getCacheDir() + "/" + cssFileNames[i]);
 
 			// create destination CSS file if it doesn't exist
 			if (!destFile.exists() || destFile.length() == 0) {
 				logger.debug("Theme CSS doesn't exist, will create it: " + cssFileNames[i]);
 				File srcFile = new File(themeData.getPath() + "/" + resource.getString("theme.cssDir") + "/" + cssFileNames[i]);
-				themeData.process(config.getTranslation().getDefault().locale.getLanguage());
+				if (config.getTranslation().getDefault() != null)
+					themeData.process(config.getTranslation().getDefault().locale.getLanguage());
+				else
+					themeData.process("en");
 				engine.putAll(themeData.processedProps);
 
 				try {

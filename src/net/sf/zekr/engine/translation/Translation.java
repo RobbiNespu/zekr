@@ -9,7 +9,6 @@
 package net.sf.zekr.engine.translation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -19,7 +18,9 @@ import java.util.Map;
 import net.sf.zekr.engine.log.Logger;
 
 /**
- * A collection of all available translations as <code>{@link TranslationData}</code> objects.
+ * A collection of all available translations as <code>{@link TranslationData}</code> objects.<br>
+ * If this class had at least a single <code>TranslationData</code>, it should be set as default translation as well.
+ * No default translation means, there is no translation at all.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -41,6 +42,9 @@ public class Translation {
 		}
 	};
 
+	/**
+	 * @return default translation, or <code>null</code> if there is translation at all.
+	 */
 	public TranslationData getDefault() {
 		return defaultTrans;
 	}
@@ -59,9 +63,10 @@ public class Translation {
 
 	/**
 	 * @return a sorted collection representation of translations. Changing this list may not affect on the underling
-	 *         translation list.
+	 *         translation list. Returned list is not empty (size = 0, not <code>null</code>) if there is no
+	 *         translation data item.
 	 */
-	public Collection getAllTranslation() {
+	public List getAllTranslation() {
 		ArrayList ret = new ArrayList(translations.values());
 		Collections.sort(ret, localeComparator);
 		return ret;

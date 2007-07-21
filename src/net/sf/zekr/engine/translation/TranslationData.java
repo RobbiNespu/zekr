@@ -21,14 +21,12 @@ import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.engine.log.Logger;
 
-import org.apache.commons.io.FileUtils;
-
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
 public class TranslationData implements IQuranText {
-	private final static Logger logger = Logger.getLogger(TranslationData.class);
+	private static final Logger logger = Logger.getLogger(TranslationData.class);
 
 	/** Translation Id. */
 	public String id;

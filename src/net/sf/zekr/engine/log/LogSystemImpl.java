@@ -25,7 +25,7 @@ public class LogSystemImpl implements LogSystem {
 	 * @see org.apache.velocity.runtime.log.LogSystem#init(org.apache.velocity.runtime.RuntimeServices)
 	 */
 	public void init(RuntimeServices rs) throws Exception {
-		Logger.getLogger().info("Velocity Template Engine for Zekr initialized.");
+		Logger.getLogger(LogSystemImpl.class).info("Velocity Template Engine for Zekr initialized.");
 	}
 
 	/*

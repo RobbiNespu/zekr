@@ -18,26 +18,84 @@ import net.sf.zekr.common.config.GlobalConfig;
 public class Naming {
 	// Application home directory
 	public static final String HOME_DIR_NAME = ".zekr";
-	public static final String HOME_PATH = GlobalConfig.USER_HOME_PATH + "/" + HOME_DIR_NAME;
+
+	private static String WORKSPACE = GlobalConfig.USER_HOME_PATH + "/" + HOME_DIR_NAME;
 
 	/* Cache Directories */
-	public static final String CACHE_DIR = HOME_PATH + "/cache";
-	public static final String QURAN_CACHE_DIR = CACHE_DIR + "/quran";
-	public static final String TRANS_CACHE_DIR = CACHE_DIR + "/trans";
-	public static final String MIXED_CACHE_DIR = CACHE_DIR + "/mixed";
-	public static final String SEARCH_CACHE_DIR = CACHE_DIR + "/search";
-
-	public static final String CONFIG_DIR = HOME_PATH + "/config";
-	public static final String THEME_PROPS_DIR = CONFIG_DIR + "/theme";
-	public static final String BOOKMARK_DIR = HOME_PATH + "/bookmark";
-
+	// private static final String CACHE_DIR = WORKSPACE + "/cache";
+	// private static final String QURAN_CACHE_DIR = getCacheDir() + "/quran";
+	// private static final String TRANS_CACHE_DIR = getCacheDir() + "/trans";
+	// private static final String MIXED_CACHE_DIR = getCacheDir() + "/mixed";
+	// private static final String SEARCH_CACHE_DIR = getCacheDir() + "/search";
+	// private static final String CONFIG_DIR = WORKSPACE + "/config";
+	// private static final String THEME_PROPS_DIR = getConfigDir() + "/theme";
+	// private static final String BOOKMARK_DIR = WORKSPACE + "/bookmark";
 	/* Cache Directories */
-	public static final String INDEX_DIR = HOME_PATH + "/index";
-	public static final String QURAN_INDEX_DIR = INDEX_DIR + "/quran";
-
+	// private static final String INDEX_DIR = WORKSPACE + "/index";
+	// private static final String QURAN_INDEX_DIR = getIndexDir() + "/quran";
 	/** Directory to import a translation for a user only. */
-	public static final String TRANS_DIR = HOME_PATH + "/text/trans";
-
+	// private static final String TRANS_DIR = WORKSPACE + "/text/trans";
 	/** Directory to import a theme for a user only. */
-	public static final String THEME_DIR = HOME_PATH + "/theme";
+	// private static final String THEME_DIR = WORKSPACE + "/theme";
+	/**
+	 * Use with caution! This method should be called before any path is loaded from this file.
+	 * 
+	 * @param workspace
+	 *           default workspace to set
+	 */
+	public static void setWorkspace(String workspace) {
+		WORKSPACE = workspace;
+	}
+
+	public static String getWorkspace() {
+		return WORKSPACE;
+	}
+
+	public static String getCacheDir() {
+		return getWorkspace() + "/cache";
+	}
+
+	public static String getQuranCacheDir() {
+		return getCacheDir() + "/quran";
+	}
+
+	public static String getTransCacheDir() {
+		return getCacheDir() + "/trans";
+	}
+
+	public static String getMixedCacheDir() {
+		return getCacheDir() + "/mixed";
+	}
+
+	public static String getSearchCacheDir() {
+		return getCacheDir() + "/search";
+	}
+
+	public static String getConfigDir() {
+		return getWorkspace() + "/config";
+	}
+
+	public static String getThemePropsDir() {
+		return getConfigDir() + "/theme";
+	}
+
+	public static String getBookmarkDir() {
+		return getWorkspace() + "/bookmark";
+	}
+
+	public static String getIndexDir() {
+		return getWorkspace() + "/index";
+	}
+
+	public static String getQuranIndexDir() {
+		return getIndexDir() + "/quran";
+	}
+
+	public static String getTransDir() {
+		return getWorkspace() + "/text/trans";
+	}
+
+	public static String getThemeDir() {
+		return getWorkspace() + "/theme";
+	}
 }

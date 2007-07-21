@@ -24,18 +24,20 @@ import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
-import net.sf.zekr.engine.theme.AbstractQuranViewTemplate;
-import net.sf.zekr.engine.theme.AdvancedQuranSearchResultTemplate;
-import net.sf.zekr.engine.theme.CustomMixedViewTemplate;
-import net.sf.zekr.engine.theme.ITransformer;
-import net.sf.zekr.engine.theme.MixedViewTemplate;
-import net.sf.zekr.engine.theme.QuranSearchResultTemplate;
-import net.sf.zekr.engine.theme.QuranViewTemplate;
-import net.sf.zekr.engine.theme.TransSearchResultTemplate;
-import net.sf.zekr.engine.theme.TranslationViewTemplate;
+import net.sf.zekr.engine.template.AbstractQuranViewTemplate;
+import net.sf.zekr.engine.template.AdvancedQuranSearchResultTemplate;
+import net.sf.zekr.engine.template.ITransformer;
+import net.sf.zekr.engine.template.MixedViewTemplate;
+import net.sf.zekr.engine.template.MultiTranslationViewTemplate;
+import net.sf.zekr.engine.template.QuranSearchResultTemplate;
+import net.sf.zekr.engine.template.QuranViewTemplate;
+import net.sf.zekr.engine.template.TransSearchResultTemplate;
+import net.sf.zekr.engine.template.TranslationViewTemplate;
 import net.sf.zekr.engine.translation.TranslationData;
 
 /**
+ * HTML Creator object.
+ * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
@@ -66,7 +68,7 @@ public class HtmlRepository {
 	 */
 	public static String getQuranUri(int sura, int aya, boolean update) throws HtmlGenerationException {
 		try {
-			File file = new File(Naming.QURAN_CACHE_DIR + File.separator + sura + ".html");
+			File file = new File(Naming.getQuranCacheDir() + File.separator + sura + ".html");
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
 			if (!file.exists() || file.length() == 0 || update) {
@@ -87,7 +89,7 @@ public class HtmlRepository {
 	public static String getMixedUri(int sura, int aya, boolean update) throws HtmlGenerationException {
 		try {
 			TranslationData td = config.getTranslation().getDefault();
-			File file = new File(Naming.MIXED_CACHE_DIR + File.separator + sura + "_" + td.id + ".html");
+			File file = new File(Naming.getMixedCacheDir() + File.separator + sura + "_" + td.id + ".html");
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
 			if (!file.exists() || file.length() == 0 || update) {
@@ -114,14 +116,14 @@ public class HtmlRepository {
 				if (i + 1 < tdList.size())
 					tidList.append("-");
 			}
-			File file = new File(Naming.MIXED_CACHE_DIR + File.separator + sura + "_" + tidList + ".html");
+			File file = new File(Naming.getMixedCacheDir() + File.separator + sura + "_" + tidList + ".html");
 			if (!file.exists() || file.length() == 0 || update) {
 				logger.info("Create Quran file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 				TranslationData[] transData = (TranslationData[]) tdList.toArray(new TranslationData[] {});
-				CustomMixedViewTemplate cmvt = new CustomMixedViewTemplate(QuranText.getInstance(), transData, sura, aya);
-				osw.write(cmvt.transform());
+				ITransformer mtvt = new MultiTranslationViewTemplate(QuranText.getInstance(), transData, sura, aya);
+				osw.write(mtvt.transform());
 				osw.close();
 			}
 			return UriUtils.toURI(file);// + ((aya == 0) ? "" : "#" + aya);
@@ -140,7 +142,7 @@ public class HtmlRepository {
 	public static String getAdvancedSearchQuranUri(QuranTextSearcher searcher, int pageNo)
 			throws HtmlGenerationException {
 		try {
-			File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + searcher.getRawQuery().hashCode() + "_"
+			File file = new File(Naming.getSearchCacheDir() + File.separator + searcher.getRawQuery().hashCode() + "_"
 					+ pageNo + ".html");
 			logger.info("Create search file: " + file + " for keyword: \"" + searcher.getRawQuery() + "\".");
 			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
@@ -157,7 +159,7 @@ public class HtmlRepository {
 	public static String getSearchQuranUri(String keyword, boolean matchDiac, SearchScope searchScope)
 			throws HtmlGenerationException {
 		try {
-			File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + keyword.hashCode() + ".html");
+			File file = new File(Naming.getSearchCacheDir() + File.separator + keyword.hashCode() + ".html");
 			// if (!file.exists() || file.length() == 0) {
 			logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
 			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
@@ -183,7 +185,7 @@ public class HtmlRepository {
 			IRangedQuranText eqt = new RangedQuranText(td, searchScope);
 
 			String suffix = "_" + td.id + "_" + matchCase + ".html";
-			File file = new File(Naming.SEARCH_CACHE_DIR + File.separator + keyword.hashCode() + suffix);
+			File file = new File(Naming.getSearchCacheDir() + File.separator + keyword.hashCode() + suffix);
 
 			// if (!file.exists() || file.length() == 0) {
 			logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
@@ -213,7 +215,7 @@ public class HtmlRepository {
 	public static String getTransUri(int sura, int aya) throws HtmlGenerationException {
 		try {
 			TranslationData td = config.getTranslation().getDefault();
-			File file = new File(Naming.TRANS_CACHE_DIR + "/" + sura + "_" + td.id + ".html");
+			File file = new File(Naming.getTransCacheDir() + "/" + sura + "_" + td.id + ".html");
 			// if the file doesn't exist, or a zero-byte file exists
 			if (!file.exists() || file.length() == 0) {
 				logger.info("Create simple translation HTML file: " + file);

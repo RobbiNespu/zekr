@@ -11,7 +11,6 @@ package net.sf.zekr.engine.search;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 
