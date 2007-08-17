@@ -2,8 +2,112 @@
 <?xml-stylesheet type="text/xsl" href="index-template.xslt" ?>
 <index>
 	<allnews>
-
-	<news title="Zekr 0.4.0 final release" date="24-10-06" icon="news.png">
+	<news title="Zekr 0.6.0 released!" date="5-8-2007" icon="news.png">
+	Zekr 0.6.0 final version is available for download. This is the result of hundreds of hours of mutual development and contributions of both users and developers.<br />
+	Here is number of new features over 0.5.0 release:
+	<ul>
+	<li>Advanced search using Lucene full-text search library (Boolean operators, groups, wild cards, scopes, fuzzy search, ...).</li>
+	<li>Uthman Taha theme featuring excellent me_quran font designed by Meor Ridzuan.</li>
+	<li>Two versions of Quran text: detailed and simplified.</li>
+	<li>HTML export for bookmark sets. A new button is added to "Manage Bookmark Sets" form to export any bookmark set into a single HTML file</li>
+	<li>An asymmetric character matching for basic search in order to match Hamza characters better.</li>
+	<li>Basic command lines support: -index, -clean, -workspace.</li>
+	<li>Two new language packs: Pashto (thanks to Qudratullah) and Bosnian (thanks to Nedim Hadzic and Alma Aganovic)</li>
+	</ul>
+	This is - I believe - the most bug-free version of Zekr ever released. It looks nice on Debian/Ubuntu Linux as well as Vista (and other defective-by-design systems ;)).
+	<br /><br />
+	<a href="http://siahe.com/zekr/download.html">Download</a> |
+	<a href="http://siahe.com/zekr/wiki/index.php?title=Zekr_0.6.0">Release notes</a>
+	</news>
+	<news title="Zekr 0.6.0beta2 is available" date="22-7-2007">
+	We are happy to announce the new release Zekr 0.6.0beta2. Many bugs are fixed in this release and it introduces the following new features:
+	<ul>
+	<li>Advanced search now supports fuzzy queries: for example you can search for the term "Allah" and it's 50% similar terms using this query: allah~0.5.</li>
+	<li>HTML export for bookmark sets: a new button is added "to Manage Bookmark Sets" form to export any bookmark set into a single HTML file.</li>
+	<li>An asymmetric character matching for basic search in order to match Hamza characters better.</li>
+	<li>Some command lines added: -index, -clean, -workspace.</li>
+	<li>Task pane (the main pane in which you search or choose sura/aya) can be resizeable with the new option added: Resizeable task pane.</li>
+	<li>A new language pack: Pashto (thanks to Qudratullah).</li>
+	</ul>
+	There would be no API change and new feature until final release of Zekr 0.6.0, which will be released by August 1 InshaAllah.
+	<br /><br />
+	<a href="http://siahe.com/zekr/download.html">Download</a> | <a href="http://siahe.com/zekr/wiki/index.php?title=Zekr_0.6.0_beta_2">Changes</a>
+	</news>
+	<news title="Zekr Wiki Launched" date="21-6-2007">
+	I've installed a wiki (mediawiki) on website, for having Zekr more easily and publicly documented.
+	Everyone is invited for contribution. Zekr suffers from lack of documentation, and that's why people
+	usually don't use all the facilities it provides.<br />
+	This is a multilingual wiki, and you can write/translate articles in your own language.
+	<a href="http://siahe.com/zekr/wiki/index.php?title=Template:Languages">Here</a> are some notes.
+	<br /><br />
+	<a href="http://siahe.com/zekr/wiki">Zekr Wiki</a> |
+	<a href="http://siahe.com/zekr/wiki/index.php?title=Wiki_tasks">Wiki tasks</a>
+	</news>
+	<news title="Zekr 0.6.0 beta 1 released" date="1-5-2007">
+	I'm glad to announce a new release the Zekr Project: 0.6.0 beta 1.<br />
+	This release is a great step forward, because of it's advanced search feature.
+	Here is a brief listing of it's features (over 0.5.0):
+	<ul>
+	<li>Advanced search using Lucene powerful text search library (Boolean operators, groups, wild cards, scopes, ...).</li>
+	<li>A new "Uthman Taha (experimental)" theme is added. This theme uses <a href="http://arabicfonts.wikispaces.com">me_quran font</a> (designed by Meor Ridzuan) for rendering Quran ayas. me_quran font is distributed with the standard package, with permission from it's designer. Windows installer, copies the font into [WINDOWS]/fonts folder; Linux and Mac basic distributions have this font under [zekr]/res/me_quran_volt_mark2.ttf, and one should manually install it in order to utilize a full-feature Uthman Taha theme.</li>
+	<li>Detailed Quran text added. Each theme may use the property "quran_detailedTextFile", to use detailed Quran text (a very accurate and detailed text very similar to Uthman Taha's calligraphy) is a property each.</li>
+	<li>"sky-vertical" theme is now removed; each theme may show ayas side by side, or line by line  in custom mixed layout (based on the value of the property "trans_showMultipleSideBySide").</li>
+	<li>Minor changes: Progress bar in splash screen, JQuery upgraded to 1.1.2, icons enhanced, search configurations are now saved, ...</li>
+	</ul>
+	</news>
+	<news title="Zekr 0.5.0 is Out!" date="12-3-2007" icon="news.png">
+	I'm happy to announce the 0.5.0 release of the Zekr project.
+	This is mainly a bug-fix release over 0.5.0b2, so you should not expect visible changes between these versions.<br />
+	Features in 0.5.0 over 0.4.0 are:
+	<ul>
+	<li>Bookmark management, supporting multiple bookmark sets, tree-like bookmark folders and items, 
+		bookmark set export/import, find aya references to bookmark items, etc.</li>
+	<li>A new layout supporting multiple translation at a time: Custom Mixed Layout.</li>
+	<li>There are 12 different language packs available with this release.</li>
+	<li>A built-in Quran transliteration in English.</li>
+	<li>Many small features: random aya, hizb sign, vertical-view-enabled theme for custom mixed layout, etc.</li>
+	</ul>
+	You can find more details about changes on <a href="changes.txt">changes.txt</a>.<br /><br />
+	<img alt="Download Zekr 0.5.0 release" src="img/down16.png"/> Quick download: <br />
+		<a href="http://prdownloads.sourceforge.net/zekr/zekr-0.5.0-setup.exe?download"><img alt="Windows" src="img/windows.png" /></a>
+		<a href="http://prdownloads.sourceforge.net/zekr/zekr-0.5.0-linux.tar.gz?download"><img alt="Linux" src="img/linux.png" /></a>
+		<a href="http://prdownloads.sourceforge.net/zekr/zekr_0.5.0-1_i386.deb?download"><img alt="Ubuntu Linux" src="img/ubuntu.png" /></a>
+		<a href="http://prdownloads.sourceforge.net/zekr/zekr-0.5.0-mac.tgz?download"><img alt="Mac" src="img/mac.png" /></a>
+	</news>
+	<news title="0.5.0 beta 2 Release" date="2-1-07">
+	... وَفَدَيْنَاهُ بِذِبْحٍ عَظِيمٍ ..... <br /><br />
+	Zekr 0.5.0 beta 2 is out.<br />
+	There would be no more feature/functionality change for 0.5.0 release. Here is a short list of the new functionalities in a nutshell:
+	<ul>
+	<li>Bookmark set group management: add/remove/edit/import/export bookmark sets</li>
+	<li>Find aya references within the current bookmark set (a menu item under bookmarks menu)</li>
+	<li>Custom mixed layout: multiple translations can be seen in a mixed layout</li>
+	<li>Transliteration: there is a built-in transliteration, which is treated as a translation</li>
+	<li>New icon for Zekr (Vista compatible)</li>
+	<li>Multiple theme/translation import support. Themes and translations can be imported in user home directory (Me-only mode), as well as Zekr installation directory.</li>
+	<li>A number of bug fixes</li>
+	</ul>
+Zekr 0.5.0 will be released as soon as I have language packs updated.<br />
+	<img alt="Download Zekr 0.5.0 beta 2 release" src="img/down16.png"/>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=128414&amp;package_id=144178&amp;release_id=483026">All Downloads</a>
+	</news>
+	<news title="Zekr 0.5.0 beta 1 is out" date="23-12-06">
+	Zekr 0.5.0 beta 1 released.<br />
+	There are a number of new features for this release. The main focus of 0.5.0 release 
+	is Bookmark support (which is done 90% by this release).
+	More features are:
+	<ul>
+	<li>Printing: instead of just 1 stylesheet, Zekr now uses 2 stylesheets, one for printing and one for screen (monitor) rendering.</li>
+	<li>Search: current page search is now more easy to use. One can navigate through search results through buttons on navigation bar.</li>
+	<li>Random aya: a new menu item under view menu added to bing you a random aya.</li>
+	</ul>
+	<img alt="Download Zekr 0.5.0 beta 1 release" src="img/down16.png"/>
+	Download it <a href="http://sourceforge.net/project/showfiles.php?group_id=128414&amp;package_id=144178&amp;release_id=473523">here</a> (Win/Linux/Mac).
+	</news>
+	<news title="Ubuntu installer package" date="23-12-06">
+	An Ubuntu installer package (.deb) is generously contributed by <a href="http://www.iqc.ca/~mderakhshani/">Mohammad Derakhshani</a>.
+	</news>
+	<news title="Zekr 0.4.0 final release" date="24-10-06">
 	Zekr 0.4.0 final release is available.<br />
 	This version is the most stable and bug-free release from 0.1.0. There are some new features over Zekr 0.3.0:<br />
 	<ul>
@@ -127,7 +231,6 @@
 		In order to install Zekr on Linux, please see <a href="faq.html#linux">FAQ (Linux)</a>.<br />
 		<img alt="Download Zekr 0.2.0" src="img/down16.png" /> 
 		<a href="download.html">Download!</a>
-	
 	</news>
 	</allnews>
 	<buttons>
@@ -139,4 +242,3 @@
 		<button icon="ff.gif" title="Get Firefox Now!" href="http://mozilla.com" />
 	</buttons>
 </index>
-

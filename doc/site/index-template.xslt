@@ -4,6 +4,7 @@
 		<html>
 			<head>
 				<meta http-equiv="Content-Language" content="en-us" />
+				<meta http-equiv="pragma" content="no-cache" />
 				<meta name="keywords" content="Zekr, open source quranic project" />
 				<meta name="name" content="Zekr home page" />
 				<link href="site-style.css" type="text/css" rel="StyleSheet" />
@@ -14,18 +15,21 @@
 				<table style="margin:0px; padding:0" cellspacing="3">
 					<tr>
 						<td id="idMenue" width="130" valign="top">
-							<div style="height: 90px">
+							<div>
 								<img src="img/zekr-logo-small.png" alt="Zekr small logo" />
 							</div>
 							<div class="menuItem">
 								<a href="./" title="Zekr homepage">Home</a>
+								<a href="wiki" title="Zekr project Wiki">
+									Wiki <sup style="color: red">(new)</sup>
+								</a>
 								<a href="glossary.html" title="Quranic terms glossary">
 									Glossary
 								</a>
 								<a href="download.html" title="Zek download page">
 									Download
 								</a>
-								<a href="resources.html" title="Zek resources for download">
+								<a href="resources.html" title="Zek resources (translations/themes) for download">
 									Resources
 								</a>
 								<a href="screenshot/index.html" title="Screenshots">
@@ -45,7 +49,7 @@
 							</div>
 							<div class="buttons">
 							<xsl:apply-templates select="/index/buttons" />								
-							<a href="http://fusion.google.com/add?moduleurl=http%3A//base.google.com/base/a/1096661/D12554424364135394330">
+							<a href="http://www.google.com/ig/adde?moduleurl=http://siahe.com/zekr/gadget/google/zekr.xml">
 							<img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to Google" /></a>
 							</div>
 						</td>
@@ -75,27 +79,24 @@
 												</a>
 											</span>
 										</div>
-										Zekr is an open platform for research and
-										development on the Holy Quran. It is a Quran based
-										project, planned to be a universal, open source,
+										Zekr is an open platform Quran study tool for simply browsing and 
+										researching on the Holy Quran. It is a Quran-based
+										project, planned to be a universal, open source, and
 										cross-platform application to perform most of the
 										usual refers to Quran. The main idea is to build
-										an
-										<i>as generic as possible</i>
-										platform to be capable of having different
-										<i>add-ins</i>
-										for its tasks.
+										an <i>as generic as possible</i>
+										platform to accept different Islamic resources.
 									</p>
 									<p>
-										The current release, 0.4.0 supports	scoped search through bot Quran and translations.
-										See <a href="plan.xml">Zekr plan</a> for more details on the Zekr plan.
+										Current release, 0.6.0, has Advanced search (Boolean operators, groups, wild cards, scopes, fuzzy search, ...), Uthman Taha theme, and basic command line support.
+										See <a href="plan.xml">Zekr plan</a> for more details on features implemented and features <i>to be implemented</i>, and <a href="wiki">Zekr wiki</a> for software documentation.
 									</p>
 									<p>
 										The program is written in Java, on
 										<a href="http://www.eclipse.org">Eclipse IDE</a>, and
 										<a href="http://www.eclipse.org/swt/" title="Standard Widget Toolkit">SWT</a>
 										as the widget toolkit. Please refer to <a href="relnotes.html">release notes</a>
-										page for more technical details.
+										page for more technical and copyright details.
 									</p>
 								</div>
 								<xsl:apply-templates select="/index/allnews" />
@@ -108,7 +109,7 @@
 				<div class="footer" id="footer">
 				<table border="0" width="100%" class="footer">
 					<tr>
-						<td>Copyright (c) 2004-2006 <a href="http://siahe.com">Siahe.com</a>.</td>
+						<td>Copyright (c) 2004-2007 <a href="http://siahe.com">Siahe.com</a>.</td>
 						<td width="10%" valign="top"><a href="http://sourceforge.net"><img
 							src="http://sourceforge.net/sflogo.php?group_id=128414&amp;type=2"
 							width="125" height="37" alt="SourceForge.net Logo" /></a></td>
@@ -127,7 +128,6 @@
 <script language="JavaScript" type="text/javascript">persianstat(10004449, 0);</script>
 <!-- /stat counter -->
 
-
 			</body>
 		</html>
 	</xsl:template>
@@ -136,7 +136,6 @@
 			<fieldset>
 				<legend><xsl:value-of select="@title" /> 
 				(<xsl:value-of select="@date" />)</legend>
-				
 				<xsl:if test="@icon">
 				<div style="float: right;">
 				<img>
@@ -147,8 +146,7 @@
 				</img>
 				</div>
 				</xsl:if>
-				
-				<xsl:copy-of select="." />
+				<xsl:copy-of select="node()"/>
 			</fieldset>
 		</div>
 	</xsl:template>
@@ -173,6 +171,4 @@
 			</a>
 		</div>
 	</xsl:template>
-
-	
 </xsl:stylesheet>

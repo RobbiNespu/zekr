@@ -2,23 +2,25 @@
 <?xml-stylesheet type="text/xsl" href="plan-template.xslt" ?>
 <plan>
 
-	<feature title="Basic functions" progress="90" em="0.5">
+	<feature title="Basic functions" progress="100" em="0.5">
 		<subfeature title="View a sura text" progress="90" em="0.2">
-			<subfeature title="View minor/major (mustahab/vajib) sajdas" progress="100" em="0.1" />
-			<subfeature title="View juz sign" progress="100" em="0.1" />
-			<subfeature title="View hizb (1/4 hizb) sign" progress="10" em="0.5" />
+			<subfeature title="View minor/major (Mustahab/Wajib) Sajdas" progress="100" em="0.1" />
+			<subfeature title="View Juz sign" progress="100" em="0.1" />
+			<subfeature title="View Hizb (1/4 Hizb) sign" progress="100" em="0.5" />
 			<subfeature title="View Quran in two forms of line-by-line and block layout" progress="100" em="0.1" />
 		</subfeature>
 		<subfeature title="Navigation" progress="90">
-			<subfeature title="Navigate through the Quran, sura-by-sura and aya-by-aya" progress="100" em="0.1" />
-			<subfeature title="Quick nav bar for easy navigation between ayas/suras" progress="100" em="0.4" />
+			<subfeature title="Navigate through the Quran, Sura-by-Sura and Aya-by-Aya" progress="100" em="0.1" />
+			<subfeature title="Quick nav-bar for easy navigation between Ayas/Suras" progress="100" em="0.4" />
 			<subfeature title="Nav bar for search result" progress="100" em="0.4" />
-			<subfeature title="Navigate juz-by-juz and hizb-by-hizb" progress="0" em="0.5" />
+			<subfeature title="Navigate Juz-by-Juz and Hizb-by-Hizb" progress="20" em="0.7" />
 		</subfeature>
 	</feature>
 	<feature title="Deployment" progress="100" em="0.4">
 		<subfeature title="Installer for MS Windows (NSIS)" progress="100" em="0.1" />
 		<subfeature title="Application bundle for Mac" progress="100" em="0.4" />
+		<subfeature title="Debian Installer package for all Debian-born Linuxes including Ubuntu" progress="100" em="0.4" />
+		<subfeature title="Check for updates" progress="100" em="0.9" />
 	</feature>
 
 	<feature title="Localization" progress="85" em="1.0">
@@ -26,7 +28,7 @@
 		<subfeature title="Change language pack while running" progress="100" em="0.1" />
 		<subfeature title="Popular language packs availablility" progress="80" em="1.0">
 			<subfeature title="English" progress="100" em="0.1" />
-			<subfeature title="Farsi (Persian)" progress="100" em="0.1" />
+			<subfeature title="Persian" progress="100" em="0.1" />
 			<subfeature title="French" progress="100" em="0.2" />
 			<subfeature title="German" progress="100" em="0.2" />
 			<subfeature title="Arabic" progress="100" em="0.2" />
@@ -36,6 +38,9 @@
 			<subfeature title="Kurdish" progress="100" em="4.0" />
 			<subfeature title="Malay" progress="100" em="0.4" />
 			<subfeature title="Turkish" progress="100" em="0.4" />
+			<subfeature title="Urdu" progress="100" em="0.5" />
+			<subfeature title="Pashto" progress="100" em="0.6" />
+			<subfeature title="Bosnian" progress="100" em="0.6" />
 			<subfeature title="Italian" progress="0" em="1.0" />
 			<subfeature title="Spanish" progress="0" em="1.0" />
 			<subfeature title="Chinese" progress="0" em="1.0" />
@@ -44,47 +49,51 @@
 	</feature>
 
 	<feature title="Search" progress="80" em="0.6">
-		<subfeature title="Simple search of the holy Quran" em="0.2" progress="100">
-			<subfeature title="Search with matching/nonmatching diacritics (AKA harakats)" progress="100" em="0.2" />
+		<subfeature title="Simple search of the Quran" em="0.2" progress="100">
+			<subfeature title="Search with matching/nonmatching diacritics (AKA Harakats)" progress="100" em="0.2" />
 			<subfeature title="Search the whole quran and current view (the latter using JavaScript)" progress="100" em="0.2" />
 		</subfeature>
-		<subfeature title="Advanced search" progress="70" em="0.6">
-			<subfeature title="More thant 200 search results (next/previous 200 results)" progress="100" em="0.3" />
+		<subfeature title="Advanced search" progress="100" em="0.6">
+			<subfeature title="More thant 200 search results" progress="100" em="0.3" />
 			<subfeature title="Search in translations" progress="100" em="0.4" />
 			<subfeature title="Search in a range (scoped/managed search)" progress="100" em="0.4" />
-			<subfeature title="'&amp;', '|' and 'not' operators" progress="0" em="0.6" />
+			<subfeature title="Grouping, wildcards and Boolean operators: 'AND', 'OR', ..." progress="100" em="0.6" />
+			<subfeature title="Fuzzy and proximity search" progress="100" em="0.6" />
+			<subfeature title="Sort resutls by: 1. Relevance, 2. Natural order" progress="100" em="0.6" />
+			<subfeature title="Pagination support for search result" progress="100" em="0.6" />
 		</subfeature>
 		<subfeature title="View popup translation for the search results" progress="100" em="0.3" />
 	</feature>
 
 	<feature title="Translation" progress="80" em="0.5">
-		<subfeature	title="Translation text files: all the files are available.
-			The only problem is licensing issues with some of them." progress="100" em="0.4" />
-		<subfeature title="Test translation consistency: aya numbers, encoding." progress="100" em="0.3" />
-		<subfeature title="Translation list management" progress="10" em="0.5" />
-		<subfeature title="Transliteration support" progress="20" em="0.5" />
+		<subfeature	title="Translation text files: all the files are available. The only problem is licensing issues with some of them." progress="100" em="0.4" />
+		<subfeature title="Test translation consistency: Aya numbers, encoding." progress="100" em="0.3" />
+		<subfeature title="Translation list management" progress="10" em="0.7" />
+		<subfeature title="Transliteration support" progress="100" em="0.5" />
 	</feature>
 
-	<feature title="Theme" progress="90" em="0.4">
+	<feature title="Theme" progress="90" em="0.7">
 		<subfeature title="Add a new theme" progress="100" em="0.3" />
 		<subfeature title="Change the current theme" progress="100" em="0.3" />
-		<subfeature title="Theme list management" progress="0" em="0.5" />
+		<subfeature title="Theme list management" progress="0" em="0.7" />
+		<subfeature title="Download themes remotely" progress="0" em="0.9" />
 	</feature>
 
-	<feature title="Layout" progress="90" em="0.5">
+	<feature title="Layout" progress="100" em="0.5">
 		<subfeature title="Four types of view layout" progress="100" em="0.3">
 			<subfeature title="Mixed layout" progress="100" em="0.3" />
 			<subfeature title="Separate layout" progress="100" em="0.3" />
 			<subfeature title="Quran-only layout" progress="100" em="0.3" />
 			<subfeature title="Translation-only layout" progress="100" em="0.3" />
-			<subfeature title="Custom Mixed layout" progress="10" em="0.5" />
+			<subfeature title="Multi-translation layout" progress="100" em="0.5" />
 		</subfeature>
 	</feature>
 
 	<feature title="Quran Morphology" progress="30" em="1.0">
+		<subfeature title="Wildcard searching: finding stem derivations through wildcard search" progress="100" em="0.6" />
 		<subfeature title="Tagging database" progress="100" em="0.4" />
 		<subfeature title="Basic morphological analysis of the Quran" progress="10" em="1.0">
-			<subfeature title="Find related stats about a word (root, gender, ...)" progress="0" em="0.7" />
+			<subfeature title="Find related stats about a word (root, gender, ...)" progress="0" em="0.8" />
 		</subfeature>
 	</feature>
 
@@ -92,8 +101,11 @@
 		<subfeature title="Basic recitation" progress="10" em="1.0">
 			<subfeature title="Recitation list management" progress="0" em="1.0" />
 			<subfeature title="Add/Remove recitation" progress="0" em="1.0" />
-			<subfeature title="Obtain a license from Mr. Parhizgar for his best selling tarteel" progress="0" em="0.5" />
 		</subfeature>
-		<subfeature title="Uthman Taha Quran pictures" progress="10" em="0.6" />
+		<subfeature title="Uthman Taha Quran pictures" progress="10" em="1.0" />
+	</feature>
+	<feature title="Tafseer" progress="0" em="0.8">
+		<subfeature title="Basic tafsee support" progress="0" em="0.8">
+		</subfeature>
 	</feature>
 </plan>

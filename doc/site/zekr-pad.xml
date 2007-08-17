@@ -38,20 +38,19 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>Zekr</Program_Name>
-		<Program_Version>0.4.0</Program_Version>
-		<Program_Release_Month>10</Program_Release_Month>
-		<Program_Release_Day>24</Program_Release_Day>
-		<Program_Release_Year>2006</Program_Release_Year>
-		<Program_Cost_Dollars>0.0</Program_Cost_Dollars>
+		<Program_Version>0.6.0</Program_Version>
+		<Program_Release_Month>8</Program_Release_Month>
+		<Program_Release_Day>5</Program_Release_Day>
+		<Program_Release_Year>2007</Program_Release_Year>
+		<Program_Cost_Dollars>0</Program_Cost_Dollars>
 		<Program_Cost_Other_Code>USD</Program_Cost_Other_Code>
 		<Program_Cost_Other/>
 		<Program_Type>Freeware</Program_Type>
 		<Program_Release_Status>Release</Program_Release_Status>
 		<Program_Install_Support>Install and Uninstall</Program_Install_Support>
-		<Program_OS_Support>Win95,Win98,WinME,WinNT 4.x,Windows2000,WinXP,Windows2003,Unix,Linux,
-Linux GPL,Linux Open Source,Java,Mac,Mac OS,Mac OS X</Program_OS_Support>
-		<Program_Language>English,Farsi,Arabic,German,Indonesian,French,Russian,Dutch,Malay,Turkish,Kurdish</Program_Language>
-		<Program_Change_Info>Managed Quran search in customized scopes. Search through translations.</Program_Change_Info>
+		<Program_OS_Support>Win95,Win98,WinME,WinNT 4.x,Windows2000,WinXP,Windows2003,Vista,Unix,Linux,Linux GPL,Linux Open Source,Java,Mac,Mac OS,Mac OS X</Program_OS_Support>
+		<Program_Language>English,Farsi,Arabic,German,Indonesian,French,Russian,Dutch,Malay,Turkish,Kurdish,Urdu,Pashto,Bosnian</Program_Language>
+		<Program_Change_Info>Advanced Search (Boolean operators, groups, wild cards, scopes, fuzzy search, ...), Uthman Taha theme, Bookmark HTML export, Basic command line support</Program_Change_Info>
 		<Program_Specific_Category>Home/Hobby</Program_Specific_Category>
 		<Program_Categories>Education, Research on Quran</Program_Categories>
 		<Program_System_Requirements>Java VM 1.4.2+</Program_System_Requirements>
@@ -61,12 +60,12 @@ Linux GPL,Linux Open Source,Java,Mac,Mac OS,Mac OS X</Program_OS_Support>
 		<Program_Category_Class>Home &amp; Hobby::Religion</Program_Category_Class>
 		<File_Info>
 			<Filename_Versioned>zekr.exe</Filename_Versioned>
-			<Filename_Previous>zekr-0.3.0-setup.exe</Filename_Previous>
+			<Filename_Previous>zekr-0.5.0-setup.exe</Filename_Previous>
 			<Filename_Generic>zekr-setup.exe</Filename_Generic>
-			<Filename_Long>zekr-0.4.0-setup.exe</Filename_Long>
-			<File_Size_Bytes>4122673</File_Size_Bytes>
-			<File_Size_K>4027</File_Size_K>
-			<File_Size_MB>3.93</File_Size_MB>
+			<Filename_Long>zekr-0.6.0-setup.exe</Filename_Long>
+			<File_Size_Bytes>4420621</File_Size_Bytes>
+			<File_Size_K>4318</File_Size_K>
+			<File_Size_MB>4.21</File_Size_MB>
 		</File_Info>
 		<Expire_Info>
 			<Has_Expire_Info>N</Has_Expire_Info>
@@ -83,18 +82,10 @@ Linux GPL,Linux Open Source,Java,Mac,Mac OS,Mac OS X</Program_OS_Support>
 		    <Keywords>Quran, Quran View, Islamic, Islam, Quranic, Bible, Holy Quran, Quran Text, Quran translation, Search the Quran translation, Research on Quran, Search the Quran, View Quran sura by sura</Keywords>
 			<Char_Desc_45>Zekr - The Open Quranic Project</Char_Desc_45>
 			<Char_Desc_80>Zekr open source Quranic project</Char_Desc_80>
-			<Char_Desc_250>Zekr is an open source Quranic project to ease everyone's access to the
-holy Quran. It is written in the hope that would bring Quran to every muslim's desktop.</Char_Desc_250>
-			<Char_Desc_450>Zekr is an open platform for research on the Holy Quran.
-It is a Quran based project, planned to be a universal, open source,
-cross-platform application to perform most of the usual refers to Quran.
-The main idea is to build an as generic as possible platform to be capable
-of having different add-ins for its tasks.</Char_Desc_450>
-			<Char_Desc_2000>Zekr is an open platform for research on the Holy Quran.
-It is a Quran based project, planned to be a universal, open source,
-cross-platform application to perform most of the usual refers to Quran.
-The main idea is to build an as generic as possible platform to be capable
-of having different add-ins for its tasks.</Char_Desc_2000>
+			<Char_Desc_250>Zekr is an open source Quranic project to ease everyone's access to the holy Quran. It is written in the hope that would bring Quran to every muslim's desktop.</Char_Desc_250>
+			<Char_Desc_450>Zekr is an open platform for research on the Holy Quran. It is a Quran based project, planned to be a universal, open source, cross-platform application to perform most of the usual refers to Quran.
+The main idea is to build an as generic as possible platform to be capable of having different add-ins for its tasks.</Char_Desc_450>
+			<Char_Desc_2000>Zekr is an open platform for research on the Holy Quran. It is a Quran based project, planned to be a universal, open source, cross-platform application to perform most of the usual refers to Quran. The main idea is to build an as generic as possible platform to be capable of having different add-ins for its tasks.</Char_Desc_2000>
 		</English>
 	</Program_Descriptions>
 	<Web_Info>
@@ -102,18 +93,18 @@ of having different add-ins for its tasks.</Char_Desc_2000>
 			<Application_Info_URL>http://siahe.com/zekr</Application_Info_URL>
 			<Application_Order_URL>http://siahe.com/zekr</Application_Order_URL>
 			<Application_Screenshot_URL>http://siahe.com/zekr/img/mixed-en.jpg</Application_Screenshot_URL>
-			<Application_Icon_URL>http://siahe.com/zekr/img/zekr-logo-small.jpg</Application_Icon_URL>
+			<Application_Icon_URL>http://siahe.com/zekr/img/zekr-logo-small.png</Application_Icon_URL>
 			<Application_XML_File_URL>http://siahe.com/zekr/zekr-pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://siahe.com/zekr/download/zekr-0.4.0-setup.exe</Primary_Download_URL>
-			<Secondary_Download_URL>http://prdownloads.sourceforge.net/zekr/zekr-0.4.0-setup.exe</Secondary_Download_URL>
+			<Primary_Download_URL>http://prdownloads.sourceforge.net/zekr/zekr-0.6.0-setup.exe</Primary_Download_URL>
+			<Secondary_Download_URL>http://prdownloads.sourceforge.net/zekr/zekr-0.6.0-setup.exe</Secondary_Download_URL>
 			<Additional_Download_URL_1/>
 			<Additional_Download_URL_2/>
 		</Download_URLs>
 	</Web_Info>
 	<Permissions>
-		<Distribution_Permissions>The Zekr Project. Copyright (C) 2004-2006 Mohsen Saboorian. This program is
+		<Distribution_Permissions>The Zekr Quranic Project. Copyright (C) 2004-2007 Mohsen Saboorian. This program is
 free software; you can redistribute it and/or modify it under the terms of the
 GNU General Public License as published by the Free Software Foundation;
 either version 2 of the License, or (at your option) any later version. This
