@@ -73,7 +73,7 @@
 	<target name="javadoc" depends="compile">
 		<mkdir dir="${dist_javadocs}" />
 		<javadoc packagenames="${package}.*" sourcepath="${src_dir}" classpath="${build_classdir}" classpathref="buildlibs" destdir="${dist_javadocs}" windowtitle="Zekr - Open Quranic Platform" verbose="${verbose}">
-			<tag name="copyright" description="Copyright: http://zekr.org" scope="types" />
+			<tag name="copyright" description="Copyright: siahe.com" scope="types" />
 		</javadoc>
 	</target>
 
@@ -81,7 +81,7 @@
 		<java classname="${main_class}" fork="true">
 			<jvmarg value="-Djava.library.path=${libdir}" />
 			<!--env key="MOZILLA_FIVE_HOME" value="/usr/lib/firefox" /-->
-			<classpath location="${distfile}" />
+			<classpath location="${builddir}/${distfile}" />
 			<classpath refid="buildlibs" />
 		</java>
 	</target>
