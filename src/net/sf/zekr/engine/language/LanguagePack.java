@@ -75,7 +75,7 @@ public class LanguagePack {
 	}
 
 	public String getIcon() {
-		return id.substring(3).toLowerCase() + ".gif";
+		return id.substring(3).toLowerCase() + ".png";
 	}
 
 	/**

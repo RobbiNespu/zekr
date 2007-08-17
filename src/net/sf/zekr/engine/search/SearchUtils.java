@@ -14,8 +14,8 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * This file contains several useful <code>public static</code> methods for finding occurrences of a source text in
- * another text. Since the Arabic language has some <i>diacritics</i>, there is also functions to ignore or
- * match diacritics.
+ * another text. Since the Arabic language has some <i>diacritics</i>, there is also functions to ignore or match
+ * diacritics.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -34,7 +34,7 @@ public class SearchUtils {
 	final public static char HAMZA = 0x621;
 	final public static char HAMZA_ABOVE = 0x654;
 	final public static char HAMZA_BELOW = 0x655;
-	
+
 	final public static char MADDAH_ABOVE = 0x653;
 	final public static char SMALL_LOW_SEEN = 0x6e3;
 	final public static char SMALL_WAW = 0x6e5;
@@ -55,7 +55,7 @@ public class SearchUtils {
 	final public static char YEH_HAMZA_ABOVE = 0x626;
 	final public static char WAW_HAMZA_ABOVE = 0x624;
 	final public static char WAW = 0x648;
-	
+
 	final public static char TEH = 0x62a;
 	final public static char TEH_MARBUTA = 0x629;
 
@@ -65,7 +65,7 @@ public class SearchUtils {
 
 	final public static char ARABIC_KAF = 0x643;
 	final public static char FARSI_KEHEH = 0x6a9;
-	
+
 	final public static char ARABIC_QUESION_MARK = 0x61f;
 
 	/**
@@ -100,23 +100,23 @@ public class SearchUtils {
 	 * @return updated <code>String</code> result
 	 */
 	public static String replaceSimilarArabic(String str) {
-		str = str.replace(ALEF_MAKSURA, ARABIC_YEH);
-		str = str.replace(FARSI_YEH, ARABIC_YEH);
-		str = str.replace(ALEF_HAMZA_ABOVE, ALEF);
-		str = str.replace(ALEF_HAMZA_BELOW, ALEF);
+		// str = str.replace(ALEF_MAKSURA, ARABIC_YEH);
+		// str = str.replace(FARSI_YEH, ARABIC_YEH);
+		// str = str.replace(ALEF_HAMZA_ABOVE, ALEF);
+		// str = str.replace(ALEF_HAMZA_BELOW, ALEF);
 		str = str.replace(ALEF_MADDA, ALEF);
-		str = str.replace(WAW_HAMZA_ABOVE, WAW);
+		// str = str.replace(WAW_HAMZA_ABOVE, WAW);
 		return str;
 	}
 
 	/**
-	 * This method removes specific diacritics form the string. Also replaces incorrect characters (which are present
-	 * due to keyboard layout problems) using <code>replaceLayoutSimilarCharacters()</code>.<br>
-	 * <br>
-	 * <b>NOTE:</b> This method is not complete. It is subject to change based other Arabic-based keyboard layout
-	 * problems.
+	 * This method removes specific diacritics form the string. Also replaces incorrect characters (which are present due
+	 * to keyboard layout problems) using <code>replaceLayoutSimilarCharacters()</code>.<br>
+	 * This method removes/replaces characters which are not be exactly matched (for example replacing ALEF_MADDA with
+	 * ALEF).
 	 * 
 	 * @param str
+	 *           the string to be simplified
 	 * @return simplified form of the <code>str</code>
 	 */
 	public static String arabicSimplify(String str) {
@@ -125,11 +125,11 @@ public class SearchUtils {
 		for (int i = 0; i < arr.length; i++) {
 			str = StringUtils.remove(str, arr[i]);
 		}
+		str = str.replace(ALEF_MADDA, ALEF);
 
 		// YEH, ALEF, WAW replacements
 		// str = str.replace(ALEF_HAMZA_ABOVE, ALEF);
 		// str = str.replace(ALEF_HAMZA_BELOW, ALEF);
-		// str = str.replace(ALEF_MADDA, ALEF);
 		// str = str.replace(WAW_HAMZA_ABOVE, WAW);
 
 		str = replaceLayoutSimilarCharacters(str);
@@ -166,13 +166,13 @@ public class SearchUtils {
 	public static String simplifyAdvancedSearchQuery(String query) {
 		// diacritics removal
 		// TODO: sala, ghala, ...
-		char[] arr = new char[] { SMALL_LOW_SEEN, SMALL_HIGH_MEEM, SMALL_WAW, SMALL_YEH, MADDAH_ABOVE, SMALL_ROUNDED_ZERO};
+		char[] arr = new char[] { SMALL_LOW_SEEN, SMALL_HIGH_MEEM, SMALL_WAW, SMALL_YEH, MADDAH_ABOVE, SMALL_ROUNDED_ZERO };
 		for (int i = 0; i < arr.length; i++) {
-			query = StringUtils.	remove(query, arr[i]);
+			query = StringUtils.remove(query, arr[i]);
 		}
 
 		query = query.replaceAll("" + TATWEEL + SUPERSCRIPT_ALEF, "" + ALEF);
-		query = query.replaceAll("" + ALEF_MAKSURA + HAMZA_BELOW , "" + YEH_HAMZA_ABOVE);
+		query = query.replaceAll("" + ALEF_MAKSURA + HAMZA_BELOW, "" + YEH_HAMZA_ABOVE);
 		query = query.replace(ARABIC_QUESION_MARK, '?');
 		query = query.replace(ALEF_WASLA, ALEF);
 		return replaceLayoutSimilarCharacters(arabicSimplify4AdvancedSearch(query));
@@ -307,7 +307,7 @@ public class SearchUtils {
 	private static final boolean charactersAreEquivalent(char source, char keyword) {
 		if (source == keyword)
 			return true;
-		
+
 		// TEH
 		if (keyword == TEH || keyword == TEH_MARBUTA)
 			return source == TEH || source == TEH_MARBUTA;
@@ -317,8 +317,8 @@ public class SearchUtils {
 			return source == WAW_HAMZA_ABOVE;
 		if (keyword == ARABIC_YEH)
 			return source == YEH_HAMZA_ABOVE;
-		if (keyword == ALEF)
-			return source == ALEF_HAMZA_BELOW || source == ALEF_HAMZA_BELOW;
+		if (keyword == ALEF || keyword == ALEF_HAMZA_ABOVE || keyword == ALEF_HAMZA_BELOW)
+			return source == ALEF || source == ALEF_HAMZA_ABOVE || source == ALEF_HAMZA_BELOW;
 		if (keyword == ALEF_HAMZA_ABOVE || keyword == ALEF_HAMZA_BELOW || keyword == WAW_HAMZA_ABOVE
 				|| keyword == YEH_HAMZA_ABOVE || keyword == HAMZA)
 			return source == ALEF_HAMZA_ABOVE || source == ALEF_HAMZA_BELOW || source == WAW_HAMZA_ABOVE

@@ -22,7 +22,7 @@ public class HelpCommandHandler extends CommandHandler {
 
 	public void execute() throws CommandException {
 		stdout.println("Zekr, Open Quranic Project, ver. " + GlobalConfig.ZEKR_VERSION + ".");
-		stdout.println("Copyright (c) 2004-2007 Mohsen Saboorian and other contributors, http://zekr.org.");
+		stdout.println("Copyright (c) 2004-2007 Mohsen Saboorian and other contributors, http://siahe.com/zekr.");
 		stdout.println("This product includes software developed by"
 				+ " the Apache Software Foundation http://www.apache.org.");
 		stdout.println("Usage: zekr [-option]");
@@ -33,7 +33,7 @@ public class HelpCommandHandler extends CommandHandler {
 		stdout.println("    \t\t\t`config' to reset to default configurations,");
 		stdout.println("    \t\t\t`index-me' to remove indices for the current user,");
 		stdout.println("    \t\t\tand `index-all' to remove indices for all users,");
-		stdout.println("    \t\t\tor any combination of the above options separated with space.");
+		stdout.println("    \t\t\tor any combination of the above options separated with comma.");
 		stdout.println("    -h, --help\t\tPrint this help message.");
 		stdout.println("    -index <opt>\tIndex Quran text. opt can be `me' or `all'");
 		stdout.println("    \t\t\tto index for the current user or all users respectively.");
