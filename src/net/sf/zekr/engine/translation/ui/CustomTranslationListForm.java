@@ -271,7 +271,7 @@ public class CustomTranslationListForm {
 		rd = new RowData();
 		rd.width = 80;
 		Button ok = new Button(butComposite, SWT.NONE);
-		ok.setText("&" + lang.getMeaning("OK"));
+		ok.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				ok();
@@ -286,7 +286,7 @@ public class CustomTranslationListForm {
 		rd = new RowData();
 		rd.width = 80;
 		Button cancel = new Button(butComposite, SWT.NONE);
-		cancel.setText("&" + lang.getMeaning("CANCEL"));
+		cancel.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				shell.close();
@@ -297,7 +297,7 @@ public class CustomTranslationListForm {
 		rd = new RowData();
 		rd.width = 80;
 		Button apply = new Button(butComposite, SWT.NONE);
-		apply.setText("&" + lang.getMeaning("APPLY"));
+		apply.setText(FormUtils.addAmpersand( lang.getMeaning("APPLY")) );
 		apply.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				apply();
