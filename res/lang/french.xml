@@ -218,9 +218,9 @@
 			<text id="FOLLOWING_USERS" value="Index for the following users" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
-			<text id="TITLE" value=" Configurer les traductions personnalisées " />
-			<text id="AVAILABLE" value=" Traductions disponibles " />
-			<text id="CURRENT" value=" Traductions courantes " />
+			<text id="TITLE" value="Configurer les traductions personnalisées " />
+			<text id="AVAILABLE" value="Traductions disponibles" />
+			<text id="CURRENT" value="Traductions courantes" />
 		</form>
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="Please wait"   />

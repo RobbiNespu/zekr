@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="H N Jafar" version="0.5">
+<language author="H N Jafar" version="0.6">
 	<locale localizedName="Malay" name="Malay" id="ms_MY" direction="ltr" />
 	<word>
 		<common>
@@ -12,7 +12,7 @@
 			<text id="RESET"    value="Reset" />
 			<text id="NEW"      value="Baru" />
 			<text id="SAVE_AS"  value="Simpan Sebagai" />
-			<text id="HELP"     value="Pertolongan" />
+			<text id="HELP"     value="Bantuan" />
 			<text id="EDIT"     value="Sunting" />
 			<text id="SEARCH"   value="Cari" />
 			<text id="GOTO"     value="Ke..." />
@@ -68,59 +68,59 @@
 			<text id="FONT"     value="Mukataip" />
 			<text id="GENERAL"  value="Umum" />
 			<text id="EXIT"     value="Keluar" />
-			<text id="EXCLUDE"  value="Exclude" />
+			<text id="EXCLUDE"  value="Tidak Termasuk" />
 			<text id="TRUE"     value="Benar" />
 			<text id="FALSE"    value="Salah" />
-			<text id="SELECT"   value="Pilih"   />
-			<text id="EXPORT"   value="Eksport"   />
-			<text id="IMPORT"   value="Import"   />
-			<text id="DESCRIPTION" value="Diskripsi"   />
-			<text id="BOOKMARKS" value="PenandaBuku"   />
-			<text id="CONFIGURE" value="Configure"   />
-			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
-			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
-			<text id="DIRECTION" value="Arah"   />
-			<text id="LANG_DIRECTION" value="Arah Bahasa"   />
-			<text id="RTL"      value="Kanan Ke Kiri"   />
-			<text id="LTR"      value="Kiri Ke Kanan"   />
-			<text id="AUTHOR"   value="Penulis"   />
-			<text id="VERSION"  value="Versi"   />
-			<text id="RANDOM_AYA" value="Ayat Rawak"   />
-			<text id="UNTITLED" value="Tiada Tajuk"   />
-			<text id="SET_DEFAULT" value="Set sebagai default"   />
-			<text id="NOT_LOADED" value="Tidak dimuatkan"   />
-			<text id="ID"       value="ID"   />
-			<text id="OVERWRITE" value="Overwrite"   />
-			<text id="SAVE"     value="Simpan"   />
-			<text id="PATH"     value="Path"   />
-			<text id="SHOW_REFS" value="Show References"   />
-			<text id="MOVE_UP" value="Ke atas"   />
-			<text id="MOVE_DOWN" value="Ke bawah"   />
-			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
-			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations"   />
-			<text id="GO" value="Go"   />
-			<text id="CAUTION" value="Caution"   />
-			<text id="ADVANCED" value="Advanced"   />
-			<text id="QUERY_DETAIL" value="Query detail"   />
-			<text id="PAGE" value="Page"   />
-			<text id="MULTILINE" value="Multiline"   />
-			<text id="TOGGLE" value="Toggle"   />
+			<text id="SELECT"   value="Pilih" />
+			<text id="EXPORT"   value="Eksport" />
+			<text id="IMPORT"   value="Import" />
+			<text id="DESCRIPTION" value="Diskripsi" />
+			<text id="BOOKMARKS" value="Penandabuku" />
+			<text id="CONFIGURE" value="konfigurasi" />
+			<text id="EDIT_BOOKMARK_SET" value="Sunting Set Penandabuku" />
+			<text id="MANAGE_BOOKMARK_SETS" value="Urus Set Penandabuku" />
+			<text id="DIRECTION" value="Arah" />
+			<text id="LANG_DIRECTION" value="Arah Bahasa" />
+			<text id="RTL"      value="Kanan Ke Kiri" />
+			<text id="LTR"      value="Kiri Ke Kanan" />
+			<text id="AUTHOR"   value="Penulis" />
+			<text id="VERSION"  value="Versi" />
+			<text id="RANDOM_AYA" value="Ayat Rawak" />
+			<text id="UNTITLED" value="Tiada Tajuk" />
+			<text id="SET_DEFAULT" value="Set sebagai default" />
+			<text id="NOT_LOADED" value="Tidak dimuatkan" />
+			<text id="ID"       value="ID" />
+			<text id="OVERWRITE" value="Overwrite" />
+			<text id="SAVE"     value="Simpan" />
+			<text id="PATH"     value="Path" />
+			<text id="SHOW_REFS" value="Papar Rujukan" />
+			<text id="MOVE_UP" value="Ke atas" />
+			<text id="MOVE_DOWN" value="Ke bawah" />
+			<text id="MULTI_TRANS" value="Multi-translasi" /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
+			<text id="CONFIG_CUSTOM_TRANS" value="Ubahsuai Terjemahan" />
+			<text id="GO" value="Go" />
+			<text id="CAUTION" value="Amaran" />
+			<text id="ADVANCED" value="Carian Lanjut" />
+			<text id="QUERY_DETAIL" value="Tanya Lanjut" />
+			<text id="PAGE" value="Mukasurat" />
+			<text id="MULTILINE" value="Berbilang Baris" />
+			<text id="TOGGLE" value="Toggle" />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
 			<text id="SURA"     value="Surah" />
 			<text id="AYA"      value="Ayat" />
 			<text id="SAJDA"    value="Sajda" />
-			<text id="JUZ"      value="Juz" />
-			<text id="HIZB"     value="Hizb"   />
-			<text id="QUARTER"  value="Quarter"   />
+			<text id="JUZ"      value="Juzuk" />
+			<text id="HIZB"     value="Hizb" />
+			<text id="QUARTER"  value="Seperempat" />
 			<text id="MAKKI"    value="Makkiah" />
 			<text id="MADANI"   value="Madaniah" />
 			<text id="DESCENT"  value="Turun" />
 			<text id="AYA_COUNT"  value="Jumlah Ayat" />
 			<text id="MINOR_SAJDA" value="Sajda Kecil" /> <!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="Sajda Besar" /> <!-- Wajib Sajda -->
-			<text id="LOCATION" value="Lokasi"   /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+			<text id="LOCATION" value="Lokasi" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -128,18 +128,18 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Hasil Pencarian untuk: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} hasil ditemukan di {2} ayat." />
-			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
+			<text id="SEARCH_PAGE" value="Mukasurat {1} dari {2}" />
 			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
 			<text id="FILE_ALREADY_EXISTS" value="File dengan nama &quot;{1}&quot; sudah ada. Anda ingin menggantinya?" />
 			<text id="RESTART_APP" value="Untuk melihat kesan  perubahan yang telah dilakukan, Anda harus restart aplikasi ini." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Anda Yakin?" />
-			<text id="DEL_YES_NO" value="Padam Kekal {1} item(s)?"   />
+			<text id="DEL_YES_NO" value="Padam Kekal {1} item(s)?" />
 		</confirm>
 		<error>
 			<text id="GENERAL_ERROR" value="Kesalahan yang tidak diharapkan telah terjadi" />
-			<text id="FNF" value="Fail Tidak Dijumpai"   />
+			<text id="FNF" value="Fail Tidak Dijumpai" />
 			<text id="ACTION_FAILED" value="Gagal!" />
 		</error>
 		<hint></hint>
@@ -158,9 +158,9 @@
 			<text id="EDIT_SCOPES" value="Sunting Skop" />
 			<text id="NO_SCOPE" value="Tiada Skop" />
 			<text id="CURRENT_PAGE" value="Mukasurat Semasa" />
-			<text id="NATURAL_ORDER" value="Natural Order"   />
-			<text id="RELEVANCE" value="Relevance"   />
-			<text id="SORT_BY" value="Sort results by"   />
+			<text id="NATURAL_ORDER" value="Susunan Natural" />
+			<text id="RELEVANCE" value="Reliven" />
+			<text id="SORT_BY" value="Susun Keputusan Dengan Cara" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Pilihan  Aplikasi" />
@@ -169,7 +169,7 @@
 			<text id="THEME_SETTING" value="Setting Tema" />
 			<text id="PRESS_OK_TO_APPLY" value="Tekan kekunci &quot;OK&quot; untuk perubahan." />
 			<text id="MAX_SEARCH_RESULT" value="Jumlah hasil pencarian maksimal" />
-			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
+			<text id="RESIZEABLE_TASK_PANE" value="Task Pane Bolehubah" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Konfigurasi Skop Carian" />
@@ -184,48 +184,48 @@
 			<text id="TITLE" value="Sunting carian skop" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
-			<text id="NEW_BOOKMARK_FOLDER" value="Folder bookmark baru"   />
-			<text id="NEW_BOOKMARK_ITEM" value="Item bookmark baru "   />
-			<text id="UNIQUE_NAME" value="Nama unik"   />
-			<text id="COMMA_SEPARATED" value="Gunakan koma untuk asingkan nilai, jika lebih dari seorang penterjemah"   />
-			<text id="ONLY_ENGLISH" value="Gunakan Nama English Sahaja (e.g. English, Persian, Arabic, ...)"   />
-			<text id="DESC_TOOLTIP" value="Conventions, quotes, references, and other bookmark-related topics go here"   />
+			<text id="TITLE" value="Edit Bookmark Set: {1}" />
+			<text id="NEW_BOOKMARK_FOLDER" value="Folder bookmark baru" />
+			<text id="NEW_BOOKMARK_ITEM" value="Item bookmark baru " />
+			<text id="UNIQUE_NAME" value="Nama unik" />
+			<text id="COMMA_SEPARATED" value="Gunakan koma untuk asingkan nilai, jika lebih dari seorang penterjemah" />
+			<text id="ONLY_ENGLISH" value="Gunakan Nama English Sahaja (e.g. English, Persian, Arabic, ...)" />
+			<text id="DESC_TOOLTIP" value="Himpunan, quotes, rujukan, dan lain lain penandabuku " />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
-			<text id="TITLE" value="Manage Bookmark Sets"   />
-			<text id="DBL_CLICK" value="Double click pada item untuk muat atau/dan sunting ."   />
-			<text id="SET_AS_DEFAULT" value="Anda mahu set  &quot;{1}&quot; sebagai default set bookmark?"   />
-			<text id="CANNOT_REMOVE_DEFAULT" value="tidak dapat membuang default bookmark."   />
-			<text id="CANNOT_OVERWRITE_DEFAULT" value="Cannot overwrite on the default bookmark set. Select another bookmark set as default, and try to import."   />
-			<text id="ENTER_ID" value="Masukkan bookmark ID"   />
-			<text id="NEW_BOOKMARK_SET" value="Set Bookmark Baru"   />
-			<text id="EXPORT4WEB" value="Export for Web"   />
+			<text id="TITLE" value="Urus Set Penandabuku" />
+			<text id="DBL_CLICK" value="Double click pada item untuk muat atau/dan sunting ." />
+			<text id="SET_AS_DEFAULT" value="Anda mahu set  &quot;{1}&quot; sebagai default set bookmark?" />
+			<text id="CANNOT_REMOVE_DEFAULT" value="tidak dapat membuang default bookmark." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Tidak boleh overwrite pada set bookmark asal,Pilih lain lain set bookmark dan cuba import." />
+			<text id="ENTER_ID" value="Masukkan bookmark ID" />
+			<text id="NEW_BOOKMARK_SET" value="Set Bookmark Baru" />
+			<text id="EXPORT4WEB" value="Eksport untuk web" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
-			<text id="TITLE" value="Sunting Bookmark Properties"   />
-			<text id="QURAN_LOCATIONS" value="Lokasi Quran"   />
-			<text id="NEW_BOOKMARK" value="Bookmark baru"   />
-			<text id="NEW_FOLDER" value="Folder Baru"   />
+			<text id="TITLE" value="Sunting Bookmark Properties" />
+			<text id="QURAN_LOCATIONS" value="Lokasi Quran" />
+			<text id="NEW_BOOKMARK" value="Penandabuku baru" />
+			<text id="NEW_FOLDER" value="Folder Baru" />
 		</form>
 		<form id="BOOKMARK_REF">
-			<text id="TITLE" value="Bookmark Set References To: {1}"   />
+			<text id="TITLE" value="Set Penandabuku Rujukan Pada: {1}" />
 		</form>
 		<form id="IMPORT_QUESTION">
-			<text id="IMPORT_FOR" value="Import For The Following Users:"   />
-			<text id="ME_ONLY" value="Saya Sahaja"   />
-			<text id="ALL_USERS" value="Semua Pengguna (requires write access to installation directory)"   />
-			<text id="FOLLOWING_USERS" value="Index for the following users" />
+			<text id="IMPORT_FOR" value="Import Untuk Pengguna Berkenaan:" />
+			<text id="ME_ONLY" value="Saya Sahaja" />
+			<text id="ALL_USERS" value="Semua Pengguna (memerlukan write access dalam direktori installasi)" />
+			<text id="FOLLOWING_USERS" value="Index Untuk Pengguna Berkenaan" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
-			<text id="TITLE" value="Configure Custom Translations"   />
-			<text id="AVAILABLE" value="Available translations"   />
-			<text id="CURRENT" value="Current translations"   />
+			<text id="TITLE" value="Konfigure Terjemahan" />
+			<text id="AVAILABLE" value="Terjemahan Yang Ada" />
+			<text id="CURRENT" value="Terjemahan semasa" />
 		</form>
 		<form id="PROGRESS">
-			<text id="PLEASE_WAIT" value="Please wait"   />
-			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
-			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
+			<text id="PLEASE_WAIT" value="Sila Tunggu" />
+			<text id="INDEXING" value="Indexing" /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="Proses ini akan mengambil masa beberapa minit, bergantung kepada saiz dokument yang diindexkan" />
 		</form>
 	</forms>
 </language>

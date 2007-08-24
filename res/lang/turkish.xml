@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="smacker" version="0.5">
+<language author="TarikZengin" version="0.6">
 	<locale localizedName="Türkçe" name="Turkish" id="tr_TR" direction="ltr" />
 	<word>
 		<common>
-			<text id="OK"       value="TAMAM" />
+			<text id="OK"       value="Tamam" />
 			<text id="CANCEL"   value="İptal" />
 			<text id="YES"      value="Evet" />
 			<text id="NO"       value="Hayır" />
@@ -77,8 +77,8 @@
 			<text id="DESCRIPTION" value="Açıklama" />
 			<text id="BOOKMARKS" value="Yer İmleri" />
 			<text id="CONFIGURE" value="Yapılandır" />
-			<text id="EDIT_BOOKMARK_SET" value="Yeri imlerini düzenle"   />
-			<text id="MANAGE_BOOKMARK_SETS" value="Yer imlerini yönet"   />
+			<text id="EDIT_BOOKMARK_SET" value="Yeri imlerini düzenle" />
+			<text id="MANAGE_BOOKMARK_SETS" value="Yer imlerini yönet" />
 			<text id="DIRECTION" value="Yönetim" />
 			<text id="LANG_DIRECTION" value="Dil Yönetimi" />
 			<text id="RTL"      value="Sağdan Sola" />
@@ -93,18 +93,18 @@
 			<text id="OVERWRITE" value="Üzerine Yaz" />
 			<text id="SAVE"     value="Kaydet" />
 			<text id="PATH"     value="Dizin" />
-			<text id="SHOW_REFS" value="Referansı Göster"   />
+			<text id="SHOW_REFS" value="Referansı Göster" />
 			<text id="MOVE_UP" value="Üste Al" />
 			<text id="MOVE_DOWN" value="Alta Al" />
-			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->			<text id="CONFIG_CUSTOM_TRANS" value="Özel Çevirileri Yapılandır" />
-			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations"   />
+			<text id="MULTI_TRANS" value="Çoklu Çeviri" /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->			<text id="CONFIG_CUSTOM_TRANS" value="Özel Çevirileri Yapılandır" />
+			<text id="CONFIG_CUSTOM_TRANS" value="Özel Çevirileri Yapılandır" />
 			<text id="GO" value="Git" />
-			<text id="CAUTION" value="Uyarı"   />
-			<text id="ADVANCED" value="Gelişmiş"   />
-			<text id="QUERY_DETAIL" value="Sorgu Detayı"   />
-			<text id="PAGE" value="Sayfa"   />
-			<text id="MULTILINE" value="Çoklusatır"   />
-			<text id="TOGGLE" value="Toggle"   />
+			<text id="CAUTION" value="Uyarı" />
+			<text id="ADVANCED" value="Gelişmiş" />
+			<text id="QUERY_DETAIL" value="Sorgu Detayı" />
+			<text id="PAGE" value="Sayfa" />
+			<text id="MULTILINE" value="Çoklusatır" />
+			<text id="TOGGLE" value="Toggle"   /> <!-- Untranslated -->	
 		</common>
 		<special>
 			<text id="QURAN"    value="Kuran-ı Kerim" />
@@ -128,7 +128,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Arama Sonucu: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{2} ayette {1} Sonuç Bulundu." />
-			<text id="SEARCH_PAGE" value="Sayfa {1} den {2} ye"   />
+			<text id="SEARCH_PAGE" value="Sayfa {1} den {2} ye" />
 			<text id="TOO_MANY_RESULT" value="Arama sonucu {1} ayetten fazla" />
 			<text id="FILE_ALREADY_EXISTS" value=" &quot;{1}&quot; isimli dosya daha önceden var. Değiştirmek ister misiniz?" />
 			<text id="RESTART_APP" value="Değişiklileri kaydetmek için lütfen programı yeniden başlatın." />
@@ -158,9 +158,9 @@
 			<text id="EDIT_SCOPES" value="Alanları Düzenle" />
 			<text id="NO_SCOPE" value="Alan Yok" />
 			<text id="CURRENT_PAGE" value="Bu Sayfa" />
-			<text id="NATURAL_ORDER" value="Doğal Düzen"   />
-			<text id="RELEVANCE" value="ilintili"   />
-			<text id="SORT_BY" value="Sonucu Sırala"   />
+			<text id="NATURAL_ORDER" value="Normal Düzen" />
+			<text id="RELEVANCE" value="ilintili" />
+			<text id="SORT_BY" value="Sonucu Sırala" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Uygulama Seçenekleri" />
@@ -169,7 +169,7 @@
 			<text id="THEME_SETTING" value="Tema Ayarları" />
 			<text id="PRESS_OK_TO_APPLY" value="Değişikliklerin Geçerli Olabilmesi İçin &quot;TAMAM&quot; Butonuna Basınız." />
 			<text id="MAX_SEARCH_RESULT" value="En fazla arama sonucu sayıcısı" />
-			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
+			<text id="RESIZEABLE_TASK_PANE" value="Boyutlandırılabilir Görev Bölümü" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Arama Alanını Yapılandır" />
@@ -184,7 +184,7 @@
 			<text id="TITLE" value="Arama Alanlarını Düzenle" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Yer imlerini düzenle: {1}"   />
+			<text id="TITLE" value="Yer imlerini düzenle: {1}" />
 			<text id="NEW_BOOKMARK_FOLDER" value="Yeni Yer İmi Klasörü" />
 			<text id="NEW_BOOKMARK_ITEM" value="Yeni Yer İmi" />
 			<text id="UNIQUE_NAME" value="Eşi Olmayan Bir İsim" />
@@ -193,14 +193,14 @@
 			<text id="DESC_TOOLTIP" value="Anlaşmalar, Kotalar, Referanslar, ve Yer İmleriyle İlgili Diğer Başlıklar Buraya" />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
-			<text id="TITLE" value="Yer imlerini yönet"   />
+			<text id="TITLE" value="Yer imlerini yönet" />
 			<text id="DBL_CLICK" value="Yüklemek ve/veya Düzenlemek İçin Öğelere Çift Tıkla." />
 			<text id="SET_AS_DEFAULT" value="&quot;{1}&quot;'i Varsayılan Yer İmi Olarak Atamak İstiyor musunuz?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Varsayılan Yer İmi Kaldırılamıyor." />
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="Varsayılan Yer İmi'nin Üzerine Yazılamıyor. Başka Bir Yer İmi'ni Varsayılan Olarak Seçin ve İçe Aktarmayı Deneyin." />
 			<text id="ENTER_ID" value="Yer İmi ID Numarasını Girin" />
 			<text id="NEW_BOOKMARK_SET" value="Yeni Yer İmi" />
-			<text id="EXPORT4WEB" value="Export for Web"   />
+			<text id="EXPORT4WEB" value="Web Sayfası Olarak Dışa Aktar" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Yer İmi Özelliklerini Düzenle" />
@@ -223,9 +223,9 @@
 			<text id="CURRENT" value="Şu Anki Çeviri" />
 		</form>
 		<form id="PROGRESS">
-			<text id="PLEASE_WAIT" value="Lütfen Bekleyin..."   />
-			<text id="INDEXING" value="Fihrist hazırlanıyor."   /><!-- The process of indexing a document for faster search -->
-			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
+			<text id="PLEASE_WAIT" value="Lütfen Bekleyin..." />
+			<text id="INDEXING" value="Fihrist hazırlanıyor." /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="Bu işlem, ,indekslenecek dokümanın boyutuna bağlı olarak birkaç dakika alabilir." />
 		</form>
 	</forms>
 </language>
