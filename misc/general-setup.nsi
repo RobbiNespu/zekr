@@ -8,9 +8,9 @@ SetCompressor /SOLID lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_UNIX_NAME "zekr"
 !define VERSION 0.6.0.0
-!define RELEASE_VERSION "0.6.0beta2"
-!define COMPANY zekr.org
-!define URL http://zekr.org
+!define RELEASE_VERSION "0.6.0"
+!define COMPANY siahe.com
+!define URL http://siahe.com/zekr
 
 # MUI defines
 !define MUI_ABORTWARNING
@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.0\beta2\win"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.0\final\win"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -48,7 +48,7 @@ Var JDK_HOME
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "${BASE_APP}\license.txt"
+!insertmacro MUI_PAGE_LICENSE "${BASE_APP}\doc\zekr-license.txt"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
 !insertmacro MUI_PAGE_INSTFILES
@@ -96,7 +96,7 @@ VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "${RELEASE_VERSION}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Quranic Project"
-VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2007 Mohsen Saboorian and other contributore"
+VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2007 Mohsen Saboorian and other contributors"
 InstallDirRegKey HKLM "${REGKEY}" Path
 UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 ShowUninstDetails show
