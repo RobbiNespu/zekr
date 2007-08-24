@@ -233,7 +233,7 @@ public class MessageBoxUtils {
 		RowData rd = new RowData();
 		rd.width = 80;
 		Button ok = new Button(butComposite, SWT.NONE);
-		ok.setText("&" + lang.getMeaning("OK"));
+		ok.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				for (int i = 0; i < buts.length; i++) {
@@ -256,7 +256,7 @@ public class MessageBoxUtils {
 		rd = new RowData();
 		rd.width = 80;
 		Button cancel = new Button(butComposite, SWT.NONE);
-		cancel.setText("&" + lang.getMeaning("CANCEL"));
+		cancel.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				__ret = -1;
