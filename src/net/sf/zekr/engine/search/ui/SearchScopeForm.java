@@ -182,7 +182,7 @@ public class SearchScopeForm extends BaseForm {
 
 		Button okBut = new Button(butComposite, SWT.PUSH);
 		Button cancelBut = new Button(butComposite, SWT.PUSH);
-		okBut.setText("&" + langEngine.getMeaning("OK"));
+		okBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("OK")) );
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				canceled = false;
@@ -206,7 +206,7 @@ public class SearchScopeForm extends BaseForm {
 		rd = new RowData();
 		rd.width = 80;
 
-		cancelBut.setText("&" + langEngine.getMeaning("CANCEL"));
+		cancelBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("CANCEL")) );
 		cancelBut.setLayoutData(rd);
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
