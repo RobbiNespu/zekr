@@ -171,8 +171,8 @@ table.customTrans td {
 }
 
 .quran .searchResult { /* IE6 bug with me_quran */
-	font-family: Traditional Arabic, Tahoma, Sans-serif, Nazli, Helvetica, Arial Unicode MS, Scheherazade;
-	font-size: 15pt;
+	_font-family: Traditional Arabic, Tahoma, Sans-serif, Nazli, Helvetica, Arial Unicode MS, Scheherazade;
+	_font-size: 15pt;
 }
 td.searchResult {
 	vertical-align: top;
