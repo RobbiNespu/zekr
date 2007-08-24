@@ -15,6 +15,7 @@ import net.sf.zekr.common.resource.RangedQuranTextTest;
 import net.sf.zekr.engine.search.SearchScopeItemTest;
 import net.sf.zekr.engine.search.SearchScopeTest;
 import net.sf.zekr.engine.search.lucene.ArabicFilterTest;
+import net.sf.zekr.ui.helper.FormUtilsTest;
 
 public class AllTests extends TestCase {
 
@@ -25,6 +26,7 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(SearchScopeTest.class));
 		suite.addTest(new TestSuite(ArabicFilterTest.class));
 		suite.addTest(new TestSuite(MiscJavaApiTest.class));
+		suite.addTest(new TestSuite(FormUtilsTest.class));
 		return suite;
 	}
 
