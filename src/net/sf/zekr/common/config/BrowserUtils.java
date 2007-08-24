@@ -43,7 +43,7 @@ public class BrowserUtils {
 
 	private static void openLink4Linux(String href) {
 		if (linuxWebBrowser == null) {
-			String[] browsers = { "firefox", "mozilla", "iceape", "seamonkey", "konqueror", "nautilus" };
+			String[] browsers = { "firefox", "mozilla", "iceape", "seamonkey", "konqueror", "gnome-www-browser" };
 			for (int i = 0; i < browsers.length; i++) {
 				try {
 					Runtime.getRuntime().exec(browsers[i] + "  " + href);
