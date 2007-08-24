@@ -63,11 +63,9 @@ public class FormUtils {
 
 		TableColumn nameCol = new TableColumn(table, SWT.NONE);
 		nameCol.setText(title1);
-		nameCol.setWidth(width1);
 
 		TableColumn valueCol = new TableColumn(table, SWT.NONE);
 		valueCol.setText(title2);
-		valueCol.setWidth(width2);
 
 		String key, value;
 		for (Iterator iter = map.keySet().iterator(); iter.hasNext();) {
@@ -75,6 +73,15 @@ public class FormUtils {
 			value = map.get(key).toString();
 			new TableItem(table, SWT.NONE).setText(new String[] { key, value });
 		}
+
+		if (width1 != SWT.DEFAULT)
+			nameCol.setWidth(width1);
+		else
+			nameCol.pack();
+		if (width2 != SWT.DEFAULT)
+			valueCol.setWidth(width2);
+		else
+			valueCol.pack();
 
 		return table;
 	}

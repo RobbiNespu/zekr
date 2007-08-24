@@ -601,7 +601,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.grabExcessVerticalSpace = true;
 		suraTable = FormUtils.getTableFromMap(detailGroup, suraMap, langEngine.getMeaning("NAME"), langEngine
-				.getMeaning("VALUE"), 80, 80, gd, SWT.HIDE_SELECTION);
+				.getMeaning("VALUE"), SWT.DEFAULT, SWT.DEFAULT, gd, SWT.HIDE_SELECTION);
 		suraTable.setMenu(propsMenu);
 
 		// searchGroup = new Group(workPane, SWT.NONE);
