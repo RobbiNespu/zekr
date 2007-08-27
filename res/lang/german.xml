@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Riyad Preukschas" version="0.5">
+<language author="Riyad Preukschas" version="0.6">
 	<locale localizedName="Deutsch" name="German" id="de_DE" direction="ltr" />
 	<word>
 		<common>
@@ -77,8 +77,8 @@
 			<text id="DESCRIPTION" value="Beschreibung" />
 			<text id="BOOKMARKS" value="Lesezeichen" />
 			<text id="CONFIGURE" value="Lesezeichensammlung bearbeiten" />
-			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
-			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
+			<text id="EDIT_BOOKMARK_SET" value="Lesezeichensammlung bearbeiten" />
+			<text id="MANAGE_BOOKMARK_SETS" value="Lesezeichensammlungen verwalten" />
 			<text id="DIRECTION" value="Richtung" />
 			<text id="LANG_DIRECTION" value="Lese-/Schreibrichtung" />
 			<text id="RTL"      value="Von rechts nach links" />
@@ -96,15 +96,15 @@
 			<text id="SHOW_REFS" value="Verweise anzeigen" />
 			<text id="MOVE_UP" value="Nach oben" />
 			<text id="MOVE_DOWN" value="Nach unten" />
-			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
-			<text id="CONFIG_CUSTOM_TRANS" value="Eigene Überstzungen einstellen" />
+			<text id="MULTI_TRANS" value="Eigene Übersetzungsansicht" />
+			<text id="CONFIG_CUSTOM_TRANS" value="Eigene Übersetzungsansicht einstellen" />
 			<text id="GO" value="Hinspringen" />
-			<text id="CAUTION" value="Caution"   />
-			<text id="ADVANCED" value="Advanced"   />
-			<text id="QUERY_DETAIL" value="Query detail"   />
-			<text id="PAGE" value="Page"   />
-			<text id="MULTILINE" value="Multiline"   />
-			<text id="TOGGLE" value="Toggle"   />
+			<text id="CAUTION" value="Vorsicht" />
+			<text id="ADVANCED" value="Erweitert" />
+			<text id="QUERY_DETAIL" value="Suchdetails" />
+			<text id="PAGE" value="Seite" />
+			<text id="MULTILINE" value="Mehrzeilig" />
+			<text id="TOGGLE" value="Auf-/Zuklappen" />
 		</common>
 		<special>
 			<text id="QURAN"  value="Quran" />
@@ -128,7 +128,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Ergebnis der Suche nach: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="Es wurden {1} Übereinstimmungen in {2} Ayas gefunden." />
-			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
+			<text id="SEARCH_PAGE" value="Seite {1} von {2}" />
 			<text id="TOO_MANY_RESULT" value="Ergebnis der Suche hat mehr als {1} Ayas." />
 			<text id="FILE_ALREADY_EXISTS" value="Eine Datei mit dem Namen &quot;{1}&quot; existiert bereits. Möchten Sie sie überschreiben?" />
 			<text id="RESTART_APP" value="Sie müssen die Anwendung neustarten, damit die Änderungen wirksam werden." />
@@ -158,9 +158,9 @@
 			<text id="EDIT_SCOPES" value="Suchbereich bearbeiten" />
 			<text id="NO_SCOPE" value="Kein Suchbereich" />
 			<text id="CURRENT_PAGE" value="Auf dieser Seite" />
-			<text id="NATURAL_ORDER" value="Natural Order"   />
-			<text id="RELEVANCE" value="Relevance"   />
-			<text id="SORT_BY" value="Sort results by"   />
+			<text id="NATURAL_ORDER" value="Natürlicher Ordnung" />
+			<text id="RELEVANCE" value="Relevanz" />
+			<text id="SORT_BY" value="Ergebnisse sortieren nach" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="TITLE" value="Einstellungen" />
@@ -169,7 +169,7 @@
 			<text id="THEME_SETTING" value="Themeneinstellungen" />
 			<text id="PRESS_OK_TO_APPLY" value="Drücken Sie &quot;OK&quot;, damit die Änderungen wirksam werden!" />
 			<text id="MAX_SEARCH_RESULT" value="Maximale Anzahl an Suchergebnissen" />
-			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
+			<text id="RESIZEABLE_TASK_PANE" value="Größenänderung von Aufgabenfläche ermöglichen" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Suchbereich einstellen" />
@@ -184,7 +184,7 @@
 			<text id="TITLE" value="Suchbereiche bearbeiten" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
+			<text id="TITLE" value="Lesezeichensammlung bearbeiten: {1}" />
 			<text id="NEW_BOOKMARK_FOLDER" value="Neuer Lesezeichenordner" />
 			<text id="NEW_BOOKMARK_ITEM" value="Neues Lesezeichen" />
 			<text id="UNIQUE_NAME" value="Eine eindeutige Bezeichnung" />
@@ -193,14 +193,14 @@
 			<text id="DESC_TOOLTIP" value="Gebrauch, Zitate, Referenzen und andere Informationen im Bezug zum Lesezeichen" />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
-			<text id="TITLE" value="Manage Bookmark Sets"   />
+			<text id="TITLE" value="Lesezeichensammlungen verwalten" />
 			<text id="DBL_CLICK" value="Klicken Sie doppelt auf Einträge, um Sie laden und/oder bearbeiten." />
 			<text id="SET_AS_DEFAULT" value="Wollen Sie Lesezeichensammlung &quot;{1}&quot; zu Ihrer Standardlesezeichensammlung machen?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Eine Standardlesezeichensammlung kann nicht entfernt werden." />
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="Standardlesezeichensammlung kann nicht überschrieben werden. Wählen Sie eine andere Lesezeichensammlung als Standard und versuchen Sie den Import erneut." />
 			<text id="ENTER_ID" value="Lesezeichen-ID eingeben" />
 			<text id="NEW_BOOKMARK_SET" value="Neue Lesezeichensammlung" />
-			<text id="EXPORT4WEB" value="Export for Web"   />
+			<text id="EXPORT4WEB" value="Für das Web exportieren" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Lesezeichen bearbeiten" />
@@ -215,7 +215,7 @@
 			<text id="IMPORT_FOR" value="Für folgende Benutzer importieren:" />
 			<text id="ME_ONLY" value="Mich alleine" />
 			<text id="ALL_USERS" value="Alle Benutzer (benötigt Schreibzugriff auf das Installationsverzeichnis)" />
-			<text id="FOLLOWING_USERS" value="Index for the following users" />
+			<text id="FOLLOWING_USERS" value="Für folgende Benutzer indizieren" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="TITLE" value="Eigene Übersetzungen einstellen" />
@@ -223,9 +223,9 @@
 			<text id="CURRENT" value="Verwendete Übersetzungen" />
 		</form>
 		<form id="PROGRESS">
-			<text id="PLEASE_WAIT" value="Please wait"   />
-			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
-			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
+			<text id="PLEASE_WAIT" value="Warten Sie bitte" />
+			<text id="INDEXING" value="Indizierung" /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="Dieser Vorgang kann abhägig von der Größe des zu indizierenden Dokumentes einige Minuten dauern." />
 		</form>
 	</forms>
 </language>
