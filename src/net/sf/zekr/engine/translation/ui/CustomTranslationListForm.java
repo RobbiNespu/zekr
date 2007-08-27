@@ -145,28 +145,37 @@ public class CustomTranslationListForm {
 		addRemComp.setLayout(rl);
 		addRemComp.setLayoutData(gd);
 
-		RowData rd = new RowData();
-		rd.width = 90;
 		addBut = new Button(addRemComp, SWT.PUSH);
 		addBut.setText(lang.getMeaning("ADD") + " -> ");
-		addBut.setLayoutData(rd);
+		addBut.pack(); // we pack to set the length  
 		addBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				add();
 			}
 		});
 
-		rd = new RowData();
-		rd.width = 90;
 		remBut = new Button(addRemComp, SWT.PUSH);
-		remBut.setText("<- " + lang.getMeaning("REMOVE"));
-		remBut.setLayoutData(rd);
+		remBut.setText(" <- " + lang.getMeaning("REMOVE"));
+		remBut.pack(); // the same as for addBut
 		remBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				rem();
 			}
 		});
 
+		// let's set both buttons to the same length
+		// (after pack-ing we read the width
+		//  and set the max width to both buttons)
+		RowData rd = new RowData();
+		int waddBut = addBut.getBounds().width;
+		int wremBut = remBut.getBounds().width;
+		rd.width = waddBut;
+		if (wremBut > waddBut) {
+			rd.width = wremBut; 
+		}
+		addBut.setLayoutData(rd);
+		remBut.setLayoutData(rd);
+			
 		addBut.setEnabled(false);
 		remBut.setEnabled(false);
 
