@@ -151,22 +151,19 @@ public class FormUtils {
 		return new Point(x - (shell.getSize().x / 2), y - (shell.getSize().y / 2));
 	}
 
-	/** 
-	 * check a menuText entry for an ampersand and if not found
-	 * prepend the menuText with one
+	/**
+	 * check a menuText entry for an ampersand and if not found prepend the menuText with one
 	 * 
 	 * @param menuText
-	 * 			the menuText to be shown, i.e. the translated text
-	 * 			with possible &amp;amp; markers to show which key on the
-	 * 			keyboard will activate the menu item
-	 * @return either menuText with an &amp;amp; marker in the first position if there was no &amp;amp;
-	 *                menuText without any modification if there already was a &amp;amp; included 
+	 *           the menuText to be shown, i.e. the translated text with possible &amp;amp; markers to show which key on
+	 *           the keyboard will activate the menu item
+	 * @return either menuText with an &amp;amp; marker in the first position if there was no &amp;amp; menuText without
+	 *         any modification if there already was a &amp;amp; included
 	 */
 	public static String addAmpersand(final String menuText) {
-		if (!menuText.contains("&")) {
+		if (menuText.indexOf('&') <= -1) {
 			return "&" + menuText;
 		}
 		return menuText;
 	}
-	
 }
