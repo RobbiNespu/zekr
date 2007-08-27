@@ -16,7 +16,7 @@
 			<text id="EDIT"   value="Aanpassen" />
 			<text id="SEARCH" value="Zoeken" />
 			<text id="GOTO"   value="Ga naar" />
-			<text id="VIEW"   value="Beeld" />
+			<text id="VIEW"   value="Bee&amp;ld" />
 			<text id="CLOSE"  value="Sluiten" />
 			<text id="INSERT" value="Invoegen" />
 			<text id="DETAILS"  value="Details" />
@@ -42,7 +42,7 @@
 			<text id="ERROR"  value="Fout" />
 			<text id="LANGUAGE" value="Taal" />
 			<text id="ABOUT"  value="Info" />
-			<text id="PRINT"  value="Afdrukken" />
+			<text id="PRINT"  value="Af&amp;drukken" />
 			<text id="HOMEPAGE" value="Homepage" />
 			<text id="WHOLE_QURAN" value="De volledige Koran" />
 			<text id="MATCH_DIACRITIC" value="Zoek inclusief diakritische tekens" />
@@ -51,10 +51,10 @@
 			<text id="NEXT_SURA" value="Volgende soera" />
 			<text id="PREV_AYA" value="Vorige aya" />
 			<text id="PREV_SURA" value="Vorige soera" />
-			<text id="THEME" value="Thema" />
+			<text id="THEME" value="T&amp;hema" />
 			<text id="LAYOUT" value="Opmaak" />
 			<text id="TOOLS"   value="Gereedschap" />
-			<text id="ADD"   value="Toon" />
+			<text id="ADD"   value="Toevoegen" />
 			<text id="DELETE" value="Wissen" />
 			<text id="REMOVE" value="Terug" />
 			<text id="TRANSLATION" value="Vertaling" />
@@ -75,10 +75,10 @@
 			<text id="EXPORT"   value="Exporteer" />
 			<text id="IMPORT"   value="Importeer" />
 			<text id="DESCRIPTION" value="Beschrijving" />
-			<text id="BOOKMARKS" value="Bladwijzers" />
+			<text id="BOOKMARKS" value="Blad&amp;wijzers" />
 			<text id="CONFIGURE" value="Configureer" />
 			<text id="EDIT_BOOKMARK_SET" value="Bewerk bladwijzerset" />
-			<text id="MANAGE_BOOKMARK_SETS" value="Beheer bladwijzersets" />
+			<text id="MANAGE_BOOKMARK_SETS" value="Be&amp;heer bladwijzersets" />
 			<text id="DIRECTION" value="Richting" />
 			<text id="LANG_DIRECTION" value="Richting van de taal" />
 			<text id="RTL"      value="Rechts naar links" />
