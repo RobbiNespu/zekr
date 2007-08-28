@@ -353,17 +353,17 @@ Bug fixes:
 	Mac run script fixed to accept command lines.
 	Uthman Taha search font fixed on Mozilla/Safari. (changes applied to CSS files to affect only IE)
 
-Version 0.7.0 - []
+Version 0.7.0beta1 - [25-9-07]
 Features/Enhancements
 	RequestID 1775169 - set the columns in the Details section of the task pane now depends on the length of the translation. The size of the add and remove button in the ConfigureCustomTranslations form also depend on the length of their translations.
 	RequestID 1777467 - keyboard shortcuts activated in the menu. <language>.xml can now use &amp; to indicate which key to use.	
 	dutch.xml uses the new &amp; keyboard shortcuts
+Bug fixes:
 _____________________________________________________
 	TODO: Bug with translation icon in advanced search results... shows quran when multi-translation is selected.
 	TODO: Max width for Name and Value columns based on its most long text.
 	TODO: aya change in nav bar should work even when a html is "saved as...".
 	TODO: GCJ bug with XSLT transformation
-	TODO: Afghanistan flag
 	TODO: Display localized, English transliterated, or Arabic sura names
 	TODO: History support: back/forward.
 
