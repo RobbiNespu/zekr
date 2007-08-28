@@ -167,12 +167,7 @@ public class CustomTranslationListForm {
 		// (after pack-ing we read the width
 		//  and set the max width to both buttons)
 		RowData rd = new RowData();
-		int waddBut = addBut.getBounds().width;
-		int wremBut = remBut.getBounds().width;
-		rd.width = waddBut;
-		if (wremBut > waddBut) {
-			rd.width = wremBut; 
-		}
+        rd.width = Math.max( addBut.getBounds().width, remBut.getBounds().width );
 		addBut.setLayoutData(rd);
 		remBut.setLayoutData(rd);
 			
