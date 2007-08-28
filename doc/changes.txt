@@ -352,6 +352,12 @@ Bug fixes:
 	Linux font name problem in search results with Uthman Taha fixed.
 	Mac run script fixed to accept command lines.
 	Uthman Taha search font fixed on Mozilla/Safari. (changes applied to CSS files to affect only IE)
+
+Version 0.7.0 - []
+Features/Enhancements
+	RequestID 1775169 - set the columns in the Details section of the task pane now depends on the length of the translation. The size of the add and remove button in the ConfigureCustomTranslations form also depend on the length of their translations.
+	RequestID 1777467 - keyboard shortcuts activated in the menu. <language>.xml can now use &amp; to indicate which key to use.	
+	dutch.xml uses the new &amp; keyboard shortcuts
 _____________________________________________________
 	TODO: Bug with translation icon in advanced search results... shows quran when multi-translation is selected.
 	TODO: Max width for Name and Value columns based on its most long text.
