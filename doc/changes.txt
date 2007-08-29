@@ -354,11 +354,14 @@ Bug fixes:
 	Uthman Taha search font fixed on Mozilla/Safari. (changes applied to CSS files to affect only IE)
 
 Version 0.7.0beta1 - [25-9-07]
-Features/Enhancements
-	RequestID 1775169 - set the columns in the Details section of the task pane now depends on the length of the translation. The size of the add and remove button in the ConfigureCustomTranslations form also depend on the length of their translations.
-	RequestID 1777467 - keyboard shortcuts activated in the menu. <language>.xml can now use &amp; to indicate which key to use.	
-	dutch.xml uses the new &amp; keyboard shortcuts
+	ID 1775169 - set the columns in the Details section of the task pane now depends on the length of the translation. The size of the add and remove button in the ConfigureCustomTranslations form also depend on the length of their translations.
+	ID 1777467 - keyboard shortcuts activated in the menu. <language>.xml can now use &amp; to indicate which key to use.
+    ID 1777467 - english.xml, dutch.xml, french.xml, and german.xml uses the new &amp; keyboard shortcuts
 Bug fixes:
+    ID 1783882 - All OK, CANCEL, and APPLY buttons now depend on the length of the translation
+    ID 1783886 - The hint in ManageBookMarkSets now fully shows
+
+Features/Enhancements
 _____________________________________________________
 	TODO: Bug with translation icon in advanced search results... shows quran when multi-translation is selected.
 	TODO: Max width for Name and Value columns based on its most long text.
