@@ -158,7 +158,7 @@ public class OptionsForm {
 
 		createGeneralTab();
 		general = new ToolItem(bar, SWT.RADIO);
-		general.setText(lang.getMeaning("GENERAL"));
+		general.setText(meaning("GENERAL_OPTIONS"));
 		general.setImage(new Image(display, resource.getString("icon.general")));
 		general.setSelection(true);
 		general.setData(generalTab);
@@ -167,7 +167,7 @@ public class OptionsForm {
 		createViewTab();
 		view = new ToolItem(bar, SWT.RADIO);
 		view.setImage(new Image(display, resource.getString("icon.view")));
-		view.setText(lang.getMeaning("VIEW"));
+		view.setText(meaning("VIEW_OPTIONS"));
 		view.setData(viewTab);
 		view.addSelectionListener(sa);
 
@@ -357,7 +357,7 @@ public class OptionsForm {
 		comp.setLayout(rl);
 
 		Label ct = new Label(comp, SWT.NONE);
-		ct.setText(lang.getMeaning("THEME") + ":");
+		ct.setText(meaning("THEME_OPTIONS") + ":");
 		themeSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
 		Map themeMap = new LinkedHashMap();
 		int selectedNum = 0;
