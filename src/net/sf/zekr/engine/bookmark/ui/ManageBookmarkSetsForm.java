@@ -607,6 +607,8 @@ public class ManageBookmarkSetsForm {
 
 	public void open() {
 		shell.setSize(400, 280);
+		// ID 1783886 - to make the hint show in full 
+		shell.pack();
 		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.open();
 	}
