@@ -77,8 +77,8 @@
 			<text id="DESCRIPTION" value="Beschreibung" />
 			<text id="BOOKMARKS" value="Lesezeichen" />
 			<text id="CONFIGURE" value="Lesezeichensammlung bearbeiten" />
-			<text id="EDIT_BOOKMARK_SET" value="Lesezeichensammlung bearbeiten" />
-			<text id="MANAGE_BOOKMARK_SETS" value="Lesezeichensammlungen verwalten" />
+			<text id="EDIT_BOOKMARK_SET" value="Lesezeichensammlung &amp;bearbeiten" />
+			<text id="MANAGE_BOOKMARK_SETS" value="Lesezeichensammlungen &amp;verwalten" />
 			<text id="DIRECTION" value="Richtung" />
 			<text id="LANG_DIRECTION" value="Lese-/Schreibrichtung" />
 			<text id="RTL"      value="Von rechts nach links" />
@@ -93,7 +93,7 @@
 			<text id="OVERWRITE" value="Überschreiben" />
 			<text id="SAVE"     value="Speichern" />
 			<text id="PATH"     value="Pfad" />
-			<text id="SHOW_REFS" value="Verweise anzeigen" />
+			<text id="SHOW_REFS" value="Verweise &amp;anzeigen" />
 			<text id="MOVE_UP" value="Nach oben" />
 			<text id="MOVE_DOWN" value="Nach unten" />
 			<text id="MULTI_TRANS" value="Eigene Übersetzungsansicht" />

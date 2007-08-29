@@ -51,7 +51,7 @@
 			<text id="NEXT_SURA" value="Next sura" />
 			<text id="PREV_AYA" value="Previous aya" />
 			<text id="PREV_SURA" value="Previous sura" />
-			<text id="THEME" value="Theme" />
+			<text id="THEME" value="T&amp;heme" />
 			<text id="LAYOUT" value="Layout" />
 			<text id="TOOLS" value="Tools" />
 			<text id="ADD" value="Add" />
@@ -62,7 +62,7 @@
 			<text id="IMPORT" value="Import" />
 			<text id="COPY" value="Copy" />
 			<text id="SEPARATE" value="Separate" />
-			<text id="MIXED" value="Mixed" />
+			<text id="MIXED" value="Mi&amp;xed" />
 			<text id="OPTIONS" value="Options" />
 			<text id="QUESTION" value="Question" />
 			<text id="FONT" value="Font" />
@@ -85,7 +85,7 @@
 			<text id="LTR" value="Left to right" />
 			<text id="AUTHOR" value="Author" />
 			<text id="VERSION" value="Version" />
-			<text id="RANDOM_AYA" value="Random Aya" />
+			<text id="RANDOM_AYA" value="Random &amp;Aya" />
 			<text id="UNTITLED" value="Untitled" />
 			<text id="SET_DEFAULT" value="Set as default" />
 			<text id="NOT_LOADED" value="Not loaded" />

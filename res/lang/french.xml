@@ -16,7 +16,7 @@
 			<text id="EDIT"   value="Edition" />
 			<text id="SEARCH" value="Recherche" />
 			<text id="GOTO"   value="Aller à" />
-			<text id="VIEW"   value="Affichage" />
+			<text id="VIEW"   value="Afficha&amp;ge" />
 			<text id="CLOSE"  value="Fermer" />
 			<text id="INSERT" value="Insérer" />
 			<text id="DETAILS"  value="Détails" />
@@ -51,7 +51,7 @@
 			<text id="NEXT_SURA" value="Sura suivante" /> 
 			<text id="PREV_AYA" value="Aya précédente" /> 
 			<text id="PREV_SURA" value="Sura précédente" /> 
-			<text id="THEME" value="Thème" />
+			<text id="THEME" value="T&amp;hème" />
 			<text id="LAYOUT" value="Couche" />
 			<text id="TOOLS"   value="Outils" />
 			<text id="ADD"   value="Ajouter" />
@@ -62,7 +62,7 @@
 			<text id="IMPORT" value="Importer" />
 			<text id="COPY"   value="Copier" />
 			<text id="SEPARATE" value="Séparée" />
-			<text id="MIXED"  value="Mélangée" />
+			<text id="MIXED"  value="Mé&amp;langée" />
 			<text id="OPTIONS"  value="Options" />
 			<text id="QUESTION" value="Question" />
 			<text id="FONT"     value="Police" />
@@ -97,7 +97,7 @@
 			<text id="MOVE_UP" value="Bouger en haut" />
 			<text id="MOVE_DOWN" value="Bouger en bas" />
 			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
-			<text id="CONFIG_CUSTOM_TRANS" value="Configurer les traductions " />
+			<text id="CONFIG_CUSTOM_TRANS" value="Configurer &amp;les traductions " />
 			<text id="GO" value="Go" />
 			<text id="CAUTION" value="Caution"   />
 			<text id="ADVANCED" value="Advanced"   />
