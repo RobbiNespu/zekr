@@ -245,12 +245,10 @@ public class BookmarkItemForm extends BaseForm {
 		butComposite.setLayout(rl);
 		butComposite.setLayoutData(gd);
 
-		RowData rd = new RowData();
-		rd.width = 80;
-
 		okBut = new Button(butComposite, SWT.PUSH);
 		cancelBut = new Button(butComposite, SWT.PUSH);
 		okBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("OK")) );
+		okBut.pack();
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				canceled = false;
@@ -262,14 +260,10 @@ public class BookmarkItemForm extends BaseForm {
 				this.widgetSelected(e);
 			}
 		});
-		okBut.setLayoutData(rd);
 		shell.setDefaultButton(okBut);
 
-		rd = new RowData();
-		rd.width = 80;
-
 		cancelBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("CANCEL")) );
-		cancelBut.setLayoutData(rd);
+		cancelBut.pack();
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				canceled = true;
@@ -277,6 +271,12 @@ public class BookmarkItemForm extends BaseForm {
 			}
 		});
 
+		RowData rd = new RowData();
+		rd.width = Math.max( okBut.getBounds().width, cancelBut.getBounds().width);
+		// set both OK and CANCEL to the same width		
+		okBut.setLayoutData(rd);
+		cancelBut.setLayoutData(rd);
+		
 		if (!bookmarkItem.isFolder()) {
 			TableColumn suraCol = new TableColumn(table, SWT.NONE);
 			suraCol.setText(langEngine.getMeaning("SURA"));
