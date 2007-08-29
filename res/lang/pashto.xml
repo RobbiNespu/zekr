@@ -58,6 +58,7 @@
 			<text id="DELETE"   value="ختمول" />
 			<text id="REMOVE"   value="لېرې کول" />
 			<text id="TRANSLATION" value="ژباړه" />
+			<text id="TRANSLATION_VIEWTYPE" value="ژباړه"   />
 			<text id="OPEN"     value="پرانيستل" />
 			<text id="IMPORT"   value="راوړه" />
 			<text id="COPY"     value="کاپي کړه" />
@@ -108,6 +109,7 @@
 		</common>
 		<special>
 			<text id="QURAN" value="قران" />
+			<text id="QURAN_VIEWTYPE" value="قران"   />
 			<text id="SURA" value="سورت" />
 			<text id="AYA" value="ايت" />
 			<text id="SAJDA" value="سجده" />
@@ -158,6 +160,8 @@
 			<text id="EDIT_SCOPES" value="نښې ته بدلون ورکول" />
 			<text id="NO_SCOPE" value="هېڅ يوه" />
 			<text id="CURRENT_PAGE" value="همدا پاڼه" />
+			<text id="QURAN_SCOPE" value="قران"   />
+			<text id="TRANSLATION_SCOPE" value="ژباړه"   />
 			<text id="NATURAL_ORDER" value="ساده ترتیب" />
 			<text id="RELEVANCE" value="يو ډول والي" />
 			<text id="SORT_BY" value="نتیجه برابره کړه په" />

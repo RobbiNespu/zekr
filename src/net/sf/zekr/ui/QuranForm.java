@@ -411,12 +411,12 @@ public class QuranForm extends BaseForm {
 						if (searchTarget == QURAN_ONLY) {
 							logger.info("Show translation: (" + sura + ", " + aya + ")");
 							TranslationData td = config.getTranslation().getDefault();
-							pe = new PopupBox(shell, langEngine.getMeaning("TRANSLATION"), td.get(sura, aya), FormUtils
+							pe = new PopupBox(shell, langEngine.getMeaning("TRANSLATION_SCOPE"), td.get(sura, aya), FormUtils
 									.toSwtDirection(td.direction));
 						} else {
 							logger.info("Show quran: (" + sura + ", " + aya + ")");
 							try {
-								pe = new PopupBox(shell, langEngine.getMeaning("QURAN"),
+								pe = new PopupBox(shell, langEngine.getMeaning("QURAN_SCOPE"),
 										QuranText.getSimpleTextInstance().get(sura, aya), SWT.RIGHT_TO_LEFT);
 							} catch (IOException e) {
 								logger.log(e);
@@ -928,7 +928,7 @@ public class QuranForm extends BaseForm {
 		searchScopeComp.setLayout(new FillLayout());
 
 		quranScopeBut = new Button(searchScopeComp, SWT.RADIO);
-		quranScopeBut.setText(langEngine.getMeaning("QURAN"));
+		quranScopeBut.setText(meaning("QURAN_SCOPE"));
 
 		boolean searchQuranContent = config.getProps().getBoolean("view.search.simple.searchQuranContent");
 
@@ -936,7 +936,7 @@ public class QuranForm extends BaseForm {
 		quranScopeBut.addKeyListener(ka);
 
 		transScopeBut = new Button(searchScopeComp, SWT.RADIO);
-		transScopeBut.setText(langEngine.getMeaning("TRANSLATION"));
+		transScopeBut.setText(meaning("TRANSLATION_SCOPE"));
 		SelectionListener transScopeSA = new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (transScopeBut.getSelection()) {

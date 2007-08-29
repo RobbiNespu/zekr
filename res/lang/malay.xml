@@ -58,6 +58,7 @@
 			<text id="DELETE"   value="Hapus" />
 			<text id="REMOVE"   value="Buang" />
 			<text id="TRANSLATION" value="Terjemahan" />
+			<text id="TRANSLATION_VIEWTYPE" value="Terjemahan"   />
 			<text id="OPEN"     value="Buka" />
 			<text id="IMPORT"   value="Import" />
 			<text id="COPY"     value="Salin" />
@@ -108,6 +109,7 @@
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
+			<text id="QURAN_VIEWTYPE"    value="Quran"   />
 			<text id="SURA"     value="Surah" />
 			<text id="AYA"      value="Ayat" />
 			<text id="SAJDA"    value="Sajda" />
@@ -158,6 +160,8 @@
 			<text id="EDIT_SCOPES" value="Sunting Skop" />
 			<text id="NO_SCOPE" value="Tiada Skop" />
 			<text id="CURRENT_PAGE" value="Mukasurat Semasa" />
+			<text id="QURAN_SCOPE"    value="Quran"   />
+			<text id="TRANSLATION_SCOPE" value="Terjemahan"   />
 			<text id="NATURAL_ORDER" value="Susunan Natural" />
 			<text id="RELEVANCE" value="Reliven" />
 			<text id="SORT_BY" value="Susun Keputusan Dengan Cara" />

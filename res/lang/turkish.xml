@@ -58,6 +58,7 @@
 			<text id="DELETE"   value="Sil" />
 			<text id="REMOVE"   value="Kaldır" />
 			<text id="TRANSLATION" value="Meal" />
+			<text id="TRANSLATION_VIEWTYPE" value="Meal"   />
 			<text id="OPEN"     value="Aç" />
 			<text id="IMPORT"   value="Getir" />
 			<text id="COPY"     value="Kopyala" />
@@ -108,6 +109,7 @@
 		</common>
 		<special>
 			<text id="QURAN"    value="Kuran-ı Kerim" />
+			<text id="QURAN_VIEWTYPE"    value="Kuran-ı Kerim"   />
 			<text id="SURA"     value="Sure" />
 			<text id="AYA"      value="Ayet" />
 			<text id="SAJDA"    value="Secde Ayeti" />
@@ -158,6 +160,8 @@
 			<text id="EDIT_SCOPES" value="Alanları Düzenle" />
 			<text id="NO_SCOPE" value="Alan Yok" />
 			<text id="CURRENT_PAGE" value="Bu Sayfa" />
+			<text id="QURAN_SCOPE"    value="Kuran-ı Kerim"   />
+			<text id="TRANSLATION_SCOPE" value="Meal"   />
 			<text id="NATURAL_ORDER" value="Normal Düzen" />
 			<text id="RELEVANCE" value="ilintili" />
 			<text id="SORT_BY" value="Sonucu Sırala" />

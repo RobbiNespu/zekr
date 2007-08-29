@@ -58,6 +58,7 @@
 			<text id="DELETE"   value="بسڕه‌وه‌" />
 			<text id="REMOVE"   value="لایبه‌" />
 			<text id="TRANSLATION" value="وه‌رگێڕان" />
+			<text id="TRANSLATION_VIEWTYPE" value="وه‌رگێڕان"   />
 			<text id="OPEN"     value="بكه‌ره‌وه‌" />
 			<text id="IMPORT"   value="بیهێنه‌" />
 			<text id="COPY"     value="ڕوونووس بكه‌" />
@@ -108,6 +109,7 @@
 		</common>
 		<special>
 			<text id="QURAN"    value="قورئان" />
+			<text id="QURAN_VIEWTYPE"    value="قورئان"   />
 			<text id="SURA"    value="سووره‌ت" />
 			<text id="AYA"      value="ئایه‌ت" />
 			<text id="SAJDA"    value="سوجده‌" />
@@ -158,6 +160,8 @@
 			<text id="EDIT_SCOPES" value="ده‌ستکاریی مه‌وداکان" />
 			<text id="NO_SCOPE" value="بێ مه‌ودا" />
 			<text id="CURRENT_PAGE" value="لاپه‌ڕه‌ی ئێستا" />
+			<text id="QURAN_SCOPE"    value="قورئان"   />
+			<text id="TRANSLATION_SCOPE" value="وه‌رگێڕان"   />
 			<text id="NATURAL_ORDER" value="Natural Order"   />
 			<text id="RELEVANCE" value="Relevance"   />
 			<text id="SORT_BY" value="Sort results by"   />

@@ -58,6 +58,7 @@
 			<text id="DELETE" value="Löschen" />
 			<text id="REMOVE" value="Entfernen" />
 			<text id="TRANSLATION" value="Übersetzung" />
+			<text id="TRANSLATION_VIEWTYPE" value="Ü&amp;bersetzung"   />
 			<text id="OPEN"     value="Öffnen" />
 			<text id="IMPORT"   value="Importieren" />
 			<text id="COPY"     value="Kopieren" />
@@ -108,6 +109,7 @@
 		</common>
 		<special>
 			<text id="QURAN"  value="Quran" />
+			<text id="QURAN_VIEWTYPE"  value="Q&amp;uran"   />
 			<text id="SURA"   value="Sura" />
 			<text id="AYA"  value="Aya" />
 			<text id="SAJDA"  value="Sajda" />
@@ -158,6 +160,8 @@
 			<text id="EDIT_SCOPES" value="Suchbereich bearbeiten" />
 			<text id="NO_SCOPE" value="Kein Suchbereich" />
 			<text id="CURRENT_PAGE" value="Auf dieser Seite" />
+			<text id="QURAN_SCOPE"  value="Quran"   />
+			<text id="TRANSLATION_SCOPE" value="Übersetzung"   />
 			<text id="NATURAL_ORDER" value="Natürlicher Ordnung" />
 			<text id="RELEVANCE" value="Relevanz" />
 			<text id="SORT_BY" value="Ergebnisse sortieren nach" />

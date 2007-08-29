@@ -58,6 +58,7 @@
 			<text id="DELETE"   value="Удалить" />
 			<text id="REMOVE"   value="Удалить" />
 			<text id="TRANSLATION" value="Перевод" />
+			<text id="TRANSLATION_VIEWTYPE" value="Перевод"   />
 			<text id="OPEN"     value="Открыть" />
 			<text id="IMPORT"   value="Импорт" />
 			<text id="COPY"     value="Копировать" />
@@ -108,6 +109,7 @@
 		</common>
 		<special>
 			<text id="QURAN"    value="Коран" />
+			<text id="QURAN_VIEWTYPE"    value="Коран"   />
 			<text id="SURA"     value="Сура" />
 			<text id="AYA"      value="Аят" />
 			<text id="SAJDA"    value="Земной поклон" />
@@ -158,6 +160,8 @@
 			<text id="EDIT_SCOPES" value="Редактировать правила" />
 			<text id="NO_SCOPE" value="Без правил" />
 			<text id="CURRENT_PAGE" value="Текущая страница" />
+			<text id="QURAN_SCOPE"    value="Коран"   />
+			<text id="TRANSLATION_SCOPE" value="Перевод"   />
 			<text id="NATURAL_ORDER" value="Обычный порядок" />
 			<text id="RELEVANCE" value="По релевантности" />
 			<text id="SORT_BY" value="Сортировка результатов" />

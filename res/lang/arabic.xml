@@ -58,6 +58,7 @@
 			<text id="DELETE"   value="حذف" />
 			<text id="REMOVE"   value="إزالة" />
 			<text id="TRANSLATION" value="ترجمة" />
+			<text id="TRANSLATION_VIEWTYPE" value="ترجمة"   />
 			<text id="OPEN"     value="فتح" />
 			<text id="IMPORT"   value="استيراد" />
 			<text id="COPY"     value="نسخ" />
@@ -108,6 +109,7 @@
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
+			<text id="QURAN_VIEWTYPE" value="قرآن"   />
 			<text id="SURA" value="سورة" />
 			<text id="AYA" value="آية" />
 			<text id="SAJDA" value="سجدة" />
@@ -158,6 +160,8 @@
 			<text id="EDIT_SCOPES" value="تحرير المجالات" />
 			<text id="NO_SCOPE" value="بدون مجال" />
 			<text id="CURRENT_PAGE" value="الصفحة الحالية" />
+			<text id="QURAN_SCOPE" value="قرآن"   />
+			<text id="TRANSLATION_SCOPE" value="ترجمة"   />
 			<text id="NATURAL_ORDER" value="ترتيب عادي" />
 			<text id="RELEVANCE" value="صلة" />
 			<text id="SORT_BY" value="ترتيب النتائج حسب" />

@@ -281,9 +281,9 @@ public class QuranFormMenuFactory {
 		customMixed.addSelectionListener(sa);
 
 		quranViewType = new MenuItem(viewTypeMenu, SWT.CASCADE | direction);
-		quranViewType.setText(FormUtils.addAmpersand( lang.getMeaning("QURAN")) );
+		quranViewType.setText(FormUtils.addAmpersand( lang.getMeaning("QURAN_VIEWTYPE")) );
 		transViewType = new MenuItem(viewTypeMenu, SWT.CASCADE | direction);
-		transViewType.setText(FormUtils.addAmpersand( lang.getMeaning("TRANSLATION")) );
+		transViewType.setText(FormUtils.addAmpersand( lang.getMeaning("TRANSLATION_VIEWTYPE")) );
 
 		// Set default selection
 		if (config.getTranslation().getDefault() == null) { // if no translation found

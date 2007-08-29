@@ -58,6 +58,7 @@
 			<text id="DELETE" value="Izbriši" />
 			<text id="REMOVE" value="Ukloni" />
 			<text id="TRANSLATION" value="Prijevod" />
+			<text id="TRANSLATION_VIEWTYPE" value="Prijevod"   />
 			<text id="OPEN" value="Otvori" />
 			<text id="IMPORT" value="Uvezi" />
 			<text id="COPY" value="Kopiraj" />
@@ -108,6 +109,7 @@
 		</common>
 		<special>
 			<text id="QURAN" value="Kur'an" />
+			<text id="QURAN_VIEWTYPE" value="Kur'an"   />
 			<text id="SURA" value="Sura" />
 			<text id="AYA" value="Ajet" />
 			<text id="SAJDA" value="Sedžda" />
@@ -158,6 +160,8 @@
 			<text id="EDIT_SCOPES" value="Uredi opseg" />
 			<text id="NO_SCOPE" value="Bez opsega" />
 			<text id="CURRENT_PAGE" value="Trenutna strana" />
+			<text id="QURAN_SCOPE" value="Kur'an"   />
+			<text id="TRANSLATION_SCOPE" value="Prijevod"   />
 			<text id="NATURAL_ORDER" value="Prirodnom poretku" />
 			<text id="RELEVANCE" value="Značaju" />
 			<text id="SORT_BY" value="Prikaži rezultate po" />
