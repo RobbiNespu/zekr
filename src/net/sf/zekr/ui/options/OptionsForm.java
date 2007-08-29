@@ -187,10 +187,9 @@ public class OptionsForm {
 
 		buttons.setLayoutData(gd);
 
-		RowData rd = new RowData();
-		rd.width = 80;
 		Button ok = new Button(buttons, SWT.NONE);
 		ok.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
+		ok.pack();
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				ok();
@@ -200,29 +199,31 @@ public class OptionsForm {
 				this.widgetSelected(e);
 			}
 		});
-		ok.setLayoutData(rd);
-
-		rd = new RowData();
-		rd.width = 80;
+		
 		Button cancel = new Button(buttons, SWT.NONE);
 		cancel.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
+		cancel.pack();
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				shell.close();
 			}
 		});
-		cancel.setLayoutData(rd);
-
-		rd = new RowData();
-		rd.width = 80;
+		
 		Button apply = new Button(buttons, SWT.NONE);
 		apply.setText(FormUtils.addAmpersand( lang.getMeaning("APPLY")) );
+		apply.pack();
 		apply.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				apply(false);
 			}
 		});
+		RowData rd = new RowData();
+		rd.width = Math.max( ok.getBounds().width, Math.max( cancel.getBounds().width, apply.getBounds().width) );
+		// set all three OK, CANCEL, and APLLY buttons to the same length
+		ok.setLayoutData(rd);
+		cancel.setLayoutData(rd);
 		apply.setLayoutData(rd);
+		
 		shell.setDefaultButton(ok);
 	}
 

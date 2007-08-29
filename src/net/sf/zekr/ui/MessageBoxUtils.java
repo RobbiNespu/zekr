@@ -230,10 +230,9 @@ public class MessageBoxUtils {
 		butComposite.setLayout(rl);
 		butComposite.setLayoutData(gd);
 
-		RowData rd = new RowData();
-		rd.width = 80;
 		Button ok = new Button(butComposite, SWT.NONE);
 		ok.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
+		ok.pack();
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				for (int i = 0; i < buts.length; i++) {
@@ -249,20 +248,22 @@ public class MessageBoxUtils {
 				this.widgetSelected(e);
 			}
 		});
-		ok.setLayoutData(rd);
 		
 		shell.setDefaultButton(ok);
 
-		rd = new RowData();
-		rd.width = 80;
 		Button cancel = new Button(butComposite, SWT.NONE);
 		cancel.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
+		cancel.pack();
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				__ret = -1;
 				shell.close();
 			}
 		});
+		RowData rd = new RowData();
+		rd.width = Math.max( ok.getBounds().width, cancel.getBounds().width);
+		// set the OK and CANCEL buttons to the same length		
+		ok.setLayoutData(rd);
 		cancel.setLayoutData(rd);
 
 		__ret = -1;

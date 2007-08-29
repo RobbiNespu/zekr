@@ -177,12 +177,10 @@ public class SearchScopeForm extends BaseForm {
 		butComposite.setLayout(rl);
 		butComposite.setLayoutData(gd);
 
-		rd = new RowData();
-		rd.width = 80;
-
 		Button okBut = new Button(butComposite, SWT.PUSH);
 		Button cancelBut = new Button(butComposite, SWT.PUSH);
 		okBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("OK")) );
+		okBut.pack();
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				canceled = false;
@@ -200,21 +198,22 @@ public class SearchScopeForm extends BaseForm {
 				this.widgetSelected(e);
 			}
 		});
-		okBut.setLayoutData(rd);
 		shell.setDefaultButton(okBut);
 
-		rd = new RowData();
-		rd.width = 80;
-
 		cancelBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("CANCEL")) );
-		cancelBut.setLayoutData(rd);
+		cancelBut.pack();
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				canceled = true;
 				shell.close();
 			}
 		});
-
+		rd = new RowData();
+		rd.width = Math.max( okBut.getBounds().width, cancelBut.getBounds().width);
+		// set the OK and CANCEL buttons to the same length
+		okBut.setLayoutData(rd);
+		cancelBut.setLayoutData(rd);
+		
 		TableColumn fromSuraCol = new TableColumn(table, SWT.NONE);
 		fromSuraCol.setText(meaning("FROM_SURA"));
 		fromSuraCol.setWidth(100);
