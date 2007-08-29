@@ -154,6 +154,7 @@ public class FormUtils {
 	/**
 	 * check a menuText entry for an ampersand and if not found prepend the menuText with one
 	 * 
+	 * @author laejoh
 	 * @param menuText
 	 *           the menuText to be shown, i.e. the translated text with possible &amp;amp; markers to show which key on
 	 *           the keyboard will activate the menu item
