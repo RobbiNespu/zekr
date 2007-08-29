@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="Theme"   />
+			<text id="GENERAL_OPTIONS" value="General"   />
+			<text id="VIEW_OPTIONS" value="View"   />
 			<text id="TITLE" value="Application Options" />
 			<text id="SHOW_SPLASH" value="Display logo at startup" />
 			<text id="NEW_KEY" value="Enter a new key" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="Index for the following users" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM" value="Remove"   />
+			<text id="ADD_CUSTOM" value="Add"   />
 			<text id="TITLE" value="Configure Custom Translations" />
 			<text id="AVAILABLE" value="Available translations" />
 			<text id="CURRENT" value="Currently used translations" />

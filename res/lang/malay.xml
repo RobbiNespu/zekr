@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="Susun Keputusan Dengan Cara" />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS"     value="Tema"   />
+			<text id="GENERAL_OPTIONS"  value="Umum"   />
+			<text id="VIEW_OPTIONS"     value="Paparan"   />
 			<text id="TITLE" value="Pilihan  Aplikasi" />
 			<text id="SHOW_SPLASH" value="Paparkan logo semasa startup" />
 			<text id="NEW_KEY" value="Masukan kekunci keyboard yang baru" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="Index Untuk Pengguna Berkenaan" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM"   value="Buang"   />
+			<text id="ADD_CUSTOM"      value="Tambah"   />
 			<text id="TITLE" value="Konfigure Terjemahan" />
 			<text id="AVAILABLE" value="Terjemahan Yang Ada" />
 			<text id="CURRENT" value="Terjemahan semasa" />

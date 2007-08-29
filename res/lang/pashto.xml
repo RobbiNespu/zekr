@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="نتیجه برابره کړه په" />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="بڼه"   />
+			<text id="GENERAL_OPTIONS"  value="ساده"   />
+			<text id="VIEW_OPTIONS" value="ښودنه"   />
 			<text id="TITLE" value="دپوستکالي واك" />
 			<text id="SHOW_SPLASH" value="په پېل کښې  د پوستکالي نښانه وښيه" />
 			<text id="NEW_KEY" value="نوې کيلي وليکۍ" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="د لاندې كاروونكو لپاره يې نښه کړه:" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM"   value="لېرې کول"   />
+			<text id="ADD_CUSTOM"      value="زياتول"   />
 			<text id="TITLE" value="د خپلې خوښې ژباړو برابرونه" />
 			<text id="AVAILABLE" value="لاس ته راتلونكې ژباړې:" />
 			<text id="CURRENT" value="اوسنۍ کارېدونکې ژباړې:" />

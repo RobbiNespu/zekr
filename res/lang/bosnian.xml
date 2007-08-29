@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="Prikaži rezultate po" />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="Tema"   />
+			<text id="GENERAL_OPTIONS" value="Općenito"   />
+			<text id="VIEW_OPTIONS" value="Izgled"   />
 			<text id="TITLE" value="Aplikacijske opcije" />
 			<text id="SHOW_SPLASH" value="Prikaži logo pri startu" />
 			<text id="NEW_KEY" value="Unesite novi ključ" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="Indeks za sljedeće korisnike" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM" value="Ukloni"   />
+			<text id="ADD_CUSTOM" value="Dodaj"   />
 			<text id="TITLE" value="Podesi prilagođene prijevode" />
 			<text id="AVAILABLE" value="Dostupni prijevodi" />
 			<text id="CURRENT" value="Trenutno korišteni prijevodi" />

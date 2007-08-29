@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="ڕوواڵه‌ت"   />
+			<text id="GENERAL_OPTIONS"  value="گشتی"   />
+			<text id="VIEW_OPTIONS"     value="پیشاندان"   />
 			<text id="TITLE" value="هه‌ڵبژاردنه‌كانی به‌رنامه‌" />
 			<text id="SHOW_SPLASH" value="لۆگۆ له‌ 'ستارتاپ'دا پیشان بده‌" />
 			<text id="NEW_KEY" value="كلیلێكی تر بخه‌ره‌ ناو" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="Index for the following users"   />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM"   value="لایبه‌"   />
+			<text id="ADD_CUSTOM"     value="زیاد بكه‌"   />
 			<text id="TITLE" value="Configure Custom Translations"   />
 			<text id="AVAILABLE" value="Available translations"   />
 			<text id="CURRENT" value="Current translations"   />

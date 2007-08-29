@@ -56,7 +56,7 @@
 			<text id="TOOLS"   value="Gereedschap" />
 			<text id="ADD"   value="Toevoegen" />
 			<text id="DELETE" value="Wissen" />
-			<text id="REMOVE" value="Terug" />
+			<text id="REMOVE" value="Verwijder" />
 			<text id="TRANSLATION" value="Vertaling" />
 			<text id="OPEN"   value="Openen" />
 			<text id="IMPORT" value="Importeren" />
@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="Sorteer resultaten op" />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="Thema" />
+			<text id="GENERAL_OPTIONS"  value="Algemeen" />
+			<text id="VIEW_OPTIONS"   value="Thema" />
 			<text id="TITLE" value="Applicatie-opties" />
 			<text id="SHOW_SPLASH" value="Start splash scherm" />
 			<text id="NEW_KEY" value="Nieuwe bijdrage" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="Indexeer voor de volgende gebruikers" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM" value="Terug" />
+			<text id="ADD_CUSTOM"   value="Toon" />
 			<text id="TITLE" value="Configureer meerdere vertalingen" />
 			<text id="AVAILABLE" value="Beschikbare vertalingen" />
 			<text id="CURRENT" value="Zichtbare vertalingen" />

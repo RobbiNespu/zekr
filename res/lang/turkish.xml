@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="Sonucu Sırala" />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="Tema"   />
+			<text id="GENERAL_OPTIONS"  value="Genel"   />
+			<text id="VIEW_OPTIONS"     value="Görünüm"   />
 			<text id="TITLE" value="Uygulama Seçenekleri" />
 			<text id="SHOW_SPLASH" value="Açılış Logosu" />
 			<text id="NEW_KEY" value="Yeni Bir Sözcük Giriniz" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="Sonraki kullanıcı için fihrist" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM"   value="Kaldır"   />
+			<text id="ADD_CUSTOM"     value="Ekle"   />
 			<text id="TITLE" value="Özel Çevirileri Yapılandır" />
 			<text id="AVAILABLE" value="Kullanılabilir Çeviriler" />
 			<text id="CURRENT" value="Şu Anki Çeviri" />

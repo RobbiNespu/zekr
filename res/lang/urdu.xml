@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="Sort results by"   />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="خیالیہ"   />
+			<text id="GENERAL_OPTIONS" value="عمومی"   />
+			<text id="VIEW_OPTIONS" value="دیکھیں"   />
 			<text id="TITLE" value="اطلاقیہ کے اختیارات"/>
 			<text id="SHOW_SPLASH" value="آغاز پر لوگو دکھائیں"/>
 			<text id="NEW_KEY" value="ایک نئی کلید داخل کریں"/>
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="Index for the following users"   />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM" value="ہٹائیں"   />
+			<text id="ADD_CUSTOM" value="شامل کریں"   />
 			<text id="TITLE" value="دیگر ترجمہ جات منظم کریں"/>
 			<text id="AVAILABLE" value="دستیاب ترجمہ جات"/>
 			<text id="CURRENT" value="موجود ترجمہ جات"/>

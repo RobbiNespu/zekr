@@ -357,6 +357,8 @@ Version 0.7.0beta1 - [25-9-07]
 	ID 1775169 - set the columns in the Details section of the task pane now depends on the length of the translation. The size of the add and remove button in the ConfigureCustomTranslations form also depend on the length of their translations.
 	ID 1777467 - keyboard shortcuts activated in the menu. <language>.xml can now use &amp; to indicate which key to use.
     ID 1777467 - english.xml, dutch.xml, french.xml, and german.xml uses the new &amp; keyboard shortcuts
+    ID 1784250 - Configur Custom Translation has two seperate translations
+    ID 1784254 - OptionForm has a proper VIEW and THEME translations
 Bug fixes:
     ID 1783882 - All OK, CANCEL, and APPLY buttons now depend on the length of the translation
     ID 1783886 - The hint in ManageBookMarkSets now fully shows

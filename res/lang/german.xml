@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="Ergebnisse sortieren nach" />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="Themen"   />
+			<text id="GENERAL_OPTIONS"  value="Allgemein"   />
+			<text id="VIEW_OPTIONS"   value="Ansicht"   />
 			<text id="TITLE" value="Einstellungen" />
 			<text id="SHOW_SPLASH" value="Startbildschirm anzeigen" />
 			<text id="NEW_KEY" value="Bezeichnung des neuen Eintrages" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="Für folgende Benutzer indizieren" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM" value="Entfernen"   />
+			<text id="ADD_CUSTOM"   value="Hinzufügen"   />
 			<text id="TITLE" value="Eigene Übersetzungen einstellen" />
 			<text id="AVAILABLE" value="Verfügbare Übersetzungen" />
 			<text id="CURRENT" value="Verwendete Übersetzungen" />

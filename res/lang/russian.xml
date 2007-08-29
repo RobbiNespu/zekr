@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="Сортировка результатов" />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS"    value="Тема"   />
+			<text id="GENERAL_OPTIONS"  value="Общие"   />
+			<text id="VIEW_OPTIONS"     value="Вид"   />
 			<text id="TITLE" value="Опции программы" />
 			<text id="SHOW_SPLASH" value="Показывать логотип при запуске" />
 			<text id="NEW_KEY" value="Введите новый ключ" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="Индексировать для следующих пользователей" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM"   value="Удалить"   />
+			<text id="ADD_CUSTOM"      value="Добавить"   />
 			<text id="TITLE" value="Настройка многоязычных переводов" />
 			<text id="AVAILABLE" value="Доступные переводы" />
 			<text id="CURRENT" value="Текущие переводы" />

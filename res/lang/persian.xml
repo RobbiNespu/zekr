@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="مرتب بر اساس" />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="مضمون"   />
+			<text id="GENERAL_OPTIONS" value="عمومی"   />
+			<text id="VIEW_OPTIONS" value="نمایش"   />
 			<text id="TITLE" value="تنظیمات برنامه" />
 			<text id="SHOW_SPLASH" value="نمایش تصویر ابتدای برنامه" />
 			<text id="NEW_KEY" value="یک کلید جدید وارد کنید" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="شاخص گذاری برای این کاربران" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM" value="حذف کردن"   />
+			<text id="ADD_CUSTOM" value="اضافه کردن"   />
 			<text id="TITLE" value="تنظیم ترجمه‌های سفارشی‌شده" />
 			<text id="AVAILABLE" value="ترجمه‌های موجود" />
 			<text id="CURRENT" value="ترجمه‌های کنونی" />

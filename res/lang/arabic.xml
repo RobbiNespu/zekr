@@ -66,8 +66,8 @@
 			<text id="OPTIONS"  value="خيارات" />
 			<text id="QUESTION" value="سؤال" />
 			<text id="FONT"     value="خط" />
-			<text id="GENERAL"  value="عام" />
 			<text id="EXIT"     value="خروج" />
+			<text id="GENERAL"  value="عام" />
 			<text id="EXCLUDE"  value="إستثناء" />
 			<text id="TRUE"     value="محقق" />
 			<text id="FALSE"    value="غير محقق" />
@@ -163,6 +163,9 @@
 			<text id="SORT_BY" value="ترتيب النتائج حسب" />
 		</form>
 		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="سمة"   />
+			<text id="GENERAL_OPTIONS"  value="عام"   />
+			<text id="VIEW_OPTIONS" value="عرض"   />
 			<text id="TITLE" value="خيارات البرنامج" />
 			<text id="SHOW_SPLASH" value="عرض الشاشة الترحيبية عند التشغيل" />
 			<text id="NEW_KEY" value="أدخل مفتاحا جديدا" />
@@ -218,6 +221,8 @@
 			<text id="FOLLOWING_USERS" value="فهرس للمستخدمين التاليين" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM"   value="إزالة"   />
+			<text id="ADD_CUSTOM"      value="إضافة"   />
 			<text id="TITLE" value="إعداد ترجمات مخصّصة" />
 			<text id="AVAILABLE" value="الترجمات متاحة" />
 			<text id="CURRENT" value="الترجمات حالية" />
