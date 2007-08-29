@@ -55,6 +55,9 @@ window.res = null;
 		</td></tr>
 	</table>
 </div>
+<div id="footerBar" align="center" onclick="new Recitation().playFile();" class="footerBar" dir="${DIRECTION}">
+<div class="reciterBar" id="reciterBar"></div>
+</div>
 <script>
 $("input#ayaNav").keyup(function(e) {
 	if (e.keyCode == 13 || e.keyCode == 10)

@@ -3,7 +3,7 @@
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
- * version 1
+ * @author: Mohsen Saboorian <mohsen@zekr.org>
  */
 
 var oldAyaId = null;

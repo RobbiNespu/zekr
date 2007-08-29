@@ -12,5 +12,9 @@
 
 	<script src="$UI_DIR/js/search.js" language="javascript" type="text/javascript"></script>
 	<script src="$UI_DIR/js/utils.js" language="javascript" type="text/javascript"></script>
+
+	<script src="$UI_DIR/js/ufo.js" language="javascript" type="text/javascript"></script>
+	<script src="$UI_DIR/js/player.js" language="javascript" type="text/javascript"></script>
+
 <title>$TITLE</title>
 </head>
