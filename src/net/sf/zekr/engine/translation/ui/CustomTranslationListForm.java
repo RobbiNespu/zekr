@@ -146,7 +146,7 @@ public class CustomTranslationListForm {
 		addRemComp.setLayoutData(gd);
 
 		addBut = new Button(addRemComp, SWT.PUSH);
-		addBut.setText(lang.getMeaning("ADD") + " -> ");
+		addBut.setText(meaning("ADD_CUSTOM") + " -> ");
 		addBut.pack(); // we pack to set the length  
 		addBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -155,7 +155,7 @@ public class CustomTranslationListForm {
 		});
 
 		remBut = new Button(addRemComp, SWT.PUSH);
-		remBut.setText(" <- " + lang.getMeaning("REMOVE"));
+		remBut.setText(" <- " + meaning("REMOVE_CUSTOM"));
 		remBut.pack(); // the same as for addBut
 		remBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
