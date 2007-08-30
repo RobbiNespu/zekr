@@ -537,12 +537,16 @@ public class BookmarkSetForm {
 				apply();
 			}
 		});
-		rd = new RowData();
-		rd.width = Math.max( ok.getBounds().width, Math.max( cancel.getBounds().width, apply.getBounds().width) );
+		RowData rdOk = new RowData();
+		RowData rdCancel = new RowData();
+		RowData rdApply = new RowData();
+		rdOk.width = Math.max( ok.getBounds().width, Math.max( cancel.getBounds().width, apply.getBounds().width) );
 		// set all three OK, CANCEL, and APPLY buttons to the same length
-		ok.setLayoutData(rd);
-		cancel.setLayoutData(rd);
-		apply.setLayoutData(rd);
+        rdCancel.width = rdOk.width;
+        rdApply.width = rdOk.width;
+		ok.setLayoutData(rdOk);
+		cancel.setLayoutData(rdCancel);
+		apply.setLayoutData(rdApply);
 		
 		shell.setDefaultButton(ok);
 	}

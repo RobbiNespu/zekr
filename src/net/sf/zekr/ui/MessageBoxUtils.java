@@ -260,11 +260,13 @@ public class MessageBoxUtils {
 				shell.close();
 			}
 		});
-		RowData rd = new RowData();
-		rd.width = Math.max( ok.getBounds().width, cancel.getBounds().width);
+		RowData rdOk = new RowData();
+		RowData rdCancel = new RowData();
+		rdOk.width = Math.max( ok.getBounds().width, cancel.getBounds().width);
 		// set the OK and CANCEL buttons to the same length		
-		ok.setLayoutData(rd);
-		cancel.setLayoutData(rd);
+        rdCancel.width = rdOk.width;
+		ok.setLayoutData(rdOk);
+		cancel.setLayoutData(rdCancel);
 
 		__ret = -1;
 

@@ -271,11 +271,13 @@ public class BookmarkItemForm extends BaseForm {
 			}
 		});
 
-		RowData rd = new RowData();
-		rd.width = Math.max( okBut.getBounds().width, cancelBut.getBounds().width);
+		RowData rdOk = new RowData();
+		RowData rdCancel = new RowData();
+		rdOk.width = Math.max( okBut.getBounds().width, cancelBut.getBounds().width);
 		// set both OK and CANCEL to the same width		
-		okBut.setLayoutData(rd);
-		cancelBut.setLayoutData(rd);
+		rdCancel.width = rdOk.width;		
+		okBut.setLayoutData(rdOk);
+		cancelBut.setLayoutData(rdCancel);
 		
 		if (!bookmarkItem.isFolder()) {
 			TableColumn suraCol = new TableColumn(table, SWT.NONE);

@@ -222,11 +222,13 @@ public class ManageScopesForm extends BaseForm {
 				shell.close();
 			};
 		});
-		rd = new RowData();
-		rd.width = Math.max( okBut.getBounds().width, cancelBut.getBounds().width);
+		RowData rdOk = new RowData();
+		RowData rdCancel = new RowData();
+		rdOk.width = Math.max( okBut.getBounds().width, cancelBut.getBounds().width);
 		// set the OK and CANCEL buttons to the same length
-		okBut.setLayoutData(rd);
-		cancelBut.setLayoutData(rd);
+        rdCancel.width = rdOk.width;
+		okBut.setLayoutData(rdOk);
+		cancelBut.setLayoutData(rdCancel);
 
 	}
 
