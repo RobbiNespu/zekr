@@ -29,7 +29,6 @@
 #end
 <html>
 #parse("$THEME_DIR/head.vm")
-</head>
 <body id="${BODY_ID}" dir="${DIR}">
 <script>
 window.res = null;

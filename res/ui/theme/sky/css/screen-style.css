@@ -94,10 +94,9 @@ html>body div.headerBar, html>body div.footerBar { /* Override some properties f
 	right: 2px;
 }
 
-html>body div.headerBar {
+html>body div.footerBar {
 	-moz-opacity: 0.50;
 	opacity: 0.50;
-	top: 2px;
 }
 
 html>body div.footerBar {
