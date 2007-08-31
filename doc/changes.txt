@@ -354,18 +354,26 @@ Bug fixes:
 	Uthman Taha search font fixed on Mozilla/Safari. (changes applied to CSS files to affect only IE)
 
 Version 0.7.0beta1 - [25-9-07]
+Features/Enhancements:
 	ID 1775169 - set the columns in the Details section of the task pane now depends on the length of the translation. The size of the add and remove button in the ConfigureCustomTranslations form also depend on the length of their translations.
 	ID 1777467 - keyboard shortcuts activated in the menu. <language>.xml can now use &amp; to indicate which key to use.
     ID 1777467 - english.xml, dutch.xml, french.xml, and german.xml uses the new &amp; keyboard shortcuts
     ID 1784250 - Configur Custom Translation has two seperate translations
     ID 1784254 - OptionForm has a proper VIEW and THEME translations
     ID 1784287 - QURAN and TRANSLATION seperate translations in SEARCH, MENU and LAYOUT-MENU (Block/Line-by-line) and in the search result (as hoovering text)
+    A new embedded HTTP server (net.sf.zekr.server.*) is available (based of NanoHTTPD).
+    	HTTP server can enabled by setting "server.http.enable" property in config.properties to true. 
+    	Default port is 8920, however can be changed using "server.http.port" property in config.properties to true. 
+    	Whan enabled, all HTML pages, images, .css, and .js files are accessed through this embedded local HTTP server.
+    	This is specially helpful for using full Flash - Javascript interaction support (which requires .swf to be on a remote server like localhost, not file:///).
+    	HTTP server may deny requests from machines other that local machine on which server is running by setting "server.http.denyRemoteAccess" to true.
 Bug fixes:
     ID 1783882 - All OK, CANCEL, and APPLY buttons now depend on the length of the translation
     ID 1783886 - The hint in ManageBookMarkSets now fully shows
 
-Features/Enhancements
 _____________________________________________________
+	TODO: ResourceManager usage: all res.getString(key) are better to be changed to res.getString(key, [DEFAULT VALUE]) for the case that key is not found in resource file either due to version incompatibility or user's mistake.
+
 	TODO: Bug with translation icon in advanced search results... shows quran when multi-translation is selected.
 	TODO: Max width for Name and Value columns based on its most long text.
 	TODO: aya change in nav bar should work even when a html is "saved as...".
