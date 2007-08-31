@@ -411,12 +411,12 @@ public class QuranForm extends BaseForm {
 						if (searchTarget == QURAN_ONLY) {
 							logger.info("Show translation: (" + sura + ", " + aya + ")");
 							TranslationData td = config.getTranslation().getDefault();
-							pe = new PopupBox(shell, langEngine.getMeaning("TRANSLATION_SCOPE"), td.get(sura, aya), FormUtils
+							pe = new PopupBox(shell, meaning("TRANSLATION_SCOPE"), td.get(sura, aya), FormUtils
 									.toSwtDirection(td.direction));
 						} else {
 							logger.info("Show quran: (" + sura + ", " + aya + ")");
 							try {
-								pe = new PopupBox(shell, langEngine.getMeaning("QURAN_SCOPE"),
+								pe = new PopupBox(shell, meaning("QURAN_SCOPE"),
 										QuranText.getSimpleTextInstance().get(sura, aya), SWT.RIGHT_TO_LEFT);
 							} catch (IOException e) {
 								logger.log(e);
