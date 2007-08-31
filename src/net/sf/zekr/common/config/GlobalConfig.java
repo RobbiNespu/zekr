@@ -21,7 +21,7 @@ import org.eclipse.swt.SWT;
 public class GlobalConfig {
 
 	/** Zekr version: e.g. 0.2.0beta1 for beta1 or 0.2.0 for final release. */
-	public static String ZEKR_VERSION = "0.6.0";
+	public static String ZEKR_VERSION = "0.6.5";
 
 	/** Specifies if OS is Linux */
 	public static boolean isLinux = SWT.getPlatform().equalsIgnoreCase("gtk");

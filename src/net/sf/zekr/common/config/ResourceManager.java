@@ -40,7 +40,19 @@ public class ResourceManager {
 	}
 
 	public String getString(String key) {
-		return resource.getString(key);
+		return getString(key, (String) null);
+	}
+
+	/**
+	 * @param key
+	 *           key to find in resource
+	 * @param value
+	 *           value to be returned if key not found
+	 * @return related entry in the resource file, or value if key not found.
+	 */
+	public String getString(String key, String value) {
+		String ret = resource.getString(key);
+		return ret == null ? value : ret;
 	}
 
 	public String[] getStrings(String key) {

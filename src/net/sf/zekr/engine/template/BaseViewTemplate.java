@@ -18,6 +18,9 @@ import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.common.util.VelocityUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.server.HttpResourceNaming;
+import net.sf.zekr.engine.server.HttpServer;
+import net.sf.zekr.engine.server.HttpServerException;
 import net.sf.zekr.engine.theme.ThemeData;
 
 /**
@@ -36,7 +39,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 	 * This method will generate the result string of a view.
 	 * 
 	 * @return the String representation of a view
-	 * @throws TemplateTransformationException 
+	 * @throws TemplateTransformationException
 	 */
 	public abstract String transform() throws TemplateTransformationException;
 
@@ -60,10 +63,22 @@ public abstract class BaseViewTemplate implements ITransformer {
 			engine.put("TRANS_DIRECTION", config.getTranslation().getDefault().direction);
 			engine.put("TRANS_LANG", config.getTranslation().getDefault().locale.getLanguage());
 		}
-		engine.put("APP_PATH", UriUtils.toURI(GlobalConfig.RUNTIME_DIR));
+		String serverUrl;
+		try {
+			serverUrl = HttpServer.getInstance().getUrl();
+		} catch (HttpServerException e) {
+			logger.error(e);
+			serverUrl = "http://localhost:" + config.getProps().getInt("server.http.port") + "/";
+		}
+
+		String appPath = config.isHttpServerEnabled() ? serverUrl : UriUtils.toUri(GlobalConfig.RUNTIME_DIR);
+		String cssDir = config.isHttpServerEnabled() ? HttpResourceNaming.CACHED_RESOURCE + "/" : UriUtils.toUri(Naming
+				.getCacheDir());
+
+		engine.put("APP_PATH", appPath);
 		engine.put("APP_VERSION", GlobalConfig.ZEKR_VERSION);
 		engine.put("UI_DIR", ApplicationPath.UI_DIR);
-		engine.put("CSS_DIR", UriUtils.toURI(Naming.getCacheDir()));
+		engine.put("CSS_DIR", cssDir);
 		engine.put("THEME_DIR", td.getPath());
 		engine.put("UTILS", new VelocityUtils());
 		engine.put("I18N", new I18N(langEngine.getLocale()));

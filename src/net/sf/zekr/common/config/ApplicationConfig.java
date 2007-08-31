@@ -44,6 +44,7 @@ import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.lucene.IndexCreator;
 import net.sf.zekr.engine.search.lucene.IndexingException;
+import net.sf.zekr.engine.server.HttpServer;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.Translation;
@@ -81,6 +82,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private PropertiesConfiguration props;
 	private BookmarkSet bookmarkSet;
 	private BookmarkSetGroup bookmarkSetGroup = new BookmarkSetGroup();
+	private Thread httpServerThread;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -115,6 +117,15 @@ public class ApplicationConfig implements ConfigNaming {
 
 		logger.info("Application configurations initialized.");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
+
+		startHttpServer();
+	}
+
+	private void startHttpServer() {
+		logger.info("Start HTTP server on port: " + getHttpServerPort());
+		httpServerThread = new Thread(HttpServer.getInstance());
+		httpServerThread.setDaemon(true);
+		httpServerThread.start();
 	}
 
 	public static ApplicationConfig getInstance() {
@@ -574,6 +585,18 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public String getViewLayout() {
 		return props.getString("view.viewLayout");
+	}
+
+	public boolean isHttpServerEnabled() {
+		return props.getBoolean("server.http.enable");
+	}
+
+	/**
+	 * @return HTTP server port or -1 if nothing found.
+	 */
+	public int getHttpServerPort() {
+		String port = props.getString("server.http.port");
+		return port == null ? -1 : Integer.parseInt(port);
 	}
 
 	public RuntimeConfig getRuntimeConfig() {

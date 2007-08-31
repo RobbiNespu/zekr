@@ -26,7 +26,6 @@ import org.apache.commons.io.FileUtils;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ApplicationRuntime {
 	private ArrayList dirList = new ArrayList();

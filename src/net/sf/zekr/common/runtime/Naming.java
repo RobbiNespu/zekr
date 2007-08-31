@@ -56,19 +56,35 @@ public class Naming {
 	}
 
 	public static String getQuranCacheDir() {
-		return getCacheDir() + "/quran";
+		return getQuranCacheDir(getCacheDir());
+	}
+
+	public static String getQuranCacheDir(String base) {
+		return base + "/quran";
 	}
 
 	public static String getTransCacheDir() {
-		return getCacheDir() + "/trans";
+		return getTransCacheDir(getCacheDir());
+	}
+
+	public static String getTransCacheDir(String base) {
+		return base + "/trans";
 	}
 
 	public static String getMixedCacheDir() {
-		return getCacheDir() + "/mixed";
+		return getMixedCacheDir(getCacheDir());
+	}
+
+	public static String getMixedCacheDir(String base) {
+		return base + "/mixed";
 	}
 
 	public static String getSearchCacheDir() {
-		return getCacheDir() + "/search";
+		return getSearchCacheDir(getCacheDir());
+	}
+
+	public static String getSearchCacheDir(String base) {
+		return base + "/search";
 	}
 
 	public static String getConfigDir() {
