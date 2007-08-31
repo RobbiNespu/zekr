@@ -174,9 +174,9 @@
 			<text id="SHOW_SPLASH" value="Start splash scherm" />
 			<text id="NEW_KEY" value="Nieuwe bijdrage" />
 			<text id="THEME_SETTING" value="Thema-instellingen" />
-			<text id="PRESS_OK_TO_APPLY" value="Druk &quot;OK&quot;, om uit te voeren!" />
+			<text id="PRESS_OK_TO_APPLY" value="Klik op de &quot;OK&quot; knop om de verandering door te voeren!" />
 			<text id="MAX_SEARCH_RESULT" value="Maximale aantal zoekresultaten" />
-			<text id="RESIZEABLE_TASK_PANE" value="Aanpasbare grootte van het takenframe" />
+			<text id="RESIZEABLE_TASK_PANE" value="Maak de grootte van het zijpaneel aanpasbaar" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configureer zoekbereik" />
