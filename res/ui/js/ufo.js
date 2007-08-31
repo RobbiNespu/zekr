@@ -1,11 +1,11 @@
-/*	Unobtrusive Flash Objects (UFO) v3.21 <http://www.bobbyvandersluis.com/ufo/>
-	Copyright 2005, 2006 Bobby van der Sluis
+/*	Unobtrusive Flash Objects (UFO) v3.22 <http://www.bobbyvandersluis.com/ufo/>
+	Copyright 2005-2007 Bobby van der Sluis
 	This software is licensed under the CC-GNU LGPL <http://creativecommons.org/licenses/LGPL/2.1/>
 */
 
 var UFO = {
 	req: ["movie", "width", "height", "majorversion", "build"],
-	opt: ["play", "loop", "menu", "quality", "scale", "salign", "wmode", "bgcolor", "base", "flashvars", "devicefont", "allowscriptaccess", "seamlesstabbing", "allowfullscreen"],
+	opt: ["play", "loop", "menu", "quality", "scale", "salign", "wmode", "bgcolor", "base", "flashvars", "devicefont", "allowscriptaccess", "seamlesstabbing", "allowfullscreen", "allownetworking"],
 	optAtt: ["id", "name", "align"],
 	optExc: ["swliveconnect"],
 	ximovie: "ufo.swf",
