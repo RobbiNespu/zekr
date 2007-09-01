@@ -19,8 +19,8 @@ public abstract class HttpServer implements Runnable {
 	protected HttpServer() {
 	}
 
-	public static HttpServer getInstance() {
-		return new DefaultHttpServer();
+	public static HttpServer getServer() {
+		return DefaultHttpServer.getServer();
 	}
 
 	/**

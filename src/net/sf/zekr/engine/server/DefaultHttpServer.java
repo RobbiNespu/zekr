@@ -30,6 +30,15 @@ public class DefaultHttpServer extends HttpServer {
 	private static final ResourceManager res = ResourceManager.getInstance();
 	private NanoHttpd httpFacade = null;
 
+	private static DefaultHttpServer thisInstance = new DefaultHttpServer();
+
+	public static HttpServer getServer() {
+		return thisInstance;
+	};
+
+	private DefaultHttpServer() {
+	}
+
 	public void run() {
 		try {
 			httpFacade = new NanoHttpd(getServerPort()) {
@@ -39,12 +48,15 @@ public class DefaultHttpServer extends HttpServer {
 					if (!fromThisMachine(header)) {
 						return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "Remote server access denied.");
 					}
-					if (Boolean.TRUE.equals(config.getProps().getString("server.http.log")))
+					if (Boolean.valueOf(config.getProps().getString("server.http.log")).booleanValue())
 						logger.debug("serving URI: " + uri);
 					String baseDir = ".";
 					if (uri.startsWith("/" + HttpResourceNaming.CACHED_RESOURCE)) {
 						baseDir = Naming.getCacheDir();
 						uri = uri.substring(1 + HttpResourceNaming.CACHED_RESOURCE.length());
+					} else if (uri.startsWith("/" + HttpResourceNaming.WORKSPACE_RESOURCE)) {
+						baseDir = Naming.getWorkspace();
+						uri = uri.substring(1 + HttpResourceNaming.WORKSPACE_RESOURCE.length());
 					} else {
 						baseDir = GlobalConfig.RUNTIME_DIR;
 					}
@@ -54,8 +66,8 @@ public class DefaultHttpServer extends HttpServer {
 
 				private boolean fromThisMachine(Properties header) {
 					String deny = config.getProps().getString("server.http.denyRemoteAccess");
-					if (new Boolean(deny).booleanValue())
-						return false;
+					if (!new Boolean(deny).booleanValue())
+						return true;
 					String remoteAddress = (String) header.get(HEADER_REQUEST_ADDRESS);
 					String localAddr = "", localName = "";
 					try {

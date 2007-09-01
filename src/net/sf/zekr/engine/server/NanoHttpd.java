@@ -540,12 +540,12 @@ public class NanoHttpd {
 	 */
 	protected static Hashtable MIME_TYPES = new Hashtable();
 	static {
-		StringTokenizer st = new StringTokenizer("htm		text/html " + "html		text/html " + "css		text/css "
-				+ "js		text/javascript " + "txt		text/plain " + "asc		text/plain " + "gif		image/gif " + "jpg		image/jpeg "
-				+ "jpeg		image/jpeg " + "png		image/png " + "mp3		audio/mpeg " + "m3u		audio/mpeg-url "
-				+ "swf		application/x-shockwave-flash " + "pdf		application/pdf " + "doc		application/msword "
-				+ "ogg		application/x-ogg " + "zip		application/octet-stream " + "exe		application/octet-stream "
-				+ "class		application/octet-stream ");
+		StringTokenizer st = new StringTokenizer("htm		text/html " + "html		text/html " + "xml		text/xml "
+				+ "css		text/css " + "js		text/javascript " + "txt		text/plain " + "asc		text/plain " + "gif		image/gif "
+				+ "jpg		image/jpeg " + "jpeg		image/jpeg " + "png		image/png " + "mp3		audio/mpeg "
+				+ "m3u		audio/mpeg-url " + "swf		application/x-shockwave-flash " + "pdf		application/pdf "
+				+ "doc		application/msword " + "ogg		application/x-ogg " + "zip		application/octet-stream "
+				+ "exe		application/octet-stream " + "class		application/octet-stream ");
 		while (st.hasMoreTokens())
 			MIME_TYPES.put(st.nextToken(), st.nextToken());
 	}
