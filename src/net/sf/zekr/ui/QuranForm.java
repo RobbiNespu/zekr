@@ -41,8 +41,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressAdapter;
 import org.eclipse.swt.browser.ProgressEvent;
-import org.eclipse.swt.browser.TitleEvent;
-import org.eclipse.swt.browser.TitleListener;
+import org.eclipse.swt.browser.StatusTextEvent;
+import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.dnd.Clipboard;
@@ -65,8 +65,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -359,7 +357,7 @@ public class QuranForm extends BaseForm {
 				navSashForm.setWeights(new int[] { Integer.parseInt(weights.get(0).toString()),
 						Integer.parseInt(weights.get(1).toString()) });
 			} else {
-				navSashForm.setWeights(new int[] {2, 5});
+				navSashForm.setWeights(new int[] { 2, 5 });
 			}
 		}
 
@@ -376,19 +374,20 @@ public class QuranForm extends BaseForm {
 		fl.marginHeight = 2;
 		quranBrowser.setLayout(fl);
 
-		TitleListener tl = new TitleListener() {
-			public void changed(TitleEvent event) {
-				if (event.title != null && !"".equals(event.title)) {
-					logger.debug("Browser title changed: " + event.title);
-					doBrowserCallback(event.title);
+		StatusTextListener stl = new StatusTextListener() {
+			public void changed(StatusTextEvent event) {
+				if (StringUtils.isNotEmpty(event.text)) {
+					// IE changes status text a lot.
+					// logger.debug("Browser status message changed: " + event.text);
+					doBrowserCallback(event.text);
 				}
 			}
 
 			private void doBrowserCallback(String message) {
 				if (message.startsWith("ZEKR::")) {
-					quranBrowser.execute("window.title='';"); // clear the status text
+					quranBrowser.execute("window.status='';"); // clear the status text
 					if (transBrowser != null)
-						transBrowser.execute("window.title='';"); // clear the status text
+						transBrowser.execute("window.status='';"); // clear the status text
 
 					if (message.substring(6, 10).equals("GOTO")) {
 						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
@@ -416,8 +415,8 @@ public class QuranForm extends BaseForm {
 						} else {
 							logger.info("Show quran: (" + sura + ", " + aya + ")");
 							try {
-								pe = new PopupBox(shell, meaning("QURAN_SCOPE"),
-										QuranText.getSimpleTextInstance().get(sura, aya), SWT.RIGHT_TO_LEFT);
+								pe = new PopupBox(shell, meaning("QURAN_SCOPE"), QuranText.getSimpleTextInstance().get(sura,
+										aya), SWT.RIGHT_TO_LEFT);
 							} catch (IOException e) {
 								logger.log(e);
 							}
@@ -435,8 +434,8 @@ public class QuranForm extends BaseForm {
 		fl = new FillLayout(SWT.VERTICAL);
 		transBrowser.setLayout(fl);
 
-		quranBrowser.addTitleListener(tl);
-		transBrowser.addTitleListener(tl);
+		quranBrowser.addStatusTextListener(stl);
+		transBrowser.addStatusTextListener(stl);
 
 		gl = new GridLayout(2, false);
 		navGroup = new Group(workPane, SWT.NONE);
@@ -706,7 +705,7 @@ public class QuranForm extends BaseForm {
 		advancedSearchButton.addSelectionListener(advancedSearchListener);
 
 		// search option button
-		//gd = new GridData(GlobalConfig.isLinux ? GridData.BEGINNING : GridData.BEGINNING);
+		// gd = new GridData(GlobalConfig.isLinux ? GridData.BEGINNING : GridData.BEGINNING);
 		gd = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
 		gd.horizontalIndent = -1;
 
@@ -892,7 +891,7 @@ public class QuranForm extends BaseForm {
 
 		// search option button
 		gd = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
-//		gd = new GridData(GlobalConfig.isLinux ? GridData.FILL_BOTH : GridData.FILL_HORIZONTAL);
+		// gd = new GridData(GlobalConfig.isLinux ? GridData.FILL_BOTH : GridData.FILL_HORIZONTAL);
 		gd.horizontalIndent = -1;
 
 		searchArrowBut = new Button(searchButComp, SWT.TOGGLE);

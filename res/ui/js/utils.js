@@ -29,6 +29,8 @@ $(document).ready(function() {
 	$(window).resize(function(e) {
 		refocus();
 	});
+	
+	$("#suraNav").focus();
 });
 
 refocus = function() {
@@ -92,7 +94,7 @@ function unHighlightAya(id) {
 function gotoSuraAya(suraAya) { setMessage('ZEKR::GOTO ' + suraAya + ';'); } // use it when sura changed
 function gotoAya(suraAya) { setMessage('ZEKR::NAVTO ' + suraAya + ';'); } // only use it when sura is not changed
 function translate(location) { setMessage('ZEKR::TRANS ' + location + ';'); }
-function setMessage(msg) { document.title = msg; }
+function setMessage(msg) { window.status = msg; }
 
 SearchResult = function() {
 	var cnt;

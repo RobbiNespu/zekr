@@ -123,7 +123,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 	private void startHttpServer() {
 		logger.info("Start HTTP server on port: " + getHttpServerPort());
-		httpServerThread = new Thread(HttpServer.getInstance());
+		httpServerThread = new Thread(HttpServer.getServer());
 		httpServerThread.setDaemon(true);
 		httpServerThread.start();
 	}
@@ -132,13 +132,6 @@ public class ApplicationConfig implements ConfigNaming {
 		if (thisInstance == null)
 			thisInstance = new ApplicationConfig();
 		return thisInstance;
-	}
-
-	/**
-	 * Will be called when any setXXX() method has been called to be taken effect.
-	 */
-	public void reload() {
-		thisInstance = new ApplicationConfig();
 	}
 
 	private void loadConfig() {

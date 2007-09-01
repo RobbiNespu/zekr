@@ -23,6 +23,9 @@ public abstract class CommandHandler implements Command {
 
 	abstract public void execute() throws CommandException;
 
+	/* (non-Javadoc)
+	 * @see net.sf.zekr.common.commandline.Command#launchAfter()
+	 */
 	public boolean launchAfter() {
 		return false;
 	}

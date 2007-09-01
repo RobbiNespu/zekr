@@ -65,7 +65,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 		}
 		String serverUrl;
 		try {
-			serverUrl = HttpServer.getInstance().getUrl();
+			serverUrl = HttpServer.getServer().getUrl();
 		} catch (HttpServerException e) {
 			logger.error(e);
 			serverUrl = "http://localhost:" + config.getProps().getInt("server.http.port") + "/";

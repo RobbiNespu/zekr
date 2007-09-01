@@ -37,7 +37,7 @@ public class UriUtils {
 		if (ApplicationConfig.getInstance().isHttpServerEnabled()) {
 			String addr;
 			try {
-				addr = HttpServer.getInstance().getUrl();
+				addr = HttpServer.getServer().getUrl();
 			} catch (HttpServerException e) {
 				addr = "/";
 			}
