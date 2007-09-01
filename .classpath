@@ -3,13 +3,13 @@
 	<classpathentry path="src" kind="src"/>
 	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0" kind="con"/>
 	<classpathentry sourcepath="D:/Devel/Java/Apache/Velocity/velocity-1.4/src/java" path="lib/velocity-1.4.jar" exported="true" kind="lib"/>
-	<classpathentry path="lib/log4j-1.2.8.jar" exported="true" kind="lib"/>
+	<classpathentry sourcepath="D:/Devel/Java/Apache/Log4J/jakarta-log4j-1.2.8/src/java" path="lib/log4j-1.2.8.jar" exported="true" kind="lib"/>
 	<classpathentry sourcepath="D:/Devel/Java/Apache/Commons/CommonSrc" path="lib/apache-commons.jar" kind="lib"/>
 	<classpathentry path="test" kind="src"/>
 	<classpathentry sourcepath="/JUNIT_SRC_HOME/junitsrc.zip" path="JUNIT_HOME/junit.jar" kind="var"/>
-	<classpathentry sourcepath="lib/swt-src.zip" path="lib/swt-win32.jar" kind="lib"/>
 	<classpathentry path="lib/lucene-highlighter-2.1.0.jar" kind="lib"/>
 	<classpathentry path="lib/gcj-dom-impl-4.2.jar" kind="lib"/>
 	<classpathentry sourcepath="lib/lucene-core-2.1.0-src.zip" path="lib/lucene-core-2.1.1-dev.jar" kind="lib"/>
+	<classpathentry sourcepath="lib/swt-3.3.0-src.zip" path="lib/swt-3.3.0.jar" kind="lib"/>
 	<classpathentry path="bin" kind="output"/>
 </classpath>
