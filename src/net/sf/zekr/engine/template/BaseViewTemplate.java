@@ -63,6 +63,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 			engine.put("TRANS_DIRECTION", config.getTranslation().getDefault().direction);
 			engine.put("TRANS_LANG", config.getTranslation().getDefault().locale.getLanguage());
 		}
+
 		String serverUrl;
 		try {
 			serverUrl = HttpServer.getServer().getUrl();

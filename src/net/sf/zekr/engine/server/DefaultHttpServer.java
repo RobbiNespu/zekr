@@ -41,12 +41,13 @@ public class DefaultHttpServer extends HttpServer {
 
 	public void run() {
 		try {
-			httpFacade = new NanoHttpd(getServerPort()) {
+			httpFacade = new NanoHttpd(
+					getServerPort()) {
 				private ApplicationConfig config = ApplicationConfig.getInstance();
 
 				public Response serve(String uri, String method, Properties header, Properties parms) {
-					if (!fromThisMachine(header)) {
-						return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "Remote server access denied.");
+					if (!fromThisMachine(header) || !isAllowedUri(uri)) {
+						return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "Access denied.");
 					}
 					if (Boolean.valueOf(config.getProps().getString("server.http.log")).booleanValue())
 						logger.debug("serving URI: " + uri);
@@ -59,9 +60,15 @@ public class DefaultHttpServer extends HttpServer {
 						uri = uri.substring(1 + HttpResourceNaming.WORKSPACE_RESOURCE.length());
 					} else {
 						baseDir = GlobalConfig.RUNTIME_DIR;
+						if (uri.startsWith("/" + HttpResourceNaming.BASE_RESOURCE))
+							uri = uri.substring(1 + HttpResourceNaming.BASE_RESOURCE.length());
 					}
 					// Response resp = new Response(HTTP_OK, (String) NanoHttpd.MIME_TYPES.get("html"), "salam!");
 					return serveFile(uri, header, new File(baseDir), false);
+				}
+
+				private boolean isAllowedUri(String uri) {
+					return (uri.indexOf("..") == -1) && (uri.indexOf(":/") == -1) && (uri.indexOf(":\\") == -1);
 				}
 
 				private boolean fromThisMachine(Properties header) {
@@ -90,6 +97,7 @@ public class DefaultHttpServer extends HttpServer {
 		}
 		while (true) {
 			try {
+				// do nothing, there is a saparate waiting thread for each request.
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				logger.info("HTTP Server terminated.");

@@ -114,4 +114,8 @@ public class Naming {
 	public static String getThemeDir() {
 		return getWorkspace() + "/theme";
 	}
+
+	public static String getAudioDir() {
+		return getWorkspace() + "/audio";
+	}
 }

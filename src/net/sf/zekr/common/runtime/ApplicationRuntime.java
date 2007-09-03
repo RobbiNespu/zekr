@@ -42,6 +42,7 @@ public class ApplicationRuntime {
 		dirList.add(Naming.getBookmarkDir());
 		dirList.add(Naming.getTransDir());
 		dirList.add(Naming.getThemeDir());
+		dirList.add(Naming.getAudioDir());
 	}
 
 	/**
@@ -51,7 +52,6 @@ public class ApplicationRuntime {
 	 */
 	public void configureDirectories() throws IOException {
 		logger.info("Making application required directories (if not exist)...");
-		// recreateHtmlCache();
 
 		for (Iterator iter = dirList.iterator(); iter.hasNext();) {
 			File file = new File((String) iter.next());
@@ -113,6 +113,10 @@ public class ApplicationRuntime {
 		createCommonFiles();
 	}
 
+	public void recreatePlaylistCache() throws IOException {
+		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.getAudioDir());
+	}
+
 	public void recreateQuranCache() throws IOException {
 		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.getQuranCacheDir());
 	}
@@ -126,7 +130,6 @@ public class ApplicationRuntime {
 	}
 
 	public void clearCache() {
-		// net.sf.zekr.common.util.FileUtils.delete(new File(Naming.CACHE_DIR));
 		try {
 			FileUtils.deleteDirectory(new File(Naming.getCacheDir()));
 		} catch (IOException e) {
@@ -136,7 +139,6 @@ public class ApplicationRuntime {
 	}
 
 	public void clearConfig() {
-		// net.sf.zekr.common.util.FileUtils.delete(new File(Naming.CONFIG_PATH));
 		try {
 			FileUtils.deleteDirectory(new File(Naming.getConfigDir()));
 		} catch (IOException e) {
