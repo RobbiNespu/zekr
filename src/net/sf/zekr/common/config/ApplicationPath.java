@@ -11,11 +11,8 @@ package net.sf.zekr.common.config;
 
 import net.sf.zekr.common.runtime.Naming;
 
-
 /**
- * This class contains Zekr directory hierarchy. Directories names are stored in uppercase
- * variables (by convention). Each directory end with a <code>DIR_DELIM</code> which is
- * equal to java <code>File.separator</code>.
+ * This class contains Zekr directory hierarchy.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -27,8 +24,6 @@ public class ApplicationPath {
 	public static final String RESOURCE_DIR = rm.getString("resource.baseDir");
 	public static final String IMAGE_DIR = rm.getString("image.baseDir");
 	public static final String ICON_DIR = rm.getString("icon.baseDir");
-//	public static final String CONFIG_DIR = RESOURCE_DIR + "/config";
-//	public static final String LIB_CONFIG_DIR = rm.getString("config.lib");
 
 	/**
 	 * This is the directory containing quran source and other related sources.
@@ -49,27 +44,21 @@ public class ApplicationPath {
 	public static final String THEME_DIR = rm.getString("theme.baseDir");
 	public static final String THEME_DESC = rm.getString("theme.desc");
 
-	// Files
-
-	// XML Files
-//	public static final String XML_CONFIG = rm.getString("config.zekr");
-	public static final String MAIN_CONFIG = rm.getString("config.original"); // original config
-	public static final String USER_CONFIG = rm.getString("config.user", new String[]{Naming.getConfigDir()}); // user customized config
+	public static final String AUDIO_DIR = rm.getString("audio.baseDir");
 
 	public static final String BOOKMARK_DIR = rm.getString("bookmark.baseDir");
-//	public static final String MAIN_BOOKMARK = rm.getString("bookmark.original"); // original bookmarks
-//	public static final String BUILTIN_USER_BOOKMARK = rm.getString("bookmark.user", new String[]{Naming.CONFIG_PATH}); // user customized bookmarks
 
-	// Velocity Files
-//	/**
-//	 * Please note that this string contains only the file name, not the full path,
-//	 * because <code>Velocity.getTemplate()</code> works for directories added to
-//	 * <code>"file.resource.loader.path"</code> property.
-//	 */
+	// Files
 
-	// Log4J Property Files
+	/** original configuration file */
+	public static final String MAIN_CONFIG = rm.getString("config.original"); // original config
+
+	/** user customized configuration file */
+	public static final String USER_CONFIG = rm.getString("config.user", new String[] { Naming.getConfigDir() });
+
+	/** Log4J Property Files */
 	public static final String DEFAULT_LOGGER = rm.getString("config.logger");
 
-	// Velocity Property Files
+	/** Velocity Property Files */
 	public static final String VELOCITY_CONFIG = rm.getString("config.template");
 }

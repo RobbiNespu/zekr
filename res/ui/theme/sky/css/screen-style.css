@@ -80,8 +80,8 @@ div.headerBar { /* IE 5.0+ */
 
 div.footerBar { /* IE 5.0+ */
 	filter: alpha(opacity=50);
-	top: expression(eval(document.body.scrollTop + document.body.clientHeight - 25) + 'px');
-	height: 24px;
+	top: expression(eval(document.body.scrollTop + document.body.clientHeight - 145) + 'px');
+	height: 144px;
 	padding: 0px;
 }
 

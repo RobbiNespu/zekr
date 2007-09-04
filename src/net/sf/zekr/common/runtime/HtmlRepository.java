@@ -103,6 +103,7 @@ public class HtmlRepository {
 				osw.write(mvt.transform());
 				osw.close();
 			}
+			config.getAudio().getCurrent().newPlaylistProvider(sura).providePlaylist();
 			return UriUtils.toUri(Naming.getMixedCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);

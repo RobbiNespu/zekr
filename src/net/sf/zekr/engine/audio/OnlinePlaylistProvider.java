@@ -8,10 +8,17 @@
  */
 package net.sf.zekr.engine.audio;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * @author Mohsen Saboorian
  */
 public class OnlinePlaylistProvider extends PlaylistProvider {
+	/**
+	 * @param audioData
+	 * @param suraNum
+	 *           1-base sura number
+	 */
 	public OnlinePlaylistProvider(AudioData audioData, int suraNum) {
 		super(audioData, suraNum);
 	}
@@ -19,11 +26,13 @@ public class OnlinePlaylistProvider extends PlaylistProvider {
 	public String providePlaylist() {
 		String fileName = audioData.getPlaylistFileName();
 		if (audioData.getPlaylistMode().equals(AudioData.SURA_PLAYLIST)) {
-			fileName = audioData.getPlaylistFileName().replaceAll("\\{SURA\\}", String.valueOf(suraNum));
+			String playlistSuraPad = audioData.getPlaylistSuraPad();
+			String s = StringUtils.leftPad(String.valueOf(suraNum), playlistSuraPad.length() + 1, playlistSuraPad);
+			fileName = StringUtils.replace(fileName, "{SURA}", s);
 		} else { // a playlist for the whole Quran
 			// do nothing
 		}
-		String url = audioData.getPlaylistUrl() + fileName;
+		String url = audioData.getPlaylistBaseUrl() + fileName;
 		return url;
 	}
 }

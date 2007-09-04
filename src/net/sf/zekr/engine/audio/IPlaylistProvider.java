@@ -15,5 +15,5 @@ public interface IPlaylistProvider {
 	 * 
 	 * @return URL for provided playlist
 	 */
-	String providePlaylist();
+	String providePlaylist() throws PlaylistProvisionException;
 }

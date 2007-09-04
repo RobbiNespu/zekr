@@ -118,4 +118,8 @@ public class Naming {
 	public static String getAudioDir() {
 		return getWorkspace() + "/audio";
 	}
+
+	public static String getAudioCacheDir() {
+		return getAudioDir() + "/cache";
+	}
 }

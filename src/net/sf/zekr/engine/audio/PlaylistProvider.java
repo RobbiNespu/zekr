@@ -25,6 +25,6 @@ public abstract class PlaylistProvider implements IPlaylistProvider {
 	 * 
 	 * @see net.sf.zekr.engine.audio.IPlaylistProvider#providePlaylist()
 	 */
-	public abstract String providePlaylist();
+	public abstract String providePlaylist() throws PlaylistProvisionException;
 
 }

@@ -43,6 +43,7 @@ public class ApplicationRuntime {
 		dirList.add(Naming.getTransDir());
 		dirList.add(Naming.getThemeDir());
 		dirList.add(Naming.getAudioDir());
+		dirList.add(Naming.getAudioCacheDir());
 	}
 
 	/**
@@ -114,7 +115,7 @@ public class ApplicationRuntime {
 	}
 
 	public void recreatePlaylistCache() throws IOException {
-		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.getAudioDir());
+		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.getAudioCacheDir());
 	}
 
 	public void recreateQuranCache() throws IOException {

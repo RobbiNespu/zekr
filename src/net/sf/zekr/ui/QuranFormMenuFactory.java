@@ -91,6 +91,8 @@ public class QuranFormMenuFactory {
 	private MenuItem randomAyaItem;
 	private Menu transMenu;
 	private MenuItem customTransList;
+	private Menu audioMenu;
+	private MenuItem playItem;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.form = form;
@@ -404,6 +406,16 @@ public class QuranFormMenuFactory {
 			transLineLayoutItem.setSelection(true);
 		else if (transLayout.equals(ApplicationConfig.BLOCK))
 			transBlockLayoutItem.setSelection(true);
+
+		// ---- Audio ------
+		MenuItem audio = new MenuItem(menu, SWT.CASCADE | direction);
+		audio.setText(FormUtils.addAmpersand( lang.getMeaning("AUDIO")) );
+
+		audioMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+		audio.setMenu(audioMenu);
+
+		playItem = new MenuItem(audioMenu, SWT.CASCADE);
+		playItem.setText(FormUtils.addAmpersand( lang.getMeaning("PLAY")) );
 
 		// ---- Bookmarks -----
 		createOrUpdateBookmarkMenu();

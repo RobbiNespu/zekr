@@ -29,20 +29,13 @@ function nextAudio() {
 }
 
 Recitation = function() {
-	this.playFile = function(fileName, volume) {
-		volume = volume != null ? (volume + 1) * 10 : 30;
-	
-		fileName = 'res/ui/player/sample-list.xml';
+	this.playFile = function(playlist, volume) {
+		var fo = { movie:'res/audio/mp3player.swf', width:'220', height:'140', majorversion:'7',
+				build:'0', bgcolor:'#ffffff', id: 'quranPlayer', flashvars:'file=' + playlist + '&volume=' + volume +
+			'&displayheight=20&height=90&enablejs=true&shuffle=false&javascriptid=quranPlayer' + 
+			'&backcolor=0xeee0e0&frontcolor=0x0011cc&id=quranPlayer&repeat=list&showdigits=true&autostart=false' };
 
-		var fo = { movie:'res/ui/player/mp3player.swf', width:'220', height:'20', majorversion:'7',
-				build:'0', bgcolor:'#ffffff', id: 'myid', flashvars:'file=' + fileName + '&volume=' + volume +
-			'&enablejs=true&shuffle=false&javascriptid=quranPlayer&id=quranPlayer&backcolor=0xeee0e0&frontcolor=0x0011cc&height=20&repeat=list&showdigits=true&autostart=true' };
+			//allowscriptaccess=always&
 		UFO.create(fo, 'reciterBar');
 	};
-	
-	
-	// stop sound 
-	this.stopSound = function() {
-		azanMisc.playFile('', 0);
-	}
 };

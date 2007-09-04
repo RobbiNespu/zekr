@@ -35,6 +35,8 @@ import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.runtime.RuntimeConfig;
 import net.sf.zekr.common.util.CollectionUtils;
+import net.sf.zekr.engine.audio.Audio;
+import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.bookmark.BookmarkException;
 import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.bookmark.BookmarkSetGroup;
@@ -77,6 +79,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 	private Translation translation = new Translation();
 	private Theme theme = new Theme();
+	private Audio audio = new Audio();
 	private ApplicationRuntime runtime;
 	private QuranLocation quranLocation;
 	private PropertiesConfiguration props;
@@ -114,6 +117,9 @@ public class ApplicationConfig implements ConfigNaming {
 
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading View Properties");
 		extractViewProps();
+
+		// EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Initializing Audio Data");
+		extractAudioProps();
 
 		logger.info("Application configurations initialized.");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
@@ -423,7 +429,7 @@ public class ApplicationConfig implements ConfigNaming {
 		ThemeData td;
 		Reader reader;
 		String def = props.getString("theme.default");
-		logger.info("Loading theme properties files.");
+		logger.info("Loading theme .properties files.");
 
 		String[] paths = { ApplicationPath.THEME_DIR, Naming.getThemeDir() };
 		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
@@ -487,6 +493,65 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 		if (theme.getCurrent() == null) {
 			logger.doFatal(new ZekrBaseException("Could not find default theme: " + def));
+		}
+	}
+
+	private void extractAudioProps() {
+		Reader reader;
+		String def = props.getString("audio.default");
+		logger.info("Loading audio .properties files.");
+
+		String[] paths = { ApplicationPath.AUDIO_DIR, Naming.getAudioDir() };
+		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
+			File audioDir = new File(paths[pathIndex]);
+			if (!audioDir.exists())
+				continue;
+
+			logger.info("Loading audio files info from: " + audioDir);
+			FileFilter filter = new FileFilter() { // accept .properties files
+				public boolean accept(File pathname) {
+					if (pathname.getName().toLowerCase().endsWith(".properties"))
+						return true;
+					return false;
+				}
+			};
+			File[] audioPropFiles = audioDir.listFiles(filter);
+
+			AudioData audioData;
+
+			for (int audioIndex = 0; audioIndex < audioPropFiles.length; audioIndex++) {
+				try {
+					reader = new InputStreamReader(new FileInputStream(audioPropFiles[audioIndex]), "UTF-8");
+					PropertiesConfiguration pc = new PropertiesConfiguration();
+					pc.load(reader);
+
+					audioData = new AudioData();
+					audioData.setId(pc.getString("audio.id"));
+					audioData.setLicense(pc.getString("audio.license"));
+					audioData.setLocale(new Locale(pc.getString("audio.language"), pc.getString("audio.country")));
+					audioData.setReciter(pc.getString("audio.reciter"));
+
+					audioData.setPlaylistMode(pc.getString("audio.playlist.mode"));
+					audioData.setPlaylistBaseUrl(pc.getString("audio.playlist.baseUrl"));
+					audioData.setPlaylistFileName(pc.getString("audio.playlist.fileName"));
+					audioData.setPlaylistSuraPad(pc.getString("audio.playlist.fileName.suraPad"));
+					audioData.setPlaylistProvider(pc.getString("audio.playlist.provider"));
+
+					audioData.setAudioBaseUrl(pc.getString("audio.baseUrl"));
+					audioData.setAudioFileName(pc.getString("audio.fileName"));
+					audioData.setAudioFileSuraPad(pc.getString("audio.fileName.suraPad"));
+					audioData.setAudioFileAyaPad(pc.getString("audio.fileName.ayaPad"));
+
+					audio.add(audioData);
+					if (audioData.getId().equals(def)) {
+						audio.setCurrent(audioData);
+					}
+				} catch (Exception e) {
+					logger.warn("Can not load audio pack \"" + audioPropFiles[audioIndex]
+							+ "\" properly because of the following exception:");
+					logger.log(e);
+				}
+			}
 		}
 	}
 
@@ -611,6 +676,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public Theme getTheme() {
 		return theme;
+	}
+
+	public Audio getAudio() {
+		return audio;
 	}
 
 	public ApplicationRuntime getRuntime() {
