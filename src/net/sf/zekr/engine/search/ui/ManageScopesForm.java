@@ -224,9 +224,10 @@ public class ManageScopesForm extends BaseForm {
 		});
 		RowData rdOk = new RowData();
 		RowData rdCancel = new RowData();
-		rdOk.width = Math.max( okBut.getBounds().width, cancelBut.getBounds().width);
-		// set the OK and CANCEL buttons to the same length
-        rdCancel.width = rdOk.width;
+		// set the OK and CANCEL buttons to the same length		
+		int buttonLength = FormUtils.buttonLength(80, okBut, cancelBut);
+		rdOk.width = buttonLength;
+        rdCancel.width = buttonLength;
 		okBut.setLayoutData(rdOk);
 		cancelBut.setLayoutData(rdCancel);
 

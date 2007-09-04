@@ -168,8 +168,10 @@ public class CustomTranslationListForm {
 		//  and set the max width to both buttons)
 		RowData rdAddBut = new RowData();
 		RowData rdRemBut = new RowData();
-        rdAddBut.width = Math.max( addBut.getBounds().width, remBut.getBounds().width );
-        rdRemBut.width = rdAddBut.width;
+		// give both buttons the same length
+        int buttonLength = FormUtils.buttonLength(80, addBut, remBut );
+        rdAddBut.width = buttonLength;
+        rdRemBut.width = buttonLength;
 		addBut.setLayoutData(rdAddBut);
 		remBut.setLayoutData(rdRemBut);
 			
@@ -307,10 +309,11 @@ public class CustomTranslationListForm {
 		RowData rdOk = new RowData();
 		RowData rdCancel = new RowData();
 		RowData rdApply = new RowData();
-		rdOk.width = Math.max( ok.getBounds().width, Math.max( cancel.getBounds().width, apply.getBounds().width) );
 		// set all three OK, CANCEL, and APLLY buttons to the same length
-        rdCancel.width = rdOk.width;
-        rdApply.width = rdOk.width;
+		buttonLength = FormUtils.buttonLength(80, ok, cancel, apply );
+		rdOk.width = buttonLength;
+        rdCancel.width = buttonLength;
+        rdApply.width = buttonLength;
 		ok.setLayoutData(rdOk);
 		cancel.setLayoutData(rdCancel);
 		apply.setLayoutData(rdApply);

@@ -273,9 +273,10 @@ public class BookmarkItemForm extends BaseForm {
 
 		RowData rdOk = new RowData();
 		RowData rdCancel = new RowData();
-		rdOk.width = Math.max( okBut.getBounds().width, cancelBut.getBounds().width);
-		// set both OK and CANCEL to the same width		
-		rdCancel.width = rdOk.width;		
+		// set both OK and CANCEL to the same width
+		int buttonLength = FormUtils.buttonLength(80, okBut, cancelBut);
+		rdOk.width = buttonLength;
+		rdCancel.width = buttonLength;		
 		okBut.setLayoutData(rdOk);
 		cancelBut.setLayoutData(rdCancel);
 		

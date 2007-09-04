@@ -540,10 +540,11 @@ public class BookmarkSetForm {
 		RowData rdOk = new RowData();
 		RowData rdCancel = new RowData();
 		RowData rdApply = new RowData();
-		rdOk.width = Math.max( ok.getBounds().width, Math.max( cancel.getBounds().width, apply.getBounds().width) );
 		// set all three OK, CANCEL, and APPLY buttons to the same length
-        rdCancel.width = rdOk.width;
-        rdApply.width = rdOk.width;
+		int buttonLength = FormUtils.buttonLength(80, ok, cancel, apply );
+		rdOk.width = buttonLength;
+        rdCancel.width = buttonLength;
+        rdApply.width = buttonLength;
 		ok.setLayoutData(rdOk);
 		cancel.setLayoutData(rdCancel);
 		apply.setLayoutData(rdApply);
