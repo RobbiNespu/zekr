@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Button;
 
 /**
  * @author Mohsen Saboorian
@@ -166,5 +167,62 @@ public class FormUtils {
 			return "&" + menuText;
 		}
 		return menuText;
+	}
+	
+	/**
+	 * return the maximum length for a button when two buttons are given
+	 * 
+	 *  @author laejoh
+	 *  @param button 
+	 *  		a first button Button object 
+	 *  @param button
+	 *  		a second button Button object
+	 *  @return int max length of the two buttons given
+	 */
+	public static int buttonLength(final Button button1, final Button button2) {
+		return Math.max(button1.getBounds().width , button2.getBounds().width);
+	}
+	/**
+	 * return the maximum length for a button when two buttons and a minimum length are given
+	 * 
+	 *  @author laejoh
+	 *  @param minimum
+	 *  		an integer giving the minimum length a button has to have
+	 *  @param button 
+	 *  		a first button Button object 
+	 *  @param button
+	 *  		a second button Button object
+	 *  @return int max length of the two buttons given
+	 */
+	public static int buttonLength(final int minimum, final Button button1, final Button button2) {
+		return Math.max(minimum, buttonLength(button1 , button2 ));
+	}
+	/**
+	 * return the maximum length for a button when three buttons are given
+	 * 
+	 *  @author laejoh
+	 *  @param button 
+	 *  		a first button 
+	 *  @param button
+	 *  		a second button
+	 *  @return int max length of the two buttons given
+	 */
+	public static int buttonLength(final Button button1, final Button button2, final Button button3) {
+		return Math.max( button3.getBounds().width, buttonLength(button1, button2));
+	}
+	/**
+	 * return the maximum length for a button when three buttons and a minimum length are given
+	 * 
+	 *  @author laejoh
+	 *  @param minimum
+	 *  		an integer giving the minimum length a button has to have
+	 *  @param button 
+	 *  		a first button 
+	 *  @param button
+	 *  		a second button
+	 *  @return int max length of the two buttons given
+	 */
+	public static int buttonLength(final int minimum, final Button button1, final Button button2, final Button button3) {
+		return Math.max( minimum, buttonLength(button1, button2, button3));
 	}
 }
