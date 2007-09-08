@@ -368,9 +368,13 @@ Features/Enhancements:
     	This is specially helpful for using full Flash - Javascript interaction support (which requires .swf to be on a remote server like localhost, not file:///).
     	HTTP server can deny requests from machines other that local machine on which server is running by setting "server.http.denyRemoteAccess" to true.
     Auto-focus on sura number text box in nav bar (if any) on every page load.
+    When upgrading Zekr to a newer version, user's configurations (config.properties) are migrated to new one, keeping old properties and adding new properties (previously config file was replaced with new one, and all user old properties was lost)
+    -clean option change: 'cache' -> 'view-cache'. Another cache removal option added: 'playlist-cache', to remove cached recitation playlists.
+    Sura detail column widths are updated on table update (based on the size of its content).
 Bug fixes:
     ID 1783882 - All OK, CANCEL, and APPLY buttons now depend on the length of the translation
     ID 1783886 - The hint in ManageBookMarkSets now fully shows
+    TemplateEngine made non-singleton because of thread-safety issues.
 
 _____________________________________________________
 	TODO: Update screenshots on the website
@@ -393,7 +397,6 @@ _____________________________________________________
 	TODO: Enriching bookmark sets.
 	
 	TODO: Multilingual translations for sura names on combos (an option should also be added to options menu).
-	TODO: Mohsin Khan's English translation.
 	TODO: Store search scopes, so that the next time it loads previous settings
 
 	TODO: Add a stand-alone (no dependency to ApplicationConfig) Error Form to show startup errors
