@@ -51,12 +51,12 @@ public class Naming {
 		return WORKSPACE;
 	}
 
-	public static String getCacheDir() {
+	public static String getViewCacheDir() {
 		return getWorkspace() + "/cache";
 	}
 
 	public static String getQuranCacheDir() {
-		return getQuranCacheDir(getCacheDir());
+		return getQuranCacheDir(getViewCacheDir());
 	}
 
 	public static String getQuranCacheDir(String base) {
@@ -64,7 +64,7 @@ public class Naming {
 	}
 
 	public static String getTransCacheDir() {
-		return getTransCacheDir(getCacheDir());
+		return getTransCacheDir(getViewCacheDir());
 	}
 
 	public static String getTransCacheDir(String base) {
@@ -72,7 +72,7 @@ public class Naming {
 	}
 
 	public static String getMixedCacheDir() {
-		return getMixedCacheDir(getCacheDir());
+		return getMixedCacheDir(getViewCacheDir());
 	}
 
 	public static String getMixedCacheDir(String base) {
@@ -80,7 +80,7 @@ public class Naming {
 	}
 
 	public static String getSearchCacheDir() {
-		return getSearchCacheDir(getCacheDir());
+		return getSearchCacheDir(getViewCacheDir());
 	}
 
 	public static String getSearchCacheDir(String base) {

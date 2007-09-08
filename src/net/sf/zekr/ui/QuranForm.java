@@ -35,6 +35,7 @@ import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.search.Sort;
 import org.eclipse.swt.SWT;
@@ -297,7 +298,7 @@ public class QuranForm extends BaseForm {
 	 */
 	protected void reload() {
 		try {
-			config.getRuntime().recreateCache();
+			config.getRuntime().recreateViewCache();
 			suraChanged = true;
 			apply();
 		} catch (IOException e) {
@@ -389,21 +390,21 @@ public class QuranForm extends BaseForm {
 					if (transBrowser != null)
 						transBrowser.execute("window.status='';"); // clear the status text
 
-					if (message.substring(6, 10).equals("GOTO")) {
+					if (message.startsWith("ZEKR::GOTO")) {
 						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
 						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
 						if (sura < 1 || aya < 1)
 							return; // do nothing
 						logger.info("Goto (" + sura + ", " + aya + ")");
 						gotoSuraAya(sura, aya);
-					} else if (message.substring(6, 11).equals("NAVTO")) {
+					} else if (message.startsWith("ZEKR::NAVTO")) {
 						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
 						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
 						if (sura < 1 || aya < 1)
 							return; // do nothing
 						logger.info("Goto (" + aya + ")");
 						gotoAya(sura, aya);
-					} else if (message.substring(6, 11).equals("TRANS") && config.getTranslation().getDefault() != null) {
+					} else if (message.startsWith("ZEKR::TRANS") && config.getTranslation().getDefault() != null) {
 						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
 						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
 						PopupBox pe = null;
@@ -425,6 +426,18 @@ public class QuranForm extends BaseForm {
 						p.y += 15;
 						int x = 300;
 						pe.open(new Point(x, 100), new Point(p.x - x / 2, p.y));
+					} else if (message.startsWith("ZEKR::PLAYER_VOLUME")) {
+						Integer volume = new Integer(message.substring(message.indexOf(' '), message.indexOf(';')).trim());
+						config.getProps().setProperty("audio.volume", volume);
+					} else if (message.startsWith("ZEKR::PLAYER_PLAYPAUSE")) {
+						playerTogglePlayPause();
+					} else if (message.startsWith("ZEKR::PLAYER_STOP")) {
+						playerStop();
+					} else if (message.startsWith("ZEKR::PLAYER_CONT")) {
+						String contSura = message.substring(message.indexOf(' '), message.indexOf('-')).trim();
+						String contAya = message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim();
+						config.getProps().setProperty("audio.continuousSura", contSura);
+						config.getProps().setProperty("audio.continuousAya", contAya);
 					}
 				}
 			}
@@ -636,6 +649,34 @@ public class QuranForm extends BaseForm {
 		// this progress should be in the heart of makeFrame method!
 		logger.info("UI relatively initialized.");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "UI Initialized");
+	}
+
+	private void playerStop() {
+		qmf.playerStop(false);
+	}
+
+	private void playerTogglePlayPause() {
+		qmf.playerTogglePlayPause(false);
+	}
+
+	protected void sendPlayerStop() {
+		logger.debug("Stop player.");
+		if (viewLayout == SEPARATE || viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
+			quranBrowser.execute("swtStopPlayer();");
+		}
+		if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
+			transBrowser.execute("swtStopPlayer();");
+		}
+	}
+
+	protected void sendPlayerTogglePlayPause() {
+		logger.debug("Toggle play/pause state.");
+		if (viewLayout == SEPARATE || viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
+			quranBrowser.execute("swtTogglePlayPause();");
+		}
+		if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
+			transBrowser.execute("swtTogglePlayPause();");
+		}
 	}
 
 	private void createAdvancedTabContent() {
@@ -1102,7 +1143,7 @@ public class QuranForm extends BaseForm {
 		qpl = new ProgressAdapter() {
 			public void completed(ProgressEvent event) {
 				if (ayaChanged) {
-					quranBrowser.execute("focusOnAya(" + sura + "," + aya + ");");
+					focusOnAya(quranBrowser, sura, aya);
 				}
 				quranBrowser.removeProgressListener(this);
 			}
@@ -1110,7 +1151,7 @@ public class QuranForm extends BaseForm {
 		tpl = new ProgressAdapter() {
 			public void completed(ProgressEvent event) {
 				if (ayaChanged) {
-					transBrowser.execute("focusOnAya(" + sura + "," + aya + ");");
+					focusOnAya(transBrowser, sura, aya);
 				}
 				transBrowser.removeProgressListener(this);
 			}
@@ -1131,8 +1172,20 @@ public class QuranForm extends BaseForm {
 				logger.log(e);
 			}
 		} else {
-			transBrowser.execute("focusOnAya(" + quranLoc.getSura() + "," + quranLoc.getAya() + ");");
+			focusOnAya(transBrowser, quranLoc.getSura(), quranLoc.getAya());
 		}
+	}
+
+	private void focusOnAya(Browser browser, int sura, int aya) {
+		String misc = getMiscOptions();
+		browser.execute("focusOnAya(" + sura + "," + aya + (misc == null ? "" : "," + misc) + ");");
+	}
+
+	private String getMiscOptions() {
+		// TODO: check if audio is enabled
+		PropertiesConfiguration p = config.getProps();
+		return p.getProperty("audio.volume") + "," + p.getProperty("audio.continuousSura") + ","
+				+ p.getProperty("audio.continuousAya");
 	}
 
 	private void updateQuranView() {
@@ -1149,7 +1202,7 @@ public class QuranForm extends BaseForm {
 				}
 				quranBrowser.setUrl(quranUri);
 			} else {
-				quranBrowser.execute("focusOnAya(" + quranLoc.getSura() + "," + quranLoc.getAya() + ");");
+				focusOnAya(quranBrowser, quranLoc.getSura(), quranLoc.getAya());
 			}
 		} catch (HtmlGenerationException e) {
 			logger.log(e);

@@ -79,7 +79,7 @@ div.headerBar { /* IE 5.0+ */
 }
 
 div.footerBar { /* IE 5.0+ */
-	filter: alpha(opacity=50);
+	filter: alpha(opacity=65);
 	top: expression(eval(document.body.scrollTop + document.body.clientHeight - 145) + 'px');
 	height: 144px;
 	padding: 0px;
@@ -95,8 +95,8 @@ html>body div.headerBar, html>body div.footerBar { /* Override some properties f
 }
 
 html>body div.footerBar {
-	-moz-opacity: 0.50;
-	opacity: 0.50;
+	-moz-opacity: 0.65;
+	opacity: 0.65;
 }
 
 html>body div.footerBar {

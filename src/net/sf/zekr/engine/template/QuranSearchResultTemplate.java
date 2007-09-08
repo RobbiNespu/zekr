@@ -33,7 +33,7 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 		super(quran, keyword, matchDiac);
 	}
 
-	public String transform() {
+	public String doTransform() {
 		AbstractQuranSearch qs;
 		String ret = null;
 		Map result = new LinkedHashMap();

@@ -34,7 +34,7 @@ public class AdvancedQuranSearchResultTemplate extends AbstractSearchResultTempl
 		this.pageNo = pageNo;
 	}
 
-	public String transform() throws TemplateTransformationException {
+	public String doTransform() throws TemplateTransformationException {
 		try {
 			String ret = null;
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {

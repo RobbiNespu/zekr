@@ -33,6 +33,8 @@ public class MixedViewTemplate extends AbstractQuranViewTemplate {
 	 *           the sura number to be transformed (counted from 1)
 	 * @param ayaNum
 	 *           the selected aya number within the sura
+	 * @param playlistUrl
+	 *           recitation playlist URL
 	 */
 	public MixedViewTemplate(IQuranText quran, IQuranText trans, int suraNum, int ayaNum) {
 		super(quran, suraNum, ayaNum);

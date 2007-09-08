@@ -69,7 +69,7 @@ public class ApplicationRuntime {
 	public void recreateHtmlCache() throws IOException {
 		logger.info("Recreate HTML cache directory.");
 
-		File cache = new File(Naming.getCacheDir());
+		File cache = new File(Naming.getViewCacheDir());
 		if (cache.exists())
 			FileUtils.deleteDirectory(cache);
 		cache.mkdir();
@@ -108,13 +108,14 @@ public class ApplicationRuntime {
 	 * 
 	 * @throws IOException
 	 */
-	public void recreateCache() throws IOException {
-		logger.info("Recreate cache.");
+	public void recreateViewCache() throws IOException {
+		logger.info("Recreate view cache.");
 		recreateHtmlCache();
 		createCommonFiles();
 	}
 
 	public void recreatePlaylistCache() throws IOException {
+		logger.info("Recreate playlist cache.");
 		net.sf.zekr.common.util.FileUtils.recreateDirectory(Naming.getAudioCacheDir());
 	}
 
@@ -132,9 +133,9 @@ public class ApplicationRuntime {
 
 	public void clearCache() {
 		try {
-			FileUtils.deleteDirectory(new File(Naming.getCacheDir()));
+			FileUtils.deleteDirectory(new File(Naming.getViewCacheDir()));
 		} catch (IOException e) {
-			logger.error("Error while deleting directory: " + new File(Naming.getCacheDir()));
+			logger.error("Error while deleting directory: " + new File(Naming.getViewCacheDir()));
 			logger.log(e);
 		}
 	}

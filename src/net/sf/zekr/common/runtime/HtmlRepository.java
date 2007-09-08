@@ -21,11 +21,11 @@ import net.sf.zekr.common.resource.IRangedQuranText;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.RangedQuranText;
 import net.sf.zekr.common.util.UriUtils;
+import net.sf.zekr.engine.audio.PlaylistProvider;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
-import net.sf.zekr.engine.server.HttpResourceNaming;
-import net.sf.zekr.engine.template.AbstractQuranViewTemplate;
+import net.sf.zekr.engine.server.HttpServer;
 import net.sf.zekr.engine.template.AdvancedQuranSearchResultTemplate;
 import net.sf.zekr.engine.template.ITransformer;
 import net.sf.zekr.engine.template.MixedViewTemplate;
@@ -73,19 +73,57 @@ public class HtmlRepository {
 			File file = new File(Naming.getQuranCacheDir() + File.separator + fileName);
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
+			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
 			if (!file.exists() || file.length() == 0 || update) {
 				logger.info("Create simple Quran HTML file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
-				AbstractQuranViewTemplate aqvt;
-				aqvt = new QuranViewTemplate(QuranText.getInstance(), sura, aya);
-				osw.write(aqvt.transform());
+
+				ITransformer transformer = new QuranViewTemplate(QuranText.getInstance(), sura, aya);
+				addPlaylistProvider(sura, transformer);
+				osw.write(transformer.transform());
 				osw.close();
 			}
 			return UriUtils.toUri(Naming.getQuranCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
 		}
+	}
+
+	/**
+	 * @param sura
+	 * @param aya
+	 * @return <code>HtmlRepository#getQuranUri(sura, aya, false);</code>
+	 */
+	public static String getQuranUri(int sura, int aya) throws HtmlGenerationException {
+		return getQuranUri(sura, aya, false);
+	}
+
+	public static String getTransUri(int sura, int aya, boolean update) throws HtmlGenerationException {
+		try {
+			TranslationData td = config.getTranslation().getDefault();
+			String fileName = sura + "_" + td.id + ".html";
+			File file = new File(Naming.getTransCacheDir() + "/" + fileName);
+			// if the file doesn't exist, or a zero-byte file exists
+			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
+			if (!file.exists() || file.length() == 0) {
+				logger.info("Create simple translation HTML file: " + file);
+				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
+						GlobalConfig.OUT_HTML_ENCODING);
+
+				ITransformer transformer = new TranslationViewTemplate(td, sura, aya);
+				addPlaylistProvider(sura, transformer);
+				osw.write(transformer.transform());
+				osw.close();
+			}
+			return UriUtils.toUri(Naming.getTransCacheDir(getBase()) + "/" + fileName);
+		} catch (Exception e) {
+			throw new HtmlGenerationException(e);
+		}
+	}
+
+	public static String getTransUri(int sura, int aya) throws HtmlGenerationException {
+		return getTransUri(sura, aya, false);
 	}
 
 	public static String getMixedUri(int sura, int aya, boolean update) throws HtmlGenerationException {
@@ -95,15 +133,18 @@ public class HtmlRepository {
 			File file = new File(Naming.getMixedCacheDir() + File.separator + fileName);
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
+			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
 			if (!file.exists() || file.length() == 0 || update) {
 				logger.info("Create Quran mixed HTML file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
-				MixedViewTemplate mvt = new MixedViewTemplate(QuranText.getInstance(), td, sura, aya);
-				osw.write(mvt.transform());
+
+				ITransformer transformer = new MixedViewTemplate(QuranText.getInstance(), td, sura, aya);
+				addPlaylistProvider(sura, transformer);
+
+				osw.write(transformer.transform());
 				osw.close();
 			}
-			config.getAudio().getCurrent().newPlaylistProvider(sura).providePlaylist();
 			return UriUtils.toUri(Naming.getMixedCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
@@ -122,13 +163,17 @@ public class HtmlRepository {
 			}
 			String fileName = sura + "_" + tidList + ".html";
 			File file = new File(Naming.getMixedCacheDir() + File.separator + fileName);
+			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
 			if (!file.exists() || file.length() == 0 || update) {
 				logger.info("Create Quran file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 				TranslationData[] transData = (TranslationData[]) tdList.toArray(new TranslationData[] {});
-				ITransformer mtvt = new MultiTranslationViewTemplate(QuranText.getInstance(), transData, sura, aya);
-				osw.write(mtvt.transform());
+
+				ITransformer tx = new MultiTranslationViewTemplate(QuranText.getInstance(), transData, sura, aya);
+				addPlaylistProvider(sura, tx);
+
+				osw.write(tx.transform());
 				osw.close();
 			}
 			return UriUtils.toUri(Naming.getMixedCacheDir(getBase()) + "/" + fileName);
@@ -152,8 +197,9 @@ public class HtmlRepository {
 			logger.info("Create search file: " + file + " for keyword: \"" + searcher.getRawQuery() + "\".");
 			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 					GlobalConfig.OUT_HTML_ENCODING);
-			ITransformer qsrt = new AdvancedQuranSearchResultTemplate(searcher, pageNo);
-			osw.write(qsrt.transform());
+
+			ITransformer tx = new AdvancedQuranSearchResultTemplate(searcher, pageNo);
+			osw.write(tx.transform());
 			osw.close();
 			return UriUtils.toUri(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
@@ -172,10 +218,8 @@ public class HtmlRepository {
 					GlobalConfig.OUT_HTML_ENCODING);
 
 			RangedQuranText rqt = new RangedQuranText(QuranText.getSimpleTextInstance(), searchScope);
-
-			ITransformer qsrt = new QuranSearchResultTemplate(rqt, keyword, matchDiac);
-
-			osw.write(qsrt.transform());
+			ITransformer tx = new QuranSearchResultTemplate(rqt, keyword, matchDiac);
+			osw.write(tx.transform());
 			osw.close();
 			// }
 			return UriUtils.toUri(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
@@ -198,42 +242,11 @@ public class HtmlRepository {
 			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 					GlobalConfig.OUT_HTML_ENCODING);
 
-			ITransformer gsrt = new TransSearchResultTemplate(eqt, keyword, matchCase);
-
-			osw.write(gsrt.transform());
+			ITransformer tx = new TransSearchResultTemplate(eqt, keyword, matchCase);
+			osw.write(tx.transform());
 			osw.close();
 			// }
 			return UriUtils.toUri(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
-		} catch (Exception e) {
-			throw new HtmlGenerationException(e);
-		}
-	}
-
-	/**
-	 * @param sura
-	 * @param aya
-	 * @return <code>HtmlRepository#getQuranUri(sura, aya, false);</code>
-	 */
-	public static String getQuranUri(int sura, int aya) throws HtmlGenerationException {
-		return getQuranUri(sura, aya, false);
-	}
-
-	public static String getTransUri(int sura, int aya) throws HtmlGenerationException {
-		try {
-			TranslationData td = config.getTranslation().getDefault();
-			String fileName = sura + "_" + td.id + ".html";
-			File file = new File(Naming.getTransCacheDir() + "/" + fileName);
-			// if the file doesn't exist, or a zero-byte file exists
-			if (!file.exists() || file.length() == 0) {
-				logger.info("Create simple translation HTML file: " + file);
-				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
-						GlobalConfig.OUT_HTML_ENCODING);
-				// td.load(); // load if not loaded before
-				AbstractQuranViewTemplate qvt = new TranslationViewTemplate(td, sura, aya);
-				osw.write(qvt.transform());
-				osw.close();
-			}
-			return UriUtils.toUri(Naming.getTransCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
 		}
@@ -258,7 +271,18 @@ public class HtmlRepository {
 	}
 
 	private static String getBase() {
-		return config.isHttpServerEnabled() ? HttpResourceNaming.CACHED_RESOURCE : Naming.getCacheDir();
+		return config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE : Naming.getViewCacheDir();
+	}
+
+	private static void addPlaylistProvider(int sura, ITransformer transformer) throws Exception {
+		PlaylistProvider playlistProvider = config.getAudio().getCurrent().newPlaylistProvider(sura);
+		String playlistPath = playlistProvider.providePlaylist();
+
+		transformer.setProperty("VOLUME", config.getProps().getProperty("audio.volume"));
+		transformer.setProperty("AUD_CONT_SURA", config.getProps().getProperty("audio.continuousSura"));
+		transformer.setProperty("AUD_CONT_AYA", config.getProps().getProperty("audio.continuousAya"));
+		transformer.setProperty("PLAYLIST_PROVIDER", playlistProvider);
+		transformer.setProperty("PLAYLIST_URL", HttpServer.getServer().toUrl(playlistPath));
 	}
 
 }

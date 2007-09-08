@@ -241,7 +241,7 @@ public class OptionsForm {
 			config.setCurrentLanguage(selectedLangPack.id);
 			config.setCurrentTheme(selectedTheme.id);
 			try {
-				config.getRuntime().recreateCache();
+				config.getRuntime().recreateViewCache();
 			} catch (IOException e) {
 				logger.log(e);
 			}

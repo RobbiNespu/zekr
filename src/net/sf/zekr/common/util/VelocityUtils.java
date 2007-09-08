@@ -9,6 +9,9 @@
 
 package net.sf.zekr.common.util;
 
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
+import net.sf.zekr.engine.audio.IPlaylistProvider;
+
 /**
  * This class contains some helper methods to be used in Velocity templates. This is a replacement for
  * velocity-tools-generic library.
@@ -55,5 +58,17 @@ public class VelocityUtils {
 
 	public int arraySize(Object arr) {
 		return ((Object[]) arr).length;
+	}
+
+	public String items2JsArray(IPlaylistProvider pp, int sura) {
+		int ayaCount = QuranPropertiesUtils.getSura(sura).getAyaCount();
+		StringBuffer buf = new StringBuffer("[");
+		if (ayaCount > 0) // always true :-)
+			buf.append(pp.getItem(sura, 1));
+		for (int aya = 2; aya <= ayaCount; aya++) {
+			buf.append(", " + pp.getItem(sura, aya));
+		}
+		buf.append("]");
+		return buf.toString();
 	}
 }

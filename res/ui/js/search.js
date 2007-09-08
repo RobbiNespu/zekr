@@ -3,7 +3,7 @@
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
- * @author: Mohsen Saboorian <mohsen@zekr.org>
+ * @author Mohsen Saboorian
  */
 
 var SUKUN = String.fromCharCode(0x652);

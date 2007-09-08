@@ -8,6 +8,9 @@
  */
 package net.sf.zekr.engine.template;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
@@ -18,9 +21,8 @@ import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.common.util.VelocityUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.server.HttpResourceNaming;
 import net.sf.zekr.engine.server.HttpServer;
-import net.sf.zekr.engine.server.HttpServerException;
+import net.sf.zekr.engine.server.HttpServerRuntimeException;
 import net.sf.zekr.engine.theme.ThemeData;
 
 /**
@@ -35,13 +37,24 @@ public abstract class BaseViewTemplate implements ITransformer {
 	protected ResourceManager resource = ResourceManager.getInstance();
 	protected LanguageEngine langEngine = config.getLanguageEngine();
 
+	private Map props = new HashMap();
+
 	/**
 	 * This method will generate the result string of a view.
 	 * 
 	 * @return the String representation of a view
 	 * @throws TemplateTransformationException
 	 */
-	public abstract String transform() throws TemplateTransformationException;
+	public String transform() throws TemplateTransformationException {
+		engine.putAll(props);
+		return doTransform();
+	}
+
+	public abstract String doTransform() throws TemplateTransformationException;
+
+	public void setProperty(String key, Object value) {
+		props.put(key, value);
+	}
 
 	/**
 	 * Will put some initial properties into context:
@@ -67,14 +80,14 @@ public abstract class BaseViewTemplate implements ITransformer {
 		String serverUrl;
 		try {
 			serverUrl = HttpServer.getServer().getUrl();
-		} catch (HttpServerException e) {
+		} catch (HttpServerRuntimeException e) {
 			logger.error(e);
 			serverUrl = "http://localhost:" + config.getProps().getInt("server.http.port") + "/";
 		}
 
 		String appPath = config.isHttpServerEnabled() ? serverUrl : UriUtils.toUri(GlobalConfig.RUNTIME_DIR);
-		String cssDir = config.isHttpServerEnabled() ? HttpResourceNaming.CACHED_RESOURCE + "/" : UriUtils.toUri(Naming
-				.getCacheDir());
+		String cssDir = config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE + "/" : UriUtils.toUri(Naming
+				.getViewCacheDir());
 
 		engine.put("APP_PATH", appPath);
 		engine.put("APP_VERSION", GlobalConfig.ZEKR_VERSION);
@@ -83,6 +96,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 		engine.put("THEME_DIR", td.getPath());
 		engine.put("UTILS", new VelocityUtils());
 		engine.put("I18N", new I18N(langEngine.getLocale()));
+		engine.put("RES", resource);
 
 		engine.putAll(td.processedProps);
 	}

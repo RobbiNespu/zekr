@@ -12,53 +12,37 @@ package net.sf.zekr.common.resource;
  * This class holds attributes of a sura of the Holy Quran.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class SuraProperties {
-	String name;
-	int ayaCount;
-	boolean madani;
-	int index;
+	private String name;
+	private int ayaCount;
+	private boolean madani;
+	private int index;
 
-	/**
-	 * @return the name.
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @param name The name to set.
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return number of ayas in the sura.
-	 */
 	public int getAyaCount() {
 		return ayaCount;
 	}
 
-	/**
-	 * @param ayaCount the ayaCount to set.
-	 */
 	public void setAyaCount(int ayaCount) {
 		this.ayaCount = ayaCount;
 	}
 
 	/**
-	 * @return <code>true</code> if <code>sura</code> is <i>Madani</i> or (otherwise) <code>false</code>
-	 *         if it is <i>Makki</i>
+	 * @return <code>true</code> if <code>sura</code> is <i>Madani</i> or (otherwise) <code>false</code> if it is
+	 *         <i>Makki</i>
 	 */
 	public boolean isMadani() {
 		return madani;
 	}
 
-	/**
-	 * @param madani The madani to set.
-	 */
 	public void setMadani(boolean madani) {
 		this.madani = madani;
 	}
@@ -70,9 +54,6 @@ public class SuraProperties {
 		return index;
 	}
 
-	/**
-	 * @param index The index to set.
-	 */
 	public void setIndex(int index) {
 		this.index = index;
 	}

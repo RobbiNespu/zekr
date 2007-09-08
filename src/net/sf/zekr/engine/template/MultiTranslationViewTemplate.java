@@ -33,6 +33,8 @@ public class MultiTranslationViewTemplate extends AbstractQuranViewTemplate {
 	 *           the sura number to be transformed (counted from 1)
 	 * @param ayaNum
 	 *           the selected aya number within the sura (counted from 1)
+	 * @param playlistUrl
+	 *           recitation playlist URL
 	 */
 	public MultiTranslationViewTemplate(IQuranText quran, TranslationData[] transDataList, int suraNum, int ayaNum) {
 		super(quran, suraNum, ayaNum);

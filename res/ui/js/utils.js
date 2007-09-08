@@ -3,7 +3,7 @@
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
- * @author: Mohsen Saboorian <mohsen@zekr.org>
+ * @author Mohsen Saboorian
  */
 
 var oldAyaId = null;
@@ -74,7 +74,15 @@ function focusOnAya(suraNum, ayaNum) {
 	var bh = getBrowserHeight();
 	$(aya).ScrollTo(400, 'original', bh > (oh + bh/5) ? bh/5 : 35);
 	oldAyaId = ayaId;
+
+	// fire post focus hooks
+	var args = arguments;
+	$(ayaFocusHooks).each(function() {
+		this.call(this, args);
+	});
 }
+
+var ayaFocusHooks = [];
 
 function getObjectHeight(obj) { return obj.offsetHeight; }
 

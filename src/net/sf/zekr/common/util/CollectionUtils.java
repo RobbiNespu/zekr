@@ -123,4 +123,8 @@ public class CollectionUtils {
 		}
 		return null;
 	}
+
+	public static String toSimpleJson(List list) {
+		return "[" + toString(list, ",") + "]";
+	}
 }

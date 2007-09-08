@@ -39,7 +39,7 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 		engine.put("KEYWORD", keyword);
 	}
 
-	public String transform() throws TemplateTransformationException {
+	public String doTransform() throws TemplateTransformationException {
 		try {
 			AbstractQuranSearch qs;
 			String ret = null;

@@ -23,7 +23,7 @@ public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 	 * 
 	 * @return text to be written to a local file
 	 */
-	public String transform() {
+	public String doTransform() {
 		String retStr = null;
 		ThemeData td = config.getTheme().getCurrent();
 		try {
@@ -38,13 +38,12 @@ public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 			engine.put("AYA_MSG", langEngine.getMeaning("AYA"));
 			engine.put("PREV", langEngine.getMeaning("PREVIOUS"));
 			engine.put("NEXT", langEngine.getMeaning("NEXT"));
-			engine.put("TITLE", langEngine.getMeaning("SURA") + ": " + QuranProperties.getInstance().getSura(suraNum).getName()); // the same as SURA_NAME
-
+			engine.put("TITLE", langEngine.getMeaning("SURA") + ": "
+					+ QuranProperties.getInstance().getSura(suraNum).getName()); // the same as SURA_NAME
 			retStr = engine.getUpdated(td.getPath() + "/" + resource.getString("theme.sura"));
 		} catch (Exception e) {
 			Logger.getLogger(this.getClass()).log(e);
 		}
-
 		return retStr;
 	}
 }

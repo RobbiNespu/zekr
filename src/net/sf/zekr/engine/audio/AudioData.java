@@ -20,9 +20,10 @@ public class AudioData {
 	/**
 	 * A playlist for the whole Quran.
 	 */
-	public static final String WHOLE_QURAN_PLAYLIST = "all";
+	public static final String COLLECTION_PLAYLIST = "all";
 
 	private String id;
+	private String name;
 	private String reciter;
 	private String license;
 	private Locale locale;
@@ -36,6 +37,10 @@ public class AudioData {
 	private String audioFileName;
 	private String audioFileAyaPad;
 	private String audioFileSuraPad;
+
+	private String prestartFileName;
+	private String startFileName;
+	private String endFileName;
 
 	private String playlistProvider;
 
@@ -56,6 +61,14 @@ public class AudioData {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getLicense() {
@@ -140,6 +153,30 @@ public class AudioData {
 
 	public void setPlaylistMode(String playlistMode) {
 		this.playlistMode = playlistMode;
+	}
+
+	public String getEndFileName() {
+		return endFileName;
+	}
+
+	public void setEndFileName(String endFileName) {
+		this.endFileName = endFileName;
+	}
+
+	public String getPrestartFileName() {
+		return prestartFileName;
+	}
+
+	public void setPrestartFileName(String prestartFileName) {
+		this.prestartFileName = prestartFileName;
+	}
+
+	public String getStartFileName() {
+		return startFileName;
+	}
+
+	public void setStartFileName(String startFileName) {
+		this.startFileName = startFileName;
 	}
 
 	public String getPlaylistProvider() {

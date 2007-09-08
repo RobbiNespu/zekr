@@ -16,7 +16,7 @@ import java.net.URL;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.server.HttpServer;
-import net.sf.zekr.engine.server.HttpServerException;
+import net.sf.zekr.engine.server.HttpServerRuntimeException;
 
 /**
  * Simple URI utility methods.
@@ -38,7 +38,7 @@ public class UriUtils {
 			String addr;
 			try {
 				addr = HttpServer.getServer().getUrl();
-			} catch (HttpServerException e) {
+			} catch (HttpServerRuntimeException e) {
 				addr = "/";
 			}
 			uri = addr + file.getPath().replace('\\', '/');

@@ -15,10 +15,10 @@ import java.net.UnknownHostException;
 import java.util.Properties;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
+
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * This class intends to implement a simple HTTP server based on NanoHTTPD. It loops infinitely until it is interrupted.
@@ -30,14 +30,14 @@ public class DefaultHttpServer extends HttpServer {
 	private static final ResourceManager res = ResourceManager.getInstance();
 	private NanoHttpd httpFacade = null;
 
-	private static DefaultHttpServer thisInstance = new DefaultHttpServer();
+	private static HttpServer thisInstance = new DefaultHttpServer();
+
+	private DefaultHttpServer() {
+	}
 
 	public static HttpServer getServer() {
 		return thisInstance;
 	};
-
-	private DefaultHttpServer() {
-	}
 
 	public void run() {
 		try {
@@ -51,20 +51,31 @@ public class DefaultHttpServer extends HttpServer {
 					}
 					if (Boolean.valueOf(config.getProps().getString("server.http.log")).booleanValue())
 						logger.debug("serving URI: " + uri);
-					String baseDir = ".";
-					if (uri.startsWith("/" + HttpResourceNaming.CACHED_RESOURCE)) {
-						baseDir = Naming.getCacheDir();
-						uri = uri.substring(1 + HttpResourceNaming.CACHED_RESOURCE.length());
-					} else if (uri.startsWith("/" + HttpResourceNaming.WORKSPACE_RESOURCE)) {
-						baseDir = Naming.getWorkspace();
-						uri = uri.substring(1 + HttpResourceNaming.WORKSPACE_RESOURCE.length());
-					} else {
-						baseDir = GlobalConfig.RUNTIME_DIR;
-						if (uri.startsWith("/" + HttpResourceNaming.BASE_RESOURCE))
-							uri = uri.substring(1 + HttpResourceNaming.BASE_RESOURCE.length());
-					}
-					// Response resp = new Response(HTTP_OK, (String) NanoHttpd.MIME_TYPES.get("html"), "salam!");
-					return serveFile(uri, header, new File(baseDir), false);
+					// String baseDir = ".";
+					// if (uri.startsWith("/" + HttpResourceNaming.CACHED_RESOURCE)) {
+					// baseDir = Naming.getCacheDir();
+					// uri = uri.substring(1 + HttpResourceNaming.CACHED_RESOURCE.length());
+					// } else if (uri.startsWith("/" + HttpResourceNaming.WORKSPACE_OR_BASE_RESOURCE)) {
+					// baseDir = Naming.getWorkspace();
+					// uri = uri.substring(1 + HttpResourceNaming.WORKSPACE_OR_BASE_RESOURCE.length());
+					// if (!new File(baseDir, uri).exists()) {
+					// baseDir = GlobalConfig.RUNTIME_DIR;
+					// uri = uri.substring(1 + HttpResourceNaming.WORKSPACE_OR_BASE_RESOURCE.length());
+					// }
+					// } else if (uri.startsWith("/" + HttpResourceNaming.WORKSPACE_RESOURCE)) {
+					// baseDir = Naming.getWorkspace();
+					// uri = uri.substring(1 + HttpResourceNaming.WORKSPACE_RESOURCE.length());
+					// } else {
+					// baseDir = GlobalConfig.RUNTIME_DIR;
+					// if (uri.startsWith("/" + HttpResourceNaming.BASE_RESOURCE))
+					// uri = uri.substring(1 + HttpResourceNaming.BASE_RESOURCE.length());
+					// }
+					String path = toRealPath(uri.substring(1));
+					if (!new File(path).exists())
+						return new Response(HTTP_NOTFOUND, MIME_PLAINTEXT, "File not found.");
+					String baseDir = FilenameUtils.getFullPath(path);
+					String fileName = FilenameUtils.getName(path);
+					return serveFile(fileName, header, new File(baseDir), false);
 				}
 
 				private boolean isAllowedUri(String uri) {
@@ -77,12 +88,8 @@ public class DefaultHttpServer extends HttpServer {
 						return true;
 					String remoteAddress = (String) header.get(HEADER_REQUEST_ADDRESS);
 					String localAddr = "", localName = "";
-					try {
-						localAddr = getServerAddress();
-						localName = getServerName();
-					} catch (UnknownHostException e) {
-						logger.warn(e);
-					}
+					localAddr = getServerAddress();
+					localName = getServerName();
 					if (!localAddr.equals(remoteAddress) && !localName.equals(remoteAddress)) {
 						logger.info("Unauthorized request to server from " + remoteAddress);
 						return false;
@@ -110,23 +117,27 @@ public class DefaultHttpServer extends HttpServer {
 		return port == -1 ? 8920 : port;
 	}
 
-	private static String getServerName() throws UnknownHostException {
-		return InetAddress.getLocalHost().getCanonicalHostName();
-	}
-
-	private static String getServerAddress() throws UnknownHostException {
-		return InetAddress.getLocalHost().getHostAddress();
-	}
-
-	public String getCanonicalAddress() throws HttpServerException {
+	private static String getServerName() throws HttpServerRuntimeException {
 		try {
-			return getServerName();
+			return InetAddress.getLocalHost().getCanonicalHostName();
 		} catch (UnknownHostException e) {
-			throw new HttpServerException(e);
+			throw new HttpServerRuntimeException(e);
 		}
 	}
 
-	public int getPort() throws HttpServerException {
+	static String getServerAddress() throws HttpServerRuntimeException {
+		try {
+			return InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			throw new HttpServerRuntimeException(e);
+		}
+	}
+
+	public String getCanonicalAddress() throws HttpServerRuntimeException {
+		return getServerName();
+	}
+
+	public int getPort() {
 		return getServerPort();
 	}
 }

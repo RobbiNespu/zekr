@@ -11,6 +11,8 @@ package net.sf.zekr.engine.audio;
 import org.apache.commons.lang.StringUtils;
 
 /**
+ * URL provider for online playlists.
+ * 
  * @author Mohsen Saboorian
  */
 public class OnlinePlaylistProvider extends PlaylistProvider {

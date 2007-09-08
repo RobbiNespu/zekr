@@ -24,7 +24,9 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 /**
- * An adapter class for velocity template engine.
+ * An adapter class for velocity template engine.<br>
+ * This class is not singleton due to thread-safety issues. A call to {@link #getInstance()} simply returns a new
+ * instance.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -34,15 +36,10 @@ public class TemplateEngine {
 	private static TemplateEngine thisInstance;
 	Template template;
 
-	/**
-	 * Instantiate a sample <code>TemplateEngine</code>
-	 */
 	private TemplateEngine() {
 		try {
 			System.setProperty("zekr.home", Naming.getWorkspace());
 			Velocity.setExtendedProperties(new ExtendedProperties("res/config/lib/velocity.properties"));
-			// Velocity.addProperty("file.resource.loader.path",
-			// ApplicationPath.THEME_DIR);
 			Velocity.init();
 			context = new VelocityContext();
 		} catch (Exception e) {
@@ -51,15 +48,10 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * @return the template engine instance. A call to this method will reset the context of the template engine.
+	 * @return a new template engine instance.
 	 */
 	public static TemplateEngine getInstance() {
-		if (thisInstance == null) {
-			thisInstance = new TemplateEngine();
-			return thisInstance;
-		}
-		thisInstance.resetContext();
-		return thisInstance;
+		return new TemplateEngine();
 	}
 
 	/**
@@ -113,10 +105,6 @@ public class TemplateEngine {
 		Writer writer = new StringWriter();
 		template.merge(context, writer);
 		return writer.toString();
-	}
-
-	public void resetContext() {
-		context = new VelocityContext();
 	}
 
 }

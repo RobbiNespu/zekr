@@ -18,7 +18,6 @@ import net.sf.zekr.engine.theme.ThemeData;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ThemeTemplate extends BaseViewTemplate {
 
@@ -34,16 +33,17 @@ public class ThemeTemplate extends BaseViewTemplate {
 	 * 
 	 * @return result CSS, or null if no transformation done
 	 */
-	public String transform() {
+	public String doTransform() {
 		String retStr = null;
 		String[] cssFileNames = resource.getStrings("theme.css.fileName");
 		for (int i = 0; i < cssFileNames.length; i++) {
-			File destFile = new File(Naming.getCacheDir() + "/" + cssFileNames[i]);
+			File destFile = new File(Naming.getViewCacheDir() + "/" + cssFileNames[i]);
 
 			// create destination CSS file if it doesn't exist
 			if (!destFile.exists() || destFile.length() == 0) {
 				logger.debug("Theme CSS doesn't exist, will create it: " + cssFileNames[i]);
-				File srcFile = new File(themeData.getPath() + "/" + resource.getString("theme.cssDir") + "/" + cssFileNames[i]);
+				File srcFile = new File(themeData.getPath() + "/" + resource.getString("theme.cssDir") + "/"
+						+ cssFileNames[i]);
 				if (config.getTranslation().getDefault() != null)
 					themeData.process(config.getTranslation().getDefault().locale.getLanguage());
 				else

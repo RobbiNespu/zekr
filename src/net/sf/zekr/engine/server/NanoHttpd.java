@@ -35,6 +35,9 @@ import java.util.TimeZone;
  * <br />
  * NanoHttpd version 1.1, Copyright &copy; 2001,2005-2007 Jarno Elonen (elonen@iki.fi, http://iki.fi/elonen/)
  * Distributed under Modified BSD licence (nanohttpd-license.txt).
+ * 
+ * @author Jarno Elonen (original author)
+ * @author Mohsen Saboorian
  */
 public class NanoHttpd {
 	// ==================================================
@@ -44,7 +47,6 @@ public class NanoHttpd {
 	/**
 	 * Override this to customize the server.
 	 * <p>
-	 * 
 	 * (By default, this delegates to serveFile() and allows directory listing.)
 	 * 
 	 * @parm uri Percent-decoded URI without parameters, for example "/index.cgi"
@@ -200,7 +202,10 @@ public class NanoHttpd {
 				BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
 				// Read the request line
-				StringTokenizer st = new StringTokenizer(in.readLine());
+				String l = in.readLine();
+				if (l == null) // ignore invalid requests
+					return;
+				StringTokenizer st = new StringTokenizer(l);
 				if (!st.hasMoreTokens())
 					sendError(HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html");
 
@@ -529,6 +534,13 @@ public class NanoHttpd {
 			Response r = new Response(HTTP_OK, mime, fis);
 			r.addHeader("Content-length", "" + (f.length() - startFrom));
 			r.addHeader("Content-range", "" + startFrom + "-" + (f.length() - 1) + "/" + f.length());
+			
+			if (mime.equals(MIME_TYPES.get("htm")) || mime.equals(MIME_TYPES.get("htm")) || mime.equals(MIME_TYPES.get("js"))
+					|| mime.equals(MIME_TYPES.get("css"))) {
+				r.addHeader("Cache-Control", "no-cache");
+				r.addHeader("Expires", "0");
+			}
+			
 			return r;
 		} catch (IOException ioe) {
 			return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: Reading file failed.");
@@ -543,9 +555,7 @@ public class NanoHttpd {
 		StringTokenizer st = new StringTokenizer("htm		text/html " + "html		text/html " + "xml		text/xml "
 				+ "css		text/css " + "js		text/javascript " + "txt		text/plain " + "asc		text/plain " + "gif		image/gif "
 				+ "jpg		image/jpeg " + "jpeg		image/jpeg " + "png		image/png " + "mp3		audio/mpeg "
-				+ "m3u		audio/mpeg-url " + "swf		application/x-shockwave-flash " + "pdf		application/pdf "
-				+ "doc		application/msword " + "ogg		application/x-ogg " + "zip		application/octet-stream "
-				+ "exe		application/octet-stream " + "class		application/octet-stream ");
+				+ "m3u		audio/mpeg-url " + "swf		application/x-shockwave-flash " + "ogg		application/x-ogg ");
 		while (st.hasMoreTokens())
 			MIME_TYPES.put(st.nextToken(), st.nextToken());
 	}

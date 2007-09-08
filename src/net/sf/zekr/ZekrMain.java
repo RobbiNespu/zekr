@@ -40,7 +40,7 @@ public class ZekrMain {
 		Display display = new Display();
 		QuranForm quranForm = null;
 		try {
-			logger.info("Starting The Zekr Platform " + GlobalConfig.ZEKR_VERSION + " (" + new Date() + ")");
+			logger.info("Starting The Zekr Platform " + GlobalConfig.ZEKR_VERSION + " on " + new Date() + ".");
 
 			AbstractSplachScreen splash = new AdvancedSplashScreen(display);
 			logger.debug("Display splash screen...");

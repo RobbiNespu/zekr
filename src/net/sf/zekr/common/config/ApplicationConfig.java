@@ -156,14 +156,30 @@ public class ApplicationConfig implements ConfigNaming {
 			Reader reader = new InputStreamReader(fis, "UTF-8");
 			props = new PropertiesConfiguration();
 			props.load(reader);
+			reader.close();
+			fis.close();
+
 			if (!GlobalConfig.ZEKR_VERSION.equals(props.getString("version"))) {
-				logger.info("User config version does not match with " + GlobalConfig.ZEKR_VERSION);
-				logger.info("Will initialize user config with default values from " + ApplicationPath.MAIN_CONFIG);
+				logger.info("User config version (" + props.getString("version") + ") does not match with "
+						+ GlobalConfig.ZEKR_VERSION);
+				logger.info("Will initialize user config with default values, overriding with old config.");
+
+				PropertiesConfiguration oldProps = props;
 				conf = ApplicationPath.MAIN_CONFIG;
 				fis = new FileInputStream(conf);
 				reader = new InputStreamReader(fis, "utf-8");
 				props = new PropertiesConfiguration();
 				props.load(reader);
+				reader.close();
+				fis.close();
+
+				for (Iterator iter = oldProps.getKeys(); iter.hasNext();) {
+					String key = (String) iter.next();
+					if (key.equals("version"))
+						continue;
+					props.setProperty(key, oldProps.getProperty(key));
+				}
+
 				createConfig = true;
 			}
 		} catch (Exception e) {
@@ -237,7 +253,7 @@ public class ApplicationConfig implements ConfigNaming {
 			logger.info("Save user config file to " + ApplicationPath.USER_CONFIG);
 			props.save(new OutputStreamWriter(new FileOutputStream(ApplicationPath.USER_CONFIG), "UTF-8"));
 		} catch (Exception e) {
-			logger.error("Error while saving config to " + ApplicationPath.USER_CONFIG);
+			logger.error("Error while saving config to " + ApplicationPath.USER_CONFIG + ": " + e);
 		}
 	}
 
@@ -351,6 +367,9 @@ public class ApplicationConfig implements ConfigNaming {
 					Reader reader = new InputStreamReader(is, "UTF-8");
 					PropertiesConfiguration pc = new PropertiesConfiguration();
 					pc.load(reader);
+					reader.close();
+					is.close();
+
 					td = new TranslationData();
 					td.id = pc.getString(ID_ATTR);
 					td.locale = new Locale(pc.getString(LANG_ATTR), pc.getString(COUNTRY_ATTR));
@@ -457,9 +476,13 @@ public class ApplicationConfig implements ConfigNaming {
 						logger.info("Copy theme " + origThemes[i].getName() + " to " + Naming.getThemePropsDir());
 						FileUtils.copyFile(origThemeDesc, targetThemeFile);
 					}
-					reader = new InputStreamReader(new FileInputStream(targetThemeFile), "UTF-8");
+					FileInputStream fis = new FileInputStream(targetThemeFile);
+					reader = new InputStreamReader(fis, "UTF-8");
 					PropertiesConfiguration pc = new PropertiesConfiguration();
 					pc.load(reader);
+					reader.close();
+					fis.close();
+
 					td = new ThemeData();
 					td.props = new LinkedHashMap(); // order is important for options table!
 					for (Iterator iter = pc.getKeys(); iter.hasNext();) {
@@ -519,14 +542,19 @@ public class ApplicationConfig implements ConfigNaming {
 
 			AudioData audioData;
 
+			FileInputStream fis;
 			for (int audioIndex = 0; audioIndex < audioPropFiles.length; audioIndex++) {
 				try {
-					reader = new InputStreamReader(new FileInputStream(audioPropFiles[audioIndex]), "UTF-8");
+					fis = new FileInputStream(audioPropFiles[audioIndex]);
+					reader = new InputStreamReader(fis, "UTF-8");
 					PropertiesConfiguration pc = new PropertiesConfiguration();
 					pc.load(reader);
+					reader.close();
+					fis.close();
 
 					audioData = new AudioData();
 					audioData.setId(pc.getString("audio.id"));
+					audioData.setName(pc.getString("audio.name"));
 					audioData.setLicense(pc.getString("audio.license"));
 					audioData.setLocale(new Locale(pc.getString("audio.language"), pc.getString("audio.country")));
 					audioData.setReciter(pc.getString("audio.reciter"));
@@ -541,6 +569,10 @@ public class ApplicationConfig implements ConfigNaming {
 					audioData.setAudioFileName(pc.getString("audio.fileName"));
 					audioData.setAudioFileSuraPad(pc.getString("audio.fileName.suraPad"));
 					audioData.setAudioFileAyaPad(pc.getString("audio.fileName.ayaPad"));
+
+					audioData.setPrestartFileName(pc.getString("audio.prestartFileName"));
+					audioData.setStartFileName(pc.getString("audio.startFileName"));
+					audioData.setEndFileName(pc.getString("audio.endFileName"));
 
 					audio.add(audioData);
 					if (audioData.getId().equals(def)) {
@@ -570,24 +602,12 @@ public class ApplicationConfig implements ConfigNaming {
 		language.setActiveLanguagePack(langId);
 		langEngine.reload();
 		props.setProperty("lang.default", langId);
-		// try {
-		// runtime.recreateCache();
-		// } catch (IOException e) {
-		// logger.log(e);
-		// }
-		// langElem.setAttribute(CURRENT_LANGUAGE_ATTR, langId);
 	}
 
 	public void setCurrentTheme(String themeId) {
 		logger.info("Set current theme to " + themeId);
 		theme.setCurrent(theme.get(themeId));
 		props.setProperty("theme.default", themeId);
-		// try {
-		// runtime.recreateCache();
-		// } catch (IOException e) {
-		// logger.log(e);
-		// }
-		// viewElem.setAttribute(THEME_ATTR, themeId);
 	}
 
 	public void setCurrentTranslation(String transId) {
@@ -597,7 +617,19 @@ public class ApplicationConfig implements ConfigNaming {
 		newTrans.load();
 		props.setProperty("trans.default", transId);
 		try {
-			runtime.recreateCache();
+			runtime.recreateViewCache();
+		} catch (IOException e) {
+			logger.log(e);
+		}
+	}
+
+	public void setCurrentAudio(String audioId) {
+		logger.info("Change current audio pack to " + audioId);
+		audio.setCurrent(audio.get(audioId));
+		props.setProperty("audio.default", audioId);
+		try {
+			runtime.recreateViewCache();
+			runtime.recreatePlaylistCache(); // not really needed
 		} catch (IOException e) {
 			logger.log(e);
 		}
@@ -612,7 +644,6 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	public String getQuranLayout() {
-		// return (String) theme.commonProps.get(QURAN_LAYOUT);
 		return props.getString("view.quranLayout");
 	}
 
@@ -797,5 +828,9 @@ public class ApplicationConfig implements ConfigNaming {
 		indexCreator.indexQuranTextSilently(mode, path, stdout);
 		props.setProperty("index.quran.done", "true");
 		saveConfig();
+	}
+
+	public boolean isAudioEnabled() {
+		return props.getBoolean("audio.enabled");
 	}
 }

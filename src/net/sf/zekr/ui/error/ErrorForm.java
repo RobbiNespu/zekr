@@ -10,6 +10,7 @@ package net.sf.zekr.ui.error;
 
 import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.ui.BaseForm;
+import net.sf.zekr.ui.helper.FormUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
@@ -17,6 +18,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -32,7 +34,6 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ErrorForm extends BaseForm {
 	private Label message;
@@ -133,8 +134,15 @@ public class ErrorForm extends BaseForm {
 	}
 
 	public void show() {
-		shell.open();
 		shell.pack();
+		Point size = shell.getSize();
+		if (size.x > 600)
+			size.x = 600;
+		if (size.y > 400)
+			size.y = 400;
+		shell.setSize(size);
+		shell.setLocation(FormUtils.getScreenCenter(display, shell.getBounds()));
+		shell.open();
 		loopEver();
 	}
 

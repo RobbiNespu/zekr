@@ -29,11 +29,12 @@ public class HelpCommandHandler extends CommandHandler {
 		stdout.println("NOTE: Use only one or zero option at a time, otherwise extra options will be ignored.");
 		stdout.println("Options:");
 		stdout.println("    -clean <opt>\tRemove cached data or configurations.");
-		stdout.println("    \t\t\topt can be `cache', to clean cached data,");
-		stdout.println("    \t\t\t`config' to reset to default configurations,");
-		stdout.println("    \t\t\t`index-me' to remove indices for the current user,");
-		stdout.println("    \t\t\tand `index-all' to remove indices for all users,");
-		stdout.println("    \t\t\tor any combination of the above options separated with comma.");
+		stdout.println("    \t\t\topt can be `view-cache', to clean view-related cached data,");
+		stdout.println("    \t\t\t`playlist-cache', to clean playlist cache, `config' to");
+		stdout.println("    \t\t\treset to default configurations, `index-me' to remove");
+		stdout.println("    \t\t\tindices for the current user, `index-all' to remove");
+		stdout.println("    \t\t\tindices for all users, or any combination of the above");
+		stdout.println("    \t\t\toptions separated with comma.");
 		stdout.println("    -h, --help\t\tPrint this help message.");
 		stdout.println("    -index <opt>\tIndex Quran text. opt can be `me' or `all'");
 		stdout.println("    \t\t\tto index for the current user or all users respectively.");

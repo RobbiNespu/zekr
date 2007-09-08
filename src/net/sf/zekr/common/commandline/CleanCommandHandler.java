@@ -36,19 +36,28 @@ public class CleanCommandHandler extends CommandHandler {
 	public void execute() throws CommandException {
 		if (options.length <= 0)
 			throw new CommandException("No clean target specified. "
-					+ "Enter either `cache', `config', `index-me', or `index-all' as cleaning target.");
+					+ "Enter either `view-cache', `playlist-cache', `config', `index-me', `index-all',"
+					+ " `all' (for cleaning all the targets), or a combination of cleaning targets separated with comma.");
 		String targets = options[0];
 		StringTokenizer st = new StringTokenizer(targets, ",");
 		List delList = new ArrayList();
 		while (st.hasMoreTokens()) {
 			String target = st.nextToken();
-			if (target.trim().equals("cache")) {
-				delList.add(Naming.getCacheDir());
+			if (target.trim().equals("view-cache")) {
+				delList.add(Naming.getViewCacheDir());
+			} else if (target.trim().equals("playlist-cache")) {
+				delList.add(Naming.getAudioCacheDir());
 			} else if (target.trim().equals("config")) {
 				delList.add(Naming.getConfigDir());
 			} else if (target.trim().equals("index-me")) {
 				delList.add(Naming.getQuranIndexDir());
 			} else if (target.trim().equals("index-all")) {
+				delList.add(ApplicationPath.QURAN_INDEX_DIR);
+			} else if (target.trim().equals("all")) {
+				delList.add(Naming.getViewCacheDir());
+				delList.add(Naming.getAudioCacheDir());
+				delList.add(Naming.getConfigDir());
+				delList.add(Naming.getQuranIndexDir());
 				delList.add(ApplicationPath.QURAN_INDEX_DIR);
 			} else {
 				throw new CommandException("Invalid clean target: " + target);
