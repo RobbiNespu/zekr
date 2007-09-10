@@ -9,18 +9,20 @@
 
 package net.sf.zekr.engine.template;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranText;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class QuranViewTemplate extends AbstractQuranViewTemplate {
 
 	public QuranViewTemplate(IQuranText quran, int suraNum, int ayaNum) {
 		super(quran, suraNum, ayaNum);
 		engine.put("TEXT_LAYOUT", config.getViewProp("view.quranLayout"));
-		// put sura ayas
 		engine.put("AYA_LIST", quran.getSura(suraNum));
+		if (config.getViewLayout().equals(ApplicationConfig.SEPARATE_LAYOUT)) {
+			engine.put("AUDIO_DISABLED", Boolean.TRUE);
+		}
 	}
 }

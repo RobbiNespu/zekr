@@ -57,7 +57,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 	}
 
 	/**
-	 * Will put some initial properties into context:
+	 * Will put some initial properties into context (and some other):
 	 * <ul>
 	 * <li><tt>DIRECTION</tt>: "rtl" or "ltr" based on the current language pack</li>
 	 * <li><tt>TRANS_DIRECTION</tt>: "rtl" or "ltr" based on the current translation</li>
@@ -89,6 +89,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 		String cssDir = config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE + "/" : UriUtils.toUri(Naming
 				.getViewCacheDir());
 
+		engine.put("VIEW_LAYOUT", config.getViewLayout());
 		engine.put("APP_PATH", appPath);
 		engine.put("APP_VERSION", GlobalConfig.ZEKR_VERSION);
 		engine.put("UI_DIR", ApplicationPath.UI_DIR);
@@ -97,6 +98,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 		engine.put("UTILS", new VelocityUtils());
 		engine.put("I18N", new I18N(langEngine.getLocale()));
 		engine.put("RES", resource);
+		engine.put("AUDIO_DISABLED", new Boolean(!config.isAudioEnabled()));
 
 		engine.putAll(td.processedProps);
 	}

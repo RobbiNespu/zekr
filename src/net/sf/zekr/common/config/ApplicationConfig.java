@@ -566,6 +566,7 @@ public class ApplicationConfig implements ConfigNaming {
 					audioData.setPlaylistProvider(pc.getString("audio.playlist.provider"));
 
 					audioData.setAudioBaseUrl(pc.getString("audio.baseUrl"));
+					audioData.setAudioServerUrl(pc.getString("audio.serverUrl"));
 					audioData.setAudioFileName(pc.getString("audio.fileName"));
 					audioData.setAudioFileSuraPad(pc.getString("audio.fileName.suraPad"));
 					audioData.setAudioFileAyaPad(pc.getString("audio.fileName.ayaPad"));

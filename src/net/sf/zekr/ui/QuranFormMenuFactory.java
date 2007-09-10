@@ -844,4 +844,12 @@ public class QuranFormMenuFactory {
 			form.sendPlayerTogglePlayPause();
 	}
 
+	public void resetAudioMenuStatus() {
+		if (playItem.getData().equals("play"))
+			playerTogglePlayPause(false);
+	}
+
+	public void resetMenuStatus() {
+		resetAudioMenuStatus();
+	}
 }

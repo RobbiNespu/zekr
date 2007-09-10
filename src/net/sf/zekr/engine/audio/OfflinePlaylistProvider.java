@@ -18,7 +18,6 @@ import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.SuraProperties;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.server.HttpServer;
 import net.sf.zekr.engine.template.BaseViewTemplate;
 import net.sf.zekr.engine.template.TemplateTransformationException;
 
@@ -47,7 +46,7 @@ public class OfflinePlaylistProvider extends PlaylistProvider {
 				String s = StringUtils.leftPad(String.valueOf(suraNum), playlistSuraPad.length() + 1, playlistSuraPad);
 				fileName = StringUtils.replace(fileName, "{SURA}", s);
 			} else { // a playlist for the whole Quran
-				// do nothing
+				fileName = StringUtils.replace(fileName, "{SURA}", "all");
 			}
 			String playlistUrl = Naming.getAudioCacheDir() + "/" + fileName;
 
@@ -60,24 +59,24 @@ public class OfflinePlaylistProvider extends PlaylistProvider {
 			String suraPad = audioData.getAudioFileSuraPad();
 			String ayaPad = audioData.getAudioFileAyaPad();
 
+			// caching...
 			final String[] ayaParts = new String[290];
 			for (int ap = 0; ap < ayaParts.length; ap++) {
 				ayaParts[ap] = StringUtils.leftPad(String.valueOf(ap + 1), ayaPad.length() + 1, ayaPad);
 			}
-
 			final String[] suraParts = new String[120];
 			for (int sp = 0; sp < suraParts.length; sp++) {
 				suraParts[sp] = StringUtils.leftPad(String.valueOf(sp + 1), suraPad.length() + 1, suraPad);
 			}
+
 			QuranProperties quranProps = QuranProperties.getInstance();
-			String serverUrl = HttpServer.getServer().getUrl();
 
 			if (audioData.getPlaylistMode().equals(AudioData.SURA_PLAYLIST)) {
 				SuraProperties suraProps = quranProps.getSura(suraNum);
 				for (int aya = 0; aya < suraProps.getAyaCount(); aya++) {
 					String s = StringUtils.replace(filePattern, "{SURA}", suraParts[suraNum - 1]);
 					s = StringUtils.replace(s, "{AYA}", ayaParts[aya]);
-					String url = serverUrl + audioData.getAudioBaseUrl() + "/" + s;
+					String url = AudioUtils.getAudioUrl(audioData, s);
 					trackList.add(new Track(suraProps, aya + 1, url));
 				}
 			} else {
@@ -86,7 +85,7 @@ public class OfflinePlaylistProvider extends PlaylistProvider {
 					for (int aya = 0; aya < suraProps.getAyaCount(); aya++) {
 						String s = StringUtils.replace(filePattern, "{SURA}", suraParts[sura]);
 						s = StringUtils.replace(s, "{AYA}", ayaParts[aya]);
-						String url = serverUrl + audioData.getAudioBaseUrl() + "/" + s;
+						String url = AudioUtils.getAudioUrl(audioData, s);
 						trackList.add(new Track(suraProps, aya + 1, url));
 					}
 				}
@@ -108,10 +107,19 @@ public class OfflinePlaylistProvider extends PlaylistProvider {
 			engine.put("TRACK_LIST", trackList);
 			engine.put("AUDIO_DATA", audioData);
 
-			List specialItems = new ArrayList();
-			specialItems.add(new Integer(getSpecialItem(SPECIAL_PRESTART)));
-			specialItems.add(new Integer(getSpecialItem(SPECIAL_START)));
-			specialItems.add(new Integer(getSpecialItem(SPECIAL_END)));
+			ArrayList specialItems = new ArrayList();
+			if (audioData.getPrestartFileName() != null)
+				specialItems.add(AudioUtils.getAudioUrl(audioData, audioData.getPrestartFileName()));
+			else
+				specialItems.add("");
+			if (audioData.getStartFileName() != null)
+				specialItems.add(AudioUtils.getAudioUrl(audioData, audioData.getStartFileName()));
+			else
+				specialItems.add("");
+			if (audioData.getEndFileName() != null)
+				specialItems.add(AudioUtils.getAudioUrl(audioData, audioData.getEndFileName()));
+			else
+				specialItems.add("");
 			engine.put("SPECIAL_ITEM_LIST", specialItems);
 		}
 

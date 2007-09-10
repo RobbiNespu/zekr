@@ -30,6 +30,7 @@ public abstract class AbstractSearchResultTemplate extends BaseViewTemplate {
 		this.matchDiac = matchDiac;
 
 		engine.put("KEYWORD", keyword);
+		engine.put("THISISSEARCH", Boolean.TRUE);
 		engine.put("ICON_TRANSLATE", resource.getString("icon.translate"));
 	}
 

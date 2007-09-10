@@ -13,7 +13,6 @@ import net.sf.zekr.common.resource.IQuranText;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class TranslationViewTemplate extends AbstractQuranViewTemplate {
 

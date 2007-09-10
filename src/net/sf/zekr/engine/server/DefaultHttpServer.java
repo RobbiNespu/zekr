@@ -41,8 +41,8 @@ public class DefaultHttpServer extends HttpServer {
 
 	public void run() {
 		try {
-			httpFacade = new NanoHttpd(
-					getServerPort()) {
+			logger.info("Starting HTTP server...");
+			httpFacade = new NanoHttpd(getServerPort()) {
 				private ApplicationConfig config = ApplicationConfig.getInstance();
 
 				public Response serve(String uri, String method, Properties header, Properties parms) {
@@ -51,25 +51,6 @@ public class DefaultHttpServer extends HttpServer {
 					}
 					if (Boolean.valueOf(config.getProps().getString("server.http.log")).booleanValue())
 						logger.debug("serving URI: " + uri);
-					// String baseDir = ".";
-					// if (uri.startsWith("/" + HttpResourceNaming.CACHED_RESOURCE)) {
-					// baseDir = Naming.getCacheDir();
-					// uri = uri.substring(1 + HttpResourceNaming.CACHED_RESOURCE.length());
-					// } else if (uri.startsWith("/" + HttpResourceNaming.WORKSPACE_OR_BASE_RESOURCE)) {
-					// baseDir = Naming.getWorkspace();
-					// uri = uri.substring(1 + HttpResourceNaming.WORKSPACE_OR_BASE_RESOURCE.length());
-					// if (!new File(baseDir, uri).exists()) {
-					// baseDir = GlobalConfig.RUNTIME_DIR;
-					// uri = uri.substring(1 + HttpResourceNaming.WORKSPACE_OR_BASE_RESOURCE.length());
-					// }
-					// } else if (uri.startsWith("/" + HttpResourceNaming.WORKSPACE_RESOURCE)) {
-					// baseDir = Naming.getWorkspace();
-					// uri = uri.substring(1 + HttpResourceNaming.WORKSPACE_RESOURCE.length());
-					// } else {
-					// baseDir = GlobalConfig.RUNTIME_DIR;
-					// if (uri.startsWith("/" + HttpResourceNaming.BASE_RESOURCE))
-					// uri = uri.substring(1 + HttpResourceNaming.BASE_RESOURCE.length());
-					// }
 					String path = toRealPath(uri.substring(1));
 					if (!new File(path).exists())
 						return new Response(HTTP_NOTFOUND, MIME_PLAINTEXT, "File not found.");
@@ -97,6 +78,7 @@ public class DefaultHttpServer extends HttpServer {
 					return true;
 				}
 			};
+			logger.info("HTTP server is listening on: " + getUrl());
 		} catch (IOException ioe) {
 			logger.error("HTTP server cannot be started due to the next error.");
 			logger.implicitLog(ioe);
@@ -105,7 +87,7 @@ public class DefaultHttpServer extends HttpServer {
 		while (true) {
 			try {
 				// do nothing, there is a saparate waiting thread for each request.
-				Thread.sleep(200);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				logger.info("HTTP Server terminated.");
 			}

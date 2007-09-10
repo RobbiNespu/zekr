@@ -184,6 +184,11 @@ public class QuranForm extends BaseForm {
 	private Spinner searchPaginationSpinner;
 	private Button nextPageBut, prevPageBut;
 
+	/** a state specifying if this is the first aya user focuses on */
+	private boolean firstTimePlaying;
+	/** specifies if audio player automatically brings user to the next sura */
+	private boolean playerAutoNextSura = false;
+
 	private Listener globalKeyListener = new Listener() {
 		public void handleEvent(Event event) {
 			if (NAV_BUTTON.equals(event.widget.getData())) {
@@ -300,6 +305,7 @@ public class QuranForm extends BaseForm {
 		try {
 			config.getRuntime().recreateViewCache();
 			suraChanged = true;
+			qmf.resetMenuStatus();
 			apply();
 		} catch (IOException e) {
 			logger.log(e);
@@ -391,22 +397,40 @@ public class QuranForm extends BaseForm {
 						transBrowser.execute("window.status='';"); // clear the status text
 
 					if (message.startsWith("ZEKR::GOTO")) {
-						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
-						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
+						int sura;
+						int aya;
+						try {
+							sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
+							aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
+						} catch (NumberFormatException e) {
+							return; // do nothing
+						}
 						if (sura < 1 || aya < 1)
 							return; // do nothing
 						logger.info("Goto (" + sura + ", " + aya + ")");
 						gotoSuraAya(sura, aya);
 					} else if (message.startsWith("ZEKR::NAVTO")) {
-						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
-						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
+						int sura;
+						int aya;
+						try {
+							sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
+							aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
+						} catch (NumberFormatException e) {
+							return; // do nothing
+						}
 						if (sura < 1 || aya < 1)
 							return; // do nothing
 						logger.info("Goto (" + aya + ")");
 						gotoAya(sura, aya);
 					} else if (message.startsWith("ZEKR::TRANS") && config.getTranslation().getDefault() != null) {
-						int sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
-						int aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
+						int sura;
+						int aya;
+						try {
+							sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
+							aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
+						} catch (NumberFormatException e1) {
+							return; // do nothing
+						}
 						PopupBox pe = null;
 						if (searchTarget == QURAN_ONLY) {
 							logger.info("Show translation: (" + sura + ", " + aya + ")");
@@ -433,10 +457,10 @@ public class QuranForm extends BaseForm {
 						playerTogglePlayPause();
 					} else if (message.startsWith("ZEKR::PLAYER_STOP")) {
 						playerStop();
+					} else if (message.startsWith("ZEKR::PLAYER_NEXT_SURA")) {
+						playerAutoNextSura = true;
 					} else if (message.startsWith("ZEKR::PLAYER_CONT")) {
-						String contSura = message.substring(message.indexOf(' '), message.indexOf('-')).trim();
-						String contAya = message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim();
-						config.getProps().setProperty("audio.continuousSura", contSura);
+						String contAya = message.substring(message.indexOf(' ') + 1, message.indexOf(';')).trim();
 						config.getProps().setProperty("audio.continuousAya", contAya);
 					}
 				}
@@ -1142,17 +1166,17 @@ public class QuranForm extends BaseForm {
 
 		qpl = new ProgressAdapter() {
 			public void completed(ProgressEvent event) {
-				if (ayaChanged) {
-					focusOnAya(quranBrowser, sura, aya);
-				}
+				// if (ayaChanged) {
+				focusOnAya(quranBrowser, sura, aya);
+				// }
 				quranBrowser.removeProgressListener(this);
 			}
 		};
 		tpl = new ProgressAdapter() {
 			public void completed(ProgressEvent event) {
-				if (ayaChanged) {
-					focusOnAya(transBrowser, sura, aya);
-				}
+				// if (ayaChanged) {
+				focusOnAya(transBrowser, sura, aya);
+				// }
 				transBrowser.removeProgressListener(this);
 			}
 		};
@@ -1182,10 +1206,15 @@ public class QuranForm extends BaseForm {
 	}
 
 	private String getMiscOptions() {
-		// TODO: check if audio is enabled
 		PropertiesConfiguration p = config.getProps();
-		return p.getProperty("audio.volume") + "," + p.getProperty("audio.continuousSura") + ","
-				+ p.getProperty("audio.continuousAya");
+		String ret = null;
+		if (config.isAudioEnabled()) {
+			ret = "{volume:" + p.getProperty("audio.volume") + ",contAya:" + p.getProperty("audio.continuousAya")
+					+ ",firstTime:" + firstTimePlaying + ",autoPlay:" + playerAutoNextSura + "}";
+			firstTimePlaying = false;
+			playerAutoNextSura = false;
+		}
+		return ret;
 	}
 
 	private void updateQuranView() {

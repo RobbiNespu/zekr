@@ -13,6 +13,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
@@ -20,6 +21,7 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.IRangedQuranText;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.RangedQuranText;
+import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.audio.PlaylistProvider;
 import net.sf.zekr.engine.log.Logger;
@@ -277,6 +279,14 @@ public class HtmlRepository {
 	private static void addPlaylistProvider(int sura, ITransformer transformer) throws Exception {
 		PlaylistProvider playlistProvider = config.getAudio().getCurrent().newPlaylistProvider(sura);
 		String playlistPath = playlistProvider.providePlaylist();
+
+		List list = new ArrayList();
+		list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_PRESTART)));
+		list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_START)));
+		list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_END)));
+		transformer.setProperty("SPECIAL_INDEX_LIST", CollectionUtils.toSimpleJson(list));
+
+		transformer.setProperty("AUDIO_ENABLED", Boolean.valueOf(config.isAudioEnabled()));
 
 		transformer.setProperty("VOLUME", config.getProps().getProperty("audio.volume"));
 		transformer.setProperty("AUD_CONT_SURA", config.getProps().getProperty("audio.continuousSura"));

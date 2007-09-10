@@ -33,6 +33,7 @@ public class AudioData {
 	private String playlistFileName;
 	private String playlistSuraPad;
 
+	private String audioServerUrl;
 	private String audioBaseUrl;
 	private String audioFileName;
 	private String audioFileAyaPad;
@@ -87,15 +88,18 @@ public class AudioData {
 		this.license = license;
 	}
 
+	public String getAudioServerUrl() {
+		return audioServerUrl;
+	}
+
+	public void setAudioServerUrl(String audioServerUrl) {
+		this.audioServerUrl = audioServerUrl;
+	}
+
 	public String getAudioBaseUrl() {
 		return audioBaseUrl;
 	}
 
-	/**
-	 * Should always have a trailing slash, so that it can be concatenated with audio file name.
-	 * 
-	 * @return audio file base URL
-	 */
 	public void setAudioBaseUrl(String audioBaseUrl) {
 		this.audioBaseUrl = audioBaseUrl;
 	}
@@ -203,5 +207,13 @@ public class AudioData {
 
 	public String toString() {
 		return "AUDIO: " + getReciter();
+	}
+
+	/**
+	 * @param fileName
+	 * @return relative URL for the audio file name
+	 */
+	public String getRelativeAudioUrl(String fileName) {
+		return getAudioBaseUrl() + "/" + fileName;
 	}
 }
