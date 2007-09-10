@@ -106,6 +106,7 @@
 			<text id="PAGE" value="صفحه" />
 			<text id="MULTILINE" value="چندخطی" />
 			<text id="TOGGLE" value="باز/بسته" />
+			<text id="AUDIO" value="صوت"   />
 			<text id="CONTINUOUS" value="پیوسته"   />
 			<text id="DISCRETE" value="گسسته"   />
 			<text id="PLAY" value="پخش"   />
