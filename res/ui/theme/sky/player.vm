@@ -9,6 +9,7 @@
 <input type="hidden" id="hiddenContinuousAyaPlay" value="$AUD_CONT_AYA" />
 <input type="hidden" id="hiddenContinuousSuraPlay" value="$AUD_CONT_SURA" />
 <input type="hidden" id="hiddenPlaylistItemArray" value="$UTILS.items2JsArray($PLAYLIST_PROVIDER, $SURA_NUM)" />
+<input type="hidden" id="hiddenSpecialItemArray" value="$SPECIAL_INDEX_LIST" />
 <input type="hidden" id="prestartAudioItem" value="$PLAYLIST_PROVIDER.getSpecialItem('prestart')" />
 <input type="hidden" id="startAudioItem" value="$PLAYLIST_PROVIDER.getSpecialItem('start')" />
 <input type="hidden" id="endAudioItem" value="$PLAYLIST_PROVIDER.getSpecialItem('end')" />
@@ -27,19 +28,10 @@
 
 #set($CONT_AYA_ICON = $RES.getString('theme.icon.contAya'))
 #set($DISC_AYA_ICON = $RES.getString('theme.icon.noContAya'))
-#set($CONT_SURA_ICON = $RES.getString('theme.icon.contSura'))
-#set($DISC_SURA_ICON = $RES.getString('theme.icon.noContSura'))
-#set($CONT_AYA_TEXT = $DICT.getMeaning('CONT_AYA'))
-#set($DISC_AYA_TEXT= $DICT.getMeaning('DISC_AYA'))
-#set($CONT_SURA_TEXT = $DICT.getMeaning('CONT_SURA'))
-#set($DISC_SURA_TEXT = $DICT.getMeaning('DISC_SURA'))
+#set($CONT_AYA_TEXT = $DICT.getMeaning('CONTINUOUS'))
+#set($DISC_AYA_TEXT= $DICT.getMeaning('DISCRETE'))
 #if($AUD_CONT_AYA=='true') #set($SURA_BUT_STAT = '') #else #set($SURA_BUT_STAT = 'disabled="true"') #end
 	<td><div class="reciterBar" id="reciterBar"></div></td>
-	<td width="25"><button id="contSuraButton" title="#if($AUD_CONT_SURA=='true')$CONT_SURA_TEXT#else$DISC_SURA_TEXT#end"
-		style="width: 25px; height: 25px" onclick="toggleSuraButton(this)" $SURA_BUT_STAT __state="$AUD_CONT_SURA"
-		__title="#if($AUD_CONT_SURA=='true')$DISC_SURA_TEXT#else$CONT_SURA_TEXT#end">
-		<img src="#if($AUD_CONT_SURA=='true')$CONT_SURA_ICON#else$DISC_SURA_ICON#end"
-		__icon="#if($AUD_CONT_SURA=='true')$DISC_SURA_ICON#else$CONT_SURA_ICON#end" alt="" /></button></td>
 	<td width="25"><button id="contAyaButton" title="#if($AUD_CONT_AYA=='true')$CONT_AYA_TEXT#else$DISC_AYA_TEXT#end"
 		style="width: 25px; height: 25px" onclick="toggleAyaButton(this)" __state="$AUD_CONT_AYA"
 		__title="#if($AUD_CONT_AYA=='true')$DISC_AYA_TEXT#else$CONT_AYA_TEXT#end">

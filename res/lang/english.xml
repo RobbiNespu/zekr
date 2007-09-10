@@ -78,8 +78,8 @@
 			<text id="DESCRIPTION" value="Description" />
 			<text id="BOOKMARKS" value="Bookmarks" />
 			<text id="CONFIGURE" value="Configure" />
-			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set"   />
-			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets"   />
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set" />
+			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets" />
 			<text id="DIRECTION" value="Direction" />
 			<text id="LANG_DIRECTION" value="Language direction" />
 			<text id="RTL" value="Right to left" />
@@ -94,18 +94,23 @@
 			<text id="OVERWRITE" value="Overwrite" />
 			<text id="SAVE" value="Save" />
 			<text id="PATH" value="Path" />
-			<text id="SHOW_REFS" value="Show References"   />
+			<text id="SHOW_REFS" value="Show References" />
 			<text id="MOVE_UP" value="Move up" />
 			<text id="MOVE_DOWN" value="Move down" />
-			<text id="MULTI_TRANS" value="Multi-translation"   /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
+			<text id="MULTI_TRANS" value="Multi-translation" /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
 			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations" />
 			<text id="GO" value="Go" />
-			<text id="CAUTION" value="Caution"   />
-			<text id="ADVANCED" value="Advanced"   />
-			<text id="QUERY_DETAIL" value="Query detail"   />
-			<text id="PAGE" value="Page"   />
-			<text id="MULTILINE" value="Multiline"   />
-			<text id="TOGGLE" value="Toggle"   />
+			<text id="CAUTION" value="Caution" />
+			<text id="ADVANCED" value="Advanced" />
+			<text id="QUERY_DETAIL" value="Query detail" />
+			<text id="PAGE" value="Page" />
+			<text id="MULTILINE" value="Multiline" />
+			<text id="TOGGLE" value="Toggle" />
+			<text id="CONTINUOUS" value="Continuous"   />
+			<text id="DISCRETE" value="Discrete"   />
+			<text id="PLAY" value="Play"   />
+			<text id="PAUSE" value="Pause"   />
+			<text id="STOP" value="Stop"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />
@@ -130,7 +135,7 @@
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="Search result for: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} results found in {2} ayas." />
-			<text id="SEARCH_PAGE" value="Page {1} of {2}"   />
+			<text id="SEARCH_PAGE" value="Page {1} of {2}" />
 			<text id="TOO_MANY_RESULT" value="Search result is more than {1} ayas" />
 			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?" />
 			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect." />
@@ -162,9 +167,9 @@
 			<text id="CURRENT_PAGE" value="Current page" />
 			<text id="QURAN_SCOPE" value="Quran"   />
 			<text id="TRANSLATION_SCOPE" value="Translation"   />
-			<text id="NATURAL_ORDER" value="Natural Order"   />
-			<text id="RELEVANCE" value="Relevance"   />
-			<text id="SORT_BY" value="Sort results by"   />
+			<text id="NATURAL_ORDER" value="Natural Order" />
+			<text id="RELEVANCE" value="Relevance" />
+			<text id="SORT_BY" value="Sort results by" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS" value="Theme"   />
@@ -176,7 +181,7 @@
 			<text id="THEME_SETTING" value="Theme settings" />
 			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied." />
 			<text id="MAX_SEARCH_RESULT" value="Maximum search result count" />
-			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane"   />
+			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configure Search Scope" />
@@ -191,23 +196,23 @@
 			<text id="TITLE" value="Edit Search Scopes" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Edit Bookmark Set: {1}"   />
+			<text id="TITLE" value="Edit Bookmark Set: {1}" />
 			<text id="NEW_BOOKMARK_FOLDER" value="New bookmark folder" />
 			<text id="NEW_BOOKMARK_ITEM" value="New bookmark item" />
 			<text id="UNIQUE_NAME" value="A unique name" />
-			<text id="COMMA_SEPARATED" value="Separate multiple authors by commas"   />
+			<text id="COMMA_SEPARATED" value="Separate multiple authors by commas" />
 			<text id="ONLY_ENGLISH" value="Use only English names (e.g. English, Persian, Arabic, ...)" />
 			<text id="DESC_TOOLTIP" value="Conventions, quotes, references, and other bookmark-related topics go here" />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
-			<text id="TITLE" value="Manage Bookmark Sets"   />
+			<text id="TITLE" value="Manage Bookmark Sets" />
 			<text id="DBL_CLICK" value="Double click on items to load and/or edit them." />
 			<text id="SET_AS_DEFAULT" value="Do you want to set &quot;{1}&quot; as your default bookmark set?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Cannot remove default bookmark." />
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="Cannot overwrite on the default bookmark set. Select another bookmark set as default, and try to import." />
 			<text id="ENTER_ID" value="Enter the bookmark ID" />
 			<text id="NEW_BOOKMARK_SET" value="New Bookmark Set" />
-			<text id="EXPORT4WEB" value="Export for Web"   />
+			<text id="EXPORT4WEB" value="Export for Web" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Edit Bookmark" />
@@ -232,9 +237,9 @@
 			<text id="CURRENT" value="Currently used translations" />
 		</form>
 		<form id="PROGRESS">
-			<text id="PLEASE_WAIT" value="Please wait"   />
-			<text id="INDEXING" value="Indexing"   /><!-- The process of indexing a document for faster search -->
-			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed."   />
+			<text id="PLEASE_WAIT" value="Please wait" />
+			<text id="INDEXING" value="Indexing" /><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed." />
 		</form>
 	</forms>
 </language>

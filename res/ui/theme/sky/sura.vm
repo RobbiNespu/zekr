@@ -35,6 +35,7 @@ window.res = null;
 <input type="hidden" id="hiddenSuraNum" value="$SURA_NUM" />
 <input type="hidden" id="hiddenAyaNum" value="$AYA_NUM" />
 <input type="hidden" id="hiddenAyaCount" value="$UTILS.arraySize($AYA_LIST)" />
+<input type="hidden" id="hiddenAudioEnabled" value="$AUDIO_ENABLED" />
 <div id="headerBar" class="headerBar" dir="${DIRECTION}">
 	<table width="100%" style="padding: 0px; margin: 0px" cellspacing="0" cellpadding="0">
 		<tr valign="middle"><td align="$LEAD">
@@ -55,8 +56,9 @@ window.res = null;
 	</table>
 </div>
 
+#if(!$AUDIO_DISABLED)
 #parse("$THEME_DIR/player.vm")
-<textarea id="messageArea" cols="60" rows="8"></textarea>
+#end
 
 <script>
 $("input#suraNav,input#ayaNav").bind("keyup", function(e) {

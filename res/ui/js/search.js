@@ -218,3 +218,79 @@ find = function(str, matchDiac, matchCase) {
 		$("#nextPrevButtons")[0]._res = new CurrentPageSearchResult();
 	});
 };
+
+
+SearchResult = function() {
+	var cnt;
+	var num = 0;
+	var oldNum = 0;
+	var list;
+	$(document).ready(function() {
+		try{
+			cnt = $("div.searchResult/div").size();
+			list = $("div.searchResult/div");
+		} catch(e) {error(e); return;}
+		focus();
+	});
+
+	this.next = function() {
+		if (num < cnt - 1) { oldNum = num; num++; focus(); }
+	};
+
+	this.prev = function() {
+		if (num > 0) { oldNum = num; num--; focus(); }
+	};
+
+	function focus() {
+		if (cnt <= 0)
+			return;
+		var h = list.eq(num).height();
+
+		var bh = getBrowserHeight();
+		$("#result_" + (1+oldNum)).children("div").attr("className", "item");
+		$("#result_" + (1+num)).children("div").attr("className", "selectedAya").ScrollTo(500, 'original', bh > h  ? bh/5 : 0);
+
+		var suraAya = $("#itemNum_" + (1+num)).attr("title").split('-');
+		$("#suraNum").val(suraAya[0]);
+		$("#ayaNum").val(suraAya[1]);
+		
+	};
+};
+
+CurrentPageSearchResult = function() {
+	var cnt;
+	var num = 0;
+	var oldNum = 0;
+	var list;
+	$(document).ready(function() {
+		try{
+			list = $("span.jsHighlight");
+			cnt = list.size();
+		} catch(e) {error(e); return;}
+		if (cnt > 0)
+			focus();
+	});
+
+	this.next = function() {
+		if (cnt <= 0) return;
+		oldNum = num;
+		num < cnt - 1 ? num++ : num = 0;
+		focus();
+	};
+
+	this.prev = function() {
+		if (cnt <= 0) return;
+		oldNum = num;
+		num > 0 ? num-- : num = cnt - 1; 
+		focus(); 
+	};
+
+	function focus() {
+		var h = list.eq(num).height();
+		var bh = getBrowserHeight();
+		var item = list.get(num);
+		$("#focusedWord").html("\"" + $(item).text() + "\"");
+		$(list.get(oldNum)).attr("className", "jsHighlight");
+		$(item).ScrollTo(500, 'original', bh > h  ? bh/5 : 0).attr("className", "jsHighlightFocused");
+	};
+};
