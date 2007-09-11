@@ -434,18 +434,18 @@ public class QuranFormMenuFactory {
 			}
 		});
 
-		MenuItem nextPlayItem = new MenuItem(audioMenu, SWT.CASCADE);
-		nextPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("NEXT")));
-		nextPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerPrev")));
+		//MenuItem nextPlayItem = new MenuItem(audioMenu, SWT.CASCADE);
+		//nextPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("NEXT")));
+		//nextPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerPrev")));
 
-		MenuItem prevPlayItem = new MenuItem(audioMenu, SWT.CASCADE);
-		prevPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("PREV")));
-		prevPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerNext")));
+		//MenuItem prevPlayItem = new MenuItem(audioMenu, SWT.CASCADE);
+		//prevPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("PREV")));
+		//prevPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerNext")));
 
 		if (config.getAudio().getCurrent() == null) {
 			playItem.setEnabled(false);
-			nextPlayItem.setEnabled(false);
-			prevPlayItem.setEnabled(false);
+			//nextPlayItem.setEnabled(false);
+			//prevPlayItem.setEnabled(false);
 		}
 
 		new MenuItem(audioMenu, SWT.SEPARATOR);
