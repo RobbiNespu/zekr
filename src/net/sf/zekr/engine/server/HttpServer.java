@@ -47,11 +47,10 @@ public abstract class HttpServer implements Runnable, HttpResourceNaming {
 	abstract public int getPort();
 
 	/**
-	 * @return canonical (fully qualified name) HTTP server address. Examples are <tt>"localhost"</tt> and
-	 *         <tt>"zekr.org"</tt>.
+	 * @return HTTP server address. Examples are <tt>"192.168.0.1"</tt> and <tt>"127.0.0.1"</tt>.
 	 * @throws HttpServerRuntimeException
 	 */
-	abstract public String getCanonicalAddress() throws HttpServerRuntimeException;
+	abstract public String getAddress() throws HttpServerRuntimeException;
 
 	/**
 	 * @return HTTP server URL with a trailing slash. Examples are: <tt>"http://localhost:8920/"</tt> and
@@ -60,7 +59,7 @@ public abstract class HttpServer implements Runnable, HttpResourceNaming {
 	 */
 	public String getUrl() throws HttpServerRuntimeException {
 		try {
-			return UriUtils.toHttpUrl(getCanonicalAddress(), getPort());
+			return UriUtils.toHttpUrl(getAddress(), getPort());
 		} catch (Exception e) {
 			throw new HttpServerRuntimeException(e);
 		}

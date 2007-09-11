@@ -1157,6 +1157,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	protected void updateView() {
+		qmf.setAudioMenuEnabled(true);
 		final int aya = ayaSelector.getSelectionIndex() + 1;
 		final int sura = suraSelector.getSelectionIndex() + 1;
 
@@ -1246,6 +1247,8 @@ public class QuranForm extends BaseForm {
 	}
 
 	private void advancedFind() {
+		doPreFind();
+
 		String str;
 		if (toggleMultiLine.getSelection())
 			str = advancedSearchBox.getText();
@@ -1300,11 +1303,17 @@ public class QuranForm extends BaseForm {
 		}
 	}
 
+	private void doPreFind() {
+		qmf.setAudioMenuEnabled(false);
+		qmf.resetAudioMenuStatus();
+	}
+
 	/**
 	 * @param pageNo
 	 *           one-based page number. 0 means the first page.
 	 */
 	private void advancedFindGoto(int pageNo) {
+		doPreFind();
 		try {
 			if (qts == null) {
 				logger.error("Advanced search is not done yet!");
@@ -1339,6 +1348,8 @@ public class QuranForm extends BaseForm {
 	}
 
 	private void find() {
+		doPreFind();
+
 		String str = searchCombo.getText();
 		Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
 

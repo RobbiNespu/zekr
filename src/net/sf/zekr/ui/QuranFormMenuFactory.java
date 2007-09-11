@@ -56,8 +56,9 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
 /**
+ * This is not a real factory class, but in fact hides menu creation and updating details from <code>QuranForm</code>.
+ * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class QuranFormMenuFactory {
 	Shell shell;
@@ -93,6 +94,7 @@ public class QuranFormMenuFactory {
 	private Menu transMenu;
 	private MenuItem customTransList;
 	private Menu audioMenu;
+	private MenuItem audioItem;
 	private MenuItem playItem;
 	private MenuItem stopItem;
 
@@ -407,11 +409,11 @@ public class QuranFormMenuFactory {
 			transBlockLayoutItem.setSelection(true);
 
 		// ---- Audio ------
-		MenuItem audio = new MenuItem(menu, SWT.CASCADE | direction);
-		audio.setText(FormUtils.addAmpersand(lang.getMeaning("AUDIO")));
+		audioItem = new MenuItem(menu, SWT.CASCADE | direction);
+		audioItem.setText(FormUtils.addAmpersand(lang.getMeaning("AUDIO")));
 
 		audioMenu = new Menu(shell, SWT.DROP_DOWN | direction);
-		audio.setMenu(audioMenu);
+		audioItem.setMenu(audioMenu);
 
 		playItem = new MenuItem(audioMenu, SWT.CASCADE);
 		playItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.play")));
@@ -433,6 +435,8 @@ public class QuranFormMenuFactory {
 				playerStop(true);
 			}
 		});
+
+		audioItem.setEnabled(config.isAudioEnabled());
 
 		//MenuItem nextPlayItem = new MenuItem(audioMenu, SWT.CASCADE);
 		//nextPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("NEXT")));
@@ -509,6 +513,15 @@ public class QuranFormMenuFactory {
 		themeAddItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				importTheme();
+			}
+		});
+
+		MenuItem recitationAddItem = new MenuItem(addMenu, SWT.CASCADE | direction);
+		recitationAddItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.addPlaylist")));
+		recitationAddItem.setText(FormUtils.addAmpersand(lang.getMeaning("RECITATION") + "..."));
+		recitationAddItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				importPlaylist();
 			}
 		});
 
@@ -725,6 +738,40 @@ public class QuranFormMenuFactory {
 		}
 	}
 
+	private void importPlaylist() {
+		String destDir = ApplicationPath.AUDIO_DIR;
+		try {
+			List list = MessageBoxUtils.importFileDialog(shell, new String[] { "*.properties Recitation Files" },
+					new String[] { "*.properties" });
+			if (list.size() <= 0)
+				return;
+
+			int result = MessageBoxUtils.radioQuestionPrompt(
+					new String[] { lang.getMeaningById("IMPORT_QUESTION", "ME_ONLY"),
+							lang.getMeaningById("IMPORT_QUESTION", "ALL_USERS") }, lang.getMeaningById("IMPORT_QUESTION",
+							"IMPORT_FOR"), lang.getMeaning("QUESTION"));
+
+			if (result == -1)
+				return;
+
+			if (result == 0) // import for "me only"
+				destDir = Naming.getAudioDir();
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				File file2Import = (File) iterator.next();
+
+				logger.info("Copy recitation playlist \"" + file2Import.getName() + "\" to " + destDir);
+				FileUtils.copyFile(file2Import, new File(destDir + "/" + file2Import.getName()));
+
+				logger.debug("Importing recitation playlist done successfully.");
+			}
+
+			MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
+		} catch (IOException e) {
+			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			logger.implicitLog(e);
+		}
+	}
+
 	private void export() {
 		try {
 			File f = MessageBoxUtils.exportFileDialog(shell, new String[] { "HTML Files", "All Files (*.*)" },
@@ -851,5 +898,9 @@ public class QuranFormMenuFactory {
 
 	public void resetMenuStatus() {
 		resetAudioMenuStatus();
+	}
+
+	public void setAudioMenuEnabled(boolean state) {
+		audioItem.setEnabled(state);
 	}
 }

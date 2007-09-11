@@ -115,8 +115,8 @@ public class DefaultHttpServer extends HttpServer {
 		}
 	}
 
-	public String getCanonicalAddress() throws HttpServerRuntimeException {
-		return getServerName();
+	public String getAddress() throws HttpServerRuntimeException {
+		return getServerAddress();
 	}
 
 	public int getPort() {
