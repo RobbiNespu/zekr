@@ -88,7 +88,7 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 
 		regBound = region.getBounds();
 		int y1 = regBound.height + regBound.y;
-		region.add(21, y1, regBound.width - 42, PROGRESS_BAR_HEIGHT + 6);
+		region.add(0, y1, regBound.width, PROGRESS_BAR_HEIGHT);
 
 		shell.setRegion(region);
 
@@ -96,8 +96,8 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 			public void paintControl(PaintEvent e) {
 				int height = imageData.height;
 				e.gc.drawImage(splashImage, 0, 0);
-				e.gc.setForeground(display.getSystemColor(SWT.COLOR_BLUE));
-				e.gc.drawText(StringUtils.abbreviate(progressMsg, 40), 110, height - 20, true);
+				e.gc.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
+				e.gc.drawText(StringUtils.abbreviate(progressMsg, 40), 10, height - 270, true);
 			}
 		});
 		regBound = region.getBounds();
@@ -107,7 +107,7 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 		progBar = new ProgressBar(shell, SWT.SMOOTH | SWT.HORIZONTAL);
 		progBar.setSelection(progressCount);
 		Point shellSize = shell.getSize();
-		progBar.setBounds(21, shellSize.y - 10, shellSize.x - 42, PROGRESS_BAR_HEIGHT);
+		progBar.setBounds(0, shellSize.y - 10, shellSize.x, PROGRESS_BAR_HEIGHT);
 	}
 
 	public void showSplash() {
