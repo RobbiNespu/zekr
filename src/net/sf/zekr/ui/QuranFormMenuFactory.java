@@ -418,7 +418,7 @@ public class QuranFormMenuFactory {
 		playItem = new MenuItem(audioMenu, SWT.CASCADE);
 		playItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.play")));
 		playItem.setData("pause"); // state
-		playItem.setText(FormUtils.addAmpersand(lang.getMeaning("PLAY") + "\tCtrl+SHIFT+P"));
+		playItem.setText(FormUtils.addAmpersand(lang.getMeaning("PLAY") + "\tCtrl+Shift+P"));
 		playItem.setAccelerator(SWT.CTRL | SWT.SHIFT | 'P');
 		playItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -428,7 +428,7 @@ public class QuranFormMenuFactory {
 
 		stopItem = new MenuItem(audioMenu, SWT.CASCADE);
 		stopItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.stop")));
-		stopItem.setText(FormUtils.addAmpersand(lang.getMeaning("STOP") + "\tCtrl+SHIFT+S"));
+		stopItem.setText(FormUtils.addAmpersand(lang.getMeaning("STOP") + "\tCtrl+Shift+S"));
 		stopItem.setAccelerator(SWT.CTRL | SWT.SHIFT | 'S');
 		stopItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
