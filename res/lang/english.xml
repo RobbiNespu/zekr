@@ -112,6 +112,7 @@
 			<text id="PLAY" value="Play"   />
 			<text id="PAUSE" value="Pause"   />
 			<text id="STOP" value="Stop"   />
+			<text id="RECITATION" value="Recitation"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />
