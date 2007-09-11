@@ -6,11 +6,11 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.6.0" />
+	<property name="component_version" value="0.6.5" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="distdir" value="D:\java\Programs\Zekr\dist\0.6.0\final\develdist" />
+	<property name="distdir" value="D:\java\Programs\Zekr\dist\0.6.5\final\develdist" />
 
 	<property name="srcdir" value="src" />
 	<property name="libdir" value="lib" />
@@ -176,6 +176,7 @@
 				<include name="doc/epl-1.0.txt" />
 				<include name="doc/lgpl-2.1.txt" />
 				<include name="doc/zekr-license.txt" />
+				<include name="doc/nanohttpd-license.txt" />
 				<include name="doc/readme.txt" />
 			</fileset>
 			<fileset dir=".">

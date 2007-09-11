@@ -9,8 +9,8 @@
 			<title>$TRACK.Sura.Name ($TRACK.Sura.Index) - $TRACK.Aya</title>
 			<location>$TRACK.Url</location>
 		</track>#end
-		#foreach ($SPECIAL_ITEM in $SPECIAL_ITEM_LIST)<track>
+#*		#foreach ($SPECIAL_ITEM in $SPECIAL_ITEM_LIST)<track>
 			<location>$SPECIAL_ITEM</location>
-		</track>#end
+		</track>#end  *#
 	</trackList>
 </playlist>

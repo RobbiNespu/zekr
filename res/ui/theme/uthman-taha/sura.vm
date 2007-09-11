@@ -3,7 +3,7 @@
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
- * @version 1
+ * @author Mohsen Saboorian
  *#
 #set( $BISM_PATH = "res/image/bism290.gif" )
 #if($TRANSLATION == "true")
@@ -33,8 +33,10 @@
 <script>
 window.res = null;
 </script>
-<input type="hidden" id="hiddenSuraNum" value="${SURA_NUM}" />
-<input type="hidden" id="hiddenAyaNum" value="${AYA_NUM}" />
+<input type="hidden" id="hiddenSuraNum" value="$SURA_NUM" />
+<input type="hidden" id="hiddenAyaNum" value="$AYA_NUM" />
+<input type="hidden" id="hiddenAyaCount" value="$UTILS.arraySize($AYA_LIST)" />
+<input type="hidden" id="hiddenAudioEnabled" value="$AUDIO_ENABLED" />
 <div id="headerBar" class="headerBar" dir="${DIRECTION}">
 	<table width="100%" style="padding: 0px; margin: 0px" cellspacing="0" cellpadding="0">
 		<tr valign="middle"><td align="$LEAD">
@@ -54,12 +56,13 @@ window.res = null;
 		</td></tr>
 	</table>
 </div>
+
+#if(!$AUDIO_DISABLED)
+#parse("$THEME_DIR/player.vm")
+#end
+
 <script>
-$("input#ayaNav").keyup(function(e) {
-	if (e.keyCode == 13 || e.keyCode == 10)
-		navtoSuraAya();
-});
-$("input#suraNav").keyup(function(e) {
+$("input#suraNav,input#ayaNav").bind("keyup", function(e) {
 	if (e.keyCode == 13 || e.keyCode == 10)
 		navtoSuraAya();
 });

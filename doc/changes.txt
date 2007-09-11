@@ -353,7 +353,7 @@ Bug fixes:
 	Mac run script fixed to accept command lines.
 	Uthman Taha search font fixed on Mozilla/Safari. (changes applied to CSS files to affect only IE)
 
-Version 0.7.0beta1 - [25-9-07]
+Version 0.6.5 (Zekr Ramadan Edition) - [12-9-07]
 Features/Enhancements:
 	ID 1775169 - set the columns in the Details section of the task pane now depends on the length of the translation. The size of the add and remove button in the ConfigureCustomTranslations form also depend on the length of their translations.
 	ID 1777467 - keyboard shortcuts activated in the menu. <language>.xml can now use &amp; to indicate which key to use.
@@ -371,6 +371,15 @@ Features/Enhancements:
     When upgrading Zekr to a newer version, user's configurations (config.properties) are migrated to new one, keeping old properties and adding new properties (previously config file was replaced with new one, and all user old properties was lost)
     -clean option change: 'cache' -> 'view-cache'. Another cache removal option added: 'playlist-cache', to remove cached recitation playlists.
     Sura detail column widths are updated on table update (based on the size of its content).
+    utils.js splitted into nav.js and common.js.
+    Basic recitation support
+    	Recitation files are files of type *.properties. In this files playlist URL provider, playlist file name, audio file names and some reciter-related meta data exists. User can add more recitation files through Tools>Add>Recitation menu item.
+    	User can choose to play/pause current selected aya through Audio menu or player bar.
+    	User can choose to play ayas continuously, playing an aya after another (in a single sura).
+    	Audio support may be fully disabled by setting audio.enabled properties in config file. When audio support is disabled, Audio menu items is also disabled and no player bar is shown.
+    	OfflinePlaylistProvider creates offline playlists in audio cache dir (by default: ~/.zekr/audio/cache), which then can be used to play local or remote files.
+    	OnlinePlaylistProvider provides a URL to a remote playlist.
+    Lucene updated to 2.2.0 release.
 Bug fixes:
     ID 1783882 - All OK, CANCEL, and APPLY buttons now depend on the length of the translation
     ID 1783886 - The hint in ManageBookMarkSets now fully shows

@@ -112,6 +112,7 @@
 			<text id="PLAY" value="پخش"   />
 			<text id="PAUSE" value="مکث"   />
 			<text id="STOP" value="توقف"   />
+			<text id="RECITATION" value="قرائت"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />

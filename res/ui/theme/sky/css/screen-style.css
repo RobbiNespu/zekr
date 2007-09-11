@@ -57,7 +57,7 @@ td.searchBarTop {
 }
 
 div.bodyBottom {
-	height: 30px;
+	height: 40px;
 }
 
 div.headerBar, div.footerBar { /* IE 5.0+ */
@@ -94,12 +94,13 @@ html>body div.headerBar, html>body div.footerBar { /* Override some properties f
 	right: 2px;
 }
 
-html>body div.footerBar {
-	-moz-opacity: 0.75;
-	opacity: 0.75;
+html>body div.headerBar {
+	top: 2px;
 }
 
 html>body div.footerBar {
+	-moz-opacity: 0.75;
+	opacity: 0.75;
 	bottom: 2px;
 }
 
