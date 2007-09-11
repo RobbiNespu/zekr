@@ -13,7 +13,7 @@
 <input type="hidden" id="prestartAudioItem" value="$PLAYLIST_PROVIDER.getSpecialItem('prestart')" />
 <input type="hidden" id="startAudioItem" value="$PLAYLIST_PROVIDER.getSpecialItem('start')" />
 <input type="hidden" id="endAudioItem" value="$PLAYLIST_PROVIDER.getSpecialItem('end')" />
-<div id="footerBar" align="center" class="footerBar" dir="${DIRECTION}">
+<div id="footerBar" align="center" class="footerBar" dir="ltr">
 <table><tr>
 	<td width="40"><button id="playButton" title="$DICT.getMeaning('PLAY')" style="padding: 0px 5px" __state="false"
 	__title="$DICT.getMeaning('PAUSE')" onclick="togglePlayPause();">

@@ -101,7 +101,6 @@ function getUpdate(tp, p1, p2, pid) {
 	} else if(tp == "state") {
 		// 0=pause, 1=buffering, 2=playing, 3=completed
 		player.state = p1;
-		// if (p1 == 2 || p1 == 1) player.playing = true;
 		if (p1 == 0) {
 			//if (player.playing && !player.butPressed) { _toggleButton($('#playButton')); player.playing = false; player.butPressed = false; }
 		} else if (p1 == 1 || p1 == 3) {
@@ -116,10 +115,10 @@ function getUpdate(tp, p1, p2, pid) {
 			}
 		}
 		if (player.state == 3 && player.index + 1 == $('#hiddenAyaCount').val()) { // end of list
-			var s;
+			player.locked = true;
 			player.stop();
-			var s = $('#hiddenSuraNum').val();
-			gotoSuraAya(s + '-' + 1);
+			togglePlayPause($('#playButton'));
+			playerOnLoad();
 		} else if (player.state == 3 && player.index + 1 > $('#hiddenAyaCount').val()) { // playing a special item
 			s = (parseInt($('#hiddenSuraNum').val()) - 1);
 			a = eval($('#hiddenSpecialItemArray').val());
@@ -160,13 +159,11 @@ function swtTogglePlayPause() {
 function togglePlayPause() { player.butPressed = true; swtTogglePlayPause(); setMessage('ZEKR::PLAYER_PLAYPAUSE'); }
 
 function swtStopPlayer() {
-	// if (player.playing) _toggleButton($('#playButton'));
 	player.stop();
 }
 function stopPlayer() {
 	player.butPressed = true;
 	if (player.playing)
-//		_toggleButton($('#playButton'));
 		swtTogglePlayPause();
 	swtStopPlayer();
 	setMessage('ZEKR::PLAYER_STOP');
