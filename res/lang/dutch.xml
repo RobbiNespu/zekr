@@ -53,7 +53,7 @@
 			<text id="PREV_SURA" value="Vorige soera" />
 			<text id="THEME" value="T&amp;hema" />
 			<text id="LAYOUT" value="Opmaak" />
-			<text id="TOOLS"   value="Gereedschap" />
+			<text id="TOOLS"   value="Ge&amp;reedschap" />
 			<text id="ADD"   value="Toevoegen" />
 			<text id="DELETE" value="Wissen" />
 			<text id="REMOVE" value="Verwijder" />
@@ -106,6 +106,13 @@
 			<text id="PAGE" value="Pagina" />
 			<text id="MULTILINE" value="Over meerdere lijnen" />
 			<text id="TOGGLE" value="Aan/Uit" />
+			<text id="AUDIO" value="Geluid" />
+			<text id="CONTINUOUS" value="Herhaal" />
+			<text id="DISCRETE" value="Eenmalig" />
+			<text id="PLAY" value="Speel af" />
+			<text id="PAUSE" value="Pauze" />
+			<text id="STOP" value="Stop" />
+			<text id="RECITATION" value="Recitatie" />
 		</common>
 		<special>
 			<text id="QURAN"  value="Koran" />
