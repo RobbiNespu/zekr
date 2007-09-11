@@ -33,6 +33,7 @@
 <script>
 window.res = null;
 </script>
+#set ($AUDIO_ENABLED = !($AUDIO_DISABLED == true))
 <input type="hidden" id="hiddenSuraNum" value="$SURA_NUM" />
 <input type="hidden" id="hiddenAyaNum" value="$AYA_NUM" />
 <input type="hidden" id="hiddenAyaCount" value="$UTILS.arraySize($AYA_LIST)" />
@@ -57,7 +58,7 @@ window.res = null;
 	</table>
 </div>
 
-#if(!$AUDIO_DISABLED)
+#if(!$AUDIO_DISABLED && (!($VIEW_LAYOUT == "separate") || $TRANSLATION == "true"))
 #parse("$THEME_DIR/player.vm")
 #end
 

@@ -7,8 +7,8 @@ SetCompressor /SOLID lzma
 # Defines
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_UNIX_NAME "zekr"
-!define VERSION 0.6.0.0
-!define RELEASE_VERSION "0.6.0"
+!define VERSION 0.6.5.0
+!define RELEASE_VERSION "0.6.5"
 !define COMPANY siahe.com
 !define URL http://siahe.com/zekr
 
@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.0\final\win"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.5\final\win"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -80,6 +80,7 @@ Var JDK_HOME
 !insertmacro MUI_LANGUAGE Romanian
 !insertmacro MUI_LANGUAGE Russian
 !insertmacro MUI_LANGUAGE Turkish
+!insertmacro MUI_LANGUAGE Pashto
 
 # Installer attributes
 BrandingText "The Zekr Project"
@@ -109,7 +110,7 @@ Section -Main SEC0000
 
     ; Arabic font copy
     SetOverwrite try
-    File "/oname=$WINDIR\Fonts\me_quran_volt_newmet.ttf" "${BASE_APP}\..\..\me_quran_volt_mark2.ttf"
+    File "/oname=$WINDIR\Fonts\me_quran_volt_newmet.ttf" "${BASE_APP}\..\..\me_quran_volt_newmet.ttf"
 
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
@@ -379,3 +380,4 @@ LangString ^UninstallLink ${LANG_PORTUGUESE} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_ROMANIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_RUSSIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_TURKISH} "Uninstall $(^Name)"
+LangString ^UninstallLink ${LANG_PASHTO} "Uninstall $(^Name)"

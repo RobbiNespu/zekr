@@ -380,6 +380,7 @@ Features/Enhancements:
     	OfflinePlaylistProvider creates offline playlists in audio cache dir (by default: ~/.zekr/audio/cache), which then can be used to play local or remote files.
     	OnlinePlaylistProvider provides a URL to a remote playlist.
     Lucene updated to 2.2.0 release.
+    Splash screen updated for Ramadan Edition.
 Bug fixes:
     ID 1783882 - All OK, CANCEL, and APPLY buttons now depend on the length of the translation
     ID 1783886 - The hint in ManageBookMarkSets now fully shows

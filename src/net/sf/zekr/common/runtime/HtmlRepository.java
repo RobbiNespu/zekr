@@ -277,22 +277,25 @@ public class HtmlRepository {
 	}
 
 	private static void addPlaylistProvider(int sura, ITransformer transformer) throws Exception {
-		PlaylistProvider playlistProvider = config.getAudio().getCurrent().newPlaylistProvider(sura);
-		String playlistPath = playlistProvider.providePlaylist();
+		if (config.getAudio().getCurrent() == null) {
+			transformer.setProperty("AUDIO_DISABLED", Boolean.TRUE);
+		} else {
+			transformer.setProperty("AUDIO_DISABLED", Boolean.valueOf(!config.isAudioEnabled()));
+			PlaylistProvider playlistProvider = config.getAudio().getCurrent().newPlaylistProvider(sura);
+			String playlistPath = playlistProvider.providePlaylist();
 
-		List list = new ArrayList();
-		list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_PRESTART)));
-		list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_START)));
-		list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_END)));
-		transformer.setProperty("SPECIAL_INDEX_LIST", CollectionUtils.toSimpleJson(list));
+			List list = new ArrayList();
+			list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_PRESTART)));
+			list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_START)));
+			list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_END)));
+			transformer.setProperty("SPECIAL_INDEX_LIST", CollectionUtils.toSimpleJson(list));
 
-		transformer.setProperty("AUDIO_ENABLED", Boolean.valueOf(config.isAudioEnabled()));
-
-		transformer.setProperty("VOLUME", config.getProps().getProperty("audio.volume"));
-		transformer.setProperty("AUD_CONT_SURA", config.getProps().getProperty("audio.continuousSura"));
-		transformer.setProperty("AUD_CONT_AYA", config.getProps().getProperty("audio.continuousAya"));
-		transformer.setProperty("PLAYLIST_PROVIDER", playlistProvider);
-		transformer.setProperty("PLAYLIST_URL", HttpServer.getServer().toUrl(playlistPath));
+			transformer.setProperty("VOLUME", config.getProps().getProperty("audio.volume"));
+			transformer.setProperty("AUD_CONT_SURA", config.getProps().getProperty("audio.continuousSura"));
+			transformer.setProperty("AUD_CONT_AYA", config.getProps().getProperty("audio.continuousAya"));
+			transformer.setProperty("PLAYLIST_PROVIDER", playlistProvider);
+			transformer.setProperty("PLAYLIST_URL", HttpServer.getServer().toUrl(playlistPath));
+		}
 	}
 
 }

@@ -22,7 +22,7 @@ public class QuranViewTemplate extends AbstractQuranViewTemplate {
 		engine.put("TEXT_LAYOUT", config.getViewProp("view.quranLayout"));
 		engine.put("AYA_LIST", quran.getSura(suraNum));
 		if (config.getViewLayout().equals(ApplicationConfig.SEPARATE_LAYOUT)) {
-			engine.put("AUDIO_DISABLED", Boolean.TRUE);
+//			engine.put("NO_AUDIO", Boolean.TRUE);
 		}
 	}
 }

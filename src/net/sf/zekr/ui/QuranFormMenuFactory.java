@@ -438,18 +438,19 @@ public class QuranFormMenuFactory {
 
 		audioItem.setEnabled(config.isAudioEnabled());
 
-		//MenuItem nextPlayItem = new MenuItem(audioMenu, SWT.CASCADE);
-		//nextPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("NEXT")));
-		//nextPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerPrev")));
+		// MenuItem nextPlayItem = new MenuItem(audioMenu, SWT.CASCADE);
+		// nextPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("NEXT")));
+		// nextPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerPrev")));
 
-		//MenuItem prevPlayItem = new MenuItem(audioMenu, SWT.CASCADE);
-		//prevPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("PREV")));
-		//prevPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerNext")));
+		// MenuItem prevPlayItem = new MenuItem(audioMenu, SWT.CASCADE);
+		// prevPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("PREV")));
+		// prevPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerNext")));
 
 		if (config.getAudio().getCurrent() == null) {
 			playItem.setEnabled(false);
-			//nextPlayItem.setEnabled(false);
-			//prevPlayItem.setEnabled(false);
+			stopItem.setEnabled(false);
+			// nextPlayItem.setEnabled(false);
+			// prevPlayItem.setEnabled(false);
 		}
 
 		new MenuItem(audioMenu, SWT.SEPARATOR);
@@ -460,25 +461,28 @@ public class QuranFormMenuFactory {
 		recitationName.setText(FormUtils.addAmpersand(lang.getMeaning("RECITATION")));
 		Menu recitationListMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		recitationName.setMenu(recitationListMenu);
-		Collection recitationList = config.getAudio().getAllAudio();
-		for (Iterator iter = recitationList.iterator(); iter.hasNext();) {
-			AudioData ad = (AudioData) iter.next();
-			final MenuItem audioItem = new MenuItem(recitationListMenu, SWT.RADIO);
-			audioItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playlistItem")));
-			audioItem.setText(StringUtils.abbreviate(ad.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH));
-			audioItem.setData(ad.getId());
-			if (config.getAudio().getCurrent().getId().equals(audioItem.getData()))
-				audioItem.setSelection(true);
-			audioItem.addListener(SWT.Selection, new Listener() {
-				public void handleEvent(Event event) {
-					MenuItem mi = (MenuItem) event.widget;
-					if (mi.getSelection() == true) {
-						if (!config.getAudio().getCurrent().getId().equals(audioItem.getData())) {
-							setAudio((String) mi.getData());
+
+		if (config.getAudio().getCurrent() != null) {
+			Collection recitationList = config.getAudio().getAllAudio();
+			for (Iterator iter = recitationList.iterator(); iter.hasNext();) {
+				AudioData ad = (AudioData) iter.next();
+				final MenuItem audioItem = new MenuItem(recitationListMenu, SWT.RADIO);
+				audioItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playlistItem")));
+				audioItem.setText(StringUtils.abbreviate(ad.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH));
+				audioItem.setData(ad.getId());
+				if (config.getAudio().getCurrent().getId().equals(audioItem.getData()))
+					audioItem.setSelection(true);
+				audioItem.addListener(SWT.Selection, new Listener() {
+					public void handleEvent(Event event) {
+						MenuItem mi = (MenuItem) event.widget;
+						if (mi.getSelection() == true) {
+							if (!config.getAudio().getCurrent().getId().equals(audioItem.getData())) {
+								setAudio((String) mi.getData());
+							}
 						}
 					}
-				}
-			});
+				});
+			}
 		}
 
 		// ---- Bookmarks -----

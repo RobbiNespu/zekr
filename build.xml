@@ -34,7 +34,7 @@
 	<property name="dev_export.zip" value="${build_distdir}/${distfilename}-${component_version}.zip" />
 
 	<!-- Excevution tags -->
-	<property name="debug" value="off" />
+	<property name="debug" value="no" />
 	<property name="verbose" value="no" />
 
 	<!-- Distribution structure -->
@@ -63,8 +63,8 @@
 	<property name="swt.jar" value="${libdir}/swt-3.3.0.jar" />
 	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
-	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.1.1-dev.jar" />
-	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.1.0.jar" />
+	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.2.0.jar" />
+	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.2.0.jar" />
 	<property name="apache-commons.jar" value="${libdir}/apache-commons.jar" />
 
 	<!-- 3rd Party Dependencies  -->
