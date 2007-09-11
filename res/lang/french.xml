@@ -106,6 +106,13 @@
 			<text id="PAGE" value="Page"   />
 			<text id="MULTILINE" value="Multiline"   />
 			<text id="TOGGLE" value="Toggle"   />
+			<text id="AUDIO" value="Son"   />
+			<text id="CONTINUOUS" value="Répète"   />
+			<text id="DISCRETE" value="Discrète"   />
+			<text id="PLAY" value="Ècouter"   />
+			<text id="PAUSE" value="Pause"   />
+			<text id="STOP" value="Arrêter"   />
+			<text id="RECITATION" value="Recitation"   />
 		</common>
 		<special>
 			<text id="QURAN"  value="Coran" />
