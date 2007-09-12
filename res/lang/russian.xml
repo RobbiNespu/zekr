@@ -106,6 +106,13 @@
 			<text id="PAGE" value="Страница" />
 			<text id="MULTILINE" value="Несколько строк" />
 			<text id="TOGGLE" value="Развернуть" />
+			<text id="AUDIO" value="Аудио"   />
+			<text id="CONTINUOUS" value="Читать дальше"   />
+			<text id="DISCRETE" value="Читать только аят"   />
+			<text id="PLAY" value="Воспроизведение"   />
+			<text id="PAUSE" value="Пауза"   />
+			<text id="STOP" value="Стоп"   />
+			<text id="RECITATION" value="Выбрать чтеца"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Коран" />
