@@ -165,8 +165,8 @@ function stopPlayer() {
 	player.butPressed = true;
 	if (player.playing)
 		swtTogglePlayPause();
-	swtStopPlayer();
 	setMessage('ZEKR::PLAYER_STOP');
+	swtStopPlayer();
 }
 
 function toggleAyaButton() {
