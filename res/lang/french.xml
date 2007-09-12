@@ -106,7 +106,7 @@
 			<text id="PAGE" value="Page"   />
 			<text id="MULTILINE" value="Multiline"   />
 			<text id="TOGGLE" value="Toggle"   />
-			<text id="AUDIO" value="Son"   />
+			<text id="AUDIO" value="So&amp;n"   />
 			<text id="CONTINUOUS" value="Répète"   />
 			<text id="DISCRETE" value="Discrète"   />
 			<text id="PLAY" value="Ècouter"   />
