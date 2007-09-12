@@ -106,6 +106,13 @@
 			<text id="PAGE" value="Strana" />
 			<text id="MULTILINE" value="Višelinijski" />
 			<text id="TOGGLE" value="Preklopi" />
+			<text id="AUDIO" value="Audio"   />
+			<text id="CONTINUOUS" value="Neprekidno"   />
+			<text id="DISCRETE" value="Diskretno"   />
+			<text id="PLAY" value="Reproduciraj"   />
+			<text id="PAUSE" value="Pauziraj"   />
+			<text id="STOP" value="Stop"   />
+			<text id="RECITATION" value="Učenje"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Kur'an" />

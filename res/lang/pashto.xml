@@ -1,240 +1,247 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="سېف الله، قدرت الله او ذبيح الله" version="0.6">
-	<locale localizedName="پښتو" name="Pashto" id="ps_AF" direction="rtl" />
+<language author="پښتوسافټ.کام" version="0.6">
+	<locale localizedName="پښتو" name="Pashto" id="ps_AF" direction="rtl"/>
 	<word>
 		<common>
-			<text id="OK" value="ښه" />
-			<text id="CANCEL" value="بندکړه" />
-			<text id="YES" value="هو" />
-			<text id="NO" value="نه" />
-			<text id="APPLY" value="کړونی کړه" />
-			<text id="START" value="پېل" />
-			<text id="RESET" value="سم کړه" />
-			<text id="NEW" value="نوی" />
-			<text id="SAVE_AS" value="خوندي کړه" />
-			<text id="HELP" value="مرسته" />
-			<text id="EDIT" value="نښې ته بدلون ورکول" />
-			<text id="SEARCH" value="لټون" />
-			<text id="GOTO" value="ځه" />
-			<text id="VIEW" value="ښودنه" />
-			<text id="CLOSE" value="بندکړه" />
-			<text id="INSERT" value="اچول" />
-			<text id="DETAILS" value="ځانګړتيا" />
-			<text id="MORE" value="نور" />
-			<text id="NEXT" value="راتلونکی" />
-			<text id="PREVIOUS" value="مخکنی" />
-			<text id="REFRESH" value="تازه کړه" />
-			<text id="UPDATE" value="نوی کړه" ></text>
-			<text id="SHOW" value="وښيه" />
-			<text id="NAME" value="نوم" />
-			<text id="VALUE" value="ارزښت" />
-			<text id="NUMBER" value="شميره" />
-			<text id="OPTION" value="واك" />
-			<text id="FILE" value="سند" />
-			<text id="RELOAD" value="بيا راوستل" />
-			<text id="TYPE" value="ډول" />
-			<text id="MESSAGE" value="وېنا" />
-			<text id="BLOCK" value="بشپړ" />
-			<text id="LINE_BY_LINE" value="کرښه په کرښه" />
-			<text id="AND" value="او" />
-			<text id="COMMA" value="،" />
-			<text id="SYNCHRONOUS" value="سمدستي" />
-			<text id="ERROR" value="تېروتنه" />
-			<text id="LANGUAGE" value="ژبه" />
-			<text id="ABOUT" value="د پوستکالي په اړه" />
-			<text id="PRINT" value="چاپ کړه" />
-			<text id="HOMEPAGE" value="کورپاڼه" />
-			<text id="WHOLE_QURAN" value="ټول قران" />
-			<text id="MATCH_DIACRITIC" value="د نښو له مخې" />
-			<text id="MATCH_CASE" value="ورته توري" />
-			<text id="NEXT_AYA" value="راتلونكی ايت" />
-			<text id="NEXT_SURA" value="راتلونكی سورت" />
-			<text id="PREV_AYA" value="مخکنی ايت" />
-			<text id="PREV_SURA" value="مخکنی سورت" />
-			<text id="THEME" value="بڼه" />
-			<text id="LAYOUT"   value="ښودنه" />
-			<text id="TOOLS"    value="وسيلې" />
-			<text id="ADD"      value="زياتول" />
-			<text id="DELETE"   value="ختمول" />
-			<text id="REMOVE"   value="لېرې کول" />
-			<text id="TRANSLATION" value="ژباړه" />
-			<text id="TRANSLATION_VIEWTYPE" value="ژباړه"   />
-			<text id="OPEN"     value="پرانيستل" />
-			<text id="IMPORT"   value="راوړه" />
-			<text id="COPY"     value="کاپي کړه" />
-			<text id="SEPARATE" value="بېل" />
-			<text id="MIXED"    value="يوځاى" />
-			<text id="OPTIONS"  value="واك" />
-			<text id="QUESTION" value="پوښتنه" />
-			<text id="FONT"     value="ليکبڼه" />
-			<text id="GENERAL"  value="ساده" />
-			<text id="EXIT"     value="بند کړه" />
-			<text id="EXCLUDE"  value="وباسه" />
-			<text id="TRUE"     value="سم" />
-			<text id="FALSE"    value="ناسم" />
-			<text id="SELECT"   value="ټاكل" />
-			<text id="EXPORT"   value="ولېږه" />
-			<text id="IMPORT"   value="راوړه" />
-			<text id="DESCRIPTION" value="ځانګړتيا" />
-			<text id="BOOKMARKS" value="نښې" />
-			<text id="CONFIGURE" value="برابرول" />
-			<text id="EDIT_BOOKMARK_SET" value="د نښو سټ ته بدلون ورکول" />
-			<text id="MANAGE_BOOKMARK_SETS" value="د نښو د سټونو برابرول" />
-			<text id="DIRECTION" value="لور" />
-			<text id="LANG_DIRECTION" value="د ژبې لور" />
-			<text id="RTL"      value="ښي-چپ" />
-			<text id="LTR"      value="چپ-ښي" />
-			<text id="AUTHOR"   value="ليکوال" />
-			<text id="VERSION"  value="بڼه" />
-			<text id="RANDOM_AYA" value="ناټاکلی ايت" />
-			<text id="UNTITLED" value="بې سرليکه" />
-			<text id="SET_DEFAULT" value="لمړني کول" />
-			<text id="NOT_LOADED" value="رانه غی" />
-			<text id="ID"       value="دپېژندنې شمیره" />
-			<text id="OVERWRITE" value="دپاسه وليکه" />
-			<text id="SAVE"     value="خوندي کړه" />
-			<text id="PATH"     value="لار" />
-			<text id="SHOW_REFS" value="ګرځون وښیه" />
-			<text id="MOVE_UP" value="وړاندې کړه" />
-			<text id="MOVE_DOWN" value="وروسته کړه" />
-			<text id="MULTI_TRANS" value="د خوښې ژباړې يوځای" /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
-			<text id="CONFIG_CUSTOM_TRANS" value="د خوښې ژباړې برابرول" />
-			<text id="GO" value="ځه" />
-			<text id="CAUTION" value="خبرداری" />
-			<text id="ADVANCED" value="پراخ لټون" />
-			<text id="QUERY_DETAIL" value="د لټون ځانګړتيا" />
-			<text id="PAGE" value="پاڼه" />
-			<text id="MULTILINE" value="ډېر کرښه ايز" />
-			<text id="TOGGLE" value="پرانېستل/بندول" />
+			<text id="OK" value="ښه"/>
+			<text id="CANCEL" value="بندکړه"/>
+			<text id="YES" value="هو"/>
+			<text id="NO" value="نه"/>
+			<text id="APPLY" value="کړونی کړه"/>
+			<text id="START" value="پېل"/>
+			<text id="RESET" value="سم کړه"/>
+			<text id="NEW" value="نوی"/>
+			<text id="SAVE_AS" value="خوندي کړه"/>
+			<text id="HELP" value="مرسته"/>
+			<text id="EDIT" value="نښې ته بدلون ورکول"/>
+			<text id="SEARCH" value="لټون"/>
+			<text id="GOTO" value="ځه"/>
+			<text id="VIEW" value="ښودنه"/>
+			<text id="CLOSE" value="بندکړه"/>
+			<text id="INSERT" value="اچول"/>
+			<text id="DETAILS" value="ځانګړتيا"/>
+			<text id="MORE" value="نور"/>
+			<text id="NEXT" value="راتلونکی"/>
+			<text id="PREVIOUS" value="مخکنی"/>
+			<text id="REFRESH" value="تازه کړه"/>
+			<text id="UPDATE" value="نوی کړه"/>
+			<text id="SHOW" value="وښيه"/>
+			<text id="NAME" value="نوم"/>
+			<text id="VALUE" value="ارزښت"/>
+			<text id="NUMBER" value="شميره"/>
+			<text id="OPTION" value="واك"/>
+			<text id="FILE" value="فاېل"/>
+			<text id="RELOAD" value="بيا راوستل"/>
+			<text id="TYPE" value="ډول"/>
+			<text id="MESSAGE" value="وېنا"/>
+			<text id="BLOCK" value="بشپړ"/>
+			<text id="LINE_BY_LINE" value="کرښه په کرښه"/>
+			<text id="AND" value="او"/>
+			<text id="COMMA" value="،"/>
+			<text id="SYNCHRONOUS" value="سمدستي"/>
+			<text id="ERROR" value="تېروتنه"/>
+			<text id="LANGUAGE" value="ژبه"/>
+			<text id="ABOUT" value="د پوستکالي په اړه"/>
+			<text id="PRINT" value="چاپ کړه"/>
+			<text id="HOMEPAGE" value="کورپاڼه"/>
+			<text id="WHOLE_QURAN" value="ټول کران"/>
+			<text id="MATCH_DIACRITIC" value="د نښو له مخې"/>
+			<text id="MATCH_CASE" value="ورته توري"/>
+			<text id="NEXT_AYA" value="راتلونكی ايت"/>
+			<text id="NEXT_SURA" value="راتلونكی سورت"/>
+			<text id="PREV_AYA" value="مخکنی ايت"/>
+			<text id="PREV_SURA" value="مخکنی سورت"/>
+			<text id="THEME" value="بڼه"/>
+			<text id="LAYOUT" value="ښودنه"/>
+			<text id="TOOLS" value="وسيلې"/>
+			<text id="ADD" value="زياتول"/>
+			<text id="DELETE" value="ختمول"/>
+			<text id="REMOVE" value="لېرې کړه"/>
+			<text id="TRANSLATION" value="ژباړه"/>
+			<text id="TRANSLATION_VIEWTYPE" value="د ژ&amp;باړې ښودنه"/>
+			<text id="OPEN" value="پرانيستل"/>
+			<text id="IMPORT" value="راوړه"/>
+			<text id="COPY" value="کاپي کړه"/>
+			<text id="SEPARATE" value="بېل"/>
+			<text id="MIXED" value="يوځاى"/>
+			<text id="OPTIONS" value="واك"/>
+			<text id="QUESTION" value="پوښتنه"/>
+			<text id="FONT" value="ليکبڼه"/>
+			<text id="GENERAL" value="ټولګړي"/>
+			<text id="EXIT" value="بند کړه"/>
+			<text id="EXCLUDE" value="وباسه"/>
+			<text id="TRUE" value="سم"/>
+			<text id="FALSE" value="ناسم"/>
+			<text id="SELECT" value="ټاكل"/>
+			<text id="EXPORT" value="ولېږه"/>
+			<text id="IMPORT" value="راوړه"/>
+			<text id="DESCRIPTION" value="ځانګړتيا"/>
+			<text id="BOOKMARKS" value="نښې"/>
+			<text id="CONFIGURE" value="برابرول"/>
+			<text id="EDIT_BOOKMARK_SET" value="د نښو سټ ته بدلون ورکول"/>
+			<text id="MANAGE_BOOKMARK_SETS" value="د نښو د سټونو برابرول"/>
+			<text id="DIRECTION" value="لور"/>
+			<text id="LANG_DIRECTION" value="د ژبې لور"/>
+			<text id="RTL" value="ښي-چپ"/>
+			<text id="LTR" value="چپ-ښي"/>
+			<text id="AUTHOR" value="ليکوال"/>
+			<text id="VERSION" value="بڼه"/>
+			<text id="RANDOM_AYA" value="ناټاکلی ايت"/>
+			<text id="UNTITLED" value="بې سرليکه"/>
+			<text id="SET_DEFAULT" value="لمړني کول"/>
+			<text id="NOT_LOADED" value="رانه غی"/>
+			<text id="ID" value="دپېژندنې شمیره"/>
+			<text id="OVERWRITE" value="دپاسه وليکه"/>
+			<text id="SAVE" value="خوندي کړه"/>
+			<text id="PATH" value="لار"/>
+			<text id="SHOW_REFS" value="ګرځون وښیه"/>
+			<text id="MOVE_UP" value="وړاندې کړه"/>
+			<text id="MOVE_DOWN" value="وروسته کړه"/>
+			<text id="MULTI_TRANS" value="د خوښې ژباړې يوځای"/> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
+			<text id="CONFIG_CUSTOM_TRANS" value="د خوښې ژباړې برابرول"/>
+			<text id="GO" value="ځه"/>
+			<text id="CAUTION" value="خبرداری"/>
+			<text id="ADVANCED" value="پراخ لټون"/>
+			<text id="QUERY_DETAIL" value="د لټون ځانګړتيا"/>
+			<text id="PAGE" value="پاڼه"/>
+			<text id="MULTILINE" value="ډېر کرښه ايز"/>
+			<text id="TOGGLE" value="پرانېستل/بندول"/>
+			<text id="AUDIO" value="غږ"/>
+			<text id="CONTINUOUS" value="پرله پسې"/>
+			<text id="DISCRETE" value="بېل بېل"/>
+			<text id="PLAY" value="ولګوه"/>
+			<text id="PAUSE" value="ودروه"/>
+			<text id="STOP" value="بندکړه"/>
+			<text id="RECITATION" value="لوستنه"/>
 		</common>
 		<special>
-			<text id="QURAN" value="قران" />
-			<text id="QURAN_VIEWTYPE" value="قران"   />
-			<text id="SURA" value="سورت" />
-			<text id="AYA" value="ايت" />
-			<text id="SAJDA" value="سجده" />
-			<text id="JUZ" value="پاره" />
-			<text id="HIZB"     value="حزب" />
-			<text id="QUARTER"  value="پاو" />
-			<text id="MAKKI" value="مکي" />
-			<text id="MADANI" value="مديني" />
-			<text id="DESCENT" value="نزول" />
-			<text id="AYA_COUNT" value="د ايتونو شمېر" />
-			<text id="MINOR_SAJDA" value="مستحبه سجده" /> <!-- Mustahab Sajda -->
-			<text id="MAJOR_SAJDA" value="واجبه سجده" />  <!-- Wajib Sajda -->
-			<text id="LOCATION" value="ځای" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baqara, aya 12 -->
+			<text id="QURAN" value="کران"/>
+			<text id="QURAN_VIEWTYPE" value="د ک&amp;ران ښودنه"/>
+			<text id="SURA" value="سورت"/>
+			<text id="AYA" value="ايت"/>
+			<text id="SAJDA" value="سجده"/>
+			<text id="JUZ" value="جز"/>
+			<text id="HIZB" value="حزب"/>
+			<text id="QUARTER" value="پاو"/>
+			<text id="MAKKI" value="مکي"/>
+			<text id="MADANI" value="مديني"/>
+			<text id="DESCENT" value="نزول"/>
+			<text id="AYA_COUNT" value="د ايتونو شمېر"/>
+			<text id="MINOR_SAJDA" value="مستحبه سجده"/> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="واجبه سجده"/>  <!-- Wajib Sajda -->
+			<text id="LOCATION" value="ځای"/> <!-- means a Quran location, e.g. 2-12 for sura Al-Baqara, aya 12 -->
 		</special>
 	</word>
 
 	<message>
 		<inform>
-			<text id="SEARCH_RESULT_TITLE" value="د &quot;{1}&quot; د لټون نتيجه" />
-			<text id="SEARCH_RESULT_COUNT" value="په {2} ايتونو کښې {1} نتيجې ترلاسه شوې" />
-			<text id="SEARCH_PAGE" value="{1} پاڼه د {2}" />
-			<text id="TOO_MANY_RESULT" value="د لټون نتيجه زياته ده له  {1} ايتونو څخه" />
-			<text id="FILE_ALREADY_EXISTS" value="&quot;{1}&quot; سند د مخکې نه موجود دی ايا بدلول يې غواړۍ؟" />
-			<text id="RESTART_APP" value=".د دې لپاره چې دا کړنې کړوني شي پوستکالی بند او بيا يې پرانيزۍ" />
+			<text id="SEARCH_RESULT_TITLE" value="د &quot;{1}&quot; د لټون پاېله"/>
+			<text id="SEARCH_RESULT_COUNT" value="په {2} ايتونو کښې {1} پاېلې ترلاسه شوې"/>
+			<text id="SEARCH_PAGE" value="{1} پاڼه د {2}"/>
+			<text id="TOO_MANY_RESULT" value="د لټون پاېله د {1} ايتونو څخه ډيره ده"/>
+			<text id="FILE_ALREADY_EXISTS" value="&quot;{1}&quot; فاېل د مخکې نه موجود دی ايا بدلول يې غواړۍ؟"/>
+			<text id="RESTART_APP" value=".د دې لپاره چې دا کړنې کړوني شي پوستکالی بند او بيا يې پرانيزۍ"/>
 		</inform>
 		<confirm>
-			<text id="YES_NO" value="په ډاډ سره؟" />
-			<text id="DEL_YES_NO" value="{1} د نښو سټونه ختمول غواړۍ؟" />
+			<text id="YES_NO" value="په ډاډ سره؟"/>
+			<text id="DEL_YES_NO" value="{1} د نښو سټونه ختمول غواړۍ؟"/>
 		</confirm>
 		<error>
-			<text id="GENERAL_ERROR" value="تېروتنه وشوه!" />
-			<text id="FNF" value="سند پيدا نشو!" />
-			<text id="ACTION_FAILED" value="کړنه مړاوې شوه!" />
+			<text id="GENERAL_ERROR" value="تېروتنه وشوه!"/>
+			<text id="FNF" value="فاېل پيدا نشو!"/>
+			<text id="ACTION_FAILED" value="کړنه مړاوې شوه!"/>
 		</error>
-		<hint></hint>
+		<hint/>
 	</message>
 
 	<forms>
 		<global>
-			<text id="APP_NAME" value="ذكر" />
-			<text id="APP_FULL_NAME" value="د ذکر د قران کريم پروژه" />
-			<text id="FORM_TITLE" value="ذكر" />
-                        <text id="COPYRIGHT_DISCLAIMER" value="دا پوستکالی پدې هيله وړيا وېشل کېږي چې تاسې د قران کريم هر سورت، ايت او د ژباړې  کتل په اسانۍ سره وکړی شۍ." />
+			<text id="APP_NAME" value="زكر"/>
+			<text id="APP_FULL_NAME" value="د زکر د کران کريم پروژه"/>
+			<text id="FORM_TITLE" value="زكر"/>
+			<text id="COPYRIGHT_DISCLAIMER" value="دا پوستکالی پدې هيله وړيا وېشل کېږي چې تاسې د کران کريم هر سورت، ايت او د ژباړې  کتل په اسانۍ سره وکړی شۍ."/>
 		</global>
 		<form id="QURAN_FORM">
-			<text id="TITLE" value="ذکر" />
-			<text id="NEW_SCOPE" value="نوې نښه" />
-			<text id="EDIT_SCOPES" value="نښې ته بدلون ورکول" />
-			<text id="NO_SCOPE" value="هېڅ يوه" />
-			<text id="CURRENT_PAGE" value="همدا پاڼه" />
-			<text id="QURAN_SCOPE" value="قران"   />
-			<text id="TRANSLATION_SCOPE" value="ژباړه"   />
-			<text id="NATURAL_ORDER" value="ساده ترتیب" />
-			<text id="RELEVANCE" value="يو ډول والي" />
-			<text id="SORT_BY" value="نتیجه برابره کړه په" />
+			<text id="TITLE" value="زکر"/>
+			<text id="NEW_SCOPE" value="نوې نښه"/>
+			<text id="EDIT_SCOPES" value="نښې ته بدلون ورکول"/>
+			<text id="NO_SCOPE" value="هېڅ يوه"/>
+			<text id="CURRENT_PAGE" value="همدا پاڼه"/>
+			<text id="QURAN_SCOPE" value="کران"/>
+			<text id="TRANSLATION_SCOPE" value="ژباړه"/>
+			<text id="NATURAL_ORDER" value="ساده ترتیب"/>
+			<text id="RELEVANCE" value="يو ډول والي"/>
+			<text id="SORT_BY" value="پاېلې برابره کړه په"/>
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="THEME_OPTIONS" value="بڼه"   />
-			<text id="GENERAL_OPTIONS"  value="ساده"   />
-			<text id="VIEW_OPTIONS" value="ښودنه"   />
-			<text id="TITLE" value="دپوستکالي واك" />
-			<text id="SHOW_SPLASH" value="په پېل کښې  د پوستکالي نښانه وښيه" />
-			<text id="NEW_KEY" value="نوې کيلي وليکۍ" />
-			<text id="THEME_SETTING" value="د بڼې برابرونه" />
-			<text id="PRESS_OK_TO_APPLY" value="د کړوني کولو لپاره &quot; ښه &quot; تکمې ته ټک ورکړۍ" />
-			<text id="MAX_SEARCH_RESULT" value="د لټون د نتيجې لوړه اندازه" />
-			<text id="RESIZEABLE_TASK_PANE" value="د ټاسک پېن د بدلون وړتيا" />
+			<text id="THEME_OPTIONS" value="بڼه"/>
+			<text id="GENERAL_OPTIONS" value="ټولګړي"/>
+			<text id="VIEW_OPTIONS" value="ښودنه"/>
+			<text id="TITLE" value="دپوستکالي واك"/>
+			<text id="SHOW_SPLASH" value="په پېل کښې  د پوستکالي نښانه وښيه"/>
+			<text id="NEW_KEY" value="نوې کيلي وليکۍ"/>
+			<text id="THEME_SETTING" value="د بڼې برابرونه"/>
+			<text id="PRESS_OK_TO_APPLY" value="د کړوني کولو لپاره &quot; ښه &quot; تکمې ته ټک ورکړۍ"/>
+			<text id="MAX_SEARCH_RESULT" value="د لټون د پاېلې لوړه اندازه"/>
+			<text id="RESIZEABLE_TASK_PANE" value="د ټاسک پېن د بدلون وړتيا"/>
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
-			<text id="TITLE" value="د لټون د نښې برابرونه" />
-			<text id="SEARCH_SCOPE" value="د لټون نښه" />
-			<text id="FROM_SURA" value="دی سورت نه" />
-			<text id="FROM_AYA" value="دی ايت نه" />
-			<text id="TO_SURA" value="تر دی سورت" />
-			<text id="TO_AYA" value="تردی ايت" /> 
-			<text id="ILLEGAL_SEARCH_SCOPE" value="د لټون نښه سمه نه ده" />
+			<text id="TITLE" value="د لټون د نښې برابرونه"/>
+			<text id="SEARCH_SCOPE" value="د لټون نښه"/>
+			<text id="FROM_SURA" value="دی سورت نه"/>
+			<text id="FROM_AYA" value="دی ايت نه"/>
+			<text id="TO_SURA" value="تر دی سورت"/>
+			<text id="TO_AYA" value="تردی ايت"/> 
+			<text id="ILLEGAL_SEARCH_SCOPE" value="د لټون نښه سمه نه ده"/>
 		</form>
 		<form id="MANAGE_SCOPES_FORM">
-			<text id="TITLE" value="د لټون نښې ته بدلون ورکول" />
+			<text id="TITLE" value="د لټون نښې ته بدلون ورکول"/>
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="د نښو د سټ برارونه: {1}" />
-			<text id="NEW_BOOKMARK_FOLDER" value="نوی د نښو فولډر" />
-			<text id="NEW_BOOKMARK_ITEM" value="نوې نښه" />
-			<text id="UNIQUE_NAME" value="يو بدل نوم" />
-			<text id="COMMA_SEPARATED" value="که ليکوالان زيات وي نو کامې نه ګټه واخلۍ" />
-			<text id="ONLY_ENGLISH" value="يوازې د انګريزي نومونو څخه ګټه واخلۍ لکه (English, Pashto, Arabic)" />
-			<text id="DESC_TOOLTIP" value="تړونونه، اخستنې، ګرځونونه، او نور څيزونه دلته دي" />
+			<text id="TITLE" value="د نښو د سټ برارونه: {1}"/>
+			<text id="NEW_BOOKMARK_FOLDER" value="نوی د نښو فولډر"/>
+			<text id="NEW_BOOKMARK_ITEM" value="نوې نښه"/>
+			<text id="UNIQUE_NAME" value="يو بدل نوم"/>
+			<text id="COMMA_SEPARATED" value="که ليکوالان زيات وي نو کامې نه ګټه واخلۍ"/>
+			<text id="ONLY_ENGLISH" value="يوازې د انګريزي نومونو څخه ګټه واخلۍ لکه (English, Pashto, Arabic)"/>
+			<text id="DESC_TOOLTIP" value="تړونونه، اخستنې، ګرځونونه، او نور څيزونه دلته دي"/>
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
-			<text id="TITLE" value="د نښو د سټ د ګروپ برارونه" />
-			<text id="DBL_CLICK" value="په يوې نښې دوه ټکه ورکړۍ چې رایې ولۍ او يا  پکښې بدلون راولۍ" />
-			<text id="SET_AS_DEFAULT" value="ايا تاسې غواړۍ چې &quot;{1}&quot; خپله لمړنۍ نښه وټاکۍ" />
-			<text id="CANNOT_REMOVE_DEFAULT" value=".لمړنۍ نښه له منځه نشۍ وړلی" />
-			<text id="CANNOT_OVERWRITE_DEFAULT" value="د نښو لمړني سټ دپاسه بل نشي راتلی. بل د نښو سټ خوښ کړۍ او لمړنی يې وټاکۍ، او د راوستلو کوښښ يې وکړۍ" />
-			<text id="ENTER_ID" value="نښې ته پېژندنه ورکړۍ" />
-			<text id="NEW_BOOKMARK_SET" value="د نښو نوی سټ" />
-			<text id="EXPORT4WEB" value="د وېب لپاره لېږل" />
+			<text id="TITLE" value="د نښو د سټ د ګروپ برارونه"/>
+			<text id="DBL_CLICK" value="په يوې نښې دوه ټکه ورکړۍ چې رایې ولۍ او يا  پکښې بدلون راولۍ"/>
+			<text id="SET_AS_DEFAULT" value="ايا تاسې غواړۍ چې &quot;{1}&quot; خپله لمړنۍ نښه وټاکۍ"/>
+			<text id="CANNOT_REMOVE_DEFAULT" value=".لمړنۍ نښه له منځه نشۍ وړلی"/>
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="د نښو لمړني سټ دپاسه بل نشي راتلی. بل د نښو سټ خوښ کړۍ او لمړنی يې وټاکۍ، او د راوستلو کوښښ يې وکړۍ"/>
+			<text id="ENTER_ID" value="نښې ته پېژندنه ورکړۍ"/>
+			<text id="NEW_BOOKMARK_SET" value="د نښو نوی سټ"/>
+			<text id="EXPORT4WEB" value="د وېب لپاره لېږل"/>
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
-			<text id="TITLE" value="د نښې بدلون" />
-			<text id="QURAN_LOCATIONS" value="د قران ځایونه" />
-			<text id="NEW_BOOKMARK" value="نوې نښه" />
-			<text id="NEW_FOLDER" value="نوی فولډر" />
+			<text id="TITLE" value="د نښې بدلون"/>
+			<text id="QURAN_LOCATIONS" value="د کران ځایونه"/>
+			<text id="NEW_BOOKMARK" value="نوې نښه"/>
+			<text id="NEW_FOLDER" value="نوی فولډر"/>
 		</form>
 		<form id="BOOKMARK_REF">
-			<text id="TITLE" value="د نښې ګرځون: {1}" />
+			<text id="TITLE" value="د نښې ګرځون: {1}"/>
 		</form>
 		<form id="IMPORT_QUESTION">
-			<text id="IMPORT_FOR" value="د لاندې كاروونكو لپاره يې راوړه:" />
-			<text id="ME_ONLY" value="يوازې ما لپاره" />
-			<text id="ALL_USERS" value="د ټولو كاروونكو لپاره (د پوستکالي په فولډر د ليکلو اجازې ته اړتيا لري)" />
-			<text id="FOLLOWING_USERS" value="د لاندې كاروونكو لپاره يې نښه کړه:" />
+			<text id="IMPORT_FOR" value=":د لاندې كاروونكو لپاره يې راوړه"/>
+			<text id="ME_ONLY" value="يوازې ما لپاره"/>
+			<text id="ALL_USERS" value="د ټولو كاروونكو لپاره (د پوستکالي په فولډر د ليکلو اجازې ته اړتيا لري)"/>
+			<text id="FOLLOWING_USERS" value=":د لاندې كاروونكو لپاره يې نښه کړه"/>
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
-			<text id="REMOVE_CUSTOM"   value="لېرې کول"   />
-			<text id="ADD_CUSTOM"      value="زياتول"   />
-			<text id="TITLE" value="د خپلې خوښې ژباړو برابرونه" />
-			<text id="AVAILABLE" value="لاس ته راتلونكې ژباړې:" />
-			<text id="CURRENT" value="اوسنۍ کارېدونکې ژباړې:" />
+			<text id="REMOVE_CUSTOM" value="مه کاروه"/>
+			<text id="ADD_CUSTOM" value="وکاروه"/>
+			<text id="TITLE" value="د خپلې خوښې ژباړو برابرونه"/>
+			<text id="AVAILABLE" value=":لاس ته راتلونكې ژباړې"/>
+			<text id="CURRENT" value=":اوسنۍ کارېدونکې ژباړې"/>
 		</form>
 		<form id="PROGRESS">
-			<text id="PLEASE_WAIT" value="مهرباني وکړۍ لږ صبر وکړۍ" />
-			<text id="INDEXING" value="د نښه کيدو کړنه پېل ده!" /><!-- The process of indexing a document for faster search -->
-			<text id="TAKE_TIME" value="دا كړنه به يو څو شيبې ونيسي، د نښه کيدونکې پاڼې  د اندازې پورې اړه لري" />
+			<text id="PLEASE_WAIT" value="مهرباني وکړۍ لږ زغم وکړۍ"/>
+			<text id="INDEXING" value="د نښه کيدو کړنه پېل ده!"/><!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="دا كړنه به يو څو شيبې ونيسي، د نښه کيدونکې پاڼې  د اندازې پورې اړه لري"/>
 		</form>
 	</forms>
 </language>
