@@ -156,7 +156,7 @@ function swtTogglePlayPause() {
 		player.playPause();
 	}
 }
-function togglePlayPause() { player.butPressed = true; swtTogglePlayPause(); setMessage('ZEKR::PLAYER_PLAYPAUSE'); }
+function togglePlayPause() { player.butPressed = true; setMessage('ZEKR::PLAYER_PLAYPAUSE;'); swtTogglePlayPause(); }
 
 function swtStopPlayer() {
 	player.stop();
