@@ -582,15 +582,24 @@ public class QuranFormMenuFactory {
 		form.gotoSuraAya(sura, aya);
 	}
 
+	private MenuItem getBookmarksMenu() {
+		for (int i = 0; i < menu.getItemCount(); i++) {
+			if ("bookmarks".equals(menu.getItem(i).getData())) {
+				return menu.getItem(i);
+			}
+		}
+		return null;
+	}
+
 	protected void createOrUpdateBookmarkMenu() {
 		Menu bookmarksMenu;
 		MenuItem bookmarks;
-		if (menu.getItemCount() > 2 && "bookmarks".equals(menu.getItem(2).getData())) {
-			bookmarks = menu.getItem(2);
-			bookmarksMenu = bookmarks.getMenu();
-			bookmarksMenu.dispose();
-		} else {
+
+		bookmarks = getBookmarksMenu();
+		if (bookmarks == null) {
 			bookmarks = new MenuItem(menu, SWT.CASCADE);
+		} else {
+			bookmarks.getMenu().dispose();
 		}
 
 		bookmarks.setText(FormUtils.addAmpersand(lang.getMeaning("BOOKMARKS")));

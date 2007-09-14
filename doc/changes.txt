@@ -386,6 +386,11 @@ Bug fixes:
     ID 1783886 - The hint in ManageBookMarkSets now fully shows
     TemplateEngine made non-singleton because of thread-safety issues.
 
+Version 0.7.0 (Zekr Ramadan Edition) - [12-9-07]
+Features/Enhancements:
+Bug fixes:
+	Bookmark sets are now saved by default as UTF-8, fixing the bug which caused bookmarks to save in file.encoding encoding.
+	Bug with QuranFormMenuFactory.createOrUpdateBookmarkMenu(), which caused new bookmarks menu to be created fixed.
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Change Javascript <-> SWT communication proticol. Better to use handler pattern for more clean code.

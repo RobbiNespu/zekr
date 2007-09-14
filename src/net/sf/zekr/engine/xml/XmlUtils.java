@@ -10,7 +10,6 @@
 package net.sf.zekr.engine.xml;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -151,9 +150,24 @@ public class XmlUtils {
 	 * @throws TransformerException
 	 */
 	public static void writeXml(Node node, File outputFile) throws TransformerException {
+		writeXml(node, outputFile, "UTF-8");
+	}
+
+	/**
+	 * Writes a <code>org.w3c.Node</code> object into an output file, specifying output file encoding.
+	 * 
+	 * @param node
+	 *           a {@link Node} object to be written to file
+	 * @param outputFile
+	 *           ouput file
+	 * @param encoding
+	 *           encoding of the output file
+	 * @throws TransformerException
+	 */
+	public static void writeXml(Node node, File outputFile, String encoding) throws TransformerException {
 		try {
-			writeXml(node, new OutputStreamWriter(new FileOutputStream(outputFile)));
-		} catch (FileNotFoundException e) {
+			writeXml(node, new OutputStreamWriter(new FileOutputStream(outputFile), encoding));
+		} catch (Exception e) {
 			throw new TransformerException(e);
 		}
 	}
