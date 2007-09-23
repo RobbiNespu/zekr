@@ -128,10 +128,14 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	private void startHttpServer() {
-		logger.info("Start HTTP server on port: " + getHttpServerPort());
-		httpServerThread = new Thread(HttpServer.getServer());
-		httpServerThread.setDaemon(true);
-		httpServerThread.start();
+		if (isHttpServerEnabled()) {
+			logger.info("Start HTTP server on port: " + getHttpServerPort());
+			httpServerThread = new Thread(HttpServer.getServer());
+			httpServerThread.setDaemon(true);
+			httpServerThread.start();
+		} else {
+			logger.info("HTTP server is disabled and will not start.");
+		}
 	}
 
 	public static ApplicationConfig getInstance() {

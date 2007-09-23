@@ -108,11 +108,7 @@ public class DefaultHttpServer extends HttpServer {
 	}
 
 	static String getServerAddress() throws HttpServerRuntimeException {
-		try {
-			return InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
-			throw new HttpServerRuntimeException(e);
-		}
+		return ApplicationConfig.getInstance().getProps().getString("server.http.address");
 	}
 
 	public String getAddress() throws HttpServerRuntimeException {

@@ -77,17 +77,19 @@ public abstract class BaseViewTemplate implements ITransformer {
 			engine.put("TRANS_LANG", config.getTranslation().getDefault().locale.getLanguage());
 		}
 
-		String serverUrl;
-		try {
-			serverUrl = HttpServer.getServer().getUrl();
-		} catch (HttpServerRuntimeException e) {
-			logger.error(e);
-			serverUrl = "http://localhost:" + config.getProps().getInt("server.http.port") + "/";
-		}
-
-		String appPath = config.isHttpServerEnabled() ? serverUrl : UriUtils.toUri(GlobalConfig.RUNTIME_DIR);
-		String cssDir = config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE + "/" : UriUtils.toUri(Naming
-				.getViewCacheDir());
+//		String serverUrl;
+//		try {
+//			serverUrl = HttpServer.getServer().getUrl();
+//		} catch (HttpServerRuntimeException e) {
+//			logger.error(e);
+//			serverUrl = "http://localhost:" + config.getProps().getInt("server.http.port") + "/";
+//		}
+//
+//		String appPath = config.isHttpServerEnabled() ? serverUrl : UriUtils.toUri(GlobalConfig.RUNTIME_DIR);
+//		String cssDir = config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE + "/" : UriUtils.toUri(Naming
+//				.getViewCacheDir());
+		String appPath = UriUtils.toUri(GlobalConfig.RUNTIME_DIR);
+		String cssDir = UriUtils.toUri(Naming.getViewCacheDir());
 
 		engine.put("VIEW_LAYOUT", config.getViewLayout());
 		engine.put("APP_PATH", appPath);

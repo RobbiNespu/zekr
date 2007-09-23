@@ -25,31 +25,28 @@ import net.sf.zekr.engine.server.HttpServerRuntimeException;
  */
 public class UriUtils {
 	/**
-	 * If HTTP server is enabled, it just returns <tt>http://[server]:[port]/file</tt> (replacing any backslash to
-	 * spash in file path).
-	 * 
 	 * @param file
 	 *           thr source file to return its URI.
 	 * @return file:///path_to_file (replacing special characters with URLEncoding equivalents)
 	 */
 	public static String toUri(File file) {
 		String uri = null;
-		if (ApplicationConfig.getInstance().isHttpServerEnabled()) {
-			String addr;
-			try {
-				addr = HttpServer.getServer().getUrl();
-			} catch (HttpServerRuntimeException e) {
-				addr = "/";
-			}
-			uri = addr + file.getPath().replace('\\', '/');
-		} else {
+//		if (ApplicationConfig.getInstance().isHttpServerEnabled()) {
+//			String addr;
+//			try {
+//				addr = HttpServer.getServer().getUrl();
+//			} catch (HttpServerRuntimeException e) {
+//				addr = "/";
+//			}
+//			uri = addr + file.getPath().replace('\\', '/');
+//		} else {
 			uri = file.toURI().toString();
 
 			// Fix IE 7.0 and JRE incompatibility
 			if (!uri.startsWith("file://")) {
 				uri = new String("file:///" + uri.substring(uri.indexOf("file:/") + 6));
 			}
-		}
+//		}
 		return uri;
 	}
 

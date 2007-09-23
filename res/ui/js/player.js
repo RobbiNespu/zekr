@@ -11,7 +11,10 @@ function lookupMovie(movie) {
 	return document[movie];
 }
 
-function sendEvent(typ, p) { lookupMovie("quranPlayer").sendEvent(typ, p); }
+function sendEvent(typ, p) {
+	var swf = lookupMovie("quranPlayer");
+	if (swf && swf.sendEvent) swf.sendEvent(typ, p);
+}
 
 function log(msg) {
 	$('#messageArea').val($('#messageArea').val() + '\r\n' + msg);
@@ -79,7 +82,7 @@ var playerOnLoad = function(jq, contAya) {
 					player.goto(eval($('#hiddenSpecialItemArray').val())[1]);
 				}
 			});
-		}, 200);
+		}, 400);
 	}
 }
 

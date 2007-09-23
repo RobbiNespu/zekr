@@ -386,11 +386,15 @@ Bug fixes:
     ID 1783886 - The hint in ManageBookMarkSets now fully shows
     TemplateEngine made non-singleton because of thread-safety issues.
 
-Version 0.7.0 (Zekr Ramadan Edition) - [12-9-07]
+Version 0.6.6 - [12-9-07]
 Features/Enhancements:
+	A new property added to config.properties for default local machine address. It's 127.0.0.1 by default.
 Bug fixes:
 	Bookmark sets are now saved by default as UTF-8, fixing the bug which caused bookmarks to save in file.encoding encoding.
 	Bug with QuranFormMenuFactory.createOrUpdateBookmarkMenu(), which caused new bookmarks menu to be created fixed.
+	Embedded HTTP server is now only used to retrieve MP3 files for local (offline) recitations. Other resources such as current page HTML as well as images are fetched through file:// protocol.
+	Increasing flash player object loading timeout from 200 to 400, in order to fix some JavaScript errors.
+	If flash object is not loaded (either because object loading of the browser is slow, or HTTP server is disabled), no JavaScript error is shown to the user.
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Change Javascript <-> SWT communication proticol. Better to use handler pattern for more clean code.

@@ -273,7 +273,8 @@ public class HtmlRepository {
 	}
 
 	private static String getBase() {
-		return config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE : Naming.getViewCacheDir();
+		// return config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE : Naming.getViewCacheDir();
+		return Naming.getViewCacheDir();
 	}
 
 	private static void addPlaylistProvider(int sura, ITransformer transformer) throws Exception {
