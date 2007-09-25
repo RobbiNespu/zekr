@@ -48,8 +48,12 @@ div.bodyBottom {
 	height: 30px;
 }
 
-div.headerBar { /* IE 5.0+ */
+div.headerBar {
 	visibility: hidden;
+}
+
+div.footerBar {
+	display: none;
 }
 
 div.main {

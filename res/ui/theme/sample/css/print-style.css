@@ -48,8 +48,12 @@ div.bodyBottom {
 	height: 30px;
 }
 
-div.headerBar { /* IE 5.0+ */
+div.headerBar {
 	visibility: hidden;
+}
+
+div.footerBar {
+	display: none;
 }
 
 div.main {
@@ -75,43 +79,6 @@ div.searchBody {
 
 .quran {
 	text-align: justify;
-#set($qBold = "")
-#set($qItalic = "")
-#if ($quran_fontBold.equals("true"))
-	#set($qBold = "bold")
-#end
-#if ($quran_fontItalic.equals("true"))
-	#set($qItalic = "italic")
-#end
-	font: $qBold $qItalic ${quran_fontSize}pt ${quran_fontName}, Badr, Nazanin, Tahoma, Nazli, Koodak, Times, Verdana, Helvetica, Arial, Sans-serif;
-}
-
-.trans {
-#set($tBold = "")
-#set($tItalic = "")
-#if ($trans_fontBold.equals("true"))
-	#set($tBold = "bold")
-#end
-#if ($trans_fontItalic.equals("true"))
-	#set($tItalic = "italic")
-#end
-	font: $tBold $tItalic ${trans_fontSize}pt ${trans_fontName}, Tahoma, Arial, Times, Verdana, Helvetica;
-}
-
-.trans .suraAyaNum {
-#if(!$trans_showSuraAyaSign.equals("true"))
-	display: none;
-#end
-#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.65")))
-	font-size: ${fontSize}pt;
-}
-
-.quran .suraAyaNum {
-#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($quran_fontSize),"0.65")))
-#if(!$quran_showSuraAyaSign.equals("true"))
-	display: none;
-#end
-	font-size: ${fontSize}pt;
 }
 
 div.aya, div.selectedAya {

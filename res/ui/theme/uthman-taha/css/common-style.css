@@ -89,18 +89,18 @@ span.selectedAyaSign {
 	font-family: Traditional Arabic, Scheherazade, Tahoma, Arial, Sans-serif;
 }
 
-.trans .suraAyaNum {
-#if(!$trans_showSuraAyaSign.equals("true"))
-	display: none;
-#end
-#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.65")))
-	font-size: ${fontSize}pt;
-}
-
 .quran .suraAyaNum {
 #set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($quran_fontSize),"0.65")))
 #if(!$quran_showSuraAyaSign.equals("true"))
 	display: none;
 #end
+	font-size: ${fontSize}pt;
+}
+
+.trans .suraAyaNum {
+#if(!$trans_showSuraAyaSign.equals("true"))
+	display: none;
+#end
+#set($fontSize = $UTILS.round($UTILS.mul($UTILS.toInteger($trans_fontSize),"0.65")))
 	font-size: ${fontSize}pt;
 }
