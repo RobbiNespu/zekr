@@ -363,7 +363,8 @@ public class OptionsForm {
 
 		Label ct = new Label(comp, SWT.NONE);
 		ct.setText(meaning("THEME_OPTIONS") + ":");
-		themeSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
+		// theme names should be in Roman characters
+		themeSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.LEFT_TO_RIGHT);
 		Map themeMap = new LinkedHashMap();
 		int selectedNum = 0;
 		for (int i = 0; i < themes.size(); i++) {
