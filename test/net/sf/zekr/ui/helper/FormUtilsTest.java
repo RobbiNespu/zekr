@@ -61,44 +61,33 @@ public class FormUtilsTest extends TestCase {
 		Button b1 = new Button(shell, SWT.NONE);
 		Button b2 = new Button(shell, SWT.NONE);
 		Button b3 = new Button(shell, SWT.NONE);
-		RowData rd1 = new RowData();
-		RowData rd2 = new RowData();
-		RowData rd3 = new RowData();
-		b1.setText("*");
-		b2.setText("**");
-		b3.setText("***");
-		b1.setLayoutData(rd1); b1.pack(); // length unknown
-		b2.setLayoutData(rd2); b2.pack(); // length 26
-		b3.setLayoutData(rd3); b3.pack(); // length 33
+		RowData rd1 = new RowData(); rd1.width = 11;
+		RowData rd2 = new RowData(); rd2.width = 26;
+		RowData rd3 = new RowData(); rd3.width = 33;
+		b1.setLayoutData(rd1); 
+		b2.setLayoutData(rd2); 
+		b3.setLayoutData(rd3); 
+		int b1width = b1.getBounds().width;
+		int b2width = b2.getBounds().width;
+		int b3width = b3.getBounds().width;
 		// we check the two button configuration without minimum length
-		assertEquals( 26, FormUtils.buttonLength(b1, b2));
-		assertEquals( 26, FormUtils.buttonLength(b2, b1));
+		// we should get b2 as the minimal length because it's the largest
+		assertEquals( b2width, FormUtils.buttonLength(b1, b2));
+		assertEquals( b2width, FormUtils.buttonLength(b2, b1));
 		// we check the three button configuration without minimum
-		assertEquals( 33, FormUtils.buttonLength(b1, b2, b3));
-		assertEquals( 33, FormUtils.buttonLength(b1, b3, b2));
-		assertEquals( 33, FormUtils.buttonLength(b2, b3, b1));
-		assertEquals( 33, FormUtils.buttonLength(b2, b1, b3));
-		assertEquals( 33, FormUtils.buttonLength(b3, b2, b1));
-		assertEquals( 33, FormUtils.buttonLength(b3, b1, b2));
+		assertEquals( b3width, FormUtils.buttonLength(b1, b2, b3));
+		assertEquals( b3width, FormUtils.buttonLength(b1, b3, b2));
+		assertEquals( b3width, FormUtils.buttonLength(b2, b3, b1));
+		assertEquals( b3width, FormUtils.buttonLength(b2, b1, b3));
+		assertEquals( b3width, FormUtils.buttonLength(b3, b2, b1));
+		assertEquals( b3width, FormUtils.buttonLength(b3, b1, b2));
 		// two button configuration with a minimal length < smallest button
-		assertEquals( 26, FormUtils.buttonLength(25, b1, b2));
-		assertEquals( 26, FormUtils.buttonLength(24, b2, b1));
-		// three button configuration with a minimal length < smallest
-		assertEquals( 33, FormUtils.buttonLength(32, b1, b2, b3));
-		assertEquals( 33, FormUtils.buttonLength(31, b3, b2, b1));
-		assertEquals( 33, FormUtils.buttonLength(30, b1, b3, b2));
-		assertEquals( 33, FormUtils.buttonLength(29, b3, b1, b2));
-		assertEquals( 33, FormUtils.buttonLength(28, b2, b3, b1));
-		assertEquals( 33, FormUtils.buttonLength(27, b2, b1, b3));
-		// as above for two buttons but > smallest
-		assertEquals( 80, FormUtils.buttonLength(80, b1, b2));
-		assertEquals( 79, FormUtils.buttonLength(79, b2, b1));
-		// as above for three buttons but > smalest
-		assertEquals( 78, FormUtils.buttonLength(78, b1, b2, b3));
-		assertEquals( 77, FormUtils.buttonLength(77, b1, b3, b2));
-		assertEquals( 76, FormUtils.buttonLength(76, b2, b3, b1));
-		assertEquals( 75, FormUtils.buttonLength(75, b2, b1, b3));
-		assertEquals( 74, FormUtils.buttonLength(74, b3, b2, b1));
-		assertEquals( 73, FormUtils.buttonLength(73, b3, b1, b2));
+		assertEquals( b1width, FormUtils.buttonLength(b1width, b1, b2));
+		// two button configuration width a minimal length > biggest button
+		assertEquals( b3width, FormUtils.buttonLength(b3width, b2, b1));
+		// three button configuration with a minimal length < smallest button
+		assertEquals( b1width, FormUtils.buttonLength(b1width, b1, b2, b3));
+		// three button configuration with a minimal length > biggest button
+		assertEquals( b3width+1, FormUtils.buttonLength(b3width+1, b3, b2, b1));
 	}	
 }
