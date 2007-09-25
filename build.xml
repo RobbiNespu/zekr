@@ -92,6 +92,17 @@
 		<path refid="buildlibs" />
 	</path>
 
+	<path id="launch4j.classpath">
+		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-pre2-win32/launch4j/lib/xstream.jar" />
+		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-pre2-win32/launch4j/launch4j.jar" />
+	</path>
+
+	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />
+	
+	<target name="createExeFile">
+		<launch4j configfile="misc/launch4j.xml" outfile="misc/zekr.exe" />
+	</target>
+
 	<target name="compile">
 		<mkdir dir="${build_classdir}" />
 		<javac encoding="UTF-8" srcdir="${javamain}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
