@@ -1,4 +1,4 @@
-#Tue Sep 25 07:56:45 GMT+03:30 2007
+#Tue Sep 25 11:34:18 GMT+03:30 2007
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
 encoding//doc/nanohttpd-license.txt=ISO-8859-1
@@ -7,7 +7,8 @@ encoding//doc/site/glossary.html=UTF-8
 encoding//doc/site/resources.html=UTF-8
 encoding//misc/ZerkrRunScript.nsi=ISO-8859-1
 encoding//misc/general-setup.nsi=ISO-8859-1
-encoding//misc/launch4j.xml=ISO-8859-1
+encoding//misc/zekr-launch4j.xml=ISO-8859-1
+encoding//misc/zekrc-launch4j.xml=ISO-8859-1
 encoding//res/audio/minshawi-offline.properties=UTF-8
 encoding//res/audio/minshawi-online.properties=UTF-8
 encoding//res/config/config.properties=UTF-8
