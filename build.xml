@@ -6,11 +6,11 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.6.5" />
+	<property name="component_version" value="0.6.6" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="distdir" value="D:\java\Programs\Zekr\dist\0.6.5\final\develdist" />
+	<property name="distdir" value="D:\java\Programs\Zekr\dist\0.6.6\final\develdist" />
 
 	<property name="srcdir" value="src" />
 	<property name="libdir" value="lib" />
@@ -100,7 +100,8 @@
 	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />
 	
 	<target name="createExeFile">
-		<launch4j configfile="misc/launch4j.xml" outfile="misc/zekr.exe" />
+		<launch4j configfile="misc/zekr-launch4j.xml" outfile="misc/zekr.exe" />
+		<launch4j configfile="misc/zekrc-launch4j.xml" outfile="misc/zekrc.exe" />
 	</target>
 
 	<target name="compile">

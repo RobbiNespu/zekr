@@ -392,6 +392,7 @@ Features/Enhancements:
 	New language pack: Uzbek (Nurali Abdurahmonov).
 	New language packs: Tatar, both Russian (tatar.xml) and Turkish (tatar-tr.xml) transliterations, by Fareed A. Bashirov.
 	.exe file creation method enhanced. Launch4J is now used (instead of NSIS) to create launcher win32 executable file. Its size is less than the previous method (~80KB) and it has also a custom process name, zekr.exe instead of javaw.exe.
+	zekrc.exe added as a console version of zekr.exe. For using command lines, this file can be used instead of zekr.exe.
 Bug fixes:
 	Bookmark sets are now saved by default as UTF-8, fixing the bug which caused bookmarks to save in file.encoding encoding.
 	Bug with QuranFormMenuFactory.createOrUpdateBookmarkMenu(), which caused new bookmarks menu to be created fixed.
