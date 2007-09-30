@@ -2,7 +2,7 @@ Zekr - Open Quranic Project
 Copyright (c) 2004-2007 Mohsen Saboorian and other contributors.
 
 Website: http://siahe.com/zekr.
-Translation resources: http://siahe.com/zekr/resources.html.
+Translations, recitations and other resources: http://siahe.com/zekr/resources.html.
 
 Join Zekr Google group (and mailing list) by sending a message to:
 	zekr-subscribe@googlegroups.com
@@ -13,7 +13,7 @@ written by its author (*.vm, *.js, *.css, *.html, *.xslt, *.xml) are licensed
 under GNU GPL v.2, which is available here: [zekr]/doc/zekr-license.txt
 
 For other libraries and dependencies come with standard Zekr releases see
-their corresponding license:
+their corresponding license under doc directory:
 - apache-commons.jar (including parts of commons-io, commons-lang,
 	commons-logging, commons-collections, and commons-configuration):
 	Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
@@ -25,4 +25,4 @@ their corresponding license:
 
 Most of images and icons used in this application are taken from Linux icon packs,
 which are under Lesser General Public License 2.1, [zekr]/doc/lgpl-2.1.txt.
-Others are either unspecified or made by Zekr author under GPL.
+Others are either unspecified or made by Zekr author under GPLv2.
