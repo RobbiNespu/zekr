@@ -38,8 +38,8 @@ Player = function() {
 		this.items = items;
 		this.index = index;
 		if (contAya != undefined) this.contAya = contAya;
-		var fo = { movie:'res/audio/player.swf', width:'220', height:'20', majorversion:'7',
-				build:'0', bgcolor:'#ffffff', id: 'quranPlayer', flashvars:'file=' + playlist + '&volume=' + volume +
+		var fo = { movie:'res/audio/player.swf', width:'220', height:'20', majorversion:'8', menu: 'false',
+				build:'0', bgcolor:'#ffffff', id:'quranPlayer', flashvars:'file=' + playlist + '&volume=' + volume +
 				'&repeat=' + (this.contAya ? 'list' : 'false') +
 			'&height=20&enablejs=true&shuffle=false&javascriptid=quranPlayer' + 
 			'&allowscriptaccess=always' +
@@ -82,11 +82,13 @@ var playerOnLoad = function(jq, contAya) {
 					player.goto(eval($('#hiddenSpecialItemArray').val())[1]);
 				}
 			});
-		}, 400);
+		}, 100);
 	}
 }
 
-$(document).ready(playerOnLoad);
+$(function() {
+	setTimeout(playerOnLoad, 100);
+});
 
 // call back function to be called from action script. The name should be exactly 'getUpdate'.
 function getUpdate(tp, p1, p2, pid) {

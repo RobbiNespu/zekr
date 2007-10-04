@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Michael Kalinin" version="0.6">
+<language author="Michael Kalinin" version="0.6.5">
 	<locale localizedName="Русский" name="Russian" id="ru_RU" direction="ltr" />
 	<word>
 		<common>
@@ -109,10 +109,20 @@
 			<text id="AUDIO" value="Аудио"   />
 			<text id="CONTINUOUS" value="Читать всю суру"   />
 			<text id="DISCRETE" value="Читать только аят"   />
-			<text id="PLAY" value="Воспроизведение"   />
+			<text id="PLAY" value="Воспроизвести"   />
 			<text id="PAUSE" value="Пауза"   />
-			<text id="STOP" value="Стоп"   />
-			<text id="RECITATION" value="Выбрать чтеца"   />
+			<text id="STOP" value="Остановить"   />
+			<text id="RECITATION" value="Чтец Корана"   />
+			<text id="MENU_NEXT_AYA" value="Next Aya"   />
+			<text id="MENU_NEXT_SURA" value="Next Sura"   />
+			<text id="MENU_PREV_AYA" value="Previous Aya"   />
+			<text id="MENU_PREV_SURA" value="Previous Sura"   />
+			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
+			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
+			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
+			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
+			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
+			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Коран" />
@@ -171,7 +181,7 @@
 			<text id="TRANSLATION_SCOPE" value="Перевод"   />
 			<text id="NATURAL_ORDER" value="Обычный порядок" />
 			<text id="RELEVANCE" value="По релевантности" />
-			<text id="SORT_BY" value="Сортировка результатов" />
+			<text id="SORT_BY" value="Сортировка" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS"    value="Тема"   />

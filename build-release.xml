@@ -25,14 +25,14 @@
 	<property name="src_dist.jar" value="dist/zekr-src.jar" />
 	<property name="src_dir" value="src" />
 
-	<property name="debug" value="off" />
-	<property name="verbose" value="no" />
+	<property name="debug" value="true" />
+	<property name="verbose" value="false" />
 
 	<!-- Distribution structure -->
 	<property name="dist_javadocs" value="${builddir}/${javadocsdir}" />
 
 	<!-- JAR file dependencies -->
-	<property name="swt.jar" value="${libdir}/swt-3.3.0.jar" />
+	<property name="swt.jar" value="${libdir}/swt.jar" />
 	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
 	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.2.0.jar" />

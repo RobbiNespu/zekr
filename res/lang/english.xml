@@ -113,6 +113,16 @@
 			<text id="PAUSE" value="Pause"   />
 			<text id="STOP" value="Stop"   />
 			<text id="RECITATION" value="Recitation"   />
+			<text id="MENU_NEXT_AYA" value="Ne&amp;xt Aya"   />
+			<text id="MENU_NEXT_SURA" value="Next Sura"   />
+			<text id="MENU_PREV_AYA" value="Previous &amp;Aya"   />
+			<text id="MENU_PREV_SURA" value="Previous Sura"   />
+			<text id="MENU_NEXT_JUZ" value="Nex&amp;t Juz"   />
+			<text id="MENU_PREV_JUZ" value="Pr&amp;evious Juz"   />
+			<text id="MENU_NEXT_HIZBQ" value="Next Hiz&amp;b Quarter"   />
+			<text id="MENU_PREV_HIZBQ" value="Previous Hi&amp;zb Quarter"   />
+			<text id="MENU_NEXT_SAJDA" value="Next Sa&amp;jda"   />
+			<text id="MENU_PREV_SAJDA" value="Previous Saj&amp;da"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />

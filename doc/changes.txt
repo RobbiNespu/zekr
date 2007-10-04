@@ -228,7 +228,7 @@ Features/Enhancements:
 		rename bookmark set id.
 	Bookmark set form may now copy a bookmark item/folder: DND.DROP_COPY is supported (Ctrl key should be pressed in Windows).
 	Custom Mixed Layout (multiple translations):
-		a new layout for seeing more that one translation at a time in a mixed layout
+		a new layout for seeing more that one translation at a time in a mixed layout.
 		configure custom traslation list: View>Layout>Configure custom translations...
 Bug fixes:
 	Yes/No dialog on removing view props does nothing if user closes it.
@@ -393,14 +393,23 @@ Features/Enhancements:
 	New language packs: Tatar, both Russian (tatar.xml) and Turkish (tatar-tr.xml) transliterations, by Fareed A. Bashirov.
 	.exe file creation method enhanced. Launch4J is now used (instead of NSIS) to create launcher win32 executable file. Its size is less than the previous method (~80KB) and it has also a custom process name, zekr.exe instead of javaw.exe.
 	zekrc.exe added as a console version of zekr.exe. For using command lines, this file can be used instead of zekr.exe.
+	Upgrade to SWT 3.4M2 (version: 3.410). This version has full support for BIDI rendering and mirroring on GTK - Linux.
+	Main SWT shell (Quran Form) made BIDI, so "close", "maximize" and "minimize" buttons on Windows will place at the top-left side of the form. This is done in order to make Menu bar BIDI on Linux.
+	"More..." menu item under recitation menu group, to go to Zekr resource page.
+	Sura-aya synchronizaiton button state is now saved and loaded on startup.
+	JW MP3 Player updated to 3.12.
+	"Force GC" button is not shown in prouction-mode releases (detects if debug mode is true, based on GlobalConfig.DEBUG_MODE)
+	A new splash screen donated by Bandar Raffa.
+	Alpha channel is supported in AdvancedSplashScreen. It captures central area of the current background in order to emulate splash opacity.
 Bug fixes:
 	Bookmark sets are now saved by default as UTF-8, fixing the bug which caused bookmarks to save in file.encoding encoding.
 	Bug with QuranFormMenuFactory.createOrUpdateBookmarkMenu(), which caused new bookmarks menu to be created fixed.
-	Embedded HTTP server is now only used to retrieve MP3 files for local (offline) recitations. Other resources such as current page HTML as well as images are fetched through file:// protocol.
-	Increasing flash player object loading timeout from 200 to 400, in order to fix some JavaScript errors.
+	Fixing flash loading problem on large suras in Linux, by adding a 100-millisecond timeout to SWF object initialization.
 	If flash object is not loaded (either because object loading of the browser is slow, or HTTP server is disabled), no JavaScript error is shown to the user.
 	Bug fix for Print CSS for all themes: hiding footerBar for printing.
 	Bug fix for suraAyaSign font size in all themes.
+	Hizb quarter tooltip text fixed (hizb number was counted incorrectly).
+	Hizb quarter is shown for hizb start points (2 locations per juz), with a modified tooltip text (quarter part is now shown).
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Change Javascript <-> SWT communication proticol. Better to use handler pattern for more clean code.

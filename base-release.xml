@@ -33,21 +33,7 @@
 	<property name="dist_javadocs" value="${builddir}/${javadocsdir}" />
 
 	<!-- JAR file dependencies -->
-	<condition property="swt.jar" value="${libdir}/swt-win32.jar">
-		<and>
-			<os family="windows" />
-		</and>
-	</condition>
-	<condition property="swt.jar" value="${libdir}/swt-linux.jar">
-		<and>
-			<os family="unix" arch="" />
-		</and>
-	</condition>
-	<condition property="swt.jar" value="${libdir}/swt-mac.jar">
-		<and>
-			<os family="mac" />
-		</and>
-	</condition>
+	<property name="swt.jar" value="${libdir}/swt.jar" />
 	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
 	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.2.0.jar" />

@@ -8,11 +8,12 @@
 #macro (putHizbSignIfPossible)
 	#foreach ($JUZ in $ALL_JUZ_LIST) #foreach ($LOC in $JUZ.HizbQuarters) #set($hizbQuarter = $velocityCount - 1)
 		#if ($SURA_NUM == $LOC.Sura && $AYA_NUM == $LOC.Aya)
-			#set( $hizbNum = $hizbQuarter / 4 + 1)
-			#set( $hizbQuarter = $hizbQuarter % 4 )
-			#if ($hizbQuarter != 0)
-				<nobr><span class="hizbSign" title="$JUZ - $DICT.getMeaning("HIZB"): ${hizbNum} - $DICT.getMeaning("QUARTER"): $hizbQuarter">&#1758;</span></nobr>
-			#end
+			#set ($hizbNum = $hizbQuarter / 4 + 1)
+			#set ($hizbNum = ($JUZ.Index - 1) * 2 + $hizbNum)
+			#set ($hizbQuarter = $hizbQuarter % 4)
+			#if ($hizbQuarter != 0) #set ($Q = " - $DICT.getMeaning('QUARTER'): $hizbQuarter")
+		 	#else #set ($Q = "") #end
+			<nobr><span class="hizbSign" title="$JUZ - $DICT.getMeaning("HIZB"): ${hizbNum}$Q">&#1758;</span></nobr>
 		#end
 	#end #end
 #end

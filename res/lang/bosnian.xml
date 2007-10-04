@@ -113,6 +113,16 @@
 			<text id="PAUSE" value="Pauziraj"   />
 			<text id="STOP" value="Stop"   />
 			<text id="RECITATION" value="Učenje"   />
+			<text id="MENU_NEXT_AYA" value="Next Aya"   />
+			<text id="MENU_NEXT_SURA" value="Next Sura"   />
+			<text id="MENU_PREV_AYA" value="Previous Aya"   />
+			<text id="MENU_PREV_SURA" value="Previous Sura"   />
+			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
+			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
+			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
+			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
+			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
+			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Kur'an" />
