@@ -28,6 +28,7 @@ import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
 import net.sf.zekr.engine.server.HttpServer;
+import net.sf.zekr.engine.server.HttpServerUtils;
 import net.sf.zekr.engine.template.AdvancedQuranSearchResultTemplate;
 import net.sf.zekr.engine.template.ITransformer;
 import net.sf.zekr.engine.template.MixedViewTemplate;
@@ -86,7 +87,7 @@ public class HtmlRepository {
 				osw.write(transformer.transform());
 				osw.close();
 			}
-			return UriUtils.toUri(Naming.getQuranCacheDir(getBase()) + "/" + fileName);
+			return HttpServerUtils.getUrl(Naming.getQuranCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
 		}
@@ -118,7 +119,7 @@ public class HtmlRepository {
 				osw.write(transformer.transform());
 				osw.close();
 			}
-			return UriUtils.toUri(Naming.getTransCacheDir(getBase()) + "/" + fileName);
+			return HttpServerUtils.getUrl(Naming.getTransCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
 		}
@@ -147,7 +148,7 @@ public class HtmlRepository {
 				osw.write(transformer.transform());
 				osw.close();
 			}
-			return UriUtils.toUri(Naming.getMixedCacheDir(getBase()) + "/" + fileName);
+			return HttpServerUtils.getUrl(Naming.getMixedCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
 		}
@@ -178,7 +179,7 @@ public class HtmlRepository {
 				osw.write(tx.transform());
 				osw.close();
 			}
-			return UriUtils.toUri(Naming.getMixedCacheDir(getBase()) + "/" + fileName);
+			return HttpServerUtils.getUrl(Naming.getMixedCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
 		}
@@ -203,7 +204,7 @@ public class HtmlRepository {
 			ITransformer tx = new AdvancedQuranSearchResultTemplate(searcher, pageNo);
 			osw.write(tx.transform());
 			osw.close();
-			return UriUtils.toUri(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
+			return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
 		}
@@ -224,7 +225,7 @@ public class HtmlRepository {
 			osw.write(tx.transform());
 			osw.close();
 			// }
-			return UriUtils.toUri(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
+			return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
 		}
@@ -248,7 +249,7 @@ public class HtmlRepository {
 			osw.write(tx.transform());
 			osw.close();
 			// }
-			return UriUtils.toUri(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
+			return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
 		} catch (Exception e) {
 			throw new HtmlGenerationException(e);
 		}
@@ -273,8 +274,7 @@ public class HtmlRepository {
 	}
 
 	private static String getBase() {
-		// return config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE : Naming.getViewCacheDir();
-		return Naming.getViewCacheDir();
+		return config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE : Naming.getViewCacheDir();
 	}
 
 	private static void addPlaylistProvider(int sura, ITransformer transformer) throws Exception {

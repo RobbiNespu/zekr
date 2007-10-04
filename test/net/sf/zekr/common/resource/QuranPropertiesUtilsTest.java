@@ -32,4 +32,24 @@ public class QuranPropertiesUtilsTest extends TestCase {
 		}
 		assertEquals(QuranPropertiesUtils.getAggregativeAyaCount(114), k);
 	}
+
+	public void testGetJuzOf() throws Exception {
+		assertEquals(QuranPropertiesUtils.getJuzOf(1, 1).getIndex(), 1);
+		assertEquals(QuranPropertiesUtils.getJuzOf(2, 10).getIndex(), 1);
+		assertEquals(QuranPropertiesUtils.getJuzOf(2, 200).getIndex(), 2);
+		assertEquals(QuranPropertiesUtils.getJuzOf(3, 1).getIndex(), 3);
+		assertEquals(QuranPropertiesUtils.getJuzOf(3, 200).getIndex(), 4);
+		assertEquals(QuranPropertiesUtils.getJuzOf(17, 17).getIndex(), 15);
+		assertEquals(QuranPropertiesUtils.getJuzOf(41, 46).getIndex(), 24);
+		assertEquals(QuranPropertiesUtils.getJuzOf(41, 47).getIndex(), 25);
+		assertEquals(QuranPropertiesUtils.getJuzOf(114, 1).getIndex(), 30);
+	}
+
+	public void testGetHizbQuadIndex() throws Exception {
+		assertEquals(QuranPropertiesUtils.getHizbQuadIndex(1, 1), 0);
+		assertEquals(QuranPropertiesUtils.getHizbQuadIndex(2, 25), 0);
+		assertEquals(QuranPropertiesUtils.getHizbQuadIndex(2, 26), 1);
+		assertEquals(QuranPropertiesUtils.getHizbQuadIndex(13, 35), 5);
+		assertEquals(QuranPropertiesUtils.getHizbQuadIndex(114, 1), 7);
+	}
 }
