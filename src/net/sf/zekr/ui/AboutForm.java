@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.ui;
 
+import java.text.DecimalFormat;
+
 import net.sf.zekr.common.config.BrowserUtils;
 import net.sf.zekr.common.config.GlobalConfig;
 
@@ -53,8 +55,10 @@ public class AboutForm extends BaseForm {
 
 		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL);
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
-				new Image(display, resource.getString("icon.form32")), new Image(display, resource.getString("icon.form48")),
-				new Image(display, resource.getString("icon.form128")), new Image(display, resource.getString("icon.form256"))});
+				new Image(display, resource.getString("icon.form32")),
+				new Image(display, resource.getString("icon.form48")),
+				new Image(display, resource.getString("icon.form128")),
+				new Image(display, resource.getString("icon.form256")) });
 		shell.setText(title);
 		shell.setLayout(new FillLayout());
 
@@ -103,7 +107,7 @@ public class AboutForm extends BaseForm {
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.grabExcessVerticalSpace = true;
-		gd.heightHint = 50;
+		gd.heightHint = 55;
 		Text text = new Text(detailCom, SWT.MULTI | SWT.WRAP | SWT.SCROLL_LINE | SWT.READ_ONLY);
 		text.setText(langEngine.getMeaning("COPYRIGHT_DISCLAIMER"));
 		text.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
@@ -111,22 +115,25 @@ public class AboutForm extends BaseForm {
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gd.horizontalSpan = 2;
-		Label delim = new Label(body, SWT.SEPARATOR | SWT.HORIZONTAL);
-		delim.setLayoutData(gd);
 
-		Button forceGC = new Button(body, SWT.PUSH);
-		forceGC.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		forceGC.setText("&Force GC");
+		if (GlobalConfig.DEBUG_MODE) {
+			Label delim = new Label(body, SWT.SEPARATOR | SWT.HORIZONTAL);
+			delim.setLayoutData(gd);
 
-		mem = new Label(body, SWT.NONE);
-		mem.setText(getMemText());
+			Button forceGC = new Button(body, SWT.PUSH);
+			forceGC.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+			forceGC.setText("&Force GC");
 
-		forceGC.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				System.gc();
-				updateMemText();
-			}
-		});
+			mem = new Label(body, SWT.NONE);
+			mem.setText(getMemText());
+
+			forceGC.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent e) {
+					System.gc();
+					updateMemText();
+				}
+			});
+		}
 
 		shell.pack();
 		shell.setSize(480, shell.getSize().y);
@@ -136,9 +143,12 @@ public class AboutForm extends BaseForm {
 	 * @return <tt>used memory / total heap memory</tt>
 	 */
 	private String getMemText() {
+		DecimalFormat df = new DecimalFormat("###,###");
 		long total = Runtime.getRuntime().totalMemory();
 		long free = Runtime.getRuntime().freeMemory();
-		return (total - free) + " / " + total;
+		String used = df.format((total - free) / 1024);
+		String max = df.format(total / 1024);
+		return used + " / " + max;
 	}
 
 	protected Shell getShell() {
