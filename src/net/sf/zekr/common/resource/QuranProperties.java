@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class QuranProperties implements IQuranProperties {
 	private static QuranProperties thisInstance;

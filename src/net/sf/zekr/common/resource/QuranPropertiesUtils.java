@@ -22,8 +22,8 @@ import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.search.Range;
 
 /**
- * This class tightly depends on the class <code>QuranProperties</code>. Almost all public methods on this class
- * cache the static results once called, and if called more, read it from the cache.<br>
+ * This class tightly depends on the class <code>QuranProperties</code>. Almost all public methods on this
+ * class cache the static results once called, and if called more, read it from the cache.<br>
  * <br>
  * This cache is not designed to be thread-safe.
  * 
@@ -49,8 +49,7 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param suraNum
-	 *           sura number (counted from 1)
+	 * @param suraNum sura number (counted from 1)
 	 * @return a String array of aya numbers in a sura. e.g. ["1", "2", "3", ...]
 	 */
 	public static final String[] getSuraAyas(int suraNum) {
@@ -83,8 +82,7 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param suraNum
-	 *           (1-based)
+	 * @param suraNum (1-based)
 	 * @return the <code>SuraProperties</code> object corresponding to <code>suraNum</code>
 	 */
 	public static final SuraProperties getSura(int suraNum) {
@@ -111,12 +109,21 @@ public class QuranPropertiesUtils {
 		return getIndexedSuraName(suraNum, getSura(suraNum).getName());
 	}
 
+	public static final JuzProperties getJuz(int juzNum) {
+		QuranProperties props = QuranProperties.getInstance();
+		return props.getJuz(juzNum);
+	}
+
+	public static final SajdaProperties getSajda(int sajdaNum) {
+		QuranProperties props = QuranProperties.getInstance();
+		return props.getSajda(sajdaNum);
+	}
+
 	/**
 	 * If there is any juz start within the sura, it will be returned. <br>
 	 * This method is the same as <code>getJuzInside()</code>, but with a different return type.
 	 * 
-	 * @param suraNum
-	 *           sura number (counted from 1)
+	 * @param suraNum sura number (counted from 1)
 	 * @return a <code>List</code> of <code>JuzProperties</code>
 	 */
 	public static final List getJuzInsideSura(int suraNum) {
@@ -141,8 +148,7 @@ public class QuranPropertiesUtils {
 	/**
 	 * If there is any juz start within the sura, it will be returned.
 	 * 
-	 * @param suraNum
-	 *           sura number (counted from 1)
+	 * @param suraNum sura number (counted from 1)
 	 * @return <code>int</code> array of juz numbers
 	 */
 	public static final int[] getJuzInside(int suraNum) {
@@ -177,9 +183,50 @@ public class QuranPropertiesUtils {
 		return juz1; // 30th juz
 	}
 
+	public static final JuzProperties getJuzOf(IQuranLocation iql) {
+		return getJuzOf(iql.getSura(), iql.getAya());
+	}
+
+	public static final JuzProperties getJuzOf(int suraNum, int ayaNum) {
+		List juzList = getSuraJuzAsList(suraNum);
+		JuzProperties juz = (JuzProperties) juzList.get(0);
+		for (int i = 1; i < juzList.size(); i++) {
+			JuzProperties j = (JuzProperties) juzList.get(i);
+			if (suraNum > j.getSuraNumber() || (suraNum == j.getSuraNumber() && ayaNum >= j.getAyaNumber())) {
+				juz = j;
+			} else {
+				break;
+			}
+		}
+		return juz;
+	}
+
 	/**
-	 * @param suraNum
-	 *           sura number (counted from 1)
+	 * @return a number between 0 to 7, meaning the hizb quarter in a juz. For example 0 means the first
+	 *         quranter of Hizb 1, 4 means the first quarter of Hizb 2, and 7 means the third quarter of Hizb
+	 *         2.
+	 */
+	public static final int getHizbQuadIndex(int suraNum, int ayaNum) {
+		JuzProperties juz = getJuzOf(suraNum, ayaNum);
+		QuranLocation hizbQuads[] = juz.getHizbQuarters();
+		int quadIndex = 0;
+		for (int i = 1; i < hizbQuads.length; i++) {
+			QuranLocation ql = hizbQuads[i];
+			if (suraNum > hizbQuads[i].getSura() || (suraNum == ql.getSura() && ayaNum >= ql.getAya())) {
+				quadIndex = i;
+			} else {
+				break;
+			}
+		}
+		return quadIndex;
+	}
+
+	public static int getHizbQuadIndex(QuranLocation quranLoc) {
+		return getHizbQuadIndex(quranLoc.getSura(), quranLoc.getAya());
+	}
+
+	/**
+	 * @param suraNum sura number (counted from 1)
 	 * @return <code>List</code> of <code>SajdaProperties</code> inside <code>suraNum</code>
 	 */
 	public static final List getSajdaInsideList(int suraNum) {
@@ -202,8 +249,7 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param suraNum
-	 *           sura number (counted from 1)
+	 * @param suraNum sura number (counted from 1)
 	 * @return Sura properties as a <code>Map</code>
 	 */
 	public static final Map getSuraPropsMap(int suraNum) {
@@ -262,8 +308,7 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param juz
-	 *           juz number to find its suras
+	 * @param juz juz number to find its suras
 	 * @return a <code>{@link Range}</code> object whose from and to are both inclusive.
 	 */
 	public static final Range getSuraInsideJuz(int juz) {
@@ -284,8 +329,7 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param suraNum
-	 *           sura number (counted from 1)
+	 * @param suraNum sura number (counted from 1)
 	 * @return the sum of aya count from sura 1 to suraNum - 1.
 	 */
 	public static final int getAggregativeAyaCount(int suraNum) {

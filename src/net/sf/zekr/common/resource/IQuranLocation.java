@@ -22,9 +22,9 @@ public interface IQuranLocation {
 	/**
 	 * Returns the next location (sura-aya pair).
 	 * 
-	 * @return the next Quran location.
+	 * @return the next Quran location, or <code>null</code> if there is nothing
 	 */
 	public IQuranLocation getNext();
-	
+
 	public String toSortableString();
 }
