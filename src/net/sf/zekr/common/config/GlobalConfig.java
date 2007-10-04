@@ -19,21 +19,26 @@ import org.eclipse.swt.SWT;
  * @since Zekr 1.0
  */
 public class GlobalConfig {
+	/** is true for debug-mode */
+	public static final boolean DEBUG_MODE = true;
 
 	/** Zekr version: e.g. 0.2.0beta1 for beta1 or 0.2.0 for final release. */
-	public static String ZEKR_VERSION = "0.6.6";
+	public static final String ZEKR_VERSION = "0.6.6";
 
 	/** Specifies if OS is Linux */
-	public static boolean isLinux = SWT.getPlatform().equalsIgnoreCase("gtk");
+	public static final boolean isLinux = SWT.getPlatform().equalsIgnoreCase("gtk");
 
 	/** Specifies if OS is Mac */
-	public static boolean isMac = SWT.getPlatform().equalsIgnoreCase("carbon");
+	public static final boolean isMac = SWT.getPlatform().equalsIgnoreCase("carbon");
 
 	/** Specifies if OS is Solaris */
-	public static boolean isSolaris = SWT.getPlatform().equalsIgnoreCase("motif");
+	public static final boolean isSolaris = SWT.getPlatform().equalsIgnoreCase("motif");
 
 	/** Specifies if OS is Windows */
-	public static boolean isWindows = SWT.getPlatform().equalsIgnoreCase("win32");
+	public static final boolean isWindows = SWT.getPlatform().equalsIgnoreCase("win32");
+
+	/** Specifies if SWT has full BIDI support for the current system */
+	public static final boolean hasBidiSupport = isWindows || isLinux;
 
 	/** Default output encoding for HTML */
 	public static final String OUT_HTML_ENCODING = "UTF-8";
