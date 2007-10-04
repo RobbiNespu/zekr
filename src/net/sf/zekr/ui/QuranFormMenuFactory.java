@@ -48,6 +48,7 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -56,7 +57,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * This is not a real factory class, but in fact hides menu creation and updating details from <code>QuranForm</code>.
+ * This is not a real factory class, but in fact hides menu creation and updating details from
+ * <code>QuranForm</code>.
  * 
  * @author Mohsen Saboorian
  */
@@ -97,6 +99,8 @@ public class QuranFormMenuFactory {
 	private MenuItem audioItem;
 	private MenuItem playItem;
 	private MenuItem stopItem;
+	private MenuItem nextSura, nextAya, prevSura, prevAya;
+	private MenuItem nextJuz, prevJuz, nextHizbQ, prevHizbQ, nextSajda, prevSajda;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.form = form;
@@ -396,6 +400,108 @@ public class QuranFormMenuFactory {
 			}
 		});
 
+		SelectionListener navListener = new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				String data = (String) e.widget.getData();
+				if (data.equals("next_sura")) {
+					form.gotoNextSura();
+				} else if (data.equals("prev_sura")) {
+					form.gotoPrevSura();
+				} else if (data.equals("next_aya")) {
+					form.gotoNextAya();
+				} else if (data.equals("prev_aya")) {
+					form.gotoPrevAya();
+				} else if (data.equals("next_juz")) {
+					form.gotoNextJuz();
+				} else if (data.equals("prev_juz")) {
+					form.gotoPrevJuz();
+				} else if (data.equals("next_hizb")) {
+					form.gotoNextHizb();
+				} else if (data.equals("prev_hizb")) {
+					form.gotoPrevHizb();
+				} else if (data.equals("next_sajda")) {
+					// form.gotoPrevSajda();
+				} else if (data.equals("prev_sajda")) {
+					// form.gotoNextSajda();
+				}
+			}
+		};
+
+		MenuItem gotoMenuItem = new MenuItem(viewMenu, SWT.CASCADE);
+		gotoMenuItem.setText(FormUtils.addAmpersand(lang.getMeaning("GOTO")));
+		Menu gotoMenu = new Menu(shell, SWT.DROP_DOWN);
+		gotoMenuItem.setMenu(gotoMenu);
+
+		boolean isRTL = ((direction == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
+		String strNext = isRTL ? "Left" : "Right";
+		String strPrev = isRTL ? "Right" : "Left";
+		int keyNext = isRTL ? SWT.ARROW_LEFT : SWT.ARROW_RIGHT;
+		int keyPrev = isRTL ? SWT.ARROW_RIGHT : SWT.ARROW_LEFT;
+
+		nextSura = new MenuItem(gotoMenu, SWT.PUSH);
+		nextSura.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_SURA")) + "\tAlt+Down");
+		nextSura.setAccelerator(SWT.ALT | SWT.ARROW_DOWN);
+		nextSura.setData("next_sura");
+		nextSura.addSelectionListener(navListener);
+
+		prevSura = new MenuItem(gotoMenu, SWT.PUSH);
+		prevSura.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_SURA")) + "\tAlt+Up");
+		prevSura.setAccelerator(SWT.ALT | SWT.ARROW_UP);
+		prevSura.setData("prev_sura");
+		prevSura.addSelectionListener(navListener);
+
+		nextAya = new MenuItem(gotoMenu, SWT.PUSH);
+		nextAya.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_AYA")) + "\tAlt+" + strNext);
+		nextAya.setAccelerator(SWT.ALT | keyNext);
+		nextAya.setData("next_aya");
+		nextAya.addSelectionListener(navListener);
+
+		prevAya = new MenuItem(gotoMenu, SWT.PUSH);
+		prevAya.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_AYA")) + "\tAlt+" + strPrev);
+		prevAya.setAccelerator(SWT.ALT | keyPrev);
+		prevAya.setData("prev_aya");
+		prevAya.addSelectionListener(navListener);
+
+		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
+
+		nextJuz = new MenuItem(gotoMenu, SWT.PUSH);
+		nextJuz.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_JUZ")) + "\tAlt+Shift+" + strNext);
+		nextJuz.setAccelerator(SWT.ALT | SWT.SHIFT | keyNext);
+		nextJuz.setData("next_juz");
+		nextJuz.addSelectionListener(navListener);
+
+		prevJuz = new MenuItem(gotoMenu, SWT.PUSH);
+		prevJuz.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_JUZ")) + "\tAlt+Shift+" + strPrev);
+		prevJuz.setAccelerator(SWT.ALT | SWT.SHIFT | keyPrev);
+		prevJuz.setData("prev_juz");
+		prevJuz.addSelectionListener(navListener);
+
+		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
+
+		nextHizbQ = new MenuItem(gotoMenu, SWT.PUSH);
+		nextHizbQ.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_HIZBQ")) + "\tCtrl+Alt+" + strNext);
+		nextHizbQ.setAccelerator(SWT.CTRL | SWT.ALT | keyNext);
+		nextHizbQ.setData("next_hizb");
+		nextHizbQ.addSelectionListener(navListener);
+
+		prevHizbQ = new MenuItem(gotoMenu, SWT.PUSH);
+		prevHizbQ.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_HIZBQ")) + "\tCtrl+Alt+" + strPrev);
+		prevHizbQ.setAccelerator(SWT.CTRL | SWT.ALT | keyPrev);
+		prevHizbQ.setData("prev_hizb");
+		prevHizbQ.addSelectionListener(navListener);
+
+		// new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
+		//
+		// nextSajda = new MenuItem(gotoMenu, SWT.PUSH);
+		// nextSajda.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_SAJDA")));
+		// nextSajda.setData("next_sajda");
+		// nextSajda.addSelectionListener(navListener);
+		//
+		// prevSajda = new MenuItem(gotoMenu, SWT.PUSH);
+		// prevSajda.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_SAJDA")));
+		// prevSajda.setData("prev_sajda");
+		// prevSajda.addSelectionListener(navListener);
+
 		// Set default selection
 		String quranLayout = config.getQuranLayout();
 		String transLayout = config.getTransLayout();
@@ -484,6 +590,16 @@ public class QuranFormMenuFactory {
 				});
 			}
 		}
+
+		new MenuItem(recitationListMenu, SWT.SEPARATOR);
+
+		final MenuItem moreRecitationItem = new MenuItem(recitationListMenu, SWT.PUSH);
+		moreRecitationItem.setText(lang.getMeaning("MORE") + "...");
+		moreRecitationItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				BrowserUtils.openLink(GlobalConfig.RESOURCE_PAGE);
+			}
+		});
 
 		// ---- Bookmarks -----
 		createOrUpdateBookmarkMenu();
@@ -660,7 +776,8 @@ public class QuranFormMenuFactory {
 	BookmarkSetForm bsf = null;
 
 	private void manageBookmarks() {
-		if (bsf != null && Arrays.asList(shell.getShells()).contains(bsf.getShell())) { // shell is already open
+		if (bsf != null && Arrays.asList(shell.getShells()).contains(bsf.getShell())) { // shell is already
+			// open
 			bsf.getShell().forceActive();
 			return;
 		}
@@ -708,9 +825,10 @@ public class QuranFormMenuFactory {
 	}
 
 	/**
-	 * This method imports one or more themes into Zekr theme installation directory. Imported theme is in <tt>zip</tt>
-	 * format, and after importing, it is extracted to <tt>res/ui/theme</tt>. theme.properties is then copied into
-	 * <tt>~/.zekr/config/theme</tt>, renaming to <tt>[theme ID].properties</tt>.<br>
+	 * This method imports one or more themes into Zekr theme installation directory. Imported theme is in
+	 * <tt>zip</tt> format, and after importing, it is extracted to <tt>res/ui/theme</tt>.
+	 * theme.properties is then copied into <tt>~/.zekr/config/theme</tt>, renaming to
+	 * <tt>[theme ID].properties</tt>.<br>
 	 * Note that imported zip file should have the same base name as theme ID (theme directory name).
 	 */
 	private void importTheme() {

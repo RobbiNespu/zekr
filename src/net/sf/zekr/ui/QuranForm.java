@@ -17,8 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.JuzProperties;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
@@ -192,7 +194,7 @@ public class QuranForm extends BaseForm {
 	private Listener globalKeyListener = new Listener() {
 		public void handleEvent(Event event) {
 			if (NAV_BUTTON.equals(event.widget.getData())) {
-				boolean isRTL = ((langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.isWindows);
+				boolean isRTL = ((langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 				int d = event.keyCode ^ SWT.KEYCODE_BIT;
 				if (d == 1) {
 					gotoPrevSura();
@@ -239,7 +241,7 @@ public class QuranForm extends BaseForm {
 		viewLayout = 0; // no layout set yet
 
 		title = meaning("TITLE");
-		shell = new Shell(display, SWT.SHELL_TRIM);
+		shell = new Shell(display, SWT.SHELL_TRIM | langEngine.getSWTDirection());
 		shell.setText(title);
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
 				new Image(display, resource.getString("icon.form32")),
@@ -528,6 +530,9 @@ public class QuranForm extends BaseForm {
 
 		sync = new Button(navGroup, SWT.CHECK);
 		sync.setText(langEngine.getMeaning("SYNCHRONOUS"));
+		if (config.getProps().getProperty("view.location.sync") != null) {
+			sync.setSelection(config.getProps().getBoolean("view.location.sync"));
+		}
 
 		applyButton = new Button(navGroup, SWT.NONE);
 		applyButton.setData(NAV_BUTTON);
@@ -570,7 +575,7 @@ public class QuranForm extends BaseForm {
 		int l = langEngine.getSWTDirection();
 
 		// isRTL is only applicable for Windows
-		boolean isRTL = ((l == SWT.RIGHT_TO_LEFT) && GlobalConfig.isWindows);
+		boolean isRTL = ((l == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 
 		Image prevSuraImg = new Image(display, isRTL ? resource.getString("icon.nextNext") : resource
 				.getString("icon.prevPrev"));
@@ -844,13 +849,7 @@ public class QuranForm extends BaseForm {
 		searchPaginationComp.setLayoutData(gd);
 		searchPaginationComp.setVisible(false);
 
-		// gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		// Label pageResult = new Label(searchPaginationComp, SWT.NONE);
-		// pageResult.setLayoutData(gd);
-		// pageResult.setText("Page: ");
-
-		// isRTL is only applicable for Windows
-		boolean isRTL = ((langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.isWindows);
+		boolean isRTL = ((langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 		Image prevPageImg = new Image(display, isRTL ? resource.getString("icon.nextNext") : resource
 				.getString("icon.prevPrev"));
 		Image nextPageImg = new Image(display, isRTL ? resource.getString("icon.prevPrev") : resource
@@ -1076,7 +1075,7 @@ public class QuranForm extends BaseForm {
 		currPageSA.widgetSelected(null); // this call causes all check box states to be set (disabled/enabled)
 	}
 
-	private void gotoNextAya() {
+	protected void gotoNextAya() {
 		if (ayaSelector.getSelectionIndex() < ayaSelector.getItemCount() - 1) {
 			ayaSelector.select(ayaSelector.getSelectionIndex() + 1);
 			ayaChanged = true;
@@ -1084,7 +1083,7 @@ public class QuranForm extends BaseForm {
 		}
 	}
 
-	private void gotoPrevAya() {
+	protected void gotoPrevAya() {
 		if (ayaSelector.getSelectionIndex() > 0) {
 			ayaSelector.select(ayaSelector.getSelectionIndex() - 1);
 			ayaChanged = true;
@@ -1092,7 +1091,7 @@ public class QuranForm extends BaseForm {
 		}
 	}
 
-	private void gotoNextSura() {
+	protected void gotoNextSura() {
 		if (suraSelector.getSelectionIndex() < suraSelector.getItemCount() - 1) {
 			suraSelector.select(suraSelector.getSelectionIndex() + 1);
 			onSuraChanged();
@@ -1100,11 +1099,49 @@ public class QuranForm extends BaseForm {
 		}
 	}
 
-	private void gotoPrevSura() {
+	protected void gotoPrevSura() {
 		if (suraSelector.getSelectionIndex() > 0) {
 			suraSelector.select(suraSelector.getSelectionIndex() - 1);
 			onSuraChanged();
 			apply();
+		}
+	}
+
+	protected void gotoNextJuz() {
+		JuzProperties jp = QuranPropertiesUtils.getJuzOf(quranLoc);
+		if (jp.getIndex() < 30) {
+			jp = QuranPropertiesUtils.getJuz(jp.getIndex() + 1);
+			gotoSuraAya(jp.getSuraNumber(), jp.getAyaNumber());
+		}
+	}
+
+	protected void gotoPrevJuz() {
+		JuzProperties jp = QuranPropertiesUtils.getJuzOf(quranLoc);
+		if (jp.getIndex() > 1) {
+			jp = QuranPropertiesUtils.getJuz(jp.getIndex() - 1);
+			gotoSuraAya(jp.getSuraNumber(), jp.getAyaNumber());
+		}
+	}
+
+	protected void gotoNextHizb() {
+		int quad = QuranPropertiesUtils.getHizbQuadIndex(quranLoc);
+		JuzProperties juz = QuranPropertiesUtils.getJuzOf(quranLoc);
+		if (quad < 7) {
+			QuranLocation newLoc = juz.getHizbQuarters()[quad + 1];
+			gotoSuraAya(newLoc);
+		} else if (juz.getIndex() < 30) {
+			gotoNextJuz();
+		}
+	}
+
+	protected void gotoPrevHizb() {
+		int quad = QuranPropertiesUtils.getHizbQuadIndex(quranLoc);
+		JuzProperties juz = QuranPropertiesUtils.getJuzOf(quranLoc);
+		if (quad > 0) {
+			QuranLocation newLoc = juz.getHizbQuarters()[quad - 1];
+			gotoSuraAya(newLoc);
+		} else if (juz.getIndex() > 1) {
+			gotoSuraAya(QuranPropertiesUtils.getJuz(juz.getIndex() - 1).getHizbQuarters()[7]);
 		}
 	}
 
@@ -1115,6 +1152,10 @@ public class QuranForm extends BaseForm {
 		FormUtils.updateTable(suraTable, suraMap);
 		logger.info("Updating view done.");
 		suraChanged = false;
+	}
+
+	protected void gotoSuraAya(IQuranLocation loc) {
+		gotoSuraAya(loc.getSura(), loc.getAya());
 	}
 
 	protected void gotoSuraAya(int sura, int aya) {
@@ -1134,10 +1175,8 @@ public class QuranForm extends BaseForm {
 	}
 
 	/**
-	 * @param sura
-	 *           sura number (counted from 1)
-	 * @param aya
-	 *           aya number (counted from 1)
+	 * @param sura sura number (counted from 1)
+	 * @param aya aya number (counted from 1)
 	 */
 	private void gotoAya(int sura, int aya) {
 		int sur = suraSelector.getSelectionIndex() + 1;
@@ -1309,8 +1348,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	/**
-	 * @param pageNo
-	 *           one-based page number. 0 means the first page.
+	 * @param pageNo one-based page number. 0 means the first page.
 	 */
 	private void advancedFindGoto(int pageNo) {
 		doPreFind();
@@ -1484,6 +1522,9 @@ public class QuranForm extends BaseForm {
 		list.add(new Integer(r.height));
 		config.getProps().setProperty("view.shell.location", list);
 		config.getProps().setProperty("view.shell.maximized", new Boolean(shell.getMaximized()));
+
+		// syncing options
+		config.getProps().setProperty("view.location.sync", String.valueOf(sync.getSelection()));
 
 		// search props
 		config.getProps().setProperty("view.search.tab", String.valueOf(searchTabFolder.getSelectionIndex()));
