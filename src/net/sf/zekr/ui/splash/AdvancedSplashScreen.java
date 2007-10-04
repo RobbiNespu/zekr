@@ -16,6 +16,9 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -27,7 +30,7 @@ import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
 public class AdvancedSplashScreen extends AbstractSplachScreen {
-	private static final int ALPHA_LIMIT = 100;
+	private static final int ALPHA_LIMIT = 0;
 	private static final int PROGRESS_BAR_HEIGHT = 10;
 	private ImageData imageData;
 	private Region region;
@@ -39,6 +42,12 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 	public AdvancedSplashScreen(Display disp) {
 		super(disp);
 		shell = new Shell(display, SWT.NO_TRIM);
+		shell.setText("Zekr " + GlobalConfig.ZEKR_VERSION);
+		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
+				new Image(display, resource.getString("icon.form32")),
+				new Image(display, resource.getString("icon.form48")),
+				new Image(display, resource.getString("icon.form128")),
+				new Image(display, resource.getString("icon.form256")) });
 
 		shell.addListener(EventProtocol.CUSTOM_ZEKR_EVENT, new Listener() {
 			public void handleEvent(Event e) {
@@ -53,10 +62,24 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 						progBar.setSelection(progressCount += 10);
 						shell.redraw();
 						shell.update();
+
+						// try {
+						// Thread.sleep(1000);
+						// } catch (InterruptedException e1) {
+						// e1.printStackTrace();
+						// }
 					}
 				}
 			}
 		});
+
+		final Point centerPoint = FormUtils.getScreenCenter(display, splashImage.getBounds());
+		GC gc = new GC(display);
+		Rectangle rect = display.getBounds();
+		rect = splashImage.getBounds();
+		final Image bgImage = new Image(display, rect);
+		gc.copyArea(bgImage, centerPoint.x, centerPoint.y);
+		gc.dispose();
 
 		region = new Region();
 		imageData = splashImage.getImageData();
@@ -94,15 +117,18 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 
 		shell.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
+				e.gc.drawImage(bgImage, 0, 0);
 				int height = imageData.height;
 				e.gc.drawImage(splashImage, 0, 0);
 				e.gc.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
-				e.gc.drawText(StringUtils.abbreviate(progressMsg, 40), 10, height - 270, true);
+				e.gc.setAlpha(200);
+				e.gc.drawText(StringUtils.abbreviate(progressMsg, 40), 40, height - 30, true);
 			}
 		});
+
 		regBound = region.getBounds();
 		shell.setSize(regBound.width, regBound.height);
-		shell.setLocation(FormUtils.getScreenCenter(display, splashImage.getBounds()));
+		shell.setLocation(centerPoint);
 
 		progBar = new ProgressBar(shell, SWT.SMOOTH | SWT.HORIZONTAL);
 		progBar.setSelection(progressCount);
