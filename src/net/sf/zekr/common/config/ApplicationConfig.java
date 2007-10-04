@@ -61,8 +61,8 @@ import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
 
 /**
- * This singleton class reads the config files by the first invocation of <code>getInstance()</code>. You can then
- * read any option by using available getter methods.
+ * This singleton class reads the config files by the first invocation of <code>getInstance()</code>. You
+ * can then read any option by using available getter methods.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -147,16 +147,16 @@ public class ApplicationConfig implements ConfigNaming {
 	private void loadConfig() {
 		logger.info("Load Zekr configuration file.");
 		File uc = new File(ApplicationPath.USER_CONFIG);
-		String conf = ApplicationPath.USER_CONFIG;
 		boolean createConfig = false;
+		String confFile = ApplicationPath.USER_CONFIG;
 		if (!uc.exists()) {
 			logger.info("User config does not exist at " + ApplicationPath.USER_CONFIG);
 			logger.info("Will make user config with default values at " + ApplicationPath.MAIN_CONFIG);
-			conf = ApplicationPath.MAIN_CONFIG;
+			confFile = ApplicationPath.MAIN_CONFIG;
 			createConfig = true;
 		}
 		try {
-			InputStream fis = new FileInputStream(conf);
+			InputStream fis = new FileInputStream(confFile);
 			Reader reader = new InputStreamReader(fis, "UTF-8");
 			props = new PropertiesConfiguration();
 			props.load(reader);
@@ -166,34 +166,46 @@ public class ApplicationConfig implements ConfigNaming {
 			if (!GlobalConfig.ZEKR_VERSION.equals(props.getString("version"))) {
 				logger.info("User config version (" + props.getString("version") + ") does not match with "
 						+ GlobalConfig.ZEKR_VERSION);
-				logger.info("Will initialize user config with default values, overriding with old config.");
 
-				PropertiesConfiguration oldProps = props;
-				conf = ApplicationPath.MAIN_CONFIG;
-				fis = new FileInputStream(conf);
-				reader = new InputStreamReader(fis, "utf-8");
-				props = new PropertiesConfiguration();
-				props.load(reader);
-				reader.close();
-				fis.close();
+				String ver = props.getString("version");
+				if (!ver.startsWith("0.6")) { // config file is too old
+					logger.info("Previous version was too old: " + ver);
+					logger.info("Cannot migrate old settings. Will reset settings.");
+				
+					fis = new FileInputStream(ApplicationPath.MAIN_CONFIG);
+					reader = new InputStreamReader(fis, "UTF-8");
+					props = new PropertiesConfiguration();
+					props.load(reader);
+					reader.close();
+					fis.close();
+				} else {
+					logger.info("Will initialize user config with default values, overriding with old config.");
 
-				for (Iterator iter = oldProps.getKeys(); iter.hasNext();) {
-					String key = (String) iter.next();
-					if (key.equals("version"))
-						continue;
-					props.setProperty(key, oldProps.getProperty(key));
+					PropertiesConfiguration oldProps = props;
+					fis = new FileInputStream(ApplicationPath.MAIN_CONFIG);
+					reader = new InputStreamReader(fis, "UTF-8");
+					props = new PropertiesConfiguration();
+					props.load(reader);
+					reader.close();
+					fis.close();
+
+					for (Iterator iter = oldProps.getKeys(); iter.hasNext();) {
+						String key = (String) iter.next();
+						if (key.equals("version"))
+							continue;
+						props.setProperty(key, oldProps.getProperty(key));
+					}
 				}
-
 				createConfig = true;
 			}
 		} catch (Exception e) {
 			logger.warn("IO Error in loading/reading config file " + ApplicationPath.MAIN_CONFIG);
 			logger.log(e);
 		}
-
 		if (createConfig) {
-			// runtime.recreateThemePropertiesDirectory();
 			runtime.clearAll();
+			// create config dir
+			new File(Naming.getConfigDir()).mkdirs();
 			saveConfig();
 		}
 	}
@@ -334,8 +346,8 @@ public class ApplicationConfig implements ConfigNaming {
 
 	/**
 	 * This method extracts translation properties from the corresponding node in the config file.<br>
-	 * Will first look inside global translations, and then user-specific ones, overwriting global translations with
-	 * user-defined ones if duplicates found.
+	 * Will first look inside global translations, and then user-specific ones, overwriting global translations
+	 * with user-defined ones if duplicates found.
 	 */
 	private void extractTransProps() {
 		String def = props.getString("trans.default");
@@ -735,7 +747,8 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	/**
-	 * @return <code>true</code> if an instance of this class is initialized, and <code>false</code> otherwise.
+	 * @return <code>true</code> if an instance of this class is initialized, and <code>false</code>
+	 *         otherwise.
 	 */
 	public static boolean isFullyInitialized() {
 		return thisInstance != null;
@@ -767,8 +780,7 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	/**
-	 * @param newIdList
-	 *           a list of new translation data IDs (list contains Strings).
+	 * @param newIdList a list of new translation data IDs (list contains Strings).
 	 */
 	public void setCustomTranslationList(List newIdList) {
 		List newList = new ArrayList();
@@ -786,11 +798,11 @@ public class ApplicationConfig implements ConfigNaming {
 
 	/**
 	 * This method first checks if the Quran is previously indexed (first in user home and then in installation
-	 * directory). If not, it will try to index it, asking user where to index. If this is already indexed, returns the
-	 * directory where Quran indices are.
+	 * directory). If not, it will try to index it, asking user where to index. If this is already indexed,
+	 * returns the directory where Quran indices are.
 	 * 
-	 * @return directory of the Quran index if indexing was successful (or found index somewhere), <code>null</code>
-	 *         otherwise
+	 * @return directory of the Quran index if indexing was successful (or found index somewhere),
+	 *         <code>null</code> otherwise
 	 */
 	public String createQuranIndex() {
 		if (props.getProperty("index.quran.done") != null && props.getBoolean("index.quran.done")) {
@@ -814,18 +826,15 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	/**
-	 * This method silently indexes Quran text. It should only be used for command line indexing. This method sets
-	 * <tt>index.quran.done</tt> property to <code>true</code> if indexing finished without throwing
+	 * This method silently indexes Quran text. It should only be used for command line indexing. This method
+	 * sets <tt>index.quran.done</tt> property to <code>true</code> if indexing finished without throwing
 	 * <code>IndexingException</code>.
 	 * 
-	 * @param mode
-	 *           can be <code>IndexCreator.ME_ONLY</code>, <code>IndexCreator.ALL_USERS</code>, or
-	 *           <code>IndexCreator.CUSTOM_PATH</code>. If mode is equal to <code>CUSTOM_PATH</code>, path
-	 *           parameter is also used, otherwise this parameter is unused.
-	 * @param path
-	 *           path for creating indices in. Used iff mode is equal to <code>CUSTOM_PATH</code>
-	 * @param stdout
-	 *           standard output to write progressing data to
+	 * @param mode can be <code>IndexCreator.ME_ONLY</code>, <code>IndexCreator.ALL_USERS</code>, or
+	 *           <code>IndexCreator.CUSTOM_PATH</code>. If mode is equal to <code>CUSTOM_PATH</code>,
+	 *           path parameter is also used, otherwise this parameter is unused.
+	 * @param path path for creating indices in. Used iff mode is equal to <code>CUSTOM_PATH</code>
+	 * @param stdout standard output to write progressing data to
 	 * @throws IndexingException
 	 */
 	public void createQuranIndex(int mode, String path, PrintStream stdout) throws IndexingException {
