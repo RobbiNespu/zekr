@@ -17,6 +17,19 @@ public class I18N {
 	private final static Map baseMap;
 	private Locale locale;
 
+	/** Left to right mark */
+	public static char LRM = '\u200e';
+	/** Right to left mark */
+	public static char RLM = '\u200f';
+	/** Left to right embedding */
+	public static char LRE = '\u202a';
+	/** Right to left embedding */
+	public static char RLE = '\u202b';
+	/** Left to right override */
+	public static char LRO = '\u202d';
+	/** Right to left override */
+	public static char RLO = '\u202e';
+
 	private static I18N thisInstance;
 	static {
 		baseMap = new HashMap();
@@ -41,8 +54,7 @@ public class I18N {
 	/**
 	 * This method makes a localized number based on the input number and selected or default locale.
 	 * 
-	 * @param number
-	 *           the input number
+	 * @param number the input number
 	 * @return localized number as <code>String</code>
 	 */
 	public String localize(Number number) {
@@ -52,10 +64,8 @@ public class I18N {
 	/**
 	 * This method makes a localized number based on the input number and the locale parameter.
 	 * 
-	 * @param number
-	 *           the input number
-	 * @param langCode
-	 *           target language code (e.g. en, fr, ar, ...) to be used for making numbers
+	 * @param number the input number
+	 * @param langCode target language code (e.g. en, fr, ar, ...) to be used for making numbers
 	 * @return localized number as <code>String</code>
 	 */
 	public String localize(Number number, String langCode) {
