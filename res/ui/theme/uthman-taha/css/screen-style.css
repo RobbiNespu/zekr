@@ -81,7 +81,6 @@ div.headerBar { /* IE 5.0+ */
 div.footerBar { /* IE 5.0+ */
 	filter: alpha(opacity=75);
 	top: expression(eval(document.body.scrollTop + document.body.clientHeight - 35) + 'px');
-	height: 34px;
 	padding: 0px;
 }
 
@@ -194,6 +193,7 @@ table.customTrans td {
 }
 
 .quran .searchResult { /* IE6 bug with me_quran */
+	font: 17pt Scheherazade, Mitra, Nazli, mry_KacstQurn, Sans-serif, Helvetica;
 	_font-family: Traditional Arabic, Tahoma, Sans-serif, Nazli, Helvetica, Arial Unicode MS, Scheherazade;
 	_font-size: 15pt;
 }

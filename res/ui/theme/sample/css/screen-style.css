@@ -77,7 +77,6 @@ div.headerBar { /* IE 5.0+ */
 div.footerBar { /* IE 5.0+ */
 	filter: alpha(opacity=75);
 	top: expression(eval(document.body.scrollTop + document.body.clientHeight - 35) + 'px');
-	height: 34px;
 	padding: 0px;
 }
 
