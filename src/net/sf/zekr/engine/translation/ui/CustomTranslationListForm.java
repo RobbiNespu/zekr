@@ -368,6 +368,8 @@ public class CustomTranslationListForm {
 		shell.pack();
 		if (shell.getSize().y < 250)
 			shell.setSize(shell.getSize().x, 250);
+		if (shell.getSize().y > 400)
+			shell.setSize(shell.getSize().x, 400);
 		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.open();
 	}
