@@ -19,12 +19,13 @@ import java.util.Random;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.config.BrowserUtils;
 import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.config.HyperlinkUtils;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.runtime.Naming;
+import net.sf.zekr.common.util.I18N;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.common.util.ZipUtils;
 import net.sf.zekr.engine.audio.AudioData;
@@ -69,6 +70,7 @@ public class QuranFormMenuFactory {
 	QuranForm form;
 	private final static ResourceManager resource = ResourceManager.getInstance();
 	private static final Logger logger = Logger.getLogger(QuranFormMenuFactory.class);
+	private boolean rtl;
 	private MenuItem quranLineLayoutItem;
 	private MenuItem transLineLayoutItem;
 	private MenuItem quranBlockLayoutItem;
@@ -108,6 +110,7 @@ public class QuranFormMenuFactory {
 		lang = config.getLanguageEngine();
 		this.shell = shell;
 		direction = form.langEngine.getSWTDirection();
+		rtl = direction == SWT.RIGHT_TO_LEFT;
 	}
 
 	public Menu getQuranFormMenu() {
@@ -197,8 +200,11 @@ public class QuranFormMenuFactory {
 			TranslationData td = (TranslationData) iter.next();
 			final MenuItem transItem = new MenuItem(transMenu, SWT.RADIO);
 			transItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.book")));
-			transItem.setText(StringUtils.abbreviate(td.localizedName, GlobalConfig.MAX_MENU_STRING_LENGTH) + " - "
-					+ td.locale);
+			transItem.setText(StringUtils.abbreviate((rtl ? I18N.RLE + "" : "") + "[" + td.locale + "]" + " "
+					+ (rtl ? I18N.RLM + "" : "") + td.localizedName, GlobalConfig.MAX_MENU_STRING_LENGTH)
+					+ (rtl ? I18N.LRM + "" : ""));
+			// transItem.setText(StringUtils.abbreviate("[" + td.locale + "] " + (rtl ? I18N.RLM + "" : "") +
+			// td.localizedName, GlobalConfig.MAX_MENU_STRING_LENGTH));
 			transItem.setData(td.id);
 			if (config.getTranslation().getDefault().id.equals(transItem.getData()))
 				transItem.setSelection(true);
@@ -220,7 +226,7 @@ public class QuranFormMenuFactory {
 		moreTransItem.setText(lang.getMeaning("MORE") + "...");
 		moreTransItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				BrowserUtils.openLink(GlobalConfig.RESOURCE_PAGE);
+				HyperlinkUtils.openLink(GlobalConfig.RESOURCE_PAGE);
 			}
 		});
 
@@ -429,12 +435,15 @@ public class QuranFormMenuFactory {
 
 		MenuItem gotoMenuItem = new MenuItem(viewMenu, SWT.CASCADE);
 		gotoMenuItem.setText(FormUtils.addAmpersand(lang.getMeaning("GOTO")));
+		gotoMenuItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.goto")));
 		Menu gotoMenu = new Menu(shell, SWT.DROP_DOWN);
 		gotoMenuItem.setMenu(gotoMenu);
 
 		boolean isRTL = ((direction == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 		String strNext = isRTL ? "Left" : "Right";
+		char keyNextJuz = isRTL ? ',' : '.';
 		String strPrev = isRTL ? "Right" : "Left";
+		char keyPrevJuz = isRTL ? '.' : ',';
 		int keyNext = isRTL ? SWT.ARROW_LEFT : SWT.ARROW_RIGHT;
 		int keyPrev = isRTL ? SWT.ARROW_RIGHT : SWT.ARROW_LEFT;
 
@@ -464,31 +473,33 @@ public class QuranFormMenuFactory {
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		nextJuz = new MenuItem(gotoMenu, SWT.PUSH);
-		nextJuz.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_JUZ")) + "\tAlt+Shift+" + strNext);
-		nextJuz.setAccelerator(SWT.ALT | SWT.SHIFT | keyNext);
-		nextJuz.setData("next_juz");
-		nextJuz.addSelectionListener(navListener);
-
-		prevJuz = new MenuItem(gotoMenu, SWT.PUSH);
-		prevJuz.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_JUZ")) + "\tAlt+Shift+" + strPrev);
-		prevJuz.setAccelerator(SWT.ALT | SWT.SHIFT | keyPrev);
-		prevJuz.setData("prev_juz");
-		prevJuz.addSelectionListener(navListener);
-
-		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
-
 		nextHizbQ = new MenuItem(gotoMenu, SWT.PUSH);
-		nextHizbQ.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_HIZBQ")) + "\tCtrl+Alt+" + strNext);
-		nextHizbQ.setAccelerator(SWT.CTRL | SWT.ALT | keyNext);
+		nextHizbQ.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_HIZBQ")) + "\tCtrl+Shift+" + strNext);
+		nextHizbQ.setAccelerator(SWT.CTRL | SWT.SHIFT | keyNext);
 		nextHizbQ.setData("next_hizb");
 		nextHizbQ.addSelectionListener(navListener);
 
 		prevHizbQ = new MenuItem(gotoMenu, SWT.PUSH);
-		prevHizbQ.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_HIZBQ")) + "\tCtrl+Alt+" + strPrev);
-		prevHizbQ.setAccelerator(SWT.CTRL | SWT.ALT | keyPrev);
+		prevHizbQ.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_HIZBQ")) + "\tCtrl+Shift+" + strPrev);
+		prevHizbQ.setAccelerator(SWT.CTRL | SWT.SHIFT | keyPrev);
 		prevHizbQ.setData("prev_hizb");
 		prevHizbQ.addSelectionListener(navListener);
+
+		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
+
+		nextJuz = new MenuItem(gotoMenu, SWT.PUSH);
+		nextJuz.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_JUZ")) + "\tCtrl+" + keyNextJuz
+				+ (rtl ? I18N.LRM + "" : ""));
+		nextJuz.setAccelerator(SWT.CTRL | keyNextJuz);
+		nextJuz.setData("next_juz");
+		nextJuz.addSelectionListener(navListener);
+
+		prevJuz = new MenuItem(gotoMenu, SWT.PUSH);
+		prevJuz.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_JUZ")) + "\tCtrl+" + keyPrevJuz
+				+ (rtl ? I18N.LRM + "" : ""));
+		prevJuz.setAccelerator(SWT.CTRL | keyPrevJuz);
+		prevJuz.setData("prev_juz");
+		prevJuz.addSelectionListener(navListener);
 
 		// new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 		//
@@ -574,7 +585,8 @@ public class QuranFormMenuFactory {
 				AudioData ad = (AudioData) iter.next();
 				final MenuItem audioItem = new MenuItem(recitationListMenu, SWT.RADIO);
 				audioItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playlistItem")));
-				audioItem.setText(StringUtils.abbreviate(ad.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH));
+				audioItem.setText(StringUtils.abbreviate(ad.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH)
+						+ (rtl ? I18N.LRM + "" : ""));
 				audioItem.setData(ad.getId());
 				if (config.getAudio().getCurrent().getId().equals(audioItem.getData()))
 					audioItem.setSelection(true);
@@ -597,7 +609,7 @@ public class QuranFormMenuFactory {
 		moreRecitationItem.setText(lang.getMeaning("MORE") + "...");
 		moreRecitationItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				BrowserUtils.openLink(GlobalConfig.RESOURCE_PAGE);
+				HyperlinkUtils.openLink(GlobalConfig.RESOURCE_PAGE);
 			}
 		});
 
@@ -925,7 +937,7 @@ public class QuranFormMenuFactory {
 	}
 
 	private void homepage() {
-		BrowserUtils.openLink(GlobalConfig.HOME_PAGE);
+		HyperlinkUtils.openLink(GlobalConfig.HOME_PAGE);
 	}
 
 	private void print() {

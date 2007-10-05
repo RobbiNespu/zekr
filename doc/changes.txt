@@ -386,7 +386,7 @@ Bug fixes:
     ID 1783886 - The hint in ManageBookMarkSets now fully shows
     TemplateEngine made non-singleton because of thread-safety issues.
 
-Version 0.6.6 - [30-9-07]
+Version 0.6.6 - [6-10-07]
 Features/Enhancements:
 	A new property added to config.properties for default local machine address. It's 127.0.0.1 by default.
 	New language pack: Uzbek (Nurali Abdurahmonov).
@@ -394,13 +394,21 @@ Features/Enhancements:
 	.exe file creation method enhanced. Launch4J is now used (instead of NSIS) to create launcher win32 executable file. Its size is less than the previous method (~80KB) and it has also a custom process name, zekr.exe instead of javaw.exe.
 	zekrc.exe added as a console version of zekr.exe. For using command lines, this file can be used instead of zekr.exe.
 	Upgrade to SWT 3.4M2 (version: 3.410). This version has full support for BIDI rendering and mirroring on GTK - Linux.
-	Main SWT shell (Quran Form) made BIDI, so "close", "maximize" and "minimize" buttons on Windows will place at the top-left side of the form. This is done in order to make Menu bar BIDI on Linux.
+	Main SWT shell (Quran Form) made BIDI, so "close", "maximize" and "minimize" buttons on Windows will place at the upper-left side of the form. Having this, menu bar is mirrored on Linux for RTL language packs.
 	"More..." menu item under recitation menu group, to go to Zekr resource page.
-	Sura-aya synchronizaiton button state is now saved and loaded on startup.
+	Sura-aya synchronization button state is now saved and loaded on startup (part of #1793836).
 	JW MP3 Player updated to 3.12.
-	"Force GC" button is not shown in prouction-mode releases (detects if debug mode is true, based on GlobalConfig.DEBUG_MODE)
+	"Force GC" button is not shown in production-mode releases (detects if debug mode is true, based on GlobalConfig.DEBUG_MODE)
 	A new splash screen donated by Bandar Raffa.
-	Alpha channel is supported in AdvancedSplashScreen. It captures central area of the current background in order to emulate splash opacity.
+	Alpha channel is supported in AdvancedSplashScreen. It captures central area of the current background in order to emulate opacity for the splash screen.
+	Search result font enhancement for Uthman Taha theme.
+	Mozilla XULRunner can be used instead of system default browser on all platforms. If XULRunner is installed, one can use it as default browser by setting options.browser.useMozilla property to true (false by default).
+	Splash screen made double bufferred (SWT.DOUBLE_BUFFER) so no blinking when refreshed anymore.
+	Unicode LRM, RLM, and RLE is added to the following in order to make them more readable when an RTL language packs is selected (Arabic, Persian, ...):
+		1. theme selection combo box in options form
+		2. language selection combo box in optons form
+		3. translation names under View > Translation menu
+		4. recitation names under Audio > Recitation menu
 Bug fixes:
 	Bookmark sets are now saved by default as UTF-8, fixing the bug which caused bookmarks to save in file.encoding encoding.
 	Bug with QuranFormMenuFactory.createOrUpdateBookmarkMenu(), which caused new bookmarks menu to be created fixed.
@@ -410,13 +418,10 @@ Bug fixes:
 	Bug fix for suraAyaSign font size in all themes.
 	Hizb quarter tooltip text fixed (hizb number was counted incorrectly).
 	Hizb quarter is shown for hizb start points (2 locations per juz), with a modified tooltip text (quarter part is now shown).
+	One of the most important bugs with Mozilla on Linux (and also Widows XULRuner) fixed. This bug prevented using aya box in nav-bar to change aya within a sura. It also caused aya syncing (automatically focusing on the next aya when one aya is finished) not to work when playing a recitataion in continuous mode. 
 _____________________________________________________
 	TODO: Update screenshots on the website
-	TODO: Change Javascript <-> SWT communication proticol. Better to use handler pattern for more clean code.
-	TODO: ResourceManager usage: all res.getString(key) are better to be changed to res.getString(key, [DEFAULT VALUE]) for the case that key is not found in resource file either due to version incompatibility or user's mistake.
 
-	TODO: Bug with translation icon in advanced search results... shows quran when multi-translation is selected.
-	TODO: Max width for Name and Value columns based on its most long text.
 	TODO: aya change in nav bar should work even when a html is "saved as...".
 	TODO: GCJ bug with XSLT transformation
 	TODO: Display localized, English transliterated, or Arabic sura names

@@ -16,6 +16,7 @@ import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
+import net.sf.zekr.common.util.I18N;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
@@ -106,6 +107,7 @@ public class OptionsForm {
 	private Button addBut;
 	private Button delBut;
 	private Button resizeablePane;
+	private boolean rtl;
 
 	private static final List packs = new ArrayList(lang.getLangPacks());
 	private static final List themes = new ArrayList(config.getTheme().getAllThemes());
@@ -119,6 +121,7 @@ public class OptionsForm {
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
 				new Image(display, resource.getString("icon.options32")) });
 		makeForm();
+		rtl = lang.getSWTDirection() == SWT.RIGHT_TO_LEFT;
 	}
 
 	private void makeForm() {
@@ -324,7 +327,7 @@ public class OptionsForm {
 		new Label(comp, SWT.NONE).setText(lang.getMeaning("LANGUAGE") + " :");
 
 		langSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
-		langSelect.setVisibleItemCount(6);
+		langSelect.setVisibleItemCount(8);
 		String[] items = new String[lang.getLangPacks().size()];
 		int s = 0;
 		LanguagePack activeLang = config.getLanguage().getActiveLanguagePack();
@@ -333,7 +336,7 @@ public class OptionsForm {
 			if (activeLang.id.equals(lp.id)) {
 				s = i;
 			}
-			items[i] = lp.name + " - " + lp.localizedName;
+			items[i] = lp.name + " - " + lp.localizedName + (rtl ? I18N.LRM + "" : "");
 		}
 		langSelect.setItems(items);
 		langSelect.select(s);
@@ -364,11 +367,11 @@ public class OptionsForm {
 		Label ct = new Label(comp, SWT.NONE);
 		ct.setText(meaning("THEME_OPTIONS") + ":");
 		// theme names should be in Roman characters
-		themeSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.LEFT_TO_RIGHT);
+		themeSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
 		Map themeMap = new LinkedHashMap();
 		int selectedNum = 0;
 		for (int i = 0; i < themes.size(); i++) {
-			themeMap.put(((ThemeData) themes.get(i)).id, ((ThemeData) themes.get(i)).name);
+			themeMap.put(((ThemeData) themes.get(i)).id, ((ThemeData) themes.get(i)).name + (rtl ? I18N.LRM + "" : ""));
 			if (((ThemeData) themes.get(i)).id.equals(td.id))
 				selectedNum = i;
 		}

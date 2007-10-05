@@ -10,7 +10,8 @@
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="distdir" value="D:\java\Programs\Zekr\dist\0.6.6\final\develdist" />
+	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.6.6/final" />
+	<property name="distdir" value="${dest_dir}/develdist" />
 
 	<property name="srcdir" value="src" />
 	<property name="libdir" value="lib" />
@@ -28,8 +29,7 @@
 	<property name="build_classdir" value="${builddir}/classes" />
 	<property name="build_testclassdir" value="${builddir}/testClasses" />
 	<property name="build_targetclassdir" value="${builddir}/targetclasses" />
-	<property name="build_distdir" value="${builddir}/dist" />
-	<property name="build_lib" value="${builddir}/lib" />
+	<property name="build_distdir" value="${builddir}" />
 	<property name="build_zekr_distdir" value="${build_distdir}/${distfilename}-${component_version}" />
 	<property name="dev_export.zip" value="${build_distdir}/${distfilename}-${component_version}.zip" />
 
@@ -100,8 +100,8 @@
 	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />
 	
 	<target name="createExeFile">
-		<launch4j configfile="misc/zekr-launch4j.xml" outfile="misc/zekr.exe" />
-		<launch4j configfile="misc/zekrc-launch4j.xml" outfile="misc/zekrc.exe" />
+		<launch4j configfile="misc/zekr-launch4j.xml" outfile="${dest_dir}/win/zekr.exe" />
+		<launch4j configfile="misc/zekrc-launch4j.xml" outfile="${dest_dir}/win/zekrc.exe" />
 	</target>
 
 	<target name="compile">

@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.JuzProperties;
@@ -378,7 +377,7 @@ public class QuranForm extends BaseForm {
 		sashForm.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		sashForm.SASH_WIDTH = 3;
 
-		quranBrowser = new Browser(sashForm, SWT.NO_MERGE_PAINTS);
+		quranBrowser = new Browser(sashForm, getBrowserStyle());
 		fl = new FillLayout(SWT.VERTICAL);
 		fl.marginHeight = 2;
 		quranBrowser.setLayout(fl);
@@ -469,7 +468,7 @@ public class QuranForm extends BaseForm {
 			}
 		};
 
-		transBrowser = new Browser(sashForm, SWT.NONE);
+		transBrowser = new Browser(sashForm, getBrowserStyle());
 		fl = new FillLayout(SWT.VERTICAL);
 		transBrowser.setLayout(fl);
 
@@ -678,6 +677,10 @@ public class QuranForm extends BaseForm {
 		// this progress should be in the heart of makeFrame method!
 		logger.info("UI relatively initialized.");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "UI Initialized");
+	}
+
+	private int getBrowserStyle() {
+		return config.useMozilla() ? SWT.MOZILLA : SWT.NONE;
 	}
 
 	private void playerStop() {
@@ -1240,9 +1243,11 @@ public class QuranForm extends BaseForm {
 		}
 	}
 
-	private void focusOnAya(Browser browser, int sura, int aya) {
-		String misc = getMiscOptions();
-		browser.execute("focusOnAya(" + sura + "," + aya + (misc == null ? "" : "," + misc) + ");");
+	private void focusOnAya(final Browser browser, final int sura, final int aya) {
+		final String misc = getMiscOptions();
+		// browser.execute("focusOnAya(" + sura + "," + aya + (misc == null ? "" : "," + misc) + ");");
+		SwtBrowserUtils.trickyExecute(display, browser, "focusOnAya(" + sura + "," + aya
+				+ (misc == null ? "" : "," + misc) + ");");
 	}
 
 	private String getMiscOptions() {

@@ -10,7 +10,7 @@ package net.sf.zekr.ui;
 
 import java.text.DecimalFormat;
 
-import net.sf.zekr.common.config.BrowserUtils;
+import net.sf.zekr.common.config.HyperlinkUtils;
 import net.sf.zekr.common.config.GlobalConfig;
 
 import org.eclipse.swt.SWT;
@@ -96,7 +96,7 @@ public class AboutForm extends BaseForm {
 		link.setLayoutData(gd);
 		link.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				BrowserUtils.openLink(GlobalConfig.HOME_PAGE);
+				HyperlinkUtils.openLink(GlobalConfig.HOME_PAGE);
 			}
 		});
 
