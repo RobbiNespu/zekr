@@ -16,11 +16,10 @@ import org.eclipse.swt.SWT;
  * This class holds some global settings used by Zekr.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class GlobalConfig {
 	/** is true for debug-mode */
-	public static final boolean DEBUG_MODE = true;
+	public static final boolean DEBUG_MODE = false;
 
 	/** Zekr version: e.g. 0.2.0beta1 for beta1 or 0.2.0 for final release. */
 	public static final String ZEKR_VERSION = "0.6.6";
@@ -67,7 +66,7 @@ public class GlobalConfig {
 	 */
 	public static final String USER_LANGUAGE = System.getProperty("user.language");
 
-	public static final int MAX_MENU_STRING_LENGTH = 40;
+	public static final int MAX_MENU_STRING_LENGTH = 50;
 
 	/**
 	 * @return Tries to find user's desktop folder. If failed, returns <code>USER_HOME_PATH</code> (<tt>user.home</tt>

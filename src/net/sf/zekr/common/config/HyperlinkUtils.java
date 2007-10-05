@@ -21,8 +21,8 @@ import org.eclipse.swt.program.Program;
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
-public class BrowserUtils {
-	private final static Logger logger = Logger.getLogger(BrowserUtils.class);
+public class HyperlinkUtils {
+	private final static Logger logger = Logger.getLogger(HyperlinkUtils.class);
 	private static final String MAC_OPEN_COMMAND = "/usr/bin/open ";
 	private static String linuxWebBrowser = null;
 

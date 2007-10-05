@@ -57,6 +57,7 @@ import net.sf.zekr.ui.helper.EventUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
 
@@ -171,7 +172,7 @@ public class ApplicationConfig implements ConfigNaming {
 				if (!ver.startsWith("0.6")) { // config file is too old
 					logger.info("Previous version was too old: " + ver);
 					logger.info("Cannot migrate old settings. Will reset settings.");
-				
+
 					fis = new FileInputStream(ApplicationPath.MAIN_CONFIG);
 					reader = new InputStreamReader(fis, "UTF-8");
 					props = new PropertiesConfiguration();
@@ -695,6 +696,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public boolean isHttpServerEnabled() {
 		return props.getBoolean("server.http.enable");
+	}
+
+	public boolean useMozilla() {
+		return props.getBoolean("options.browser.useMozilla");
 	}
 
 	/**
