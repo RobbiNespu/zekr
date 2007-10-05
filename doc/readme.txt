@@ -26,3 +26,6 @@ their corresponding license under doc directory:
 Most of images and icons used in this application are taken from Linux icon packs,
 which are under Lesser General Public License 2.1, [zekr]/doc/lgpl-2.1.txt.
 Others are either unspecified or made by Zekr author under GPLv2.
+Zekr splash screen (zekr-splash-alpha.png) is created by Bandar Raffa
+(http://bandar.raffah.com), specially for the Zekr project, under
+creativecommons by-nc-nd 3.0 (non-free) license.
