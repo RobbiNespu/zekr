@@ -63,7 +63,7 @@
 			<text id="IMPORT" value="Uvezi" />
 			<text id="COPY" value="Kopiraj" />
 			<text id="SEPARATE" value="Odvojeno" />
-			<text id="MIXED" value="Miješano" />
+			<text id="MIXED" value="Zajedno" />
 			<text id="OPTIONS" value="Opcije" />
 			<text id="QUESTION" value="Pitanje" />
 			<text id="FONT" value="Font" />
@@ -97,8 +97,8 @@
 			<text id="SHOW_REFS" value="Prikaži bilješke za odabrani ajet"/>
 			<text id="MOVE_UP" value="Idi gore" />
 			<text id="MOVE_DOWN" value="Idi dolje" />
-			<text id="MULTI_TRANS" value="Miješani prijevod" /> <!-- NOTE: This element replaced with CUSTOM_MIXED (Prilagođeno miješani prevod) -->
-			<text id="CONFIG_CUSTOM_TRANS" value="Podesi prilagođene prijevode" />
+			<text id="MULTI_TRANS" value="Samo Arapski" /> <!-- NOTE: This element replaced with CUSTOM_MIXED (Prilagođeno miješani prevod) -->
+			<text id="CONFIG_CUSTOM_TRANS" value="Podesi prijevode" />
 			<text id="GO" value="Idi" />
 			<text id="CAUTION" value="Upozorenje" />
 			<text id="ADVANCED" value="Napredno" />
@@ -113,16 +113,16 @@
 			<text id="PAUSE" value="Pauziraj"   />
 			<text id="STOP" value="Stop"   />
 			<text id="RECITATION" value="Učenje"   />
-			<text id="MENU_NEXT_AYA" value="Next Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
-			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
+			<text id="MENU_NEXT_AYA" value="Sljedeći Ajet"   />
+			<text id="MENU_NEXT_SURA" value="Sljedeća Sura"   />
+			<text id="MENU_PREV_AYA" value="Prethodni Ajet"   />
+			<text id="MENU_PREV_SURA" value="Prethodna Sura"   />
+			<text id="MENU_NEXT_JUZ" value="Sljedeći Džuz"   />
+			<text id="MENU_PREV_JUZ" value="Prethodni Džuz"   />
+			<text id="MENU_NEXT_HIZBQ" value="Sljedeća Hizb četvrtina"   />
+			<text id="MENU_PREV_HIZBQ" value="Prethodna Hizb četvrtina"   />
+			<text id="MENU_NEXT_SAJDA" value="Sljedeća sedžda"   />
+			<text id="MENU_PREV_SAJDA" value="Prethodna sedžda"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Kur'an" />

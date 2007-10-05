@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Michael Kalinin" version="0.6.5">
+<language author="Michael Kalinin" version="0.6">
 	<locale localizedName="Русский" name="Russian" id="ru_RU" direction="ltr" />
 	<word>
 		<common>
@@ -70,8 +70,8 @@
 			<text id="GENERAL"  value="Общие" />
 			<text id="EXIT"     value="Выход" />
 			<text id="EXCLUDE"  value="Исключить" />
-			<text id="TRUE"     value="Правильный" />
-			<text id="FALSE"    value="Неправильный" />
+			<text id="TRUE"     value="Истина" />
+			<text id="FALSE"    value="Ложь" />
 			<text id="SELECT"   value="Выбрать" />
 			<text id="EXPORT"   value="Экспорт" />
 			<text id="IMPORT"   value="Импорт" />
@@ -100,7 +100,7 @@
 			<text id="MULTI_TRANS" value="Многоязычный" />
 			<text id="CONFIG_CUSTOM_TRANS" value="Настройка многоязычных переводов" />
 			<text id="GO" value="Перейти" />
-			<text id="CAUTION" value="осторожный" />
+			<text id="CAUTION" value="Предупреждение" />
 			<text id="ADVANCED" value="Расширенный" />
 			<text id="QUERY_DETAIL" value="Детали запроса" />
 			<text id="PAGE" value="Страница" />
@@ -111,25 +111,25 @@
 			<text id="DISCRETE" value="Читать только аят"   />
 			<text id="PLAY" value="Воспроизвести"   />
 			<text id="PAUSE" value="Пауза"   />
-			<text id="STOP" value="Остановить"   />
+			<text id="STOP" value="Стоп"   />
 			<text id="RECITATION" value="Чтец Корана"   />
-			<text id="MENU_NEXT_AYA" value="Next Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
-			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
+			<text id="MENU_NEXT_AYA" value="Следующий аят"   />
+			<text id="MENU_NEXT_SURA" value="Следующая сура"   />
+			<text id="MENU_PREV_AYA" value="Предыдущий аят"   />
+			<text id="MENU_PREV_SURA" value="Предыдущая сура"   />
+			<text id="MENU_NEXT_JUZ" value="Следующий джуз"   />
+			<text id="MENU_PREV_JUZ" value="Предыдущий джуз"   />
+			<text id="MENU_NEXT_HIZBQ" value="Следующая четверть хизба"   />
+			<text id="MENU_PREV_HIZBQ" value="Предыдущая четверть хизба"   />
+			<text id="MENU_NEXT_SAJDA" value="Следующая саджда"   />
+			<text id="MENU_PREV_SAJDA" value="Предыдущая саджда"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Коран" />
 			<text id="QURAN_VIEWTYPE"    value="Коран"   />
 			<text id="SURA"     value="Сура" />
 			<text id="AYA"      value="Аят" />
-			<text id="SAJDA"    value="Земной поклон" />
+			<text id="SAJDA"    value="Саджда" />
 			<text id="JUZ"      value="Джуз" />
 			<text id="HIZB"     value="Хизб" />
 			<text id="QUARTER"  value="Четверть" />
@@ -137,8 +137,8 @@
 			<text id="MADANI"   value="Мединская" />
 			<text id="DESCENT"  value="Ниспослана" />
 			<text id="AYA_COUNT"  value="Число аятов" />
-			<text id="MINOR_SAJDA" value="Малый земной поклон" /> <!-- Желательный земной поклон (мустахаб) -->
-			<text id="MAJOR_SAJDA" value="Большой земной поклон" /> <!-- Обязательный земной поклон (ваджиб) -->
+			<text id="MINOR_SAJDA" value="Саджда мустахаб" /> <!-- Желательный земной поклон (мустахаб) -->
+			<text id="MAJOR_SAJDA" value="Саджда ваджиб" /> <!-- Обязательный земной поклон (ваджиб) -->
 			<text id="LOCATION" value="Расположение" /> <!-- означает расположение в Коране, например 2-12 означает суру "Корова", аят 12 -->
 		</special>
 	</word>

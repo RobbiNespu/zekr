@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Fareed A. Bashirov" version="0.6.5">
+<language author="Fareed A. Bashirov" version="0.6">
 	<locale localizedName="Татарча" name="Tatar" id="tt_RU" direction="ltr" />
 	<word>
 		<common>
@@ -22,7 +22,7 @@
 			<text id="DETAILS"  value="Тулырак" />
 			<text id="MORE"     value="Өстәмә" />
 			<text id="NEXT"     value="Киләсе" />
-			<text id="PREVIOUS" value="Алдагы" />
+			<text id="PREVIOUS" value="Үткән" />
 			<text id="REFRESH"  value="Яңарт" />
 			<text id="UPDATE"   value="Яңа версия" />
 			<text id="SHOW"     value="Күрсәт" />
@@ -49,16 +49,16 @@
 			<text id="MATCH_CASE" value="Хәреф зурлыгын исәпкә ал" />
 			<text id="NEXT_AYA" value="Киләсе аять" />
 			<text id="NEXT_SURA" value="Киләсе сүрә" />
-			<text id="PREV_AYA" value="Алдагы аять" />
-			<text id="PREV_SURA" value="Алдагы сүрә" />
+			<text id="PREV_AYA" value="Үткән аять" />
+			<text id="PREV_SURA" value="Үткән сүрә" />
 			<text id="THEME"    value="Тема" />
-			<text id="LAYOUT"   value="Урнаштыру" />
+			<text id="LAYOUT"   value="Урнашу" />
 			<text id="TOOLS"    value="Кораллар" />
 			<text id="ADD"      value="Өстә" />
 			<text id="DELETE"   value="Бетер" />
 			<text id="REMOVE"   value="Алып ташла" />
 			<text id="TRANSLATION" value="Тәрҗемә (тәфсир)" />
-            <text id="TRANSLATION_VIEWTYPE" value="Тәрҗемә (тәфсир) урнаштыруы"   />
+            <text id="TRANSLATION_VIEWTYPE" value="Тәрҗемә (тәфсир) урнашуы"   />
 			<text id="OPEN"     value="Ач" />
 			<text id="IMPORT"   value="Китер" />
 			<text id="COPY"     value="Нөсхәлә" />
@@ -113,20 +113,20 @@
 			<text id="PAUSE" value="Тукталып тор"   />
 			<text id="STOP" value="Туктат"   />
 			<text id="RECITATION" value="Кычкырып укучы"   />
-			<text id="MENU_NEXT_AYA" value="Next Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
-			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
+			<text id="MENU_NEXT_AYA" value="Киләсе Аять"   />
+			<text id="MENU_NEXT_SURA" value="Киләсе Сүрә"   />
+			<text id="MENU_PREV_AYA" value="Үткән Аять"   />
+			<text id="MENU_PREV_SURA" value="Үткән Сүрә"   />
+			<text id="MENU_NEXT_JUZ" value="Киләсе Җөз"   />
+			<text id="MENU_PREV_JUZ" value="Үткән Җөз"   />
+			<text id="MENU_NEXT_HIZBQ" value="Киләсе Хизеб Чиреге"   />
+			<text id="MENU_PREV_HIZBQ" value="Үткән Хизеб Чиреге"   />
+			<text id="MENU_NEXT_SAJDA" value="Киләсе Сәҗдә"   />
+			<text id="MENU_PREV_SAJDA" value="Үткән Сәҗдә"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Коръән-и Кәрим" />
-			<text id="QURAN_VIEWTYPE"    value="Коръән-и Кәрим урнаштыруы"   />
+			<text id="QURAN_VIEWTYPE"    value="Коръән-и Кәрим урнашуы"   />
 			<text id="SURA"     value="Сүрә" />
 			<text id="AYA"      value="Аять" />
 			<text id="SAJDA"    value="Сәҗдә аяте" />
@@ -137,9 +137,9 @@
 			<text id="MADANI"   value="Мәдинәдә" />
 			<text id="DESCENT"  value="Иңдерелгән" />
 			<text id="AYA_COUNT"  value="Аять саны" />
-			<text id="MINOR_SAJDA" value="Кече сәҗдә (мөстәхәп)" /> <!-- Желательный земной поклон (мустахаб) -->
-			<text id="MAJOR_SAJDA" value="Мөһим сәҗдә (вәҗеп)" /> <!-- Обязательный земной поклон (ваджиб) -->
-			<text id="LOCATION" value="Урнашу" /> <!-- означает расположение в Коране, например 2-12 означает суру "Корова", аят 12 -->
+			<text id="MINOR_SAJDA" value="Кече сәҗдә (мөстәхәп)" />
+			<text id="MAJOR_SAJDA" value="Мөһим сәҗдә (вәҗеп)" />
+			<text id="LOCATION" value="Урнашу" />
 		</special>
 	</word>
 
@@ -250,7 +250,7 @@
 		</form>
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="Зинһар, бераз көтегез" />
-			<text id="INDEXING" value="Исемлек төзелә" /><!-- Процесс индексации документа для быстрого поиска -->
+			<text id="INDEXING" value="Исемлек төзелә" />
 			<text id="TAKE_TIME" value="Бу хәрәкәт, индекслана торган документның зурлыгына карап, берничә минут дәвамында эшкәртелә ала." />
 		</form>
 	</forms>

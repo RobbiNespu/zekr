@@ -44,7 +44,7 @@
 			<text id="ABOUT" value="په اړه" />
 			<text id="PRINT" value="چاپ" />
 			<text id="HOMEPAGE" value="کورپاڼه" />
-			<text id="WHOLE_QURAN" value="ټول کران" />
+			<text id="WHOLE_QURAN" value="ټول قران" />
 			<text id="MATCH_DIACRITIC" value="نښې پرتله کول" />
 			<text id="MATCH_CASE" value="غټ-واړه توري پرتله کول" />
 			<text id="NEXT_AYA" value="راتلونكی ايت" />
@@ -110,23 +110,23 @@
 			<text id="CONTINUOUS" value="پرله پسې"   />
 			<text id="DISCRETE" value="بېل"   />
 			<text id="PLAY" value="غږول"   />
-			<text id="PAUSE" value="ځنډ"   />
+			<text id="PAUSE" value="ځنډول"   />
 			<text id="STOP" value="تمول"   />
 			<text id="RECITATION" value="لوستنه"   />
-			<text id="MENU_NEXT_AYA" value="Next Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
-			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
+			<text id="MENU_NEXT_AYA" value="راتلونکی ايت"   />
+			<text id="MENU_NEXT_SURA" value="راتلونکی سورت"   />
+			<text id="MENU_PREV_AYA" value="وروستی ايت"   />
+			<text id="MENU_PREV_SURA" value="وروستی سورت"   />
+			<text id="MENU_NEXT_JUZ" value="راتلونکی برخه"   />
+			<text id="MENU_PREV_JUZ" value="وروستۍ برخه"   />
+			<text id="MENU_NEXT_HIZBQ" value="راتلونکې پاو ټوټه"   />
+			<text id="MENU_PREV_HIZBQ" value="وروستۍ پاو ټوټه"   />
+			<text id="MENU_NEXT_SAJDA" value="راتلونکې سجده"   />
+			<text id="MENU_PREV_SAJDA" value="وروستۍ سجده"   />
 		</common>
 		<special>
-			<text id="QURAN" value="کران" />
-			<text id="QURAN_VIEWTYPE" value="کران"   />
+			<text id="QURAN" value="قران" />
+			<text id="QURAN_VIEWTYPE" value="قران"   />
 			<text id="SURA" value="سورت" />
 			<text id="AYA" value="ايت" />
 			<text id="SAJDA" value="سجده" />
@@ -150,10 +150,10 @@
 			<text id="SEARCH_PAGE" value="پاڼه {1} له {2}" />
 			<text id="TOO_MANY_RESULT" value="د لټون پايلې له {1} ايتونو څخه زياتې دي" />
 			<text id="FILE_ALREADY_EXISTS" value="په &quot;{1}&quot; نوم دوتنه له مخکې نه شته دی. ايا غواړی چې ځايناستی يې کړئ؟" />
-			<text id="RESTART_APP" value=".ددې لپاره چې دا بدلونونه پرځاي شي، پوستکالی بيابيلات کړئ" />
+			<text id="RESTART_APP" value=".ددې لپاره چې دا بدلونونه پرځاي شي، پوستکالی له سره پېل کړئ" />
 		</inform>
 		<confirm>
-			<text id="YES_NO" value="ايا ډاډمن يۍ؟" />
+			<text id="YES_NO" value="ايا تاسې ډاډمن ياست؟" />
 			<text id="DEL_YES_NO" value="ايا {1} د تل لپاره ړنګول غواړئ؟" />
 		</confirm>
 		<error>
@@ -167,7 +167,7 @@
 	<forms>
 		<global>
 			<text id="APP_NAME" value="زکر" />
-			<text id="APP_FULL_NAME" value="د سپېڅلي کران د زکر پروژه" />
+			<text id="APP_FULL_NAME" value="د سپېڅلي قران د زکر پروژه" />
 			<text id="FORM_TITLE" value="زکر" />
 			<text id="COPYRIGHT_DISCLAIMER" value="دا پوستکالی په وړيا توګه او په دې هيله چې ستاسو لپاره ګټور اوسي په واک کې مو اېښودل کېږي. خو پرته له کوم ډول ګرنټۍ څخه." />
 		</global>
@@ -177,7 +177,7 @@
 			<text id="EDIT_SCOPES" value="سيمه سمون" />
 			<text id="NO_SCOPE" value="هېڅ سيمه" />
 			<text id="CURRENT_PAGE" value="همدا پاڼه" />
-			<text id="QURAN_SCOPE" value="کران"   />
+			<text id="QURAN_SCOPE" value="قران"   />
 			<text id="TRANSLATION_SCOPE" value="ژباړه"   />
 			<text id="NATURAL_ORDER" value="ساده ترتیب" />
 			<text id="RELEVANCE" value="يو ډول والي" />
@@ -221,14 +221,14 @@
 			<text id="DBL_CLICK" value="د توکيو کتلو او يا سمولو لپاره هغه دوه ځله ټک وهئ" />
 			<text id="SET_AS_DEFAULT" value='ايا غواړئ چې &quot;{1}&quot; ؟د خپل تلوالې نښه ټولګې په توګه وټاکئ' />
 			<text id="CANNOT_REMOVE_DEFAULT" value=".تلواله نښه ټولګه له منځه نشي وړل کېدی" />
-			<text id="CANNOT_OVERWRITE_DEFAULT" value="د تلولالې نښه ټولګې ځای بل نښه ټولګه نيولی نشي. لومړی يوه بله نښه ټولګه تلواله کړئ او بيا د راوړلو کوښښ وکړئ." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="د تلولالې نښه ټولګې ځای بل نښه ټولګه نيولی نشي. لومړی يوه بله نښه ټولګه تلواله کړئ او بيا يې د راوړلو هڅه وکړئ." />
 			<text id="ENTER_ID" value="د ټولګې پېژند وليکئ" />
 			<text id="NEW_BOOKMARK_SET" value="نوې نښه ټولګه" />
 			<text id="EXPORT4WEB" value="د وېب په ډول لېږل" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="د نښې د ځانګړتياوو بدلون" />
-			<text id="QURAN_LOCATIONS" value="د کران ځایونه" />
+			<text id="QURAN_LOCATIONS" value="د قران ځایونه" />
 			<text id="NEW_BOOKMARK" value="نوې نښه" />
 			<text id="NEW_FOLDER" value="نوې پوښئ" />
 		</form>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Färid A. Bäşirov" version="0.6.5">
+<language author="Färid A. Bäşirov" version="0.6">
 	<locale localizedName="Tatarça" name="Tatar Latin" id="tt_TR" direction="ltr" />
 	<word>
 		<common>
@@ -22,7 +22,7 @@
 			<text id="DETAILS"  value="Tulıraq" />
 			<text id="MORE"     value="Östämä" />
 			<text id="NEXT"     value="Kiläse" />
-			<text id="PREVIOUS" value="Aldağı" />
+			<text id="PREVIOUS" value="Ütkän" />
 			<text id="REFRESH"  value="Yañart" />
 			<text id="UPDATE"   value="Yaña versiä" />
 			<text id="SHOW"     value="Kürsät" />
@@ -49,16 +49,16 @@
 			<text id="MATCH_CASE" value="Xäref zurlığın isäpkä al" />
 			<text id="NEXT_AYA" value="Kiläse ayät" />
 			<text id="NEXT_SURA" value="Kiläse sürä" />
-			<text id="PREV_AYA" value="Aldağı ayät" />
-			<text id="PREV_SURA" value="Aldağı sürä" />
+			<text id="PREV_AYA" value="Ütkän ayät" />
+			<text id="PREV_SURA" value="Ütkän sürä" />
 			<text id="THEME"    value="Tema" />
-			<text id="LAYOUT"   value="Urnaştıru" />
+			<text id="LAYOUT"   value="Urnaşu" />
 			<text id="TOOLS"    value="Qorallar" />
 			<text id="ADD"      value="Östä" />
 			<text id="DELETE"   value="Beter" />
 			<text id="REMOVE"   value="Alıp taşla" />
 			<text id="TRANSLATION" value="Tärcemä (täfsir)" />
-            <text id="TRANSLATION_VIEWTYPE" value="Tärcemä (täfsir) urnaştıruı"   />
+            <text id="TRANSLATION_VIEWTYPE" value="Tärcemä (täfsir) urnaşuı"   />
 			<text id="OPEN"     value="Aç" />
 			<text id="IMPORT"   value="Kiter" />
 			<text id="COPY"     value="Nösxälä" />
@@ -113,20 +113,20 @@
 			<text id="PAUSE" value="Tuqtalıp tor"   />
 			<text id="STOP" value="Tuqtat"   />
 			<text id="RECITATION" value="Qıçqırıp uquçı"   />
-			<text id="MENU_NEXT_AYA" value="Next Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
-			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
+			<text id="MENU_NEXT_AYA" value="Kiläse Ayät"   />
+			<text id="MENU_NEXT_SURA" value="Kiläse Sürä"   />
+			<text id="MENU_PREV_AYA" value="Ütkän Ayät"   />
+			<text id="MENU_PREV_SURA" value="Ütkän Sürä"   />
+			<text id="MENU_NEXT_JUZ" value="Kiläse Cöz"   />
+			<text id="MENU_PREV_JUZ" value="Ütkän Cöz"   />
+			<text id="MENU_NEXT_HIZBQ" value="Kiläse Xizeb Çirege"   />
+			<text id="MENU_PREV_HIZBQ" value="Ütkän Xizeb Çirege"   />
+			<text id="MENU_NEXT_SAJDA" value="Kiläse Säcdä"   />
+			<text id="MENU_PREV_SAJDA" value="Ütkän Säcdä"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Qör'än-i Kärim" />
-			<text id="QURAN_VIEWTYPE"    value="Qör'än-i Kärim urnaştıruı"   />
+			<text id="QURAN_VIEWTYPE"    value="Qör'än-i Kärim urnaşuı"   />
 			<text id="SURA"     value="Sürä" />
 			<text id="AYA"      value="Ayät" />
 			<text id="SAJDA"    value="Säcdä ayäte" />
