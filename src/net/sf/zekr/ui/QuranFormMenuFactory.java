@@ -1021,14 +1021,15 @@ public class QuranFormMenuFactory {
 	}
 
 	public void playerTogglePlayPause(final boolean bubbleEvent) {
+		String txt = FormUtils.addAmpersand(lang.getMeaning("PAUSE") + "\tCtrl+Shift+P");
 		if (playItem.getData().equals("play")) {
 			playItem.setData("pause");
 			playItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.play")));
-			playItem.setText(FormUtils.addAmpersand(lang.getMeaning("PLAY") + "\tCtrl+SHIFT+P"));
+			playItem.setText(txt);
 		} else {
 			playItem.setData("play");
 			playItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.pause")));
-			playItem.setText(FormUtils.addAmpersand(lang.getMeaning("PAUSE") + "\tCtrl+SHIFT+P"));
+			playItem.setText(txt);
 		}
 		if (bubbleEvent)
 			form.sendPlayerTogglePlayPause();

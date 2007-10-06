@@ -7,8 +7,8 @@ SetCompressor /SOLID lzma
 # Defines
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_UNIX_NAME "zekr"
-!define VERSION 0.6.5.0
-!define RELEASE_VERSION "0.6.5"
+!define VERSION 0.6.6.0
+!define RELEASE_VERSION "0.6.6"
 !define COMPANY siahe.com
 !define URL http://siahe.com/zekr
 
@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.5\final\win"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.6\final\win"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -80,7 +80,6 @@ Var JDK_HOME
 !insertmacro MUI_LANGUAGE Romanian
 !insertmacro MUI_LANGUAGE Russian
 !insertmacro MUI_LANGUAGE Turkish
-!insertmacro MUI_LANGUAGE Pashto
 
 # Installer attributes
 BrandingText "The Zekr Project"
@@ -97,7 +96,7 @@ VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "${RELEASE_VERSION}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Quranic Project"
-VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "Â© 2004-2007 Mohsen Saboorian and other contributors"
+VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2007 Mohsen Saboorian and other contributors"
 InstallDirRegKey HKLM "${REGKEY}" Path
 UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 ShowUninstDetails show
@@ -380,4 +379,3 @@ LangString ^UninstallLink ${LANG_PORTUGUESE} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_ROMANIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_RUSSIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_TURKISH} "Uninstall $(^Name)"
-LangString ^UninstallLink ${LANG_PASHTO} "Uninstall $(^Name)"

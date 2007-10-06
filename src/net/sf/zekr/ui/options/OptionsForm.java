@@ -115,13 +115,15 @@ public class OptionsForm {
 	public OptionsForm(Shell parent) {
 		this.parent = parent;
 		display = parent.getDisplay();
+
+		rtl = (lang.getSWTDirection() == SWT.RIGHT_TO_LEFT);
+
 		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
 		shell.setLayout(new FillLayout());
 		shell.setText(lang.getMeaning("OPTIONS"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
 				new Image(display, resource.getString("icon.options32")) });
 		makeForm();
-		rtl = lang.getSWTDirection() == SWT.RIGHT_TO_LEFT;
 	}
 
 	private void makeForm() {

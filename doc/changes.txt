@@ -403,12 +403,17 @@ Features/Enhancements:
 	Alpha channel is supported in AdvancedSplashScreen. It captures central area of the current background in order to emulate opacity for the splash screen.
 	Search result font enhancement for Uthman Taha theme.
 	Mozilla XULRunner can be used instead of system default browser on all platforms. If XULRunner is installed, one can use it as default browser by setting options.browser.useMozilla property to true (false by default).
-	Splash screen made double bufferred (SWT.DOUBLE_BUFFER) so no blinking when refreshed anymore.
+	Splash screen made double buffered (SWT.DOUBLE_BUFFER) so no blinking when refreshed anymore.
 	Unicode LRM, RLM, and RLE is added to the following in order to make them more readable when an RTL language packs is selected (Arabic, Persian, ...):
 		1. theme selection combo box in options form
 		2. language selection combo box in optons form
 		3. translation names under View > Translation menu
 		4. recitation names under Audio > Recitation menu
+	Advanced navigation (View > Go to)
+       - Next/Previous sura
+       - Next/Previous aya
+       - Next/Previous juz
+       - Next/Previous hizb quarter
 Bug fixes:
 	Bookmark sets are now saved by default as UTF-8, fixing the bug which caused bookmarks to save in file.encoding encoding.
 	Bug with QuranFormMenuFactory.createOrUpdateBookmarkMenu(), which caused new bookmarks menu to be created fixed.
