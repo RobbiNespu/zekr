@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Johan Laenen" version="0.6">
+<language author="Johan Laenen" version="0.6.6">
 	<locale localizedName="Nederlands" name="Dutch" id="nl_NL" direction="ltr" />
 	<word>
 		<common>
@@ -113,16 +113,16 @@
 			<text id="PAUSE" value="Pauze" />
 			<text id="STOP" value="Stop" />
 			<text id="RECITATION" value="Recitatie" />
-			<text id="MENU_NEXT_AYA" value="Next Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
-			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
+			<text id="MENU_NEXT_AYA" value="Volgende Aya" />
+			<text id="MENU_NEXT_SURA" value="Volgende Sura" />
+			<text id="MENU_PREV_AYA" value="Vorige Aya" />
+			<text id="MENU_PREV_SURA" value="Vorige Sura" />
+			<text id="MENU_NEXT_JUZ" value="Volgende Juz" />
+			<text id="MENU_PREV_JUZ" value="Vorige Juz" />
+			<text id="MENU_NEXT_HIZBQ" value="Volgende Hizb Kwart" />
+			<text id="MENU_PREV_HIZBQ" value="Vorige Hizb Kwart" />
+			<text id="MENU_NEXT_SAJDA" value="Volgende Sajda" />
+			<text id="MENU_PREV_SAJDA" value="Vorige Sajda" />
 		</common>
 		<special>
 			<text id="QURAN"  value="Koran" />
