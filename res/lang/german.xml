@@ -23,7 +23,7 @@
 			<text id="MORE"   value="Mehr" />
 			<text id="NEXT"   value="Nächster" />
 			<text id="PREVIOUS" value="Vorheriger" />
-			<text id="REFRESH"  value="Aktuallisieren" />
+			<text id="REFRESH"  value="Aktualisieren" />
 			<text id="UPDATE" value="Update" />
 			<text id="SHOW"   value="Anzeigen" />
 			<text id="NAME"   value="Name" />
@@ -63,7 +63,7 @@
 			<text id="IMPORT"   value="Importieren" />
 			<text id="COPY"     value="Kopieren" />
 			<text id="SEPARATE" value="Getrennt" />
-			<text id="MIXED"    value="Vereinigt" />
+			<text id="MIXED"    value="Gemischt" />
 			<text id="OPTIONS"  value="Einstellungen" />
 			<text id="QUESTION" value="Frage" />
 			<text id="FONT"     value="Schriftart" />
@@ -107,22 +107,22 @@
 			<text id="MULTILINE" value="Mehrzeilig" />
 			<text id="TOGGLE" value="Auf-/Zuklappen" />
 			<text id="AUDIO" value="Audio"   />
-			<text id="CONTINUOUS" value="Continuous"   />
-			<text id="DISCRETE" value="Discrete"   />
-			<text id="PLAY" value="Play"   />
-			<text id="PAUSE" value="Pause"   />
-			<text id="STOP" value="Stop"   />
-			<text id="RECITATION" value="Recitation"   />
-			<text id="MENU_NEXT_AYA" value="Ne&amp;xt Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous &amp;Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Nex&amp;t Juz"   />
-			<text id="MENU_PREV_JUZ" value="Pr&amp;evious Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hiz&amp;b Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hi&amp;zb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sa&amp;jda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Saj&amp;da"   />
+			<text id="CONTINUOUS" value="Fortlaufend"   />
+			<text id="DISCRETE" value="Einzeln"   />
+			<text id="PLAY" value="Abspielen"   />
+			<text id="PAUSE" value="Pausieren"   />
+			<text id="STOP" value="Anhalten"   />
+			<text id="RECITATION" value="Rezitation"   />
+			<text id="MENU_NEXT_AYA" value="Nächste Aya"   />
+			<text id="MENU_NEXT_SURA" value="Nächste Sura"   />
+			<text id="MENU_PREV_AYA" value="Vorherige &amp;Aya"   />
+			<text id="MENU_PREV_SURA" value="Vorherige Sura"   />
+			<text id="MENU_NEXT_JUZ" value="Nächste Juz"   />
+			<text id="MENU_PREV_JUZ" value="Vorherige Juz"   />
+			<text id="MENU_NEXT_HIZBQ" value="Nächstes Hizb-Viertel"   />
+			<text id="MENU_PREV_HIZBQ" value="Vorheriges Hizb-Viertel"   />
+			<text id="MENU_NEXT_SAJDA" value="Nächstes Sajjda"   />
+			<text id="MENU_PREV_SAJDA" value="Vorheriges Sajda"   />
 		</common>
 		<special>
 			<text id="QURAN"  value="Quran" />
@@ -133,8 +133,8 @@
 			<text id="JUZ"  value="Juz" />
 			<text id="HIZB"     value="Hizb" />
 			<text id="QUARTER"  value="Viertel" />
-			<text id="MAKKI"  value="Makki" />
-			<text id="MADANI" value="Madani" />
+			<text id="MAKKI"  value="Makkanisch" /><!-- Another version is "mekkanisch" which seems wrong to me -->
+			<text id="MADANI" value="Madinitisch" /><!-- hard to find but this is the most logical one I could find -->
 			<text id="DESCENT"  value="Geoffenbart" />
 			<text id="AYA_COUNT"  value="Ayaanzahl" />
 			<text id="MINOR_SAJDA" value="Kleine Sajda" /> <!-- Mustahab Sajda -->
@@ -148,7 +148,7 @@
 			<text id="SEARCH_RESULT_TITLE" value="Ergebnis der Suche nach: &quot;{1}&quot;" />
 			<text id="SEARCH_RESULT_COUNT" value="Es wurden {1} Übereinstimmungen in {2} Ayas gefunden." />
 			<text id="SEARCH_PAGE" value="Seite {1} von {2}" />
-			<text id="TOO_MANY_RESULT" value="Ergebnis der Suche hat mehr als {1} Ayas." />
+			<text id="TOO_MANY_RESULT" value="Das Suchergebnis hat mehr als {1} Ayas." />
 			<text id="FILE_ALREADY_EXISTS" value="Eine Datei mit dem Namen &quot;{1}&quot; existiert bereits. Möchten Sie sie überschreiben?" />
 			<text id="RESTART_APP" value="Sie müssen die Anwendung neustarten, damit die Änderungen wirksam werden." />
 		</inform>
@@ -213,18 +213,18 @@
 			<text id="NEW_BOOKMARK_ITEM" value="Neues Lesezeichen" />
 			<text id="UNIQUE_NAME" value="Eine eindeutige Bezeichnung" />
 			<text id="COMMA_SEPARATED" value="Trennen Sie mehrere Autoren durch Kommata" />
-			<text id="ONLY_ENGLISH" value="Nur englische Bezeichnungen verwenden (z.B. English, Persian, Arabic, ...)" />
+			<text id="ONLY_ENGLISH" value="Nur englische Bezeichnungen verwenden (z.B. Englisch, Persisch, Arabisch, ...)" />
 			<text id="DESC_TOOLTIP" value="Gebrauch, Zitate, Referenzen und andere Informationen im Bezug zum Lesezeichen" />
 		</form>
 		<form id="BOOKMARK_SET_MANAGE_FORM">
 			<text id="TITLE" value="Lesezeichensammlungen verwalten" />
-			<text id="DBL_CLICK" value="Klicken Sie doppelt auf Einträge, um Sie laden und/oder bearbeiten." />
+			<text id="DBL_CLICK" value="Klicken Sie doppelt auf Einträge, um Sie zu laden und/oder bearbeiten." />
 			<text id="SET_AS_DEFAULT" value="Wollen Sie Lesezeichensammlung &quot;{1}&quot; zu Ihrer Standardlesezeichensammlung machen?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Eine Standardlesezeichensammlung kann nicht entfernt werden." />
-			<text id="CANNOT_OVERWRITE_DEFAULT" value="Standardlesezeichensammlung kann nicht überschrieben werden. Wählen Sie eine andere Lesezeichensammlung als Standard und versuchen Sie den Import erneut." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Die Standardlesezeichensammlung kann nicht überschrieben werden. Wählen Sie eine andere Lesezeichensammlung als Standard und versuchen Sie den Import erneut." />
 			<text id="ENTER_ID" value="Lesezeichen-ID eingeben" />
 			<text id="NEW_BOOKMARK_SET" value="Neue Lesezeichensammlung" />
-			<text id="EXPORT4WEB" value="Für das Web exportieren" />
+			<text id="EXPORT4WEB" value="Für das Internet exportieren" />
 		</form>
 		<form id="BOOKMARK_ITEM_FORM">
 			<text id="TITLE" value="Lesezeichen bearbeiten" />

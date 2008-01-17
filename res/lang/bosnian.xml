@@ -3,7 +3,7 @@
 	<locale localizedName="Bosanski" name="Bosnian" id="bs_BA" direction="ltr" />
 	<word>
 		<common>
-			<text id="OK" value="Slažem se" />
+			<text id="OK" value="Uredu" />
 			<text id="CANCEL" value="Poništi" />
 			<text id="YES" value="Da" />
 			<text id="NO" value="Ne" />
@@ -63,7 +63,7 @@
 			<text id="IMPORT" value="Uvezi" />
 			<text id="COPY" value="Kopiraj" />
 			<text id="SEPARATE" value="Odvojeno" />
-			<text id="MIXED" value="Zajedno" />
+			<text id="MIXED" value="Pomiješano" />
 			<text id="OPTIONS" value="Opcije" />
 			<text id="QUESTION" value="Pitanje" />
 			<text id="FONT" value="Font" />
@@ -97,8 +97,8 @@
 			<text id="SHOW_REFS" value="Prikaži bilješke za odabrani ajet"/>
 			<text id="MOVE_UP" value="Idi gore" />
 			<text id="MOVE_DOWN" value="Idi dolje" />
-			<text id="MULTI_TRANS" value="Samo Arapski" /> <!-- NOTE: This element replaced with CUSTOM_MIXED (Prilagođeno miješani prevod) -->
-			<text id="CONFIG_CUSTOM_TRANS" value="Podesi prijevode" />
+			<text id="MULTI_TRANS" value="Više prijevoda" /> <!-- NOTE: This element replaced with CUSTOM_MIXED (Prilagođeno miješani prevod) -->
+			<text id="CONFIG_CUSTOM_TRANS" value="Podesi više prijevoda" />
 			<text id="GO" value="Idi" />
 			<text id="CAUTION" value="Upozorenje" />
 			<text id="ADVANCED" value="Napredno" />
@@ -191,7 +191,7 @@
 			<text id="SHOW_SPLASH" value="Prikaži logo pri startu" />
 			<text id="NEW_KEY" value="Unesite novi ključ" />
 			<text id="THEME_SETTING" value="Podešavanje tema" />
-			<text id="PRESS_OK_TO_APPLY" value="Kliknite na &quot;OK&quot; da bi izmjene bile izvršene." />
+			<text id="PRESS_OK_TO_APPLY" value="Kliknite na &quot;Uredu&quot; da bi izmjene bile izvršene." />
 			<text id="MAX_SEARCH_RESULT" value="Maksimalni broj rezultata pretrage" />
 			<text id="RESIZEABLE_TASK_PANE" value="Promjenljiva veličina okvira sa zadacima" />
 		</form>
