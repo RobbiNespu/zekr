@@ -424,6 +424,14 @@ Bug fixes:
 	Hizb quarter tooltip text fixed (hizb number was counted incorrectly).
 	Hizb quarter is shown for hizb start points (2 locations per juz), with a modified tooltip text (quarter part is now shown).
 	One of the most important bugs with Mozilla on Linux (and also Widows XULRuner) fixed. This bug prevented using aya box in nav-bar to change aya within a sura. It also caused aya syncing (automatically focusing on the next aya when one aya is finished) not to work when playing a recitataion in continuous mode. 
+
+Version 0.6.7 (Special edition for uploading on Debinan repositories) - [3-11-07]
+Features/Enhancements:
+Bug fixes:
+    - Disabled "Save as..." button when HTML is served through HTTP server. Exporting pages without having HTTP server on, is not a good idea, because no image/JS/CSS resources can be accessed then.
+    - Audio > Play/Pause menu item text is now correctly updated upon play/pause status change.
+    - Player bar buttons' size fixed.
+    - Audio menu is now correctly disabled when setting audio.enabled = false in config.properties
 _____________________________________________________
 	TODO: Update screenshots on the website
 
@@ -447,3 +455,8 @@ _____________________________________________________
 
 	TODO: Move all explicit references to *.vm in a template file to resource-path.propertis
 	TODO: Pluggable (plug-in based) search.
+
+    TODO: A simple help page for advanced search
+    TODO: use tanzil.info wildcard search functions to extend Zekr basic search
+    TODO: Quranic Ruku locations.
+    TODO: Different display modes (on the top of all the current layouts): 1) a whole sura, 2) a single Uthmani page 3) a hizb quarter
