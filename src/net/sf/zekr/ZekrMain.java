@@ -40,14 +40,15 @@ public class ZekrMain {
 		Display display = new Display();
 		QuranForm quranForm = null;
 		try {
-			logger.info("Starting The Zekr Platform " + GlobalConfig.ZEKR_VERSION + " on " + new Date() + ".");
+			logger.info("Starting The Zekr Platform " + GlobalConfig.ZEKR_VERSION + " (build: "
+					+ GlobalConfig.ZEKR_BUILD_NUMBER + ") on " + new Date() + ".");
 
 			AbstractSplachScreen splash = new AdvancedSplashScreen(display);
 			logger.debug("Display splash screen...");
 			splash.show();
 			logger.info("Configure runtime configurations...");
 			ApplicationConfig.getInstance().getRuntime().configure();// TODO: some directories already created in
-																						// ApplicationConfig
+			// ApplicationConfig
 
 			quranForm = new QuranForm(display);
 			EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS_FULLY + ":" + "UI Initialized");
