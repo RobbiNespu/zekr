@@ -9,6 +9,9 @@
 package net.sf.zekr.common.config;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.PropertyResourceBundle;
 
 import org.eclipse.swt.SWT;
 
@@ -20,9 +23,6 @@ import org.eclipse.swt.SWT;
 public class GlobalConfig {
 	/** is true for debug-mode */
 	public static final boolean DEBUG_MODE = false;
-
-	/** Zekr version: e.g. 0.2.0beta1 for beta1 or 0.2.0 for final release. */
-	public static final String ZEKR_VERSION = "0.6.6";
 
 	/** Specifies if OS is Linux */
 	public static final boolean isLinux = SWT.getPlatform().equalsIgnoreCase("gtk");
@@ -67,6 +67,35 @@ public class GlobalConfig {
 	public static final String USER_LANGUAGE = System.getProperty("user.language");
 
 	public static final int MAX_MENU_STRING_LENGTH = 50;
+
+	/**
+	 * A unique number for each build. It contains full date plus hour. For example <tt>2008021020</tt> is
+	 * used for a version released on Feb. 2, 2008, on 20 o'clock.
+	 */
+	public static final String ZEKR_BUILD_NUMBER;
+
+	/** Build status: FINAL, BETA, DEV */
+	public static final String ZEKR_BUILD_STATUS;
+
+	/**
+	 * Zekr full version: <tt>[version_number][release_status]</tt>. e.g. 0.2.0beta1 for beta1 or 0.2.0 for
+	 * final release.
+	 */
+	public static final String ZEKR_VERSION;
+
+	static {
+		PropertyResourceBundle prb = null;
+		try {
+			InputStream is = GlobalConfig.class.getResourceAsStream("version.properties");
+			prb = new PropertyResourceBundle(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			ZEKR_VERSION = prb == null ? "" : prb.getString("zekr.version");
+			ZEKR_BUILD_NUMBER = prb == null ? "" : prb.getString("zekr.build.number");
+			ZEKR_BUILD_STATUS = prb == null ? "" : prb.getString("zekr.build.status");
+		}
+	}
 
 	/**
 	 * @return Tries to find user's desktop folder. If failed, returns <code>USER_HOME_PATH</code> (<tt>user.home</tt>
