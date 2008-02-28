@@ -21,9 +21,9 @@ import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * Zekr default logger wrapper class for Log4J library. This is not a singleton class. It creates a new instance of
- * itself per each call to <code>getInstance()</code>, because different classes should have different Log4J loggers
- * associated with.
+ * Zekr default logger wrapper class for Log4J library. This is not a singleton class. It creates a new
+ * instance of itself per each call to <code>getInstance()</code>, because different classes should have
+ * different Log4J loggers associated with.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -39,6 +39,8 @@ public class Logger {
 
 	private static final String STACK_TRACE_INDENRAION = "  ";
 	private static final Level DEAFALT_LEVEL = INFO;
+
+	public static final String LOG_FILE_PATH = Naming.getWorkspace() + "/zekr.log";
 
 	static {
 		System.setProperty("zekr.home", Naming.getWorkspace());
@@ -76,8 +78,7 @@ public class Logger {
 	/**
 	 * For logging more precisely by implying the class name from which log message is sent.
 	 * 
-	 * @param theClass
-	 *           logging source class
+	 * @param theClass logging source class
 	 * @return corresponding logger
 	 */
 	synchronized final public static Logger getLogger(Class theClass) {
@@ -105,13 +106,13 @@ public class Logger {
 	}
 
 	/**
-	 * This method logs <code>msg.toString()</code> if msg is not of type <code>{@link java.lang.Throwable}</code>
-	 * (exception). If the msg is in fact a <code>Throwable</code> object, it logs it as an error message implicitly.
-	 * Then if <code>ApplicationConfig.isFullyInitialized()</code>, it brings up an error dialog and show the
+	 * This method logs <code>msg.toString()</code> if msg is not of type
+	 * <code>{@link java.lang.Throwable}</code> (exception). If the msg is in fact a <code>Throwable</code>
+	 * object, it logs it as an error message implicitly. Then if
+	 * <code>ApplicationConfig.isFullyInitialized()</code>, it brings up an error dialog and show the
 	 * exception to user.
 	 * 
-	 * @param msg
-	 *           any object of type <code>String</code> or <code>Throwable</code>
+	 * @param msg any object of type <code>String</code> or <code>Throwable</code>
 	 */
 	final public void log(Object msg) {
 		if (msg instanceof Throwable)
@@ -152,11 +153,10 @@ public class Logger {
 	}
 
 	/**
-	 * A call to this method will first log the <code>Throwable</code> error, and then <code>exit</code>s the
-	 * virtual machine with 1 error status.
+	 * A call to this method will first log the <code>Throwable</code> error, and then <code>exit</code>s
+	 * the virtual machine with 1 error status.
 	 * 
-	 * @param th
-	 *           throwable object
+	 * @param th throwable object
 	 */
 	public void doFatal(Throwable th) {
 		logException(Level.FATAL, th, true);
