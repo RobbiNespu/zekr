@@ -51,14 +51,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 public class BookmarkItemForm extends BaseForm {
-
-	private Shell shell;
-	private Display display;
 	private Table table;
 	private TableEditor editor;
 	private List excList = new ArrayList();
 	private Composite body;
-	private Shell parent;
 	private boolean canceled = true;
 	private BookmarkItem bookmarkItem;
 	private Text nameText;
@@ -129,7 +125,7 @@ public class BookmarkItemForm extends BaseForm {
 	}
 
 	private void init() {
-		body = new Composite(shell, langEngine.getSWTDirection());
+		body = new Composite(shell, lang.getSWTDirection());
 		body.setLayout(new GridLayout(1, false));
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
@@ -152,7 +148,7 @@ public class BookmarkItemForm extends BaseForm {
 		topComp.setLayoutData(gd);
 
 		Label label = new Label(topComp, SWT.NONE);
-		label.setText(langEngine.getMeaning("NAME"));
+		label.setText(lang.getMeaning("NAME"));
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		nameText = new Text(topComp, SWT.BORDER | bookmarkSetDirection);
@@ -162,7 +158,7 @@ public class BookmarkItemForm extends BaseForm {
 
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		label = new Label(topComp, SWT.NONE | SWT.BEGINNING);
-		label.setText(langEngine.getMeaning("DESCRIPTION"));
+		label.setText(lang.getMeaning("DESCRIPTION"));
 		label.setLayoutData(gd);
 
 		gd = new GridData(GridData.FILL_BOTH);
@@ -217,7 +213,7 @@ public class BookmarkItemForm extends BaseForm {
 			rd.width = 40;
 			remBut.setLayoutData(rd);
 
-			addBut.setToolTipText(langEngine.getMeaning("ADD"));
+			addBut.setToolTipText(lang.getMeaning("ADD"));
 			addBut.setImage(new Image(display, resource.getString("icon.add")));
 			addBut.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
@@ -225,7 +221,7 @@ public class BookmarkItemForm extends BaseForm {
 				}
 			});
 
-			remBut.setToolTipText(langEngine.getMeaning("DELETE"));
+			remBut.setToolTipText(lang.getMeaning("DELETE"));
 			remBut.setImage(new Image(display, resource.getString("icon.remove")));
 			remBut.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
@@ -247,7 +243,7 @@ public class BookmarkItemForm extends BaseForm {
 
 		okBut = new Button(butComposite, SWT.PUSH);
 		cancelBut = new Button(butComposite, SWT.PUSH);
-		okBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("OK")) );
+		okBut.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
 		okBut.pack();
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -262,7 +258,7 @@ public class BookmarkItemForm extends BaseForm {
 		});
 		shell.setDefaultButton(okBut);
 
-		cancelBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("CANCEL")) );
+		cancelBut.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
 		cancelBut.pack();
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -282,15 +278,15 @@ public class BookmarkItemForm extends BaseForm {
 		
 		if (!bookmarkItem.isFolder()) {
 			TableColumn suraCol = new TableColumn(table, SWT.NONE);
-			suraCol.setText(langEngine.getMeaning("SURA"));
+			suraCol.setText(lang.getMeaning("SURA"));
 			suraCol.setWidth(100);
 
 			TableColumn ayaCol = new TableColumn(table, SWT.NONE);
-			ayaCol.setText(langEngine.getMeaning("AYA"));
+			ayaCol.setText(lang.getMeaning("AYA"));
 			ayaCol.pack();
 
 			TableColumn locationCol = new TableColumn(table, SWT.NONE);
-			locationCol.setText(langEngine.getMeaning("LOCATION"));
+			locationCol.setText(lang.getMeaning("LOCATION"));
 			locationCol.setWidth(100);
 
 			for (Iterator iter = bookmarkItem.getLocations().iterator(); iter.hasNext();) {
@@ -513,7 +509,7 @@ public class BookmarkItemForm extends BaseForm {
 	}
 
 	private String meaning(String key) {
-		return langEngine.getMeaningById(FORM_ID, key);
+		return lang.getMeaningById(FORM_ID, key);
 	}
 
 	public Shell getShell() {
