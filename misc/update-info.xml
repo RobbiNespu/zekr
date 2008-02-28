@@ -1,0 +1,9 @@
+<zekr-update fullName="Zekr 0.6.7 beta 1" version="0.6.7" status="BETA"
+	build="2008021422" date="2008-02-15"
+	downloadUrl="http://siahe.com/zekr/download.html"
+	noteUrl="http://siahe.com/zekr/changes.txt">
+	<info><![CDATA[A new version of Zekr is available!
+in this version, you can find a number of new features including:
+1. Check for update.
+2. Verifying is translation source is authentic.]]></info>
+</zekr-update>
