@@ -22,7 +22,7 @@ public class HelpCommandHandler extends CommandHandler {
 
 	public void execute() throws CommandException {
 		stdout.println("Zekr, Open Quranic Project, ver. " + GlobalConfig.ZEKR_VERSION + ".");
-		stdout.println("Copyright (c) 2004-2007 Mohsen Saboorian and other contributors, http://siahe.com/zekr.");
+		stdout.println("Copyright (c) 2004-2007 Mohsen Saboorian and other contributors, http://zekr.org.");
 		stdout.println("This product includes software developed by"
 				+ " the Apache Software Foundation http://www.apache.org.");
 		stdout.println("Usage: zekr [-option]");
