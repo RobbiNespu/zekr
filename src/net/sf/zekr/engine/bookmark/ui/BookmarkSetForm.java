@@ -121,8 +121,8 @@ public class BookmarkSetForm {
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				Rectangle r = shell.getBounds();
-				config.getProps().setProperty("view.bookmark.bookarkSetForm.location", 
-					new String[] {"" + r.x, "" + r.y, "" + r.width, "" + r.height});
+				config.getProps().setProperty("view.bookmark.bookarkSetForm.location",
+						new String[] { "" + r.x, "" + r.y, "" + r.width, "" + r.height });
 			}
 		});
 
@@ -225,7 +225,7 @@ public class BookmarkSetForm {
 		});
 
 		Transfer[] types = new Transfer[] { TextTransfer.getInstance() };
-		int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
+		int operations = DND.DROP_MOVE | DND.DROP_COPY /* | DND.DROP_LINK */;
 
 		final DragSource source = new DragSource(tree, operations);
 		source.setTransfer(types);
@@ -233,7 +233,7 @@ public class BookmarkSetForm {
 		source.addDragListener(new DragSourceListener() {
 			public void dragStart(DragSourceEvent event) {
 				TreeItem[] selection = tree.getSelection();
-				if (selection.length > 0/* && selection[0].getItemCount() == 0*/) {
+				if (selection.length > 0/* && selection[0].getItemCount() == 0 */) {
 					event.doit = true;
 					dragSourceItem[0] = selection[0];
 				} else {
@@ -250,7 +250,7 @@ public class BookmarkSetForm {
 					dragSourceItem[0].dispose();
 				}
 				dragSourceItem[0] = null;
-				
+
 				// update buttons status
 				int c = tree.getSelectionCount();
 				if (c <= 0) {
@@ -261,7 +261,8 @@ public class BookmarkSetForm {
 			}
 		});
 
-		DropTarget target = new DropTarget(tree, operations);
+		// DropTarget target = new DropTarget(tree, operations);
+		DropTarget target = new DropTarget(tree, DND.DROP_MOVE);
 		target.setTransfer(types);
 		target.addDropListener(new DropTargetAdapter() {
 			public void dragOver(DropTargetEvent event) {
@@ -326,7 +327,7 @@ public class BookmarkSetForm {
 					event.detail = DND.DROP_NONE;
 					return; // do nothing
 				}
-				
+
 				boolean dup = event.detail == DND.DROP_COPY;
 
 				TreeItem parentItem = dragSourceItem[0].getParentItem();
@@ -508,7 +509,7 @@ public class BookmarkSetForm {
 		butComposite.setLayoutData(gd);
 
 		Button ok = new Button(butComposite, SWT.NONE);
-		ok.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
+		ok.setText(FormUtils.addAmpersand(lang.getMeaning("OK")));
 		ok.pack();
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -521,7 +522,7 @@ public class BookmarkSetForm {
 		});
 
 		Button cancel = new Button(butComposite, SWT.NONE);
-		cancel.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
+		cancel.setText(FormUtils.addAmpersand(lang.getMeaning("CANCEL")));
 		cancel.pack();
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -530,7 +531,7 @@ public class BookmarkSetForm {
 		});
 
 		Button apply = new Button(butComposite, SWT.NONE);
-		apply.setText(FormUtils.addAmpersand( lang.getMeaning("APPLY")) );
+		apply.setText(FormUtils.addAmpersand(lang.getMeaning("APPLY")));
 		apply.pack();
 		apply.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -541,14 +542,14 @@ public class BookmarkSetForm {
 		RowData rdCancel = new RowData();
 		RowData rdApply = new RowData();
 		// set all three OK, CANCEL, and APPLY buttons to the same length
-		int buttonLength = FormUtils.buttonLength(80, ok, cancel, apply );
+		int buttonLength = FormUtils.buttonLength(80, ok, cancel, apply);
 		rdOk.width = buttonLength;
-        rdCancel.width = buttonLength;
-        rdApply.width = buttonLength;
+		rdCancel.width = buttonLength;
+		rdApply.width = buttonLength;
 		ok.setLayoutData(rdOk);
 		cancel.setLayoutData(rdCancel);
 		apply.setLayoutData(rdApply);
-		
+
 		shell.setDefaultButton(ok);
 	}
 
@@ -634,21 +635,22 @@ public class BookmarkSetForm {
 		descLabel.setLayoutData(gd);
 
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_VERTICAL | GridData.FILL_HORIZONTAL);
-//		gd.minimumWidth = 200;
+		// gd.minimumWidth = 200;
 		gd.widthHint = 200;
 		gd.heightHint = 100;
-//		gd.minimumHeight = 100;
+		// gd.minimumHeight = 100;
 		gd.horizontalSpan = 2;
 		descText = new Text(bookmarksInfoTabBody, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | bookmarkSetDirection);
 		descText.setLayoutData(gd);
 		descText.setText(getNotNull(bookmarkSet.getDescription()));
 		descText.setToolTipText(meaning("DESC_TOOLTIP"));
-//
-//		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
-//		gd.grabExcessHorizontalSpace = true;
-//		Label descDetailLabel = new Label(bookmarksInfoTabBody, SWT.WRAP);
-//		descDetailLabel.setText("Conventions, quotes, references, and other bookmark-related topics go here");
-//		descDetailLabel.setLayoutData(gd);
+		//
+		// gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
+		// gd.grabExcessHorizontalSpace = true;
+		// Label descDetailLabel = new Label(bookmarksInfoTabBody, SWT.WRAP);
+		// descDetailLabel.setText("Conventions, quotes, references, and other bookmark-related topics go
+		// here");
+		// descDetailLabel.setLayoutData(gd);
 	}
 
 	private String getNotNull(String str) {
@@ -692,8 +694,7 @@ public class BookmarkSetForm {
 				newTreeItem.setText(new String[] { newBookmarkItem.getName(), "", newBookmarkItem.getDescription() });
 			else
 				newTreeItem.setText(new String[] { newBookmarkItem.getName(),
-						CollectionUtils.toString(newBookmarkItem.getLocations(), ","),
-						newBookmarkItem.getDescription() });
+						CollectionUtils.toString(newBookmarkItem.getLocations(), ","), newBookmarkItem.getDescription() });
 			newTreeItem.setData(newBookmarkItem);
 
 			logger.debug("BookmarkSet item/folder add done.");
@@ -724,7 +725,7 @@ public class BookmarkSetForm {
 		try {
 			bookmarkSet.save();
 		} catch (BookmarkSaveException e) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") +":\n" + e.getMessage());
+			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + ":\n" + e.getMessage());
 			logger.error("Bookmark could not be saved.");
 			return;
 		}
@@ -747,8 +748,7 @@ public class BookmarkSetForm {
 				if (tis[i].getParentItem() != null)
 					if (tis[i].getParentItem().getItems().length == 1)
 						// close the folder if it left open
-						tis[i].getParentItem().setImage(
-								new Image(display, resource.getString("icon.bookmark.closeFolder")));
+						tis[i].getParentItem().setImage(new Image(display, resource.getString("icon.bookmark.closeFolder")));
 			tis[i].dispose();
 		}
 		if (tree.getSelectionCount() == 0) {
@@ -768,11 +768,10 @@ public class BookmarkSetForm {
 		if (bmItemForm.open(false)) {
 			BookmarkItem newBookmarkItem = bmItemForm.getBookmarkItem();
 			if (newBookmarkItem.isFolder()) {
-				item.setText(new String[] { newBookmarkItem.getName(), "", newBookmarkItem.getDescription()});
+				item.setText(new String[] { newBookmarkItem.getName(), "", newBookmarkItem.getDescription() });
 			} else {
 				item.setText(new String[] { newBookmarkItem.getName(),
-					CollectionUtils.toString(newBookmarkItem.getLocations(), ","),
-					newBookmarkItem.getDescription() });
+						CollectionUtils.toString(newBookmarkItem.getLocations(), ","), newBookmarkItem.getDescription() });
 			}
 			item.setData(newBookmarkItem);
 			logger.debug("BookmarkSet item/folder edit done.");
@@ -782,8 +781,9 @@ public class BookmarkSetForm {
 	private String meaning(String key) {
 		return lang.getMeaningById(FORM_ID, key);
 	}
+
 	private String meaning(String key, String value) {
-		return lang.getDynamicMeaningById(FORM_ID, key, new String[]{value});
+		return lang.getDynamicMeaningById(FORM_ID, key, new String[] { value });
 	}
 
 	public void open() {
@@ -796,8 +796,8 @@ public class BookmarkSetForm {
 		}
 		List b = config.getProps().getList("view.bookmark.bookarkSetForm.location");
 		if (b.size() != 0) {
-			shell.setBounds(Integer.parseInt(b.get(0).toString()), Integer.parseInt(b.get(1).toString()),
-				Integer.parseInt(b.get(2).toString()), Integer.parseInt(b.get(3).toString()));
+			shell.setBounds(Integer.parseInt(b.get(0).toString()), Integer.parseInt(b.get(1).toString()), Integer
+					.parseInt(b.get(2).toString()), Integer.parseInt(b.get(3).toString()));
 		} else {
 			shell.pack();
 			Point size = shell.getSize();
