@@ -10,8 +10,10 @@ package net.sf.zekr.ui;
 
 import java.text.DecimalFormat;
 
-import net.sf.zekr.common.config.HyperlinkUtils;
 import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.util.HyperlinkUtils;
+import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.ui.helper.FormUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -36,15 +38,10 @@ import org.eclipse.swt.widgets.Text;
  * @since Zekr 1.0
  */
 public class AboutForm extends BaseForm {
-	private Shell parent;
-	private Shell shell;
-	private Display display;
-	private String title;
 	private Label mem;
 
 	public AboutForm(Shell parent) {
 		this.parent = parent;
-		title = langEngine.getMeaning("ABOUT") + " " + langEngine.getMeaning("APP_NAME");
 		display = parent.getDisplay();
 		init();
 	}
@@ -59,11 +56,11 @@ public class AboutForm extends BaseForm {
 				new Image(display, resource.getString("icon.form48")),
 				new Image(display, resource.getString("icon.form128")),
 				new Image(display, resource.getString("icon.form256")) });
-		shell.setText(title);
+		shell.setText(meaning("TITLE"));
 		shell.setLayout(new FillLayout());
 
 		gl = new GridLayout(2, false);
-		Composite body = new Composite(shell, SWT.NONE | langEngine.getSWTDirection());
+		Composite body = new Composite(shell, SWT.NONE | lang.getSWTDirection());
 		body.setLayout(gl);
 
 		Composite imageComp = new Composite(body, SWT.NONE);
@@ -71,7 +68,7 @@ public class AboutForm extends BaseForm {
 		gd = new GridData(GridData.CENTER);
 		gd.heightHint = image.getBounds().height;
 		gd.widthHint = image.getBounds().width;
-		imageComp.setToolTipText(langEngine.getMeaning("APP_NAME"));
+		imageComp.setToolTipText(lang.getMeaning("APP_NAME"));
 		imageComp.setLayoutData(gd);
 		imageComp.setBounds(image.getBounds());
 		imageComp.addPaintListener(new PaintListener() {
@@ -82,44 +79,53 @@ public class AboutForm extends BaseForm {
 
 		gl = new GridLayout(1, false);
 		gl.marginWidth = gl.marginHeight = 0;
-		Composite detailCom = new Group(body, langEngine.getSWTDirection());
+		Composite detailCom = new Group(body, lang.getSWTDirection());
 		detailCom.setLayout(gl);
 		gd = new GridData(GridData.FILL_BOTH);
 		detailCom.setLayoutData(gd);
 
 		Link link = new Link(detailCom, SWT.NONE);
-		String s = langEngine.getMeaning("APP_FULL_NAME")
-				+ ".\n\t<a href=\"http://siahe.com/zekr\">http://siahe.com/zekr</a>\n";
+		String s = lang.getMeaning("APP_FULL_NAME") + ".\n\t<a href=\"" + GlobalConfig.HOME_PAGE + "\">"
+				+ GlobalConfig.HOME_PAGE + "</a>\n";
 
 		gd = new GridData(GridData.BEGINNING);
 		link.setText(s);
 		link.setLayoutData(gd);
-		link.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				HyperlinkUtils.openLink(GlobalConfig.HOME_PAGE);
-			}
-		});
+		link.setData(FormUtils.URL_DATA, GlobalConfig.HOME_PAGE);
+		FormUtils.addLinkListener(link);
 
 		gd = new GridData(GridData.BEGINNING);
 		Label versionLabel = new Label(detailCom, SWT.NONE);
-		versionLabel.setText(langEngine.getMeaning("VERSION") + ": " + GlobalConfig.ZEKR_VERSION);
+		versionLabel.setText(lang.getMeaning("VERSION") + ": " + GlobalConfig.ZEKR_VERSION);
 		versionLabel.setLayoutData(gd);
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.grabExcessVerticalSpace = true;
 		gd.heightHint = 55;
 		Text text = new Text(detailCom, SWT.MULTI | SWT.WRAP | SWT.SCROLL_LINE | SWT.READ_ONLY);
-		text.setText(langEngine.getMeaning("COPYRIGHT_DISCLAIMER"));
+		text.setText(lang.getMeaning("COPYRIGHT_DISCLAIMER"));
 		text.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 		text.setLayoutData(gd);
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gd.horizontalSpan = 2;
 
-		if (GlobalConfig.DEBUG_MODE) {
-			Label delim = new Label(body, SWT.SEPARATOR | SWT.HORIZONTAL);
-			delim.setLayoutData(gd);
+		Label delim = new Label(body, SWT.SEPARATOR | SWT.HORIZONTAL);
+		delim.setLayoutData(gd);
 
+		gd = new GridData(SWT.END, SWT.BEGINNING, true, false);
+		gd.horizontalSpan = 2;
+		Link logLink = new Link(body, SWT.NONE);
+		logLink.setText("<a>" + meaning("VIEW_LOG") + "</a>");
+		logLink.setLayoutData(gd);
+		logLink.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				logger.debug("Open log file: " + Logger.LOG_FILE_PATH);
+				HyperlinkUtils.openEditor(Logger.LOG_FILE_PATH);
+			}
+		});
+
+		if (GlobalConfig.DEBUG_MODE) {
 			Button forceGC = new Button(body, SWT.PUSH);
 			forceGC.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 			forceGC.setText("&Force GC");
@@ -137,6 +143,10 @@ public class AboutForm extends BaseForm {
 
 		shell.pack();
 		shell.setSize(480, shell.getSize().y);
+	}
+
+	private String meaning(String key) {
+		return lang.getMeaningById("ABOUT", key);
 	}
 
 	/**
