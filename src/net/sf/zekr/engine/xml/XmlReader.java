@@ -10,14 +10,19 @@
 package net.sf.zekr.engine.xml;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  * @author Mohsen Saboorian
@@ -45,11 +50,7 @@ public class XmlReader {
 	 */
 	public XmlReader(File file) throws XmlReadException {
 		try {
-			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder parser;
-			parser = documentBuilderFactory.newDocumentBuilder();
-			xmlDocument = parser.parse(file);
-
+			xmlDocument = parseXml(file.toURL().openStream());
 			parentNode = xmlDocument.getFirstChild();
 			if (parentNode.getNodeType() == Node.COMMENT_NODE)
 				parentNode = parentNode.getNextSibling();
@@ -58,15 +59,47 @@ public class XmlReader {
 		}
 	}
 
+	/**
+	 * Reads the given XML file.
+	 * 
+	 * @param file the file to be read
+	 * @throws XmlReadException if any error encountered during XML loading/parsing.
+	 */
+	public XmlReader(InputStream xmlStream) throws XmlReadException {
+		try {
+			xmlDocument = parseXml(xmlStream);
+			parentNode = xmlDocument.getFirstChild();
+			if (parentNode.getNodeType() == Node.COMMENT_NODE)
+				parentNode = parentNode.getNextSibling();
+		} catch (Exception e) {
+			throw new XmlReadException("Error while loading XML: " + xmlStream + ": " + e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * @param xmlStream
+	 * @throws FactoryConfigurationError
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	private Document parseXml(InputStream xmlStream) throws FactoryConfigurationError, ParserConfigurationException,
+			SAXException, IOException {
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder parser;
+		parser = documentBuilderFactory.newDocumentBuilder();
+		return parser.parse(xmlStream);
+	}
+
 	public Element getDocumentElement() {
 		return xmlDocument.getDocumentElement();
 	}
 
 	/**
 	 * @param nodeHierarchy A dot separated node hierarchy for specifying a node inside other nodes. For
-	 *            example <code>"body.div"</code> means <code>div</code> which is inside <code>body</code>.
-	 *            <code>nodeHierarchy</code> should not contain the parent node (<code>parentNode</code>),
-	 *            and the hierarchy is started from parent children.
+	 *           example <code>"body.div"</code> means <code>div</code> which is inside <code>body</code>.
+	 *           <code>nodeHierarchy</code> should not contain the parent node (<code>parentNode</code>),
+	 *           and the hierarchy is started from parent children.
 	 * @return the node with <code>nodeHierarchy</code> hierarchy, or <code>null</code> if it can not be
 	 *         found.
 	 */
