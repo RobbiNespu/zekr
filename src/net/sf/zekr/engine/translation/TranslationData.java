@@ -8,10 +8,9 @@
  */
 package net.sf.zekr.engine.translation;
 
-import java.io.BufferedReader;
+import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
@@ -19,6 +18,7 @@ import java.util.zip.ZipFile;
 
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranProperties;
+import net.sf.zekr.common.util.CryptoUtils;
 import net.sf.zekr.engine.log.Logger;
 
 /**
@@ -55,6 +55,14 @@ public class TranslationData implements IQuranText {
 	public String file;
 
 	private String[][] transText;
+
+	/** signature of the text file */
+	public byte[] signature;
+
+	public boolean verified = false;
+
+	/** descriptor version */
+	public String version;
 
 	public TranslationData() {
 	}
@@ -96,7 +104,7 @@ public class TranslationData implements IQuranText {
 	public void load() {
 		if (!loaded()) {
 			Date date1 = new Date();
-			loadFile();
+			loadAndVerify();
 			Date date2 = new Date();
 			logger.debug("Loading translation \"" + id + "\" took " + (date2.getTime() - date1.getTime()) + " ms.");
 		} else {
@@ -108,7 +116,7 @@ public class TranslationData implements IQuranText {
 		return transText != null;
 	}
 
-	public void loadFile() {
+	private void loadAndVerify() {
 		try {
 			logger.info("Loading translation pack " + this + "...");
 			ZipEntry ze = archiveFile.getEntry(file);
@@ -116,27 +124,30 @@ public class TranslationData implements IQuranText {
 				logger.error("Load failed. No proper entry found in \"" + archiveFile.getName() + "\".");
 				return;
 			}
-			Reader reader;
 
-			reader = new BufferedReader(new InputStreamReader(archiveFile.getInputStream(ze), encoding), 262144);
-			loadTranslation(reader, (int) ze.getSize());
+			BufferedInputStream bis = new BufferedInputStream(archiveFile.getInputStream(ze), 262144);
+			byte textBuf[] = new byte[(int) ze.getSize()];
+			bis.read(textBuf, 0, (int) ze.getSize());
+
+			logger.info("Verifying translation text.");
+			try {
+				verified = CryptoUtils.verify(textBuf, signature);
+			} catch (GeneralSecurityException e) {
+				logger.error("Error occurred during translation text verification. Text cannot be verified.");
+				logger.error(e);
+			}
+			if (verified)
+				logger.info("Translation text is valid");
+			else
+				logger.info("Translation text is not valid.");
+
+			refineText(new String(textBuf, encoding));
 
 			logger.log("Translation pack " + this + " loaded successfully.");
 		} catch (IOException e) {
 			logger.error("Problem while loading translation pack " + this + ".");
 			logger.log(e);
 		}
-	}
-
-	private void loadTranslation(Reader reader, int length) throws IOException {
-		char buffer[] = new char[65536];
-		StringBuffer strBuf = new StringBuffer();
-		int len = 0;
-		while ((len = reader.read(buffer)) != -1) {
-			strBuf.append(buffer, 0, len);
-		}
-
-		refineText(strBuf.toString());
 	}
 
 	private void refineText(String rawText) {
