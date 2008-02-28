@@ -28,17 +28,15 @@ import org.eclipse.swt.SWT;
 import org.w3c.dom.Node;
 
 /**
- * LanguageEngine is a <i>singleton</i> class, designed to perform language related
- * works. In a nutshell, this class is responsible for loading language packs, validating
- * them and translating words into supported languages.
+ * LanguageEngine is a <i>singleton</i> class, designed to perform language related works. In a nutshell,
+ * this class is responsible for loading language packs, validating them and translating words into supported
+ * languages.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class LanguageEngine extends LanguageEngineNaming {
 	/**
-	 * <code>engine</code> will be instantiated the first time <code>getInstance</code>
-	 * is called.
+	 * <code>engine</code> will be instantiated the first time <code>getInstance</code> is called.
 	 */
 	private static LanguageEngine engine = null;
 
@@ -61,8 +59,8 @@ public class LanguageEngine extends LanguageEngineNaming {
 	private File packFile;
 
 	/**
-	 * Creates a language engine instance using the given language pack. If the pack does
-	 * not exists It will use DEAFULT_PACK.
+	 * Creates a language engine instance using the given language pack. If the pack does not exists It will
+	 * use DEAFULT_PACK.
 	 */
 	private LanguageEngine() {
 		logger.info("Initializing language engine...");
@@ -80,8 +78,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 		languagePack = language.getActiveLanguagePack();
 		packFile = new File(language.getActiveLanguagePack().getPath());
 		if (!packFile.exists())
-			throw new RuntimeException("Can not find language pack "
-					+ language.getActiveLanguagePack());
+			throw new RuntimeException("Can not find language pack " + language.getActiveLanguagePack());
 		logger.info("Parsing language pack " + language.getActiveLanguagePack());
 		try {
 			reader = new XmlReader(packFile);
@@ -109,10 +106,9 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	/**
-	 * This method is used to generate a <b>2D dictionary </b>. A map with
-	 * <code>key</code>s equal to <code>ID_ATTR</code> of each node of
-	 * <code>nodeList</code>. Each <code>key</code> is mapped then to a second map.
-	 * This second map is returned from <code>makeDictionary()</code> using
+	 * This method is used to generate a <b>2D dictionary </b>. A map with <code>key</code>s equal to
+	 * <code>ID_ATTR</code> of each node of <code>nodeList</code>. Each <code>key</code> is mapped then
+	 * to a second map. This second map is returned from <code>makeDictionary()</code> using
 	 * <code>nodeList.item(i).getChildNodes()</code> as it's parameter.
 	 * 
 	 * @param nodeList
@@ -191,9 +187,8 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	/**
-	 * Will replace any pattern of {x} (when x is an integer number between 1 and
-	 * <code>strArray.length</code>) in <code>word</code> with corresponding item of
-	 * strArray (here <code>strArray[x]</code>).
+	 * Will replace any pattern of {x} (when x is an integer number between 1 and <code>strArray.length</code>)
+	 * in <code>word</code> with corresponding item of strArray (here <code>strArray[x]</code>).
 	 * 
 	 * @param word source
 	 * @param strArray replacement array of strings
@@ -209,20 +204,18 @@ public class LanguageEngine extends LanguageEngineNaming {
 	/**
 	 * @param id
 	 * @param word
-	 * @return meaning of the word, or <b>empty string</b> if there is either no
-	 *         <code>id</code> nor no <code>word</code> within that <code>id</code>
-	 *         available.
+	 * @return meaning of the word, or <b>empty string</b> if there is either no <code>id</code> nor no
+	 *         <code>word</code> within that <code>id</code> available.
 	 */
 	public String getMeaningById(String id, String word) {
 		if (!forms.containsKey(id))
-			return "";
+			return word; // prevent null value
 		return (String) ((Map) forms.get(id)).get(word);
 	}
 
 	/**
-	 * Will replace any pattern of {x} (when x is an integer number between 1 and
-	 * <code>strArray.length</code>) in <code>word</code> with corresponding item of
-	 * strArray (here <code>strArray[x]</code>).
+	 * Will replace any pattern of {x} (when x is an integer number between 1 and <code>strArray.length</code>)
+	 * in <code>word</code> with corresponding item of strArray (here <code>strArray[x]</code>).
 	 * 
 	 * @param id
 	 * @param word
@@ -248,7 +241,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	public String getDirection() {
 		return RIGHT_TO_LEFT.equals(languagePack.direction) ? RIGHT_TO_LEFT : LEFT_TO_RIGHT;
 	}
-	
+
 	/**
 	 * @return current language pack locale.
 	 */
