@@ -16,7 +16,6 @@ import org.apache.lucene.analysis.TokenStream;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ArabicFilter extends TokenFilter {
 
@@ -29,6 +28,7 @@ public class ArabicFilter extends TokenFilter {
 		if (t == null)
 			return null;
 		// return a token with filtered characters.
-		return new Token(SearchUtils.arabicSimplify4AdvancedSearch(t.termText()), t.startOffset(), t.endOffset(), t.type());
+		return new Token(SearchUtils.arabicSimplify4AdvancedSearch(new String(t.termBuffer(), 0, t.termLength())), t
+				.startOffset(), t.endOffset(), t.type());
 	}
 }
