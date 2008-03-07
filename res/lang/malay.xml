@@ -30,8 +30,8 @@
 			<text id="VALUE"    value="Nilai" />
 			<text id="NUMBER"   value="Nombor" />
 			<text id="OPTION"   value="Pilihan" />
-			<text id="FILE"     value="File" />
-			<text id="RELOAD"   value="Reload" />
+			<text id="FILE"     value="Fail" />
+			<text id="RELOAD"   value="Ulang Muat" />
 			<text id="TYPE"     value="Jenis" />
 			<text id="MESSAGE"  value="Pesan" />
 			<text id="BLOCK"    value="Blok" />
@@ -77,7 +77,7 @@
 			<text id="IMPORT"   value="Import" />
 			<text id="DESCRIPTION" value="Diskripsi" />
 			<text id="BOOKMARKS" value="Penandabuku" />
-			<text id="CONFIGURE" value="konfigurasi" />
+			<text id="CONFIGURE" value="Konfigurasi" />
 			<text id="EDIT_BOOKMARK_SET" value="Sunting Set Penandabuku" />
 			<text id="MANAGE_BOOKMARK_SETS" value="Urus Set Penandabuku" />
 			<text id="DIRECTION" value="Arah" />
@@ -107,22 +107,22 @@
 			<text id="MULTILINE" value="Berbilang Baris" />
 			<text id="TOGGLE" value="Toggle" />
 			<text id="AUDIO" value="Audio"   />
-			<text id="CONTINUOUS" value="Continuous"   />
-			<text id="DISCRETE" value="Discrete"   />
-			<text id="PLAY" value="Play"   />
-			<text id="PAUSE" value="Pause"   />
-			<text id="STOP" value="Stop"   />
-			<text id="RECITATION" value="Recitation"   />
-			<text id="MENU_NEXT_AYA" value="Next Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
-			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
+			<text id="CONTINUOUS" value="Ulang"   />
+			<text id="DISCRETE" value="Asingkan"   />
+			<text id="PLAY" value="Mainkan"   />
+			<text id="PAUSE" value="HentiSeketika"   />
+			<text id="STOP" value="Henti"   />
+			<text id="RECITATION" value="Bacaan"   />
+			<text id="MENU_NEXT_AYA" value="Ayat Seterusnya"   />
+			<text id="MENU_NEXT_SURA" value="Surah Seterusnya"   />
+			<text id="MENU_PREV_AYA" value="Ayat Sebelumnya"   />
+			<text id="MENU_PREV_SURA" value="Surah Sebelumnya"   />
+			<text id="MENU_NEXT_JUZ" value="Juzuk Seterusnya"   />
+			<text id="MENU_PREV_JUZ" value="Juzuk Sebelumnya"   />
+			<text id="MENU_NEXT_HIZBQ" value="Hizb Quarter Seterusnya"   />
+			<text id="MENU_PREV_HIZBQ" value="Hizb Quarter Sebelumnya"   />
+			<text id="MENU_NEXT_SAJDA" value="Sajda Seterusnya"   />
+			<text id="MENU_PREV_SAJDA" value="Sajda Sebelumnya"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -208,7 +208,7 @@
 			<text id="TITLE" value="Sunting carian skop" />
 		</form>
 		<form id="BOOKMARK_SET_FORM">
-			<text id="TITLE" value="Edit Bookmark Set: {1}" />
+			<text id="TITLE" value="Sunting Set Penandabuku: {1}" />
 			<text id="NEW_BOOKMARK_FOLDER" value="Folder bookmark baru" />
 			<text id="NEW_BOOKMARK_ITEM" value="Item bookmark baru " />
 			<text id="UNIQUE_NAME" value="Nama unik" />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Mohsen Saboorian" version="0.6">
+<language author="Mohsen Saboorian" version="0.7">
 	<locale localizedName="English" name="English" id="en_US" direction="ltr" />
 	<word>
 		<common>
@@ -58,7 +58,7 @@
 			<text id="DELETE" value="Delete" />
 			<text id="REMOVE" value="Remove" />
 			<text id="TRANSLATION" value="Translation" />
-            <text id="TRANSLATION_VIEWTYPE" value="T&amp;ranslation layout"   />
+			<text id="TRANSLATION_VIEWTYPE" value="T&amp;ranslation layout" />
 			<text id="OPEN" value="Open" />
 			<text id="IMPORT" value="Import" />
 			<text id="COPY" value="Copy" />
@@ -97,7 +97,7 @@
 			<text id="SHOW_REFS" value="Show References" />
 			<text id="MOVE_UP" value="Move up" />
 			<text id="MOVE_DOWN" value="Move down" />
-			<text id="MULTI_TRANS" value="Multi-translation" /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
+			<text id="MULTI_TRANS" value="Multi-translation" />
 			<text id="CONFIG_CUSTOM_TRANS" value="Configure Custom Translations" />
 			<text id="GO" value="Go" />
 			<text id="CAUTION" value="Caution" />
@@ -106,27 +106,28 @@
 			<text id="PAGE" value="Page" />
 			<text id="MULTILINE" value="Multiline" />
 			<text id="TOGGLE" value="Toggle" />
-			<text id="AUDIO" value="Audio"   />
-			<text id="CONTINUOUS" value="Continuous"   />
-			<text id="DISCRETE" value="Discrete"   />
-			<text id="PLAY" value="Play"   />
-			<text id="PAUSE" value="Pause"   />
-			<text id="STOP" value="Stop"   />
-			<text id="RECITATION" value="Recitation"   />
-			<text id="MENU_NEXT_AYA" value="Ne&amp;xt Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous &amp;Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Nex&amp;t Juz"   />
-			<text id="MENU_PREV_JUZ" value="Pr&amp;evious Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hiz&amp;b Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hi&amp;zb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sa&amp;jda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Saj&amp;da"   />
+			<text id="AUDIO" value="Audio" />
+			<text id="CONTINUOUS" value="Continuous" />
+			<text id="DISCRETE" value="Discrete" />
+			<text id="PLAY" value="Play" />
+			<text id="PAUSE" value="Pause" />
+			<text id="STOP" value="Stop" />
+			<text id="RECITATION" value="Recitation" />
+			<text id="MENU_NEXT_AYA" value="Ne&amp;xt Aya" />
+			<text id="MENU_NEXT_SURA" value="Next Sura" />
+			<text id="MENU_PREV_AYA" value="Previous &amp;Aya" />
+			<text id="MENU_PREV_SURA" value="Previous Sura" />
+			<text id="MENU_NEXT_JUZ" value="Nex&amp;t Juz" />
+			<text id="MENU_PREV_JUZ" value="Pr&amp;evious Juz" />
+			<text id="MENU_NEXT_HIZBQ" value="Next Hiz&amp;b Quarter" />
+			<text id="MENU_PREV_HIZBQ" value="Previous Hi&amp;zb Quarter" />
+			<text id="MENU_NEXT_SAJDA" value="Next Sa&amp;jda" />
+			<text id="MENU_PREV_SAJDA" value="Previous Saj&amp;da" />
+			<text id="CHECK4UPDATE" value="Check for update" />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />
-			<text id="QURAN_VIEWTYPE" value="Q&amp;uran layout"   />
+			<text id="QURAN_VIEWTYPE" value="Q&amp;uran layout" />
 			<text id="SURA" value="Sura" />
 			<text id="AYA" value="Aya" />
 			<text id="SAJDA" value="Sajda" />
@@ -177,16 +178,16 @@
 			<text id="EDIT_SCOPES" value="Edit scopes" />
 			<text id="NO_SCOPE" value="No scope" />
 			<text id="CURRENT_PAGE" value="Current page" />
-			<text id="QURAN_SCOPE" value="Quran"   />
-			<text id="TRANSLATION_SCOPE" value="Translation"   />
+			<text id="QURAN_SCOPE" value="Quran" />
+			<text id="TRANSLATION_SCOPE" value="Translation" />
 			<text id="NATURAL_ORDER" value="Natural Order" />
 			<text id="RELEVANCE" value="Relevance" />
 			<text id="SORT_BY" value="Sort results by" />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="THEME_OPTIONS" value="Theme"   />
-			<text id="GENERAL_OPTIONS" value="General"   />
-			<text id="VIEW_OPTIONS" value="View"   />
+			<text id="THEME_OPTIONS" value="Theme" />
+			<text id="GENERAL_OPTIONS" value="General" />
+			<text id="VIEW_OPTIONS" value="View" />
 			<text id="TITLE" value="Application Options" />
 			<text id="SHOW_SPLASH" value="Display logo at startup" />
 			<text id="NEW_KEY" value="Enter a new key" />
@@ -194,6 +195,10 @@
 			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied." />
 			<text id="MAX_SEARCH_RESULT" value="Maximum search result count" />
 			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane" />
+			<text id="SURA_NAMES" value="Sura names" />
+			<text id="ARABIC" value="Arabic" />
+			<text id="TRANSLATED" value="Translated" />
+			<text id="TRANSLITERATED" value="Transliterated" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configure Search Scope" />
@@ -242,16 +247,38 @@
 			<text id="FOLLOWING_USERS" value="Index for the following users" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
-			<text id="REMOVE_CUSTOM" value="Don't use"   />
-			<text id="ADD_CUSTOM" value="Use"   />
+			<text id="REMOVE_CUSTOM" value="Don't use" />
+			<text id="ADD_CUSTOM" value="Use" />
 			<text id="TITLE" value="Configure Custom Translations" />
 			<text id="AVAILABLE" value="Available translations" />
 			<text id="CURRENT" value="Currently used translations" />
 		</form>
 		<form id="PROGRESS">
-			<text id="PLEASE_WAIT" value="Please wait" />
+			<text id="PLEASE_WAIT" value="Please Wait" />
 			<text id="INDEXING" value="Indexing" /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed." />
+			<text id="CHECKING" value="Cheking For Updates" />
+			<text id="ZEKR_IS_CHECKING" value="Zekr is now checking for updates" />
+		</form>
+		<form id="ABOUT">
+			<text id="TITLE" value="About Zekr" />
+			<text id="VIEW_LOG" value="View Log File" />
+		</form>
+		<form id="UPDATE">
+			<text id="TITLE" value="Update Info" />
+			<text id="VERSION_INFO" value="Version info" />
+			<text id="BUILD_NUM" value="Build number" />
+			<text id="VERSION" value="Version" />
+			<text id="RELEASE_NAME" value="Release name" />
+			<text id="RELEASE_STATE" value="Build state" />
+			<text id="RELEASE_DATE" value="Release date" />
+			<text id="RELEASE_NOTES" value="Release notes" />
+			<text id="DOWNLOAD" value="Download" />
+			<text id="MORE_INFO" value="More info" />
+			<text id="NO_UPDATE" value="You are already using the newest version" />
+			<text id="NEW_DEV_AVAILABLE" value="A newer development version (unstable) is available for download" />
+			<text id="NEW_BETA_AVAILABLE" value="A newer beta version (unstable) is available for download" />
+			<text id="NEW_FINAL_AVAILABLE" value="A newer release (final) is available for download" />
 		</form>
 	</forms>
 </language>

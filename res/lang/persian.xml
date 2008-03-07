@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Mohsen Saboorian" version="0.6">
+<language author="Mohsen Saboorian" version="0.7">
 	<locale localizedName="فارسی" name="Persian" id="fa_IR" direction="rtl" />
 	<word>
 		<common>
@@ -123,6 +123,7 @@
 			<text id="MENU_PREV_HIZBQ" value="ربع حزب قبل"   />
 			<text id="MENU_NEXT_SAJDA" value="سجدهٔ بعد"   />
 			<text id="MENU_PREV_SAJDA" value="سجدهٔ قبل"   />
+            <text id="CHECK4UPDATE" value="Check for update" />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -194,6 +195,10 @@
 			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید &quot;قبول&quot; را فشار دهید." />
 			<text id="MAX_SEARCH_RESULT" value="حداکثر تعداد نتایج جستجو" />
 			<text id="RESIZEABLE_TASK_PANE" value="قابلیت تغییر اندازه برای قاب وظایف" />
+            <text id="SURA_NAMES" value="نام سوره‌ها" />
+            <text id="ARABIC" value="عربی" />
+            <text id="TRANSLATED" value="ترجمه‌شده" />
+            <text id="TRANSLITERATED" value="آوانگاری‌شده" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="تنظیم محدودهٔ جستجو" />
@@ -250,8 +255,30 @@
 		</form>
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="لطفاً صبر کنید" />
-			<text id="INDEXING" value="در حال شاخص گذاری" /><!-- The process of indexing a document for faster search -->
+			<text id="INDEXING" value="در حال شاخص گذاری" />
 			<text id="TAKE_TIME" value="این عملیات بسته به اندازهٔ مستند، ممکن است تا چند دقیقه طول بکشد." />
+            <text id="CHECKING" value="بررسی برای به‌هنگام رسانی" />
+            <text id="ZEKR_IS_CHECKING" value="ذکر در حال بررسی وجود نسخه‌ی به‌هنگام است" />
 		</form>
+        <form id="ABOUT">
+            <text id="TITLE" value="درباره‌ی ذکر" />
+            <text id="VIEW_LOG" value="نمایش فایل لاگ" />
+        </form>
+        <form id="UPDATE">
+            <text id="TITLE" value="اطلاعات نسخه‌ی به‌هنگام" />
+            <text id="VERSION_INFO" value="اطلاعات نسخه" />
+            <text id="BUILD_NUM" value="شماره‌ی ساخت" />
+            <text id="VERSION" value="نسخه" />
+            <text id="RELEASE_NAME" value="نام نسخه" />
+            <text id="RELEASE_STATE" value="وضعیت انتشار" />
+            <text id="RELEASE_DATE" value="تاریخ انتشار" />
+            <text id="RELEASE_NOTES" value="توضیحات نسخه" />
+            <text id="DOWNLOAD" value="بارگذاری" />
+            <text id="MORE_INFO" value="اطلاعات بیشتر" />
+            <text id="NO_UPDATE" value="شما از آخرین نسخه استفاده می‌کنید" />
+            <text id="NEW_DEV_AVAILABLE" value="نسخه‌ی جدیدتر توسعه‌ای (ناپایدار) آماده برای بارگذاری است" />
+            <text id="NEW_BETA_AVAILABLE" value="نسخه‌ی جدیدتر بتا (ناپایدار) آماده برای بارگذاری است" />
+            <text id="NEW_FINAL_AVAILABLE" value="نسخه‌ی جدیدتر منتشرشده آماده برای بارگذاری است" />
+        </form>
 	</forms>
 </language>
