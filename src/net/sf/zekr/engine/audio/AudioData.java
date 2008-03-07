@@ -206,7 +206,7 @@ public class AudioData {
 	}
 
 	public String toString() {
-		return "AUDIO: " + getReciter();
+		return getName() + " - " + getReciter();
 	}
 
 	/**

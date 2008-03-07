@@ -40,8 +40,7 @@ public class Naming {
 	/**
 	 * Use with caution! This method should be called before any path is loaded from this file.
 	 * 
-	 * @param workspace
-	 *           default workspace to set
+	 * @param workspace default workspace to set
 	 */
 	public static void setWorkspace(String workspace) {
 		WORKSPACE = workspace;

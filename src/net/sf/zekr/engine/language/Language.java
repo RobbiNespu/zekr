@@ -13,11 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
 
 /**
  * This class is singleton.
+ * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class Language {
 	private static Language thisInstance;

@@ -70,7 +70,16 @@ $("input#suraNav,input#ayaNav").bind("keyup", function(e) {
 </script>
 <div id="body" class="body">
 	<div class="bodyTop" align="center">
-	#putBismillah()
+	   <div dir="${DIRECTION}" class="suraName quran" style="height: 40px; background: url(res/image/sura-header.png) no-repeat center center">
+	   $DICT.getMeaning("SURA"):
+	   $SURA_NAME
+	   </div>
+	   #if ($SURA_NUM != 9 && $SURA_NUM != 1)
+	   <div class="quran">
+	   بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+	   </div>
+	   #end
+	##putBismillah()
 	</div>
 	<div id="quranSection" class="main">
 	#parse("$THEME_DIR/aya.vm")

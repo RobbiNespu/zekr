@@ -13,6 +13,7 @@ package net.sf.zekr.common.config;
  * @since Zekr 1.0
  */
 public interface ConfigNaming {
+	public static final String VERSION_ATTR = "version";
 	public static final String ID_ATTR = "id";
 	public static final String NAME_ATTR = "name";
 	public static final String LANG_ATTR = "language";
@@ -25,6 +26,7 @@ public interface ConfigNaming {
 	public static final String AUTHOR_ATTR = "author";
 	public static final String LOCALIZED_NAME_ATTR = "localizedName";
 	public static final String LINE_DELIMITER_ATTR = "lineDelimiter";
+	public static final String SIGNATURE_ATTR = "signature";
 
 	public static final String LINE_BY_LINE = "line-by-line";
 	public static final String BLOCK = "block";

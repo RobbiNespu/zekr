@@ -39,9 +39,6 @@ public class ProgressForm extends BaseForm {
 	public static final int FINISHED = 1;
 	public static final int PROGRESSING = 2;
 
-	private Shell parent;
-	private Shell shell;
-	private Display display;
 	private String title;
 
 	private String message;
@@ -86,7 +83,7 @@ public class ProgressForm extends BaseForm {
 		gl.horizontalSpacing = 10;
 		gl.verticalSpacing = 15;
 		gl.marginHeight = gl.marginBottom = gl.marginLeft = gl.marginRight = 5;
-		Composite body = new Composite(shell, SWT.NONE | langEngine.getSWTDirection());
+		Composite body = new Composite(shell, SWT.NONE | lang.getSWTDirection());
 		body.setLayout(gl);
 
 		gd = new GridData(SWT.BEGINNING, SWT.CENTER, true, false);
@@ -102,7 +99,7 @@ public class ProgressForm extends BaseForm {
 		gd = new GridData(SWT.END, SWT.CENTER, true, true);
 		Button cancelBut = new Button(body, SWT.PUSH);
 		cancelBut.setLayoutData(gd);
-		cancelBut.setText("    " + langEngine.getMeaning("CANCEL") + "    ");
+		cancelBut.setText("    " + lang.getMeaning("CANCEL") + "    ");
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				e.display.asyncExec(new Runnable() {

@@ -16,7 +16,6 @@ import net.sf.zekr.engine.translation.TranslationData;
  * This interface is applicable to translation as well as Quran.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public interface IQuranText {
 
@@ -45,7 +44,7 @@ public interface IQuranText {
 	public String[][] getFullText();
 
 	/**
-	 * This method should only be implemented with translation implementations of this interface.
+	 * This method should only be implemented in subclasses which are aimed for Quran translation.
 	 */
 	public TranslationData getTranslationData();
 }

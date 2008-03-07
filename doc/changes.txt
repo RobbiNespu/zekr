@@ -425,13 +425,35 @@ Bug fixes:
 	Hizb quarter is shown for hizb start points (2 locations per juz), with a modified tooltip text (quarter part is now shown).
 	One of the most important bugs with Mozilla on Linux (and also Widows XULRuner) fixed. This bug prevented using aya box in nav-bar to change aya within a sura. It also caused aya syncing (automatically focusing on the next aya when one aya is finished) not to work when playing a recitataion in continuous mode. 
 
-Version 0.6.7 (Special edition for uploading on Debinan repositories) - [3-11-07]
+Version 0.7.0 beta 1 (Special edition for uploading on Debinan repositories) - [3-11-07]
 Features/Enhancements:
+    Quran translation verification added in order to verify whether the text is downloaded from the official website or not. Each translation should have a signature so that it can be loaded. If the signature is not valid, the user is promted with a warning each time he/she selects the translation.
+    Two new properties introduced for translation descriptors: "version" (translation descriptor file version), and "signature" (digital signature of the translation text).
+    Check for update menu item added under Help menu.
+        - It looks up in the update site (update.address property) for any new update available.
+        - QuranForm checks for update on Shell activation if this is time for update (update.checkInterval is passed from update.lastCheck)
+        - Update info is downloaded in form of an XML file from server. It contains version, build number, release status, download URL, etc.
+        - Check for update action or its menu item can be fully disabled by setting update.enable property to false. This can be helpful when user is always offline or Zekr is used as a Debian package (which should has it's own method of updating).
+    A "View log" link added to the about page, which tries to open log. It can be used for technical support.
+    Sky theme enhanced:
+    	- rounded corner on Mozilla or CSS3-compliant browsers.
+    	- Sura name on the top of each sura
+    	- Text-based Bismillah on the top of each Sura (except suras 1 and 9)
+    /res/text/metadata directory created. quran-properties.xml and each quran-properties-<lang_iso_id>.xml should be under this folder. Quran root list with its addresses is under this folder as well.
+    Updating VM info log data.
+    Localization of all numbers in search result messages. 
+    Changing sura-aya location to the form: sura#:aya# (e.g. 3:130). It used to be like this: sura#-aya#, which was not correctly rendered for RTL environments.
+    Rrror tolerance for unavailable recitation packs. Will disable audio support, if no other one is available, or use the first recitation as default.
+    English translation and transliteration of sura names added to quran-properties.xml.
+    Different options for showing sura names: Arabic, English translation, English transliteration, Local translation, or Local transliteration. The last two ara avilable only if quran-properties-xy.xml file was available for selected language (where xy is the language code).
 Bug fixes:
-    - Disabled "Save as..." button when HTML is served through HTTP server. Exporting pages without having HTTP server on, is not a good idea, because no image/JS/CSS resources can be accessed then.
-    - Audio > Play/Pause menu item text is now correctly updated upon play/pause status change.
-    - Player bar buttons' size fixed.
-    - Audio menu is now correctly disabled when setting audio.enabled = false in config.properties
+    Disabled "Save as..." button when HTML is served through HTTP server. Exporting pages without having HTTP server on, is not a good idea, because no image/JS/CSS resources can be accessed then.
+    Audio > Play/Pause menu item text is now correctly updated upon play/pause status change.
+    Player bar buttons' size fixed.
+    Audio menu is now correctly disabled when setting audio.enabled = false in config.properties
+    Separator is shown in "Recitation" and "Translation" menu groups when there is at least one recitation/translation available.
+    Menu icons are not shown in Mac. All "Control" keys in menu item's accelerator (and text) changed to Command button.
+    A bug with multi-translation layout fixed. This bug affected IE and caused horizontal scrolling when resizing window.
 _____________________________________________________
 	TODO: Update screenshots on the website
 

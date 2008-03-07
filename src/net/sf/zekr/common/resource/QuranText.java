@@ -17,9 +17,13 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.translation.TranslationData;
 
+// TODO: All singleton classes of this kind should be gradually moved as a non-singleton class under
+// ApplicationConfig. Once ApplicationConfig is initialized, a single instance of these class will be stored
+// under it.
+
 /**
- * This class is a repository for the whole quran text. All public methods act as 1-relative arrays. This class acts as
- * a pool for two types of Quran text file: "simple" and "detailed".
+ * This class is a repository for the whole quran text. All public methods act as 1-relative arrays. This
+ * class acts as a pool for two types of Quran text file: "simple" and "detailed".
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -45,8 +49,7 @@ public class QuranText implements IQuranText {
 	/**
 	 * The private constructor, which loads the whole Quran text from file into memory (<code>quranText</code>).
 	 * 
-	 * @param textType
-	 *           can be either DETAILED or SIMPLE
+	 * @param textType can be either DETAILED or SIMPLE
 	 * @throws IOException
 	 */
 	private QuranText(int textType) throws IOException {

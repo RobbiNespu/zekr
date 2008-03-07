@@ -39,15 +39,13 @@ public class ErrorForm extends BaseForm {
 	private Label message;
 	private Text errorDetail;
 	private Throwable error;
-	private Shell shell;
-	protected Display display;
 
 	public ErrorForm(Display display, Throwable error) {
 		this.display = display;
 		this.error = error;
 
 		shell = new Shell(display, getShellOptions());
-		shell.setText(langEngine.getMeaning("ERROR"));
+		shell.setText(lang.getMeaning("ERROR"));
 		shell.setImage(display.getSystemImage(SWT.ICON_ERROR));
 
 		makeFrame(error);
@@ -63,9 +61,9 @@ public class ErrorForm extends BaseForm {
 		shell.setLayout(fl);
 		shell.setFocus();
 
-		Group errorGroup = new Group(shell, langEngine.getSWTDirection());
+		Group errorGroup = new Group(shell, lang.getSWTDirection());
 		errorGroup.setLayout(errorLayout);
-		errorGroup.setText(langEngine.getMeaning(LanguageEngineNaming.ERROR_MSG, "GENERAL_ERROR"));
+		errorGroup.setText(lang.getMeaning(LanguageEngineNaming.ERROR_MSG, "GENERAL_ERROR"));
 
 		errorDetail = new Text(errorGroup, SWT.BORDER | SWT.LEFT_TO_RIGHT | SWT.H_SCROLL | SWT.V_SCROLL);
 		errorDetail.setEditable(false);
@@ -94,7 +92,7 @@ public class ErrorForm extends BaseForm {
 		rd.width = 70;
 
 		Button copy = new Button(buttons, SWT.NONE);
-		copy.setText(langEngine.getMeaning("COPY"));
+		copy.setText(lang.getMeaning("COPY"));
 		copy.setLayoutData(rd);
 		copy.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -104,7 +102,7 @@ public class ErrorForm extends BaseForm {
 		});
 
 		Button ok = new Button(buttons, SWT.NONE);
-		ok.setText(langEngine.getMeaning("OK"));
+		ok.setText(lang.getMeaning("OK"));
 		ok.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				close();

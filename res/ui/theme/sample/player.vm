@@ -15,28 +15,27 @@
 <input type="hidden" id="endAudioItem" value="$PLAYLIST_PROVIDER.getSpecialItem('end')" />
 <div id="footerBar" align="center" class="footerBar" dir="ltr">
 <table><tr>
-	<td width="40"><button id="playButton" title="$DICT.getMeaning('PLAY')" style="padding: 0px 5px" __state="false"
-	__title="$DICT.getMeaning('PAUSE')" onclick="togglePlayPause();">
-	<img src="$RES.getString('theme.icon.play')" __icon="$RES.getString('theme.icon.pause')"
-		style="margin: 1px" alt="" />
-	</button></td>
+    <td width="40"><button id="playButton" title="$DICT.getMeaning('PLAY')" style="padding: 0px 5px" zekrstate="false"
+    zekrtitle="$DICT.getMeaning('PAUSE')" onclick="togglePlayPause();">
+    <img src="$RES.getString('theme.icon.play')" zekricon="$RES.getString('theme.icon.pause')"
+        style="margin: 1px" alt="" />
+    </button></td>
 
-	<td width="40"><button id="stopButton" title="$DICT.getMeaning('STOP')" style="padding: 0px 5px"
-		onclick="stopPlayer();">
-	<img src="$RES.getString('theme.icon.stop')" style="margin: 1px" alt="" />
-	</button></td>
+    <td width="40"><button id="stopButton" title="$DICT.getMeaning('STOP')" style="padding: 0px 5px"
+        onclick="stopPlayer();">
+    <img src="$RES.getString('theme.icon.stop')" style="margin: 1px" alt="" />
+    </button></td>
 
 #set($CONT_AYA_ICON = $RES.getString('theme.icon.contAya'))
 #set($DISC_AYA_ICON = $RES.getString('theme.icon.noContAya'))
 #set($CONT_AYA_TEXT = $DICT.getMeaning('CONTINUOUS'))
 #set($DISC_AYA_TEXT= $DICT.getMeaning('DISCRETE'))
 #if($AUD_CONT_AYA=='true') #set($SURA_BUT_STAT = '') #else #set($SURA_BUT_STAT = 'disabled="true"') #end
-	<td><div class="reciterBar" id="reciterBar"></div></td>
-	<td width="25"><button id="contAyaButton" title="#if($AUD_CONT_AYA=='true')$CONT_AYA_TEXT#else$DISC_AYA_TEXT#end"
-		style="width: 25px; height: 25px" onclick="toggleAyaButton(this)" __state="$AUD_CONT_AYA"
-		__title="#if($AUD_CONT_AYA=='true')$DISC_AYA_TEXT#else$CONT_AYA_TEXT#end">
-		<img src="#if($AUD_CONT_AYA=='true')$CONT_AYA_ICON#else$DISC_AYA_ICON#end"
-		__icon="#if($AUD_CONT_AYA=='true')$DISC_AYA_ICON#else$CONT_AYA_ICON#end" alt="" /></button></td>
+    <td><div class="reciterBar" id="reciterBar"></div></td>
+    <td width="25"><button id="contAyaButton" title="#if($AUD_CONT_AYA=='true')$CONT_AYA_TEXT#else$DISC_AYA_TEXT#end"
+        style="width: 25px; padding: 0px 0px" onclick="toggleAyaButton(this)" zekrstate="$AUD_CONT_AYA"
+        zekrtitle="#if($AUD_CONT_AYA=='true')$DISC_AYA_TEXT#else$CONT_AYA_TEXT#end">
+        <img src="#if($AUD_CONT_AYA=='true')$CONT_AYA_ICON#else$DISC_AYA_ICON#end"
+        zekricon="#if($AUD_CONT_AYA=='true')$DISC_AYA_ICON#else$CONT_AYA_ICON#end" alt="" /></button></td>
 </tr></table>
 </div>
- 

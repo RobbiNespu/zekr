@@ -22,10 +22,8 @@ public class AdvancedQuranSearchResultTemplate extends AbstractSearchResultTempl
 	int pageNo;
 
 	/**
-	 * @param qts
-	 *           QuranTextSearcher instance
-	 * @param pageNo
-	 *           counted from 1
+	 * @param qts QuranTextSearcher instance
+	 * @param pageNo counted from 1
 	 */
 	public AdvancedQuranSearchResultTemplate(QuranTextSearcher qts, int pageNo) {
 		super(null, null, false);
@@ -38,11 +36,13 @@ public class AdvancedQuranSearchResultTemplate extends AbstractSearchResultTempl
 		try {
 			String ret = null;
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {
-					"" + searcher.getMatchedItemCount(), "" + searcher.getResultCount() }));
+					i18n.localize(String.valueOf(searcher.getMatchedItemCount())),
+					i18n.localize(String.valueOf(searcher.getResultCount())) }));
 			engine.put("AYA_LIST", searcher.getPage(pageNo));
 			engine.put("PAGE_START_NUM", new Integer(pageNo * searcher.getMaxResultPerPage()));
-			engine.put("PAGE_NUM_MSG", langEngine.getDynamicMeaning("SEARCH_PAGE", new String[] { String.valueOf(pageNo + 1),
-					String.valueOf(searcher.getResultPageCount()) }));
+			engine.put("PAGE_NUM_MSG", langEngine.getDynamicMeaning("SEARCH_PAGE",
+					new String[] { i18n.localize(String.valueOf(pageNo + 1)),
+							i18n.localize(String.valueOf(searcher.getResultPageCount())) }));
 			engine.put("CLAUSE", searcher.getQuery().toString(QuranTextIndexer.CONTENTS_FIELD));
 			String k = SearchUtils.arabicSimplify(searcher.getRawQuery());
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));

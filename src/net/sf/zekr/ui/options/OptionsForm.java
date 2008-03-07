@@ -112,6 +112,9 @@ public class OptionsForm {
 	private static final List packs = new ArrayList(lang.getLangPacks());
 	private static final List themes = new ArrayList(config.getTheme().getAllThemes());
 
+	private String[] suraNameType = new String[] { "arabic", "t9n", "t13n", "en-t9n", "en-t13n" };
+	private Combo suraNameMode;
+
 	public OptionsForm(Shell parent) {
 		this.parent = parent;
 		display = parent.getDisplay();
@@ -193,7 +196,7 @@ public class OptionsForm {
 		buttons.setLayoutData(gd);
 
 		Button ok = new Button(buttons, SWT.NONE);
-		ok.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
+		ok.setText(FormUtils.addAmpersand(lang.getMeaning("OK")));
 		ok.pack();
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -204,18 +207,18 @@ public class OptionsForm {
 				this.widgetSelected(e);
 			}
 		});
-		
+
 		Button cancel = new Button(buttons, SWT.NONE);
-		cancel.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
+		cancel.setText(FormUtils.addAmpersand(lang.getMeaning("CANCEL")));
 		cancel.pack();
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				shell.close();
 			}
 		});
-		
+
 		Button apply = new Button(buttons, SWT.NONE);
-		apply.setText(FormUtils.addAmpersand( lang.getMeaning("APPLY")) );
+		apply.setText(FormUtils.addAmpersand(lang.getMeaning("APPLY")));
 		apply.pack();
 		apply.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -226,14 +229,14 @@ public class OptionsForm {
 		RowData rdCancel = new RowData();
 		RowData rdApply = new RowData();
 		// set all three OK, CANCEL, and APLLY buttons to the same length
-		int buttonLength = FormUtils.buttonLength(80, ok, cancel, apply );
+		int buttonLength = FormUtils.buttonLength(80, ok, cancel, apply);
 		rdOk.width = buttonLength;
-        rdCancel.width = buttonLength;
-        rdApply.width = buttonLength;
+		rdCancel.width = buttonLength;
+		rdApply.width = buttonLength;
 		ok.setLayoutData(rdOk);
 		cancel.setLayoutData(rdCancel);
 		apply.setLayoutData(rdApply);
-		
+
 		shell.setDefaultButton(ok);
 	}
 
@@ -291,6 +294,7 @@ public class OptionsForm {
 
 		config.setShowSplash(showSplash.getSelection());
 		props.setProperty("options.search.maxResult", "" + spinner.getSelection());
+		props.setProperty("quran.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
 		if (fromOk && pressOkToApply) {
 			props.setProperty("lang.default", selectedLangPack.id);
 			props.setProperty("theme.default", selectedTheme.id);
@@ -394,6 +398,27 @@ public class OptionsForm {
 		resizeablePane = new Button(generalTab, SWT.CHECK);
 		resizeablePane.setText(meaning("RESIZEABLE_TASK_PANE"));
 		resizeablePane.setSelection(config.getProps().getBoolean("options.general.resizeableTaskPane"));
+
+		rl = new RowLayout(SWT.HORIZONTAL);
+		rl.spacing = 10;
+		comp = new Composite(generalTab, SWT.NONE);
+		comp.setLayout(rl);
+
+		new Label(comp, SWT.NONE).setText("Show sura names in :");
+
+		String[] suraNameKey = new String[] { "Arabic", "Translation (if available)", "Transliteration (if available)",
+				"English translation", "English transliteration" };
+		suraNameMode = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
+		suraNameMode.setItems(suraNameKey);
+		int modeSelect = 0;
+		String selectedMode = config.getProps().getString("quran.sura.name");
+		for (int i = 0; i < suraNameType.length; i++) {
+			if (suraNameType[i].equals(selectedMode)) {
+				modeSelect = i;
+				break;
+			}
+		}
+		suraNameMode.select(modeSelect);
 	}
 
 	private void createViewTab() {

@@ -31,9 +31,11 @@ import java.util.zip.ZipFile;
 import net.sf.zekr.common.ZekrBaseException;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.runtime.RuntimeConfig;
+import net.sf.zekr.common.util.Base64;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.audio.Audio;
 import net.sf.zekr.engine.audio.AudioData;
@@ -57,7 +59,7 @@ import net.sf.zekr.ui.helper.EventUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.swt.SWT;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
 
@@ -66,7 +68,6 @@ import org.w3c.dom.Element;
  * can then read any option by using available getter methods.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ApplicationConfig implements ConfigNaming {
 	private final static Logger logger = Logger.getLogger(ApplicationConfig.class);
@@ -388,20 +389,28 @@ public class ApplicationConfig implements ConfigNaming {
 					is.close();
 
 					td = new TranslationData();
+					td.version = pc.getString(VERSION_ATTR);
 					td.id = pc.getString(ID_ATTR);
-					td.locale = new Locale(pc.getString(LANG_ATTR), pc.getString(COUNTRY_ATTR));
-					td.encoding = pc.getString(ENCODING_ATTR);
-					td.direction = pc.getString(DIRECTION_ATTR);
+					td.locale = new Locale(pc.getString(LANG_ATTR, "en"), pc.getString(COUNTRY_ATTR, "US"));
+					td.encoding = pc.getString(ENCODING_ATTR, "ISO-8859-1");
+					td.direction = pc.getString(DIRECTION_ATTR, "ltr");
 					td.file = pc.getString(FILE_ATTR);
 					td.name = pc.getString(NAME_ATTR);
-					td.localizedName = pc.getString(LOCALIZED_NAME_ATTR);
+					td.localizedName = pc.getString(LOCALIZED_NAME_ATTR, td.name);
 					td.archiveFile = zipFile;
-					td.lineDelimiter = pc.getString(LINE_DELIMITER_ATTR);
-					if (td.localizedName == null)
-						td.localizedName = td.name;
+					td.lineDelimiter = pc.getString(LINE_DELIMITER_ATTR, "\n");
+					String sig = pc.getString(SIGNATURE_ATTR);
+					td.signature = sig == null ? null : Base64.decode(sig);
+
+					if (StringUtils.isEmpty(td.id) || StringUtils.isEmpty(td.name) || StringUtils.isEmpty(td.file)
+							|| StringUtils.isEmpty(td.version) || td.signature == null) {
+						logger.warn("Invalid translation: \"" + td + "\".");
+						continue;
+					}
 
 					translation.add(td);
 					if (td.id.equals(def)) {
+						logger.info("Default translation is: " + td);
 						translation.setDefault(td);
 					}
 
@@ -594,6 +603,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 					audio.add(audioData);
 					if (audioData.getId().equals(def)) {
+						logger.info("Default recitation is: " + audioData);
 						audio.setCurrent(audioData);
 					}
 				} catch (Exception e) {
@@ -603,11 +613,22 @@ public class ApplicationConfig implements ConfigNaming {
 				}
 			}
 		}
+
+		if (audio.getCurrent() == null) {
+			logger.error("No default recitation found: " + def);
+			if (audio.getAllAudio().size() > 0) {
+				audio.setCurrent((AudioData) audio.getAllAudio().iterator().next());
+				props.setProperty("audio.default", audio.getCurrent().getId());
+				logger.warn("Setting another recitation as default: " + audio.getCurrent());
+			} else {
+				logger.warn("No other recitation found. Audio will be disabled.");
+			}
+		}
 	}
 
 	/**
 	 * @return application language engine
-	 * @see net.sf.zekr.engine.language#getInstance()
+	 * @see net.sf.zekr.engine.Language#getInstance()
 	 */
 	public LanguageEngine getLanguageEngine() {
 		if (langEngine == null)
@@ -619,6 +640,8 @@ public class ApplicationConfig implements ConfigNaming {
 		logger.info("Set current language to " + langId);
 		language.setActiveLanguagePack(langId);
 		langEngine.reload();
+		logger.debug("Update localized sura names if available.");
+		QuranPropertiesUtils.updateLocalizedSuraNames();
 		props.setProperty("lang.default", langId);
 	}
 

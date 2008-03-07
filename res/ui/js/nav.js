@@ -56,13 +56,13 @@ function getObjectHeight(obj) { return obj.offsetHeight; }
 function getBrowserHeight() { return document.body.clientHeight; }
 
 function highlightAya(id) {
-	$('#sign_' + id).attr('className', 'selectedAyaSign');
-	$('#' + id).attr('className', 'selectedAya');
+	$('#sign_' + id).addClass('selectedAyaSign');
+	$('#' + id).addClass('selectedAya');
 }
 
 function unHighlightAya(id) {
-	$('#sign_' + id).attr('className', 'ayaSign');
-	$('#' + id).attr('className', 'aya');
+    $('#sign_' + id).removeClass('selectedAyaSign');
+    $('#' + id).removeClass('selectedAya');
 }
 
 function focusOnAya(suraNum, ayaNum) {

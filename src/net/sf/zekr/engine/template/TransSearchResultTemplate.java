@@ -50,7 +50,8 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 			boolean ok = qs.findAll(result, keyword); // Search over the whole Quran translation
 
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {
-					"" + qs.getResultCount(), "" + result.size() }));
+					i18n.localize(String.valueOf(qs.getResultCount())),
+					i18n.localize(String.valueOf(result.size())) }));
 
 			if (!ok) // more that maxAyaMatch ayas was matched
 				engine.put("TOO_MANY_RESULT", langEngine.getDynamicMeaning("TOO_MANY_RESULT", new String[] { ""
@@ -70,8 +71,9 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 	}
 
 	/**
-	 * Converts a <code>Map</code> of <code>QuranLocation</code> to <code>List</code> of <code>Rage</code>s to a
-	 * <code>Map</code> of <code>QuranLocation</code> to list of aya string fragments.
+	 * Converts a <code>Map</code> of <code>QuranLocation</code> to <code>List</code> of
+	 * <code>Rage</code>s to a <code>Map</code> of <code>QuranLocation</code> to list of aya string
+	 * fragments.
 	 * 
 	 * @param result
 	 * @return a map of locations

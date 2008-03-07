@@ -1,10 +1,11 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta http-equiv="Cache-Control" content="no-cache">
-	<base href="$APP_PATH">
-	<link rel="stylesheet" media="all" type="text/css" href="${CSS_DIR}common-style.css">
-	<link rel="stylesheet" media="print" type="text/css" href="${CSS_DIR}print-style.css">
-	<link rel="stylesheet" media="screen" type="text/css" href="${CSS_DIR}screen-style.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<base href="$APP_PATH" />
+	<link rel="stylesheet" media="all" type="text/css" href="${CSS_DIR}common-style.css" />
+	<link rel="stylesheet" media="print" type="text/css" href="${CSS_DIR}print-style.css" />
+	<link rel="stylesheet" media="screen" type="text/css" href="${CSS_DIR}screen-style.css" />
 
 	<script src="$UI_DIR/js/jquery.js" language="javascript" type="text/javascript"></script>
 	<script src="$UI_DIR/js/ifx.js" language="javascript" type="text/javascript"></script>

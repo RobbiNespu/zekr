@@ -11,9 +11,10 @@ package net.sf.zekr.common.resource;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * This data structure is the primitive structure of addressing somewhere in the Quran. Addressing is possible by just
- * having aya number and sura number. <br>
- * Note that this class does not provide any range checkhing or explicit exception handling for performance purposes.<br>
+ * This data structure is the primitive structure of addressing somewhere in the Quran. Addressing is possible
+ * by just having aya number and sura number. <br>
+ * Note that this class does not provide any range checkhing or explicit exception handling for performance
+ * purposes.<br>
  * Both sura and aya numbers are counted from 1.
  * 
  * @author Mohsen Saboorian
@@ -25,10 +26,8 @@ public class QuranLocation implements IQuranLocation {
 	/**
 	 * No range check is performed.
 	 * 
-	 * @param sura
-	 *           counted from 1
-	 * @param aya
-	 *           counted from 1
+	 * @param sura counted from 1
+	 * @param aya counted from 1
 	 */
 	public QuranLocation(int sura, int aya) {
 		setAya(aya);
@@ -36,15 +35,13 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	/**
-	 * Loads a QuranLocation with the format <tt>sura#-aya#</tt>. Sura and Aya numbers are both counted from 1. If
-	 * <code>location</code> is not of format <tt>sura#-aya#</tt>, an <code>IllegalArgumentException</code> is
-	 * thrown.<br>
+	 * Loads a QuranLocation with the format <tt>sura#-aya#</tt>. Sura and Aya numbers are both counted from
+	 * 1. If <code>location</code> is not of format <tt>sura#-aya#</tt>, an
+	 * <code>IllegalArgumentException</code> is thrown.<br>
 	 * Please note that no range check is performed for this method.
 	 * 
-	 * @param location
-	 *           Quran location to be parsed
-	 * @throws IllegalArgumentException
-	 *            if <code>location</code> is not well-formed, ie. <tt>sura#-aya#</tt>
+	 * @param location Quran location to be parsed
+	 * @throws IllegalArgumentException if <code>location</code> is not well-formed, ie. <tt>sura#-aya#</tt>
 	 */
 	public QuranLocation(String location) {
 		int i = location.indexOf('-');
@@ -55,11 +52,10 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	/**
-	 * Checks if the given QuranLocation's compliant string is valid (is of the form of sura#-aya# and the location
-	 * actually exists).
+	 * Checks if the given QuranLocation's compliant string is valid (is of the form of sura#-aya# and the
+	 * location actually exists).
 	 * 
-	 * @param loc
-	 *           the location string to be verified
+	 * @param loc the location string to be verified
 	 * @return <code>true</code> if this is a valid Quran location, <code>false</code> otherwise.
 	 */
 	public static boolean isValidLocation(String loc) {

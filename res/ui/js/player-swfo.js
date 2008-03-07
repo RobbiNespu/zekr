@@ -38,6 +38,7 @@ Player = function() {
 		this.items = items;
 		this.index = index;
 		if (contAya != undefined) this.contAya = contAya;
+/*
 		var fo = { movie:'res/audio/player.swf', width:'220', height:'20', majorversion:'8', menu: 'false',
 				build:'0', bgcolor:'#ffffff', id:'quranPlayer', flashvars:'file=' + playlist + '&volume=' + volume +
 				'&repeat=' + (this.contAya ? 'list' : 'false') +
@@ -46,6 +47,21 @@ Player = function() {
 			'&backcolor=0xeee0e0&frontcolor=0x0011cc' + 
 			'&showdigits=true&autostart=false' };
 		UFO.create(fo, 'reciterBar');
+*/
+		var so = new SWFObject('res/audio/player.swf', 'quranPlayer', '220', '20', '8', '#ffffff');
+		so.addParam('menu', 'false');
+        so.addVariable('enablejs', 'true');
+        so.addVariable('shuffle', 'false');
+        so.addVariable('javascriptid', 'quranPlayer');
+        so.addVariable('allowscriptaccess', 'always');
+        so.addVariable('backcolor', '0xeee0e0');
+        so.addVariable('frontcolor', '0x0011cc');
+        so.addVariable('showdigits', 'trye');
+        so.addVariable('autostart', 'false');
+        so.addVariable('repeat', (this.contAya ? 'list' : 'false'));
+        so.addVariable('file', playlist);
+        so.addVariable('volume', volume);
+		so.write('reciterBar');
 	}
 	
 	this.setVolume = function(v) { sendEvent('volume', v); this.volume = v; }

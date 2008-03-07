@@ -12,13 +12,19 @@ package net.sf.zekr.ui.helper;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.sf.zekr.common.util.HyperlinkUtils;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -30,9 +36,10 @@ import org.eclipse.swt.widgets.Text;
  * @since Zekr 1.0
  */
 public class FormUtils {
+	public static final String URL_DATA = "URL";
+
 	/**
-	 * @param display
-	 *           The <code>Device</code> to extract it's bounds.
+	 * @param display The <code>Device</code> to extract it's bounds.
 	 * @return A <code>Point</code> containing (maxX, maxY) of device.
 	 */
 	public static Point getScreenSize(Display display) {
@@ -41,13 +48,11 @@ public class FormUtils {
 	}
 
 	/**
-	 * This method shall be used to find upper-left position of a <code>Rectangle</code>, which then be centered on
-	 * the screen.
+	 * This method shall be used to find upper-left position of a <code>Rectangle</code>, which then be
+	 * centered on the screen.
 	 * 
-	 * @param display
-	 *           The display to extract it's bounds.
-	 * @param widgetSize
-	 *           widget size and position.
+	 * @param display The display to extract it's bounds.
+	 * @param widgetSize widget size and position.
 	 * @return Proper (x, y) value.
 	 */
 	public static Point getScreenCenter(Display display, Rectangle widgetSize) {
@@ -135,8 +140,7 @@ public class FormUtils {
 	}
 
 	/**
-	 * @param direction
-	 *           can be either <tt>rtl</tt> or <tt>ltr</tt>
+	 * @param direction can be either <tt>rtl</tt> or <tt>ltr</tt>
 	 * @return <code>SWT.RIGHT_TO_LEFT</code> if direction is <tt>rtl</tt> (ignoring the case),
 	 *         <code>SWT.LEFT_TO_RIGHT</code> otherwise.
 	 */
@@ -158,11 +162,10 @@ public class FormUtils {
 	 * check a menuText entry for an ampersand and if not found prepend the menuText with one
 	 * 
 	 * @author laejoh
-	 * @param menuText
-	 *           the menuText to be shown, i.e. the translated text with possible &amp;amp; markers to show which key on
-	 *           the keyboard will activate the menu item
-	 * @return either menuText with an &amp;amp; marker in the first position if there was no &amp;amp; menuText without
-	 *         any modification if there already was a &amp;amp; included
+	 * @param menuText the menuText to be shown, i.e. the translated text with possible &amp;amp; markers to
+	 *           show which key on the keyboard will activate the menu item
+	 * @return either menuText with an &amp;amp; marker in the first position if there was no &amp;amp;
+	 *         menuText without any modification if there already was a &amp;amp; included
 	 */
 	public static String addAmpersand(final String menuText) {
 		if (menuText.indexOf('&') <= -1) {
@@ -175,10 +178,8 @@ public class FormUtils {
 	 * return the maximum length for a button when two buttons are given
 	 * 
 	 * @author laejoh
-	 * @param button
-	 *           a first button Button object
-	 * @param button
-	 *           a second button Button object
+	 * @param button a first button Button object
+	 * @param button a second button Button object
 	 * @return int max length of the two buttons given
 	 */
 	public static int buttonLength(final Button button1, final Button button2) {
@@ -189,12 +190,9 @@ public class FormUtils {
 	 * return the maximum length for a button when two buttons and a minimum length are given
 	 * 
 	 * @author laejoh
-	 * @param minimum
-	 *           an integer giving the minimum length a button has to have
-	 * @param button
-	 *           a first button Button object
-	 * @param button
-	 *           a second button Button object
+	 * @param minimum an integer giving the minimum length a button has to have
+	 * @param button a first button Button object
+	 * @param button a second button Button object
 	 * @return int max length of the two buttons given
 	 */
 	public static int buttonLength(final int minimum, final Button button1, final Button button2) {
@@ -205,10 +203,8 @@ public class FormUtils {
 	 * return the maximum length for a button when three buttons are given
 	 * 
 	 * @author laejoh
-	 * @param button
-	 *           a first button
-	 * @param button
-	 *           a second button
+	 * @param button a first button
+	 * @param button a second button
 	 * @return int max length of the two buttons given
 	 */
 	public static int buttonLength(final Button button1, final Button button2, final Button button3) {
@@ -219,15 +215,45 @@ public class FormUtils {
 	 * return the maximum length for a button when three buttons and a minimum length are given
 	 * 
 	 * @author laejoh
-	 * @param minimum
-	 *           an integer giving the minimum length a button has to have
-	 * @param button
-	 *           a first button
-	 * @param button
-	 *           a second button
+	 * @param minimum an integer giving the minimum length a button has to have
+	 * @param button a first button
+	 * @param button a second button
 	 * @return int max length of the two buttons given
 	 */
 	public static int buttonLength(final int minimum, final Button button1, final Button button2, final Button button3) {
 		return Math.max(minimum, buttonLength(button1, button2, button3));
 	}
+
+	/**
+	 * Listener used for opening system's web browser if one clicks on a Link widget.
+	 */
+	private static SelectionListener linkListener = new SelectionAdapter() {
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+
+		public void widgetSelected(SelectionEvent e) {
+			HyperlinkUtils.openBrowser((String) e.widget.getData(URL_DATA));
+		}
+	};
+
+	/**
+	 * Adds click listener to the link widget.
+	 * 
+	 * @param link
+	 */
+	public static void addLinkListener(Link link) {
+		link.addSelectionListener(linkListener);
+	}
+
+	/**
+	 * Limits the size of the shell to the given values.
+	 * 
+	 * @param shell the Shell to limit
+	 */
+	public static void limitSize(Shell shell, int width, int height) {
+		Point size = shell.getSize();
+		shell.setSize(size.x > width ? width : size.x, size.y > height ? height : size.y);
+	}
+
 }

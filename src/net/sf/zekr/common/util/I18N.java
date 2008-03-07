@@ -88,6 +88,32 @@ public class I18N {
 	}
 
 	/**
+	 * Replaces all occurrences of digits in <code>str</code> with corresponding localized digits.
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public String localize(String str) {
+		return localize(str, locale.getLanguage());
+	}
+
+	public String localize(String str, String langCode) {
+		StringBuffer buf = new StringBuffer(str);
+		int base = 0;
+		if (baseMap.get(langCode) != null)
+			base = ((Integer) baseMap.get(langCode)).intValue();
+		else
+			return str;
+		for (int i = 0; i < buf.length(); i++) {
+			char ch = buf.charAt(i);
+			if (Character.isDigit(ch)) {
+				buf.replace(i, i + 1, String.valueOf((char) (base + ch - '0')));
+			}
+		}
+		return buf.toString();
+	}
+
+	/**
 	 * @return the <code>java.util.Locale</code> instance used for encoding withing this object.
 	 */
 	public Locale getLocale() {

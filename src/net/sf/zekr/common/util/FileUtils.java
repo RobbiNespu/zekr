@@ -12,16 +12,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * @author Mohsen Saboorian
  * @since Zekr 1.0
- * @version 0.1
  */
 public class FileUtils {
 	/**
-	 * A more enhanced implementation of File.delete() with also deletes directories
-	 * recursively.
+	 * A more enhanced implementation of File.delete() with also deletes directories recursively.
 	 * 
 	 * @param file
 	 * @return <code>true</code> if successful, <code>false</code> otherwise
@@ -73,12 +73,22 @@ public class FileUtils {
 	public static void recreateDirectory(File dir) throws IOException {
 		if (dir.exists())
 			if (!FileUtils.delete(dir))
-				throw new IOException("Can not delete directory \"" + dir
-						+ "\".");
+				throw new IOException("Can not delete directory \"" + dir + "\".");
 		dir.mkdir();
 	}
-	
+
 	public static void recreateDirectory(String dir) throws IOException {
 		recreateDirectory(new File(dir));
+	}
+
+	/**
+	 * Open a connection to a remote/local URL.
+	 * 
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	public static InputStream getContent(URL url) throws IOException {
+		return url.openStream();
 	}
 }

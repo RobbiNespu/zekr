@@ -68,10 +68,11 @@ public class Logger {
 	private static void dumpSysInfo(org.apache.log4j.Logger logger) {
 		String n = System.getProperty("line.separator");
 		logger.info("System information:" + "\n" + "OS info:\t\t" + System.getProperty("os.name") + " - "
-				+ System.getProperty("os.version") + " - " + System.getProperty("os.arch") + n + "JVM info:\t\t"
-				+ System.getProperty("java.runtime.name") + " - " + System.getProperty("java.vm.specification.vendor")
-				+ " - " + System.getProperty("java.version") + n + "User info:\t\t" + System.getProperty("user.home")
-				+ " - " + System.getProperty("user.dir") + " - " + System.getProperty("user.language") + "-"
+				+ System.getProperty("os.version") + " - " + System.getProperty("os.arch") + n + "VM info:\t\t"
+				+ System.getProperty("java.vm.name") + " (" + System.getProperty("java.vm.vendor") + ") - "
+				+ System.getProperty("java.version") + " (" + System.getProperty("java.vm.version") + ") - "
+				+ System.getProperty("java.vm.info") + n + "User info:\t\t" + System.getProperty("user.home") + " - "
+				+ System.getProperty("user.dir") + " - " + System.getProperty("user.language") + "-"
 				+ System.getProperty("user.country") + n + "Encoding info:\t" + System.getProperty("file.encoding"));
 	}
 

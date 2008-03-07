@@ -342,4 +342,9 @@ public class QuranPropertiesUtils {
 		}
 		return aggrAyaCount[suraNum - 1];
 	}
+
+	public static void updateLocalizedSuraNames() {
+		QuranProperties props = QuranProperties.getInstance();
+		props.quranPropsReader.updateLocalizedSuraNames();
+	}
 }

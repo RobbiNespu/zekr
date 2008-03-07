@@ -14,7 +14,12 @@ package net.sf.zekr.common.resource;
  * @author Mohsen Saboorian
  */
 public class SuraProperties {
+	static String l10nName[] = new String[114];
+	static String l10nTransliterate[] = new String[114];
+
 	private String name;
+	private String englishName;
+	private String englishTransliteratedName;
 	private int ayaCount;
 	private boolean madani;
 	private int index;
@@ -27,6 +32,22 @@ public class SuraProperties {
 		this.name = name;
 	}
 
+	public String getEnglishName() {
+		return englishName;
+	}
+
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
+	}
+
+	public String getEnglishTransliteratedName() {
+		return englishTransliteratedName;
+	}
+
+	public void setEnglishTransliteratedName(String englishTransliteratedName) {
+		this.englishTransliteratedName = englishTransliteratedName;
+	}
+
 	public int getAyaCount() {
 		return ayaCount;
 	}
@@ -36,8 +57,8 @@ public class SuraProperties {
 	}
 
 	/**
-	 * @return <code>true</code> if <code>sura</code> is <i>Madani</i> or (otherwise) <code>false</code> if it is
-	 *         <i>Makki</i>
+	 * @return <code>true</code> if <code>sura</code> is <i>Madani</i> or (otherwise) <code>false</code>
+	 *         if it is <i>Makki</i>
 	 */
 	public boolean isMadani() {
 		return madani;
@@ -57,5 +78,4 @@ public class SuraProperties {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-
 }

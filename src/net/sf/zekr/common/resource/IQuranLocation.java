@@ -26,5 +26,10 @@ public interface IQuranLocation {
 	 */
 	public IQuranLocation getNext();
 
+	/**
+	 * Pads the sura/aya number so that all strings are of the same width and sortable.
+	 * 
+	 * @return
+	 */
 	public String toSortableString();
 }

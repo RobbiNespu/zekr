@@ -1,4 +1,4 @@
-.quran {
+.quran, .quran td {
 #set($qBold = "")
 #set($qItalic = "")
 #if ($quran_fontBold.equals("true"))
@@ -10,7 +10,7 @@
 	font: $qBold $qItalic ${quran_fontSize}pt ${quran_fontName}, Badr, Nazanin, Tahoma, Nazli, Koodak, Times, Verdana, Helvetica, Arial, Sans-serif;
 }
 
-.trans {
+.trans, .trans td {
 #set($tBold = "")
 #set($tItalic = "")
 #if ($trans_fontBold.equals("true"))
@@ -38,9 +38,22 @@
 	font-size: ${fontSize}pt;
 }
 
+div.bodyTop {
+    margin: 5px;
+}
+
+.suraName {
+	font-weight: bold;
+}
+
 .printWatermark {
 	display: none;
 }
+
+div.quran { /* resolves IE6/7 bug for custom trans layout having table width=100% */
+	width: 100%;
+}
+
 span.sajda#minor {
 	font-family: serif;
 	color: rgb(200, 40, 40);
@@ -56,9 +69,6 @@ span.sajda#major {
 span.juzSign {
 	font-family: serif;
 	color: rgb(0, 40, 200);
-}
-
-span.ayaSign {
 }
 
 .quran span.hizbSign {
@@ -77,7 +87,7 @@ span.ayaSign {
 }
 
 #custom.trans {
-	padding: 4px 0px;
+	padding: 3px 0px;
 }
 
 .queryDetail {
@@ -92,4 +102,9 @@ span.ayaSign {
 
 .queryDetail a:hover { 
 	color: rgb(200, 50, 10);
+}
+
+td .ayaSep {
+	margin: 0 5px 0 0;
+	border-top: 1px solid #bcd;
 }

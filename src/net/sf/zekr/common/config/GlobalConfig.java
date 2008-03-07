@@ -42,7 +42,7 @@ public class GlobalConfig {
 	/** Default output encoding for HTML */
 	public static final String OUT_HTML_ENCODING = "UTF-8";
 
-	public static final String HOME_PAGE = "http://siahe.com/zekr";
+	public static final String HOME_PAGE = "http://zekr.org";
 
 	public static final String RESOURCE_PAGE = HOME_PAGE + "/resources.html";
 

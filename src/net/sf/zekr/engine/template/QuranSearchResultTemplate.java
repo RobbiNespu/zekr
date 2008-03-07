@@ -44,14 +44,14 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 			Date date1 = new Date();
 			boolean ok = qs.findAll(result, keyword); // find...
 			Date date2 = new Date();
-			logger.info("Search for " + keyword + " finished; it took " + (date2.getTime() - date1.getTime())
-					+ " ms.");
+			logger.info("Search for " + keyword + " finished; it took " + (date2.getTime() - date1.getTime()) + " ms.");
 
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {
-					"" + qs.getResultCount(), "" + result.size() }));
+					i18n.localize(String.valueOf(qs.getResultCount())),
+					i18n.localize(String.valueOf(result.size())) }));
 			if (!ok) // more that maxAyaMatch ayas was matched
-				engine.put("TOO_MANY_RESULT", langEngine.getDynamicMeaning("TOO_MANY_RESULT",
-						new String[] { "" + result.size() }));
+				engine.put("TOO_MANY_RESULT", langEngine.getDynamicMeaning("TOO_MANY_RESULT", new String[] { ""
+						+ result.size() }));
 
 			engine.put("AYA_LIST", refineQuranResult(result).entrySet());
 			String k = matchDiac ? SearchUtils.replaceLayoutSimilarCharacters(keyword) : SearchUtils

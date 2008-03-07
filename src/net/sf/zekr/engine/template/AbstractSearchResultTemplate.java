@@ -9,6 +9,7 @@
 package net.sf.zekr.engine.template;
 
 import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.util.I18N;
 
 /**
  * @author Mohsen Saboorian
@@ -18,6 +19,8 @@ public abstract class AbstractSearchResultTemplate extends BaseViewTemplate {
 	protected IRangedQuranText quran;
 	protected String keyword;
 	protected boolean matchDiac;
+	
+	protected I18N i18n = new I18N(langEngine.getLocale());
 
 	/**
 	 * @param quran

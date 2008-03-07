@@ -10,11 +10,12 @@ package net.sf.zekr.engine.audio;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Audio {
 	private AudioData current;
-	private Map audioList = new HashMap();
+	private Map audioList = new LinkedHashMap();
 
 	public void add(AudioData ad) {
 		audioList.put(ad.getId(), ad);

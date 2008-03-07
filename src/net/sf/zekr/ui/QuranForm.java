@@ -32,6 +32,7 @@ import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
 import net.sf.zekr.engine.search.ui.ManageScopesForm;
 import net.sf.zekr.engine.search.ui.SearchScopeForm;
 import net.sf.zekr.engine.translation.TranslationData;
+import net.sf.zekr.engine.update.UpdateManager;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
@@ -59,6 +60,8 @@ import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
@@ -92,8 +95,6 @@ import org.eclipse.swt.widgets.Text;
  * @since Zekr 1.0
  */
 public class QuranForm extends BaseForm {
-	private Display display;
-	private Shell shell;
 	private Composite body;
 	private Browser quranBrowser;
 	private Browser transBrowser;
@@ -190,10 +191,12 @@ public class QuranForm extends BaseForm {
 	/** specifies if audio player automatically brings user to the next sura */
 	private boolean playerAutoNextSura = false;
 
+	private UpdateManager updateManager;
+
 	private Listener globalKeyListener = new Listener() {
 		public void handleEvent(Event event) {
 			if (NAV_BUTTON.equals(event.widget.getData())) {
-				boolean isRTL = ((langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
+				boolean isRTL = ((lang.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 				int d = event.keyCode ^ SWT.KEYCODE_BIT;
 				if (d == 1) {
 					gotoPrevSura();
@@ -240,7 +243,7 @@ public class QuranForm extends BaseForm {
 		viewLayout = 0; // no layout set yet
 
 		title = meaning("TITLE");
-		shell = new Shell(display, SWT.SHELL_TRIM | langEngine.getSWTDirection());
+		shell = new Shell(display, SWT.SHELL_TRIM | lang.getSWTDirection());
 		shell.setText(title);
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
 				new Image(display, resource.getString("icon.form32")),
@@ -272,6 +275,18 @@ public class QuranForm extends BaseForm {
 			}
 		};
 		shell.addDisposeListener(dl);
+
+		updateManager = new UpdateManager(shell);
+		shell.addShellListener(new ShellAdapter() {
+			public void shellActivated(ShellEvent e) {
+				if (config.getProps().getBoolean("update.enable")) {
+					if (updateManager.isCheckNeeded()) {
+						logger.debug("Time for check for update!");
+						updateManager.check();
+					}
+				}
+			}
+		});
 
 		shell.addListener(EventProtocol.CUSTOM_ZEKR_EVENT, new Listener() {
 			public void handleEvent(Event e) {
@@ -334,7 +349,7 @@ public class QuranForm extends BaseForm {
 		shell.setLayout(fl);
 
 		GridLayout pageLayout = new GridLayout(2, false);
-		body = new Composite(shell, langEngine.getSWTDirection());
+		body = new Composite(shell, lang.getSWTDirection());
 		body.setLayout(pageLayout);
 
 		isSashed = config.getProps().getBoolean("options.general.resizeableTaskPane");
@@ -477,12 +492,12 @@ public class QuranForm extends BaseForm {
 
 		gl = new GridLayout(2, false);
 		navGroup = new Group(workPane, SWT.NONE);
-		navGroup.setText(langEngine.getMeaning("SELECT") + ":");
+		navGroup.setText(lang.getMeaning("SELECT") + ":");
 		navGroup.setLayout(gl);
 		navGroup.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
 
 		suraLabel = new Label(navGroup, SWT.NONE);
-		suraLabel.setText(langEngine.getMeaning("SURA") + ":");
+		suraLabel.setText(lang.getMeaning("SURA") + ":");
 
 		suraSelector = new Combo(navGroup, SWT.READ_ONLY);
 		ayaSelector = new Combo(navGroup, SWT.READ_ONLY);
@@ -505,7 +520,7 @@ public class QuranForm extends BaseForm {
 		suraSelector.select(0);
 
 		ayaLabel = new Label(navGroup, SWT.NONE);
-		ayaLabel.setText(langEngine.getMeaning("AYA") + ":");
+		ayaLabel.setText(lang.getMeaning("AYA") + ":");
 
 		ayaSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		ayaSelector.setItems(QuranPropertiesUtils.getSuraAyas(1));
@@ -528,7 +543,7 @@ public class QuranForm extends BaseForm {
 		ayaSelector.setLayoutData(gd);
 
 		sync = new Button(navGroup, SWT.CHECK);
-		sync.setText(langEngine.getMeaning("SYNCHRONOUS"));
+		sync.setText(lang.getMeaning("SYNCHRONOUS"));
 		if (config.getProps().getProperty("view.location.sync") != null) {
 			sync.setSelection(config.getProps().getBoolean("view.location.sync"));
 		}
@@ -538,7 +553,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		applyButton.setLayoutData(gd);
-		applyButton.setText(langEngine.getMeaning("SHOW"));
+		applyButton.setText(lang.getMeaning("SHOW"));
 		applyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				apply();
@@ -571,7 +586,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(GridData.FILL_BOTH);
 		nextSura.setLayoutData(gd);
 
-		int l = langEngine.getSWTDirection();
+		int l = lang.getSWTDirection();
 
 		// isRTL is only applicable for Windows
 		boolean isRTL = ((l == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
@@ -588,10 +603,10 @@ public class QuranForm extends BaseForm {
 		nextAya.setImage(nextAyaImg);
 		nextSura.setImage(nextSuraImg);
 
-		prevSura.setToolTipText(langEngine.getMeaning("PREV_SURA"));
-		prevAya.setToolTipText(langEngine.getMeaning("PREV_AYA"));
-		nextAya.setToolTipText(langEngine.getMeaning("NEXT_AYA"));
-		nextSura.setToolTipText(langEngine.getMeaning("NEXT_SURA"));
+		prevSura.setToolTipText(lang.getMeaning("PREV_SURA"));
+		prevAya.setToolTipText(lang.getMeaning("PREV_AYA"));
+		nextAya.setToolTipText(lang.getMeaning("NEXT_AYA"));
+		nextSura.setToolTipText(lang.getMeaning("NEXT_SURA"));
 
 		prevSura.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -618,7 +633,7 @@ public class QuranForm extends BaseForm {
 		});
 
 		detailGroup = new Group(workPane, SWT.NONE);
-		detailGroup.setText(langEngine.getMeaning("DETAILS") + ":");
+		detailGroup.setText(lang.getMeaning("DETAILS") + ":");
 		gl = new GridLayout(1, true);
 		detailGroup.setLayout(gl);
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
@@ -626,9 +641,9 @@ public class QuranForm extends BaseForm {
 
 		suraMap = QuranPropertiesUtils.getSuraPropsMap(suraSelector.getSelectionIndex() + 1);
 
-		Menu propsMenu = new Menu(shell, langEngine.getSWTDirection());
+		Menu propsMenu = new Menu(shell, lang.getSWTDirection());
 		MenuItem copyItem = new MenuItem(propsMenu, SWT.CASCADE);
-		copyItem.setText(langEngine.getMeaning("COPY"));
+		copyItem.setText(lang.getMeaning("COPY"));
 		copyItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				final Clipboard cb = new Clipboard(display);
@@ -640,8 +655,8 @@ public class QuranForm extends BaseForm {
 
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.grabExcessVerticalSpace = true;
-		suraTable = FormUtils.getTableFromMap(detailGroup, suraMap, langEngine.getMeaning("NAME"), langEngine
-				.getMeaning("VALUE"), SWT.DEFAULT, SWT.DEFAULT, gd, SWT.HIDE_SELECTION);
+		suraTable = FormUtils.getTableFromMap(detailGroup, suraMap, lang.getMeaning("NAME"), lang.getMeaning("VALUE"),
+				SWT.DEFAULT, SWT.DEFAULT, gd, SWT.HIDE_SELECTION);
 		suraTable.setMenu(propsMenu);
 
 		// searchGroup = new Group(workPane, SWT.NONE);
@@ -651,22 +666,22 @@ public class QuranForm extends BaseForm {
 		// searchGroup.setLayoutData(gd);
 
 		gd = new GridData(GridData.FILL_BOTH);
-		searchTabFolder = new TabFolder(workPane, langEngine.getSWTDirection());
+		searchTabFolder = new TabFolder(workPane, lang.getSWTDirection());
 		searchTabFolder.setLayoutData(gd);
 
 		TabItem normalSearchTab = new TabItem(searchTabFolder, SWT.NONE);
 		TabItem advancedSearchTab = new TabItem(searchTabFolder, SWT.NONE);
-		normalSearchTab.setText(langEngine.getMeaning("SEARCH"));
-		advancedSearchTab.setText(langEngine.getMeaning("ADVANCED"));
+		normalSearchTab.setText(lang.getMeaning("SEARCH"));
+		advancedSearchTab.setText(lang.getMeaning("ADVANCED"));
 
 		if (config.getProps().getInt("view.search.tab") != 0)
 			searchTabFolder.setSelection(1);
 
-		searchTabBody = new Composite(searchTabFolder, langEngine.getSWTDirection());
+		searchTabBody = new Composite(searchTabFolder, lang.getSWTDirection());
 		searchTabBody.setLayout(new GridLayout(2, false));
 		normalSearchTab.setControl(searchTabBody);
 
-		advancedSearchTabBody = new Composite(searchTabFolder, langEngine.getSWTDirection());
+		advancedSearchTabBody = new Composite(searchTabFolder, lang.getSWTDirection());
 		advancedSearchTabBody.setLayout(new GridLayout(2, false));
 		advancedSearchTab.setControl(advancedSearchTabBody);
 
@@ -773,7 +788,7 @@ public class QuranForm extends BaseForm {
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		advancedSearchButton = new Button(searchButComp, SWT.PUSH);
-		advancedSearchButton.setText(langEngine.getMeaning("SEARCH"));
+		advancedSearchButton.setText(lang.getMeaning("SEARCH"));
 		advancedSearchButton.setLayoutData(gd);
 		advancedSearchButton.addSelectionListener(advancedSearchListener);
 
@@ -803,7 +818,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		toggleMultiLine = new Button(advancedSearchTabBody, SWT.CHECK);
 		toggleMultiLine.setLayoutData(gd);
-		toggleMultiLine.setText(langEngine.getMeaning("MULTILINE"));
+		toggleMultiLine.setText(lang.getMeaning("MULTILINE"));
 		toggleMultiLine.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (toggleMultiLine.getSelection() == true) {
@@ -852,7 +867,7 @@ public class QuranForm extends BaseForm {
 		searchPaginationComp.setLayoutData(gd);
 		searchPaginationComp.setVisible(false);
 
-		boolean isRTL = ((langEngine.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
+		boolean isRTL = ((lang.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 		Image prevPageImg = new Image(display, isRTL ? resource.getString("icon.nextNext") : resource
 				.getString("icon.prevPrev"));
 		Image nextPageImg = new Image(display, isRTL ? resource.getString("icon.prevPrev") : resource
@@ -861,7 +876,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(SWT.FILL, SWT.CENTER, true, true);
 		prevPageBut = new Button(searchPaginationComp, SWT.PUSH);
 		prevPageBut.setLayoutData(gd);
-		prevPageBut.setToolTipText(langEngine.getMeaning("PREVIOUS"));
+		prevPageBut.setToolTipText(lang.getMeaning("PREVIOUS"));
 		prevPageBut.setImage(prevPageImg);
 		prevPageBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -874,7 +889,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
 		searchPaginationSpinner = new Spinner(searchPaginationComp, SWT.BORDER);
 		searchPaginationSpinner.setLayoutData(gd);
-		searchPaginationSpinner.setToolTipText(langEngine.getMeaning("PAGE"));
+		searchPaginationSpinner.setToolTipText(lang.getMeaning("PAGE"));
 		searchPaginationSpinner.setMinimum(1);
 		searchPaginationSpinner.setMaximum(1000);
 		searchPaginationSpinner.addKeyListener(new KeyAdapter() {
@@ -903,7 +918,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(SWT.FILL, SWT.CENTER, true, true);
 		nextPageBut = new Button(searchPaginationComp, SWT.PUSH);
 		nextPageBut.setLayoutData(gd);
-		nextPageBut.setToolTipText(langEngine.getMeaning("NEXT"));
+		nextPageBut.setToolTipText(lang.getMeaning("NEXT"));
 		nextPageBut.setImage(nextPageImg);
 		nextPageBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -948,7 +963,7 @@ public class QuranForm extends BaseForm {
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		searchButton = new Button(searchButComp, SWT.PUSH);
-		searchButton.setText(langEngine.getMeaning("SEARCH"));
+		searchButton.setText(lang.getMeaning("SEARCH"));
 		searchButton.setLayoutData(gd);
 		searchButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -1056,7 +1071,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
 		matchDiacCheckBox = new Button(searchTabBody, SWT.CHECK);
-		matchDiacCheckBox.setText(langEngine.getMeaning("MATCH_DIACRITIC"));
+		matchDiacCheckBox.setText(lang.getMeaning("MATCH_DIACRITIC"));
 		matchDiacCheckBox.setLayoutData(gd);
 		matchDiacCheckBox.addKeyListener(ka);
 		matchDiacCheckBox.setSelection(config.getProps().getBoolean("view.search.simple.matchDiacritics"));
@@ -1064,7 +1079,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
 		matchCaseCheckBox = new Button(searchTabBody, SWT.CHECK);
-		matchCaseCheckBox.setText(langEngine.getMeaning("MATCH_CASE"));
+		matchCaseCheckBox.setText(lang.getMeaning("MATCH_CASE"));
 		matchCaseCheckBox.setLayoutData(gd);
 		matchCaseCheckBox.addKeyListener(ka);
 		matchCaseCheckBox.setSelection(config.getProps().getBoolean("view.search.simple.matchCase"));
@@ -1199,7 +1214,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	protected void updateView() {
-		qmf.setAudioMenuEnabled(true);
+		qmf.resetAudioMenuEnableState();
 		final int aya = ayaSelector.getSelectionIndex() + 1;
 		final int sura = suraSelector.getSelectionIndex() + 1;
 
@@ -1571,7 +1586,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	private Menu createSearchScopeMenu() {
-		final Menu scopeMenu = new Menu(shell, SWT.POP_UP | langEngine.getSWTDirection());
+		final Menu scopeMenu = new Menu(shell, SWT.POP_UP | lang.getSWTDirection());
 
 		final MenuItem newScopeItem = new MenuItem(scopeMenu, SWT.PUSH);
 		newScopeItem.setText(meaning("NEW_SCOPE") + "...");
@@ -1595,7 +1610,7 @@ public class QuranForm extends BaseForm {
 		});
 
 		final MenuItem editItem = new MenuItem(scopeMenu, SWT.PUSH);
-		editItem.setText(langEngine.getMeaning("EDIT") + "...");
+		editItem.setText(lang.getMeaning("EDIT") + "...");
 		editItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				ManageScopesForm msl = new ManageScopesForm(shell, new ArrayList(searchScopeList));
@@ -1668,6 +1683,6 @@ public class QuranForm extends BaseForm {
 	}
 
 	private String meaning(String key) {
-		return langEngine.getMeaningById(FORM_ID, key);
+		return lang.getMeaningById(FORM_ID, key);
 	}
 }
