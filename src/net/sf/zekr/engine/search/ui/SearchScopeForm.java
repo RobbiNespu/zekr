@@ -51,12 +51,9 @@ import org.eclipse.swt.widgets.TableItem;
  * @since Zekr 1.0
  */
 public class SearchScopeForm extends BaseForm {
-	private Shell shell;
-	private Display display;
 	private Table table;
 	private TableEditor editor;
 	private Composite body;
-	private Shell parent;
 	private boolean canceled = true;
 	private SearchScope searchScope;
 	private Button addBut, remBut;
@@ -94,7 +91,7 @@ public class SearchScopeForm extends BaseForm {
 	}
 
 	private void init() {
-		body = new Composite(shell, langEngine.getSWTDirection());
+		body = new Composite(shell, lang.getSWTDirection());
 		body.setLayout(new GridLayout(1, false));
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
@@ -149,7 +146,7 @@ public class SearchScopeForm extends BaseForm {
 		rd.width = 40;
 		remBut.setLayoutData(rd);
 
-		addBut.setToolTipText(langEngine.getMeaning("ADD"));
+		addBut.setToolTipText(lang.getMeaning("ADD"));
 		addBut.setImage(new Image(display, resource.getString("icon.add")));
 		addBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -157,7 +154,7 @@ public class SearchScopeForm extends BaseForm {
 			}
 		});
 
-		remBut.setToolTipText(langEngine.getMeaning("DELETE"));
+		remBut.setToolTipText(lang.getMeaning("DELETE"));
 		remBut.setImage(new Image(display, resource.getString("icon.remove")));
 		remBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -179,7 +176,7 @@ public class SearchScopeForm extends BaseForm {
 
 		Button okBut = new Button(butComposite, SWT.PUSH);
 		Button cancelBut = new Button(butComposite, SWT.PUSH);
-		okBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("OK")) );
+		okBut.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
 		okBut.pack();
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -200,7 +197,7 @@ public class SearchScopeForm extends BaseForm {
 		});
 		shell.setDefaultButton(okBut);
 
-		cancelBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("CANCEL")) );
+		cancelBut.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
 		cancelBut.pack();
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -234,7 +231,7 @@ public class SearchScopeForm extends BaseForm {
 		toAyaCol.pack();
 
 		TableColumn excludeCol = new TableColumn(table, SWT.NONE);
-		excludeCol.setText(langEngine.getMeaning("EXCLUDE"));
+		excludeCol.setText(lang.getMeaning("EXCLUDE"));
 		excludeCol.pack();
 
 		for (Iterator iter = searchScope.getScopeItems().iterator(); iter.hasNext();) {
@@ -265,8 +262,8 @@ public class SearchScopeForm extends BaseForm {
 							});
 							itemEditor.setVisibleItemCount(10);
 							if (column == 4) {
-								itemEditor.setItems(new String[] { langEngine.getMeaning("NO"),
-										langEngine.getMeaning("YES") });
+								itemEditor.setItems(new String[] { lang.getMeaning("NO"),
+										lang.getMeaning("YES") });
 							} else {
 								if (column % 2 == 0) {
 									itemEditor.setItems(QuranPropertiesUtils.getIndexedSuraNames());
@@ -343,7 +340,7 @@ public class SearchScopeForm extends BaseForm {
 		int af = ssi.getAyaFrom();
 		String st = QuranPropertiesUtils.getIndexedSuraNames()[ssi.getSuraTo() - 1];
 		int at = ssi.getAyaTo();
-		String exclText = ssi.isExclusive() ? langEngine.getMeaning("YES") : langEngine.getMeaning("NO");
+		String exclText = ssi.isExclusive() ? lang.getMeaning("YES") : lang.getMeaning("NO");
 
 		final TableItem item = new TableItem(table, SWT.NONE);
 		item.setText(new String[] { sf, String.valueOf(af), st, String.valueOf(at), exclText });
@@ -393,7 +390,7 @@ public class SearchScopeForm extends BaseForm {
 	}
 
 	private String meaning(String key) {
-		return langEngine.getMeaningById(FORM_ID, key);
+		return lang.getMeaningById(FORM_ID, key);
 	}
 
 	private void remove() {

@@ -37,9 +37,6 @@ import org.eclipse.swt.widgets.Shell;
 
 public class ManageScopesForm extends BaseForm {
 	private static final String FORM_ID = "MANAGE_SCOPES_FORM";
-	private Shell shell;
-	private Shell parent;
-	private Display display;
 	private Composite body;
 	private List searchScopeList;
 	private org.eclipse.swt.widgets.List listWidget;
@@ -66,7 +63,7 @@ public class ManageScopesForm extends BaseForm {
 	}
 
 	private void init() {
-		body = new Composite(shell, langEngine.getSWTDirection());
+		body = new Composite(shell, lang.getSWTDirection());
 		body.setLayout(new GridLayout(1, false));
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
@@ -124,7 +121,7 @@ public class ManageScopesForm extends BaseForm {
 		RowData rd = new RowData();
 		rd.width = 40;
 		newBut = new Button(manageButComposite, SWT.PUSH);
-		newBut.setToolTipText(langEngine.getMeaning("NEW"));
+		newBut.setToolTipText(lang.getMeaning("NEW"));
 		newBut.setImage(new Image(display, resource.getString("icon.add")));
 		newBut.setLayoutData(rd);
 		newBut.addSelectionListener(new SelectionAdapter() {
@@ -145,7 +142,7 @@ public class ManageScopesForm extends BaseForm {
 		rd = new RowData();
 		rd.width = 40;
 		removeBut = new Button(manageButComposite, SWT.PUSH);
-		removeBut.setToolTipText(langEngine.getMeaning("REMOVE"));
+		removeBut.setToolTipText(lang.getMeaning("REMOVE"));
 		removeBut.setImage(new Image(display, resource.getString("icon.remove")));
 		removeBut.setLayoutData(rd);
 		removeBut.addSelectionListener(new SelectionAdapter() {
@@ -161,7 +158,7 @@ public class ManageScopesForm extends BaseForm {
 		rd = new RowData();
 		rd.width = 40;
 		editBut = new Button(manageButComposite, SWT.PUSH);
-		editBut.setToolTipText(langEngine.getMeaning("EDIT"));
+		editBut.setToolTipText(lang.getMeaning("EDIT"));
 		editBut.setImage(new Image(display, resource.getString("icon.searchScope.edit16")));
 		editBut.setLayoutData(rd);
 		editBut.addSelectionListener(new SelectionAdapter() {
@@ -195,7 +192,7 @@ public class ManageScopesForm extends BaseForm {
 ;
 		Button okBut = new Button(butComposite, SWT.PUSH);
 		Button cancelBut = new Button(butComposite, SWT.PUSH);
-		okBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("OK")) );
+		okBut.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
 		okBut.pack();
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -210,7 +207,7 @@ public class ManageScopesForm extends BaseForm {
 		});
 		shell.setDefaultButton(okBut);
 
-		cancelBut.setText(FormUtils.addAmpersand( langEngine.getMeaning("CANCEL")) );
+		cancelBut.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
 		cancelBut.pack();
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -236,7 +233,7 @@ public class ManageScopesForm extends BaseForm {
 	private void remove() {
 		if (listWidget.getSelectionCount() <= 0)
 			return;
-		if (MessageBoxUtils.showYesNoConfirmation(langEngine.getMeaning("YES_NO"), langEngine.getMeaning("REMOVE"))) {
+		if (MessageBoxUtils.showYesNoConfirmation(lang.getMeaning("YES_NO"), lang.getMeaning("REMOVE"))) {
 			int[] indices = listWidget.getSelectionIndices();
 			for (int i = indices.length - 1; i >= 0; i--) {
 				searchScopeList.remove(indices[i]);
@@ -294,6 +291,6 @@ public class ManageScopesForm extends BaseForm {
 	}
 
 	private String meaning(String key) {
-		return langEngine.getMeaningById(FORM_ID, key);
+		return lang.getMeaningById(FORM_ID, key);
 	}
 }
