@@ -29,6 +29,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import net.sf.zekr.common.ZekrBaseException;
+import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
@@ -53,10 +54,12 @@ import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.Translation;
 import net.sf.zekr.engine.translation.TranslationData;
+import net.sf.zekr.engine.translation.TranslationException;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -372,46 +375,22 @@ public class ApplicationConfig implements ConfigNaming {
 			File[] trans = transDir.listFiles(filter);
 
 			TranslationData td;
-			ZipFile zipFile = null;
 
 			for (int transIndex = 0; transIndex < trans.length; transIndex++) {
+				ZipFile zipFile = null;
 				try {
-					zipFile = new ZipFile(trans[transIndex]);
-					InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.TRANSLATION_DESC));
-					if (is == null) {
-						logger.warn("Will ignore invalid translation archive \"" + zipFile.getName() + "\".");
+					td = loadTranslationData(trans[transIndex]);
+					if (td == null)
 						continue;
-					}
-					Reader reader = new InputStreamReader(is, "UTF-8");
-					PropertiesConfiguration pc = new PropertiesConfiguration();
-					pc.load(reader);
-					reader.close();
-					is.close();
-
-					td = new TranslationData();
-					td.version = pc.getString(VERSION_ATTR);
-					td.id = pc.getString(ID_ATTR);
-					td.locale = new Locale(pc.getString(LANG_ATTR, "en"), pc.getString(COUNTRY_ATTR, "US"));
-					td.encoding = pc.getString(ENCODING_ATTR, "ISO-8859-1");
-					td.direction = pc.getString(DIRECTION_ATTR, "ltr");
-					td.file = pc.getString(FILE_ATTR);
-					td.name = pc.getString(NAME_ATTR);
-					td.localizedName = pc.getString(LOCALIZED_NAME_ATTR, td.name);
-					td.archiveFile = zipFile;
-					td.lineDelimiter = pc.getString(LINE_DELIMITER_ATTR, "\n");
-					String sig = pc.getString(SIGNATURE_ATTR);
-					td.signature = sig == null ? null : Base64.decode(sig);
-
-					if (StringUtils.isEmpty(td.id) || StringUtils.isEmpty(td.name) || StringUtils.isEmpty(td.file)
-							|| StringUtils.isEmpty(td.version) || td.signature == null) {
-						logger.warn("Invalid translation: \"" + td + "\".");
-						continue;
-					}
-
 					translation.add(td);
 					if (td.id.equals(def)) {
-						logger.info("Default translation is: " + td);
-						translation.setDefault(td);
+						try {
+							td.load();
+							logger.info("Default translation is: " + td);
+							translation.setDefault(td);
+						} catch (TranslationException e) {
+							logger.warn("Cannot load default translation: " + e);
+						}
 					}
 
 				} catch (Exception e) {
@@ -427,30 +406,36 @@ public class ApplicationConfig implements ConfigNaming {
 			for (Iterator iter = translation.getAllTranslation().iterator(); iter.hasNext();) {
 				TranslationData transData = (TranslationData) iter.next();
 				if (transData.locale.getLanguage().equalsIgnoreCase("en")) {
-					logger.info("Default translation set to: " + transData.getId());
-					translation.setDefault(transData);
-					props.setProperty("trans.default", translation.getDefault().id);
-					break;
+					logger.info("Trying to set default translation to: " + transData.getId());
+					try {
+						transData.load();
+						translation.setDefault(transData);
+						props.setProperty("trans.default", translation.getDefault().id);
+						break;
+					} catch (TranslationException e) {
+						logger.warn("Cannot load default translation: " + e);
+					}
 				}
 			}
 			if (translation.getDefault() == null) {
 				logger.warn("No default translation found! Will start without any translation. "
 						+ "As a result some features will be disabled.");
-				// logger.doFatal(new ZekrBaseException("Could not find Shakir translation."));
-				// translation.setDefault(TranslationUtils.getDummyTranslationData());
 				Iterator iter = translation.getAllTranslation().iterator();
 				if (iter.hasNext()) {
-					translation.setDefault((TranslationData) iter.next());
-					props.setProperty("trans.default", translation.getDefault().id);
-					logger.info("Default translation set to: " + translation.getDefault().getId());
+					TranslationData td = (TranslationData) iter.next();
+					try {
+						td.load();
+						translation.setDefault(td);
+						props.setProperty("trans.default", translation.getDefault().id);
+						logger.info("Default translation set to: " + translation.getDefault().getId());
+					} catch (TranslationException e) {
+						logger.warn("Cannot load default translation: " + e);
+					}
 				}
 			}
 		}
 
 		if (translation.getDefault() != null) {
-			// load default translation
-			translation.getDefault().load();
-
 			// load custom translation list
 			logger.info("Load custom translation list.");
 			List customList = translation.getCustomGroup();
@@ -462,12 +447,53 @@ public class ApplicationConfig implements ConfigNaming {
 					logger.error("No such translation: " + tid);
 					continue;
 				}
-				td.load();
-				customList.add(td);
+				try {
+					td.load();
+					customList.add(td);
+				} catch (TranslationException e) {
+					logger.warn("Invalida translation will be removed from the multi-translation list: " + e);
+					customs.remove(i);
+				}
 			}
 		} else {
 			logger.warn("No translation found!");
 		}
+	}
+
+	public TranslationData loadTranslationData(File transZipFile) throws IOException, ConfigurationException {
+		ZipFile zipFile = new ZipFile(transZipFile);
+		InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.TRANSLATION_DESC));
+		if (is == null) {
+			logger.warn("Will ignore invalid translation archive \"" + zipFile.getName() + "\".");
+			return null;
+		}
+		Reader reader = new InputStreamReader(is, "UTF-8");
+		PropertiesConfiguration pc = new PropertiesConfiguration();
+		pc.load(reader);
+		reader.close();
+		is.close();
+		zipFile.close();
+
+		TranslationData td = new TranslationData();
+		td.version = pc.getString(VERSION_ATTR);
+		td.id = pc.getString(ID_ATTR);
+		td.locale = new Locale(pc.getString(LANG_ATTR, "en"), pc.getString(COUNTRY_ATTR, "US"));
+		td.encoding = pc.getString(ENCODING_ATTR, "ISO-8859-1");
+		td.direction = pc.getString(DIRECTION_ATTR, "ltr");
+		td.file = pc.getString(FILE_ATTR);
+		td.name = pc.getString(NAME_ATTR);
+		td.localizedName = pc.getString(LOCALIZED_NAME_ATTR, td.name);
+		td.archiveFile = transZipFile;
+		td.lineDelimiter = pc.getString(LINE_DELIMITER_ATTR, "\n");
+		String sig = pc.getString(SIGNATURE_ATTR);
+		td.signature = sig == null ? null : Base64.decode(sig);
+
+		if (StringUtils.isEmpty(td.id) || StringUtils.isEmpty(td.name) || StringUtils.isEmpty(td.file)
+				|| StringUtils.isEmpty(td.version) || td.signature == null) {
+			logger.warn("Invalid translation: \"" + td + "\".");
+			return null;
+		}
+		return td;
 	}
 
 	private void extractViewProps() {
@@ -651,11 +677,11 @@ public class ApplicationConfig implements ConfigNaming {
 		props.setProperty("theme.default", themeId);
 	}
 
-	public void setCurrentTranslation(String transId) {
-		logger.info("Change translation to " + transId);
+	public void setCurrentTranslation(String transId) throws TranslationException {
+		logger.info("Trying to change default translation to: " + transId);
 		TranslationData newTrans = getTranslation().get(transId);
-		translation.setDefault(newTrans);
 		newTrans.load();
+		translation.setDefault(newTrans);
 		props.setProperty("trans.default", transId);
 		try {
 			runtime.recreateViewCache();
@@ -809,8 +835,9 @@ public class ApplicationConfig implements ConfigNaming {
 
 	/**
 	 * @param newIdList a list of new translation data IDs (list contains Strings).
+	 * @throws TranslationException
 	 */
-	public void setCustomTranslationList(List newIdList) {
+	public void setCustomTranslationList(List newIdList) throws TranslationException {
 		List newList = new ArrayList();
 		for (int i = 0; i < newIdList.size(); i++) {
 			String id = (String) newIdList.get(i);
@@ -874,5 +901,33 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public boolean isAudioEnabled() {
 		return props.getBoolean("audio.enabled");
+	}
+
+	/**
+	 * This method is used to add a new translation during runtime. It loads translation medatada, validates
+	 * translation and if everything is OK, adds it to the list of translations.
+	 * 
+	 * @param transFile a translation zip archive to be loaded
+	 * @return <code>true</code> if translation loaded and validated successfully, and <code>false</code>
+	 *         otherwise
+	 * @throws ZekrMessageException with the proper message key and parameters if any exception occurred
+	 */
+	public void addNewTranslation(File transFile) throws ZekrMessageException {
+		logger.debug("Add new translation: " + transFile);
+		try {
+			TranslationData td = loadTranslationData(transFile);
+			if (td == null) {
+				throw new ZekrMessageException("INVALID_TRANSLATION_FORMAT", new String[] { transFile.toString() });
+			}
+			if (td.verify()) {
+				translation.add(td);
+			} else {
+				throw new ZekrMessageException("INVALID_TRANSLATION_SIGNATURE", new String[] { transFile.toString() });
+			}
+		} catch (ZekrMessageException zme) {
+			throw zme;
+		} catch (Exception e) {
+			throw new ZekrMessageException("TRANSLATION_LOAD_FAILED", new String[] { transFile.toString(), e.toString() });
+		}
 	}
 }

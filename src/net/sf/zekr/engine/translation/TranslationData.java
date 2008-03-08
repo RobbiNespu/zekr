@@ -9,7 +9,9 @@
 package net.sf.zekr.engine.translation;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.Locale;
@@ -49,7 +51,7 @@ public class TranslationData implements IQuranText {
 	/** Line delimiter String (each line contains an aya) */
 	public String lineDelimiter;
 
-	public ZipFile archiveFile;
+	public File archiveFile;
 
 	/** Text file name */
 	public String file;
@@ -101,7 +103,7 @@ public class TranslationData implements IQuranText {
 	/**
 	 * Loads the tranalation data file, if not already loaded.
 	 */
-	public void load() {
+	public void load() throws TranslationException {
 		if (!loaded()) {
 			Date date1 = new Date();
 			loadAndVerify();
@@ -116,30 +118,20 @@ public class TranslationData implements IQuranText {
 		return transText != null;
 	}
 
-	private void loadAndVerify() {
+	private void loadAndVerify() throws TranslationException {
+		ZipFile zf = null;
 		try {
 			logger.info("Loading translation pack " + this + "...");
-			ZipEntry ze = archiveFile.getEntry(file);
+			zf = new ZipFile(archiveFile);
+			ZipEntry ze = zf.getEntry(file);
 			if (ze == null) {
 				logger.error("Load failed. No proper entry found in \"" + archiveFile.getName() + "\".");
 				return;
 			}
 
-			BufferedInputStream bis = new BufferedInputStream(archiveFile.getInputStream(ze), 262144);
-			byte textBuf[] = new byte[(int) ze.getSize()];
-			bis.read(textBuf, 0, (int) ze.getSize());
-
-			logger.info("Verifying translation text.");
-			try {
-				verified = CryptoUtils.verify(textBuf, signature);
-			} catch (GeneralSecurityException e) {
-				logger.error("Error occurred during translation text verification. Text cannot be verified.");
-				logger.error(e);
-			}
-			if (verified)
-				logger.info("Translation text is valid");
-			else
-				logger.info("Translation text is not valid.");
+			byte[] textBuf = new byte[(int) ze.getSize()];
+			if (!verify(zf.getInputStream(ze), textBuf))
+				throw new TranslationException("INVALID_TRANSLATION_SIGNATURE", new String[] { name });
 
 			refineText(new String(textBuf, encoding));
 
@@ -147,7 +139,52 @@ public class TranslationData implements IQuranText {
 		} catch (IOException e) {
 			logger.error("Problem while loading translation pack " + this + ".");
 			logger.log(e);
+			throw new TranslationException(e);
+		} finally {
+			try {
+				zf.close();
+			} catch (Exception e) {
+				// do nothing
+			}
 		}
+	}
+
+	/**
+	 * Verify the zip archive and close the zip file handle finally.
+	 * 
+	 * @return <code>true</code> if translation verified, <code>false</code> otherwise.
+	 * @throws IOException
+	 */
+	public boolean verify() throws IOException {
+		ZipFile zf = new ZipFile(archiveFile);
+		ZipEntry ze = zf.getEntry(file);
+		if (ze == null) {
+			logger.error("Load failed. No proper entry found in \"" + archiveFile.getName() + "\".");
+			return false;
+		}
+
+		byte[] textBuf = new byte[(int) ze.getSize()];
+		boolean result = verify(zf.getInputStream(ze), textBuf);
+		zf.close();
+		return result;
+	}
+
+	private boolean verify(InputStream is, byte[] textBuf) throws IOException {
+		BufferedInputStream bis = new BufferedInputStream(is, 262144);
+		bis.read(textBuf, 0, textBuf.length);
+
+		logger.debug("Verifying translation text.");
+		try {
+			verified = CryptoUtils.verify(textBuf, signature);
+		} catch (GeneralSecurityException e) {
+			logger.error("Error occurred during translation text verification. Text cannot be verified.");
+			logger.error(e);
+		}
+		if (verified)
+			logger.debug("Translation is valid");
+		else
+			logger.debug("Translation is not valid.");
+		return verified;
 	}
 
 	private void refineText(String rawText) {

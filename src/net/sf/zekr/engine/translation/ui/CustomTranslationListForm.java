@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.translation.TranslationData;
+import net.sf.zekr.ui.MessageBoxUtils;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
@@ -147,7 +149,7 @@ public class CustomTranslationListForm {
 
 		addBut = new Button(addRemComp, SWT.PUSH);
 		addBut.setText(meaning("ADD_CUSTOM") + " -> ");
-		addBut.pack(); // we pack to set the length  
+		addBut.pack(); // we pack to set the length
 		addBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				add();
@@ -165,16 +167,16 @@ public class CustomTranslationListForm {
 
 		// let's set both buttons to the same length
 		// (after pack-ing we read the width
-		//  and set the max width to both buttons)
+		// and set the max width to both buttons)
 		RowData rdAddBut = new RowData();
 		RowData rdRemBut = new RowData();
 		// give both buttons the same length
-        int buttonLength = FormUtils.buttonLength(80, addBut, remBut );
-        rdAddBut.width = buttonLength;
-        rdRemBut.width = buttonLength;
+		int buttonLength = FormUtils.buttonLength(80, addBut, remBut);
+		rdAddBut.width = buttonLength;
+		rdRemBut.width = buttonLength;
 		addBut.setLayoutData(rdAddBut);
 		remBut.setLayoutData(rdRemBut);
-			
+
 		addBut.setEnabled(false);
 		remBut.setEnabled(false);
 
@@ -277,7 +279,7 @@ public class CustomTranslationListForm {
 		butComposite.setLayoutData(gd);
 
 		Button ok = new Button(butComposite, SWT.NONE);
-		ok.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
+		ok.setText(FormUtils.addAmpersand(lang.getMeaning("OK")));
 		ok.pack();
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -290,7 +292,7 @@ public class CustomTranslationListForm {
 		});
 
 		Button cancel = new Button(butComposite, SWT.NONE);
-		cancel.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
+		cancel.setText(FormUtils.addAmpersand(lang.getMeaning("CANCEL")));
 		cancel.pack();
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -299,7 +301,7 @@ public class CustomTranslationListForm {
 		});
 
 		Button apply = new Button(butComposite, SWT.NONE);
-		apply.setText(FormUtils.addAmpersand( lang.getMeaning("APPLY")) );
+		apply.setText(FormUtils.addAmpersand(lang.getMeaning("APPLY")));
 		apply.pack();
 		apply.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -310,14 +312,14 @@ public class CustomTranslationListForm {
 		RowData rdCancel = new RowData();
 		RowData rdApply = new RowData();
 		// set all three OK, CANCEL, and APLLY buttons to the same length
-		buttonLength = FormUtils.buttonLength(80, ok, cancel, apply );
+		buttonLength = FormUtils.buttonLength(80, ok, cancel, apply);
 		rdOk.width = buttonLength;
-        rdCancel.width = buttonLength;
-        rdApply.width = buttonLength;
+		rdCancel.width = buttonLength;
+		rdApply.width = buttonLength;
 		ok.setLayoutData(rdOk);
 		cancel.setLayoutData(rdCancel);
 		apply.setLayoutData(rdApply);
-		
+
 		shell.setDefaultButton(ok);
 	}
 
@@ -327,9 +329,14 @@ public class CustomTranslationListForm {
 	}
 
 	private void apply() {
-		config.setCustomTranslationList(targetData);
-		if (config.getViewLayout().equals(ApplicationConfig.MULTI_TRANS_LAYOUT))
-			EventUtils.sendEvent(EventProtocol.REFRESH_VIEW);
+		try {
+			config.setCustomTranslationList(targetData);
+			if (config.getViewLayout().equals(ApplicationConfig.MULTI_TRANS_LAYOUT))
+				EventUtils.sendEvent(EventProtocol.REFRESH_VIEW);
+		} catch (ZekrMessageException zme) {
+			logger.error(zme);
+			MessageBoxUtils.showError(zme);
+		}
 	}
 
 	private void add() {

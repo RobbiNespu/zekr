@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.engine.language.LanguageEngine;
@@ -43,7 +44,6 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class MessageBoxUtils {
 	final private static LanguageEngine lang = ApplicationConfig.getInstance().getLanguageEngine();
@@ -51,6 +51,14 @@ public class MessageBoxUtils {
 
 	public static void showError(String msg) {
 		show(msg, lang.getMeaning("ERROR"), SWT.ICON_ERROR | lang.getSWTDirection());
+	}
+
+	public static void showError(ZekrMessageException zme) {
+		showError(lang.getDynamicMeaning(zme.getMessage(), zme.getParams()));
+	}
+
+	public static void showError(String title, String msg) {
+		show(msg, title, SWT.ICON_ERROR | lang.getSWTDirection());
 	}
 
 	public static void showMessage(String msg) {
@@ -154,14 +162,10 @@ public class MessageBoxUtils {
 	private static int __ret;
 
 	/**
-	 * @param options
-	 *           answer options
-	 * @param selectedOption
-	 *           option number to be selected by default. This field is 0-base.
-	 * @param question
-	 *           the string to be placed as a question on the top of the dialog
-	 * @param title
-	 *           the text to be displayed as a title of this dialog
+	 * @param options answer options
+	 * @param selectedOption option number to be selected by default. This field is 0-base.
+	 * @param question the string to be placed as a question on the top of the dialog
+	 * @param title the text to be displayed as a title of this dialog
 	 * @return -1 if nothing was selected, or dialog closed/cancelled, or a 0-base selected item number
 	 */
 	public static int radioQuestionPrompt(String[] options, int selectedOption, String question, String title) {
@@ -231,7 +235,7 @@ public class MessageBoxUtils {
 		butComposite.setLayoutData(gd);
 
 		Button ok = new Button(butComposite, SWT.NONE);
-		ok.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
+		ok.setText(FormUtils.addAmpersand(lang.getMeaning("OK")));
 		ok.pack();
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -248,11 +252,11 @@ public class MessageBoxUtils {
 				this.widgetSelected(e);
 			}
 		});
-		
+
 		shell.setDefaultButton(ok);
 
 		Button cancel = new Button(butComposite, SWT.NONE);
-		cancel.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
+		cancel.setText(FormUtils.addAmpersand(lang.getMeaning("CANCEL")));
 		cancel.pack();
 		cancel.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -263,9 +267,9 @@ public class MessageBoxUtils {
 		RowData rdOk = new RowData();
 		RowData rdCancel = new RowData();
 		// set the OK and CANCEL buttons to the same length
-		int buttonLength = FormUtils.buttonLength( 80, ok, cancel);
+		int buttonLength = FormUtils.buttonLength(80, ok, cancel);
 		rdOk.width = buttonLength;
-        rdCancel.width = buttonLength;
+		rdCancel.width = buttonLength;
 		ok.setLayoutData(rdOk);
 		cancel.setLayoutData(rdCancel);
 
@@ -286,12 +290,9 @@ public class MessageBoxUtils {
 	}
 
 	/**
-	 * @param options
-	 *           answer options
-	 * @param question
-	 *           the string to be placed as a question on the top of the dialog
-	 * @param title
-	 *           the text to be displayed as a title of this dialog
+	 * @param options answer options
+	 * @param question the string to be placed as a question on the top of the dialog
+	 * @param title the text to be displayed as a title of this dialog
 	 * @return -1 if nothing was selected, or dialog closed/cancelled, or a 0-base selected item number
 	 */
 	public static int radioQuestionPrompt(String[] options, String question, String title) {
@@ -308,14 +309,11 @@ public class MessageBoxUtils {
 	/**
 	 * This method opens a file chooser dialog and selects file filtering with the given wildcards.
 	 * 
-	 * @param filterNames
-	 *           names of the filters
-	 * @param filterWildcards
-	 *           wildcard filters (e.g. *.zip)
-	 * @return a 0-item list if action cancelled, no item was selected or selected items did not fit the extension
-	 *         criteria. Otherwise, returns a list of selected files (of type <tt>java.io.File</tt>).
-	 * @throws IOException
-	 *            if any exception occurred during importing.
+	 * @param filterNames names of the filters
+	 * @param filterWildcards wildcard filters (e.g. *.zip)
+	 * @return a 0-item list if action cancelled, no item was selected or selected items did not fit the
+	 *         extension criteria. Otherwise, returns a list of selected files (of type <tt>java.io.File</tt>).
+	 * @throws IOException if any exception occurred during importing.
 	 */
 	public static List importFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards)
 			throws IOException {

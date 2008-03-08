@@ -28,6 +28,7 @@ import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Element;
@@ -60,7 +61,7 @@ public class UpdateManager {
 	 */
 	public boolean isCheckNeeded() {
 		try {
-			Date lastUpdate = dateFormat.parse(config.getProps().getString("update.lastCheck", "2008-01-01"));
+			Date lastUpdate = dateFormat.parse(config.getProps().getString("update.lastCheck", "01-01-2008"));
 			long interval = props.getInt("update.checkInterval", 14);
 			Date today = new Date();
 			long diffInMillis = today.getTime() - lastUpdate.getTime();
@@ -86,6 +87,7 @@ public class UpdateManager {
 			}
 		}
 
+		// set new update time regardless of the success or failure of check4update process
 		props.setProperty("update.lastCheck", dateFormat.format(new Date()));
 
 		// update checking should either fail (updateCheckFailed = true), or finish (updateCheckFinished)!
@@ -93,9 +95,8 @@ public class UpdateManager {
 			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + ":\n" + failureCause);
 		} else if (updateCheckFinished) {
 			String msg = "";
-			if (updateInfo.build.equals(GlobalConfig.ZEKR_BUILD_NUMBER)) {
-				msg = meaning("NO_UPDATE");
-			} else if (Long.parseLong(updateInfo.build) > Long.parseLong(GlobalConfig.ZEKR_BUILD_NUMBER)) {
+
+			if (Long.parseLong(updateInfo.build) > Long.parseLong(GlobalConfig.ZEKR_BUILD_NUMBER)) {
 				if (updateInfo.status.equals(UpdateInfo.DEV_RELEASE)) {
 					msg = meaning("NEW_DEV_AVAILABLE");
 				} else if (updateInfo.status.equals(UpdateInfo.BETA_RELEASE)) {
@@ -103,13 +104,15 @@ public class UpdateManager {
 				} else if (updateInfo.status.equals(UpdateInfo.FINAL_RELEASE)) {
 					msg = meaning("NEW_FINAL_AVAILABLE");
 				}
+				updateInfo.message = msg + ": " + updateInfo.fullName;
+				UpdateForm uf = new UpdateForm(updateInfo, shell);
+				Shell ufs = uf.getShell();
+				FormUtils.limitSize(ufs, 500, 380);
+				ufs.setLocation(FormUtils.getCenter(shell, ufs));
+				uf.show();
+			} else {
+				MessageBoxUtils.show(meaning("NO_UPDATE"), meaning("TITLE"), SWT.NONE);
 			}
-			updateInfo.message = msg + ": " + updateInfo.fullName;
-			UpdateForm uf = new UpdateForm(updateInfo, shell);
-			Shell ufs = uf.getShell();
-			FormUtils.limitSize(ufs, 500, 380);
-			ufs.setLocation(FormUtils.getCenter(shell, ufs));
-			uf.show();
 		}
 
 		return updateCheckFinished;

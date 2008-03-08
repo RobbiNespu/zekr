@@ -10,6 +10,7 @@ package net.sf.zekr.ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
@@ -24,6 +26,7 @@ import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.runtime.Naming;
+import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.HyperlinkUtils;
 import net.sf.zekr.common.util.I18N;
 import net.sf.zekr.common.util.UriUtils;
@@ -177,43 +180,7 @@ public class QuranFormMenuFactory {
 
 		// separator
 		new MenuItem(viewMenu, SWT.SEPARATOR);
-
-		// cascading menu for translation selection
-		transName = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("TRANSLATION"), 0,
-				"icon.menu.translation");
-		transMenu = new Menu(shell, SWT.DROP_DOWN | direction);
-		transName.setMenu(transMenu);
-		Collection trans = config.getTranslation().getAllTranslation();
-		for (Iterator iter = trans.iterator(); iter.hasNext();) {
-			TranslationData td = (TranslationData) iter.next();
-
-			final MenuItem transItem = createMenuItem(SWT.RADIO, transMenu, StringUtils.abbreviate((rtl ? I18N.RLE + ""
-					: "")
-					+ "[" + td.locale + "]" + " " + (rtl ? I18N.RLM + "" : "") + td.localizedName,
-					GlobalConfig.MAX_MENU_STRING_LENGTH)
-					+ (rtl ? I18N.LRM + "" : ""), 0, "icon.menu.book");
-
-			// final MenuItem transItem = new MenuItem(transMenu, SWT.RADIO);
-			// transItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.book")));
-			// transItem.setText(StringUtils.abbreviate((rtl ? I18N.RLE + "" : "") + "[" + td.locale + "]" + " "
-			// + (rtl ? I18N.RLM + "" : "") + td.localizedName, GlobalConfig.MAX_MENU_STRING_LENGTH)
-			// + (rtl ? I18N.LRM + "" : ""));
-			// transItem.setText(StringUtils.abbreviate("[" + td.locale + "] " + (rtl ? I18N.RLM + "" : "") +
-			// td.localizedName, GlobalConfig.MAX_MENU_STRING_LENGTH));
-			transItem.setData(td.id);
-			if (config.getTranslation().getDefault().id.equals(transItem.getData()))
-				transItem.setSelection(true);
-			transItem.addListener(SWT.Selection, new Listener() {
-				public void handleEvent(Event event) {
-					MenuItem mi = (MenuItem) event.widget;
-					if (mi.getSelection() == true) {
-						if (!config.getTranslation().getDefault().id.equals(transItem.getData())) {
-							setTrans((String) mi.getData());
-						}
-					}
-				}
-			});
-		}
+		createOrUpdateTranslationMenu();
 
 		new MenuItem(transMenu, SWT.SEPARATOR);
 
@@ -726,6 +693,42 @@ public class QuranFormMenuFactory {
 		return null;
 	}
 
+	protected void createOrUpdateTranslationMenu() {
+		// cascading menu for translation selection
+		if (transName != null && !transName.isDisposed()) {
+			transName.dispose();
+		}
+
+		transName = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("TRANSLATION"), 0,
+				"icon.menu.translation");
+		transMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+		transName.setMenu(transMenu);
+		Collection trans = config.getTranslation().getAllTranslation();
+		for (Iterator iter = trans.iterator(); iter.hasNext();) {
+			TranslationData td = (TranslationData) iter.next();
+
+			final MenuItem transItem = createMenuItem(SWT.RADIO, transMenu, StringUtils.abbreviate((rtl ? I18N.RLE + ""
+					: "")
+					+ "[" + td.locale + "]" + " " + (rtl ? I18N.RLM + "" : "") + td.localizedName,
+					GlobalConfig.MAX_MENU_STRING_LENGTH)
+					+ (rtl ? I18N.LRM + "" : ""), 0, "icon.menu.book");
+
+			transItem.setData(td.id);
+			if (config.getTranslation().getDefault().id.equals(transItem.getData()))
+				transItem.setSelection(true);
+			transItem.addListener(SWT.Selection, new Listener() {
+				public void handleEvent(Event event) {
+					MenuItem mi = (MenuItem) event.widget;
+					if (mi.getSelection() == true) {
+						if (!config.getTranslation().getDefault().id.equals(transItem.getData())) {
+							setTrans((String) mi.getData());
+						}
+					}
+				}
+			});
+		}
+	}
+
 	protected void createOrUpdateBookmarkMenu() {
 		Menu bookmarksMenu;
 		MenuItem bookmarks;
@@ -822,19 +825,42 @@ public class QuranFormMenuFactory {
 
 			if (result == 0) // import for "me only"
 				destDir = Naming.getTransDir();
+
+			List errorList = new ArrayList();
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				File file2Import = (File) iterator.next();
 
+				if (!FilenameUtils.getExtension(file2Import.getName()).equalsIgnoreCase("zip")) {
+					logger.info("Invalid translation (unknown extension): " + file2Import);
+					continue;
+				}
 				logger.info("Copy translation \"" + file2Import.getName() + "\" to " + destDir);
-				FileUtils.copyFile(file2Import, new File(destDir + "/" + file2Import.getName()));
-
-				logger.debug("Importing translation done successfully.");
+				File targetTransFile = new File(destDir + "/" + file2Import.getName());
+				FileUtils.copyFile(file2Import, targetTransFile);
+				try {
+					config.addNewTranslation(targetTransFile);
+				} catch (ZekrMessageException zme) {
+					logger.warn(zme);
+					errorList.add(lang.getDynamicMeaning(zme.getMessage(), zme.getParams()));
+					continue;
+				}
+				logger.debug("Translation imported successfully: " + file2Import);
 			}
-
-			MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
+			if (errorList.size() > 0) {
+				String str = CollectionUtils.toString(errorList, GlobalConfig.LINE_SEPARATOR);
+				MessageBoxUtils.showError(str);
+			} else {
+				// MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
+				MessageBoxUtils.showMessage(lang.getMeaning("ACTION_PERFORMED"));
+			}
 		} catch (IOException e) {
 			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
 			logger.implicitLog(e);
+		} finally {
+			if (config.getTranslation().getDefault() == null)
+				MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
+			else
+				createOrUpdateTranslationMenu();
 		}
 	}
 
@@ -1005,9 +1031,15 @@ public class QuranFormMenuFactory {
 	}
 
 	private void setTrans(String transId) {
-		config.setCurrentTranslation(transId);
-		if (form.viewLayout != QuranForm.QURAN_ONLY)
-			form.reload();
+		try {
+			config.setCurrentTranslation(transId);
+			if (form.viewLayout != QuranForm.QURAN_ONLY)
+				form.reload();
+		} catch (ZekrMessageException zme) {
+			logger.error(zme);
+			MessageBoxUtils.showError(zme);
+			createOrUpdateTranslationMenu();
+		}
 	}
 
 	private void setAudio(String audioId) {
