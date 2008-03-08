@@ -13,6 +13,7 @@ import java.io.StringReader;
 
 import junit.framework.TestCase;
 
+import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.WhitespaceTokenizer;
 
@@ -38,37 +39,64 @@ public class ArabicFilterTest extends TestCase {
 	public void testFilterNext1() throws Exception {
 		TokenStream stream = new WhitespaceTokenizer(new StringReader(ARABIC_STR1));
 		ArabicFilter filter = new ArabicFilter(stream);
-		assertEquals("ونزلنا", filter.next().termText());
-		assertEquals("عليك", filter.next().termText());
-		assertEquals("الكتاب", filter.next().termText());
-		assertEquals("تبيانا", filter.next().termText());
-		assertEquals("لكل", filter.next().termText());
-		assertEquals("شيء", filter.next().termText());
-		assertEquals("وهدي", filter.next().termText());
-		assertEquals("ورحمت", filter.next().termText());
-		assertEquals("وبشري", filter.next().termText());
-		assertEquals("للمسلمين", filter.next().termText());
+		Token t = filter.next();
+		assertEquals("ونزلنا", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("عليك", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("الكتاب", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("تبيانا", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("لكل", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("شيء", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("وهدي", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("ورحمت", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("وبشري", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("للمسلمين", new String(t.termBuffer(), 0, t.termLength()));
 	}
 
 	public void testFilterNext2() throws Exception {
 		TokenStream stream = new WhitespaceTokenizer(new StringReader(ARABIC_STR2));
 		ArabicFilter filter = new ArabicFilter(stream);
-		assertEquals("واذا", filter.next().termText());
-		assertEquals("سالك", filter.next().termText());
-		assertEquals("عبادي", filter.next().termText());
-		assertEquals("عني", filter.next().termText());
-		assertEquals("فاني", filter.next().termText());
-		assertEquals("قريب", filter.next().termText());
-		assertEquals("اجيب", filter.next().termText());
-		assertEquals("دعوت", filter.next().termText());
-		assertEquals("الداع", filter.next().termText());
-		assertEquals("اذا", filter.next().termText());
-		assertEquals("دعان", filter.next().termText());
-		assertEquals("فليستجيبوا", filter.next().termText());
-		assertEquals("لي", filter.next().termText());
-		assertEquals("وليومنوا", filter.next().termText());
-		assertEquals("بي", filter.next().termText());
-		assertEquals("لعلهم", filter.next().termText());
-		assertEquals("يرشدون", filter.next().termText());
+		Token t = filter.next();
+		assertEquals("واذا", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("سالك", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("عبادي", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("عني", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("فاني", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("قريب", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("اجيب", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("دعوت", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("الداع", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("اذا", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("دعان", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("فليستجيبوا", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("لي", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("وليومنوا", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("بي", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("لعلهم", new String(t.termBuffer(), 0, t.termLength()));
+		t = filter.next();
+		assertEquals("يرشدون", new String(t.termBuffer(), 0, t.termLength()));
 	}
 }
