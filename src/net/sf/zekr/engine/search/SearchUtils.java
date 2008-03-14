@@ -18,56 +18,8 @@ import org.apache.commons.lang.StringUtils;
  * diacritics.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
-public class SearchUtils {
-	final public static char SUKUN = 0x652;
-	final public static char SHADDA = 0x651;
-	final public static char KASRA = 0x650;
-	final public static char DAMMA = 0x64f;
-	final public static char FATHA = 0x64e;
-
-	final public static char KASRATAN = 0x64d;
-	final public static char DAMMATAN = 0x64c;
-	final public static char FATHATAN = 0x64b;
-
-	final public static char HAMZA = 0x621;
-	final public static char HAMZA_ABOVE = 0x654;
-	final public static char HAMZA_BELOW = 0x655;
-
-	final public static char MADDAH_ABOVE = 0x653;
-	final public static char SMALL_LOW_SEEN = 0x6e3;
-	final public static char SMALL_WAW = 0x6e5;
-	final public static char SMALL_YEH = 0x6e6;
-	final public static char SMALL_HIGH_MEEM = 0x6e2;
-
-	final public static char SUPERSCRIPT_ALEF = 0x670;
-	final public static char ALEF = 0x627;
-	final public static char ALEF_MADDA = 0x622;
-	final public static char ALEF_HAMZA_ABOVE = 0x623;
-	final public static char ALEF_HAMZA_BELOW = 0x625;
-	final public static char ALEF_WASLA = 0x671;
-
-	final public static char SMALL_ROUNDED_ZERO = 0x6df;
-
-	final public static char TATWEEL = 0x640;
-
-	final public static char YEH_HAMZA_ABOVE = 0x626;
-	final public static char WAW_HAMZA_ABOVE = 0x624;
-	final public static char WAW = 0x648;
-
-	final public static char TEH = 0x62a;
-	final public static char TEH_MARBUTA = 0x629;
-
-	final public static char ALEF_MAKSURA = 0x649;
-	final public static char FARSI_YEH = 0x6cc;
-	final public static char ARABIC_YEH = 0x64a;
-
-	final public static char ARABIC_KAF = 0x643;
-	final public static char FARSI_KEHEH = 0x6a9;
-
-	final public static char ARABIC_QUESION_MARK = 0x61f;
-
+public class SearchUtils implements ArabicCharacters {
 	/**
 	 * Replace Farsi unicode <code>Yeh</code> with Arabic one, and so about <code>Kaf</code> (Farsi
 	 * <code>Keheh</code>).
