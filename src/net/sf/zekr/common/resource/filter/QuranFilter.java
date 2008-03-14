@@ -8,21 +8,51 @@
  */
 package net.sf.zekr.common.resource.filter;
 
-public class QuranFilter implements IFilter {
+import net.sf.zekr.engine.search.ArabicCharacters;
+
+import org.apache.commons.lang.StringUtils;
+
+public class QuranFilter implements IQuranFilter, ArabicCharacters {
+	/** Show waqf sign if this option is set */
+	public static final int SHOW_WAQF_SIGN = 1;
+
+	/** Show small alef if this option is set */
+	public static final int SHOW_SMALL_ALEF = 2;
+
+	/** Will apply Uthmani text rules */
+	public static final int UTHMANI_TEXT = 4;
+
+	private static final int HIGHLIGH = 4;
+
+	public static final int HIGHLIGHT_WAQF_SIGN = SHOW_WAQF_SIGN | HIGHLIGH;
+
+	private static final String REPLACE_HIGHLIGHT = "<span class=\"waqfSign\">&nbsp;$1</span>";
+	private static String WAQF_REGEX = ".([" + WAQF_SALA + WAQF_QALA + WAQF_SMALL_MEEM + WAQF_LA + WAQF_JEEM
+			+ WAQF_THREE_DOT + WAQF_HIGH_SEEN + "])";
 
 	public QuranFilter() {
 	}
 
-	public String filter(FilterContext fc) {
-		QuranFilterContext qfc = (QuranFilterContext) fc;
+	public String filter(QuranFilterContext qfc) {
+		String str = qfc.text;
 		if (qfc.ayaNum == 1 && qfc.suraNum != 1 && qfc.suraNum != 9) {
-			int sp = 0;
+			int sp = -1;
 			for (int i = 0; i < 4; i++) { // ignore 4 whitespaces.
-				sp = qfc.text.indexOf(' ', sp);
+				sp = str.indexOf(' ', sp + 1);
 			}
-			return qfc.text.substring(sp + 1);
+			str = str.substring(sp + 1);
 		}
-		return qfc.text;
-	}
 
+		// remove SAJDA and HIZB sign
+		str = StringUtils.remove(str, " " + SAJDA_PLACE);
+		str = StringUtils.remove(str, RUB_EL_HIZB + " ");
+
+		// Good for Uthmani text
+		if ((qfc.params & UTHMANI_TEXT) == UTHMANI_TEXT)
+			str = StringUtils.replace(str, String.valueOf(ALEF) + MADDA, String.valueOf(ALEF_MADDA));
+
+		str = str.replaceAll(WAQF_REGEX, REPLACE_HIGHLIGHT);
+
+		return str;
+	}
 }

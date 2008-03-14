@@ -8,12 +8,12 @@
  */
 package net.sf.zekr.common.resource.filter;
 
-public interface IFilter {
+public interface IQuranFilter {
 	/**
 	 * Implementations of this method manipulates the input parameter as needed.
 	 * 
 	 * @param str input string to be manipulated
 	 * @return manipulated string
 	 */
-	public String filter(FilterContext filterContext);
+	public String filter(QuranFilterContext quranFilterContext);
 }
