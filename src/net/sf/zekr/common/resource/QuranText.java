@@ -26,7 +26,6 @@ import net.sf.zekr.engine.translation.TranslationData;
  * class acts as a pool for two types of Quran text file: "simple" and "detailed".
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class QuranText implements IQuranText {
 	private static QuranText simpleInstance = null;
@@ -52,7 +51,7 @@ public class QuranText implements IQuranText {
 	 * @param textType can be either DETAILED or SIMPLE
 	 * @throws IOException
 	 */
-	private QuranText(int textType) throws IOException {
+	protected QuranText(int textType) throws IOException {
 		String qFile = ApplicationPath.SIMPLE_QURAN_TEXT_FILE;
 		if (textType == DETAILED)
 			qFile = ApplicationPath.DETILAED_QURAN_TEXT_FILE;
@@ -62,6 +61,7 @@ public class QuranText implements IQuranText {
 		raf.readFully(buf);
 		rawText = new String(buf, config.getProps().getString("quran.text.encoding"));
 		refineRawText();
+		raf.close();
 	}
 
 	/**
@@ -145,8 +145,21 @@ public class QuranText implements IQuranText {
 		return simpleQuranText;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.common.resource.IQuranText#getTranslationData()
+	 */
 	public TranslationData getTranslationData() {
-		// do nothing
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.common.resource.IQuranText#getBismillah(int)
+	 */
+	public String getBismillah(int suraNum) {
+		return get(1, 1);
 	}
 }

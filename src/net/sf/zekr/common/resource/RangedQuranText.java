@@ -13,7 +13,6 @@ import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class RangedQuranText implements IRangedQuranText {
 	private IQuranText quran;
@@ -151,8 +150,21 @@ public class RangedQuranText implements IRangedQuranText {
 		return quran.getFullText();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.common.resource.IQuranText#getTranslationData()
+	 */
 	public TranslationData getTranslationData() {
 		return quran.getTranslationData();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.common.resource.IQuranText#getBismillah(int)
+	 */
+	public String getBismillah(int suraNum) {
+		return null;
+	}
 }

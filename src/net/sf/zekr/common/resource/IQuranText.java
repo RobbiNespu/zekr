@@ -45,6 +45,17 @@ public interface IQuranText {
 
 	/**
 	 * This method should only be implemented in subclasses which are aimed for Quran translation.
+	 * 
+	 * @return translation data
 	 */
 	public TranslationData getTranslationData();
+
+	/**
+	 * This method should only be implemented in subclasses which are aimed for Quran text. It returns
+	 * Bismillah (the beginning part of suras)
+	 * 
+	 * @param suraNum sura number (1-based)
+	 * @return Bismillah part
+	 */
+	public String getBismillah(int suraNum);
 }
