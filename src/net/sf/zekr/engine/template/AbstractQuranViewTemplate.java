@@ -27,6 +27,7 @@ public abstract class AbstractQuranViewTemplate extends BaseViewTemplate {
 		String retStr = null;
 		ThemeData td = config.getTheme().getCurrent();
 		try {
+			engine.put("BISMILLAH", quran.getBismillah(suraNum));
 			engine.put("JUZ_LIST", QuranPropertiesUtils.getJuzInsideSura(suraNum));
 			engine.put("ALL_JUZ_LIST", QuranPropertiesUtils.getSuraJuzAsList(suraNum));
 			engine.put("SAJDA_LIST", QuranPropertiesUtils.getSajdaInsideList(suraNum));
