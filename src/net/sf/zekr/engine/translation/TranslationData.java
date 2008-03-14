@@ -208,6 +208,15 @@ public class TranslationData implements IQuranText {
 		return this;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.common.resource.IQuranText#getBismillah(int)
+	 */
+	public String getBismillah(int suraNum) {
+		return null;
+	}
+
 	public String toText() {
 		return localizedName + " / " + name;
 	}
