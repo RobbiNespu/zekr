@@ -70,13 +70,13 @@ $("input#suraNav,input#ayaNav").bind("keyup", function(e) {
 </script>
 <div id="body" class="body">
 	<div class="bodyTop" align="center">
-	   <div dir="${DIRECTION}" class="suraName quran" style="height: 40px; background: url(res/image/sura-header.png) no-repeat center center">
+	   <div dir="${DIRECTION}" class="suraName quran">
 	   $DICT.getMeaning("SURA"):
 	   $SURA_NAME
 	   </div>
 	   #if ($SURA_NUM != 9 && $SURA_NUM != 1)
-	   <div class="quran">
-	   بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+	   <div class="quran bismillah">
+	   $BISMILLAH
 	   </div>
 	   #end
 	##putBismillah()

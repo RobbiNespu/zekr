@@ -44,13 +44,20 @@ div.bodyTop {
 
 .suraName {
 	font-weight: bold;
+	padding-top: 3px;
+	height: 40px;
+	background: url(${APP_PATH}res/image/sura-header.png) no-repeat center center;
+}
+
+.bismillah {
+	text-align: center;
 }
 
 .printWatermark {
 	display: none;
 }
 
-div.quran { /* resolves IE6/7 bug for custom trans layout having table width=100% */
+#quranSection div.quran { /* resolves IE6/7 bug for custom trans layout having table width=100% */
 	width: 100%;
 }
 
@@ -69,6 +76,11 @@ span.sajda#major {
 span.juzSign {
 	font-family: serif;
 	color: rgb(0, 40, 200);
+}
+
+.waqfSign {
+	font-family: Sans-serif, Times New Roman; 
+	color: #bb8833;
 }
 
 .quran span.hizbSign {

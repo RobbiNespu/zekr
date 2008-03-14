@@ -179,9 +179,7 @@ span.selectedAyaSign {
 #quranSection, #searchableSection {
 }
 
-* html body table.customTrans {
-}
-table.customTrans { /* ie ignores this */
+table.customTrans {
 	width: 100%;
 }
 table.customTrans {

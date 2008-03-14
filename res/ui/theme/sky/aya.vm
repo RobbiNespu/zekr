@@ -13,7 +13,7 @@
 			#set ($hizbQuarter = $hizbQuarter % 4)
 			#if ($hizbQuarter != 0) #set ($Q = " - $DICT.getMeaning('QUARTER'): $hizbQuarter")
 		 	#else #set ($Q = "") #end
-			<nobr><span class="hizbSign" title="$JUZ - $DICT.getMeaning("HIZB"): ${hizbNum}$Q">&#1758;</span></nobr>
+			<nobr><span class="hizbSign" title="$I18N.localize("${JUZ} - ${DICT.getMeaning('HIZB')}: ${hizbNum}${Q}")">&#1758;</span></nobr>
 		#end
 	#end #end
 #end
