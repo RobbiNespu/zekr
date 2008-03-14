@@ -90,12 +90,16 @@ public class QuranPropertiesUtils {
 		return props.getSura(suraNum);
 	}
 
+	public static final void resetIndexedSuraNames() {
+		indexedSuraNames[0] = null;
+	}
+
 	public static final String[] getIndexedSuraNames() {
 		if (indexedSuraNames[0] == null) { // not loaded yet
 			QuranProperties props = QuranProperties.getInstance();
 			for (Iterator iter = props.getSuraList().iterator(); iter.hasNext();) {
-				SuraProperties element = (SuraProperties) iter.next();
-				indexedSuraNames[element.getIndex() - 1] = getIndexedSuraName(element.getIndex(), element.getName());
+				SuraProperties sura = (SuraProperties) iter.next();
+				indexedSuraNames[sura.getIndex() - 1] = getIndexedSuraName(sura);
 			}
 		}
 		return indexedSuraNames;
@@ -105,8 +109,12 @@ public class QuranPropertiesUtils {
 		return suraName + " - " + suraNum;
 	}
 
+	public static final String getIndexedSuraName(SuraProperties sura) {
+		return getIndexedSuraName(sura.getIndex(), sura.toText());
+	}
+
 	public static final String getIndexedSuraName(int suraNum) {
-		return getIndexedSuraName(suraNum, getSura(suraNum).getName());
+		return getIndexedSuraName(getSura(suraNum));
 	}
 
 	public static final JuzProperties getJuz(int juzNum) {

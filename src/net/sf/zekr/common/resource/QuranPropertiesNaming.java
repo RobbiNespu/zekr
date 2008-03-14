@@ -38,6 +38,17 @@ public class QuranPropertiesNaming {
 	public static final String NAME_TRANSLITERATED_ATTR = "tname";
 	public static final String EN_NAME_ATTR = "en";
 
+	/** sura name in Arabic */
+	public static final String SURA_NAME_ARABIC = "arabic";
+	/** sura name, translated in the default language */
+	public static final String SURA_NAME_T9N = "arabic";
+	/** sura name, transliterated in the default language */
+	public static final String SURA_NAME_T13N = "t13n";
+	/** sura name, translated in English */
+	public static final String SURA_NAME_ENGLISH_T9N = "en-t9n";
+	/** sura name, transliterated in English */
+	public static final String SURA_NAME_ENGLISH_T13N = "en-t13n";
+
 	public static final String MAKKI = "MAKKI";
 	public static final String MADANI = "MADANI";
 	public static final String MINOR_SAJDA = "MINOR"; // Mustahab Sajda

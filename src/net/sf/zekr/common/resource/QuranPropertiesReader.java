@@ -74,8 +74,8 @@ class QuranPropertiesReader extends BaseQuranProperties {
 			sura.setAyaCount(Integer.parseInt(suraElem.getAttribute(QuranPropertiesNaming.AYA_COUNT_ATTR)));
 			sura.setMadani(QuranPropertiesUtils.isMadani(suraElem.getAttribute(QuranPropertiesNaming.DESCENT_ATTR)));
 			sura.setName(suraElem.getAttribute(QuranPropertiesNaming.NAME_ATTR));
-			sura.setEnglishName(suraElem.getAttribute(QuranPropertiesNaming.EN_NAME_ATTR));
-			sura.setEnglishTransliteratedName(suraElem.getAttribute(QuranPropertiesNaming.NAME_TRANSLITERATED_ATTR));
+			sura.setEnglishTrans(suraElem.getAttribute(QuranPropertiesNaming.EN_NAME_ATTR));
+			sura.setEnglishT13N(suraElem.getAttribute(QuranPropertiesNaming.NAME_TRANSLITERATED_ATTR));
 			sura.setIndex(Integer.parseInt(suraElem.getAttribute(QuranPropertiesNaming.INDEX_ATTR)));
 
 			updateSuraLocalizedProps(sura);
@@ -118,8 +118,8 @@ class QuranPropertiesReader extends BaseQuranProperties {
 			SuraProperties.l10nName[i] = l10SuraElem.getAttribute(QuranPropertiesNaming.NAME_TRANSLATED_ATTR);
 			SuraProperties.l10nTransliterate[i] = l10SuraElem.getAttribute(QuranPropertiesNaming.NAME_TRANSLITERATED_ATTR);
 		} else {
-			SuraProperties.l10nName[i] = sura.getEnglishName();
-			SuraProperties.l10nTransliterate[i] = sura.getEnglishTransliteratedName();
+			SuraProperties.l10nName[i] = sura.getEnglishTrans();
+			SuraProperties.l10nTransliterate[i] = sura.getEnglishT13N();
 		}
 	}
 
