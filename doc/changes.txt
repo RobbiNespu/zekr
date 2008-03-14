@@ -425,7 +425,7 @@ Bug fixes:
 	Hizb quarter is shown for hizb start points (2 locations per juz), with a modified tooltip text (quarter part is now shown).
 	One of the most important bugs with Mozilla on Linux (and also Widows XULRuner) fixed. This bug prevented using aya box in nav-bar to change aya within a sura. It also caused aya syncing (automatically focusing on the next aya when one aya is finished) not to work when playing a recitataion in continuous mode. 
 
-Version 0.7.0 beta 1 - [10-3-08]
+Version 0.7.0 beta 1 - [20-3-08]
 Features/Enhancements:
     Quran translation verification added in order to verify whether the text is authentic (downloaded from the official website) or not.
     	- Each translation should have a signature meta data in order to be imported (through Tools > Add) or loaded (through View > Translation).
@@ -450,6 +450,7 @@ Features/Enhancements:
     English translation and transliteration of sura names added to quran-properties.xml.
     Different options for showing sura names: Arabic, English translation, English transliteration, Local translation, or Local transliteration. The last two are available only if quran-properties-xy.xml file was available for selected language (where xy is the language code).
     No need to restart application anymore if a new translation is added. Restarting is still needed when application launched with no default translation (hence translation support is disabled until it is restarted).
+    Switching to quran-simple-modified Quran text file obtained from tanzil.info. This is an accurate Quran text, which is best for reading Quran. As a result all kinds of Waqf signs are available even in non-Uthmai theme.
 Bug fixes:
     Disabled "Save as..." button when HTML is served through HTTP server. Exporting pages without having HTTP server on, is not a good idea, because no image/JS/CSS resources can be accessed then.
     Audio > Play/Pause menu item text is now correctly updated upon play/pause status change.
@@ -458,6 +459,8 @@ Bug fixes:
     Separator is shown in "Recitation" and "Translation" menu groups when there is at least one recitation/translation available.
     Menu icons are not shown in Mac. All "Control" keys in menu item's accelerator (and text) changed to Command button.
     A bug with multi-translation layout fixed. This bug affected IE and caused horizontal scrolling when resizing window.
+    Incorrect start point for Juz 10 fixed. The correct location is 8:41.
+    When focusing on the first aya in each sura, there would be no extra space on the top of the focusing area, so that sura name and Bismillah are shown correctly.
 _____________________________________________________
 	TODO: Update screenshots on the website
 

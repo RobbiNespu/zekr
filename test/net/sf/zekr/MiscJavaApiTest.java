@@ -50,4 +50,9 @@ public class MiscJavaApiTest extends TestCase {
 		// UNIX: LF: \n: 10
 		// MAC: CR: \r: 13
 	}
+
+	public void testStringReplace() throws Exception {
+		String STR = "Salam; bar! to";
+		System.out.println(STR.replaceAll("([;!])", "<ss>$0</ss>"));
+	}
 }
