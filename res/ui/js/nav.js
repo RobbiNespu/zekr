@@ -37,8 +37,11 @@ function refocus() {
 	var aya = document.getElementById(ayaId);
 	if (!aya) return;
 
-	$(aya).ScrollTo(1, 'original', getBrowserHeight() > getObjectHeight(aya) ? 
-					getBrowserHeight()/5 : 0);
+	if (ayaNum != 1)
+		$(aya).ScrollTo(1, 'original', getBrowserHeight() > getObjectHeight(aya) ? getBrowserHeight()/5 : 0);
+	else
+		$(aya).ScrollTo(1, 'original', 200);
+
 }
 
 function navtoSuraAya() {
@@ -81,7 +84,10 @@ function focusOnAya(suraNum, ayaNum) {
 
 	var oh = getObjectHeight(aya);
 	var bh = getBrowserHeight();
-	$(aya).ScrollTo(400, 'original', bh > (oh + bh/5) ? bh/5 : 35);
+	if (ayaNum != 1)
+		$(aya).ScrollTo(400, 'original', bh > (oh + bh/5) ? bh/5 : 45);
+	else
+		$(aya).ScrollTo(400, 'original', 200);
 	oldAyaId = ayaId;
 
 	// fire post-focus hooks

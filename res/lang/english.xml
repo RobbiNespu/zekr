@@ -152,6 +152,7 @@
 			<text id="TOO_MANY_RESULT" value="Search result is more than {1} ayas" />
 			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?" />
 			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect." />
+			<text id="ACTION_PERFORMED" value="Action performed successfully."   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Are you sure?" />
@@ -161,6 +162,9 @@
 			<text id="GENERAL_ERROR" value="An unexpected error occurred" />
 			<text id="FNF" value="File not found" />
 			<text id="ACTION_FAILED" value="Action failed!" />
+			<text id="INVALID_TRANSLATION_FORMAT" value="Invalid tranalation format: {1}"   />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Invalid translation signature: {1}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="Loading translation &quot;{1}&quot; failed because of the following error: {2}"   />
 		</error>
 		<hint></hint>
 	</message>
@@ -275,7 +279,7 @@
 			<text id="RELEASE_NOTES" value="Release notes" />
 			<text id="DOWNLOAD" value="Download" />
 			<text id="MORE_INFO" value="More info" />
-			<text id="NO_UPDATE" value="You are already using the newest version" />
+			<text id="NO_UPDATE" value="You are already using the newest version." />
 			<text id="NEW_DEV_AVAILABLE" value="A newer development version (unstable) is available for download" />
 			<text id="NEW_BETA_AVAILABLE" value="A newer beta version (unstable) is available for download" />
 			<text id="NEW_FINAL_AVAILABLE" value="A newer release (final) is available for download" />
