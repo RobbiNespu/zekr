@@ -294,7 +294,12 @@ public class OptionsForm {
 
 		config.setShowSplash(showSplash.getSelection());
 		props.setProperty("options.search.maxResult", "" + spinner.getSelection());
-		props.setProperty("quran.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
+
+		if (!suraNameType[suraNameMode.getSelectionIndex()].equals(props.getProperty("quran.sura.name"))) {
+			props.setProperty("quran.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
+			EventUtils.sendEvent(EventProtocol.UPDATE_SURA_NAMES);
+		}
+
 		if (fromOk && pressOkToApply) {
 			props.setProperty("lang.default", selectedLangPack.id);
 			props.setProperty("theme.default", selectedTheme.id);
