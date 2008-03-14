@@ -47,6 +47,7 @@ import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
@@ -282,7 +283,7 @@ public class QuranForm extends BaseForm {
 				if (config.getProps().getBoolean("update.enable")) {
 					if (updateManager.isCheckNeeded()) {
 						logger.debug("Time for check for update!");
-						updateManager.check();
+						updateManager.check(false);
 					}
 				}
 			}
@@ -297,6 +298,12 @@ public class QuranForm extends BaseForm {
 						recreate();
 					} else if (CLEAR_CACHE_ON_EXIT.equals(e.data)) {
 						clearOnExit = true;
+					} else if (UPDATE_SURA_NAMES.equals(e.data)) {
+						int i = suraSelector.getSelectionIndex();
+						QuranPropertiesUtils.resetIndexedSuraNames();
+						suraSelector.setItems(QuranPropertiesUtils.getIndexedSuraNames());
+						suraSelector.select(i);
+						suraSelector.layout();
 					} else if (UPDATE_BOOKMARKS_MENU.equals(e.data)) {
 						qmf.createOrUpdateBookmarkMenu();
 					} else if (((String) e.data).startsWith(GOTO_LOCATION)) {
@@ -359,13 +366,21 @@ public class QuranForm extends BaseForm {
 			navSashForm.setLayoutData(gd);
 		}
 
-		Composite workPane = new Composite(isSashed ? navSashForm : body, SWT.NONE);
-		gd = new GridData(GridData.FILL_VERTICAL);
-		workPane.setLayoutData(gd);
+		ScrolledComposite workPaneScroller = new ScrolledComposite(isSashed ? navSashForm : body, SWT.H_SCROLL
+				| SWT.V_SCROLL);
+		workPaneScroller.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+		workPaneScroller.setLayout(new FillLayout());
+		workPaneScroller.setExpandHorizontal(true);
+		workPaneScroller.setExpandVertical(true);
+
+		Composite workPane = new Composite(workPaneScroller, SWT.NONE);
 		gl = new GridLayout(1, false);
 		gl.marginHeight = gl.marginWidth = 0;
 		gl.marginLeft = gl.marginRight = gl.marginTop = gl.marginBottom = 2;
 		workPane.setLayout(gl);
+
+		workPaneScroller.setContent(workPane);
+		workPaneScroller.setMinSize(workPane.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		Composite bgroup = new Composite(isSashed ? navSashForm : body, SWT.NONE);
 		gd = new GridData(GridData.FILL_BOTH);
@@ -502,7 +517,9 @@ public class QuranForm extends BaseForm {
 		suraSelector = new Combo(navGroup, SWT.READ_ONLY);
 		ayaSelector = new Combo(navGroup, SWT.READ_ONLY);
 
-		suraSelector.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		gd.widthHint = 100;
+		suraSelector.setLayoutData(gd);
 		suraSelector.setItems(QuranPropertiesUtils.getIndexedSuraNames());
 		suraSelector.setVisibleItemCount(15);
 		suraSelector.addSelectionListener(new SelectionAdapter() {

@@ -487,7 +487,7 @@ public class QuranFormMenuFactory {
 			}
 		});
 
-		stopItem = createMenuItem(0, audioMenu, lang.getMeaning("PLAY"), SWT.CTRL | SWT.SHIFT | 'S', "icon.menu.stop");
+		stopItem = createMenuItem(0, audioMenu, lang.getMeaning("STOP"), SWT.CTRL | SWT.SHIFT | 'S', "icon.menu.stop");
 		stopItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				playerStop(true);
@@ -970,7 +970,7 @@ public class QuranFormMenuFactory {
 
 	private void check4Update() {
 		UpdateManager manager = new UpdateManager(shell);
-		manager.check();
+		manager.check(true);
 	}
 
 	private void print() {
