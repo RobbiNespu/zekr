@@ -18,6 +18,7 @@ import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IRangedQuranText;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.RangedQuranText;
@@ -82,7 +83,7 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				ITransformer transformer = new QuranViewTemplate(QuranText.getInstance(), sura, aya);
+				ITransformer transformer = new QuranViewTemplate(FilteredQuranText.getInstance(), sura, aya);
 				addPlaylistProvider(sura, transformer);
 				osw.write(transformer.transform());
 				osw.close();
@@ -142,7 +143,7 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				ITransformer transformer = new MixedViewTemplate(QuranText.getInstance(), td, sura, aya);
+				ITransformer transformer = new MixedViewTemplate(FilteredQuranText.getInstance(), td, sura, aya);
 				addPlaylistProvider(sura, transformer);
 
 				osw.write(transformer.transform());
@@ -173,7 +174,7 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 				TranslationData[] transData = (TranslationData[]) tdList.toArray(new TranslationData[] {});
 
-				ITransformer tx = new MultiTranslationViewTemplate(QuranText.getInstance(), transData, sura, aya);
+				ITransformer tx = new MultiTranslationViewTemplate(FilteredQuranText.getInstance(), transData, sura, aya);
 				addPlaylistProvider(sura, tx);
 
 				osw.write(tx.transform());
@@ -220,7 +221,7 @@ public class HtmlRepository {
 			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 					GlobalConfig.OUT_HTML_ENCODING);
 
-			RangedQuranText rqt = new RangedQuranText(QuranText.getSimpleTextInstance(), searchScope);
+			RangedQuranText rqt = new RangedQuranText(FilteredQuranText.getSimpleTextInstance(), searchScope);
 			ITransformer tx = new QuranSearchResultTemplate(rqt, keyword, matchDiac);
 			osw.write(tx.transform());
 			osw.close();
