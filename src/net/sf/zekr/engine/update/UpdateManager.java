@@ -74,46 +74,52 @@ public class UpdateManager {
 		return false;
 	}
 
-	public boolean check() {
-		display.asyncExec(new ProgressThread(checkThread));
+	public boolean check(final boolean manual) {
+		display.asyncExec(new Runnable() {
+			public void run() {
+				logger.debug("Start update checking in a separate thread.");
 
-		logger.debug("Start update checking in a separate thread.");
-		checkThread.setDaemon(true);
-		checkThread.start();
+				if (manual)
+					display.asyncExec(new ProgressThread(checkThread));
 
-		while (checkThread.isAlive()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
+				checkThread.setDaemon(true);
+				checkThread.start();
 
-		// set new update time regardless of the success or failure of check4update process
-		props.setProperty("update.lastCheck", dateFormat.format(new Date()));
-
-		// update checking should either fail (updateCheckFailed = true), or finish (updateCheckFinished)!
-		if (updateCheckFailed) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + ":\n" + failureCause);
-		} else if (updateCheckFinished) {
-			String msg = "";
-
-			if (Long.parseLong(updateInfo.build) > Long.parseLong(GlobalConfig.ZEKR_BUILD_NUMBER)) {
-				if (updateInfo.status.equals(UpdateInfo.DEV_RELEASE)) {
-					msg = meaning("NEW_DEV_AVAILABLE");
-				} else if (updateInfo.status.equals(UpdateInfo.BETA_RELEASE)) {
-					msg = meaning("NEW_BETA_AVAILABLE");
-				} else if (updateInfo.status.equals(UpdateInfo.FINAL_RELEASE)) {
-					msg = meaning("NEW_FINAL_AVAILABLE");
+				while (checkThread.isAlive()) {
+					if (!display.readAndDispatch()) {
+						display.sleep();
+					}
 				}
-				updateInfo.message = msg + ": " + updateInfo.fullName;
-				UpdateForm uf = new UpdateForm(updateInfo, shell);
-				Shell ufs = uf.getShell();
-				FormUtils.limitSize(ufs, 500, 380);
-				ufs.setLocation(FormUtils.getCenter(shell, ufs));
-				uf.show();
-			} else {
-				MessageBoxUtils.show(meaning("NO_UPDATE"), meaning("TITLE"), SWT.NONE);
+
+				// set new update time regardless of the success or failure of check4update process
+				props.setProperty("update.lastCheck", dateFormat.format(new Date()));
+
+				// update checking should either fail (updateCheckFailed = true), or finish (updateCheckFinished)!
+				if (updateCheckFailed) {
+					MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + ":\n" + failureCause);
+				} else if (updateCheckFinished) {
+					String msg;
+					if (Long.parseLong(updateInfo.build) > Long.parseLong(GlobalConfig.ZEKR_BUILD_NUMBER)) {
+						if (updateInfo.status.equals(UpdateInfo.BETA_RELEASE)) {
+							msg = meaning("NEW_BETA_AVAILABLE");
+						} else if (updateInfo.status.equals(UpdateInfo.FINAL_RELEASE)) {
+							msg = meaning("NEW_FINAL_AVAILABLE");
+						} else { // if (updateInfo.status.equals(UpdateInfo.DEV_RELEASE))
+							msg = meaning("NEW_DEV_AVAILABLE");
+						}
+						updateInfo.message = msg + ": " + updateInfo.fullName;
+						UpdateForm uf = new UpdateForm(updateInfo, shell);
+						Shell ufs = uf.getShell();
+						FormUtils.limitSize(ufs, 500, 380);
+						ufs.setLocation(FormUtils.getCenter(shell, ufs));
+						uf.show();
+					} else {
+						if (manual) // show dialog only when user manually clicked on "Check for Updates"
+							MessageBoxUtils.show(meaning("NO_UPDATE"), meaning("TITLE"), SWT.NONE);
+					}
+				}
 			}
-		}
+		});
 
 		return updateCheckFinished;
 	}
@@ -156,6 +162,8 @@ public class UpdateManager {
 				logger.debug("Parse update info XML.");
 				XmlReader xr = new XmlReader(is);
 				is.close();
+
+				Thread.sleep(5000);
 
 				Element root = xr.getDocumentElement();
 				updateInfo = new UpdateInfo();
