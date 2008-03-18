@@ -9,7 +9,9 @@
 package net.sf.zekr.engine.search.tanzil;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class LetterConstants {
 	public static Map UChars = new HashMap();
@@ -103,4 +105,10 @@ public class LetterConstants {
 		UGroups.put("HAMZA_SHAPE", "[%HAMZA_ABOVE%HAMZA%ALEF_WITH_HAMZA_ABOVE-%YEH_WITH_HAMZA]");
 	}
 
+	static {
+		for (Iterator iterator = UGroups.entrySet().iterator(); iterator.hasNext();) {
+			Entry entry = (Entry) iterator.next();
+			entry.setValue(RegexSeachUtils.regTrans((String) entry.getValue()));
+		}
+	}
 }

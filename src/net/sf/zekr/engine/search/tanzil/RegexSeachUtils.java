@@ -55,12 +55,12 @@ public class RegexSeachUtils extends LetterConstants {
 	}
 
 	// translate a symbolic regExp
-	private static final String regTrans(String str) {
-		// StringBuffer ret = new StringBuffer();
+	static final String regTrans(String str) {
+		StringBuffer ret = new StringBuffer();
 		Pattern regex = Pattern.compile("%([A-Z_]+)");
 		Matcher matcher = regex.matcher(str);
 
-		// int lastEnd = 0;
+		int lastEnd = 0;
 		while (matcher.find()) {
 			String group = matcher.group(1);
 
@@ -71,15 +71,15 @@ public class RegexSeachUtils extends LetterConstants {
 				replacement = ((Character) UChars.get(group)).toString();
 			else
 				continue;
-			// ret.append(str.substring(lastEnd, matcher.start()));
-			// ret.append(replacement);
-			str = str.replaceAll(matcher.group(0), replacement);
-			matcher = regex.matcher(str);
-			// lastEnd = matcher.end();
+			ret.append(str.substring(lastEnd, matcher.start()));
+			ret.append(replacement);
+			// str = str.replaceAll(matcher.group(0), replacement);
+			// matcher = regex.matcher(str);
+			lastEnd = matcher.end();
 		}
-		// ret.append(str.substring(lastEnd));
-		// return ret.toString();
-		return str;
+		ret.append(str.substring(lastEnd));
+		return ret.toString();
+		// return str;
 	}
 
 	// simulate preg_replace
