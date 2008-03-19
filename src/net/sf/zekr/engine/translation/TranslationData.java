@@ -57,6 +57,7 @@ public class TranslationData implements IQuranText {
 	public String file;
 
 	private String[][] transText;
+	private String[] fullTransText;
 
 	/** signature of the text file */
 	public byte[] signature;
@@ -190,20 +191,34 @@ public class TranslationData implements IQuranText {
 	private void refineText(String rawText) {
 		QuranProperties quranProps = QuranProperties.getInstance();
 		String[] sura;
-		String[] fullTrans = rawText.split(lineDelimiter);
+		fullTransText = rawText.split(lineDelimiter);
 		transText = new String[114][];
 		int ayaTotalCount = 0;
 		for (int i = 0; i < 114; i++) {
 			int ayaCount = quranProps.getSura(i + 1).getAyaCount();
 			sura = new String[ayaCount];
 			for (int j = 0; j < ayaCount; j++) {
-				sura[j] = fullTrans[ayaTotalCount + j];
+				sura[j] = fullTransText[ayaTotalCount + j];
 			}
 			transText[i] = sura;
 			ayaTotalCount += ayaCount;
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.common.resource.IQuranText#get(int)
+	 */
+	public String get(int absoluteAyaNum) {
+		return fullTransText[absoluteAyaNum - 1];
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.common.resource.IQuranText#getTranslationData()
+	 */
 	public TranslationData getTranslationData() {
 		return this;
 	}
@@ -232,4 +247,5 @@ public class TranslationData implements IQuranText {
 	public String getId() {
 		return id;
 	}
+
 }
