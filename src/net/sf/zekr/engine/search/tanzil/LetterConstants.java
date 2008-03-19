@@ -99,10 +99,10 @@ public class LetterConstants {
 	// letter groups
 	public static Map UGroups = new HashMap();
 	static {
-		UGroups.put("LETTER", "[%HAMZA-%YEH]");
-		UGroups.put("HARAKA", "[%FATHATAN-%MADDA%SUPERSCRIPT_ALEF]");
-		UGroups.put("SPACE", "[\\s%HIGH_SALA-%LOW_MEEM]*\\s");
-		UGroups.put("HAMZA_SHAPE", "[%HAMZA_ABOVE%HAMZA%ALEF_WITH_HAMZA_ABOVE-%YEH_WITH_HAMZA]");
+		UGroups.put("LETTER", "[$HAMZA-$YEH]");
+		UGroups.put("HARAKA", "[$FATHATAN-$MADDA$SUPERSCRIPT_ALEF]");
+		UGroups.put("SPACE", "[\\\\s$HIGH_SALA-$LOW_MEEM]*\\\\s");
+		UGroups.put("HAMZA_SHAPE", "[$HAMZA_ABOVE$HAMZA$ALEF_WITH_HAMZA_ABOVE-$YEH_WITH_HAMZA]");
 	}
 
 	static {

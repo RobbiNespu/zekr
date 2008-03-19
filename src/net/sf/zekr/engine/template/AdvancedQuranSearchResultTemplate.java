@@ -15,7 +15,6 @@ import net.sf.zekr.engine.theme.ThemeData;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class AdvancedQuranSearchResultTemplate extends AbstractSearchResultTemplate {
 	private QuranTextSearcher searcher;

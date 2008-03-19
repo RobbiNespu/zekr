@@ -49,7 +49,6 @@ import org.apache.lucene.search.highlight.QueryScorer;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class QuranTextSearcher implements Enumeration {
 	private final Logger logger = Logger.getLogger(QuranTextSearcher.class);

@@ -20,16 +20,16 @@ public class RegexSeachUtils extends LetterConstants {
 	// matching rulles
 	public static Map matchingRules = new HashMap();
 	static {
-		matchingRules.put("%HAMZA_SHAPE", "%HAMZA_SHAPE");
-		matchingRules.put("%ALEF_MAKSURA", "YY");
-		matchingRules.put("%ALEF",
-				"[%ALEF%ALEF_MAKSURA%ALEF_WITH_MADDA_ABOVE%ALEF_WITH_HAMZA_ABOVE%ALEF_WITH_HAMZA_BELOW%ALEF_WASLA]");
-		matchingRules.put("[%TEH%MARBUTA]", "[%TEH%MARBUTA]");
-		matchingRules.put("%HEH", "[%HEH%MARBUTA]");
-		matchingRules.put("%WAW", "[%WAW%WAW_WITH_HAMZA_ABOVE%SMALL_WAW]");
-		matchingRules.put("%YEH", "[%YEH%ALEF_MAKSURA%YEH_WITH_HAMZA%SMALL_YEH]");
-		matchingRules.put("YY", "[%ALEF_MAKSURA%YEH%ALEF]");
-		matchingRules.put(" ", "%SPACE");
+		matchingRules.put("$HAMZA_SHAPE", "$HAMZA_SHAPE");
+		matchingRules.put("$ALEF_MAKSURA", "YY");
+		matchingRules.put("$ALEF",
+				"[$ALEF$ALEF_MAKSURA$ALEF_WITH_MADDA_ABOVE$ALEF_WITH_HAMZA_ABOVE$ALEF_WITH_HAMZA_BELOW$ALEF_WASLA]");
+		matchingRules.put("[$TEH$MARBUTA]", "[$TEH$MARBUTA]");
+		matchingRules.put("$HEH", "[$HEH$MARBUTA]");
+		matchingRules.put("$WAW", "[$WAW$WAW_WITH_HAMZA_ABOVE$SMALL_WAW]");
+		matchingRules.put("$YEH", "[$YEH$ALEF_MAKSURA$YEH_WITH_HAMZA$SMALL_YEH]");
+		matchingRules.put("YY", "[$ALEF_MAKSURA$YEH$ALEF]");
+		matchingRules.put(" ", "$SPACE");
 	}
 
 	// wildcards
@@ -43,21 +43,21 @@ public class RegexSeachUtils extends LetterConstants {
 	// wildcards
 	public static Map wildcards = new HashMap();
 	static {
-		wildcards.put("S", "(%LETTER|%HARAKA)*");
-		wildcards.put("Q", "%LETTER?");
-		wildcards.put("P", "%LETTER");
+		wildcards.put("S", "($LETTER|$HARAKA)*");
+		wildcards.put("Q", "$LETTER?");
+		wildcards.put("P", "$LETTER");
 	}
 
 	public static Map preProcess = new HashMap();
 	static {
-		preProcess.put("[%FARSI_YEH%YEH_BARREE]", "%YEH");
-		preProcess.put("[%FARSI_KEHEH%SWASH_KAF]", "%KAF");
+		preProcess.put("[$FARSI_YEH$YEH_BARREE]", "$YEH");
+		preProcess.put("[$FARSI_KEHEH$SWASH_KAF]", "$KAF");
 	}
 
 	// translate a symbolic regExp
 	static final String regTrans(String str) {
 		StringBuffer ret = new StringBuffer();
-		Pattern regex = Pattern.compile("%([A-Z_]+)");
+		Pattern regex = Pattern.compile("\\$([A-Z_]+)");
 		Matcher matcher = regex.matcher(str);
 
 		int lastEnd = 0;
@@ -106,8 +106,10 @@ public class RegexSeachUtils extends LetterConstants {
 			prev = pattern;
 			pattern = pattern.replaceAll("^(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
 		}
+
 		pattern = pattern.replaceAll("_", " ");
-		pattern = pattern.replaceAll("\\+", "");
+		pattern = pattern.replaceAll("\"", "+");
+		// pattern = pattern.replaceAll("\\+", "");
 
 		// remove extra operators
 		pattern = pattern.replaceAll("^[+|]+", "").replaceAll("[+|!]+$", "");
@@ -119,7 +121,7 @@ public class RegexSeachUtils extends LetterConstants {
 	// enrich arabic search pattern
 	public static String enrichPattern(String pattern, boolean ignoreHaraka) {
 		if (ignoreHaraka)
-			pattern = pregReplace("%HARAKA", "", pattern);
+			pattern = pregReplace("$HARAKA", "", pattern);
 
 		pattern = regTrans(pattern); // allows using letter constants in pattern
 		pattern = handleSpaces(pattern);
@@ -127,7 +129,7 @@ public class RegexSeachUtils extends LetterConstants {
 		pattern = applyRules(wildcardRegs, pattern);
 
 		// add haraka between letters
-		pattern = pregReplace("(.)", "$1%HARAKA*", pattern);
+		pattern = pregReplace("(.)", "$1$HARAKA*", pattern);
 
 		pattern = applyRules(matchingRules, pattern);
 		pattern = applyRules(wildcards, pattern);
@@ -139,7 +141,8 @@ public class RegexSeachUtils extends LetterConstants {
 		// System.out.println(regTrans("[$FARSI_YEH$YEH_BARREE]"));
 		// System.out.println(handleSpaces("sadsa \"asdfasdf asdf asdf\"sdf as \"sdf sdf\" "));
 		// System.out.println(regTrans("$ALEF$ALEF_MAKSURA$ALEF_WITH_MADDA_ABOVE$ALEF_WITH_HAMZA_ABOVE$ALEF_WITH_HAMZA_BELOW$ALEF_WASLA"));
-		System.out.println(enrichPattern("salam?", false));
+		// System.out.println(enrichPattern("salam?", false));
+		enrichPattern("\"سلام علی\"", false);
 		// System.out.println("salam azizam".replaceAll("(.)", "'$1'"));
 	}
 }

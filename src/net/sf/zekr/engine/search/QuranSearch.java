@@ -15,7 +15,6 @@ import net.sf.zekr.common.resource.IRangedQuranText;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class QuranSearch extends AbstractQuranSearch {
 

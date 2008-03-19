@@ -122,52 +122,6 @@ public class TanzilSearch {
 		return result;
 	}
 
-	//	public static Result search(String pattern) {
-	//		pattern = StringUtils.replace(pattern, "!", "!+");
-	//		String[] patterns = pattern.split("\\+");
-	//		int[] bucket = new int[6236];
-	//		for (int i = 0; i < bucket.length; i++) {
-	//			bucket[i] = i + 1;
-	//		}
-	//
-	//		int total = 0;
-	//		for (int i = 0; i < patterns.length; i++) {
-	//			Result res = filterBucket(bucket, patterns[i]);
-	//			bucket = res.results;
-	//			total = (i == 0) ? res.totalMatch : bucket.length;
-	//		}
-	//		return new Result(bucket, total);
-	//	}
-
-	// filter bucket according to a pattern
-	//	private static Result filterBucket(int[] bucket, String pattern) {
-	//		QuranText quran = null;
-	//		try {
-	//			quran = QuranText.getInstance();
-	//		} catch (IOException e) {
-	//		}
-	//		int total = 0;
-	//		List res = new ArrayList();
-	//		boolean exclude;
-	//		if (exclude = (pattern.charAt(0) == '!'))
-	//			pattern = pattern.substring(1);
-	//
-	//		Pattern regex = Pattern.compile(pattern);
-	//		for (int i = 0; i < bucket.length; i++) {
-	//			String line = ' ' + quran.get(bucket[i]) + ' ';
-	//			Matcher matcher = regex.matcher(line);
-	//			int items = 0;
-	//			while (matcher.find()) {
-	//				System.out.println(matcher);
-	//				items++;
-	//			}
-	//			total += items;
-	//			if (items > 0 ^ exclude)
-	//				res.add(new Integer(bucket[i]));
-	//		}
-	//		return new Result(CollectionUtils.toIntArray(res), total);
-	//	}
-
 	public static void main(String[] args) throws IOException {
 		String s = "سَلام";
 		//		String s = "\"هو الذی\" لا \"الله\" به";
