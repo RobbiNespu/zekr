@@ -34,11 +34,12 @@ public class QuranText implements IQuranText {
 	/** raw quran text written in the file. */
 	private String rawText;
 
-	/** full simple Quran text */
-	private String[][] simpleQuranText = new String[114][];
+	/** Quran text in a sura-aya 2D array */
+	private String[][] quranText = new String[114][];
 
-	/** full detailed Quran text */
-	private String[][] detailedQuranText = new String[114][];
+	/** full Quran text as a 1D array */
+	private String[] fullQuran;
+
 	private final static ApplicationConfig config = ApplicationConfig.getInstance();
 	private final static ResourceManager resource = ResourceManager.getInstance();
 
@@ -102,9 +103,9 @@ public class QuranText implements IQuranText {
 	private void refineRawText() {
 		QuranProperties quranProps = QuranProperties.getInstance();
 		String delim = config.getProps().getString("quran.text.delim");
-		String[] fullQuran = rawText.split(delim);
+		fullQuran = rawText.split(delim);
 		String[] sura;
-		simpleQuranText = new String[114][];
+		quranText = new String[114][];
 		int ayaTotalCount = 0;
 		for (int i = 0; i < 114; i++) {
 			int ayaCount = quranProps.getSura(i + 1).getAyaCount();
@@ -112,7 +113,7 @@ public class QuranText implements IQuranText {
 			for (int j = 0; j < ayaCount; j++) {
 				sura[j] = fullQuran[ayaTotalCount + j];
 			}
-			simpleQuranText[i] = sura;
+			quranText[i] = sura;
 			ayaTotalCount += ayaCount;
 		}
 	}
@@ -123,7 +124,16 @@ public class QuranText implements IQuranText {
 	 * @see net.sf.zekr.common.util.IQuranText#get(int, int)
 	 */
 	public String get(int suraNum, int ayaNum) {
-		return simpleQuranText[suraNum - 1][ayaNum - 1];
+		return quranText[suraNum - 1][ayaNum - 1];
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.zekr.common.resource.IQuranText#get(int)
+	 */
+	public String get(int absoluteAyaNum) {
+		return fullQuran[absoluteAyaNum - 1];
 	}
 
 	/*
@@ -132,7 +142,7 @@ public class QuranText implements IQuranText {
 	 * @see net.sf.zekr.common.util.IQuranText#getSura(int)
 	 */
 	public String[] getSura(int suraNum) {
-		return simpleQuranText[suraNum - 1];
+		return quranText[suraNum - 1];
 
 	}
 
@@ -142,7 +152,7 @@ public class QuranText implements IQuranText {
 	 * @see net.sf.zekr.common.util.IQuranText#getFullText()
 	 */
 	public String[][] getFullText() {
-		return simpleQuranText;
+		return quranText;
 	}
 
 	/*

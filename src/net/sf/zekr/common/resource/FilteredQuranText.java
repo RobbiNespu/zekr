@@ -27,7 +27,6 @@ public class FilteredQuranText implements IQuranText {
 		quranText = QuranText.getInstance();
 	}
 
-	// FIXME
 	public static FilteredQuranText getInstance() throws IOException {
 		if (thisInstance == null)
 			thisInstance = new FilteredQuranText();
@@ -46,7 +45,6 @@ public class FilteredQuranText implements IQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IQuranText#get(int, int)
 	 */
 	public String get(int suraNum, int ayaNum) {
@@ -62,7 +60,6 @@ public class FilteredQuranText implements IQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IQuranText#getSura(int)
 	 */
 	public String[] getSura(int suraNum) {
@@ -74,9 +71,15 @@ public class FilteredQuranText implements IQuranText {
 		return text;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.zekr.common.resource.IQuranText#get(int)
+	 */
+	public String get(int absoluteAyaNum) {
+		throw new UnsupportedOperationException("Method not implemented.");
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IQuranText#getTranslationData()
 	 */
 	public TranslationData getTranslationData() {

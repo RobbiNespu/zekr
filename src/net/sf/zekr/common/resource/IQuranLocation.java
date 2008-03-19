@@ -8,7 +8,7 @@
  */
 package net.sf.zekr.common.resource;
 
-public interface IQuranLocation {
+public interface IQuranLocation extends Comparable {
 	public int getAya();
 
 	public void setAya(int aya);

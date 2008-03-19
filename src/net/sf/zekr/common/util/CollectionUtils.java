@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class CollectionUtils {
 	public static String getLocalizedList(int[] array) {
@@ -62,8 +61,7 @@ public class CollectionUtils {
 	}
 
 	/**
-	 * @param col
-	 *           collection parameter to be returned as array
+	 * @param col collection parameter to be returned as array
 	 * @return an array of <code>collection.eachElement.toString()</code>.
 	 */
 	public static String[] toStringArray(Collection col) {
@@ -77,11 +75,9 @@ public class CollectionUtils {
 	}
 
 	/**
-	 * @param col
-	 *           collection parameter to be returned as array
-	 * @param methodName
-	 *           the method name to be called on each item. The method's signature should have no argument, and return
-	 *           <code>String</code>.
+	 * @param col collection parameter to be returned as array
+	 * @param methodName the method name to be called on each item. The method's signature should have no
+	 *           argument, and return <code>String</code>.
 	 * @return an array of <code>collection.eachElement.toString()</code>.
 	 * @throws InvocationTargetException
 	 * @throws NoSuchMethodException
@@ -126,5 +122,17 @@ public class CollectionUtils {
 
 	public static String toSimpleJson(List list) {
 		return "[" + toString(list, ",") + "]";
+	}
+
+	/**
+	 * @param list a list of Integer objects
+	 * @return an array of int
+	 */
+	public static int[] toIntArray(List list) {
+		int[] ret = new int[list.size()];
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = ((Integer) list.get(i)).intValue();
+		}
+		return ret;
 	}
 }

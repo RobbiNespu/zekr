@@ -30,6 +30,14 @@ public interface IQuranText {
 	public String get(int suraNum, int ayaNum);
 
 	/**
+	 * Returns the requested absolute aya.
+	 * 
+	 * @param absoluteAyaNum absolute sura number counted from 1
+	 * @return returns the requested aya
+	 */
+	public String get(int absoluteAyaNum);
+	
+	/**
 	 * Returns the requested sura as an array of strings.<br>
 	 * <b>Note:</b> no range check is performed.
 	 * 

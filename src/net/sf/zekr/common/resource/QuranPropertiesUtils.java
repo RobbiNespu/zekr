@@ -25,20 +25,21 @@ import net.sf.zekr.engine.search.Range;
  * This class tightly depends on the class <code>QuranProperties</code>. Almost all public methods on this
  * class cache the static results once called, and if called more, read it from the cache.<br>
  * <br>
- * This cache is not designed to be thread-safe.
+ * This cache is not designed to be thread-safe. It is highly unsafe!
  * 
  * @author Mohsen Saboorian
  */
 public class QuranPropertiesUtils {
+	/** Number of Quran ayas based on Uthmani Mushaf */
+	public static int QURAN_AYA_COUNT = 6236;
+
 	private static String[][] suraAyas = new String[114][];
 	private static String[] suraNames = new String[114];
 	private static String[] indexedSuraNames = new String[114];
 	private static List[] juzInside = new ArrayList[114];
 	private static List[] sajdaInside = new ArrayList[114];
 	private static int[] aggrAyaCount = new int[114];
-
-	/** Number of Quran ayas based on Uthmani Mushaf */
-	public static int QURAN_AYA_COUNT = 6236;
+	private static IQuranLocation[] absoluteLocation = new QuranLocation[QURAN_AYA_COUNT];
 
 	public static final int getSajdaType(String sajda) {
 		return QuranPropertiesNaming.MINOR_SAJDA.equalsIgnoreCase(sajda) ? SajdaProperties.MINOR : SajdaProperties.MAJOR;
@@ -355,4 +356,32 @@ public class QuranPropertiesUtils {
 		QuranProperties props = QuranProperties.getInstance();
 		props.quranPropsReader.updateLocalizedSuraNames();
 	}
+
+	/**
+	 * @return all Quran locations as an array
+	 */
+	public static IQuranLocation[] getLocations() {
+		QuranProperties props = QuranProperties.getInstance();
+		if (absoluteLocation[0] == null) { // not loaded yet
+			absoluteLocation = new QuranLocation[QURAN_AYA_COUNT];
+			int absolute = 0;
+			for (int sura = 1; sura <= 114; sura++) {
+				int ayaCount = props.getSura(sura).getAyaCount();
+				for (int aya = 1; aya <= ayaCount; aya++) {
+					absoluteLocation[absolute] = new QuranLocation(sura, aya);
+					absolute++;
+				}
+			}
+		}
+		return absoluteLocation;
+	}
+
+	/**
+	 * @param absoluteAyaNum a positive number between 1 and 6236.
+	 * @return an IQuranLocation instance for this aya.
+	 */
+	public static final IQuranLocation getLocation(int absoluteAyaNum) {
+		return getLocations()[absoluteAyaNum];
+	}
+
 }

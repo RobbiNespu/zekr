@@ -12,12 +12,11 @@ import net.sf.zekr.engine.search.SearchScope;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public interface IRangedQuranText extends IQuranText {
 	/**
-	 * Resets the Quran location, setting the pointer to the start of the text. It is called on object
-	 * creation to find the start location point.
+	 * Resets the Quran location, setting the pointer to the start of the text. It is called on object creation
+	 * to find the start location point.
 	 */
 	void reset();
 

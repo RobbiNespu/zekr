@@ -167,4 +167,8 @@ public class RangedQuranText implements IRangedQuranText {
 	public String getBismillah(int suraNum) {
 		return null;
 	}
+
+	public String get(int absoluteAyaNum) {
+		throw new UnsupportedOperationException("Method not implemented.");
+	}
 }
