@@ -11,47 +11,91 @@ package net.sf.zekr.engine.search.tanzil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.QuranText;
+import net.sf.zekr.engine.search.SearchScope;
 
 import org.apache.commons.lang.StringUtils;
 
 class Result {
-	public Result(String[] results, int totalMatch) {
+	public Result(List results, int totalMatch) {
 		this.results = results;
 		this.totalMatch = totalMatch;
 	}
 	public int totalMatch;
-	public String[] results;
+	public List results;
+}
+
+class ZeroHighlighter implements ISearchHighlighter {
+	public String highlight(String text) {
+		return text;
+	}
+
+	public String highlight(String text, String matchedQueryPart) {
+		return text;
+	}
 }
 
 public class TanzilSearch {
 
-	public static Result search(String pattern) {
+	private ISearchHighlighter highlighter;
+	private SearchScope searchScope;
+	private IQuranText quranText;
+
+	private List locations;
+	private Result result;
+
+	public TanzilSearch(IQuranText quranText, ISearchHighlighter highlighter) {
+		this(quranText, highlighter, null, null);
+	}
+
+	public TanzilSearch(IQuranText quranText, SearchScope searchScope) {
+		this(quranText, new ZeroHighlighter(), searchScope, null);
+	}
+
+	public TanzilSearch(IQuranText quranText, ISearchHighlighter highlighter, SearchScope searchScope,
+			QuranAyaComparator ayaComparator) {
+
+		this.highlighter = highlighter;
+		this.searchScope = searchScope;
+		this.quranText = quranText;
+
+		IQuranLocation[] locs = QuranPropertiesUtils.getLocations();
+		if (searchScope != null) {
+			for (int i = 0; i < locs.length; i++) {
+				if (!searchScope.includes(locs[i]))
+					locations.add(locs[i]);
+			}
+		} else {
+			locations = Arrays.asList(locs);
+		}
+
+		// sort ayas based on result sorter (aya comparator passed)
+		if (ayaComparator != null)
+			Collections.sort(locations, ayaComparator);
+	}
+
+	public void search(String pattern) {
 		pattern = StringUtils.replace(pattern, "!", "!+");
 		String[] patterns = pattern.split("\\+");
-		// $bucket = range(0, 6235); // whole text
-		String[] bucket = new String[6236];
 
 		int total = 0;
 		for (int i = 0; i < patterns.length; i++) {
-			Result res = filterBucket(bucket, patterns[i]);
-			bucket = res.results;
-			total = (i == 0) ? res.totalMatch : bucket.length;
+			Result res = filterBucket(locations, patterns[i]);
+			locations = res.results;
+			total = (i == 0) ? res.totalMatch : locations.size();
 		}
-		return new Result(bucket, total);
+		result = new Result(locations, total);
 	}
 
-	// filter bucket according to a pattern
-	private static Result filterBucket(String[] bucket, String pattern) {
-		QuranText quran = null;
-		try {
-			quran = QuranText.getInstance();
-		} catch (IOException e) {
-		}
+	private Result filterBucket(List locations, String pattern) {
 		int total = 0;
 		List res = new ArrayList();
 		boolean exclude;
@@ -59,30 +103,84 @@ public class TanzilSearch {
 			pattern = pattern.substring(1);
 
 		Pattern regex = Pattern.compile(pattern);
-		for (int i = 1; i <= bucket.length; i++) {
-			String line = ' ' + quran.get(i) + ' ';
+		for (int i = 0; i < locations.size(); i++) {
+			IQuranLocation loc = (IQuranLocation) locations.get(i);
+			String line = ' ' + quranText.get(loc.getSura(), loc.getAya()) + ' ';
 			Matcher matcher = regex.matcher(line);
 			int items = 0;
 			while (matcher.find()) {
 				items++;
-				System.out.println(matcher.group(0));
 			}
 			total += items;
 			if (items > 0 ^ exclude)
-				res.add("" + i);
+				res.add(loc);
 		}
-		return new Result((String[]) res.toArray(new String[0]), total);
+		return new Result(res, total);
 	}
 
-	public static void main(String[] args) {
-		// String s = "سَلام";
-		// String s = "\"هو الذی\" لا \"الله\" به";
-		String s = "\"سلام علی\"";
-		s = s.replaceAll("\\-", "!");
-		s = RegexSeachUtils.enrichPattern(s, false);
-		System.out.println(s);
-		Result res = search(s);
-		System.out.println(res.totalMatch);
-		System.out.println(Arrays.asList(res.results));
+	public Result getResult() {
+		return result;
 	}
+
+	//	public static Result search(String pattern) {
+	//		pattern = StringUtils.replace(pattern, "!", "!+");
+	//		String[] patterns = pattern.split("\\+");
+	//		int[] bucket = new int[6236];
+	//		for (int i = 0; i < bucket.length; i++) {
+	//			bucket[i] = i + 1;
+	//		}
+	//
+	//		int total = 0;
+	//		for (int i = 0; i < patterns.length; i++) {
+	//			Result res = filterBucket(bucket, patterns[i]);
+	//			bucket = res.results;
+	//			total = (i == 0) ? res.totalMatch : bucket.length;
+	//		}
+	//		return new Result(bucket, total);
+	//	}
+
+	// filter bucket according to a pattern
+	//	private static Result filterBucket(int[] bucket, String pattern) {
+	//		QuranText quran = null;
+	//		try {
+	//			quran = QuranText.getInstance();
+	//		} catch (IOException e) {
+	//		}
+	//		int total = 0;
+	//		List res = new ArrayList();
+	//		boolean exclude;
+	//		if (exclude = (pattern.charAt(0) == '!'))
+	//			pattern = pattern.substring(1);
+	//
+	//		Pattern regex = Pattern.compile(pattern);
+	//		for (int i = 0; i < bucket.length; i++) {
+	//			String line = ' ' + quran.get(bucket[i]) + ' ';
+	//			Matcher matcher = regex.matcher(line);
+	//			int items = 0;
+	//			while (matcher.find()) {
+	//				System.out.println(matcher);
+	//				items++;
+	//			}
+	//			total += items;
+	//			if (items > 0 ^ exclude)
+	//				res.add(new Integer(bucket[i]));
+	//		}
+	//		return new Result(CollectionUtils.toIntArray(res), total);
+	//	}
+
+	public static void main(String[] args) throws IOException {
+		String s = "سَلام";
+		//		String s = "\"هو الذی\" لا \"الله\" به";
+		//		String s = "\"سلام علی\"";
+		// s = s.replaceAll("\\-", "!");
+		s = RegexSeachUtils.enrichPattern(s, false);
+
+		TanzilSearch ts = new TanzilSearch(QuranText.getSimpleTextInstance(), new SimpleSearchHighlighter(), null, null);
+		System.out.println(s);
+		ts.search(s);
+		Result res = ts.getResult();
+		System.out.println(res.totalMatch + " - " + res.results.size() + ":");
+		System.out.println(res.results);
+	}
+
 }
