@@ -19,15 +19,17 @@ import java.util.List;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.FilteredQuranText;
-import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.AbstractRangedQuranText;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.RangedQuranText;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.audio.PlaylistProvider;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.search.AbstractSearchResult;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
+import net.sf.zekr.engine.search.tanzil.SearchResult;
 import net.sf.zekr.engine.server.HttpServer;
 import net.sf.zekr.engine.server.HttpServerUtils;
 import net.sf.zekr.engine.template.AdvancedQuranSearchResultTemplate;
@@ -193,16 +195,16 @@ public class HtmlRepository {
 	 * @return generated search result HTML
 	 * @throws HtmlGenerationException
 	 */
-	public static String getAdvancedSearchQuranUri(QuranTextSearcher searcher, int pageNo)
+	public static String getAdvancedSearchQuranUri(AbstractSearchResult searchResult, int pageNo)
 			throws HtmlGenerationException {
 		try {
-			String fileName = searcher.getRawQuery().hashCode() + "_" + pageNo + ".html";
+			String fileName = searchResult.getRawQuery().hashCode() + "_" + pageNo + ".html";
 			File file = new File(Naming.getSearchCacheDir() + File.separator + fileName);
-			logger.info("Create search file: " + file + " for keyword: \"" + searcher.getRawQuery() + "\".");
+			logger.info("Create search file: " + file + " for keyword: \"" + searchResult.getRawQuery() + "\".");
 			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 					GlobalConfig.OUT_HTML_ENCODING);
 
-			ITransformer tx = new AdvancedQuranSearchResultTemplate(searcher, pageNo);
+			ITransformer tx = new AdvancedQuranSearchResultTemplate(searchResult, pageNo);
 			osw.write(tx.transform());
 			osw.close();
 			return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
@@ -211,7 +213,42 @@ public class HtmlRepository {
 		}
 	}
 
-	public static String getSearchQuranUri(String keyword, boolean matchDiac, SearchScope searchScope)
+//	public static String getSearchQuranUri(SearchResult searchResult, int pageNo)
+//			throws HtmlGenerationException {
+//		String fileName = searchResult.getRawQuery().hashCode() + "_" + pageNo + ".html";
+//		File file = new File(Naming.getSearchCacheDir() + File.separator + fileName);
+//		logger.info("Create search file: " + file + " for keyword: \"" + searcher.getRawQuery() + "\".");
+//		OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
+//				GlobalConfig.OUT_HTML_ENCODING);
+//
+//		ITransformer tx = new AdvancedQuranSearchResultTemplate(searcher, pageNo);
+//		osw.write(tx.transform());
+//		osw.close();
+//		return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
+//	} catch (Exception e) {
+//		throw new HtmlGenerationException(e);
+//	}
+
+//		try {
+//			String fileName = keyword.hashCode() + ".html";
+//			File file = new File(Naming.getSearchCacheDir() + File.separator + fileName);
+//			// if (!file.exists() || file.length() == 0) {
+//			logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
+//			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
+//					GlobalConfig.OUT_HTML_ENCODING);
+//
+//			RangedQuranText rqt = new RangedQuranText(FilteredQuranText.getSimpleTextInstance(), searchScope);
+//			ITransformer tx = new QuranSearchResultTemplate(rqt, keyword, matchDiac);
+//			osw.write(tx.transform());
+//			osw.close();
+//			// }
+//			return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
+//		} catch (Exception e) {
+//			throw new HtmlGenerationException(e);
+//		}
+//	}
+
+/*	public static String getSearchQuranUri(String keyword, boolean matchDiac, SearchScope searchScope)
 			throws HtmlGenerationException {
 		try {
 			String fileName = keyword.hashCode() + ".html";
@@ -231,12 +268,13 @@ public class HtmlRepository {
 			throw new HtmlGenerationException(e);
 		}
 	}
-
+*/
+	
 	public static String getSearchTransUri(String keyword, boolean matchDiac, boolean matchCase, SearchScope searchScope)
 			throws HtmlGenerationException {
 		try {
 			TranslationData td = config.getTranslation().getDefault();
-			IRangedQuranText eqt = new RangedQuranText(td, searchScope);
+			AbstractRangedQuranText eqt = new RangedQuranText(td, searchScope);
 
 			String fileName = keyword.hashCode() + "_" + td.id + "_" + matchCase + ".html";
 			File file = new File(Naming.getSearchCacheDir() + File.separator + fileName);
