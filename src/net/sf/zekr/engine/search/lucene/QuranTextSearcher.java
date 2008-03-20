@@ -25,9 +25,11 @@ import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.search.AbstractSearchResult;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.SearchScopeItem;
 import net.sf.zekr.engine.search.SearchUtils;
+import net.sf.zekr.engine.search.tanzil.SearchResult;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.analysis.Analyzer;
@@ -51,7 +53,7 @@ import org.apache.lucene.search.highlight.QueryScorer;
  * @author Mohsen Saboorian
  */
 public class QuranTextSearcher implements Enumeration {
-	private final Logger logger = Logger.getLogger(QuranTextSearcher.class);
+	protected Logger logger = Logger.getLogger(this.getClass());
 	private static final int MAX_CLAUSE_COUNT = 10000;
 
 	private File indexDir;
@@ -62,7 +64,6 @@ public class QuranTextSearcher implements Enumeration {
 	private int maxResultPerPage;
 	private int pageNum;
 	private List results;
-	private int matcheditem;
 	private int matchedItemCount;
 	private Query query;
 	private SearchScope searchScope;
@@ -173,22 +174,20 @@ public class QuranTextSearcher implements Enumeration {
 		return rawQuery;
 	}
 
-	public void search(String query) throws IOException, ParseException {
+	public AdvancedSearchResult search(String query) throws IOException, ParseException {
 		this.rawQuery = query;
 		String s = SearchUtils.simplifyAdvancedSearchQuery(query);
 		results = _search(s);
+		return new AdvancedSearchResult(results, getQuery().toString(QuranTextIndexer.CONTENTS_FIELD), rawQuery, getMatchedItemCount(), null);
 	}
 
 	/**
 	 * Retrieves the specified page of search results.
 	 * 
-	 * @param page
-	 *           page number a zero-based page number
+	 * @param page page number a zero-based page number
 	 * @return a specific page
-	 * @throws NoSuchElementException
-	 *            if no such page exists
-	 * @throws IllegalSearchStateException
-	 *            if <code>search(String)</code> is not called yet
+	 * @throws NoSuchElementException if no such page exists
+	 * @throws IllegalSearchStateException if <code>search(String)</code> is not called yet
 	 */
 	public List getPage(int page) {
 		if (results == null)
@@ -200,14 +199,12 @@ public class QuranTextSearcher implements Enumeration {
 			return results.subList(page * maxResultPerPage, (page + 1) * maxResultPerPage);
 
 		return results.subList(page * maxResultPerPage, results.size());
-
 	}
 
 	/**
 	 * Main search method, for internal use.
 	 * 
-	 * @param q
-	 *           query string
+	 * @param q query string
 	 * @return a list of highlighted string objects.
 	 * @throws IOException
 	 * @throws ParseException
@@ -298,6 +295,7 @@ public class QuranTextSearcher implements Enumeration {
 		return (pageNum * maxResultPerPage <= results.size());
 	}
 
+	// FIXME: what is AdvancedQuranSearchResultItem?!
 	/**
 	 * @return next search result page as a <code>java.util.List</code> of highlighted
 	 *         <code>AdvancedQuranSearchResultItem</code>s.
@@ -351,7 +349,6 @@ public class QuranTextSearcher implements Enumeration {
 
 /**
  * Constrains search results to only match those which also match a provided search scope.
- * 
  */
 class QuranRangeFilter extends Filter {
 	/**
@@ -386,8 +383,7 @@ class QuranRangeFilter extends Filter {
 	}
 
 	/**
-	 * @param path
-	 *           directory to test against existence of lucene indices.
+	 * @param path directory to test against existence of lucene indices.
 	 * @return <code>true</code> if some some Lucene indices exists at the specified path, <code>false</code>
 	 *         otherwise
 	 */
