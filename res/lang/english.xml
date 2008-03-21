@@ -199,10 +199,12 @@
 			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied." />
 			<text id="MAX_SEARCH_RESULT" value="Maximum search result count" />
 			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane" />
-			<text id="SURA_NAMES" value="Sura names" />
-			<text id="ARABIC" value="Arabic" />
-			<text id="TRANSLATED" value="Translated" />
-			<text id="TRANSLITERATED" value="Transliterated" />
+			<text id="SURA_NAMES" value="Sura names"   />
+			<text id="ARABIC" value="Arabic"   />
+			<text id="EN_T9N" value="Translation"   />
+			<text id="EN_T13N" value="Transliteration"   />
+			<text id="T9N" value="Translation (if available)"   />
+			<text id="T13N" value="Transliteration (if available)"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configure Search Scope" />

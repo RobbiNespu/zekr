@@ -197,8 +197,10 @@
 			<text id="RESIZEABLE_TASK_PANE" value="قابلیت تغییر اندازه برای قاب وظایف" />
             <text id="SURA_NAMES" value="نام سوره‌ها" />
             <text id="ARABIC" value="عربی" />
-            <text id="TRANSLATED" value="ترجمه‌شده" />
-            <text id="TRANSLITERATED" value="آوانگاری‌شده" />
+            <text id="EN_T9N" value="ترجمهٔ انگلیسی" />
+            <text id="EN_T13N" value="آوانگاری انگلیسی" />
+            <text id="T9N" value="ترجمه‌شده (اگر موجود است)" />
+            <text id="T13N" value="آوانگاری‌شده (اگر موجود است)" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="تنظیم محدودهٔ جستجو" />
