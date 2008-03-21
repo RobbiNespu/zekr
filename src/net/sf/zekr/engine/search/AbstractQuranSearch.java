@@ -14,7 +14,7 @@ import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
-import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.AbstractRangedQuranText;
 import net.sf.zekr.common.resource.QuranLocation;
 
 /**
@@ -22,7 +22,7 @@ import net.sf.zekr.common.resource.QuranLocation;
  * @since Zekr 1.0
  */
 public abstract class AbstractQuranSearch {
-	protected IRangedQuranText quran;
+	protected AbstractRangedQuranText quran;
 	protected int resultCount;
 	protected int maxAyaMatch = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");
 	protected Finder finder;
@@ -32,7 +32,7 @@ public abstract class AbstractQuranSearch {
 	 * 
 	 * @param quran the Quran text to search on
 	 */
-	protected AbstractQuranSearch(IRangedQuranText quran) {
+	protected AbstractQuranSearch(AbstractRangedQuranText quran) {
 		this(quran, false, false, null);
 	}
 
@@ -42,7 +42,7 @@ public abstract class AbstractQuranSearch {
 	 * @param matchCase specifies whether search should match the case or not. Only applicable to translation.
 	 * @param locale text locale
 	 */
-	protected AbstractQuranSearch(IRangedQuranText quran, boolean matchDiac, final boolean matchCase,
+	protected AbstractQuranSearch(AbstractRangedQuranText quran, boolean matchDiac, final boolean matchCase,
 			final Locale locale) {
 		this.quran = quran;
 		if (matchDiac) {

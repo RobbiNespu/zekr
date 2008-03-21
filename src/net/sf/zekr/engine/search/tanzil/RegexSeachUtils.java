@@ -114,7 +114,8 @@ public class RegexSeachUtils extends LetterConstants {
 		pattern = pattern.replaceAll("\\s+", " ");
 		while (!pattern.equals(prev)) {
 			prev = pattern;
-			pattern = pattern.replaceAll("^(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
+			pattern = pattern.replaceAll("(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
+			System.out.println(pattern);
 			// pattern = pattern.replaceAll("([^\"]*)(\"[^\"]*\")*([^\"\\s]*) ", "$1$3+"); // ^ removed from the first of pattern to be java 1.4.2 compatible
 		}
 
@@ -153,7 +154,7 @@ public class RegexSeachUtils extends LetterConstants {
 		// System.out.println(handleSpaces("sadsa \"asdfasdf asdf asdf\"sdf as \"sdf sdf\" "));
 		// System.out.println(regTrans("$ALEF$ALEF_MAKSURA$ALEF_WITH_MADDA_ABOVE$ALEF_WITH_HAMZA_ABOVE$ALEF_WITH_HAMZA_BELOW$ALEF_WASLA"));
 		// System.out.println(enrichPattern("salam?", false));
-		System.out.println(enrichPattern("\"سلام علی\"", false));
+		System.out.println(enrichPattern("سلام علی", false));
 		// System.out.println("salam azizam".replaceAll("(.)", "'$1'"));
 	}
 }

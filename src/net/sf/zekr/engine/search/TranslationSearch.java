@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.AbstractRangedQuranText;
 
 /**
  * This is a sample implementation of the Quran translation search. It only supports non-diacritic match
@@ -24,11 +24,11 @@ import net.sf.zekr.common.resource.IRangedQuranText;
  */
 public class TranslationSearch extends AbstractQuranSearch {
 
-	public TranslationSearch(IRangedQuranText trans) {
+	public TranslationSearch(AbstractRangedQuranText trans) {
 		this(trans, false, null);
 	}
 
-	public TranslationSearch(IRangedQuranText trans, boolean matchCase, Locale locale) {
+	public TranslationSearch(AbstractRangedQuranText trans, boolean matchCase, Locale locale) {
 		super(trans, true, matchCase, locale);
 
 		// trans.getTranslationData().load();

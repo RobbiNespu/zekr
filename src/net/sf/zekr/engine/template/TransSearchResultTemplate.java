@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.AbstractRangedQuranText;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.Range;
@@ -30,7 +30,7 @@ import net.sf.zekr.engine.translation.TranslationData;
 public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 	private boolean matchCase;
 
-	public TransSearchResultTemplate(IRangedQuranText trans, String keyword, boolean matchCase) {
+	public TransSearchResultTemplate(AbstractRangedQuranText trans, String keyword, boolean matchCase) {
 		super(trans, keyword);
 		this.matchCase = matchCase;
 		engine.put("TRANSLATE", langEngine.getMeaning("QURAN"));

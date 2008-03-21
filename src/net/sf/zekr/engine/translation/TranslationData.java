@@ -18,16 +18,15 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.AbstractQuranText;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.util.CryptoUtils;
 import net.sf.zekr.engine.log.Logger;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
-public class TranslationData implements IQuranText {
+public class TranslationData extends AbstractQuranText {
 	private static final Logger logger = Logger.getLogger(TranslationData.class);
 
 	/** Translation Id. */
@@ -111,7 +110,7 @@ public class TranslationData implements IQuranText {
 			Date date2 = new Date();
 			logger.debug("Loading translation \"" + id + "\" took " + (date2.getTime() - date1.getTime()) + " ms.");
 		} else {
-			logger.debug("Translation already loaded:" + id);
+			logger.debug("Translation already loaded: " + id);
 		}
 	}
 

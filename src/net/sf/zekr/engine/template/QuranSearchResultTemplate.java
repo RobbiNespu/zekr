@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.AbstractRangedQuranText;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.QuranSearch;
@@ -29,7 +29,7 @@ import net.sf.zekr.engine.theme.ThemeData;
  */
 public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 
-	public QuranSearchResultTemplate(IRangedQuranText quran, String keyword, boolean matchDiac) {
+	public QuranSearchResultTemplate(AbstractRangedQuranText quran, String keyword, boolean matchDiac) {
 		super(quran, keyword, matchDiac);
 	}
 
@@ -75,7 +75,7 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 		Map ret = new LinkedHashMap(result.size());
 		for (Iterator iter = result.keySet().iterator(); iter.hasNext();) {
 			QuranLocation loc = (QuranLocation) iter.next();
-			String aya = quran.get(loc.getSura(), loc.getAya());
+			String aya = quran.get(loc);
 			ret.put(loc, aya);
 		}
 		return ret;

@@ -8,26 +8,25 @@
  */
 package net.sf.zekr.engine.template;
 
+import net.sf.zekr.engine.search.AbstractSearchResult;
 import net.sf.zekr.engine.search.SearchUtils;
-import net.sf.zekr.engine.search.lucene.QuranTextIndexer;
-import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
 import net.sf.zekr.engine.theme.ThemeData;
 
 /**
  * @author Mohsen Saboorian
  */
 public class AdvancedQuranSearchResultTemplate extends AbstractSearchResultTemplate {
-	private QuranTextSearcher searcher;
+	private AbstractSearchResult searchResult;
 	int pageNo;
 
 	/**
 	 * @param qts QuranTextSearcher instance
 	 * @param pageNo counted from 1
 	 */
-	public AdvancedQuranSearchResultTemplate(QuranTextSearcher qts, int pageNo) {
+	public AdvancedQuranSearchResultTemplate(AbstractSearchResult searchResult, int pageNo) {
 		super(null, null, false);
 		engine.put("ADVANCED", "true");
-		this.searcher = qts;
+		this.searchResult = searchResult;
 		this.pageNo = pageNo;
 	}
 
@@ -35,15 +34,15 @@ public class AdvancedQuranSearchResultTemplate extends AbstractSearchResultTempl
 		try {
 			String ret = null;
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {
-					i18n.localize(String.valueOf(searcher.getMatchedItemCount())),
-					i18n.localize(String.valueOf(searcher.getResultCount())) }));
-			engine.put("AYA_LIST", searcher.getPage(pageNo));
-			engine.put("PAGE_START_NUM", new Integer(pageNo * searcher.getMaxResultPerPage()));
-			engine.put("PAGE_NUM_MSG", langEngine.getDynamicMeaning("SEARCH_PAGE",
-					new String[] { i18n.localize(String.valueOf(pageNo + 1)),
-							i18n.localize(String.valueOf(searcher.getResultPageCount())) }));
-			engine.put("CLAUSE", searcher.getQuery().toString(QuranTextIndexer.CONTENTS_FIELD));
-			String k = SearchUtils.arabicSimplify(searcher.getRawQuery());
+					i18n.localize(String.valueOf(searchResult.getTotalMatch())),
+					i18n.localize(String.valueOf(searchResult.getResultCount())) }));
+			engine.put("AYA_LIST", searchResult.getPage(pageNo));
+			engine.put("PAGE_START_NUM", new Integer(pageNo * searchResult.getMaxResultPerPage()));
+			engine.put("PAGE_NUM_MSG", langEngine.getDynamicMeaning("SEARCH_PAGE", new String[] {
+					i18n.localize(String.valueOf(pageNo + 1)),
+					i18n.localize(String.valueOf(searchResult.getResultPageCount())) }));
+			engine.put("CLAUSE", searchResult.getClause());
+			String k = SearchUtils.arabicSimplify(searchResult.getRawQuery());
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));
 			ThemeData theme = config.getTheme().getCurrent();
 			ret = engine.getUpdated(theme.getPath() + "/" + resource.getString("theme.search.result"));

@@ -11,7 +11,7 @@ package net.sf.zekr.engine.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.AbstractRangedQuranText;
 
 /**
  * @author Mohsen Saboorian
@@ -23,11 +23,11 @@ public class QuranSearch extends AbstractQuranSearch {
 	 * 
 	 * @param quran the input Quran source
 	 */
-	public QuranSearch(IRangedQuranText quran) {
+	public QuranSearch(AbstractRangedQuranText quran) {
 		this(quran, false);
 	}
 
-	public QuranSearch(IRangedQuranText quran, boolean matchDiac) {
+	public QuranSearch(AbstractRangedQuranText quran, boolean matchDiac) {
 		super(quran, matchDiac, true, null);
 	}
 

@@ -8,7 +8,7 @@
  */
 package net.sf.zekr.engine.template;
 
-import net.sf.zekr.common.resource.IRangedQuranText;
+import net.sf.zekr.common.resource.AbstractRangedQuranText;
 import net.sf.zekr.common.util.I18N;
 
 /**
@@ -16,7 +16,7 @@ import net.sf.zekr.common.util.I18N;
  * @since Zekr 1.0
  */
 public abstract class AbstractSearchResultTemplate extends BaseViewTemplate {
-	protected IRangedQuranText quran;
+	protected AbstractRangedQuranText quran;
 	protected String keyword;
 	protected boolean matchDiac;
 	
@@ -27,7 +27,7 @@ public abstract class AbstractSearchResultTemplate extends BaseViewTemplate {
 	 * @param keyword
 	 * @param matchDiac
 	 */
-	protected AbstractSearchResultTemplate(IRangedQuranText quran, String keyword, boolean matchDiac) {
+	protected AbstractSearchResultTemplate(AbstractRangedQuranText quran, String keyword, boolean matchDiac) {
 		this.quran = quran;
 		this.keyword = keyword;
 		this.matchDiac = matchDiac;
@@ -41,7 +41,7 @@ public abstract class AbstractSearchResultTemplate extends BaseViewTemplate {
 	 * @param quran
 	 * @param keyword
 	 */
-	protected AbstractSearchResultTemplate(IRangedQuranText quran, String keyword) {
+	protected AbstractSearchResultTemplate(AbstractRangedQuranText quran, String keyword) {
 		this(quran, keyword, false);
 	}
 }

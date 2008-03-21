@@ -13,10 +13,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import net.sf.zekr.common.ZekrBaseRuntimeException;
 import net.sf.zekr.common.config.ApplicationConfig;
@@ -25,11 +23,9 @@ import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.search.AbstractSearchResult;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.SearchScopeItem;
 import net.sf.zekr.engine.search.SearchUtils;
-import net.sf.zekr.engine.search.tanzil.SearchResult;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.analysis.Analyzer;
@@ -52,7 +48,7 @@ import org.apache.lucene.search.highlight.QueryScorer;
 /**
  * @author Mohsen Saboorian
  */
-public class QuranTextSearcher implements Enumeration {
+public class QuranTextSearcher {
 	protected Logger logger = Logger.getLogger(this.getClass());
 	private static final int MAX_CLAUSE_COUNT = 10000;
 
@@ -87,7 +83,6 @@ public class QuranTextSearcher implements Enumeration {
 		this.maxClauseCount = MAX_CLAUSE_COUNT;
 		this.sortResultOrder = Sort.RELEVANCE;
 		this.highlightFormatter = new ZekrHighlightFormatter();
-		this.maxResultPerPage = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");
 		this.pageNum = 0;
 	}
 
@@ -139,27 +134,6 @@ public class QuranTextSearcher implements Enumeration {
 		return query;
 	}
 
-	public int getResultCount() {
-		if (results == null)
-			throw new IllegalSearchStateException("Method search(String) should be called first.");
-
-		return results.size();
-	}
-
-	public int getResultPageCount() {
-		if (results == null)
-			throw new IllegalSearchStateException("Method search(String) should be called first.");
-
-		return (int) Math.ceil((double) results.size() / maxResultPerPage);
-	}
-
-	public int getMatchedItemCount() {
-		if (results == null)
-			throw new IllegalSearchStateException("Method search(String) should be called first.");
-
-		return matchedItemCount;
-	}
-
 	public void setSearchScope(SearchScope searchScope) {
 		this.searchScope = searchScope;
 	}
@@ -168,37 +142,12 @@ public class QuranTextSearcher implements Enumeration {
 		return searchScope;
 	}
 
-	public String getRawQuery() {
-		if (rawQuery == null)
-			throw new IllegalSearchStateException("Method search(String) should be called first.");
-		return rawQuery;
-	}
-
 	public AdvancedSearchResult search(String query) throws IOException, ParseException {
 		this.rawQuery = query;
 		String s = SearchUtils.simplifyAdvancedSearchQuery(query);
 		results = _search(s);
-		return new AdvancedSearchResult(results, getQuery().toString(QuranTextIndexer.CONTENTS_FIELD), rawQuery, getMatchedItemCount(), null);
-	}
-
-	/**
-	 * Retrieves the specified page of search results.
-	 * 
-	 * @param page page number a zero-based page number
-	 * @return a specific page
-	 * @throws NoSuchElementException if no such page exists
-	 * @throws IllegalSearchStateException if <code>search(String)</code> is not called yet
-	 */
-	public List getPage(int page) {
-		if (results == null)
-			throw new IllegalSearchStateException("Method search(String) should be called first.");
-		if (page * maxResultPerPage > results.size())
-			throw new NoSuchElementException("No such page: " + page);
-
-		if ((page + 1) * maxResultPerPage <= results.size())
-			return results.subList(page * maxResultPerPage, (page + 1) * maxResultPerPage);
-
-		return results.subList(page * maxResultPerPage, results.size());
+		return new AdvancedSearchResult(results, getQuery().toString(QuranTextIndexer.CONTENTS_FIELD), rawQuery,
+				matchedItemCount, null);
 	}
 
 	/**
@@ -282,30 +231,6 @@ public class QuranTextSearcher implements Enumeration {
 		else
 			ret.append(")");
 		return ret.toString();
-	}
-
-	/* java.util.Enumeration implementation */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Enumeration#hasMoreElements()
-	 */
-	public boolean hasMoreElements() {
-		return (pageNum * maxResultPerPage <= results.size());
-	}
-
-	// FIXME: what is AdvancedQuranSearchResultItem?!
-	/**
-	 * @return next search result page as a <code>java.util.List</code> of highlighted
-	 *         <code>AdvancedQuranSearchResultItem</code>s.
-	 */
-	public Object nextElement() {
-		List nextPageResult = null;
-		nextPageResult = getPage(pageNum + 1);
-
-		pageNum++;
-		return nextPageResult;
 	}
 
 	public static void main(String[] args) throws Exception {

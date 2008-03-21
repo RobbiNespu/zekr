@@ -181,12 +181,12 @@ public class AdvancedTextSearch {
 		String s = "";
 		s = "سَلام";
 		s = "عنی إذا";
-		s = "\"هو الذی\" لا \"الله\" به";
 		s = "-حسن";
-		s = "عنی اذا";
-		s = "\"سلام علي\"";
 		s = "سلام علی";
+		s = "\"سلام علي\"";
 		s = "-حسن غضب";
+		s = "\"هو الذی\" لا \"الله\" به";
+		s = "عنی اذا";
 		System.out.println(RegexSeachUtils.enrichPattern(s, false));
 		System.out.println("Initialize AdvancedTextSearch" + new Date());
 		AdvancedTextSearch ats = new AdvancedTextSearch(QuranText.getSimpleTextInstance(), new SimpleSearchHighlighter(),
