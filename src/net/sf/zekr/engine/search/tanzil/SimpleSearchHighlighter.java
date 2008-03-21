@@ -8,14 +8,18 @@
  */
 package net.sf.zekr.engine.search.tanzil;
 
+import java.util.regex.Pattern;
+
 public class SimpleSearchHighlighter implements ISearchHighlighter {
-
-	public String highlight(String text) {
-		return highlight(text, null);
-	}
-
-	public String highlight(String text, String matchedQueryPart) {
-		String title = " title=\"" + matchedQueryPart + "\"";
-		return "<span" + (matchedQueryPart == null ? "" : title) + " class=\"highlight\">" + text + "</span>";
+	public String highlight(String text, String pattern) {
+		text = text.replaceAll('(' + pattern + ')', "◄$1►");
+		text = text.replaceAll("◄\\s", " ◄").replaceAll("\\s►", "► ");
+		text = text.replaceAll("([^\\s]*)◄", "◄$1").replaceAll("►([^\\s]*)", "$1►");
+		while (Pattern.matches("◄[^\\s]*◄", text)) {
+			text = text.replaceAll("(◄[^\\s]*)◄", "$1").replaceAll("►([^\\s]*►)", "$1");
+		}
+		text = text.replaceAll("◄([^◄►]*)►", "<span class=\"highlight\"> $1 </span>");
+		// str = str.replaceAll("◄([^◄►]*)►", "[$1]");
+		return text;
 	}
 }

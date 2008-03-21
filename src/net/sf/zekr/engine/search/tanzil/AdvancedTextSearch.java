@@ -95,9 +95,11 @@ public class AdvancedTextSearch {
 
 	public SearchResult search(String rawQuery) {
 		logger.debug("Searching for query: " + rawQuery);
-		rawQuery = rawQuery.replaceAll("-", "!");
+		rawQuery = rawQuery.replaceAll("\\-", "!");
 		String pattern = RegexSeachUtils.enrichPattern(rawQuery, false);
-		String highlightPattern = pattern.replaceAll("[+!]", "|");
+
+		// TODO: '!' characters present in the highlighter pattern, but it seems to be safe
+		String highlightPattern = pattern.replaceAll("\\+", "|");
 		logger.debug("Rewritten query: " + pattern);
 
 		pattern = StringUtils.replace(pattern, "!", "+!");
@@ -127,23 +129,11 @@ public class AdvancedTextSearch {
 		logger.debug("Highlight results.");
 		for (int i = 0; i < resultItems.size(); i++) {
 			SearchResultItem sri = (SearchResultItem) resultItems.get(i);
-			// sri.ayaText = sri.ayaText.replaceAll(pattern, "<span class=\"highlight\"> $0 </span>");
-			sri.ayaText = highlight(highlightPattern, sri.ayaText);
+			sri.ayaText = highlighter.highlight(highlightPattern, sri.ayaText);
 		}
 
 		return new SearchResult(res.getResults(), CollectionUtils.toString(clauses, ","), rawQuery, res.getTotalMatch(),
 				ayaComparator);
-	}
-
-	public static String highlight(String pattern, String str) {
-		str = str.replaceAll('(' + pattern + ')', "◄$1►");
-		str = str.replaceAll("◄\\s", " ◄").replaceAll("\\s►", "► ");
-		str = str.replaceAll("([^\\s]*)◄", "◄$1").replaceAll("►([^\\s]*)", "$1►");
-		while (Pattern.matches("◄[^\\s]*◄", str)) {
-			str = str.replaceAll("(◄[^\\s]*)◄", "$1").replaceAll("►([^\\s]*►)", "$1");
-		}
-		str = str.replaceAll("◄([^◄►]*)►", "<span class=\"highlight\"> $1 </span>");
-		return str;
 	}
 
 	private SearchResult filterBucket(List locations, List clauses, String pattern, boolean lastTime) {
@@ -165,23 +155,16 @@ public class AdvancedTextSearch {
 						res.add(loc);
 				} else {
 					int items = 0;
-					int prevEnd = 0;
-					StringBuffer ayaBuf = new StringBuffer();
 					List matchedParts = new ArrayList();
 					do {
 						String clause = matcher.group();
 						items++; // one item is already matched in previous matcher.find()
-						ayaBuf.append(line.substring(prevEnd, matcher.start()));
-						//						ayaBuf.append(highlighter.highlight(clause));
-						ayaBuf.append(clause);
-						prevEnd = matcher.end();
 						matchedParts.add(clause);
 					} while (matcher.find());
 					clauses.addAll(matchedParts);
-					ayaBuf.append(line.substring(prevEnd));
 					total += items;
 					if (!exclude)
-						res.add(new SearchResultItem(ayaBuf.toString(), loc, matchedParts));
+						res.add(new SearchResultItem(line, loc, matchedParts));
 				}
 			} else if (exclude) {
 				if (!lastTime) {
@@ -199,12 +182,11 @@ public class AdvancedTextSearch {
 		s = "سَلام";
 		s = "عنی إذا";
 		s = "\"هو الذی\" لا \"الله\" به";
-		s = "\"سلام علی\"";
-		s = "سلام علی";
-		s = "عنی اذا";
 		s = "-حسن";
+		s = "عنی اذا";
+		s = "\"سلام علي\"";
+		s = "سلام علی";
 		s = "-حسن غضب";
-		s = s.replaceAll("\\-", "!");
 		System.out.println(RegexSeachUtils.enrichPattern(s, false));
 		System.out.println("Initialize AdvancedTextSearch" + new Date());
 		AdvancedTextSearch ats = new AdvancedTextSearch(QuranText.getSimpleTextInstance(), new SimpleSearchHighlighter(),

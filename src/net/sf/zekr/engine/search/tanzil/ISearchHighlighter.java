@@ -9,9 +9,5 @@
 package net.sf.zekr.engine.search.tanzil;
 
 public interface ISearchHighlighter {
-
-	public String highlight(String text);
-
-	public String highlight(String text, String matchedQueryPart);
-
+	public String highlight(String text, String pattern);
 }
