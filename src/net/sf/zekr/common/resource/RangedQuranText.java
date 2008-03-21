@@ -14,7 +14,7 @@ import net.sf.zekr.engine.translation.TranslationData;
 /**
  * @author Mohsen Saboorian
  */
-public class RangedQuranText implements IRangedQuranText {
+public class RangedQuranText extends AbstractRangedQuranText {
 	private IQuranText quran;
 	private IQuranLocation loc;
 	private SearchScope searchScope;

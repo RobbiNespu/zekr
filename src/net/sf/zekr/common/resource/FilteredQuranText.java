@@ -18,7 +18,7 @@ import net.sf.zekr.engine.translation.TranslationData;
 /**
  * @author Mohsen Saboorian
  */
-public class FilteredQuranText implements IQuranText {
+public class FilteredQuranText extends AbstractQuranText {
 	private static FilteredQuranText thisInstance;
 	private static QuranText quranText;
 	private IQuranFilter filter = new QuranFilter();

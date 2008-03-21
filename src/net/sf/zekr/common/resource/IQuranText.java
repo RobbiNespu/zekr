@@ -20,8 +20,7 @@ import net.sf.zekr.engine.translation.TranslationData;
 public interface IQuranText {
 
 	/**
-	 * Returns the requested aya.<br>
-	 * <b>Note:</b> no range check is performed.
+	 * Returns the requested aya.
 	 * 
 	 * @param suraNum the sura number <b>counted from 1</b>
 	 * @param ayaNum the aya number <b>counted from 1</b>
@@ -36,7 +35,16 @@ public interface IQuranText {
 	 * @return returns the requested aya
 	 */
 	public String get(int absoluteAyaNum);
-	
+
+	/**
+	 * Returns the requested aya.
+	 * 
+	 * @param quranLocation sura-aya location of the Quran text to be retrieved
+	 * @return returns requested Quran location
+	 * @return
+	 */
+	public String get(IQuranLocation quranLocation);
+
 	/**
 	 * Returns the requested sura as an array of strings.<br>
 	 * <b>Note:</b> no range check is performed.
@@ -66,4 +74,5 @@ public interface IQuranText {
 	 * @return Bismillah part
 	 */
 	public String getBismillah(int suraNum);
+
 }

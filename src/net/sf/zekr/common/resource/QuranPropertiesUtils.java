@@ -21,6 +21,10 @@ import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.search.Range;
 
+// TODO: all the caching items on this class should be gradually moved 
+// to a normal class which is instanciated and hold in ApplicationConfig.
+// Only a single instance of this class is created then.
+
 /**
  * This class tightly depends on the class <code>QuranProperties</code>. Almost all public methods on this
  * class cache the static results once called, and if called more, read it from the cache.<br>
@@ -39,6 +43,7 @@ public class QuranPropertiesUtils {
 	private static List[] juzInside = new ArrayList[114];
 	private static List[] sajdaInside = new ArrayList[114];
 	private static int[] aggrAyaCount = new int[114];
+	private static int[] revelOrder = new int[QURAN_AYA_COUNT];
 	private static IQuranLocation[] absoluteLocation = new QuranLocation[QURAN_AYA_COUNT];
 
 	public static final int getSajdaType(String sajda) {
@@ -355,6 +360,10 @@ public class QuranPropertiesUtils {
 	public static void updateLocalizedSuraNames() {
 		QuranProperties props = QuranProperties.getInstance();
 		props.quranPropsReader.updateLocalizedSuraNames();
+	}
+	
+	public static int getRevelationOrder(IQuranLocation location) {
+		return 0;
 	}
 
 	/**

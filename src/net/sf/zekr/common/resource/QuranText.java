@@ -27,7 +27,7 @@ import net.sf.zekr.engine.translation.TranslationData;
  * 
  * @author Mohsen Saboorian
  */
-public class QuranText implements IQuranText {
+public class QuranText extends AbstractQuranText {
 	private static QuranText simpleInstance = null;
 	private static QuranText detailedInstance = null;
 
