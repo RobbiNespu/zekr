@@ -3,22 +3,27 @@
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
- * Author:         Mohsen Saboorian
+ * Author:         Hamid Zarrabi-Zadeh, Mohsen Saboorian
  * Start Date:     Mar 17, 2008
  */
 package net.sf.zekr.engine.search.tanzil;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author Hamid Zarrabi-Zadeh
+ * @author Mohsen Saboorian
+ */
 public class RegexSeachUtils extends LetterConstants {
 
 	// matching rulles
-	public static Map matchingRules = new HashMap();
+	public static Map matchingRules = new LinkedHashMap();
 	static {
 		matchingRules.put("$HAMZA_SHAPE", "$HAMZA_SHAPE");
 		matchingRules.put("$ALEF_MAKSURA", "YY");
@@ -33,7 +38,7 @@ public class RegexSeachUtils extends LetterConstants {
 	}
 
 	// wildcards
-	public static Map wildcardRegs = new HashMap();
+	public static Map wildcardRegs = new LinkedHashMap();
 	static {
 		wildcardRegs.put("\\.", "P");
 		wildcardRegs.put("\\*", "S");
@@ -41,20 +46,25 @@ public class RegexSeachUtils extends LetterConstants {
 	}
 
 	// wildcards
-	public static Map wildcards = new HashMap();
+	public static Map wildcards = new LinkedHashMap();
 	static {
 		wildcards.put("S", "($LETTER|$HARAKA)*");
 		wildcards.put("Q", "$LETTER?");
 		wildcards.put("P", "$LETTER");
 	}
 
-	public static Map preProcess = new HashMap();
+	public static Map preProcess = new LinkedHashMap();
 	static {
 		preProcess.put("[$FARSI_YEH$YEH_BARREE]", "$YEH");
 		preProcess.put("[$FARSI_KEHEH$SWASH_KAF]", "$KAF");
 	}
 
-	// translate a symbolic regExp
+	/**
+	 * Translate a symbolic regular expression into a legal one.
+	 * 
+	 * @param str symbolic regex
+	 * @return legal regex
+	 */
 	static final String regTrans(String str) {
 		StringBuffer ret = new StringBuffer();
 		Pattern regex = Pattern.compile("\\$([A-Z_]+)");
@@ -104,7 +114,8 @@ public class RegexSeachUtils extends LetterConstants {
 		pattern = pattern.replaceAll("\\s+", " ");
 		while (!pattern.equals(prev)) {
 			prev = pattern;
-			pattern = pattern.replaceAll("^(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
+			// pattern = pattern.replaceAll("^(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
+			pattern = pattern.replaceAll("([^\"]*)(\"[^\"]*\")*([^\"\\s]*) ", "$1$3+"); // ^ removed from the first of pattern to be java 1.4.2 compatible
 		}
 
 		pattern = pattern.replaceAll("_", " ");
@@ -142,7 +153,7 @@ public class RegexSeachUtils extends LetterConstants {
 		// System.out.println(handleSpaces("sadsa \"asdfasdf asdf asdf\"sdf as \"sdf sdf\" "));
 		// System.out.println(regTrans("$ALEF$ALEF_MAKSURA$ALEF_WITH_MADDA_ABOVE$ALEF_WITH_HAMZA_ABOVE$ALEF_WITH_HAMZA_BELOW$ALEF_WASLA"));
 		// System.out.println(enrichPattern("salam?", false));
-		enrichPattern("\"سلام علی\"", false);
+		System.out.println(enrichPattern("سلام علی", false));
 		// System.out.println("salam azizam".replaceAll("(.)", "'$1'"));
 	}
 }

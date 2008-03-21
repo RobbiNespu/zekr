@@ -11,9 +11,10 @@ package net.sf.zekr.engine.search.tanzil;
 import java.util.Comparator;
 
 import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.engine.search.SearchResultItem;
 
-public abstract class AbstractAyaComparator implements Comparator {
-	abstract public int compare(IQuranLocation ql1, IQuranLocation ql2);
+public abstract class SearchResultComparator implements Comparator {
+	abstract public int compare(SearchResultItem sri1, SearchResultItem sri2);
 
 	public int compare(Object o1, Object o2) {
 		return compare((IQuranLocation) o1, (IQuranLocation) o2);

@@ -8,13 +8,13 @@
  */
 package net.sf.zekr.engine.search.tanzil;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class LetterConstants {
-	public static Map UChars = new HashMap();
+	public static Map UChars = new LinkedHashMap();
 	static {
 		// letters used in Quran text
 		UChars.put("HAMZA", new Character('\u0621'));
@@ -97,7 +97,7 @@ public class LetterConstants {
 	}
 
 	// letter groups
-	public static Map UGroups = new HashMap();
+	public static Map UGroups = new LinkedHashMap();
 	static {
 		UGroups.put("LETTER", "[$HAMZA-$YEH]");
 		UGroups.put("HARAKA", "[$FATHATAN-$MADDA$SUPERSCRIPT_ALEF]");

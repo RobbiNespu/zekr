@@ -8,31 +8,17 @@
  */
 package net.sf.zekr.engine.search.tanzil;
 
-import java.io.IOException;
-
-import net.sf.zekr.common.resource.IQuranLocation;
-import net.sf.zekr.common.resource.IQuranText;
-import net.sf.zekr.common.resource.QuranText;
+import net.sf.zekr.engine.search.SearchResultItem;
 
 /**
  * This comparator compares ayas based on their length (including the diacritics and signs).
  * 
  * @author Mohsen Saboorian
  */
-public class AyaLengthComparator extends AbstractAyaComparator {
-	private IQuranText quranText;
-
-	public AyaLengthComparator() throws IOException {
-		this(QuranText.getSimpleTextInstance());
-	}
-
-	public AyaLengthComparator(IQuranText quranText) {
-		this.quranText = quranText;
-	}
-
-	public int compare(IQuranLocation ql1, IQuranLocation ql2) {
-		int l1 = quranText.get(ql1).length();
-		int l2 = quranText.get(ql2).length();
+public class AyaLengthComparator extends SearchResultComparator {
+	public int compare(SearchResultItem sri1, SearchResultItem sri2) {
+		int l1 = sri1.ayaText.length();
+		int l2 = sri2.ayaText.length();
 		return l1 < l2 ? -1 : (l1 == l2 ? 0 : 1);
 	}
 }

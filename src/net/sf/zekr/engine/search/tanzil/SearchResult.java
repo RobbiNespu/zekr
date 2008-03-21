@@ -3,70 +3,32 @@
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
- * Author:         Mohsen Saboorian
+ * Author:         Hamid Zarrabi-Zadeh, Mohsen Saboorian
  * Start Date:     Mar 20, 2008
  */
 package net.sf.zekr.engine.search.tanzil;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.engine.search.AbstractSearchResult;
 
-public class SearchResult {
-	private int resultPerPage;
-	private int totalMatch;
+/**
+ * Instances of this class hold search results including number of matched ayas, number of total matched
+ * elements and highlighted matched ayas.
+ * <p />
+ * This class is <code>Iterable</code> (in a Java 1.4.2 manner).
+ * 
+ * @author Hamid Zarrabi-Zadeh
+ * @author Mohsen Saboorian
+ */
+public class SearchResult extends AbstractSearchResult {
 
-	/**
-	 * a list of matched Quran locations
-	 */
-	public List results;
-	private int pageNum;
-
-	public SearchResult(List results, int totalMatch, AbstractAyaComparator ayaComparator) {
-		this.results = results;
-		this.totalMatch = totalMatch;
-		this.resultPerPage = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");
-		this.pageNum = 0;
-
-		// sort ayas based on result sorter
-		if (ayaComparator != null)
-			Collections.sort(results, ayaComparator);
-
+	public SearchResult(List results, String clause, String rawQuery, int totalMatch, SearchResultComparator ayaComparator) {
+		super(results, clause, rawQuery, totalMatch, ayaComparator);
 	}
 
-	public SearchResult(List res, int total) {
-		this(res, total, null);
+	SearchResult(List res, int total) {
+		this(res, null, null, total, null);
 	}
 
-	/**
-	 * Retrieves the specified page of search results.
-	 * 
-	 * @param page page number (zero-based)
-	 * @return requested page
-	 * @throws NoSuchElementException if no such page exists
-	 */
-	public List getPage(int page) {
-		if (page * resultPerPage > results.size())
-			throw new NoSuchElementException("No such page: " + page);
-
-		if ((page + 1) * resultPerPage <= results.size())
-			return results.subList(page * resultPerPage, (page + 1) * resultPerPage);
-
-		return results.subList(page * resultPerPage, results.size());
-
-	}
-
-	public int getResultCount() {
-		return results.size();
-	}
-
-	public int getResultPageCount() {
-		return (int) Math.ceil((double) results.size() / resultPerPage);
-	}
-
-	public int getTotalMatch() {
-		return totalMatch;
-	}
 }
