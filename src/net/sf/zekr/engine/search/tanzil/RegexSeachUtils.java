@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  */
 public class RegexSeachUtils extends LetterConstants {
 
-	// matching rulles
+	// matching rules
 	public static Map matchingRules = new LinkedHashMap();
 	static {
 		matchingRules.put("$HAMZA_SHAPE", "$HAMZA_SHAPE");

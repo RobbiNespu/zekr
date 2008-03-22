@@ -39,6 +39,17 @@ public class SearchScope {
 		return list.toString();
 	}
 
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof SearchScope) {
+			SearchScope ss = (SearchScope) obj;
+			ss.list.equals(this.list);
+		}
+		return false;
+	}
+
 	/**
 	 * Tests whether an aya of a sura conforms to the search scope constraints.
 	 * 

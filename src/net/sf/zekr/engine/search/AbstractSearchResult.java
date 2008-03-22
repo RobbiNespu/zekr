@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.engine.search.tanzil.SearchResultComparator;
+import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
 public class AbstractSearchResult {
 	protected int resultPerPage;
@@ -50,13 +50,13 @@ public class AbstractSearchResult {
 	/**
 	 * @param results
 	 * @param clase clause in the text which are either matched or excluded. This string holds a list of items
-	 *           which are encountered by the exploded query and are not neccessarily present in
+	 *           which are encountered by the exploded query and are not necessarily present in
 	 *           <code>results</code> list.
 	 * @param totalMatch
 	 * @param ayaComparator
 	 */
 	public AbstractSearchResult(List results, String clause, String rawQuery, int totalMatch,
-			SearchResultComparator ayaComparator) {
+			AbstractSearchResultComparator ayaComparator) {
 		this.results = results;
 		this.totalMatch = totalMatch;
 		this.resultPerPage = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");

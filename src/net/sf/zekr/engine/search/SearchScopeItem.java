@@ -25,7 +25,7 @@ public class SearchScopeItem {
 	private static final char DELIM = ',';
 
 	/**
-	 * Creates a new scope item from 1-1 to 1-1, inclusize.
+	 * Creates a new scope item from 1-1 to 1-1, inclusive.
 	 */
 	public SearchScopeItem() {
 		this(1, 1, 1, 1, false);
@@ -74,7 +74,7 @@ public class SearchScopeItem {
 	 */
 	public boolean equals(Object obj) {
 		if (obj instanceof SearchScopeItem) {
-			return _equals((SearchScopeItem) obj);
+			return equals((SearchScopeItem) obj);
 		} else {
 			return super.equals(obj);
 		}
@@ -87,7 +87,7 @@ public class SearchScopeItem {
 	 *           sura number
 	 * @param aya
 	 *           aya number
-	 * @return <code>true</code> if this search scope item explicitely includes the aya, <code>false</code>
+	 * @return <code>true</code> if this search scope item explicitly includes the aya, <code>false</code>
 	 *         otherwise.
 	 */
 	public final boolean includes(int sura, int aya) {
@@ -105,7 +105,7 @@ public class SearchScopeItem {
 	 *           sura number
 	 * @param aya
 	 *           aya number
-	 * @return <code>true</code> if this search scope item excplicitely excludes the aya, <code>false</code>
+	 * @return <code>true</code> if this search scope item explicitly excludes the aya, <code>false</code>
 	 *         otherwise.
 	 */
 	public final boolean excludes(int sura, int aya) {
@@ -116,7 +116,7 @@ public class SearchScopeItem {
 		return exclusive;
 	}
 
-	private final boolean _equals(SearchScopeItem item) {
+	private final boolean equals(SearchScopeItem item) {
 		return item.suraFrom == suraFrom && item.ayaFrom == ayaFrom && item.suraTo == suraTo && item.ayaTo == ayaTo
 				&& item.exclusive == exclusive;
 	}
@@ -137,7 +137,7 @@ public class SearchScopeItem {
 
 	/**
 	 * Creates a SearchScopeItem from the given string <code>scopeItemStr</code>. A string representation of a search
-	 * scoope item is of the form <tt>[-]sura_from,aya_from,sura_to,aya_to</tt>. "<tt>-</tt>" is used to specify that
+	 * scope item is of the form <tt>[-]sura_from,aya_from,sura_to,aya_to</tt>. "<tt>-</tt>" is used to specify that
 	 * this search scope is <b>exclusive</b>.
 	 * 
 	 * @param scopeItemStr

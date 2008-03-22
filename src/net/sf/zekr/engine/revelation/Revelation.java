@@ -13,8 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * This class contains RevelationData (revelation order data) loaded from *.order.zip files from
- * <tt>res/text/metadata</tt>.
+ * This class contains RevelationData loaded from *.revel.zip files from <tt>res/text/metadata</tt>.
  * 
  * @author Mohsen Saboorian
  */

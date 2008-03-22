@@ -299,6 +299,9 @@ public class OptionsForm {
 			props.setProperty("quran.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
 			EventUtils.sendEvent(EventProtocol.UPDATE_SURA_NAMES);
 		}
+		//		else if (fromOk && pressOkToApply) {
+		//			EventUtils.sendEvent(EventProtocol.UPDATE_SURA_NAMES);
+		//		}
 
 		if (fromOk && pressOkToApply) {
 			props.setProperty("lang.default", selectedLangPack.id);
@@ -411,8 +414,9 @@ public class OptionsForm {
 
 		new Label(comp, SWT.NONE).setText("Show sura names in :");
 
-		String[] suraNameKey = new String[] { "Arabic", "Translation (if available)", "Transliteration (if available)",
-				"English translation", "English transliteration" };
+		// TODO: move to lang pack
+		String[] suraNameKey = new String[] { meaning("ARABIC"), meaning("T9N"), meaning("T13N"), meaning("EN_T9N"),
+				meaning("EN_T13N") };
 		suraNameMode = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
 		suraNameMode.setItems(suraNameKey);
 		int modeSelect = 0;

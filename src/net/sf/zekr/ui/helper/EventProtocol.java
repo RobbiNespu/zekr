@@ -47,8 +47,13 @@ public interface EventProtocol {
 	int CUSTOM_ZEKR_EVENT = -7;
 
 	/**
-	 * Event to force a modal waiting form to close. 
+	 * Event to force a modal waiting form to close.
 	 */
 	String END_WAITING = "END_WAITING";
+
+	/**
+	 * Event to force updating sura name combobox.
+	 */
+	String UPDATE_SURA_NAMES = "UPDATE_SURA_NAMES";
 
 }

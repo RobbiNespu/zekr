@@ -25,14 +25,11 @@ import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchResultItem;
 import net.sf.zekr.engine.search.SearchScope;
+import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
 import org.apache.commons.lang.StringUtils;
 
 class ZeroHighlighter implements ISearchHighlighter {
-	public String highlight(String text) {
-		return text;
-	}
-
 	public String highlight(String text, String matchedQueryPart) {
 		return text;
 	}
@@ -56,30 +53,17 @@ public class AdvancedTextSearch {
 	private ISearchHighlighter highlighter;
 	private SearchScope searchScope;
 	private IQuranText quranText;
-	private ISearchScorer scorer;
+	private ISearchScorer searchScorer;
 
 	private List locations;
-	private SearchResultComparator ayaComparator;
+	private AbstractSearchResultComparator searchResultComparator;
 
-	public AdvancedTextSearch(IQuranText quranText, ISearchHighlighter highlighter) {
-		this(quranText, highlighter, null, null, null);
+	public SearchScope getSearchScope() {
+		return searchScope;
 	}
 
-	public AdvancedTextSearch(IQuranText quranText, SearchScope searchScope) {
-		this(quranText, new ZeroHighlighter(), searchScope, null, null);
-	}
-
-	public AdvancedTextSearch(IQuranText quranText, ISearchHighlighter highlighter, SearchScope searchScope,
-			SearchResultComparator ayaComparator, ISearchScorer scorer) {
-		this.highlighter = highlighter;
+	public void setSearchScope(SearchScope searchScope) {
 		this.searchScope = searchScope;
-		this.quranText = quranText;
-		this.ayaComparator = ayaComparator;
-		this.scorer = scorer;
-
-		if (this.scorer == null)
-			this.scorer = new ZeroScorer();
-
 		logger.debug("Initializing searchable locations.");
 		IQuranLocation[] locs = QuranPropertiesUtils.getLocations();
 		if (searchScope != null) {
@@ -91,6 +75,22 @@ public class AdvancedTextSearch {
 			locations = Arrays.asList(locs);
 		}
 		logger.debug("Searching through '" + locations.size() + "' ayas.");
+	}
+
+	public void setSearchResultComparator(AbstractSearchResultComparator searchResultComparator) {
+		this.searchResultComparator = searchResultComparator;
+	}
+
+	public void setSearchScorer(ISearchScorer searchScorer) {
+		this.searchScorer = searchScorer;
+	}
+
+	public AdvancedTextSearch(IQuranText quranText, ISearchHighlighter highlighter, ISearchScorer searchScorer) {
+		this.highlighter = highlighter;
+		this.quranText = quranText;
+		this.searchScorer = new ZeroScorer();
+		this.highlighter = new ZeroHighlighter();
+		setSearchScorer(searchScorer);
 	}
 
 	public SearchResult search(String rawQuery) {
@@ -120,7 +120,7 @@ public class AdvancedTextSearch {
 		for (int i = 0; i < resultItems.size(); i++) {
 			SearchResultItem sri = (SearchResultItem) resultItems.get(i);
 			for (int j = 0; j < patterns.length; j++) {
-				sri.score += scorer.score(sri);
+				sri.score += searchScorer.score(sri);
 			}
 			sri.score /= (double) patterns.length;
 		}
@@ -133,7 +133,7 @@ public class AdvancedTextSearch {
 		}
 
 		return new SearchResult(res.getResults(), CollectionUtils.toString(clauses, ","), rawQuery, res.getTotalMatch(),
-				ayaComparator);
+				searchResultComparator);
 	}
 
 	private SearchResult filterBucket(List locations, List clauses, String pattern, boolean lastTime) {
@@ -184,13 +184,13 @@ public class AdvancedTextSearch {
 		s = "-حسن";
 		s = "سلام علی";
 		s = "\"سلام علي\"";
-		s = "-حسن غضب";
 		s = "\"هو الذی\" لا \"الله\" به";
+		s = "-حسن غضب";
 		s = "عنی اذا";
 		System.out.println(RegexSeachUtils.enrichPattern(s, false));
 		System.out.println("Initialize AdvancedTextSearch" + new Date());
 		AdvancedTextSearch ats = new AdvancedTextSearch(QuranText.getSimpleTextInstance(), new SimpleSearchHighlighter(),
-				null, null, new DefaultSearchScorer());
+				new DefaultSearchScorer());
 		System.out.println(s);
 		System.out.println("Before search: " + new Date());
 		SearchResult res = ats.search(s);
@@ -201,5 +201,4 @@ public class AdvancedTextSearch {
 			System.out.println(sri);
 		}
 	}
-
 }

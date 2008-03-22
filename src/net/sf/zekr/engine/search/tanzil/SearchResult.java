@@ -11,19 +11,21 @@ package net.sf.zekr.engine.search.tanzil;
 import java.util.List;
 
 import net.sf.zekr.engine.search.AbstractSearchResult;
+import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
 /**
  * Instances of this class hold search results including number of matched ayas, number of total matched
  * elements and highlighted matched ayas.
  * <p />
- * This class is <code>Iterable</code> (in a Java 1.4.2 manner).
+ * This class actually implements <code>Iterable</code> but this interface is absent in Java 1.4.2.
  * 
  * @author Hamid Zarrabi-Zadeh
  * @author Mohsen Saboorian
  */
 public class SearchResult extends AbstractSearchResult {
 
-	public SearchResult(List results, String clause, String rawQuery, int totalMatch, SearchResultComparator ayaComparator) {
+	public SearchResult(List results, String clause, String rawQuery, int totalMatch,
+			AbstractSearchResultComparator ayaComparator) {
 		super(results, clause, rawQuery, totalMatch, ayaComparator);
 	}
 

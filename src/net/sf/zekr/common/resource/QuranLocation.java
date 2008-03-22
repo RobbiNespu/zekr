@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * This data structure is the primitive structure of addressing somewhere in the Quran. Addressing is possible
  * by just having aya number and sura number. <br>
- * Note that this class does not provide any range checkhing or explicit exception handling for performance
+ * Note that this class does not provide any range checking or explicit exception handling for performance
  * purposes.<br>
  * Both sura and aya numbers are counted from 1.
  * 
@@ -154,5 +154,9 @@ public class QuranLocation implements IQuranLocation {
 		if (sura < l.getSura() || (sura == l.getSura() && aya < l.getAya()))
 			return -1;
 		return 0;
+	}
+
+	public int getAbsoluteAya() {
+		return QuranPropertiesUtils.getAggregativeAyaCount(sura) + aya;
 	}
 }

@@ -102,6 +102,10 @@ public class Logger {
 		logger.error(msg);
 	}
 
+	final public void error(Object msg, Throwable th) {
+		logger.error(msg, th);
+	}
+
 	final public void fatal(Object msg) {
 		logger.fatal(msg);
 	}

@@ -13,11 +13,11 @@ import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.search.AbstractSearchResult;
-import net.sf.zekr.engine.search.tanzil.SearchResultComparator;
+import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
 public class AdvancedSearchResult extends AbstractSearchResult {
 	public AdvancedSearchResult(List results, String clause, String rawQuery, int totalMatch,
-			SearchResultComparator ayaComparator) {
+			AbstractSearchResultComparator ayaComparator) {
 		super(results, clause, rawQuery, totalMatch, ayaComparator);
 	}
 }

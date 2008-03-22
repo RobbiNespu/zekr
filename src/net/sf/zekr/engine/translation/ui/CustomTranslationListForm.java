@@ -15,10 +15,8 @@ import java.util.Iterator;
 import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.engine.language.LanguageEngine;
-import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.translation.TranslationData;
+import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.MessageBoxUtils;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
@@ -37,25 +35,19 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 
 /**
+ * Customize multi-translation layout.
+ * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
-public class CustomTranslationListForm {
+public class CustomTranslationListForm extends BaseForm {
 	public static final String FORM_ID = "CONFIG_CUSTOM_TRANS";
-	private static final LanguageEngine lang = LanguageEngine.getInstance();
-	private static final ResourceManager resource = ResourceManager.getInstance();
 	private static final ApplicationConfig config = ApplicationConfig.getInstance();
-	private final static Logger logger = Logger.getLogger(CustomTranslationListForm.class);
-	private Shell shell;
-	private Shell parent;
-	private Display display;
 	private Button okBut;
 	private Button cancelBut;
 	private List sourceList, targetList;
@@ -66,6 +58,7 @@ public class CustomTranslationListForm {
 
 	private java.util.List sourceData = new ArrayList();
 	private java.util.List targetData = new ArrayList();
+	private boolean okayed = false;
 
 	public CustomTranslationListForm(Shell parent) {
 		this.parent = parent;
@@ -330,6 +323,7 @@ public class CustomTranslationListForm {
 
 	private void apply() {
 		try {
+			okayed = true;
 			config.setCustomTranslationList(targetData);
 			if (config.getViewLayout().equals(ApplicationConfig.MULTI_TRANS_LAYOUT))
 				EventUtils.sendEvent(EventProtocol.REFRESH_VIEW);
@@ -371,7 +365,11 @@ public class CustomTranslationListForm {
 		return lang.getMeaningById(FORM_ID, key);
 	}
 
-	public void open() {
+	public boolean isOkayed() {
+		return okayed;
+	}
+
+	public void show() {
 		shell.pack();
 		if (shell.getSize().y < 250)
 			shell.setSize(shell.getSize().x, 250);

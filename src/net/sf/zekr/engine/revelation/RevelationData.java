@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,14 +24,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.resource.QuranPropertiesUtils;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.util.CryptoUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.translation.TranslationData;
 
-public class RevelationData {
-	private static final Logger logger = Logger.getLogger(TranslationData.class);
+public class RevelationData implements Comparator {
+	private final Logger logger = Logger.getLogger(this.getClass());
 	public static final int SURA_MODE = 1;
 	public static final int AYA_MODE = 2;
 
@@ -101,6 +101,7 @@ public class RevelationData {
 			loadAndVerify();
 			Date date2 = new Date();
 			logger.debug("Loading revelation pack \"" + id + "\" took " + (date2.getTime() - date1.getTime()) + " ms.");
+			loaded = true;
 		} else {
 			logger.debug("Revelation pack already loaded: " + id);
 		}
@@ -113,7 +114,7 @@ public class RevelationData {
 		try {
 			verified = CryptoUtils.verify(textBuf, signature);
 		} catch (GeneralSecurityException e) {
-			logger.error("Error occurred during revelation order verification: ", e);
+			logger.error("Error occurred during revelation pack verification: ", e);
 		}
 		if (verified)
 			logger.debug("Revelation pack is valid");
@@ -125,9 +126,9 @@ public class RevelationData {
 	private void loadAndVerify() throws IOException {
 		ZipFile zf = null;
 		try {
-			logger.info("Load revelation order pack: " + this);
+			logger.info("Load revelation data pack: " + this);
 			zf = new ZipFile(archiveFile);
-			ZipEntry ze = zf.getEntry(id + ".order.txt");
+			ZipEntry ze = zf.getEntry(id + ".revel.txt");
 			if (ze == null) {
 				logger.error("File load failed. No proper entry found in \"" + archiveFile.getName() + "\".");
 				return;
@@ -135,7 +136,7 @@ public class RevelationData {
 
 			byte[] textBuf = new byte[(int) ze.getSize()];
 			if (!verify(zf.getInputStream(ze), textBuf))
-				logger.warn("Unauthorized revelation order pack: " + this);
+				logger.warn("Unauthorized revelation data pack: " + this);
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(textBuf)));
 			for (int i = 0; i < orders.length; i++) {
@@ -143,7 +144,7 @@ public class RevelationData {
 				orders[i] = Integer.parseInt(order.trim());
 			}
 			br.close();
-			logger.log("Revelation order pack loaded successfully: " + this);
+			logger.log("Revelation data pack loaded successfully: " + this);
 		} finally {
 			try {
 				zf.close();
@@ -151,5 +152,19 @@ public class RevelationData {
 				// do nothing
 			}
 		}
+	}
+
+	public int compare(Object o1, Object o2) {
+		IQuranLocation loc1 = (IQuranLocation) o1;
+		IQuranLocation loc2 = (IQuranLocation) o2;
+		int i1, i2;
+		if (mode == SURA_MODE) {
+			i1 = loc1.getSura();
+			i2 = loc2.getSura();
+		} else {
+			i1 = loc1.getAbsoluteAya() - 1;
+			i2 = loc2.getAbsoluteAya() - 1;
+		}
+		return orders[i1] < orders[i2] ? -1 : (orders[i1] == orders[i2] ? 0 : 1);
 	}
 }

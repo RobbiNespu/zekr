@@ -20,6 +20,13 @@ public interface IQuranLocation extends Comparable {
 	public String getSuraName();
 
 	/**
+	 * Counts the aya number from the start of the Quran. The value can be a number between 1 to 6236.
+	 * 
+	 * @return the absolute aya number counted from the start of the Quran.
+	 */
+	public int getAbsoluteAya();
+
+	/**
 	 * Returns the next location (sura-aya pair).
 	 * 
 	 * @return the next Quran location, or <code>null</code> if there is nothing

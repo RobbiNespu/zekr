@@ -11,6 +11,7 @@ package net.sf.zekr;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import net.sf.zekr.common.resource.QuranLocationTest;
 import net.sf.zekr.common.resource.QuranPropertiesUtilsTest;
 import net.sf.zekr.common.resource.RangedQuranTextTest;
 import net.sf.zekr.engine.search.SearchScopeItemTest;
@@ -31,6 +32,7 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(FormUtilsTest.class));
 		suite.addTest(new TestSuite(DefaultHttpServerTest.class));
 		suite.addTest(new TestSuite(QuranPropertiesUtilsTest.class));
+		suite.addTest(new TestSuite(QuranLocationTest.class));
 		return suite;
 	}
 

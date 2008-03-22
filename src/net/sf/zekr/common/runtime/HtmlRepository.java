@@ -213,41 +213,6 @@ public class HtmlRepository {
 		}
 	}
 
-//	public static String getSearchQuranUri(SearchResult searchResult, int pageNo)
-//			throws HtmlGenerationException {
-//		String fileName = searchResult.getRawQuery().hashCode() + "_" + pageNo + ".html";
-//		File file = new File(Naming.getSearchCacheDir() + File.separator + fileName);
-//		logger.info("Create search file: " + file + " for keyword: \"" + searcher.getRawQuery() + "\".");
-//		OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
-//				GlobalConfig.OUT_HTML_ENCODING);
-//
-//		ITransformer tx = new AdvancedQuranSearchResultTemplate(searcher, pageNo);
-//		osw.write(tx.transform());
-//		osw.close();
-//		return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
-//	} catch (Exception e) {
-//		throw new HtmlGenerationException(e);
-//	}
-
-//		try {
-//			String fileName = keyword.hashCode() + ".html";
-//			File file = new File(Naming.getSearchCacheDir() + File.separator + fileName);
-//			// if (!file.exists() || file.length() == 0) {
-//			logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
-//			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
-//					GlobalConfig.OUT_HTML_ENCODING);
-//
-//			RangedQuranText rqt = new RangedQuranText(FilteredQuranText.getSimpleTextInstance(), searchScope);
-//			ITransformer tx = new QuranSearchResultTemplate(rqt, keyword, matchDiac);
-//			osw.write(tx.transform());
-//			osw.close();
-//			// }
-//			return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
-//		} catch (Exception e) {
-//			throw new HtmlGenerationException(e);
-//		}
-//	}
-
 /*	public static String getSearchQuranUri(String keyword, boolean matchDiac, SearchScope searchScope)
 			throws HtmlGenerationException {
 		try {

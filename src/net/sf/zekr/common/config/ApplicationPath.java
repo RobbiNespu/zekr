@@ -34,6 +34,8 @@ public class ApplicationPath {
 	public static final String QURAN_INDEX_DIR = rm.getString("text.quran.indexDir");
 	public static final String TRANSLATION_DIR = rm.getString("text.trans.baseDir");
 	public static final String TRANSLATION_DESC = rm.getString("text.trans.desc");
+	public static final String REVELATION_DIR = rm.getString("text.revel.baseDir");
+	public static final String REVELATION_DESC = rm.getString("text.revel.desc");
 
 	/**
 	 * The directory relative path, containing language packs and language settings.
@@ -61,4 +63,6 @@ public class ApplicationPath {
 
 	/** Velocity Property Files */
 	public static final String VELOCITY_CONFIG = rm.getString("config.template");
+
+
 }

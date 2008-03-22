@@ -233,6 +233,8 @@ public class QuranFormMenuFactory {
 						quranViewType.setEnabled(true);
 						transViewType.setEnabled(true);
 					} else if (data.equals("customMixed") && multiTrans.getSelection()) {
+						if (config.getTranslation().getCustomGroup().size() == 0)
+							customizeMultiTrans();
 						config.setViewLayout(ApplicationConfig.MULTI_TRANS_LAYOUT);
 						quranViewType.setEnabled(false);
 						transViewType.setEnabled(false);
@@ -351,7 +353,7 @@ public class QuranFormMenuFactory {
 				"icon.menu.configTransList");
 		customTransList.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				new CustomTranslationListForm(shell).open();
+				customizeMultiTrans();
 			}
 		});
 
@@ -637,6 +639,13 @@ public class QuranFormMenuFactory {
 		});
 
 		return menu;
+	}
+
+	private CustomTranslationListForm customizeMultiTrans() {
+		CustomTranslationListForm crlf = new CustomTranslationListForm(shell);
+		crlf.show();
+		crlf.loopEver();
+		return crlf;
 	}
 
 	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey) {

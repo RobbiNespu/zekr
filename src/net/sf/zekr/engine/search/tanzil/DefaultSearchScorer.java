@@ -21,7 +21,7 @@ import net.sf.zekr.engine.search.SearchResultItem;
  * 
  * @author Mohsen Saboorian
  */
-class DefaultSearchScorer implements ISearchScorer {
+public class DefaultSearchScorer implements ISearchScorer {
 	public double score(SearchResultItem sri) {
 		double score = 0;
 		List parts = sri.matchedParts;

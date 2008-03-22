@@ -6,14 +6,19 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Mar 19, 2008
  */
-package net.sf.zekr.engine.search.tanzil;
+package net.sf.zekr.engine.search.comparator;
 
 import java.util.Comparator;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.engine.search.SearchResultItem;
 
-public abstract class SearchResultComparator implements Comparator {
+/**
+ * The abstract search result comparator to be used for sorting search results.
+ * 
+ * @author Mohsen Saboorian
+ */
+public abstract class AbstractSearchResultComparator implements Comparator {
 	abstract public int compare(SearchResultItem sri1, SearchResultItem sri2);
 
 	public int compare(Object o1, Object o2) {

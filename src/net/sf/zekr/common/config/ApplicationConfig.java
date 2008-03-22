@@ -47,6 +47,8 @@ import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.revelation.Revelation;
+import net.sf.zekr.engine.revelation.RevelationData;
 import net.sf.zekr.engine.search.lucene.IndexCreator;
 import net.sf.zekr.engine.search.lucene.IndexingException;
 import net.sf.zekr.engine.server.HttpServer;
@@ -62,6 +64,7 @@ import net.sf.zekr.ui.helper.EventUtils;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
@@ -85,6 +88,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private Translation translation = new Translation();
 	private Theme theme = new Theme();
 	private Audio audio = new Audio();
+	private Revelation revelation = new Revelation();
 	private ApplicationRuntime runtime;
 	private QuranLocation quranLocation;
 	private PropertiesConfiguration props;
@@ -125,6 +129,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 		// EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Initializing Audio Data");
 		extractAudioProps();
+		extractRevelOrderInfo();
 
 		logger.info("Application configurations initialized.");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
@@ -451,7 +456,7 @@ public class ApplicationConfig implements ConfigNaming {
 					td.load();
 					customList.add(td);
 				} catch (TranslationException e) {
-					logger.warn("Invalida translation will be removed from the multi-translation list: " + e);
+					logger.warn("Invalid translation will be removed from the multi-translation list: " + e);
 					customs.remove(i);
 				}
 			}
@@ -652,6 +657,92 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 	}
 
+	private void extractRevelOrderInfo() {
+		String def = props.getString("revel.default");
+		logger.info("Default revelation package is: " + def);
+
+		File revelDir = new File(ApplicationPath.REVELATION_DIR);
+		if (!revelDir.exists())
+			return;
+
+		logger.info("Loading revelation data info files from: " + revelDir);
+		FileFilter filter = new FileFilter() { // accept zip files
+			public boolean accept(File pathname) {
+				if (pathname.getName().toLowerCase().endsWith(".revel.zip"))
+					return true;
+				return false;
+			}
+		};
+		File[] revelFiles = revelDir.listFiles(filter);
+
+		RevelationData rd;
+
+		for (int transIndex = 0; transIndex < revelFiles.length; transIndex++) {
+			ZipFile zipFile = null;
+			try {
+				rd = loadRevelationData(revelFiles[transIndex]);
+				if (rd == null)
+					continue;
+				revelation.add(rd);
+				if (rd.id.equals(def)) {
+					rd.load();
+					logger.info("Default revelation data is: " + rd);
+					revelation.setDefault(rd);
+				}
+			} catch (Exception e) {
+				logger.warn("Can not load revelation data pack \"" + zipFile
+						+ "\" properly because of the following exception:");
+				logger.log(e);
+			}
+		}
+	}
+
+	public RevelationData loadRevelationData(File revelZipFile) throws IOException, ConfigurationException {
+		ZipFile zipFile = new ZipFile(revelZipFile);
+		InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.REVELATION_DESC));
+		if (is == null) {
+			logger.warn("Will ignore invalid revelation data archive \"" + zipFile.getName() + "\".");
+			return null;
+		}
+		Reader reader = new InputStreamReader(is, "UTF-8");
+		PropertiesConfiguration pc = new PropertiesConfiguration();
+		pc.load(reader);
+		reader.close();
+		is.close();
+		zipFile.close();
+
+		RevelationData rd = new RevelationData();
+
+		int len;
+		if ("aya".equals(pc.getString("mode", "sura"))) {
+			len = QuranPropertiesUtils.QURAN_AYA_COUNT;
+			rd.mode = RevelationData.AYA_MODE;
+		} else {
+			len = 114;
+			rd.mode = RevelationData.SURA_MODE;
+		}
+		rd.orders = new int[len];
+		rd.years = new int[len];
+
+		rd.version = pc.getString("version");
+		rd.id = FilenameUtils.getBaseName(revelZipFile.getName());
+		rd.archiveFile = revelZipFile;
+		rd.delimiter = pc.getString("delimiter", "\n");
+		String sig = pc.getString("signature");
+		rd.signature = sig == null ? null : Base64.decode(sig);
+		Iterator nameIter = pc.getKeys("name");
+		for (Iterator iterator = nameIter; iterator.hasNext();) {
+			String key = (String) iterator.next();
+			rd.names.put(new String(key.substring(4)), pc.getString(key));
+		}
+
+		if (StringUtils.isEmpty(rd.id) || rd.names.size() == 0 || StringUtils.isEmpty(rd.version)) {
+			logger.warn("Invalid revelation data package: \"" + rd + "\".");
+			return null;
+		}
+		return rd;
+	}
+
 	/**
 	 * @return application language engine
 	 * @see net.sf.zekr.engine.Language#getInstance()
@@ -784,6 +875,10 @@ public class ApplicationConfig implements ConfigNaming {
 		return audio;
 	}
 
+	public Revelation getRevelation() {
+		return revelation;
+	}
+
 	public ApplicationRuntime getRuntime() {
 		return runtime;
 	}
@@ -904,7 +999,7 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	/**
-	 * This method is used to add a new translation during runtime. It loads translation medatada, validates
+	 * This method is used to add a new translation during runtime. It loads translation metadata, validates
 	 * translation and if everything is OK, adds it to the list of translations.
 	 * 
 	 * @param transFile a translation zip archive to be loaded
