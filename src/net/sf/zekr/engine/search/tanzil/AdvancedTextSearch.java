@@ -182,31 +182,6 @@ public class AdvancedTextSearch {
 				else
 					res.add((SearchResultItem) intermediateResult.get(i));
 			}
-			//			if (matcher.find()) {
-			//				if (!lastTime) {
-			//					if (!exclude) {
-			//						clauses.add(matcher.group());
-			//						res.add(loc);
-			//					}
-			//				} else {
-			//					List wholeClases = new ArrayList();
-			//					do {
-			//						String clause = getClause(line, matcher);
-			//						items++; // one item is already matched in previous matcher.find()
-			//						wholeClases.add(clause);
-			//					} while (matcher.find());
-			//					clauses.addAll(wholeClases);
-			//					total += items;
-			//					if (!exclude)
-			//						
-			//				}
-			//			} else if (exclude) {
-			//				if (!lastTime) {
-			//					res.add(loc);
-			//				} else {
-			//					res.add(new SearchResultItem(line, loc));
-			//				}
-			//			}
 		}
 		return res;
 	}
