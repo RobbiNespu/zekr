@@ -64,7 +64,6 @@ import net.sf.zekr.ui.helper.EventUtils;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
@@ -178,7 +177,7 @@ public class ApplicationConfig implements ConfigNaming {
 						+ GlobalConfig.ZEKR_VERSION);
 
 				String ver = props.getString("version");
-				if (!ver.startsWith("0.6")) { // config file is too old
+				if (!ver.startsWith("0.7")) { // config file is too old
 					logger.info("Previous version was too old: " + ver);
 					logger.info("Cannot migrate old settings. Will reset settings.");
 
@@ -662,13 +661,15 @@ public class ApplicationConfig implements ConfigNaming {
 		logger.info("Default revelation package is: " + def);
 
 		File revelDir = new File(ApplicationPath.REVELATION_DIR);
-		if (!revelDir.exists())
+		if (!revelDir.exists()) {
+			logger.debug("No revelation data pack found.");
 			return;
+		}
 
-		logger.info("Loading revelation data info files from: " + revelDir);
+		logger.info("Loading revelation data packs from: " + revelDir);
 		FileFilter filter = new FileFilter() { // accept zip files
 			public boolean accept(File pathname) {
-				if (pathname.getName().toLowerCase().endsWith(".revel.zip"))
+				if (pathname.getName().toLowerCase().endsWith(REVEL_PACK_EXT))
 					return true;
 				return false;
 			}
@@ -676,7 +677,6 @@ public class ApplicationConfig implements ConfigNaming {
 		File[] revelFiles = revelDir.listFiles(filter);
 
 		RevelationData rd;
-
 		for (int transIndex = 0; transIndex < revelFiles.length; transIndex++) {
 			ZipFile zipFile = null;
 			try {
@@ -725,7 +725,8 @@ public class ApplicationConfig implements ConfigNaming {
 		rd.years = new int[len];
 
 		rd.version = pc.getString("version");
-		rd.id = FilenameUtils.getBaseName(revelZipFile.getName());
+		String zipFileName = revelZipFile.getName();
+		rd.id = zipFileName.substring(0, zipFileName.length() - REVEL_PACK_EXT.length());
 		rd.archiveFile = revelZipFile;
 		rd.delimiter = pc.getString("delimiter", "\n");
 		String sig = pc.getString("signature");
@@ -995,7 +996,7 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	public boolean isAudioEnabled() {
-		return props.getBoolean("audio.enabled");
+		return props.getBoolean("audio.enable");
 	}
 
 	/**

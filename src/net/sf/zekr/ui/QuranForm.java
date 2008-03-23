@@ -92,7 +92,6 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.ToolTip;
 
 /**
  * Main Zekr form. This class contains all the Zekr main screen, except menus which are in
@@ -333,7 +332,8 @@ public class QuranForm extends BaseForm {
 		QuranPropertiesUtils.resetIndexedSuraNames();
 		suraSelector.setItems(QuranPropertiesUtils.getIndexedSuraNames());
 		suraSelector.select(i);
-		// suraSelector.layout();
+		suraMap = QuranPropertiesUtils.getSuraPropsMap(suraSelector.getSelectionIndex() + 1);
+		FormUtils.updateTable(suraTable, suraMap);
 	}
 
 	/**
@@ -896,7 +896,7 @@ public class QuranForm extends BaseForm {
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, false, false);
 		advancedSearchOrderCombo = new Combo(advancedSearchOptionsComp, SWT.READ_ONLY);
 		advancedSearchOrderCombo.setItems(new String[] { meaning("RELEVANCE"), meaning("NATURAL_ORDER"),
-				meaning("REVEL_ORDER"), meaning("AYA_LENGTH") });
+				lang.getMeaning("REVEL_ORDER"), meaning("AYA_LENGTH") });
 		advancedSearchOrderCombo.setLayoutData(gd);
 		advancedSearchOrderCombo.select(config.getProps().getInt("view.search.advanced.sortBy"));
 
@@ -986,12 +986,6 @@ public class QuranForm extends BaseForm {
 	private void createSearchTabContent() {
 		SelectionListener searchListener = new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				ToolTip tt = new ToolTip(shell, SWT.BALLOON | SWT.ICON_WARNING);
-				tt.setText("Salaam");
-				tt.setMessage("!!!@@@###");
-				tt.setAutoHide(true);
-				tt.setVisible(true);
-
 				doFind();
 			}
 		};
@@ -1117,8 +1111,8 @@ public class QuranForm extends BaseForm {
 
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, false, false);
 		searchOrderCombo = new Combo(searchOptionsComp, SWT.READ_ONLY);
-		searchOrderCombo.setItems(new String[] { meaning("RELEVANCE"), meaning("NATURAL_ORDER"), meaning("REVEL_ORDER"),
-				meaning("AYA_LENGTH") });
+		searchOrderCombo.setItems(new String[] { meaning("RELEVANCE"), meaning("NATURAL_ORDER"),
+				lang.getMeaning("REVEL_ORDER"), meaning("AYA_LENGTH") });
 		searchOrderCombo.setLayoutData(gd);
 		searchOrderCombo.select(config.getProps().getInt("view.search.sortBy"));
 
@@ -1709,7 +1703,7 @@ public class QuranForm extends BaseForm {
 					return; // search failed
 				}
 			}
-			if (searchScope != null && !searchScope.equals(ats.getSearchScope())) {
+			if (searchScope != ats.getSearchScope()) { // no need to .equals()
 				ats.setSearchScope(searchScope);
 			}
 			ats.setSearchResultComparator(SearchResultComparatorFactory.getComparator((String) searchOrderCombo

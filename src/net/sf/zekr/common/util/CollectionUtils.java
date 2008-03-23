@@ -135,4 +135,12 @@ public class CollectionUtils {
 		}
 		return ret;
 	}
+
+	public static List toArrayList(Object[] objectArray) {
+		List list = new ArrayList();
+		for (int i = 0; i < objectArray.length; i++) {
+			list.add(objectArray[i]);
+		}
+		return list;
+	}
 }

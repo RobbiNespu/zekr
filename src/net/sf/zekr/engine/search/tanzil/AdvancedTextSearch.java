@@ -10,7 +10,6 @@ package net.sf.zekr.engine.search.tanzil;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -67,13 +66,15 @@ public class AdvancedTextSearch {
 
 	public void setSearchScope(SearchScope searchScope) {
 		this.searchScope = searchScope;
-		logger.debug("Initializing searchable locations.");
-		IQuranLocation[] locs = QuranPropertiesUtils.getLocations();
-		for (int i = 0; i < locs.length; i++) {
-			if (!searchScope.includes(locs[i]))
-				locations.add(locs[i]);
+		this.locations = CollectionUtils.toArrayList(QuranPropertiesUtils.getLocations());
+		if (searchScope != null) {
+			logger.debug("Initializing searchable locations.");
+			for (int i = locations.size() - 1; i >= 0; i--) {
+				if (!searchScope.includes((IQuranLocation) locations.get(i)))
+					locations.remove(i);
+			}
+			logger.debug("Searching through '" + locations.size() + "' ayas.");
 		}
-		logger.debug("Searching through '" + locations.size() + "' ayas.");
 	}
 
 	public void setSearchResultComparator(AbstractSearchResultComparator searchResultComparator) {
@@ -94,7 +95,7 @@ public class AdvancedTextSearch {
 		else
 			this.searchScorer = searchScorer;
 		this.quranText = quranText;
-		this.locations = Arrays.asList(QuranPropertiesUtils.getLocations());
+		setSearchScope(null);
 	}
 
 	public void setAscending(boolean ascending) {

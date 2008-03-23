@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.security.GeneralSecurityException;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import java.util.zip.ZipFile;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.util.CryptoUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
@@ -87,6 +87,14 @@ public class RevelationData implements Comparator {
 		this.orders = orders;
 	}
 
+	/**
+	 * @param suraNum 1-based sura number
+	 * @return
+	 */
+	public int getOrder(int suraNum) {
+		return mode == SURA_MODE ? orders[suraNum - 1] : orders[QuranPropertiesUtils.getAggregativeAyaCount(suraNum) + 1];
+	}
+
 	public int[] getYears() {
 		return years;
 	}
@@ -113,7 +121,7 @@ public class RevelationData implements Comparator {
 
 		try {
 			verified = CryptoUtils.verify(textBuf, signature);
-		} catch (GeneralSecurityException e) {
+		} catch (Exception e) {
 			logger.error("Error occurred during revelation pack verification: ", e);
 		}
 		if (verified)
@@ -159,8 +167,8 @@ public class RevelationData implements Comparator {
 		IQuranLocation loc2 = (IQuranLocation) o2;
 		int i1, i2;
 		if (mode == SURA_MODE) {
-			i1 = loc1.getSura();
-			i2 = loc2.getSura();
+			i1 = loc1.getSura() - 1;
+			i2 = loc2.getSura() - 1;
 		} else {
 			i1 = loc1.getAbsoluteAya() - 1;
 			i2 = loc2.getAbsoluteAya() - 1;

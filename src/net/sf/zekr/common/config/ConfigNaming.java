@@ -37,4 +37,5 @@ public interface ConfigNaming {
 	public static final String QURAN_ONLY_LAYOUT = "quran-only";
 	public static final String TRANS_ONLY_LAYOUT = "trans-only";
 
+	public static final String REVEL_PACK_EXT = ".revel.zip";
 }

@@ -46,7 +46,7 @@ public class QuranText extends AbstractQuranText {
 	/**
 	 * The private constructor, which loads the whole Quran text from file into memory (<code>quranText</code>).
 	 * 
-	 * @param textType can be either DETAILED or SIMPLE
+	 * @param textType can be either UTHMANI or SIMPLE
 	 * @throws IOException
 	 */
 	protected QuranText(int textType) throws IOException {

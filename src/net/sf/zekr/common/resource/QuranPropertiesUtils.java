@@ -19,6 +19,7 @@ import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
+import net.sf.zekr.engine.revelation.RevelationData;
 import net.sf.zekr.engine.search.Range;
 
 // TODO: all the caching items on this class should be gradually moved 
@@ -268,15 +269,17 @@ public class QuranPropertiesUtils {
 	 */
 	public static final Map getSuraPropsMap(int suraNum) {
 		LanguageEngine dict = ApplicationConfig.getInstance().getLanguageEngine();
+		RevelationData rd = ApplicationConfig.getInstance().getRevelation().getDefault();
 		QuranPropertiesUtils.getSuraNames(); // load!
 		SuraProperties sura = QuranProperties.getInstance().getSura(suraNum);
 		Map map = new LinkedHashMap();
-		map.put(dict.getMeaning("NAME"), suraNames[suraNum - 1]);
+		map.put(dict.getMeaning("NAME"), getSura(suraNum).toText());
 		map.put(dict.getMeaning("NUMBER"), new Integer(sura.getIndex()));
 		map.put(dict.getMeaning("AYA_COUNT"), new Integer(sura.getAyaCount()));
 		map.put(dict.getMeaning("DESCENT"), getSuraDescent(sura.isMadani()));
 		map.put(dict.getMeaning("JUZ"), getSuraJuz(suraNum));
-
+		if (rd != null)
+			map.put(dict.getMeaning("REVEL_ORDER"), String.valueOf(rd.getOrder(suraNum)));
 		return map;
 	}
 
@@ -361,7 +364,7 @@ public class QuranPropertiesUtils {
 		QuranProperties props = QuranProperties.getInstance();
 		props.quranPropsReader.updateLocalizedSuraNames();
 	}
-	
+
 	public static int getRevelationOrder(IQuranLocation location) {
 		return 0;
 	}
