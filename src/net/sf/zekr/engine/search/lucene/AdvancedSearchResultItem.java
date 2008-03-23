@@ -9,7 +9,12 @@
 package net.sf.zekr.engine.search.lucene;
 
 import net.sf.zekr.common.resource.QuranLocation;
+import net.sf.zekr.engine.search.SearchResultItem;
 
+/**
+ * @deprecated replaced by {@link SearchResultItem}
+ * @author Mohsen Saboorian
+ */
 public class AdvancedSearchResultItem {
 	public String contents;
 	public QuranLocation location;

@@ -23,9 +23,11 @@ import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.search.SearchResultItem;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.SearchScopeItem;
 import net.sf.zekr.engine.search.SearchUtils;
+import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.analysis.Analyzer;
@@ -64,6 +66,8 @@ public class QuranTextSearcher {
 	private Query query;
 	private SearchScope searchScope;
 	private String rawQuery;
+	private boolean ascending;
+	private AbstractSearchResultComparator searchResultComparator;
 
 	/**
 	 * Checks first user home directory and then installation directory for indices.
@@ -114,6 +118,14 @@ public class QuranTextSearcher {
 		return maxClauseCount;
 	}
 
+	public void setAscending(boolean ascending) {
+		this.ascending = ascending;
+	}
+
+	public boolean isAscending() {
+		return ascending;
+	}
+
 	public void setHighlightFormatter(IExtendedFormatter highlightFormatter) {
 		this.highlightFormatter = highlightFormatter;
 	}
@@ -145,9 +157,11 @@ public class QuranTextSearcher {
 	public AdvancedSearchResult search(String query) throws IOException, ParseException {
 		this.rawQuery = query;
 		String s = SearchUtils.simplifyAdvancedSearchQuery(query);
-		results = _search(s);
+		results = internalSearch(s);
+		if (sortResultOrder.equals(Sort.RELEVANCE))
+			ascending = !ascending; // Lucene sorts relevance descending, while natural order ascending!
 		return new AdvancedSearchResult(results, getQuery().toString(QuranTextIndexer.CONTENTS_FIELD), rawQuery,
-				matchedItemCount, null);
+				matchedItemCount, searchResultComparator, ascending);
 	}
 
 	/**
@@ -158,7 +172,7 @@ public class QuranTextSearcher {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	private List _search(String q) throws IOException, ParseException {
+	private List internalSearch(String q) throws IOException, ParseException {
 		logger.debug("Open index reader.");
 		IndexReader reader = IndexReader.open(indexDir);
 		IndexSearcher is = new IndexSearcher(reader);
@@ -174,27 +188,28 @@ public class QuranTextSearcher {
 		logger.debug("Rewrite query.");
 		query = query.rewrite(reader); // required to expand search terms
 		logger.debug("Searching for: " + query.toString());
-		Hits _hits;
+		Hits hits;
 		if (searchScope != null && searchScope.getScopeItems().size() > 0) {
 			String scopeQuery = makeSearchScope();
 			logger.debug("Scope is: " + scopeQuery);
-			_hits = is.search(query, new QuranRangeFilter(searchScope), sortResultOrder);
+			hits = is.search(query, new QuranRangeFilter(searchScope), sortResultOrder);
 		} else
-			_hits = is.search(query, sortResultOrder);
+			hits = is.search(query, sortResultOrder);
 
 		logger.debug("Highlight search result.");
 		Highlighter highlighter = new Highlighter(highlightFormatter, new QueryScorer(query));
 
-		List res = new ArrayList(_hits.length());
-		for (int i = 0; i < _hits.length(); i++) {
-			Document doc = _hits.doc(i);
+		List res = new ArrayList(hits.length());
+		for (int i = 0; i < hits.length(); i++) {
+			Document doc = hits.doc(i);
 			final String contents = doc.get(QuranTextIndexer.CONTENTS_FIELD);
 			final QuranLocation location = new QuranLocation(doc.get(QuranTextIndexer.LOCATION_FIELD));
 			TokenStream tokenStream = analyzer.tokenStream(QuranTextIndexer.CONTENTS_FIELD, new StringReader(contents));
 			// String resultStr = highlighter.getBestFragment(tokenStream, contents);
 			String resultStr = highlighter.getBestFragments(tokenStream, contents, 100, "...");
-
-			res.add(new AdvancedSearchResultItem(location, resultStr));
+			SearchResultItem sri = new SearchResultItem(resultStr, location);
+			res.add(sri);
+			// res.add(new AdvancedSearchResultItem(location, resultStr));
 		}
 		matchedItemCount = highlightFormatter.getHighlightCount();
 		return res;
@@ -270,6 +285,15 @@ public class QuranTextSearcher {
 			System.out.println(results);
 		}
 	}
+
+	public void setSearchResultComparator(AbstractSearchResultComparator searchResultComparator) {
+		this.searchResultComparator = searchResultComparator;
+	}
+
+	public AbstractSearchResultComparator getSearchResultComparator() {
+		return searchResultComparator;
+	}
+
 }
 
 /**

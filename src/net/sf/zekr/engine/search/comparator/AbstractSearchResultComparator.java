@@ -22,6 +22,6 @@ public abstract class AbstractSearchResultComparator implements Comparator {
 	abstract public int compare(SearchResultItem sri1, SearchResultItem sri2);
 
 	public int compare(Object o1, Object o2) {
-		return compare((IQuranLocation) o1, (IQuranLocation) o2);
+		return compare((SearchResultItem) o1, (SearchResultItem) o2);
 	}
 }

@@ -14,16 +14,14 @@ import java.io.Reader;
 import java.util.Set;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.LowerCaseFilter;
 import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.WordlistLoader;
-import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
 /**
- * Filters {@link StandardTokenizer} with {@link ArabicFilter}, and {@link StopFilter} using a list of Arabic stop
- * words.
+ * Filters {@link StandardTokenizer} with {@link ArabicFilter}, and {@link StopFilter} using a list of Arabic
+ * stop words.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -72,8 +70,7 @@ public class ArabicAnalyzer extends Analyzer {
 	}
 
 	/**
-	 * Constructs a {@link StandardTokenizer} filtered by a {@link StandardFilter}, a {@link LowerCaseFilter} and a
-	 * {@link StopFilter}.
+	 * Constructs a {@link StandardTokenizer} filtered by a {@link ArabicFilter} and a {@link StopFilter}.
 	 */
 	public TokenStream tokenStream(String fieldName, Reader reader) {
 		TokenStream result = new StandardTokenizer(reader);

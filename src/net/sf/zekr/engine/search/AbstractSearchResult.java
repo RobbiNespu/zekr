@@ -56,7 +56,7 @@ public class AbstractSearchResult {
 	 * @param ayaComparator
 	 */
 	public AbstractSearchResult(List results, String clause, String rawQuery, int totalMatch,
-			AbstractSearchResultComparator ayaComparator) {
+			AbstractSearchResultComparator ayaComparator, boolean ascending) {
 		this.results = results;
 		this.totalMatch = totalMatch;
 		this.resultPerPage = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");
@@ -65,9 +65,11 @@ public class AbstractSearchResult {
 
 		maxResultPerPage = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");
 
-		// sort ayas based on result sorter
+		// sort ayas and order results
 		if (ayaComparator != null)
 			Collections.sort(results, ayaComparator);
+		if (!ascending)
+			Collections.reverse(results); // sort descending
 	}
 
 	/**

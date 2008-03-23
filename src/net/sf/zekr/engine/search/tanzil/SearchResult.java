@@ -25,12 +25,7 @@ import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 public class SearchResult extends AbstractSearchResult {
 
 	public SearchResult(List results, String clause, String rawQuery, int totalMatch,
-			AbstractSearchResultComparator ayaComparator) {
-		super(results, clause, rawQuery, totalMatch, ayaComparator);
+			AbstractSearchResultComparator ayaComparator, boolean ascending) {
+		super(results, clause, rawQuery, totalMatch, ayaComparator, ascending);
 	}
-
-	SearchResult(List res, int total) {
-		this(res, null, null, total, null);
-	}
-
 }

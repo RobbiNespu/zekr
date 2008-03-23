@@ -17,8 +17,8 @@ import net.sf.zekr.engine.search.SearchResultItem;
  */
 public class AyaLengthComparator extends AbstractSearchResultComparator {
 	public int compare(SearchResultItem sri1, SearchResultItem sri2) {
-		int l1 = sri1.ayaText.length();
-		int l2 = sri2.ayaText.length();
+		int l1 = sri1.text.length();
+		int l2 = sri2.text.length();
 		return l1 < l2 ? -1 : (l1 == l2 ? 0 : 1);
 	}
 }

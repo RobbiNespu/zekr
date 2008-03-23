@@ -3,7 +3,7 @@
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
- * Author:         Mohsen Saboorian
+ * Author:         Hamid Zarrabi-Zadeh, Mohsen Saboorian
  * Start Date:     Mar 17, 2008
  */
 package net.sf.zekr.engine.search.tanzil;
@@ -13,6 +13,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * Helper class for Regex-based search.
+ * 
+ * @author Hamid Zarrabi-Zadeh, Mohsen Saboorian
+ */
 public class LetterConstants {
 	public static Map UChars = new LinkedHashMap();
 	static {
@@ -103,6 +108,7 @@ public class LetterConstants {
 		UGroups.put("HARAKA", "[$FATHATAN-$MADDA$SUPERSCRIPT_ALEF]");
 		UGroups.put("SPACE", "[\\\\s$HIGH_SALA-$LOW_MEEM]*\\\\s");
 		UGroups.put("HAMZA_SHAPE", "[$HAMZA_ABOVE$HAMZA$ALEF_WITH_HAMZA_ABOVE-$YEH_WITH_HAMZA]");
+		UGroups.put("LETTER_HARAKA", "[$HAMZA-$ALEF_WASLA]");
 	}
 
 	static {

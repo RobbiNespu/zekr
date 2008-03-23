@@ -10,8 +10,12 @@ package net.sf.zekr.engine.search.lucene;
 
 import org.apache.lucene.search.highlight.TokenGroup;
 
+/**
+ * Default highlighter used for highlighting Lucene search results.
+ * 
+ * @author Mohsen Saboorian
+ */
 public class ZekrHighlightFormatter implements IExtendedFormatter {
-
 	private int highlightCount = 0;
 
 	public String highlightTerm(String originalText, TokenGroup tokenGroup) {

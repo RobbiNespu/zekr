@@ -13,7 +13,9 @@ import java.io.PrintStream;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.resource.QuranText;
+import net.sf.zekr.common.resource.FilteredQuranText;
+import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.filter.QuranIndexerFilter;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
@@ -25,8 +27,8 @@ import net.sf.zekr.ui.helper.EventUtils;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * This class holds some methods to do all indexing jobs associated with a special document such as Quran text. Each
- * document which needs a kind of indexing will have some public methods inside this class.<br>
+ * This class holds some methods to do all indexing jobs associated with a special document such as Quran
+ * text. Each document which needs a kind of indexing will have some public methods inside this class.<br>
  * Indexing process is done in a separate thread.<br>
  * <br>
  * This class is immutable, hence thread-safe.
@@ -59,7 +61,8 @@ public class IndexCreator {
 		public void run() {
 			QuranTextIndexer qti = null;
 			try {
-				qti = new QuranTextIndexer(QuranText.getSimpleTextInstance(), new File(indexDir));
+				qti = new QuranTextIndexer(new FilteredQuranText(new QuranIndexerFilter(), IQuranText.SIMPLE_MODE), new File(
+						indexDir));
 				qti.doIndex();
 				indexQuranText_finished = true;
 				logger.debug("Index files created successfully.");
@@ -80,15 +83,11 @@ public class IndexCreator {
 	};
 
 	/**
-	 * @param mode
-	 *           can be {@link #ME_ONLY}, {@link #ALL_USERS}, or {@link #CUSTOM_PATH}. If mode is equal to
+	 * @param mode can be {@link #ME_ONLY}, {@link #ALL_USERS}, or {@link #CUSTOM_PATH}. If mode is equal to
 	 *           <code>CUSTOM_PATH</code>, path parameter is also used, otherwise this parameter is unused.
-	 * @param path
-	 *           path for creating indices in. Used iff mode is equal to <code>CUSTOM_PATH</code>
-	 * @param stdout
-	 *           standard output to write progressing data to
-	 * @throws IndexingException
-	 *            if any exception occurred during indexing process
+	 * @param path path for creating indices in. Used iff mode is equal to <code>CUSTOM_PATH</code>
+	 * @param stdout standard output to write progressing data to
+	 * @throws IndexingException if any exception occurred during indexing process
 	 */
 	public void indexQuranTextSilently(int mode, String path, PrintStream stdout) throws IndexingException {
 		if (mode == ME_ONLY) {

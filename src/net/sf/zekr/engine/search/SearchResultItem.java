@@ -8,12 +8,13 @@
  */
 package net.sf.zekr.engine.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 
 public class SearchResultItem {
-	public String ayaText;
+	public String text;
 	public IQuranLocation location;
 	public double score;
 
@@ -21,21 +22,40 @@ public class SearchResultItem {
 	 * matchedParts <code>null</code> matchedParts means that this item was matched because of an exclude
 	 * term in the search query
 	 */
-	public List matchedParts;
+	public List matchedParts = new ArrayList();
 
 	/**
 	 * @param ayaText
 	 * @param location
-	 * @param matchedParts <code>null</code> matchedParts means that this item was matched because of an
-	 *           exclude term in the search query
 	 */
-	public SearchResultItem(String ayaText, IQuranLocation location, List matchedParts) {
-		this.ayaText = ayaText;
+	public SearchResultItem(String ayaText, IQuranLocation location) {
+		this.text = ayaText;
 		this.location = location;
-		this.matchedParts = matchedParts;
 	}
 
 	public String toString() {
-		return location + ":" + ayaText + "(score:" + score + ")";
+		return text;
+	}
+
+	public String toMeaningfulString() {
+		return location + ":" + text + "(score:" + score + ")";
+	}
+
+	/**
+	 * Method needed for Velocity
+	 * 
+	 * @return location
+	 */
+	public IQuranLocation getLocation() {
+		return location;
+	}
+
+	/**
+	 * Method needed for Velocity
+	 * 
+	 * @return text
+	 */
+	public String getText() {
+		return text;
 	}
 }

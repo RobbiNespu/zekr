@@ -8,7 +8,6 @@
  */
 package net.sf.zekr.engine.search.tanzil;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -43,12 +42,15 @@ public class RegexSeachUtils extends LetterConstants {
 		wildcardRegs.put("\\.", "P");
 		wildcardRegs.put("\\*", "S");
 		wildcardRegs.put("[?؟]", "Q");
+		wildcardRegs.put("[QPS]*S[QPS]*", "S");
+		wildcardRegs.put("^\\s*[QPS]*", "");
 	}
 
 	// wildcards
 	public static Map wildcards = new LinkedHashMap();
 	static {
-		wildcards.put("S", "($LETTER|$HARAKA)*");
+		wildcards.put("S", "$LETTER_HARAKA*");
+		// wildcards.put("S", "($LETTER|$HARAKA)*");
 		wildcards.put("Q", "$LETTER?");
 		wildcards.put("P", "$LETTER");
 	}
@@ -65,7 +67,7 @@ public class RegexSeachUtils extends LetterConstants {
 	 * @param str symbolic regex
 	 * @return legal regex
 	 */
-	static final String regTrans(String str) {
+	public static final String regTrans(String str) {
 		StringBuffer ret = new StringBuffer();
 		Pattern regex = Pattern.compile("\\$([A-Z_]+)");
 		Matcher matcher = regex.matcher(str);
@@ -93,32 +95,49 @@ public class RegexSeachUtils extends LetterConstants {
 	}
 
 	// simulate preg_replace
-	private static final String pregReplace(String fromExp, String toExp, String str) {
+	public static final String pregReplace(String str, String fromExp, String toExp) {
 		fromExp = regTrans(fromExp);
 		toExp = regTrans(toExp);
 		return str.replaceAll(fromExp, toExp);
 	}
 
-	private static final String applyRules(Map rule, String str) {
+	public static final String pregReplace(String str, Pattern fromExp, String toExp) {
+		toExp = regTrans(toExp);
+		return fromExp.matcher(str).replaceAll(toExp);
+	}
+
+	private static final String applyRules(String str, Map rule) {
 		for (Iterator iterator = rule.entrySet().iterator(); iterator.hasNext();) {
 			Entry entry = (Entry) iterator.next();
-			str = pregReplace(entry.getKey().toString(), entry.getValue().toString(), str);
+			str = pregReplace(str, entry.getKey().toString(), entry.getValue().toString());
 		}
 		return str;
 	}
 
 	private static final String handleSpaces(String pattern) {
-		String prev = "";
 		if ("".equals(pattern))
 			return pattern;
 		pattern = pattern.replaceAll("\\s+", " ");
+
+		/*
+		String prev = "";
 		while (!pattern.equals(prev)) {
 			prev = pattern;
-			pattern = pattern.replaceAll("(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
-			System.out.println(pattern);
-			// pattern = pattern.replaceAll("([^\"]*)(\"[^\"]*\")*([^\"\\s]*) ", "$1$3+"); // ^ removed from the first of pattern to be java 1.4.2 compatible
-		}
+			pattern = pattern.replaceAll("^(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
+		}*/
 
+		// replace spaces outside of quotations with + (Java 1.4 has problems dealing with equivalent Tanzil regex)
+		boolean openquote = false;
+		StringBuffer buf = new StringBuffer(pattern.length());
+		char[] chars = pattern.toCharArray();
+		for (int i = 0; i < chars.length; i++) {
+			if (chars[i] == '"')
+				openquote = !openquote;
+			else if (chars[i] == ' ' && !openquote)
+				chars[i] = '+';
+			buf.append(chars[i]);
+		}
+		pattern = buf.toString();
 		pattern = pattern.replaceAll("_", " ");
 		pattern = pattern.replaceAll("\"", "+");
 		// pattern = pattern.replaceAll("\\+", "");
@@ -133,18 +152,18 @@ public class RegexSeachUtils extends LetterConstants {
 	// enrich arabic search pattern
 	public static String enrichPattern(String pattern, boolean ignoreHaraka) {
 		if (ignoreHaraka)
-			pattern = pregReplace("$HARAKA", "", pattern);
+			pattern = pregReplace(pattern, "$HARAKA", "");
 
 		pattern = regTrans(pattern); // allows using letter constants in pattern
 		pattern = handleSpaces(pattern);
-		pattern = applyRules(preProcess, pattern);
-		pattern = applyRules(wildcardRegs, pattern);
+		pattern = applyRules(pattern, preProcess);
+		pattern = applyRules(pattern, wildcardRegs);
 
 		// add haraka between letters
-		pattern = pregReplace("(.)", "$1$HARAKA*", pattern);
+		pattern = pregReplace(pattern, "(.)", "$1$HARAKA*");
 
-		pattern = applyRules(matchingRules, pattern);
-		pattern = applyRules(wildcards, pattern);
+		pattern = applyRules(pattern, matchingRules);
+		pattern = applyRules(pattern, wildcards);
 
 		return pattern;
 	}

@@ -8,7 +8,7 @@
  */
 package net.sf.zekr.engine.search.lucene;
 
-import net.sf.zekr.engine.search.SearchUtils;
+import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenFilter;
@@ -28,7 +28,13 @@ public class ArabicFilter extends TokenFilter {
 		if (t == null)
 			return null;
 		// return a token with filtered characters.
-		return new Token(SearchUtils.arabicSimplify4AdvancedSearch(new String(t.termBuffer(), 0, t.termLength())), t
-				.startOffset(), t.endOffset(), t.type());
+		return new Token(simplify(new String(t.termBuffer(), 0, t.termLength())), t.startOffset(), t.endOffset(), t
+				.type());
+		// return new Token(new String(t.termBuffer(), 0, t.termLength()), t.startOffset(), t.endOffset(), t.type());
+	}
+
+	private static String simplify(String text) {
+		return QuranFilterUtils.filterSimilarCharacters(QuranFilterUtils.filterHarakat(text));
+		//return SearchUtils.arabicSimplify4AdvancedSearch(text);
 	}
 }

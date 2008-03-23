@@ -14,8 +14,8 @@ import net.sf.zekr.engine.search.SearchResultItem;
 
 /**
  * Calculate search result items' score based on a simple formula:<br />
- * <code>sum of (len(part) / len(SearchResultItem.ayaText) ^ 2), for all <i>parts</i> in
- * <i>SearchResultItem.matchedParts</i></code>
+ * <code>sum of (length(part) / length(SearchResultItem.ayaText), for all <i>parts</i> in
+ * <i>SearchResultItem.matchedParts</i></code>.
  * <p />
  * Result items which are matched because of exclusion term in query are scored 0.
  * 
@@ -25,12 +25,12 @@ public class DefaultSearchScorer implements ISearchScorer {
 	public double score(SearchResultItem sri) {
 		double score = 0;
 		List parts = sri.matchedParts;
-		if (parts == null) // result item matched because of exlusion
+		if (parts == null) // result item matched because of exclusion
 			return 0;
 		for (int i = 0; i < parts.size(); i++) {
 			String part = (String) parts.get(i);
-			int len = sri.ayaText.length();
-			score += ((double) part.length()) / (len * len);
+			int len = sri.text.length();
+			score += ((double) part.length()) / len;
 		}
 		return score;
 	}
