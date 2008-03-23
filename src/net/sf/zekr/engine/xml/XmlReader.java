@@ -50,7 +50,7 @@ public class XmlReader {
 	 */
 	public XmlReader(File file) throws XmlReadException {
 		try {
-			xmlDocument = parseXml(file.toURL().openStream());
+			xmlDocument = parseXml(file.toURI().toURL().openStream());
 			parentNode = xmlDocument.getFirstChild();
 			if (parentNode.getNodeType() == Node.COMMENT_NODE)
 				parentNode = parentNode.getNextSibling();
