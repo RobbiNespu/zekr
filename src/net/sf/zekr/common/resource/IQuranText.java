@@ -18,6 +18,8 @@ import net.sf.zekr.engine.translation.TranslationData;
  * @author Mohsen Saboorian
  */
 public interface IQuranText {
+	public static final int DETAILED_MODE = 0;
+	public static final int SIMPLE_MODE = 1;
 
 	/**
 	 * Returns the requested aya.

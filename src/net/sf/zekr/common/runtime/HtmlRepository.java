@@ -85,7 +85,7 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				ITransformer transformer = new QuranViewTemplate(FilteredQuranText.getInstance(), sura, aya);
+				ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), sura, aya);
 				addPlaylistProvider(sura, transformer);
 				osw.write(transformer.transform());
 				osw.close();
@@ -145,7 +145,7 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				ITransformer transformer = new MixedViewTemplate(FilteredQuranText.getInstance(), td, sura, aya);
+				ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, sura, aya);
 				addPlaylistProvider(sura, transformer);
 
 				osw.write(transformer.transform());
@@ -176,7 +176,7 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 				TranslationData[] transData = (TranslationData[]) tdList.toArray(new TranslationData[] {});
 
-				ITransformer tx = new MultiTranslationViewTemplate(FilteredQuranText.getInstance(), transData, sura, aya);
+				ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, sura, aya);
 				addPlaylistProvider(sura, tx);
 
 				osw.write(tx.transform());

@@ -11,7 +11,7 @@ package net.sf.zekr.common.resource;
 import java.io.IOException;
 
 import net.sf.zekr.common.resource.filter.IQuranFilter;
-import net.sf.zekr.common.resource.filter.QuranFilter;
+import net.sf.zekr.common.resource.filter.QuranWriterFilter;
 import net.sf.zekr.common.resource.filter.QuranFilterContext;
 import net.sf.zekr.engine.translation.TranslationData;
 
@@ -19,28 +19,28 @@ import net.sf.zekr.engine.translation.TranslationData;
  * @author Mohsen Saboorian
  */
 public class FilteredQuranText extends AbstractQuranText {
-	private static FilteredQuranText thisInstance;
-	private static QuranText quranText;
-	private IQuranFilter filter = new QuranFilter();
+	private IQuranText quranText;
+	private IQuranFilter filter;
 
-	private FilteredQuranText() throws IOException {
-		quranText = QuranText.getInstance();
+	public FilteredQuranText() throws IOException {
+		this(QuranText.getInstance());
 	}
 
-	public static FilteredQuranText getInstance() throws IOException {
-		if (thisInstance == null)
-			thisInstance = new FilteredQuranText();
-		return thisInstance;
+	public FilteredQuranText(IQuranText quranText) throws IOException {
+		this(quranText, new QuranWriterFilter());
 	}
 
-	public static IQuranText getSimpleTextInstance() throws IOException {
-		quranText = QuranText.getSimpleTextInstance();
-		return getInstance();
+	public FilteredQuranText(int mode) throws IOException {
+		this(new QuranWriterFilter(), mode);
 	}
 
-	public static IQuranText getDetailedTextInstance() throws IOException {
-		quranText = QuranText.getDetailedTextInstance();
-		return getInstance();
+	public FilteredQuranText(IQuranFilter filter, int mode) throws IOException {
+		this(QuranText.getInstance(mode), filter);
+	}
+
+	public FilteredQuranText(IQuranText quranText, IQuranFilter filter) throws IOException {
+		this.quranText = quranText;
+		this.filter = filter;
 	}
 
 	/*

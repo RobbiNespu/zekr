@@ -48,9 +48,9 @@ public class CollectionUtils {
 		return ret;
 	}
 
-	public static String toString(List list, String delim) {
+	public static String toString(Collection collection, String delim) {
 		StringBuffer buf = new StringBuffer();
-		Iterator i = list.iterator();
+		Iterator i = collection.iterator();
 		if (i.hasNext())
 			buf.append(String.valueOf(i.next()));
 		while (i.hasNext()) {

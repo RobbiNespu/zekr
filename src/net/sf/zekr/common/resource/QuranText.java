@@ -43,9 +43,6 @@ public class QuranText extends AbstractQuranText {
 	private final static ApplicationConfig config = ApplicationConfig.getInstance();
 	private final static ResourceManager resource = ResourceManager.getInstance();
 
-	private final static int DETAILED = 0;
-	private final static int SIMPLE = 1;
-
 	/**
 	 * The private constructor, which loads the whole Quran text from file into memory (<code>quranText</code>).
 	 * 
@@ -54,7 +51,7 @@ public class QuranText extends AbstractQuranText {
 	 */
 	protected QuranText(int textType) throws IOException {
 		String qFile = ApplicationPath.SIMPLE_QURAN_TEXT_FILE;
-		if (textType == DETAILED)
+		if (textType == DETAILED_MODE)
 			qFile = ApplicationPath.DETILAED_QURAN_TEXT_FILE;
 
 		RandomAccessFile raf = new RandomAccessFile(qFile, "r");
@@ -70,8 +67,18 @@ public class QuranText extends AbstractQuranText {
 	 * @throws IOException
 	 */
 	public static QuranText getInstance() throws IOException {
-		Boolean detailed = Boolean.valueOf(config.getTheme().getCurrent().props.get("quran_detailedTextFile").toString());
-		if (detailed.booleanValue())
+		boolean detailed = Boolean.valueOf(config.getTheme().getCurrent().props.get("quran_detailedTextFile").toString())
+				.booleanValue();
+		return getInstance(detailed ? DETAILED_MODE : SIMPLE_MODE);
+	}
+
+	/**
+	 * @return either simple or detailed Quran text based on the current theme
+	 * @param mode
+	 * @throws IOException
+	 */
+	public static QuranText getInstance(int mode) throws IOException {
+		if (mode == DETAILED_MODE)
 			return getDetailedTextInstance();
 		else
 			return getSimpleTextInstance();
@@ -83,7 +90,7 @@ public class QuranText extends AbstractQuranText {
 	 */
 	public static QuranText getSimpleTextInstance() throws IOException {
 		if (simpleInstance == null)
-			simpleInstance = new QuranText(SIMPLE);
+			simpleInstance = new QuranText(SIMPLE_MODE);
 		return simpleInstance;
 	}
 
@@ -93,7 +100,7 @@ public class QuranText extends AbstractQuranText {
 	 */
 	public static QuranText getDetailedTextInstance() throws IOException {
 		if (detailedInstance == null)
-			detailedInstance = new QuranText(DETAILED);
+			detailedInstance = new QuranText(DETAILED_MODE);
 		return detailedInstance;
 	}
 

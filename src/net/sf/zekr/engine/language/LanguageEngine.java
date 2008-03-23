@@ -209,7 +209,10 @@ public class LanguageEngine extends LanguageEngineNaming {
 	public String getMeaningById(String id, String word) {
 		if (!forms.containsKey(id))
 			return word; // prevent null value
-		return (String) ((Map) forms.get(id)).get(word);
+		Map formMap = (Map) forms.get(id);
+		if (!formMap.containsKey(word))
+			return word; // prevent null value
+		return (String) formMap.get(word);
 	}
 
 	/**
