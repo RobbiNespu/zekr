@@ -8,11 +8,13 @@
  */
 package net.sf.zekr.common.resource.filter;
 
+import java.util.regex.Pattern;
+
 import net.sf.zekr.engine.search.ArabicCharacters;
 
 import org.apache.commons.lang.StringUtils;
 
-public class QuranFilter implements IQuranFilter, ArabicCharacters {
+public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
 	/** Show waqf sign if this option is set */
 	public static final int SHOW_WAQF_SIGN = 1;
 
@@ -22,15 +24,17 @@ public class QuranFilter implements IQuranFilter, ArabicCharacters {
 	/** Will apply Uthmani text rules */
 	public static final int UTHMANI_TEXT = 4;
 
-	private static final int HIGHLIGH = 4;
+	private static final int HIGHLIGHT = 4;
 
-	public static final int HIGHLIGHT_WAQF_SIGN = SHOW_WAQF_SIGN | HIGHLIGH;
+	public static final int HIGHLIGHT_WAQF_SIGN = SHOW_WAQF_SIGN | HIGHLIGHT;
 
 	private static final String REPLACE_HIGHLIGHT = "<span class=\"waqfSign\">&nbsp;$1</span>";
 	private static String WAQF_REGEX = ".([" + WAQF_SALA + WAQF_QALA + WAQF_SMALL_MEEM + WAQF_LA + WAQF_JEEM
 			+ WAQF_THREE_DOT + WAQF_HIGH_SEEN + "])";
 
-	public QuranFilter() {
+	private static final Pattern highlightRegex = Pattern.compile(WAQF_REGEX);
+
+	public QuranWriterFilter() {
 	}
 
 	public String filter(QuranFilterContext qfc) {
@@ -51,7 +55,7 @@ public class QuranFilter implements IQuranFilter, ArabicCharacters {
 		if ((qfc.params & UTHMANI_TEXT) == UTHMANI_TEXT)
 			str = StringUtils.replace(str, String.valueOf(ALEF) + MADDA, String.valueOf(ALEF_MADDA));
 
-		str = str.replaceAll(WAQF_REGEX, REPLACE_HIGHLIGHT);
+		str = highlightRegex.matcher(str).replaceAll(REPLACE_HIGHLIGHT);
 
 		return str;
 	}
