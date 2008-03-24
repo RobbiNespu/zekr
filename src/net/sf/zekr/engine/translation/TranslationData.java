@@ -12,7 +12,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
@@ -21,12 +20,13 @@ import java.util.zip.ZipFile;
 import net.sf.zekr.common.resource.AbstractQuranText;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.util.CryptoUtils;
+import net.sf.zekr.engine.common.Signable;
 import net.sf.zekr.engine.log.Logger;
 
 /**
  * @author Mohsen Saboorian
  */
-public class TranslationData extends AbstractQuranText {
+public class TranslationData extends AbstractQuranText implements Signable {
 	private static final Logger logger = Logger.getLogger(TranslationData.class);
 
 	/** Translation Id. */
@@ -48,7 +48,7 @@ public class TranslationData extends AbstractQuranText {
 	public String encoding;
 
 	/** Line delimiter String (each line contains an aya) */
-	public String lineDelimiter;
+	public String delimiter;
 
 	public File archiveFile;
 
@@ -62,9 +62,12 @@ public class TranslationData extends AbstractQuranText {
 	public byte[] signature;
 
 	public boolean verified = false;
+	private boolean loaded = false;
 
 	/** descriptor version */
 	public String version;
+
+	private int verificationResult = UNKNOWN;
 
 	public TranslationData() {
 	}
@@ -104,18 +107,15 @@ public class TranslationData extends AbstractQuranText {
 	 * Loads the tranalation data file, if not already loaded.
 	 */
 	public void load() throws TranslationException {
-		if (!loaded()) {
+		if (loaded) {
 			Date date1 = new Date();
 			loadAndVerify();
 			Date date2 = new Date();
 			logger.debug("Loading translation \"" + id + "\" took " + (date2.getTime() - date1.getTime()) + " ms.");
+			loaded = true;
 		} else {
 			logger.debug("Translation already loaded: " + id);
 		}
-	}
-
-	public boolean loaded() {
-		return transText != null;
 	}
 
 	private void loadAndVerify() throws TranslationException {
@@ -176,21 +176,23 @@ public class TranslationData extends AbstractQuranText {
 		logger.debug("Verifying translation text.");
 		try {
 			verified = CryptoUtils.verify(textBuf, signature);
-		} catch (GeneralSecurityException e) {
-			logger.error("Error occurred during translation text verification. Text cannot be verified.");
-			logger.error(e);
+		} catch (Exception e) {
+			logger.error("Error occurred during translation text verification. Text cannot be verified.", e);
 		}
-		if (verified)
+		if (verified) {
 			logger.debug("Translation is valid");
-		else
+			verificationResult = AUTHENTIC;
+		} else {
 			logger.debug("Translation is not valid.");
+			verificationResult = NOT_AUTHENTIC;
+		}
 		return verified;
 	}
 
 	private void refineText(String rawText) {
 		QuranProperties quranProps = QuranProperties.getInstance();
 		String[] sura;
-		fullTransText = rawText.split(lineDelimiter);
+		fullTransText = rawText.split(delimiter);
 		transText = new String[114][];
 		int ayaTotalCount = 0;
 		for (int i = 0; i < 114; i++) {
@@ -245,6 +247,14 @@ public class TranslationData extends AbstractQuranText {
 
 	public String getId() {
 		return id;
+	}
+
+	public byte[] getSignature() {
+		return signature;
+	}
+
+	public int getVerificationResult() {
+		return verificationResult;
 	}
 
 }
