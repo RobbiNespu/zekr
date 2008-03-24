@@ -53,6 +53,7 @@ import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
@@ -120,6 +121,7 @@ public class QuranForm extends BaseForm {
 	private Button toggleMultiLine, advancedToggleMultiLine;
 	private Table suraTable;
 	private Map suraMap;
+	private Composite bgroup;
 	private Group navigationGroup;
 	private Group searchGroup;
 	private Group navGroup;
@@ -136,6 +138,7 @@ public class QuranForm extends BaseForm {
 
 	private ProgressAdapter qpl, tpl;
 	private String title;
+	private Shell fullScreenFloatShell;
 
 	// These 6 properties should be package-private
 	int viewLayout;
@@ -381,31 +384,21 @@ public class QuranForm extends BaseForm {
 			navSashForm.setLayoutData(gd);
 		}
 
-		Composite workPane = new Composite(isSashed ? navSashForm : body, SWT.NONE);
-		gd = new GridData(GridData.FILL_VERTICAL);
-		workPane.setLayoutData(gd);
+		final ScrolledComposite workPaneScroller = new ScrolledComposite(isSashed ? navSashForm : body, SWT.H_SCROLL
+				| SWT.V_SCROLL);
+		workPaneScroller.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+		workPaneScroller.setExpandHorizontal(true);
+		workPaneScroller.setExpandVertical(true);
+
+		Composite workPane = new Composite(workPaneScroller, SWT.NONE);
 		gl = new GridLayout(1, false);
 		gl.marginHeight = gl.marginWidth = 0;
 		gl.marginLeft = gl.marginRight = gl.marginTop = gl.marginBottom = 2;
 		workPane.setLayout(gl);
 
-		//		ScrolledComposite workPaneScroller = new ScrolledComposite(isSashed ? navSashForm : body, SWT.H_SCROLL
-		//				| SWT.V_SCROLL);
-		//		workPaneScroller.setLayoutData(new GridData(GridData.FILL_VERTICAL));
-		//		workPaneScroller.setLayout(new FillLayout());
-		//		workPaneScroller.setExpandHorizontal(true);
-		//		workPaneScroller.setExpandVertical(true);
+		workPaneScroller.setContent(workPane);
 
-		//		Composite workPane = new Composite(workPaneScroller, SWT.NONE);
-		//		gl = new GridLayout(1, false);
-		//		gl.marginHeight = gl.marginWidth = 0;
-		//		gl.marginLeft = gl.marginRight = gl.marginTop = gl.marginBottom = 2;
-		//		workPane.setLayout(gl);
-
-		//		workPaneScroller.setContent(workPane);
-		//		workPaneScroller.setMinSize(workPane.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-
-		Composite bgroup = new Composite(isSashed ? navSashForm : body, SWT.NONE);
+		bgroup = new Composite(isSashed ? navSashForm : body, SWT.NONE);
 		gd = new GridData(GridData.FILL_BOTH);
 		bgroup.setLayoutData(gd);
 		fl = new FillLayout(SWT.VERTICAL);
@@ -541,7 +534,7 @@ public class QuranForm extends BaseForm {
 		ayaSelector = new Combo(navGroup, SWT.READ_ONLY);
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-		gd.widthHint = 80;
+		gd.widthHint = 60;
 		suraSelector.setLayoutData(gd);
 		suraSelector.setItems(QuranPropertiesUtils.getIndexedSuraNames());
 		suraSelector.setVisibleItemCount(15);
@@ -729,6 +722,8 @@ public class QuranForm extends BaseForm {
 		createLuceneSearchTabContent();
 		createSearchTabContent();
 		// createSimpleSearchTabContent();
+
+		workPaneScroller.setMinSize(workPane.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		// this progress should be in the heart of makeFrame method!
 		logger.info("UI relatively initialized.");
@@ -1878,6 +1873,22 @@ public class QuranForm extends BaseForm {
 		shell.open();
 	}
 
+	protected void setFullScreen(boolean full, boolean fromMenu) {
+		if (full) {
+			shell.setMaximized(true);
+			shell.setFullScreen(true);
+			fullScreenFloatShell = MessageBoxUtils.getFullScreenToolbar(this);
+		} else {
+			if (fullScreenFloatShell != null && !fullScreenFloatShell.isDisposed()) {
+				fullScreenFloatShell.close();
+			}
+			show();
+		}
+		if (!fromMenu) {
+			qmf.toggleFullScreenItem(full);
+		}
+	}
+
 	public Browser getQuranBrowser() {
 		return quranBrowser;
 	}
@@ -1947,8 +1958,11 @@ public class QuranForm extends BaseForm {
 		list.add(new Integer(r.y));
 		list.add(new Integer(r.width));
 		list.add(new Integer(r.height));
-		config.getProps().setProperty("view.shell.location", list);
-		config.getProps().setProperty("view.shell.maximized", new Boolean(shell.getMaximized()));
+
+		if (shell.getFullScreen()) { // don't save fullscreen state
+			config.getProps().setProperty("view.shell.location", list);
+			config.getProps().setProperty("view.shell.maximized", new Boolean(shell.getMaximized()));
+		}
 
 		// syncing options
 		config.getProps().setProperty("view.location.sync", String.valueOf(sync.getSelection()));

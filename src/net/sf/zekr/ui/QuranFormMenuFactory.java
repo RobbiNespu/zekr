@@ -21,6 +21,7 @@ import java.util.Random;
 import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.config.ConfigNaming;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IQuranLocation;
@@ -107,6 +108,7 @@ public class QuranFormMenuFactory {
 	private MenuItem stopItem;
 	private MenuItem nextSura, nextAya, prevSura, prevAya;
 	private MenuItem nextJuz, prevJuz, nextHizbQ, prevHizbQ, nextSajda, prevSajda;
+	private MenuItem fullScreenItem;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.form = form;
@@ -180,17 +182,11 @@ public class QuranFormMenuFactory {
 
 		// separator
 		new MenuItem(viewMenu, SWT.SEPARATOR);
+		transName = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("TRANSLATION"), 0,
+				"icon.menu.translation");
+		transMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+		transName.setMenu(transMenu);
 		createOrUpdateTranslationMenu();
-
-		new MenuItem(transMenu, SWT.SEPARATOR);
-
-		final MenuItem moreTransItem = new MenuItem(transMenu, SWT.PUSH);
-		moreTransItem.setText(lang.getMeaning("MORE") + "...");
-		moreTransItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				HyperlinkUtils.openBrowser(GlobalConfig.RESOURCE_PAGE);
-			}
-		});
 
 		// cascading menu for view type
 		MenuItem viewType = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("LAYOUT"), 0,
@@ -349,14 +345,6 @@ public class QuranFormMenuFactory {
 		transLineLayoutItem.addListener(SWT.Selection, inlineListener);
 		transLineLayoutItem.setData("trans");
 
-		customTransList = createMenuItem(0, viewMenu, lang.getMeaning("CONFIG_CUSTOM_TRANS") + "...", 0,
-				"icon.menu.configTransList");
-		customTransList.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				customizeMultiTrans();
-			}
-		});
-
 		SelectionListener navListener = new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				String data = (String) e.widget.getData();
@@ -473,6 +461,16 @@ public class QuranFormMenuFactory {
 			transLineLayoutItem.setSelection(true);
 		else if (transLayout.equals(ApplicationConfig.BLOCK))
 			transBlockLayoutItem.setSelection(true);
+
+		// fullscreen menu item
+		new MenuItem(viewMenu, SWT.SEPARATOR);
+		fullScreenItem = createMenuItem(SWT.CHECK, viewMenu, lang.getMeaning("FULL_SCREEN"), SWT.F11,
+				"icon.menu.fullscreen");
+		fullScreenItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				form.setFullScreen(fullScreenItem.getSelection(), true);
+			}
+		});
 
 		// ---- Audio ------
 		audioItem = new MenuItem(menu, SWT.CASCADE | direction);
@@ -676,7 +674,12 @@ public class QuranFormMenuFactory {
 				combKey += ((alt || ctrl) ? "+" : "") + "Shift";
 			}
 			item.setAccelerator(accelerator);
-			accelStr = combKey + "+" + (char) accKey;
+			if (accKey > 'A' && accKey < 'Z') {
+				accelStr = combKey + "+" + (char) accKey;
+			} else { // try function keys
+				int f = accKey - SWT.F1 + 1;
+				accelStr = combKey + "F" + f;
+			}
 		}
 		item.setText(FormUtils.addAmpersand(text) + accelStr);
 		if (imageKey != null)
@@ -704,14 +707,14 @@ public class QuranFormMenuFactory {
 
 	protected void createOrUpdateTranslationMenu() {
 		// cascading menu for translation selection
-		if (transName != null && !transName.isDisposed()) {
-			transName.dispose();
+		//		if (transName != null && !transName.isDisposed()) {
+		//			transName.dispose();
+		//		}
+		MenuItem[] transItems = transMenu.getItems();
+		for (int i = 0; i < transItems.length; i++) {
+			transItems[i].dispose();
 		}
 
-		transName = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("TRANSLATION"), 0,
-				"icon.menu.translation");
-		transMenu = new Menu(shell, SWT.DROP_DOWN | direction);
-		transName.setMenu(transMenu);
 		Collection trans = config.getTranslation().getAllTranslation();
 		for (Iterator iter = trans.iterator(); iter.hasNext();) {
 			TranslationData td = (TranslationData) iter.next();
@@ -736,6 +739,26 @@ public class QuranFormMenuFactory {
 				}
 			});
 		}
+
+		new MenuItem(transMenu, SWT.SEPARATOR);
+		customTransList = createMenuItem(0, transMenu, lang.getMeaning("CONFIG_CUSTOM_TRANS") + "...", 0,
+				"icon.menu.configTransList");
+		customTransList.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				customizeMultiTrans();
+			}
+		});
+
+		// ssssssssss
+		new MenuItem(transMenu, SWT.SEPARATOR);
+
+		final MenuItem moreTransItem = new MenuItem(transMenu, SWT.PUSH);
+		moreTransItem.setText(lang.getMeaning("MORE") + "...");
+		moreTransItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				HyperlinkUtils.openBrowser(GlobalConfig.RESOURCE_PAGE);
+			}
+		});
 	}
 
 	protected void createOrUpdateBookmarkMenu() {
@@ -818,10 +841,12 @@ public class QuranFormMenuFactory {
 
 	private void importTrans() {
 		String destDir = ApplicationPath.TRANSLATION_DIR;
+		List errorList = new ArrayList();
+		List transFileList = new ArrayList(); // prevent NPE
 		try {
-			List list = MessageBoxUtils.importFileDialog(shell, new String[] { "*.zip Translation Files",
-					"*.ZIP Translation Files" }, new String[] { "*.zip", "*.ZIP" });
-			if (list.size() <= 0)
+			transFileList = MessageBoxUtils.importFileDialog(shell, new String[] { "*.trans.zip Translation Files" },
+					new String[] { "*.trans.zip" });
+			if (transFileList.size() <= 0)
 				return;
 
 			int result = MessageBoxUtils.radioQuestionPrompt(
@@ -835,11 +860,10 @@ public class QuranFormMenuFactory {
 			if (result == 0) // import for "me only"
 				destDir = Naming.getTransDir();
 
-			List errorList = new ArrayList();
-			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			for (Iterator iterator = transFileList.iterator(); iterator.hasNext();) {
 				File file2Import = (File) iterator.next();
 
-				if (!FilenameUtils.getExtension(file2Import.getName()).equalsIgnoreCase("zip")) {
+				if (!file2Import.getName().endsWith(ConfigNaming.TRANS_PACK_SUFFIX)) {
 					logger.info("Invalid translation (unknown extension): " + file2Import);
 					continue;
 				}
@@ -866,7 +890,7 @@ public class QuranFormMenuFactory {
 			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
 			logger.implicitLog(e);
 		} finally {
-			if (config.getTranslation().getDefault() == null)
+			if (config.getTranslation().getDefault() == null && errorList.size() <= 0 && transFileList.size() > 0)
 				MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
 			else
 				createOrUpdateTranslationMenu();
@@ -1054,6 +1078,10 @@ public class QuranFormMenuFactory {
 	private void setAudio(String audioId) {
 		config.setCurrentAudio(audioId);
 		form.reload();
+	}
+
+	public void toggleFullScreenItem(boolean selected) {
+		fullScreenItem.setSelection(selected);
 	}
 
 	private void recreateForm() {

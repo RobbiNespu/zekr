@@ -17,6 +17,7 @@ import java.util.List;
 import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.helper.FormUtils;
@@ -41,6 +42,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 
 /**
  * @author Mohsen Saboorian
@@ -304,6 +307,29 @@ public class MessageBoxUtils {
 		// return Display.getCurrent().getActiveShell();
 		Shell shells[] = Display.getCurrent().getShells();
 		return shells.length > 0 ? shells[0] : null;
+	}
+
+	public static Shell getFullScreenToolbar(final QuranForm quranForm) {
+		ResourceManager res = ResourceManager.getInstance();
+		Shell shell = getShell();
+		Shell floatShell = new Shell(shell, SWT.CLOSE | SWT.ON_TOP | SWT.TOOL
+				| LanguageEngine.getInstance().getSWTDirection());
+		floatShell.setText("Full Screen");
+		floatShell.setLayout(new FillLayout());
+		ToolBar bar = new ToolBar(floatShell, SWT.BORDER);
+		final ToolItem item = new ToolItem(bar, SWT.CHECK);
+		item.setSelection(true);
+		item.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				quranForm.setFullScreen(item.getSelection(), false);
+			}
+		});
+		item.setToolTipText("Switch");
+		item.setImage(new Image(shell.getDisplay(), res.getString("icon.menu.fullscreen")));
+		floatShell.setLayout(new FillLayout());
+		floatShell.pack();
+		floatShell.open();
+		return floatShell;
 	}
 
 	/**

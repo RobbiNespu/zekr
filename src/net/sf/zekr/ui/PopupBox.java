@@ -22,7 +22,6 @@ import org.eclipse.swt.widgets.Text;
  * Note that at least one shell should be available when using this widget.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class PopupBox {
 	private Shell shell;
@@ -34,8 +33,7 @@ public class PopupBox {
 		shell.setText(title);
 		shell.setParent(parent);
 		shell.setLayout(new FillLayout());
-		textBox = new Text(shell, SWT.LEAD | SWT.MULTI | SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL
-				| swtDirection);
+		textBox = new Text(shell, SWT.LEAD | SWT.MULTI | SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL | swtDirection);
 		textBox.setText(text);
 	}
 
@@ -49,5 +47,9 @@ public class PopupBox {
 			}
 		});
 
+	}
+
+	public Shell getShell() {
+		return shell;
 	}
 }
