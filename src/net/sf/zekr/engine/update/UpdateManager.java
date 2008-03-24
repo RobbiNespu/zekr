@@ -163,8 +163,6 @@ public class UpdateManager {
 				XmlReader xr = new XmlReader(is);
 				is.close();
 
-				Thread.sleep(5000);
-
 				Element root = xr.getDocumentElement();
 				updateInfo = new UpdateInfo();
 				updateInfo.fullName = root.getAttribute("fullName").trim();

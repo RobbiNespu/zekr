@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.engine.update;
 
+import java.text.DateFormat;
+
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.helper.FormUtils;
 
@@ -63,9 +65,10 @@ public class UpdateForm extends BaseForm {
 		newLabel(body, meaning("VERSION") + ":", new GridData(GridData.BEGINNING));
 		newText(body, updateInfo.version, new GridData(SWT.FILL, SWT.BEGINNING, true, false), false);
 
+		String dateStr = updateInfo.releaseDate != null ?
+				DateFormat.getDateInstance().format(updateInfo.releaseDate) : "";
 		newLabel(body, meaning("RELEASE_DATE") + ":", new GridData(GridData.BEGINNING));
-		newText(body, updateInfo.releaseDate == null ? "" : updateInfo.releaseDate.toString(), new GridData(SWT.FILL,
-				SWT.BEGINNING, true, false), false);
+		newText(body, dateStr, new GridData(SWT.FILL, SWT.BEGINNING, true, false), false);
 
 		newLabel(body, meaning("BUILD_NUM") + ":", new GridData(GridData.BEGINNING));
 		newText(body, updateInfo.build, new GridData(SWT.FILL, SWT.BEGINNING, true, false), false);
