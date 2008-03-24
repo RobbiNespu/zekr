@@ -123,7 +123,11 @@
 			<text id="MENU_PREV_HIZBQ" value="ربع حزب قبل"   />
 			<text id="MENU_NEXT_SAJDA" value="سجدهٔ بعد"   />
 			<text id="MENU_PREV_SAJDA" value="سجدهٔ قبل"   />
-            <text id="CHECK4UPDATE" value="Check for update" />
+            <text id="CHECK4UPDATE" value="وارسی برای نسخهٔ جدید" />
+			<text id="ASCENDING" value="صعودی" />
+			<text id="DESCENDING" value="نزولی" />
+			<text id="REVEL_ORDER" value="ترتیب نزول" />
+			<text id="FULL_SCREEN" value="تمام‌صفحه" />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -152,6 +156,7 @@
 			<text id="TOO_MANY_RESULT" value="نتیجهٔ جستجو بیش از {1} آیه است." />
 			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است. آیا می‌خواهید آن‌را جایگزین کنید؟" />
 			<text id="RESTART_APP" value="برای اعمال تغییرات، برنامه را بسته و مجدداً اجرا کنید." />
+			<text id="ACTION_PERFORMED" value="عملیات با موفقیت انجام شد." />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="آیا مطمئن هستید؟" />
@@ -161,6 +166,9 @@
 			<text id="GENERAL_ERROR" value="وقوع خطای ناخواسته در برنامه" />
 			<text id="FNF" value="فایل پیدا نشد" />
 			<text id="ACTION_FAILED" value="انجام عملیات ناموفق بود!" />
+			<text id="INVALID_TRANSLATION_FORMAT" value="قالب ترجمه نامعتبر است: {1}"   />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="امضای ترجمه نامعتبر است: {1}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="بارگزاری ناموفق ترجمهٔ &quot;{1}&quot; به دلیل این خطا: {2}" />
 		</error>
 		<hint></hint>
 	</message>
@@ -182,7 +190,9 @@
 			<text id="TRANSLATION_SCOPE" value="ترجمه"   />
 			<text id="NATURAL_ORDER" value="ترتیب طبیعی" />
 			<text id="RELEVANCE" value="شباهت" />
+			<text id="AYA_LENGTH" value="طول آیه"   />
 			<text id="SORT_BY" value="مرتب بر اساس" />
+			<text id="SWITCH_FULL_SCREEN" value="کلید تمام‌صفحه"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS" value="مضمون"   />
@@ -195,12 +205,13 @@
 			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید &quot;قبول&quot; را فشار دهید." />
 			<text id="MAX_SEARCH_RESULT" value="حداکثر تعداد نتایج جستجو" />
 			<text id="RESIZEABLE_TASK_PANE" value="قابلیت تغییر اندازه برای قاب وظایف" />
-            <text id="SURA_NAMES" value="نام سوره‌ها" />
+			<text id="SURA_NAMES" value="نمایش نام سوره‌ها به"   />
             <text id="ARABIC" value="عربی" />
             <text id="EN_T9N" value="ترجمهٔ انگلیسی" />
             <text id="EN_T13N" value="آوانگاری انگلیسی" />
             <text id="T9N" value="ترجمه‌شده (اگر موجود است)" />
             <text id="T13N" value="آوانگاری‌شده (اگر موجود است)" />
+			<text id="ENABLE_AUDIO" value="فعال‌سازی امکان قرائت" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="تنظیم محدودهٔ جستجو" />

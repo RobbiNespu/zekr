@@ -123,7 +123,7 @@ public class AdvancedTextSearch {
 		Set clauses = new LinkedHashSet();
 		List intermediateResult = locations;
 		for (int i = 0; i < patterns.length; i++) {
-			// TODO: for queries with patterns.length > 1, first search for larger patterns[i]
+			// TODO: for queries with patterns.length > 1, first search for larger (more filtering) patterns[i]
 			String p = patterns[i];
 			boolean exclude;
 			if (exclude = (p.charAt(0) == '!'))
@@ -131,6 +131,7 @@ public class AdvancedTextSearch {
 			intermediateResult = filterBucket(intermediateResult, p, exclude, i == 0);
 		}
 
+		// extract matched parts and clauses
 		int total = 0;
 		List resultItems = intermediateResult;
 		for (int i = 0; i < patterns.length; i++) {
@@ -157,7 +158,7 @@ public class AdvancedTextSearch {
 			sri.text = highlighter.highlight(sri.text, highlightPattern);
 		}
 
-		return new SearchResult(resultItems, CollectionUtils.toString(clauses, ", "), rawQuery, total,
+		return new SearchResult(resultItems, CollectionUtils.toString(clauses, " "), rawQuery, total,
 				searchResultComparator, ascending);
 	}
 

@@ -26,10 +26,11 @@ import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.util.CryptoUtils;
+import net.sf.zekr.engine.common.Signable;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 
-public class RevelationData implements Comparator {
+public class RevelationData implements Comparator, Signable {
 	private final Logger logger = Logger.getLogger(this.getClass());
 	public static final int SURA_MODE = 1;
 	public static final int AYA_MODE = 2;
@@ -46,6 +47,7 @@ public class RevelationData implements Comparator {
 
 	private boolean loaded;
 	private boolean verified;
+	private int verificationResult = UNKNOWN;
 
 	public RevelationData() {
 	}
@@ -124,10 +126,13 @@ public class RevelationData implements Comparator {
 		} catch (Exception e) {
 			logger.error("Error occurred during revelation pack verification: ", e);
 		}
-		if (verified)
+		if (verified) {
 			logger.debug("Revelation pack is valid");
-		else
+			verificationResult = AUTHENTIC;
+		} else {
 			logger.debug("Revelation pack is not valid.");
+			verificationResult = NOT_AUTHENTIC;
+		}
 		return verified;
 	}
 
@@ -162,6 +167,10 @@ public class RevelationData implements Comparator {
 		}
 	}
 
+	public String toString() {
+		return id + ":(" + archiveFile.getName() + ")";
+	}
+
 	public int compare(Object o1, Object o2) {
 		IQuranLocation loc1 = (IQuranLocation) o1;
 		IQuranLocation loc2 = (IQuranLocation) o2;
@@ -174,5 +183,13 @@ public class RevelationData implements Comparator {
 			i2 = loc2.getAbsoluteAya() - 1;
 		}
 		return orders[i1] < orders[i2] ? -1 : (orders[i1] == orders[i2] ? 0 : 1);
+	}
+
+	public byte[] getSignature() {
+		return signature;
+	}
+
+	public int getVerificationResult() {
+		return verificationResult;
 	}
 }

@@ -23,7 +23,7 @@ $(document).ready(function() {
 	}
 
 	$(window).resize(function(e) {
-		refocus();
+//		refocus();
 	});
 	
 	$("#suraNav").focus();

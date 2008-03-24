@@ -42,8 +42,8 @@ public class RegexSeachUtils extends LetterConstants {
 		wildcardRegs.put("\\.", "P");
 		wildcardRegs.put("\\*", "S");
 		wildcardRegs.put("[?؟]", "Q");
-		wildcardRegs.put("[QPS]*S[QPS]*", "S");
-		wildcardRegs.put("^\\s*[QPS]*", "");
+		wildcardRegs.put("[QS]*S[QS]*", "S");
+		wildcardRegs.put("^\\s*[QS]*", "");
 	}
 
 	// wildcards

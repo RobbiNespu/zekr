@@ -34,9 +34,9 @@
 			#if($ADVANCED == "true")
 				#set ($ITEM_NUM = $UTILS.intAdd($AYA_NUM, $PAGE_START_NUM))
 	    		<span title="${ITEM.Location}" class="searchItemNum" id="itemNum_$velocityCount">($I18N.localize($ITEM_NUM))</span>
-	    		$ITEM.contents
+	    		$ITEM.Text
 		    	<span title="${ITEM.Location}" dir="$DIR">
-					<a onclick="gotoSuraAya('${ITEM.Location.toString()}')" href="javascript:void(0)">$RPAREN${ITEM.Location.SuraName}: $I18N.localize(${ITEM.Location.Aya},"${_DL}")$LPAREN</a>
+					<a onclick="gotoSuraAya('${ITEM.Location}')" href="javascript:void(0)">$RPAREN${ITEM.Location.SuraName}: $I18N.localize(${ITEM.Location.Aya},"${_DL}")$LPAREN</a>
 					<span title="$TRANSLATE" class="handCursor" onclick="translate('${ITEM.Location}')"><img src="${ICON_TRANSLATE}"></span>
 				</span>
 			#else

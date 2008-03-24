@@ -10,7 +10,6 @@ package net.sf.zekr.common.config;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public interface ConfigNaming {
 	public static final String VERSION_ATTR = "version";
@@ -25,7 +24,7 @@ public interface ConfigNaming {
 	public static final String THEME_ATTR = "theme";
 	public static final String AUTHOR_ATTR = "author";
 	public static final String LOCALIZED_NAME_ATTR = "localizedName";
-	public static final String LINE_DELIMITER_ATTR = "lineDelimiter";
+	public static final String LINE_DELIMITER_ATTR = "delimiter";
 	public static final String SIGNATURE_ATTR = "signature";
 
 	public static final String LINE_BY_LINE = "line-by-line";
@@ -38,4 +37,5 @@ public interface ConfigNaming {
 	public static final String TRANS_ONLY_LAYOUT = "trans-only";
 
 	public static final String REVEL_PACK_EXT = ".revel.zip";
+	public static final String TRANS_PACK_SUFFIX = ".trans.zip";
 }

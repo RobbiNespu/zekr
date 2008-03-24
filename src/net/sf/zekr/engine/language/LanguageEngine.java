@@ -24,6 +24,7 @@ import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.w3c.dom.Node;
 
@@ -195,7 +196,8 @@ public class LanguageEngine extends LanguageEngineNaming {
 	public String getDynamicMeaning(String word, String[] strArray) {
 		String meaning = getMeaning(word);
 		for (int i = 0; i < strArray.length; i++) {
-			meaning = meaning.replaceAll("\\{" + (i + 1) + "\\}", strArray[i]);
+			// TODO: bug with strings with "\" character
+			meaning = meaning.replaceAll("\\{" + (i + 1) + "\\}", escape(strArray[i]));
 		}
 		return meaning;
 	}
@@ -228,9 +230,13 @@ public class LanguageEngine extends LanguageEngineNaming {
 			return "";
 		String meaning = (String) ((Map) forms.get(id)).get(word);
 		for (int i = 0; i < strArray.length; i++) {
-			meaning = meaning.replaceAll("\\{" + (i + 1) + "\\}", strArray[i]);
+			meaning = meaning.replaceAll("\\{" + (i + 1) + "\\}", escape(strArray[i]));
 		}
 		return meaning;
+	}
+
+	private String escape(String str) {
+		return StringUtils.replace(str, "\\", "\\\\");
 	}
 
 	/**

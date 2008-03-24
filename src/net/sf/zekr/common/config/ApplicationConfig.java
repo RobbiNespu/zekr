@@ -371,7 +371,7 @@ public class ApplicationConfig implements ConfigNaming {
 			logger.info("Loading translation files info from: " + transDir);
 			FileFilter filter = new FileFilter() { // accept zip files
 				public boolean accept(File pathname) {
-					if (pathname.getName().toLowerCase().endsWith(".zip"))
+					if (pathname.getName().toLowerCase().endsWith(TRANS_PACK_SUFFIX))
 						return true;
 					return false;
 				}
@@ -488,12 +488,12 @@ public class ApplicationConfig implements ConfigNaming {
 		td.name = pc.getString(NAME_ATTR);
 		td.localizedName = pc.getString(LOCALIZED_NAME_ATTR, td.name);
 		td.archiveFile = transZipFile;
-		td.lineDelimiter = pc.getString(LINE_DELIMITER_ATTR, "\n");
+		td.delimiter = pc.getString(LINE_DELIMITER_ATTR, "\n");
 		String sig = pc.getString(SIGNATURE_ATTR);
 		td.signature = sig == null ? null : Base64.decode(sig);
 
 		if (StringUtils.isEmpty(td.id) || StringUtils.isEmpty(td.name) || StringUtils.isEmpty(td.file)
-				|| StringUtils.isEmpty(td.version) || td.signature == null) {
+				|| StringUtils.isEmpty(td.version)) {
 			logger.warn("Invalid translation: \"" + td + "\".");
 			return null;
 		}

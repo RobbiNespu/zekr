@@ -427,42 +427,66 @@ Bug fixes:
 
 Version 0.7.0 beta 1 - [20-3-08]
 Features/Enhancements:
-    Quran translation verification added in order to verify whether the text is authentic (downloaded from the official website) or not.
-    	- Each translation should have a signature meta data in order to be imported (through Tools > Add) or loaded (through View > Translation).
-    	- If the signature is not valid, it cannot be used in Zekr.
-    	- Only signature of the default translation (selected custom translation list) is verified at startup in order to save startup time. If there is an invalid translation in user's translation list, although showed, cannot be selected.
+	Quran translation verification added in order to verify whether the text is authentic (downloaded from the official website) or not.
+		- Each translation should have a signature meta data.
+		- If the signature is not valid, user will be prompted by a warning when it cannot be used in Zekr.
+		- Only signature of the default translation (selected custom translation list) is verified at startup in order to save startup time. If there is an invalid translation in user's translation list, although showed, cannot be selected.
     Two new properties introduced for translation descriptors: "version" (translation descriptor file version), and "signature" (digital signature of the translation text).
-    Check for update menu item added under Help menu.
-        - It looks up in the update site (update.address property) for any new update available.
-        - QuranForm checks for update on Shell activation if this is time for update (update.checkInterval is passed from update.lastCheck)
-       	- Update info is downloaded in form of an XML file from server. It contains version, build number, release status, download URL, etc.
-        - Check for update action or its menu item can be fully disabled by setting update.enable property to false. This can be helpful when user is always offline or Zekr is used as a Debian package (which should has it's own method of updating).
-    A "View log" link added to the about page, which tries to open log. It can be used for technical support.
-    Sky theme enhanced:
-    	- Rounded corner on Mozilla or CSS3-compliant browsers.
-    	- Sura name on the top of each sura
-    	- Text-based Bismillah on the top of each Sura (except suras 1 and 9)
-    /res/text/metadata directory created. quran-properties.xml and each quran-properties-[lang_iso_id].xml should be under this folder. Quran root list with its addresses is under this folder as well.
-    VM info in the log file updated to be more accurate.
-    Localization of all numbers in search result messages. 
-    Changing sura-aya location to the form: sura#:aya# (e.g. 3:130). It used to be like this: sura#-aya#, which was not correctly rendered for RTL environments.
-    Error tolerance for unavailable recitation packs. Will disable audio support, if no other one is available, or use the first recitation as default.
-    English translation and transliteration of sura names added to quran-properties.xml.
-    Different options for showing sura names: Arabic, English translation, English transliteration, Local translation, or Local transliteration. The last two are available only if quran-properties-xy.xml file was available for selected language (where xy is the language code).
-    No need to restart application anymore if a new translation is added. Restarting is still needed when application launched with no default translation (hence translation support is disabled until it is restarted).
-    Switching to quran-simple-modified Quran text file obtained from tanzil.info. This is an accurate Quran text, which is best for reading Quran. As a result all kinds of Waqf signs are available even in non-Uthmai theme.
+	Check for update menu item added under Help menu.
+	    - It looks up in the update site (update.address property) for any new update available.
+	    - QuranForm checks for update on Shell activation if this is time for update (update.checkInterval is passed from update.lastCheck)
+	   	- Update info is downloaded in form of an XML file from server. It contains version, build number, release status, download URL, etc.
+	    - Check for update action or its menu item can be fully disabled by setting update.enable property to false. This can be helpful when user is always offline or Zekr is used as a Debian package (which should has it's own method of updating).
+	A "View log" link added to the about page, which tries to open log. It can be used for technical support.
+	Sky theme enhanced:
+		- Rounded corner on Mozilla or CSS3-compliant browsers.
+		- Sura name on the top of each sura
+		- Text-based Bismillah on the top of each Sura (except suras 1 and 9)
+	/res/text/metadata directory created. quran-properties.xml and each quran-properties-[lang_iso_id].xml should be under this folder. Quran root list with its addresses is under this folder as well.
+	VM info in the log file updated to be more accurate.
+	Localization of all numbers in search result messages. 
+	Changing sura-aya location to the form: sura#:aya# (e.g. 3:130). It used to be like this: sura#-aya#, which was not correctly rendered for RTL environments.
+	Error tolerance for unavailable recitation packs. Will disable audio support, if no other one is available, or use the first recitation as default.
+	English translation and transliteration of sura names added to quran-properties.xml.
+	Different options for showing sura names: Arabic, English translation, English transliteration, Local translation, or Local transliteration. The last two are available only if quran-properties-xy.xml file was available for selected language (where xy is the language code).
+	No need to restart application anymore if a new translation is added. Restarting is still needed when application launched with no default translation (hence translation support is disabled until it is restarted).
+	Switching to quran-simple Quran text file obtained from tanzil.info. This is an accurate Quran text, which is best for reading Quran. As a result all kinds of Waqf signs are available even in non-Uthmai theme.
+	When selecting multi-trans layout, Zekr brings up multi-translations customization form if custom translation list size is zero.
+	"Configure Custom translations" menu item, moved under View > Translation menu.
+	A new basic (although not so basic) search based on Tanzil.info search algorithm introduced (as a result two view.search.sortOrder, view.search.sortBy and view.search.multiline added to config.properties):
+		- The GUI of basic and advanced search is now identical (although there are still two tabs).
+		- Sort results by: 1. Natural order, 2. Similarity, 3. Revelation order, and 4. Aya length.
+		- Sort order: ascending and descending
+		- Wildcards (?, ., *) support.
+		- Partial diacritic matching and partial/exact phrase matching.
+		- Logical operators (default operator between two phrases is AND) 
+	"Revelation order" and "Aya length" sort criteria, as well as the feature to sort results ascending or descending added to Advanced search.
+	Quran Revelation order metadata added:
+		- revel.default property in config.properties.
+		- Revelation data packages are zip files with suffix .revel.zip, containing an ordering data (.revel.txt) file and a revelation descriptor (revelation.properties).
+		- Revelation packages may have two modes: sura and aya. If a revel-pack is in sura mode, it should have exactly 114 numbers representing revelation order of 114 Quran suras. In aya mode, it has 6236 numbers representing revelation order of all ayas. Note that non of these are accurate, and revelation order is a debatable topic.
+		- Revelation packs are signed so that Zekr can verify authenticity of the package.
+	Two new sort order added to Lucene search. Users can sort search results by: 1. Aya length 2. Revelation order (based on the current selected revelation data pack) as well as the previous options(Similarity and Natural order)
+	Sorted search results can be ordered ascending or descending both for base search and Lucene search. Two new properties added to config.properties accordingly: view.search.sortOrder and view.search.advanced.sortOrder which accept "asc" and "des" values.
+	A new checkbox: "Enable audio support" added to OptionsForm, general tab, to enable or disable audio support. When disabling, it also disables local HTTP server. This item is enable when both audio.enable and server.http.enable are enabled. Otherwise it's disabled.
+	lineDelimiter changed to delimiter in translation descriptors. Translation packs should have both lineDelimiter and delimiter in order to be backward compatible.
+	Translation packages' suffix changed to .trans.zip (formely .zip).
+	Full screen support: a new menu item added under View menu which switchs GUI to the full screen mode. It requires SWT 3.4M2. When switching to full screen mode, a floated button is shown which switchs back to the normal mode if pressed.
 Bug fixes:
-    Disabled "Save as..." button when HTML is served through HTTP server. Exporting pages without having HTTP server on, is not a good idea, because no image/JS/CSS resources can be accessed then.
-    Audio > Play/Pause menu item text is now correctly updated upon play/pause status change.
-    Player bar buttons' size fixed.
-    Audio menu is now correctly disabled when setting audio.enabled = false in config.properties
-    Separator is shown in "Recitation" and "Translation" menu groups when there is at least one recitation/translation available.
-    Menu icons are not shown in Mac. All "Control" keys in menu item's accelerator (and text) changed to Command button.
-    A bug with multi-translation layout fixed. This bug affected IE and caused horizontal scrolling when resizing window.
-    Incorrect start point for Juz 10 fixed. The correct location is 8:41.
-    When focusing on the first aya in each sura, there would be no extra space on the top of the focusing area, so that sura name and Bismillah are shown correctly.
+	Disabled "Save as..." button when HTML is served through HTTP server. Exporting pages without having HTTP server on, is not a good idea, because no image/JS/CSS resources can be accessed then.
+	Audio > Play/Pause menu item text is now correctly updated upon play/pause status change.
+	Player bar buttons' size fixed.
+	Audio menu is now correctly disabled when setting audio.enable = false in config.properties
+	Separator is shown in "Recitation" and "Translation" menu groups when there is at least one recitation/translation available.
+	Menu icons are not shown in Mac. All "Control" keys in menu item's accelerator (and text) changed to Command button.
+	A bug with multi-translation layout fixed. This bug affected IE and caused horizontal scrolling when resizing window.
+	Incorrect start point for Juz 10 fixed. The correct location is 8:41.
+	When focusing on the first aya in each sura, there would be no extra space on the top of the focusing area, so that sura name and Bismillah are shown correctly.
+	audio.enabled changed to audio.enable for more consistency in property naming.
 _____________________________________________________
 	TODO: Update screenshots on the website
+	TODO: Search results in ascending/descending order
+	TODO: Export search results
 
 	TODO: aya change in nav bar should work even when a html is "saved as...".
 	TODO: GCJ bug with XSLT transformation

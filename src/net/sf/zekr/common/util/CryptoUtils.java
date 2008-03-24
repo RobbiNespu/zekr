@@ -51,26 +51,24 @@ public class CryptoUtils {
 
 	public static boolean verify(byte[] text, PublicKey pubKey, byte[] sigBytes) throws NoSuchAlgorithmException,
 			InvalidKeyException, SignatureException {
-		Signature sig = Signature.getInstance("SHAwithDSA");
+		Signature sig = Signature.getInstance("SHA1withDSA");
 		sig.initVerify(pubKey);
 		sig.update(text);
 		return sig.verify(sigBytes);
 	}
 
 	public static boolean verify(byte[] text, byte[] sigBytes) throws GeneralSecurityException {
-		KeyFactory keyFactory = KeyFactory.getInstance("DSA");
 		X509EncodedKeySpec pubSpec = new X509EncodedKeySpec(PUBLIC_KEY);
+		KeyFactory keyFactory = KeyFactory.getInstance("DSA");
 		PublicKey pubKey = keyFactory.generatePublic(pubSpec);
-		keyFactory.generatePublic(pubSpec);
 		return verify(text, pubKey, sigBytes);
 	}
 
 	public static byte[] sign(byte[] text, byte[] prvKeyBytes) throws GeneralSecurityException {
-		KeyFactory keyFactory = KeyFactory.getInstance("DSA");
 		PKCS8EncodedKeySpec prvSpec = new PKCS8EncodedKeySpec(prvKeyBytes);
+		KeyFactory keyFactory = KeyFactory.getInstance("DSA");
 		PrivateKey prvKey = keyFactory.generatePrivate(prvSpec);
-
-		Signature sig = Signature.getInstance("SHAwithDSA");
+		Signature sig = Signature.getInstance("SHA1withDSA");
 		sig.initSign(prvKey);
 		sig.update(text);
 		return sig.sign();
