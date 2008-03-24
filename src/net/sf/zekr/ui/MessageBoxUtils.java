@@ -29,6 +29,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -37,8 +38,10 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -312,11 +315,11 @@ public class MessageBoxUtils {
 	public static Shell getFullScreenToolbar(final QuranForm quranForm) {
 		ResourceManager res = ResourceManager.getInstance();
 		Shell shell = getShell();
-		Shell floatShell = new Shell(shell, SWT.CLOSE | SWT.ON_TOP | SWT.TOOL
-				| LanguageEngine.getInstance().getSWTDirection());
-		floatShell.setText("Full Screen");
+		final Display display = shell.getDisplay();
+		final Shell floatShell = new Shell(shell, SWT.BORDER | SWT.ON_TOP | SWT.TOOL);
 		floatShell.setLayout(new FillLayout());
-		ToolBar bar = new ToolBar(floatShell, SWT.BORDER);
+		ToolBar bar = new ToolBar(floatShell, SWT.FLAT);
+
 		final ToolItem item = new ToolItem(bar, SWT.CHECK);
 		item.setSelection(true);
 		item.addSelectionListener(new SelectionAdapter() {
@@ -324,9 +327,33 @@ public class MessageBoxUtils {
 				quranForm.setFullScreen(item.getSelection(), false);
 			}
 		});
-		item.setToolTipText("Switch");
-		item.setImage(new Image(shell.getDisplay(), res.getString("icon.menu.fullscreen")));
-		floatShell.setLayout(new FillLayout());
+
+		Listener l = new Listener() {
+			Point origin;
+
+			public void handleEvent(Event e) {
+				switch (e.type) {
+				case SWT.MouseDown:
+					origin = new Point(e.x, e.y);
+					break;
+				case SWT.MouseUp:
+					origin = null;
+					break;
+				case SWT.MouseMove:
+					if (origin != null) {
+						Point p = display.map(floatShell, null, e.x, e.y);
+						floatShell.setLocation(p.x - origin.x, p.y - origin.y);
+					}
+					break;
+				}
+			}
+		};
+		floatShell.addListener(SWT.MouseDown, l);
+		floatShell.addListener(SWT.MouseUp, l);
+		floatShell.addListener(SWT.MouseMove, l);
+
+		item.setToolTipText(quranForm.meaning("SWITCH_FULL_SCREEN"));
+		item.setImage(new Image(shell.getDisplay(), res.getString("icon.toolbar.fullScreen")));
 		floatShell.pack();
 		floatShell.open();
 		return floatShell;

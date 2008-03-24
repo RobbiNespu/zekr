@@ -465,7 +465,7 @@ public class QuranFormMenuFactory {
 		// fullscreen menu item
 		new MenuItem(viewMenu, SWT.SEPARATOR);
 		fullScreenItem = createMenuItem(SWT.CHECK, viewMenu, lang.getMeaning("FULL_SCREEN"), SWT.F11,
-				"icon.menu.fullscreen");
+				"icon.menu.fullScreen");
 		fullScreenItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				form.setFullScreen(fullScreenItem.getSelection(), true);

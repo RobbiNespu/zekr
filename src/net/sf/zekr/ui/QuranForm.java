@@ -1959,7 +1959,7 @@ public class QuranForm extends BaseForm {
 		list.add(new Integer(r.width));
 		list.add(new Integer(r.height));
 
-		if (shell.getFullScreen()) { // don't save fullscreen state
+		if (!shell.getFullScreen()) { // don't save fullscreen state
 			config.getProps().setProperty("view.shell.location", list);
 			config.getProps().setProperty("view.shell.maximized", new Boolean(shell.getMaximized()));
 		}
@@ -2104,7 +2104,7 @@ public class QuranForm extends BaseForm {
 		return display;
 	}
 
-	private String meaning(String key) {
+	String meaning(String key) {
 		return lang.getMeaningById(FORM_ID, key);
 	}
 }
