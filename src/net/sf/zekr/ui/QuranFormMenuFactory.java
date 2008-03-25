@@ -610,11 +610,8 @@ public class QuranFormMenuFactory {
 		help.setMenu(helpMenu);
 
 		MenuItem homePage = createMenuItem(0, helpMenu, lang.getMeaning("HOMEPAGE"), 0, "icon.menu.homepage");
-		homePage.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				homepage();
-			}
-		});
+		homePage.setData(FormUtils.URL_DATA, GlobalConfig.HOME_PAGE);
+		FormUtils.addLinkListener(homePage);
 
 		MenuItem onlineHelpItem = createMenuItem(0, helpMenu, lang.getMeaning("ONLINE_HELP"), 0, "icon.menu.onlineHelp");
 		onlineHelpItem.addListener(SWT.Selection, new Listener() {
@@ -850,6 +847,7 @@ public class QuranFormMenuFactory {
 		String destDir = ApplicationPath.TRANSLATION_DIR;
 		List errorList = new ArrayList();
 		List transFileList = new ArrayList(); // prevent NPE
+		List addedList = new ArrayList();
 		try {
 			transFileList = MessageBoxUtils.importFileDialog(shell, new String[] { "*.trans.zip Translation Files" },
 					new String[] { "*.trans.zip" });
@@ -875,10 +873,13 @@ public class QuranFormMenuFactory {
 					continue;
 				}
 				logger.info("Copy translation \"" + file2Import.getName() + "\" to " + destDir);
-				File targetTransFile = new File(destDir + "/" + file2Import.getName());
-				FileUtils.copyFile(file2Import, targetTransFile);
+				File tfile = new File(destDir + "/" + file2Import.getName());
+				FileUtils.copyFile(file2Import, tfile);
 				try {
-					config.addNewTranslation(targetTransFile);
+					if (!config.addNewTranslation(tfile))
+						errorList.add(lang.getDynamicMeaning("INVALID_TRANSLATION_SIGNATURE",
+								new String[] { tfile.getName() }));
+					addedList.add(tfile.getName());
 				} catch (ZekrMessageException zme) {
 					logger.warn(zme);
 					errorList.add(lang.getDynamicMeaning(zme.getMessage(), zme.getParams()));
@@ -889,9 +890,6 @@ public class QuranFormMenuFactory {
 			if (errorList.size() > 0) {
 				String str = CollectionUtils.toString(errorList, GlobalConfig.LINE_SEPARATOR);
 				MessageBoxUtils.showWarning(str);
-			} else {
-				// MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
-				MessageBoxUtils.showMessage(lang.getMeaning("ACTION_PERFORMED"));
 			}
 		} catch (IOException e) {
 			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
@@ -899,8 +897,14 @@ public class QuranFormMenuFactory {
 		} finally {
 			if (config.getTranslation().getDefault() == null && errorList.size() <= 0 && transFileList.size() > 0)
 				MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
-			else
+			else if (addedList.size() > 0) {
 				createOrUpdateTranslationMenu();
+				String str = lang.getMeaning("VIEW") + " > " + lang.getMeaning("TRANSLATION");
+				String rlm = (rtl ? I18N.RLM + "" : "");
+				MessageBoxUtils.showMessage(rlm + lang.getMeaning("ACTION_PERFORMED") + "\n"
+						+ lang.getDynamicMeaning("TRANSLATION_ADDED", new String[] { str }) + ":\n"
+						+ CollectionUtils.toString(addedList, lang.getMeaning("COMMA") + "\n"));
+			}
 		}
 	}
 
@@ -936,7 +940,7 @@ public class QuranFormMenuFactory {
 				ZipUtils.extract(file2Import, destDir);
 
 				String themeId = FilenameUtils.getBaseName(file2Import.getName());
-				File origTheme = new File(destDir + "/" + themeId + "/" + resource.getString("theme.desc"));
+				File origTheme = new File(destDir + "/" + themeId + "/" + ApplicationPath.THEME_DESC);
 				logger.debug("Copy customizable theme properties " + origTheme.getName() + " to "
 						+ Naming.getThemePropsDir());
 				FileUtils.copyFile(origTheme, new File(Naming.getThemePropsDir() + "/" + themeId + ".properties"));
@@ -1002,10 +1006,6 @@ public class QuranFormMenuFactory {
 		AboutForm af = new AboutForm(shell);
 		af.getShell().setLocation(FormUtils.getCenter(shell, af.getShell()));
 		af.show();
-	}
-
-	private void homepage() {
-		HyperlinkUtils.openBrowser(GlobalConfig.HOME_PAGE);
 	}
 
 	private void check4Update() {

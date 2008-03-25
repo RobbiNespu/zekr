@@ -16,20 +16,19 @@ import net.sf.zekr.common.util.HyperlinkUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Widget;
 
 /**
  * @author Mohsen Saboorian
@@ -227,13 +226,11 @@ public class FormUtils {
 	/**
 	 * Listener used for opening system's web browser if one clicks on a Link widget.
 	 */
-	private static SelectionListener linkListener = new SelectionAdapter() {
-		public void widgetDefaultSelected(SelectionEvent e) {
-			widgetSelected(e);
-		}
-
-		public void widgetSelected(SelectionEvent e) {
-			HyperlinkUtils.openBrowser((String) e.widget.getData(URL_DATA));
+	private static Listener linkListener = new Listener() {
+		public void handleEvent(Event event) {
+			if (event.type == SWT.Selection) {
+				HyperlinkUtils.openBrowser((String) event.widget.getData(URL_DATA));
+			}
 		}
 	};
 
@@ -242,8 +239,8 @@ public class FormUtils {
 	 * 
 	 * @param link
 	 */
-	public static void addLinkListener(Link link) {
-		link.addSelectionListener(linkListener);
+	public static void addLinkListener(Widget widget) {
+		widget.addListener(SWT.Selection, linkListener);
 	}
 
 	/**

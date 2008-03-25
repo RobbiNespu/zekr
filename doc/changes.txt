@@ -277,7 +277,7 @@ Features/Enhancements:
 	sky-vertical theme was removed and side-by-side translation view is now supported via "trans_showMultipleSideBySide" theme property of sky.
 	A flag "quran_detailedTextFile" can be set to true in theme.properties to force Zekr to use a detailed Quran text if available. Detailed Quran text is very similar to Uthman Taha Quran calligraphy.
 	An experimental "Uthman Taha" theme added.
-		It uses "me_quran" as the defulat font for rendering Quran text.
+		It uses "me_quran" as the default font for rendering Quran text.
 		quran_detailedTextFile is true by default in this theme.
 		Several CSS hacks and enhancements are done to this theme in order to bypass IE6 bugs for rendering in screen and printed document.
 		This theme may have unexpected rendering errors with IE6, because of inherent IE6 bugs :). FF 2.0 and IE7 are OK.
@@ -428,9 +428,9 @@ Bug fixes:
 Version 0.7.0 beta 1 - [20-3-08]
 Features/Enhancements:
 	Quran translation verification added in order to verify whether the text is authentic (downloaded from the official website) or not.
-		- Each translation should have a signature meta data.
-		- If the signature is not valid, user will be prompted by a warning when it cannot be used in Zekr.
-		- Only signature of the default translation (selected custom translation list) is verified at startup in order to save startup time. If there is an invalid translation in user's translation list, although showed, cannot be selected.
+		- Each translation (and other signable packs) should have a signature meta data.
+		- If the signature is not valid, user will be prompted by a warning message.
+		- Translation signature verification is done on demand (when translation is loaded).
     Two new properties introduced for translation descriptors: "version" (translation descriptor file version), and "signature" (digital signature of the translation text).
 	Check for update menu item added under Help menu.
 	    - It looks up in the update site (update.address property) for any new update available.
@@ -448,7 +448,7 @@ Features/Enhancements:
 	Changing sura-aya location to the form: sura#:aya# (e.g. 3:130). It used to be like this: sura#-aya#, which was not correctly rendered for RTL environments.
 	Error tolerance for unavailable recitation packs. Will disable audio support, if no other one is available, or use the first recitation as default.
 	English translation and transliteration of sura names added to quran-properties.xml.
-	Different options for showing sura names: Arabic, English translation, English transliteration, Local translation, or Local transliteration. The last two are available only if quran-properties-xy.xml file was available for selected language (where xy is the language code).
+	Different options for showing sura names: Arabic, English translation, English transliteration, Local translation, or Local transliteration. The last two are available only if quran-properties-xy.xml file was available for selected language (where xy is the language code). view.sura.name property added to config.properties to store user's sura name mode.
 	No need to restart application anymore if a new translation is added. Restarting is still needed when application launched with no default translation (hence translation support is disabled until it is restarted).
 	Switching to quran-simple Quran text file obtained from tanzil.info. This is an accurate Quran text, which is best for reading Quran. As a result all kinds of Waqf signs are available even in non-Uthmai theme.
 	When selecting multi-trans layout, Zekr brings up multi-translations customization form if custom translation list size is zero.
@@ -473,7 +473,10 @@ Features/Enhancements:
 	Translation packages' suffix changed to .trans.zip (formely .zip).
 	Full screen support: a new menu item added under View menu which switchs GUI to the full screen mode. It requires SWT 3.4M2. When switching to full screen mode, a floated button is shown which switchs back to the normal mode if pressed.
 	Scrollable task pane. Task pane is scrolled when needed.
-	"Online Help" menu item added under Help menu to open Zekr online wiki in a.
+	"Online Help" menu item added under Help menu to open Zekr online wiki in a browser.
+	A Help menu item added under search scope menu (near search button).
+	Synchronize button removed in order to free more space in nav bar. This old button (from 0.1.0b1 :)) was rarely used.
+	A new option added to General tab to show sura names in a tree-like structure. When selecting this mode, 
 Bug fixes:
 	Disabled "Save as..." button when HTML is served through HTTP server. Exporting pages without having HTTP server on, is not a good idea, because no image/JS/CSS resources can be accessed then.
 	Audio > Play/Pause menu item text is now correctly updated upon play/pause status change.
@@ -485,6 +488,8 @@ Bug fixes:
 	Incorrect start point for Juz 10 fixed. The correct location is 8:41.
 	When focusing on the first aya in each sura, there would be no extra space on the top of the focusing area, so that sura name and Bismillah are shown correctly.
 	audio.enabled changed to audio.enable for more consistency in property naming.
+	quran_detailedTextFile changed to quran_uthmaniTextFile in theme.properties.
+	theme.properties in user workspace is overwritten with the base one if the base theme.properties is newer that user's. This resets all theme-related configurations when installing a newer version of Zekr.
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Search results in ascending/descending order
