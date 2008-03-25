@@ -14,6 +14,7 @@
 	#set($TD_CLASS="quran")
 	#set($BODY_ID="quranBody")
 	#set($DIR="rtl")
+	#set($IS_QURAN="true")
 #end
 #if($DIRECTION == "rtl")
 	#set($LEAD="right")
@@ -74,7 +75,7 @@ $("input#suraNav,input#ayaNav").bind("keyup", function(e) {
 	   $DICT.getMeaning("SURA"):
 	   $SURA_NAME
 	   </div>
-	   #if ($SURA_NUM != 9 && $SURA_NUM != 1)
+	   #if ($SURA_NUM != 9 && $SURA_NUM != 1 && $IS_QURAN == "true")
 	   <div class="quran bismillah">
 	   $BISMILLAH
 	   </div>
