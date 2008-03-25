@@ -616,6 +616,13 @@ public class QuranFormMenuFactory {
 			}
 		});
 
+		MenuItem onlineHelpItem = createMenuItem(0, helpMenu, lang.getMeaning("ONLINE_HELP"), 0, "icon.menu.onlineHelp");
+		onlineHelpItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				HyperlinkUtils.openBrowser(GlobalConfig.HELP_PAGE);
+			}
+		});
+
 		// separator
 		new MenuItem(helpMenu, SWT.SEPARATOR);
 
@@ -881,7 +888,7 @@ public class QuranFormMenuFactory {
 			}
 			if (errorList.size() > 0) {
 				String str = CollectionUtils.toString(errorList, GlobalConfig.LINE_SEPARATOR);
-				MessageBoxUtils.showError(str);
+				MessageBoxUtils.showWarning(str);
 			} else {
 				// MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
 				MessageBoxUtils.showMessage(lang.getMeaning("ACTION_PERFORMED"));

@@ -446,6 +446,10 @@ public class ApplicationConfig implements ConfigNaming {
 			List customs = props.getList("trans.custom");
 			for (int i = 0; i < customs.size(); i++) {
 				String tid = (String) customs.get(i);
+				if (tid == null || "".equals(tid.trim())) {
+					logger.info("No custom translation list to load.");
+					continue;
+				}
 				TranslationData td = translation.get(tid);
 				if (td == null) {
 					logger.error("No such translation: " + tid);
@@ -771,6 +775,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public void setCurrentTranslation(String transId) throws TranslationException {
 		logger.info("Trying to change default translation to: " + transId);
+
+		if (!translation.getDefault().id.equals(transId))
+			translation.getDefault().unload();
+
 		TranslationData newTrans = getTranslation().get(transId);
 		newTrans.load();
 		translation.setDefault(newTrans);
@@ -935,12 +943,25 @@ public class ApplicationConfig implements ConfigNaming {
 	 */
 	public void setCustomTranslationList(List newIdList) throws TranslationException {
 		List newList = new ArrayList();
+
+		// load new translation packs
 		for (int i = 0; i < newIdList.size(); i++) {
 			String id = (String) newIdList.get(i);
 			TranslationData td = translation.get(id);
 			td.load();
 			newList.add(td);
 		}
+
+		String defaultId = translation.getDefault().id;
+
+		// unload old translation packs (which are not included in the new list)
+		List oldCustomList = translation.getCustomGroup();
+		for (int i = 0; i < oldCustomList.size(); i++) {
+			TranslationData oldTd = (TranslationData) oldCustomList.get(i);
+			if (!newIdList.contains(oldTd.id) && !oldTd.id.equals(defaultId))
+				oldTd.unload();
+		}
+
 		translation.setCustomGroup(newList);
 
 		props.setProperty("trans.custom", newIdList);
@@ -1000,12 +1021,11 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	/**
-	 * This method is used to add a new translation during runtime. It loads translation metadata, validates
-	 * translation and if everything is OK, adds it to the list of translations.
+	 * This method is used to add a new translation during runtime. It loads translation metadata and adds it
+	 * to the list of translations. If translation pack is not authentic, it throws a ZekrMessageException just
+	 * to inform user.
 	 * 
 	 * @param transFile a translation zip archive to be loaded
-	 * @return <code>true</code> if translation loaded and validated successfully, and <code>false</code>
-	 *         otherwise
 	 * @throws ZekrMessageException with the proper message key and parameters if any exception occurred
 	 */
 	public void addNewTranslation(File transFile) throws ZekrMessageException {
@@ -1015,9 +1035,8 @@ public class ApplicationConfig implements ConfigNaming {
 			if (td == null) {
 				throw new ZekrMessageException("INVALID_TRANSLATION_FORMAT", new String[] { transFile.toString() });
 			}
-			if (td.verify()) {
-				translation.add(td);
-			} else {
+			translation.add(td);
+			if (td.verify()) { // just to warn user.
 				throw new ZekrMessageException("INVALID_TRANSLATION_SIGNATURE", new String[] { transFile.toString() });
 			}
 		} catch (ZekrMessageException zme) {

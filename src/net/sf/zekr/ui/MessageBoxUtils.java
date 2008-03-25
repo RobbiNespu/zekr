@@ -421,4 +421,8 @@ public class MessageBoxUtils {
 		logger.debug("Save to file: " + f);
 		return f;
 	}
+
+	public static void showWarning(String msg) {
+		show(msg, lang.getMeaning("WARNING"), SWT.ICON_ERROR | lang.getSWTDirection());
+	}
 }

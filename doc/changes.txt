@@ -472,6 +472,8 @@ Features/Enhancements:
 	lineDelimiter changed to delimiter in translation descriptors. Translation packs should have both lineDelimiter and delimiter in order to be backward compatible.
 	Translation packages' suffix changed to .trans.zip (formely .zip).
 	Full screen support: a new menu item added under View menu which switchs GUI to the full screen mode. It requires SWT 3.4M2. When switching to full screen mode, a floated button is shown which switchs back to the normal mode if pressed.
+	Scrollable task pane. Task pane is scrolled when needed.
+	"Online Help" menu item added under Help menu to open Zekr online wiki in a.
 Bug fixes:
 	Disabled "Save as..." button when HTML is served through HTTP server. Exporting pages without having HTTP server on, is not a good idea, because no image/JS/CSS resources can be accessed then.
 	Audio > Play/Pause menu item text is now correctly updated upon play/pause status change.

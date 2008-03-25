@@ -107,7 +107,7 @@ public class TranslationData extends AbstractQuranText implements Signable {
 	 * Loads the tranalation data file, if not already loaded.
 	 */
 	public void load() throws TranslationException {
-		if (loaded) {
+		if (!loaded) {
 			Date date1 = new Date();
 			loadAndVerify();
 			Date date2 = new Date();
@@ -116,6 +116,15 @@ public class TranslationData extends AbstractQuranText implements Signable {
 		} else {
 			logger.debug("Translation already loaded: " + id);
 		}
+	}
+
+	/**
+	 * Unloads the content of translation in order to let Java free more memory.
+	 */
+	public void unload() {
+		fullTransText = null;
+		transText = null;
+		loaded = false;
 	}
 
 	private void loadAndVerify() throws TranslationException {
@@ -131,7 +140,8 @@ public class TranslationData extends AbstractQuranText implements Signable {
 
 			byte[] textBuf = new byte[(int) ze.getSize()];
 			if (!verify(zf.getInputStream(ze), textBuf))
-				throw new TranslationException("INVALID_TRANSLATION_SIGNATURE", new String[] { name });
+				logger.warn("Unauthorized translation data pack: " + this);
+			// throw new TranslationException("INVALID_TRANSLATION_SIGNATURE", new String[] { name });
 
 			refineText(new String(textBuf, encoding));
 
@@ -256,5 +266,4 @@ public class TranslationData extends AbstractQuranText implements Signable {
 	public int getVerificationResult() {
 		return verificationResult;
 	}
-
 }

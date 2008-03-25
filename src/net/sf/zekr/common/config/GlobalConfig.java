@@ -46,6 +46,8 @@ public class GlobalConfig {
 
 	public static final String RESOURCE_PAGE = HOME_PAGE + "/resources.html";
 
+	public static final String HELP_PAGE = HOME_PAGE + "/wiki";
+
 	/**
 	 * Holds user country (runtime property <code>user.country</code>). e.g. IR, US, etc.
 	 */
