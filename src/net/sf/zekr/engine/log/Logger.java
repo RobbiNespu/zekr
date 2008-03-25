@@ -98,6 +98,10 @@ public class Logger {
 		logger.warn(msg);
 	}
 
+	final public void warn(Object msg, Throwable th) {
+		logger.warn(msg, th);
+	}
+
 	final public void error(Object msg) {
 		logger.error(msg);
 	}
