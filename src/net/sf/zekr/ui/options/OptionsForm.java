@@ -114,6 +114,7 @@ public class OptionsForm {
 
 	private String[] suraNameType = new String[] { "arabic", "t9n", "t13n", "en-t9n", "en-t13n" };
 	private Combo suraNameMode;
+	private Button suraTree;
 
 	public OptionsForm(Shell parent) {
 		this.parent = parent;
@@ -288,18 +289,20 @@ public class OptionsForm {
 		boolean isPaneResizeable = resizeablePane.getSelection();
 		boolean audioEnabledProp = props.getBoolean("server.http.enable") && props.getBoolean("audio.enable");
 		String audioEnabled = Boolean.toString(enableAudio.getSelection());
+		boolean suraAsTree = suraTree.getSelection();
 		if (!config.getLanguage().getActiveLanguagePack().id.equals(selectedLangPack.id)
 				|| !td.id.equals(selectedTheme.id)
 				|| props.getBoolean("options.general.resizeableTaskPane") != isPaneResizeable
-				|| audioEnabledProp != enableAudio.getSelection()) {
+				|| audioEnabledProp != enableAudio.getSelection()
+				|| suraAsTree != ("tree".equals(props.getString("view.sura.mode")))) {
 			pressOkToApply = true;
 		}
 
 		config.setShowSplash(showSplash.getSelection());
 		props.setProperty("options.search.maxResult", "" + spinner.getSelection());
 
-		if (!suraNameType[suraNameMode.getSelectionIndex()].equals(props.getProperty("quran.sura.name"))) {
-			props.setProperty("quran.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
+		if (!suraNameType[suraNameMode.getSelectionIndex()].equals(props.getProperty("view.sura.name"))) {
+			props.setProperty("view.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
 			EventUtils.sendEvent(EventProtocol.UPDATE_SURA_NAMES);
 		}
 
@@ -309,6 +312,7 @@ public class OptionsForm {
 			props.setProperty("options.general.resizeableTaskPane", new Boolean(isPaneResizeable));
 			props.setProperty("server.http.enable", audioEnabled);
 			props.setProperty("audio.enable", audioEnabled);
+			props.setProperty("view.sura.mode", suraAsTree ? "tree" : "combo");
 		}
 	}
 
@@ -417,7 +421,7 @@ public class OptionsForm {
 		suraNameMode = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
 		suraNameMode.setItems(suraNameKey);
 		int modeSelect = 0;
-		String selectedMode = config.getProps().getString("quran.sura.name");
+		String selectedMode = config.getProps().getString("view.sura.name", "arabic");
 		for (int i = 0; i < suraNameType.length; i++) {
 			if (suraNameType[i].equals(selectedMode)) {
 				modeSelect = i;
@@ -426,14 +430,18 @@ public class OptionsForm {
 		}
 		suraNameMode.select(modeSelect);
 
+		suraTree = new Button(generalTab, SWT.CHECK);
+		suraTree.setText(meaning("SURA_NAME_TREE"));
+		suraTree.setSelection("tree".equals(config.getProps().getString("view.sura.mode", "combo")));
+
 		resizeablePane = new Button(generalTab, SWT.CHECK);
 		resizeablePane.setText(meaning("RESIZEABLE_TASK_PANE"));
-		resizeablePane.setSelection(config.getProps().getBoolean("options.general.resizeableTaskPane"));
+		resizeablePane.setSelection(config.getProps().getBoolean("options.general.resizeableTaskPane", false));
 
 		enableAudio = new Button(generalTab, SWT.CHECK);
 		enableAudio.setText(meaning("ENABLE_AUDIO"));
-		enableAudio.setSelection(config.getProps().getBoolean("server.http.enable")
-				&& config.getProps().getBoolean("audio.enable"));
+		enableAudio.setSelection(config.getProps().getBoolean("server.http.enable", true)
+				&& config.getProps().getBoolean("audio.enable", true));
 
 	}
 
