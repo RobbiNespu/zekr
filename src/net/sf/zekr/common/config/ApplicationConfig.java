@@ -532,7 +532,7 @@ public class ApplicationConfig implements ConfigNaming {
 				}
 
 				try {
-					if (!targetThemeFile.exists()) {
+					if (!targetThemeFile.exists() || FileUtils.isFileNewer(origThemeDesc, targetThemeFile)) {
 						logger.info("Copy theme " + origThemes[i].getName() + " to " + Naming.getThemePropsDir());
 						FileUtils.copyFile(origThemeDesc, targetThemeFile);
 					}
@@ -551,11 +551,13 @@ public class ApplicationConfig implements ConfigNaming {
 					}
 					td.author = pc.getString("author");
 					td.name = pc.getString("name");
+					td.version = pc.getString("version");
 					td.id = origThemes[i].getName();
 					td.fileName = targetThemeFile.getName();
 					td.baseDir = paths[pathIndex];
 					td.props.remove("author");
 					td.props.remove("name");
+					td.props.remove("version");
 
 					// extractTransProps must be called before it!
 					if (getTranslation().getDefault() != null)
@@ -1028,21 +1030,19 @@ public class ApplicationConfig implements ConfigNaming {
 	 * @param transFile a translation zip archive to be loaded
 	 * @throws ZekrMessageException with the proper message key and parameters if any exception occurred
 	 */
-	public void addNewTranslation(File transFile) throws ZekrMessageException {
+	public boolean addNewTranslation(File transFile) throws ZekrMessageException {
 		logger.debug("Add new translation: " + transFile);
 		try {
 			TranslationData td = loadTranslationData(transFile);
 			if (td == null) {
-				throw new ZekrMessageException("INVALID_TRANSLATION_FORMAT", new String[] { transFile.toString() });
+				throw new ZekrMessageException("INVALID_TRANSLATION_FORMAT", new String[] { transFile.getName() });
 			}
 			translation.add(td);
-			if (td.verify()) { // just to warn user.
-				throw new ZekrMessageException("INVALID_TRANSLATION_SIGNATURE", new String[] { transFile.toString() });
-			}
+			return td.verify();
 		} catch (ZekrMessageException zme) {
 			throw zme;
 		} catch (Exception e) {
-			throw new ZekrMessageException("TRANSLATION_LOAD_FAILED", new String[] { transFile.toString(), e.toString() });
+			throw new ZekrMessageException("TRANSLATION_LOAD_FAILED", new String[] { transFile.getName(), e.toString() });
 		}
 	}
 }

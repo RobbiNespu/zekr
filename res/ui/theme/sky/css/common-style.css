@@ -64,13 +64,11 @@ div.bodyTop {
 span.sajda#minor {
 	font-family: serif;
 	color: rgb(200, 40, 40);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.sajda#major {
 	font-family: serif;
 	color: rgb(240, 10, 10);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.juzSign {
@@ -100,20 +98,6 @@ span.juzSign {
 
 #custom.trans {
 	padding: 3px 0px;
-}
-
-.queryDetail {
-	font: 0.82em Tahoma, Arial, Sans-serif;
-	border: 1px dashed silver;
-	padding: 2px;
-}
-.queryDetail a:link, a:visited { 
-	color: rgb(40, 90, 230);
-	text-decoration: none;
-}
-
-.queryDetail a:hover { 
-	color: rgb(200, 50, 10);
 }
 
 td .ayaSep {

@@ -32,8 +32,8 @@ public class ThemeData {
 	public String name;
 
 	/**
-	 * Unique identifier for this theme. This should always be equal with the folder name of the theme data files (on
-	 * res/theme/).
+	 * Unique identifier for this theme. This should always be equal with the folder name of the theme data
+	 * files (on res/theme/).
 	 */
 	public String id;
 
@@ -44,9 +44,12 @@ public class ThemeData {
 
 	public String baseDir;
 
+	/** Theme descriptor version */
+	public String version;
+
 	/**
-	 * @return application relative theme path (e.g. <tt>res/theme/default</tt>). This is the directory of the
-	 *         original theme content on Zekr installed dir.
+	 * @return application relative theme path (e.g. <tt>res/theme/default</tt>). This is the directory of
+	 *         the original theme content on Zekr installed dir.
 	 */
 	public String getPath() {
 		return baseDir + "/" + id;
@@ -55,8 +58,7 @@ public class ThemeData {
 	/**
 	 * Will fill <code>processedProps</code> from <code>props</code> field
 	 * 
-	 * @param transLang
-	 *           default translation language
+	 * @param transLang default translation language
 	 */
 	public void process(String transLang) {
 		processedProps = new HashMap();
@@ -70,6 +72,7 @@ public class ThemeData {
 			else
 				processedProps.put((String) entry.getKey(), entry.getValue());
 		}
+		processedProps.remove("version");
 	}
 
 	public String toString() {

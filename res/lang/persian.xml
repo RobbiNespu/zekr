@@ -128,6 +128,8 @@
 			<text id="DESCENDING" value="نزولی" />
 			<text id="REVEL_ORDER" value="ترتیب نزول" />
 			<text id="FULL_SCREEN" value="تمام‌صفحه" />
+			<text id="WARNING" value="هشدار" />
+			<text id="ONLINE_HELP" value="کمک برخط" />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -157,6 +159,7 @@
 			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است. آیا می‌خواهید آن‌را جایگزین کنید؟" />
 			<text id="RESTART_APP" value="برای اعمال تغییرات، برنامه را بسته و مجدداً اجرا کنید." />
 			<text id="ACTION_PERFORMED" value="عملیات با موفقیت انجام شد." />
+			<text id="TRANSLATION_ADDED" value="این ترجمه‌ها زیرِ منوی {1} اضافه شدند"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="آیا مطمئن هستید؟" />
@@ -192,7 +195,7 @@
 			<text id="RELEVANCE" value="شباهت" />
 			<text id="AYA_LENGTH" value="طول آیه"   />
 			<text id="SORT_BY" value="مرتب بر اساس" />
-			<text id="SWITCH_FULL_SCREEN" value="کلید تمام‌صفحه"   />
+			<text id="TOGGLE_FULL_SCREEN" value="تمام صفحه / عادی"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS" value="مضمون"   />
@@ -212,6 +215,7 @@
             <text id="T9N" value="ترجمه‌شده (اگر موجود است)" />
             <text id="T13N" value="آوانگاری‌شده (اگر موجود است)" />
 			<text id="ENABLE_AUDIO" value="فعال‌سازی امکان قرائت" />
+			<text id="SURA_NAME_TREE" value="نمایش نام سوره‌ها به صورت درختی" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="تنظیم محدودهٔ جستجو" />
@@ -271,16 +275,16 @@
 			<text id="INDEXING" value="در حال شاخص گذاری" />
 			<text id="TAKE_TIME" value="این عملیات بسته به اندازهٔ مستند، ممکن است تا چند دقیقه طول بکشد." />
             <text id="CHECKING" value="بررسی برای به‌هنگام رسانی" />
-            <text id="ZEKR_IS_CHECKING" value="ذکر در حال بررسی وجود نسخه‌ی به‌هنگام است" />
+            <text id="ZEKR_IS_CHECKING" value="ذکر در حال بررسی وجود نسخهٔ به‌هنگام است" />
 		</form>
         <form id="ABOUT">
-            <text id="TITLE" value="درباره‌ی ذکر" />
+            <text id="TITLE" value="دربارهٔ ذکر" />
             <text id="VIEW_LOG" value="نمایش فایل لاگ" />
         </form>
         <form id="UPDATE">
-            <text id="TITLE" value="اطلاعات نسخه‌ی به‌هنگام" />
+            <text id="TITLE" value="اطلاعات نسخهٔ به‌هنگام" />
             <text id="VERSION_INFO" value="اطلاعات نسخه" />
-            <text id="BUILD_NUM" value="شماره‌ی ساخت" />
+            <text id="BUILD_NUM" value="شمارهٔ ساخت" />
             <text id="VERSION" value="نسخه" />
             <text id="RELEASE_NAME" value="نام نسخه" />
             <text id="RELEASE_STATE" value="وضعیت انتشار" />
@@ -289,9 +293,9 @@
             <text id="DOWNLOAD" value="بارگذاری" />
             <text id="MORE_INFO" value="اطلاعات بیشتر" />
             <text id="NO_UPDATE" value="شما از آخرین نسخه استفاده می‌کنید" />
-            <text id="NEW_DEV_AVAILABLE" value="نسخه‌ی جدیدتر توسعه‌ای (ناپایدار) آماده برای بارگذاری است" />
-            <text id="NEW_BETA_AVAILABLE" value="نسخه‌ی جدیدتر بتا (ناپایدار) آماده برای بارگذاری است" />
-            <text id="NEW_FINAL_AVAILABLE" value="نسخه‌ی جدیدتر منتشرشده آماده برای بارگذاری است" />
+            <text id="NEW_DEV_AVAILABLE" value="نسخهٔ جدیدتر توسعه‌ای (ناپایدار) آماده برای بارگذاری است" />
+            <text id="NEW_BETA_AVAILABLE" value="نسخهٔ جدیدتر بتا (ناپایدار) آماده برای بارگذاری است" />
+            <text id="NEW_FINAL_AVAILABLE" value="نسخهٔ جدیدتر منتشرشده آماده برای بارگذاری است" />
         </form>
 	</forms>
 </language>

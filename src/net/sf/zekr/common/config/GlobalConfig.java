@@ -48,6 +48,8 @@ public class GlobalConfig {
 
 	public static final String HELP_PAGE = HOME_PAGE + "/wiki";
 
+	public static final String SEARCH_HELP_PAGE = HOME_PAGE + "/wiki/Search_help";
+
 	/**
 	 * Holds user country (runtime property <code>user.country</code>). e.g. IR, US, etc.
 	 */

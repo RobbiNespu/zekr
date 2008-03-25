@@ -174,7 +174,8 @@ public class TranslationData extends AbstractQuranText implements Signable {
 		}
 
 		byte[] textBuf = new byte[(int) ze.getSize()];
-		boolean result = verify(zf.getInputStream(ze), textBuf);
+		boolean result;
+		result = verify(zf.getInputStream(ze), textBuf);
 		zf.close();
 		return result;
 	}
@@ -187,7 +188,7 @@ public class TranslationData extends AbstractQuranText implements Signable {
 		try {
 			verified = CryptoUtils.verify(textBuf, signature);
 		} catch (Exception e) {
-			logger.error("Error occurred during translation text verification. Text cannot be verified.", e);
+			logger.warn("Error occurred during translation text verification. Text cannot be verified.", e);
 		}
 		if (verified) {
 			logger.debug("Translation is valid");
@@ -265,5 +266,9 @@ public class TranslationData extends AbstractQuranText implements Signable {
 
 	public int getVerificationResult() {
 		return verificationResult;
+	}
+
+	public int getMode() {
+		throw new UnsupportedOperationException();
 	}
 }

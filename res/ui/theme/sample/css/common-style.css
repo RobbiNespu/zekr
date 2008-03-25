@@ -44,13 +44,11 @@
 span.sajda#minor {
 	font-family: serif;
 	color: rgb(200, 40, 40);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.sajda#major {
 	font-family: serif;
 	color: rgb(240, 10, 10);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.juzSign {

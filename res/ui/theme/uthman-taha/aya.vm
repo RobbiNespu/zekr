@@ -13,7 +13,7 @@
 			#set ($hizbQuarter = $hizbQuarter % 4)
 			#if ($hizbQuarter != 0) #set ($Q = " - $DICT.getMeaning('QUARTER'): $hizbQuarter")
 		 	#else #set ($Q = "") #end
-			<nobr><span class="hizbSign" title="$JUZ - $DICT.getMeaning("HIZB"): ${hizbNum}$Q">&#1758;</span></nobr>
+			<nobr><span class="hizbSign" title="$I18N.localize("${JUZ} - ${DICT.getMeaning('HIZB')}: ${hizbNum}${Q}")">&#1758;</span></nobr>
 		#end
 	#end #end
 #end
@@ -33,6 +33,11 @@
 	#set ($_DL = "ar")
 #end
 #set ($SAJDA_SIGN = "&#1769;")
+#if($MIXED == "true")
+	#set ($A_CLASS = "")
+#else
+	#set ($A_CLASS = " ayaSep")
+#end
 <div id="searchableSection" class="$AYA_CLASS">
 #foreach ($AYA in $AYA_LIST)
 	#set($AYA_NUM = $velocityCount)
@@ -42,7 +47,7 @@
 		#end
 	#end
 	#if ($TEXT_LAYOUT == "line-by-line")
-		<div class="aya" id="${SURA_NUM}_${AYA_NUM}">
+		<div class="aya${A_CLASS}" id="${SURA_NUM}_${AYA_NUM}">
 	#elseif ($TEXT_LAYOUT == "block")
 		<span class="aya" id="${SURA_NUM}_${AYA_NUM}">
 	#end
@@ -56,22 +61,28 @@
 		#end
 		${A}
 		#if (($velocityCount == 1 && $quran_showSuraAyaSign == "true") || ($velocityCount == 2 && $trans_showSuraAyaSign == "true"))
-		&#8204;<span class="suraAyaNum">[$I18N.localize(${SURA_NUM},"${_LANG}")-$I18N.localize(${AYA_NUM},"${_LANG}")]</span> #end
+		<span class="suraAyaNum">[$I18N.localize("${SURA_NUM}:${AYA_NUM}","${_LANG}")]</span> #end
 		</div>
 	#end #elseif ($CUSTOM == "true" && $MIXED == "true")
 		<div class="quran" lang="ar">#putHizbSignIfPossible()
 		$AYA
 		#if ($quran_showSuraAyaSign == "true")
-		&#8204;<span class="suraAyaNum">[$I18N.localize(${SURA_NUM},"ar")-$I18N.localize(${AYA_NUM},"ar")]</span>
+		<span class="suraAyaNum">[$I18N.localize("${SURA_NUM}:${AYA_NUM}","ar")]</span>
 		#end
 		#parse("$THEME_DIR/multi-trans.vm")
 		</div>
 	#else
 		#putHizbSignIfPossible() $AYA
 	#end
-	<span title="${SURA_NAME} - ${AYA_NUM}">
-		<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" class="ayaSign">$OPEN_PAREN$I18N.localize($AYA_NUM,"${_DL}")$CLOSE_PAREN</span></nobr>
-	</span>
+	#if ($MIXED == "true")
+	<table><tr><td valign="middle">
+	#end
+		<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" title="${SURA_NAME} - $I18N.localize(${AYA_NUM})" class="ayaSign">$OPEN_PAREN$I18N.localize($AYA_NUM,"${_DL}")$CLOSE_PAREN</span></nobr>
+	#if ($MIXED == "true")
+	</td><td width="100%" valign="middle">
+		<p class="ayaSep" />
+	<td></tr></table>
+	#end
 	#foreach ($SAJDA in $SAJDA_LIST)
 		#if ($SAJDA.AyaNumber == $AYA_NUM)
 			#if ($SAJDA.Type == $MINOR)

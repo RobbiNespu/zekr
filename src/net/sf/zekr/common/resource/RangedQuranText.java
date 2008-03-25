@@ -69,7 +69,6 @@ public class RangedQuranText extends AbstractRangedQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IRangedQuranText#reset()
 	 */
 	public void reset() {
@@ -83,7 +82,6 @@ public class RangedQuranText extends AbstractRangedQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IRangedQuranText#getCurrentLocation()
 	 */
 	public IQuranLocation getCurrentLocation() {
@@ -92,7 +90,6 @@ public class RangedQuranText extends AbstractRangedQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IRangedQuranText#findNext()
 	 */
 	public final boolean findNext() {
@@ -114,7 +111,6 @@ public class RangedQuranText extends AbstractRangedQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IRangedQuranText#currentAya()
 	 */
 	public String currentAya() {
@@ -125,7 +121,6 @@ public class RangedQuranText extends AbstractRangedQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IQuranText#get(int, int)
 	 */
 	public String get(int suraNum, int ayaNum) {
@@ -134,7 +129,6 @@ public class RangedQuranText extends AbstractRangedQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IQuranText#getSura(int)
 	 */
 	public String[] getSura(int suraNum) {
@@ -143,7 +137,6 @@ public class RangedQuranText extends AbstractRangedQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IQuranText#getFullText()
 	 */
 	public String[][] getFullText() {
@@ -152,7 +145,6 @@ public class RangedQuranText extends AbstractRangedQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IQuranText#getTranslationData()
 	 */
 	public TranslationData getTranslationData() {
@@ -161,14 +153,23 @@ public class RangedQuranText extends AbstractRangedQuranText {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see net.sf.zekr.common.resource.IQuranText#getBismillah(int)
 	 */
 	public String getBismillah(int suraNum) {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.zekr.common.resource.IQuranText#get(int)
+	 */
 	public String get(int absoluteAyaNum) {
 		throw new UnsupportedOperationException("Method not implemented.");
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.zekr.common.resource.IQuranText#getMode()
+	 */
+	public int getMode() {
+		return quran.getMode();
 	}
 }

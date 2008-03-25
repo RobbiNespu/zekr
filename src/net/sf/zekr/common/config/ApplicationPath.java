@@ -29,8 +29,8 @@ public class ApplicationPath {
 	 * This is the directory containing quran source and other related sources.
 	 */
 	public static final String QURAN_TEXT_DIR = rm.getString("text.quran.baseDir");
-	public static final String SIMPLE_QURAN_TEXT_FILE = rm.getString("text.quran.simpleFile");
-	public static final String DETILAED_QURAN_TEXT_FILE = rm.getString("text.quran.detailedFile");
+	public static final String SIMPLE_QURAN_TEXT_FILE = rm.getString("text.quran.simple");
+	public static final String UTHMANI_QURAN_TEXT_FILE = rm.getString("text.quran.uthmani");
 	public static final String QURAN_INDEX_DIR = rm.getString("text.quran.indexDir");
 	public static final String TRANSLATION_DIR = rm.getString("text.trans.baseDir");
 	public static final String TRANSLATION_DESC = rm.getString("text.trans.desc");

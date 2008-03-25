@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * @author Hamid Zarrabi-Zadeh
  * @author Mohsen Saboorian
  */
-public class RegexSeachUtils extends LetterConstants {
+public class RegexUtils extends LetterConstants {
 
 	// matching rules
 	public static Map matchingRules = new LinkedHashMap();
@@ -118,13 +118,6 @@ public class RegexSeachUtils extends LetterConstants {
 		if ("".equals(pattern))
 			return pattern;
 		pattern = pattern.replaceAll("\\s+", " ");
-
-		/*
-		String prev = "";
-		while (!pattern.equals(prev)) {
-			prev = pattern;
-			pattern = pattern.replaceAll("^(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
-		}*/
 
 		// replace spaces outside of quotations with + (Java 1.4 has problems dealing with equivalent Tanzil regex)
 		boolean openquote = false;

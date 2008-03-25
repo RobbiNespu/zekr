@@ -18,7 +18,10 @@ import net.sf.zekr.engine.translation.TranslationData;
  * @author Mohsen Saboorian
  */
 public interface IQuranText {
-	public static final int DETAILED_MODE = 0;
+	/** Uthmani Quran text */
+	public static final int UTHMANI_MODE = 0;
+
+	/** Simple (Imlaaei) Quran text */
 	public static final int SIMPLE_MODE = 1;
 
 	/**
@@ -69,12 +72,20 @@ public interface IQuranText {
 	public TranslationData getTranslationData();
 
 	/**
-	 * This method should only be implemented in subclasses which are aimed for Quran text. It returns
-	 * Bismillah (the beginning part of suras)
+	 * Return Bismillah (the beginning part of suras).<br />
+	 * <b>This method should only be implemented in subclasses which are aimed for Quran text.</b>
 	 * 
 	 * @param suraNum sura number (1-based)
 	 * @return Bismillah part
 	 */
 	public String getBismillah(int suraNum);
+
+	/**
+	 * Return Quran text mode.<br />
+	 * <b>This method should only be implemented in subclasses which are aimed for Quran text.</b>
+	 * 
+	 * @return Quran text mode: <code>SIMPLE_MODE</code> or <code>UTHMANI_MODE</code>.
+	 */
+	public int getMode();
 
 }

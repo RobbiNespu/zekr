@@ -12,6 +12,8 @@ package net.sf.zekr.engine.search.lucene;
 import java.io.StringReader;
 
 import junit.framework.TestCase;
+import net.sf.zekr.common.resource.filter.QuranFilterContext;
+import net.sf.zekr.common.resource.filter.QuranIndexerFilter;
 
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
@@ -36,12 +38,11 @@ public class ArabicFilterTest extends TestCase {
 		super.tearDown();
 	}
 
-/*	public void testFilterNext1() throws Exception {
-		StringReader reader = new StringReader(ARABIC_STR1);
-		ArabicAnalyzer aa = new ArabicAnalyzer();
-		TokenStream filter = aa.tokenStream(null, reader);
-		// TokenStream stream = new WhitespaceTokenizer(new StringReader(ARABIC_STR1));
-		// ArabicFilter filter = new ArabicFilter(stream);
+	public void testFilterNext1() throws Exception {
+		QuranIndexerFilter qif = new QuranIndexerFilter();
+		String s = qif.filter(new QuranFilterContext(ARABIC_STR1, 0, 0));
+		TokenStream stream = new WhitespaceTokenizer(new StringReader(s));
+		ArabicFilter filter = new ArabicFilter(stream);
 		Token t = filter.next();
 		assertEquals("ونزلنا", new String(t.termBuffer(), 0, t.termLength()));
 		t = filter.next();
@@ -62,15 +63,13 @@ public class ArabicFilterTest extends TestCase {
 		assertEquals("وبشري", new String(t.termBuffer(), 0, t.termLength()));
 		t = filter.next();
 		assertEquals("للمسلمين", new String(t.termBuffer(), 0, t.termLength()));
-	}*/
+	}
 
 	public void testFilterNext2() throws Exception {
-		StringReader reader = new StringReader(ARABIC_STR2);
-		ArabicAnalyzer aa = new ArabicAnalyzer();
-		TokenStream filter = aa.tokenStream(null, reader);
-		// String s = ArabicFilter.simplify(ARABIC_STR2);
-		// TokenStream stream = new WhitespaceTokenizer(new StringReader(ARABIC_STR2));
-		// ArabicFilter filter = new ArabicFilter(stream);
+		QuranIndexerFilter qif = new QuranIndexerFilter();
+		String s = qif.filter(new QuranFilterContext(ARABIC_STR2, 0, 0));
+		TokenStream stream = new WhitespaceTokenizer(new StringReader(s));
+		ArabicFilter filter = new ArabicFilter(stream);
 		Token t = filter.next();
 		assertEquals("واذا", new String(t.termBuffer(), 0, t.termLength()));
 		t = filter.next();

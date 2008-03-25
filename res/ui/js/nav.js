@@ -22,11 +22,11 @@ $(document).ready(function() {
 		});
 	}
 
-	$(window).resize(function(e) {
-//		refocus();
-	});
+	/*$(window).resize(function(e) {
+		refocus();
+	});*/
 	
-	$("#suraNav").focus();
+	// $("#suraNav").focus();
 });
 
 function refocus() {

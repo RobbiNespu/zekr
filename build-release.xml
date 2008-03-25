@@ -73,7 +73,7 @@
 	<target name="javadoc" depends="compile">
 		<mkdir dir="${dist_javadocs}" />
 		<javadoc packagenames="${package}.*" sourcepath="${src_dir}" classpath="${build_classdir}" classpathref="buildlibs" destdir="${dist_javadocs}" windowtitle="Zekr - Open Quranic Platform" verbose="${verbose}">
-			<tag name="copyright" description="Copyright: siahe.com" scope="types" />
+			<tag name="copyright" description="Copyright: zekr.org" scope="types" />
 		</javadoc>
 	</target>
 

@@ -181,7 +181,7 @@
 			<text id="TRANSLATION_SCOPE" value="Traduction"   />
 			<text id="NATURAL_ORDER" value="Natural Order"   />
 			<text id="RELEVANCE" value="Relevance"   />
-			<text id="SORT_BY" value="Sort results by"   />
+			<text id="SORT_BY" value="Sort by"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS" value="Thème"   />

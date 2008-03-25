@@ -109,7 +109,7 @@ public class SuraProperties {
 
 	public String toText() {
 		ApplicationConfig config = ApplicationConfig.getInstance();
-		String suraNameMode = config.getProps().getString("quran.sura.name");
+		String suraNameMode = config.getProps().getString("view.sura.name");
 		if (QuranPropertiesNaming.SURA_NAME_ARABIC.equals(suraNameMode)) {
 			return getName();
 		} else if (QuranPropertiesNaming.SURA_NAME_ENGLISH_T9N.equals(suraNameMode)) {

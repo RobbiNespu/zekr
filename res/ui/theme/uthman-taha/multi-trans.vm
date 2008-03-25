@@ -1,7 +1,6 @@
-#set ($_DL_ = $I18N.Locale.Language) ## digit language
 #set ($NUM = $UTILS.arraySize($TRANS_DATA))
 #if($trans_showMultipleSideBySide == "true")
-	<table lang="zz" class="customTrans" cellpadding="2" cellspacing="2"><tr>
+	<table class="customTrans" cellpadding="2" cellspacing="2"><tr>
 	#foreach ($TD in $TRANS_DATA)
 		#if ($trans_showTransId == "true") #set ($TRANS_ID = "[<i>${TD.id}</i>]") #else
 			#set ($TRANS_ID = "")
@@ -9,21 +8,21 @@
 		<td valign="top" width="$UTILS.div1(100, $NUM)%"><div id="custom" dir="${TD.direction}" class="trans" lang="${TD.locale.language}">
 		<span title="$TD.toText()">$TRANS_ID</span>
 		$TD.get(${SURA_NUM}, ${AYA_NUM})
-		#if ($trans_showSuraAyaSign == "true") &#8204;<span class="suraAyaNum">[$I18N.localize(${SURA_NUM},"${_DL_}")-$I18N.localize(${AYA_NUM},"${_DL_}")]</span> #end
+		#if ($trans_showSuraAyaSign == "true") &#8204;<span class="suraAyaNum">[$I18N.localize("${SURA_NUM}:${AYA_NUM}")]</span> #end
 		</div></td>
 	#end
 	</tr></table>
 #else
-	<table lang="zz" class="customTrans" cellpadding="2" cellspacing="2">
+	<table class="customTrans" cellpadding="2" cellspacing="2">
 	#foreach ($TD in $TRANS_DATA)<tr>
 		#if ($trans_showTransId == "true") #set ($TRANS_ID = "[<i>${TD.id}</i>]") #else
 			#set ($TRANS_ID = "")
 		#end
-		<td id="custom" dir="${TD.direction}" class="trans" lang="${TD.locale.language}">
+		<td><div dir="${TD.direction}" id="custom" class="trans" lang="${TD.locale.language}">
 		<span title="$TD.toText()">$TRANS_ID</span>
 		$TD.get(${SURA_NUM}, ${AYA_NUM})
-		#if ($trans_showSuraAyaSign == "true") &#8204;<span class="suraAyaNum">[$I18N.localize(${SURA_NUM},"${_DL_}")-$I18N.localize(${AYA_NUM},"${_DL_}")]</span> #end
-		</td></tr>
+		#if ($trans_showSuraAyaSign == "true") &#8204;<span class="suraAyaNum">[$I18N.localize("${SURA_NUM}:${AYA_NUM}")]</span> #end
+		</div></td></tr>
 	#end
 	</table>
 #end

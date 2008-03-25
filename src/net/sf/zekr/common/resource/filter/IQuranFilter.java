@@ -9,6 +9,17 @@
 package net.sf.zekr.common.resource.filter;
 
 public interface IQuranFilter {
+	/** Show waqf sign if this option is set */
+	public static final int SHOW_WAQF_SIGN = 1;
+
+	/** Show small alef if this option is set */
+	public static final int SHOW_SMALL_ALEF = 2;
+
+	/** Will apply Uthmani text rules */
+	public static final int UTHMANI_TEXT = 4;
+
+	public static final int HIGHLIGHT_WAQF_SIGN = 8;
+
 	/**
 	 * Implementations of this method manipulates the input parameter as needed.
 	 * 

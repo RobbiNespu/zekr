@@ -245,6 +245,20 @@ div.searchResult {
 	color: red;
 }
 
+.queryDetail {
+	font: 0.82em Tahoma, Arial, Sans-serif;
+	border: 1px dashed silver;
+	padding: 2px;
+}
+.queryDetail a:link, a:visited { 
+	color: rgb(40, 90, 230);
+	text-decoration: none;
+}
+
+.queryDetail a:hover { 
+	color: rgb(200, 50, 10);
+}
+
 .handCursor {
 	cursor: pointer;
 	cursor: hand;

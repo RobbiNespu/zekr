@@ -316,8 +316,10 @@ public class MessageBoxUtils {
 		ResourceManager res = ResourceManager.getInstance();
 		Shell shell = getShell();
 		final Display display = shell.getDisplay();
-		final Shell floatShell = new Shell(shell, SWT.BORDER | SWT.ON_TOP | SWT.TOOL);
-		floatShell.setLayout(new FillLayout());
+		final Shell floatShell = new Shell(shell, SWT.BORDER | SWT.ON_TOP | SWT.TOOL | SWT.LEFT_TO_RIGHT);
+		FillLayout fl = new FillLayout();
+		fl.marginHeight = fl.marginWidth = 5;
+		floatShell.setLayout(fl);
 		ToolBar bar = new ToolBar(floatShell, SWT.FLAT);
 
 		final ToolItem item = new ToolItem(bar, SWT.CHECK);
@@ -352,7 +354,7 @@ public class MessageBoxUtils {
 		floatShell.addListener(SWT.MouseUp, l);
 		floatShell.addListener(SWT.MouseMove, l);
 
-		item.setToolTipText(quranForm.meaning("SWITCH_FULL_SCREEN"));
+		item.setToolTipText(quranForm.meaning("TOGGLE_FULL_SCREEN"));
 		item.setImage(new Image(shell.getDisplay(), res.getString("icon.toolbar.fullScreen")));
 		floatShell.pack();
 		floatShell.open();
@@ -423,6 +425,6 @@ public class MessageBoxUtils {
 	}
 
 	public static void showWarning(String msg) {
-		show(msg, lang.getMeaning("WARNING"), SWT.ICON_ERROR | lang.getSWTDirection());
+		show(msg, lang.getMeaning("WARNING"), SWT.ICON_WARNING | lang.getSWTDirection());
 	}
 }

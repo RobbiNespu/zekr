@@ -23,7 +23,7 @@ import net.sf.zekr.engine.revelation.RevelationData;
 import net.sf.zekr.engine.search.Range;
 
 // TODO: all the caching items on this class should be gradually moved 
-// to a normal class which is instanciated and hold in ApplicationConfig.
+// to a normal class which is instantiated and hold in ApplicationConfig.
 // Only a single instance of this class is created then.
 
 /**
@@ -113,7 +113,7 @@ public class QuranPropertiesUtils {
 	}
 
 	public static final String getIndexedSuraName(int suraNum, String suraName) {
-		return suraName + " - " + suraNum;
+		return suraNum + ". " + suraName;
 	}
 
 	public static final String getIndexedSuraName(SuraProperties sura) {

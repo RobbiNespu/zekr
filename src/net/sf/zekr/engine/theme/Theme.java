@@ -23,9 +23,9 @@ import org.apache.commons.configuration.MapConfiguration;
 
 /**
  * This file holds all the theme data loaded at the startup. Themes are specific directories (now in
- * <tt>res/ui/theme/</tt>) with a <tt>theme.properties</tt> file in it. When importing themes, a zip file ([theme
- * ID].zip), is imported and extracted in theme location on base zekr installation directory, and a copy of
- * theme.properties is copied to user's zekr home.
+ * <tt>res/ui/theme/</tt>) with a <tt>theme.properties</tt> file in it. When importing themes, a zip file
+ * ([theme ID].zip), is imported and extracted in theme location on base zekr installation directory, and a
+ * copy of theme.properties is copied to user's zekr home.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -63,10 +63,12 @@ public class Theme {
 	 * @throws IOException
 	 */
 	public static void save(ThemeData td) throws IOException {
-		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(Naming.getThemePropsDir() + "/" + td.fileName));
+		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(Naming.getThemePropsDir() + "/"
+				+ td.fileName));
 		LinkedHashMap map = new LinkedHashMap();
 		map.put("name", td.name);
 		map.put("author", td.author);
+		map.put("version", td.version);
 		map.putAll(td.props);
 		ConfigUtils.write(new MapConfiguration(map), osw);
 		osw.close();

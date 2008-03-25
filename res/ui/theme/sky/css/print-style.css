@@ -11,7 +11,7 @@ html,body {
 	margin: 0px;
 }
 body {
-	font: 13pt "Traditional Arabic", Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
+	font: 13pt Traditional Arabic, Nazli, Koodak, Tahoma, Verdana, Helvetica, Arial, Sans-serif;
 	color: rgb(30, 40, 70);
 /*	background-color: white;*/
 }
@@ -69,7 +69,7 @@ div.searchBody {
 	width: 100%;
 }
 
-#quranSecsion .quran {
+#quranSection .quran {
 	text-align: justify;
 }
 
@@ -143,15 +143,9 @@ td.searchResult {
 	color: rgb(0, 40, 200);
 	text-decoration: none;
 }
-/*
-.searchResult a:hover { 
-	color: red;
+.queryDetail {
+	display: none;
 }
-.handCursor {
-	cursor: pointer;
-	cursor: hand;
-}
-*/
 .printWatermark {
 #if($print_showWatermark.equals("true"))
 	margin: 3px;

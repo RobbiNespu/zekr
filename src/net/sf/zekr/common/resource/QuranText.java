@@ -23,13 +23,13 @@ import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * This class is a repository for the whole quran text. All public methods act as 1-relative arrays. This
- * class acts as a pool for two types of Quran text file: "simple" and "detailed".
+ * class acts as a pool for two types of Quran text file: "simple" and "uthmani".
  * 
  * @author Mohsen Saboorian
  */
 public class QuranText extends AbstractQuranText {
 	private static QuranText simpleInstance = null;
-	private static QuranText detailedInstance = null;
+	private static QuranText uthmaniInstance = null;
 
 	/** raw quran text written in the file. */
 	private String rawText;
@@ -43,16 +43,19 @@ public class QuranText extends AbstractQuranText {
 	private final static ApplicationConfig config = ApplicationConfig.getInstance();
 	private final static ResourceManager resource = ResourceManager.getInstance();
 
+	private int mode = SIMPLE_MODE;
+
 	/**
 	 * The private constructor, which loads the whole Quran text from file into memory (<code>quranText</code>).
 	 * 
-	 * @param textType can be either UTHMANI or SIMPLE
+	 * @param textType can be either UTHMANI_MODE or SIMPLE_MODE
 	 * @throws IOException
 	 */
 	protected QuranText(int textType) throws IOException {
+		this.mode = textType;
 		String qFile = ApplicationPath.SIMPLE_QURAN_TEXT_FILE;
-		if (textType == DETAILED_MODE)
-			qFile = ApplicationPath.DETILAED_QURAN_TEXT_FILE;
+		if (textType == UTHMANI_MODE)
+			qFile = ApplicationPath.UTHMANI_QURAN_TEXT_FILE;
 
 		RandomAccessFile raf = new RandomAccessFile(qFile, "r");
 		byte[] buf = new byte[(int) raf.length()];
@@ -63,23 +66,23 @@ public class QuranText extends AbstractQuranText {
 	}
 
 	/**
-	 * @return either simple or detailed Quran text based on the current theme
+	 * @return either simple or Uthmani Quran text based on the current theme
 	 * @throws IOException
 	 */
 	public static QuranText getInstance() throws IOException {
-		boolean detailed = Boolean.valueOf(config.getTheme().getCurrent().props.get("quran_detailedTextFile").toString())
+		boolean uthmani = Boolean.valueOf(config.getTheme().getCurrent().props.get("quran_uthmaniTextFile").toString())
 				.booleanValue();
-		return getInstance(detailed ? DETAILED_MODE : SIMPLE_MODE);
+		return getInstance(uthmani ? UTHMANI_MODE : SIMPLE_MODE);
 	}
 
 	/**
-	 * @return either simple or detailed Quran text based on the current theme
+	 * @return either simple or uthmani Quran text based on the current theme
 	 * @param mode
 	 * @throws IOException
 	 */
 	public static QuranText getInstance(int mode) throws IOException {
-		if (mode == DETAILED_MODE)
-			return getDetailedTextInstance();
+		if (mode == UTHMANI_MODE)
+			return getUthmaniTextInstance();
 		else
 			return getSimpleTextInstance();
 	}
@@ -95,13 +98,13 @@ public class QuranText extends AbstractQuranText {
 	}
 
 	/**
-	 * @return detailed Quran text instance
+	 * @return Uthmani Quran text instance
 	 * @throws IOException
 	 */
-	public static QuranText getDetailedTextInstance() throws IOException {
-		if (detailedInstance == null)
-			detailedInstance = new QuranText(DETAILED_MODE);
-		return detailedInstance;
+	public static QuranText getUthmaniTextInstance() throws IOException {
+		if (uthmaniInstance == null)
+			uthmaniInstance = new QuranText(UTHMANI_MODE);
+		return uthmaniInstance;
 	}
 
 	/**
@@ -123,6 +126,13 @@ public class QuranText extends AbstractQuranText {
 			quranText[i] = sura;
 			ayaTotalCount += ayaCount;
 		}
+	}
+
+	/**
+	 * @return <code>UTHMANI_MODE</code> or <code>SIMPLE_MODE</code>
+	 */
+	public int getMode() {
+		return mode;
 	}
 
 	/*

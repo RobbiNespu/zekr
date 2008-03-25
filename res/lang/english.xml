@@ -123,11 +123,13 @@
 			<text id="MENU_PREV_HIZBQ" value="Previous Hi&amp;zb Quarter" />
 			<text id="MENU_NEXT_SAJDA" value="Next Sa&amp;jda" />
 			<text id="MENU_PREV_SAJDA" value="Previous Saj&amp;da" />
-			<text id="CHECK4UPDATE" value="Check for update" />
-			<text id="ASCENDING" value="Ascending" />
-			<text id="DESCENDING" value="Descending" />
-			<text id="REVEL_ORDER" value="Revelation Order" />
-			<text id="FULL_SCREEN" value="Full Screen" />
+			<text id="CHECK4UPDATE" value="Check for update"   />
+			<text id="ASCENDING" value="Ascending"   />
+			<text id="DESCENDING" value="Descending"   />
+			<text id="REVEL_ORDER" value="Revelation Order"   />
+			<text id="FULL_SCREEN" value="Full Screen"   />
+			<text id="WARNING" value="Warning"   />
+			<text id="ONLINE_HELP" value="Online Help"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />
@@ -154,10 +156,10 @@
 			<text id="SEARCH_RESULT_COUNT" value="{1} results found in {2} ayas." />
 			<text id="SEARCH_PAGE" value="Page {1} of {2}" />
 			<text id="TOO_MANY_RESULT" value="Search result is more than {1} ayas" />
-			<text id="FILE_ALREADY_EXISTS"
-				value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?" />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?" />
 			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect." />
-			<text id="ACTION_PERFORMED" value="Action performed successfully." />
+			<text id="ACTION_PERFORMED" value="Action performed successfully."   />
+			<text id="TRANSLATION_ADDED" value="The following translation added under {1} menu"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Are you sure?" />
@@ -167,10 +169,9 @@
 			<text id="GENERAL_ERROR" value="An unexpected error occurred" />
 			<text id="FNF" value="File not found" />
 			<text id="ACTION_FAILED" value="Action failed!" />
-			<text id="INVALID_TRANSLATION_FORMAT" value="Invalid tranalation format: {1}" />
-			<text id="INVALID_TRANSLATION_SIGNATURE" value="Invalid translation signature: {1}" />
-			<text id="TRANSLATION_LOAD_FAILED"
-				value="Loading translation &quot;{1}&quot; failed because of the following error: {2}" />
+			<text id="INVALID_TRANSLATION_FORMAT" value="Invalid tranalation format: {1}"   />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Invalid translation signature: {1}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="Loading translation &quot;{1}&quot; failed because of the following error: {2}"   />
 		</error>
 		<hint></hint>
 	</message>
@@ -180,8 +181,7 @@
 			<text id="APP_NAME" value="Zekr" />
 			<text id="APP_FULL_NAME" value="The Zekr Quranic Project" />
 			<text id="FORM_TITLE" value="Zekr" />
-			<text id="COPYRIGHT_DISCLAIMER"
-				value="This program is distributed freely in the hope that it will be helpful, but without any warranty." />
+			<text id="COPYRIGHT_DISCLAIMER" value="This program is distributed freely in the hope that it will be helpful, but without any warranty." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
@@ -192,10 +192,10 @@
 			<text id="QURAN_SCOPE" value="Quran" />
 			<text id="TRANSLATION_SCOPE" value="Translation" />
 			<text id="NATURAL_ORDER" value="Natural Order" />
-			<text id="RELEVANCE" value="Relevance"   />
+			<text id="RELEVANCE" value="Relevance" />
 			<text id="AYA_LENGTH" value="Aya Length"   />
-			<text id="SORT_BY" value="Sort results by" />
-			<text id="SWITCH_FULL_SCREEN" value="Switch full screen mode"   />
+			<text id="SORT_BY" value="Sort by"   />
+			<text id="TOGGLE_FULL_SCREEN" value="Toggle full screen"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS" value="Theme" />
@@ -208,13 +208,14 @@
 			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied." />
 			<text id="MAX_SEARCH_RESULT" value="Maximum search result count" />
 			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane" />
-			<text id="SURA_NAMES" value="Show sura names in" />
-			<text id="ARABIC" value="Arabic" />
-			<text id="EN_T9N" value="English Translation" />
-			<text id="EN_T13N" value="English Transliteration" />
-			<text id="T9N" value="Translation (if available)" />
-			<text id="T13N" value="Transliteration (if available)" />
-			<text id="ENABLE_AUDIO" value="Enable audio support" />
+			<text id="SURA_NAMES" value="Show sura names in"   />
+			<text id="ARABIC" value="Arabic"   />
+			<text id="EN_T9N" value="English Translation"   />
+			<text id="EN_T13N" value="English Transliteration"   />
+			<text id="T9N" value="Translation (if available)"   />
+			<text id="T13N" value="Transliteration (if available)"   />
+			<text id="ENABLE_AUDIO" value="Enable audio support"   />
+			<text id="SURA_NAME_TREE" value="Display sura names in a tree"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configure Search Scope" />
@@ -242,8 +243,7 @@
 			<text id="DBL_CLICK" value="Double click on items to load and/or edit them." />
 			<text id="SET_AS_DEFAULT" value="Do you want to set &quot;{1}&quot; as your default bookmark set?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Cannot remove default bookmark." />
-			<text id="CANNOT_OVERWRITE_DEFAULT"
-				value="Cannot overwrite on the default bookmark set. Select another bookmark set as default, and try to import." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Cannot overwrite on the default bookmark set. Select another bookmark set as default, and try to import." />
 			<text id="ENTER_ID" value="Enter the bookmark ID" />
 			<text id="NEW_BOOKMARK_SET" value="New Bookmark Set" />
 			<text id="EXPORT4WEB" value="Export for Web" />

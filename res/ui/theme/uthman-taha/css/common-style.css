@@ -1,6 +1,6 @@
 div.quran {
-#set($qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.3"))
-#set($_qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.6"))
+#set($qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.4"))
+#set($_qht = $UTILS.mul($UTILS.toInteger($quran_fontSize),"2.7"))
 	line-height: ${qht}px;
 	_line-height: ${_qht}px;
 /*	line-height: 26pt;*/
@@ -11,24 +11,47 @@ div.trans {
 	line-height: ${tht}em;
 }
 
+div.bodyTop {
+    margin: 5px;
+}
+
+.suraName {
+	font-weight: bold;
+	padding-top: 3px;
+	height: 40px;
+	background: url(${APP_PATH}res/image/sura-header.png) no-repeat center center;
+}
+
+.bismillah {
+	text-align: center;
+}
+
 .printWatermark {
 	display: none;
 }
+
+#quranSection div.quran { /* resolves IE6/7 bug for custom trans layout having table width=100% */
+	width: 100%;
+}
+
 span.sajda#minor {
 	font-family: serif;
 	color: rgb(200, 40, 40);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.sajda#major {
 	font-family: serif;
 	color: rgb(240, 10, 10);
-/*	border: 1px rgb(200, 40, 40) solid;*/
 }
 
 span.juzSign {
 	font-family: serif;
 	color: rgb(0, 40, 200);	
+}
+
+.waqfSign {
+	font-family: Sans-serif, Times New Roman; 
+	color: #bb8833;
 }
 
 span.ayaSign {
@@ -58,10 +81,15 @@ span.selectedAyaSign {
 }
 
 #custom.trans {
-	padding: 4px 0px;
+	padding: 3px 0px;
 }
 
-.quran {
+td .ayaSep {
+	margin: 0 5px 0 0;
+	border-top: 1px solid #bcd;
+}
+
+.quran, .quran td  {
 #set($qBold = "")
 #set($qItalic = "")
 #if ($quran_fontBold.equals("true"))
@@ -73,7 +101,7 @@ span.selectedAyaSign {
 	font: $qBold $qItalic ${quran_fontSize}pt ${quran_fontName}, Badr, Nazanin, Tahoma, Nazli, Koodak, Times, Verdana, Helvetica, Arial, Sans-serif;
 }
 
-.trans {
+.trans, .trans td {
 #set($tBold = "")
 #set($tItalic = "")
 #if ($trans_fontBold.equals("true"))
@@ -86,7 +114,7 @@ span.selectedAyaSign {
 }
 
 .suraAyaNum {
-	font-family: Traditional Arabic, Scheherazade, Tahoma, Arial, Sans-serif;
+	font-family: Traditional Arabic, Scheherazade, Tahoma, Arial, Sans-serif, Serif;
 }
 
 .quran .suraAyaNum {

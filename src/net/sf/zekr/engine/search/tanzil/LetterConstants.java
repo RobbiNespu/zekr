@@ -114,7 +114,7 @@ public class LetterConstants {
 	static {
 		for (Iterator iterator = UGroups.entrySet().iterator(); iterator.hasNext();) {
 			Entry entry = (Entry) iterator.next();
-			entry.setValue(RegexSeachUtils.regTrans((String) entry.getValue()));
+			entry.setValue(RegexUtils.regTrans((String) entry.getValue()));
 		}
 	}
 }

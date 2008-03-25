@@ -109,7 +109,7 @@ public class AdvancedTextSearch {
 	public SearchResult search(String rawQuery) {
 		logger.debug("Searching for query: " + rawQuery);
 		rawQuery = rawQuery.replaceAll("\\-", "!");
-		String pattern = RegexSeachUtils.enrichPattern(rawQuery, false);
+		String pattern = RegexUtils.enrichPattern(rawQuery, false);
 
 		// TODO: '!' characters present in the highlighter pattern, but it seems to be safe
 		String highlightPattern = pattern.replaceAll("\\+", "|").replaceAll("!", "");
@@ -204,7 +204,7 @@ public class AdvancedTextSearch {
 		s = "\"سلام علی\"";
 		s = "عنی إذا";
 		s = "سلام علی";
-		System.out.println(RegexSeachUtils.enrichPattern(s, false));
+		System.out.println(RegexUtils.enrichPattern(s, false));
 		System.out.println("Initialize AdvancedTextSearch" + new Date());
 		AdvancedTextSearch ats = new AdvancedTextSearch(QuranText.getSimpleTextInstance(),
 				new SimpleSearchResultHighlighter(), new DefaultSearchScorer());

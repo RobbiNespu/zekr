@@ -39,13 +39,9 @@ body#transBody {
 }
 
 div.body {
-	padding-top: 30px;
+	padding-top: 40px;
 	padding-left: 2%;
 	padding-right: 2%;
-}
-
-div.bodyTop {
-	margin: 5px;
 }
 
 td.searchBarTop {
@@ -118,11 +114,11 @@ div.reciterBar {
 
 div.main {
 	vertical-align: top;
-	border-left: 1px solid rgb(190, 220, 255);
-	border-right: 1px solid rgb(190, 220, 255);
-	border-top: 3px double rgb(140, 150, 250);
-	border-bottom: 3px double rgb(140, 150, 250);
+	border: 4px solid #c6d0f0;
 	padding: 7 8;
+	line-height: 150%;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
 }
 
 div.searchBody {
@@ -136,13 +132,7 @@ div.searchBody {
 	width: 100%;
 }
 
-div.selectedAya {
-	border-right: 4px solid rgb(100, 100, 100);
-	border-left: 4px solid rgb(100, 100, 100);
-}
-
 #quranSection div.selectedAya { /* selected aya for the Quran/translation view */
-	border-bottom: 1px dashed rgb(100, 200, 250);
 	padding-left: 6px;
 	padding-right: 6px;
 	margin: 3px 0px 3px 0;
@@ -164,37 +154,51 @@ span.selectedAya {
 }
 
 div.aya {
-	border-bottom: 1px dashed rgb(100, 200, 250);
 	padding-right: 10px;
 	padding-left: 10px;
 	margin: 3px 0 3px 0;
 }
 
+div.ayaSep {
+	border-bottom: 1px dashed #78b;
+}
+
+div.selectedAya {
+	border-right: 4px solid #78b;
+	border-left: 4px solid #78b;
+}
+
+div.selectedAya p.ayaSep {
+	border-bottom: 2px solid #78b;
+}
+
+span.selectedAyaSign {
+	font-weight: bold;
+}
+
 #quranSection, #searchableSection {
 }
 
-* html body table.customTrans {
-}
-table.customTrans[lang=zz] { /* ie ignores this */
+table.customTrans {
 	width: 100%;
 }
 table.customTrans {
-	width: expression(eval(this.parentNode.offsetWidth) + 'px');
 #if($trans_showBorder.equals("true"))
 	border: 1px solid $trans_borderColor;
 	border-collapse: collapse;
 #end
 }
+
 table.customTrans td {
 #if($trans_showBorder.equals("true"))
 	border: 1px solid $trans_borderColor;
 #end
-	text-align: justify;
 }
 
+
 .quran .searchResult { /* IE6 bug with me_quran */
-	font: 17pt Scheherazade, Mitra, Nazli, mry_KacstQurn, Sans-serif, Helvetica;
-	_font-family: Traditional Arabic, Tahoma, Sans-serif, Nazli, Helvetica, Arial Unicode MS, Scheherazade;
+	font: 17pt Scheherazade, me_quran, mry_KacstQurn, Mitra, Nazli, Sans-serif, Helvetica;
+	_font-family: Traditional Arabic, Sans-serif, Serif, Tahoma, Arial Unicode MS, Scheherazade, Nazli, Helvetica;
 	_font-size: 15pt;
 }
 td.searchResult {

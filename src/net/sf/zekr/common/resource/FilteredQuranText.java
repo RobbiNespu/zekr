@@ -11,8 +11,8 @@ package net.sf.zekr.common.resource;
 import java.io.IOException;
 
 import net.sf.zekr.common.resource.filter.IQuranFilter;
-import net.sf.zekr.common.resource.filter.QuranWriterFilter;
 import net.sf.zekr.common.resource.filter.QuranFilterContext;
+import net.sf.zekr.common.resource.filter.QuranWriterFilter;
 import net.sf.zekr.engine.translation.TranslationData;
 
 /**
@@ -87,7 +87,15 @@ public class FilteredQuranText extends AbstractQuranText {
 	}
 
 	private String filter(int suraNum, int ayaNum) {
-		return filter.filter(new QuranFilterContext(quranText.get(suraNum, ayaNum), suraNum, ayaNum));
+		QuranFilterContext qfc = new QuranFilterContext(quranText.get(suraNum, ayaNum), suraNum, ayaNum);
+		qfc.params = quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0;
+		return filter.filter(qfc);
+	}
+
+	private String filter(String str) {
+		QuranFilterContext qfc = new QuranFilterContext(str, -1, -1);
+		qfc.params = quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0;
+		return filter.filter(qfc);
 	}
 
 	/**
@@ -100,7 +108,14 @@ public class FilteredQuranText extends AbstractQuranText {
 		for (int i = 0; i < 4; i++) { // pass 4 whitespaces.
 			sp = aya1.indexOf(' ', sp + 1);
 		}
-		return aya1.substring(0, sp + 1);
+		return filter(aya1.substring(0, sp + 1));
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.zekr.common.resource.IQuranText#getMode()
+	 */
+	public int getMode() {
+		return quranText.getMode();
 	}
 
 }

@@ -26,7 +26,7 @@
 					.toggle {font: 12pt Tahoma; cursor: hand; cursor: pointer; color: red; font-weight: bold}
 				</style>
 				<meta name="creator" content="Zekr - Open Quranic Project" />
-				<meta name="keywords" content="Zekr, Open Source, Quran, Qur'an, Bookmark, Bookmark set, siahe.com, zekr.org" />
+				<meta name="keywords" content="Zekr, Open Source, Quran, Qur'an, Bookmark, Bookmark set, zekr.org" />
 				<title>
 					<xsl:value-of select="/bookmarks/info/name" />
 				</title>
