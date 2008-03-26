@@ -7,7 +7,7 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.6.0beta1" />
+	<property name="component_version" value="0.7.0beta1" />
 
 	<property name="main_class" value="${package}.ZekrMain" />
 
@@ -36,8 +36,8 @@
 	<property name="swt.jar" value="${libdir}/swt.jar" />
 	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
-	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.2.0.jar" />
-	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.2.0.jar" />
+	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.3.0.jar" />
+	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.3.0.jar" />
 	<property name="apache-commons.jar" value="${libdir}/apache-commons.jar" />
 
 	<path id="buildlibs">

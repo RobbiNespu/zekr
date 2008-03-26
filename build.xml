@@ -6,11 +6,11 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.6.7" />
+	<property name="component_version" value="0.7.0beta1" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.6.7/final" />
+	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.0/beta1" />
 	<property name="distdir" value="${dest_dir}/develdist" />
 
 	<property name="srcdir" value="src" />
@@ -63,8 +63,8 @@
 	<property name="swt.jar" value="${libdir}/swt.jar" />
 	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
-	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.2.0.jar" />
-	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.2.0.jar" />
+	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.3.0.jar" />
+	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.3.0.jar" />
 	<property name="apache-commons.jar" value="${libdir}/apache-commons.jar" />
 
 	<!-- 3rd Party Dependencies  -->
@@ -100,8 +100,8 @@
 	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />
 	
 	<target name="createExeFile">
-		<launch4j configfile="misc/zekr-launch4j.xml" outfile="${dest_dir}/win/zekr.exe" />
-		<launch4j configfile="misc/zekrc-launch4j.xml" outfile="${dest_dir}/win/zekrc.exe" />
+		<launch4j configfile="misc/zekr-launch4j.xml" outfile="${dest_dir}/win32/zekr.exe" />
+		<launch4j configfile="misc/zekrc-launch4j.xml" outfile="${dest_dir}/win32/zekrc.exe" />
 	</target>
 
 	<target name="compile">
@@ -189,7 +189,8 @@
 				<include name="doc/lgpl-2.1.txt" />
 				<include name="doc/zekr-license.txt" />
 				<include name="doc/nanohttpd-license.txt" />
-				<include name="doc/readme.txt" />
+				<include name="doc/tanzil-license.txt" />
+				<include name="doc/readme-0.7.0.txt" />
 			</fileset>
 			<fileset dir=".">
 				<exclude name="**/text/trans/*" />
