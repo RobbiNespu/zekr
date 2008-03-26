@@ -71,7 +71,6 @@ import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
-import org.eclipse.swt.events.TreeAdapter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -278,7 +277,7 @@ public class QuranForm extends BaseForm {
 		quranLoc = new QuranLocation(config.getProps().getString("view.quranLoc"));
 
 		tree = config.getProps().getString("view.sura.mode", "combo").equals("tree");
-		
+
 		// reset search scope list
 		searchScopeList = new ArrayList();
 		makeFrame();
@@ -538,7 +537,13 @@ public class QuranForm extends BaseForm {
 		navGroup = new Group(workPane, SWT.NONE);
 		navGroup.setText(lang.getMeaning("SELECT") + ":");
 		navGroup.setLayout(gl);
-		navGroup.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
+
+		if (tree) {
+			gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		} else {
+			gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		}
+		navGroup.setLayoutData(gd);
 
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		if (!tree) {
@@ -571,6 +576,7 @@ public class QuranForm extends BaseForm {
 			});
 			suraSelectorCombo.select(0);
 		} else {
+			gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 			sst = new Tree(navGroup, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 			sst.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
@@ -594,7 +600,7 @@ public class QuranForm extends BaseForm {
 				ti.setData(String.valueOf(i + 1));
 			}
 			rootSura.setExpanded(true);
-			gd.heightHint = 160;
+			gd.heightHint = 130;
 			gd.horizontalSpan = 3;
 			sst.setLayoutData(gd);
 			sst.setLinesVisible(false);
@@ -644,7 +650,7 @@ public class QuranForm extends BaseForm {
 		gl = new GridLayout(4, false);
 		gl.marginWidth = 0;
 		navComposite.setLayout(gl);
-		gd = new GridData(GridData.FILL_BOTH);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		navComposite.setLayoutData(gd);
 
@@ -746,7 +752,11 @@ public class QuranForm extends BaseForm {
 		// gd = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
 		// searchGroup.setLayoutData(gd);
 
-		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		if (tree) {
+			gd = new GridData(SWT.FILL, SWT.FILL, true, false);
+		} else {
+			gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		}
 		searchTabFolder = new TabFolder(workPane, lang.getSWTDirection());
 		searchTabFolder.setLayoutData(gd);
 
