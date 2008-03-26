@@ -1,0 +1,45 @@
+<launch4jConfig>
+  <dontWrapJar>true</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar></jar>
+  <outfile>D:\Java\Programs\Zekr\dist\0.7.0\beta1\win32-special\zekr.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl>http://zekr.org/contact.html</supportUrl>
+  <customProcName>true</customProcName>
+  <stayAlive>false</stayAlive>
+  <icon>D:\Java\Programs\Zekr\dist\0.7.0\beta1\win32\res\image\icon\zekr.ico</icon>
+  <classPath>
+    <mainClass>net.sf.zekr.ZekrMain</mainClass>
+    <cp>lib/apache-commons.jar</cp>
+    <cp>lib/log4j-1.2.8.jar</cp>
+    <cp>lib/lucene-core-2.3.0.jar</cp>
+    <cp>lib/lucene-highlighter-2.3.0.jar</cp>
+    <cp>lib/swt.jar</cp>
+    <cp>lib/velocity-1.4.jar</cp>
+    <cp>dist/zekr.jar</cp>
+  </classPath>
+  <jre>
+    <path>jre</path>
+    <minVersion>1.4.2</minVersion>
+    <maxVersion></maxVersion>
+    <dontUsePrivateJres>true</dontUsePrivateJres>
+    <initialHeapSize>0</initialHeapSize>
+    <maxHeapSize>0</maxHeapSize>
+  </jre>
+  <versionInfo>
+    <fileVersion>0.7.0.0</fileVersion>
+    <txtFileVersion>0.7.0.0</txtFileVersion>
+    <fileDescription>Zekr - Open Quranic Project</fileDescription>
+    <copyright>© 2004-2008 zekr.org</copyright>
+    <productVersion>0.7.0.0</productVersion>
+    <txtProductVersion>0.7.0.0</txtProductVersion>
+    <productName>Zekr</productName>
+    <companyName>zekr.com</companyName>
+    <internalName>Zekr</internalName>
+    <originalFilename>zekr.exe</originalFilename>
+  </versionInfo>
+</launch4jConfig>

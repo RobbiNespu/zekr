@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+
+<project name="Zekr Release File" default="dist" basedir=".">
+	<!-- Component parameters -->
+	<property name="component" value="Zekr" />
+	<property name="package" value="net.sf.zekr" />
+	<property name="packagedir" value="net/sf/zekr" />
+	<property name="distfilename" value="zekr" />
+	<property name="component_version" value="0.7.0beta1" />
+	<property name="component_path" value="${distfilename}/${component_version}" />
+
+	<!-- Directory setup -->
+	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.0/beta1" />
+	<property name="distdir" value="${dest_dir}/develdist" />
+
+	<property name="srcdir" value="src" />
+	<property name="libdir" value="lib" />
+	<property name="ext_libdir" value="ext" />
+	<property name="docsdir" value="${distdir}/docs" />
+	<property name="testlogdir" value="${distdir}/log" />
+	<property name="testfiles" value="test_files" />
+	<property name="javadocsdir" value="javadocs" />
+	<property name="reports" value="${distdir}/reports" />
+
+	<property name="javamain" value="${srcdir}" />
+	<property name="javatests" value="test" />
+
+	<property name="builddir" value="${distdir}" />
+	<property name="build_classdir" value="${builddir}/classes" />
+	<property name="build_testclassdir" value="${builddir}/testClasses" />
+	<property name="build_targetclassdir" value="${builddir}/targetclasses" />
+	<property name="build_distdir" value="${builddir}" />
+	<property name="build_zekr_distdir" value="${build_distdir}/${distfilename}-${component_version}" />
+	<property name="dev_export.zip" value="${build_distdir}/${distfilename}-${component_version}.zip" />
+
+	<!-- Excevution tags -->
+	<property name="debug" value="true" />
+	<property name="verbose" value="false" />
+
+	<!-- Distribution structure -->
+	<property name="dist_lib" value="${build_distdir}/lib" />
+	<property name="dist_src" value="${build_zekr_distdir}/${srcdir}" />
+	<property name="dist_docs" value="${docsdir}" />
+	<property name="dist_javadocs" value="${build_zekr_distdir}/${javadocsdir}" />
+	<property name="dist_testfiles" value="${build_zekr_distdir}/${testfiles}" />
+
+	<!-- NAME FOR .JAR AND .WAR FILES -->
+	<property name="component_name" value="${dist_lib}/${component_path}/${distfilename}" />
+	<property name="javadoc.jar" value="javadocs.jar" />
+	<property name="component.tests.jar" value="${dist_lib}/${distfilename}_tests.jar" />
+	<property name="component.war" value="${dist_examples}/${distfilename}.war" />
+	<property name="component.dist.jar" value="${build_distdir}/${distfilename}-${component_version}.jar" />
+	<property name="dev_submission.jar" value="${component}_${component_version}_dev_submission.jar" />
+	<property name="design_submission.jar" value="${component}_${component_version}_design_submission.jar" />
+	<property name="dev_dist.jar" value="${component}_${component_version}_dev_dist.jar" />
+	<property name="design_dist.jar" value="${component}_${component_version}_design_dist.jar" />
+
+	<!-- document package -->
+	<property name="dist_docpackage" value="${builddir}/doc_package" />
+	<property name="docpackage.jar" value="${distfilename}_docs.jar" />
+
+	<!-- JAR file dependencies -->
+	<property name="swt.jar" value="${libdir}/swt.jar" />
+	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
+	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
+	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.3.0.jar" />
+	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.3.0.jar" />
+	<property name="apache-commons.jar" value="${libdir}/apache-commons.jar" />
+
+	<!-- 3rd Party Dependencies  -->
+	<property name="junit.jar" value="${ext_libdir}/junit.jar" />
+
+	<path id="buildlibs">
+		<pathelement location="${junit.jar}" />
+		<pathelement location="${log4j.jar}" />
+		<pathelement location="${swt.jar}" />
+		<pathelement location="${lucene-core.jar}" />
+		<pathelement location="${lucene-highlighter.jar}" />
+		<pathelement location="${apache-commons.jar}" />
+		<pathelement location="${velocity.jar}" />
+		<pathelement location="${testfiles}" />
+	</path>
+
+	<path id="test.build.classpath">
+		<pathelement location="${build_testclassdir}" />
+		<pathelement location="${build_classdir}" />
+		<path refid="buildlibs" />
+	</path>
+
+	<path id="runtime.classpath">
+		<pathelement location="${build_classdir}" />
+		<path refid="buildlibs" />
+	</path>
+
+	<path id="launch4j.classpath">
+		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-pre2-win32/launch4j/lib/xstream.jar" />
+		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-pre2-win32/launch4j/launch4j.jar" />
+	</path>
+
+	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />
+	
+	<target name="createExeFile">
+		<launch4j configfile="misc/zekr-launch4j.xml" outfile="${dest_dir}/win32-special/zekr.exe" />
+		<launch4j configfile="misc/zekrc-launch4j.xml" outfile="${dest_dir}/win32-special/zekrc.exe" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${build_classdir}" />
+		<javac encoding="UTF-8" srcdir="${javamain}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
+			<classpath refid="buildlibs" />
+		</javac>
+	</target>
+
+	<target name="compile_targets">
+		<mkdir dir="${build_targetclassdir}" />
+		<mkdir dir="${javatests}" />
+		<javac encoding="UTF-8" srcdir="${javamain}" destdir="${build_targetclassdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}" target="1.4" extdirs="">
+			<classpath refid="buildlibs" />
+		</javac>
+
+		<!-- compile test cases -->
+		<javac encoding="UTF-8" srcdir="${javatests}" destdir="${build_targetclassdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}" target="1.4" extdirs="">
+			<classpath refid="buildlibs" />
+		</javac>
+		<delete dir="${build_targetclassdir}" />
+	</target>
+
+	<target name="compile_tests" depends="compile">
+		<mkdir dir="${build_testclassdir}" />
+		<javac encoding="UTF-8" srcdir="${javatests}" destdir="${build_testclassdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
+			<classpath refid="test.build.classpath" />
+		</javac>
+	</target>
+
+	<target name="test" depends="compile_tests">
+		<mkdir dir="${testlogdir}" />
+		<junit fork="true" haltonerror="false">
+			<classpath refid="test.build.classpath" />
+			<test name="${package}.AllTests" todir="${testlogdir}">
+				<formatter type="plain" usefile="true" />
+				<formatter type="xml" usefile="true" />
+			</test>
+		</junit>
+	</target>
+
+	<target name="reports" depends="test">
+		<mkdir dir="${reports}" />
+
+		<junitreport todir="${reports}">
+			<fileset dir="${testlogdir}">
+				<include name="*.xml" />
+			</fileset>
+			<report format="frames" todir="${reports}" />
+		</junitreport>
+
+		<echo>The execution of reports is complete.  Reports are available in /${reports}</echo>
+	</target>
+
+	<target name="dist" depends="compile">
+		<mkdir dir="${dist_lib}/${component_path}" />
+		<jar jarfile="${component_name}-src.jar" basedir="${srcdir}" />
+		<jar jarfile="${component_name}.jar" basedir="${build_classdir}" />
+	</target>
+
+	<target name="dist_tests" depends="compile_tests">
+		<mkdir dir="${dist_lib}" />
+		<jar jarfile="${component.tests.jar}" basedir="${build_testclassdir}" />
+	</target>
+
+	<target name="javadoc" depends="compile">
+		<mkdir dir="${dist_javadocs}" />
+		<javadoc packagenames="${package}.*" sourcepath="${javamain}" classpath="${build_classdir}" classpathref="buildlibs" destdir="${dist_javadocs}" windowtitle="Zekr - Open Quranic Project" verbose="${verbose}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${builddir}" />
+	</target>
+
+	<target name="dev_submission" depends="test">
+		<jar jarfile="${dev_submission.jar}" basedir="." includes="${javamain}/**/*.java,${javatests}/${packagedir}/**,${testlogdir}/**,${testfiles}/**,${docsdir}/**" excludes="${javatests}/${packagedir}/AllTests.java,${javatests}/${packagedir}/stresstests/*,${javatests}/${packagedir}/failuretests/*,${javatests}/${packagedir}/accuracytests/*" />
+	</target>
+	<target name="full_export">
+		<zip destfile="${dev_export.zip}" casesensitive="yes">
+			<fileset dir=".">
+				<include name="doc/changes.txt" />
+				<include name="doc/apache-license-2.0.txt" />
+				<include name="doc/apache-software-license-1.1.txt" />
+				<include name="doc/epl-1.0.txt" />
+				<include name="doc/lgpl-2.1.txt" />
+				<include name="doc/zekr-license.txt" />
+				<include name="doc/nanohttpd-license.txt" />
+				<include name="doc/tanzil-license.txt" />
+				<include name="doc/readme-0.7.0.txt" />
+			</fileset>
+			<fileset dir=".">
+				<exclude name="**/text/trans/*" />
+				<exclude name="**/misc/" />
+				<exclude name="**/res/index/" />
+				<exclude name="**/lib/old/" />
+				<exclude name="gcj/" />
+				<exclude name="ext/" />
+				<exclude name="bin/" />
+				<exclude name="build/" />
+				<exclude name="src/" />
+				<exclude name="test/" />
+				<exclude name=".*/**/" />
+				<exclude name="doc/**/*" />
+			</fileset>
+		</zip>
+	</target>
+</project>
