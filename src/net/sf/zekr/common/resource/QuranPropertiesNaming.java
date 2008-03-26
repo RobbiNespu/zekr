@@ -41,7 +41,7 @@ public class QuranPropertiesNaming {
 	/** sura name in Arabic */
 	public static final String SURA_NAME_ARABIC = "arabic";
 	/** sura name, translated in the default language */
-	public static final String SURA_NAME_T9N = "arabic";
+	public static final String SURA_NAME_T9N = "t9n";
 	/** sura name, transliterated in the default language */
 	public static final String SURA_NAME_T13N = "t13n";
 	/** sura name, translated in English */

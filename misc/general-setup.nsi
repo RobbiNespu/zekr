@@ -7,8 +7,8 @@ SetCompressor /SOLID lzma
 # Defines
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_UNIX_NAME "zekr"
-!define VERSION 0.6.6.0
-!define RELEASE_VERSION "0.6.6"
+!define VERSION 0.7.0.0
+!define RELEASE_VERSION "0.7.0beta1"
 !define COMPANY siahe.com
 !define URL http://siahe.com/zekr
 
@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.6.6\final\win"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.0\beta1\win64"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -80,6 +80,7 @@ Var JDK_HOME
 !insertmacro MUI_LANGUAGE Romanian
 !insertmacro MUI_LANGUAGE Russian
 !insertmacro MUI_LANGUAGE Turkish
+!insertmacro MUI_LANGUAGE Bosnian
 
 # Installer attributes
 BrandingText "The Zekr Project"
@@ -96,7 +97,7 @@ VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "${RELEASE_VERSION}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Quranic Project"
-VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2007 Mohsen Saboorian and other contributors"
+VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2008 zekr.org"
 InstallDirRegKey HKLM "${REGKEY}" Path
 UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 ShowUninstDetails show
@@ -142,13 +143,13 @@ Section -post SEC0001
 #    RMDir /r "$DOCUMENTS\..\.zekr"
 
     ; javaw.exe.manifest file copy
-    SetOverwrite try
-    SetOutPath $SYSDIR
-    File "${BASE_APP}\res\javaw.exe.manifest"
-    SetOutPath "$JRE_HOME\bin"
-    File "${BASE_APP}\res\javaw.exe.manifest"
-    SetOutPath "$JDK_HOME\bin"
-    File "${BASE_APP}\res\javaw.exe.manifest"
+#    SetOverwrite try
+#    SetOutPath $SYSDIR
+#    File "${BASE_APP}\res\javaw.exe.manifest"
+#    SetOutPath "$JRE_HOME\bin"
+#    File "${BASE_APP}\res\javaw.exe.manifest"
+#    SetOutPath "$JDK_HOME\bin"
+#    File "${BASE_APP}\res\javaw.exe.manifest"
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -379,3 +380,4 @@ LangString ^UninstallLink ${LANG_PORTUGUESE} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_ROMANIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_RUSSIAN} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_TURKISH} "Uninstall $(^Name)"
+LangString ^UninstallLink ${LANG_BOSNIAN} "Uninstall $(^Name)"

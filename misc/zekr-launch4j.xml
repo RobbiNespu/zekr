@@ -2,22 +2,22 @@
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
   <jar></jar>
-  <outfile>D:\Java\Programs\Zekr\dist\0.6.6\final\win\zekr.exe</outfile>
+  <outfile>D:\Java\Programs\Zekr\dist\0.7.0\beta1\win32\zekr.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>
   <downloadUrl>http://java.com/download</downloadUrl>
-  <supportUrl>http://siahe.com/zekr/contact.html</supportUrl>
+  <supportUrl>http://zekr.org/contact.html</supportUrl>
   <customProcName>true</customProcName>
   <stayAlive>false</stayAlive>
-  <icon>D:\Java\Programs\Zekr\dist\0.6.6\final\win\res\image\icon\zekr.ico</icon>
+  <icon>D:\Java\Programs\Zekr\dist\0.7.0\beta1\win32\res\image\icon\zekr.ico</icon>
   <classPath>
     <mainClass>net.sf.zekr.ZekrMain</mainClass>
     <cp>lib/apache-commons.jar</cp>
     <cp>lib/log4j-1.2.8.jar</cp>
-    <cp>lib/lucene-core-2.2.0.jar</cp>
-    <cp>lib/lucene-highlighter-2.2.0.jar</cp>
+    <cp>lib/lucene-core-2.3.0.jar</cp>
+    <cp>lib/lucene-highlighter-2.3.0.jar</cp>
     <cp>lib/swt.jar</cp>
     <cp>lib/velocity-1.4.jar</cp>
     <cp>dist/zekr.jar</cp>
@@ -31,14 +31,14 @@
     <maxHeapSize>0</maxHeapSize>
   </jre>
   <versionInfo>
-    <fileVersion>0.6.6.0</fileVersion>
-    <txtFileVersion>0.6.6.0</txtFileVersion>
+    <fileVersion>0.7.0.0</fileVersion>
+    <txtFileVersion>0.7.0.0</txtFileVersion>
     <fileDescription>Zekr - Open Quranic Project</fileDescription>
-    <copyright>© 2004-2007 Mohsen Saboorian and other contributors (http://siahe.com/zekr)</copyright>
-    <productVersion>0.6.6.0</productVersion>
-    <txtProductVersion>0.6.6.0</txtProductVersion>
+    <copyright>© 2004-2008 zekr.org</copyright>
+    <productVersion>0.7.0.0</productVersion>
+    <txtProductVersion>0.7.0.0</txtProductVersion>
     <productName>Zekr</productName>
-    <companyName>siahe.com</companyName>
+    <companyName>zekr.com</companyName>
     <internalName>Zekr</internalName>
     <originalFilename>zekr.exe</originalFilename>
   </versionInfo>
