@@ -438,7 +438,7 @@ Features/Enhancements:
 	   	- Update info is downloaded in form of an XML file from server. It contains version, build number, release status, download URL, etc.
 	    - Check for update action or its menu item can be fully disabled by setting update.enable property to false. This can be helpful when user is always offline or Zekr is used as a Debian package (which should has it's own method of updating).
 	A "View log" link added to the about page, which tries to open log. It can be used for technical support.
-	Sky theme enhanced:
+	Sky theme enhancements:
 		- Rounded corner on Mozilla or CSS3-compliant browsers.
 		- Sura name on the top of each sura
 		- Text-based Bismillah on the top of each Sura (except suras 1 and 9)
@@ -471,12 +471,13 @@ Features/Enhancements:
 	A new checkbox: "Enable audio support" added to OptionsForm, general tab, to enable or disable audio support. When disabling, it also disables local HTTP server. This item is enable when both audio.enable and server.http.enable are enabled. Otherwise it's disabled.
 	lineDelimiter changed to delimiter in translation descriptors. Translation packs should have both lineDelimiter and delimiter in order to be backward compatible.
 	Translation packages' suffix changed to .trans.zip (formely .zip).
-	Full screen support: a new menu item added under View menu which switchs GUI to the full screen mode. It requires SWT 3.4M2. When switching to full screen mode, a floated button is shown which switchs back to the normal mode if pressed.
+	Full screen support: a new menu item added under View menu which switches GUI to the full screen mode. It requires SWT 3.4M2. When switching to full screen mode, a floated button is shown which switchs back to the normal mode if pressed.
 	Scrollable task pane. Task pane is scrolled when needed.
 	"Online Help" menu item added under Help menu to open Zekr online wiki in a browser.
 	A Help menu item added under search scope menu (near search button).
 	Synchronize button removed in order to free more space in nav bar. This old button (from 0.1.0b1 :)) was rarely used.
-	A new option added to General tab to show sura names in a tree-like structure. When selecting this mode, 
+	A new option added to General tab to show sura names in a tree-like structure. When selecting this mode,
+	New language pack: Spanish (Mahdi Reyes).
 Bug fixes:
 	Disabled "Save as..." button when HTML is served through HTTP server. Exporting pages without having HTTP server on, is not a good idea, because no image/JS/CSS resources can be accessed then.
 	Audio > Play/Pause menu item text is now correctly updated upon play/pause status change.
