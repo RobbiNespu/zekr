@@ -56,6 +56,11 @@
 		<javac srcdir="${src_dir}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="true" verbose="${verbose}">
 			<classpath refid="buildlibs" />
 		</javac>
+		<copy todir="${build_classdir}">
+			<fileset dir="${src_dir}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="dist" depends="compile">
