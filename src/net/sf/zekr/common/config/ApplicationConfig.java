@@ -845,6 +845,14 @@ public class ApplicationConfig implements ConfigNaming {
 		return props.getString("view.viewLayout");
 	}
 
+	public void setPageMode(String pageMode) {
+		props.setProperty("view.pageMode", pageMode);
+	}
+
+	public String getPageMode() {
+		return props.getString("view.pageMode");
+	}
+
 	public boolean isHttpServerEnabled() {
 		return props.getBoolean("server.http.enable");
 	}

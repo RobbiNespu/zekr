@@ -36,6 +36,13 @@ public interface ConfigNaming {
 	public static final String QURAN_ONLY_LAYOUT = "quran-only";
 	public static final String TRANS_ONLY_LAYOUT = "trans-only";
 
+	// different types of view page mode.
+	public static final String SURA_PAGE_MODE = "sura";
+	public static final String JUZ_PAGE_MODE = "juz";
+	public static final String HIZB_PAGE_MODE = "hizb";
+	public static final String AYA_PAGE_MODE = "aya";
+	public static final String CUSTOM_PAGE_MODE = "custom";
+
 	public static final String REVEL_PACK_EXT = ".revel.zip";
 	public static final String TRANS_PACK_SUFFIX = ".trans.zip";
 }
