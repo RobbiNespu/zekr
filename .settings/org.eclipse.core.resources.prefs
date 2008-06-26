@@ -1,10 +1,7 @@
-#Tue Sep 25 11:34:18 GMT+03:30 2007
+#Sat Jun 21 23:33:02 GMT+03:30 2008
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
-encoding//doc/nanohttpd-license.txt=ISO-8859-1
-encoding//doc/site/faq.html=UTF-8
-encoding//doc/site/glossary.html=UTF-8
-encoding//doc/site/resources.html=UTF-8
+encoding//doc/license/nanohttpd-license.txt=ISO-8859-1
 encoding//misc/ZerkrRunScript.nsi=ISO-8859-1
 encoding//misc/general-setup.nsi=ISO-8859-1
 encoding//misc/zekr-launch4j.xml=ISO-8859-1
