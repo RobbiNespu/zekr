@@ -1,0 +1,14 @@
+Tafsir support
+Search through translations
+	- Simple search
+	- Indexed search
+Minimize to tray
+Customize keyboard navigation
+Recitation:
+	- Repeat ayas
+	- Scoped recitation playing
+	- Continuous-sura player
+
+Add-on management
+
+PDF exporting support

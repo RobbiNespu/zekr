@@ -484,13 +484,22 @@ Bug fixes:
 	Player bar buttons' size fixed.
 	Audio menu is now correctly disabled when setting audio.enable = false in config.properties
 	Separator is shown in "Recitation" and "Translation" menu groups when there is at least one recitation/translation available.
-	Menu icons are not shown in Mac. All "Control" keys in menu item's accelerator (and text) changed to Command button.
+	All "Control" keys in menu item's accelerator (and text) changed to Command button.
 	A bug with multi-translation layout fixed. This bug affected IE and caused horizontal scrolling when resizing window.
 	Incorrect start point for Juz 10 fixed. The correct location is 8:41.
 	When focusing on the first aya in each sura, there would be no extra space on the top of the focusing area, so that sura name and Bismillah are shown correctly.
 	audio.enabled changed to audio.enable for more consistency in property naming.
 	quran_detailedTextFile changed to quran_uthmaniTextFile in theme.properties.
 	theme.properties in user workspace is overwritten with the base one if the base theme.properties is newer that user's. This resets all theme-related configurations when installing a newer version of Zekr.
+
+Version 0.7.0 beta 2 - [15-5-08]
+Features/Enhancements:
+Bug fixes:
+	A bug with basic search fixed, which happened when a whole clause was found at the end of an aya.
+	Menu icons are not shown anymore in Mac.
+	Major and minor sajda replaced with "mandatory" and "recommended" sajda.
+	An incompatibility issue resolved which caused sura.vm not work with Velocity 1.5. Thanks for Serkan Kaba's patch.
+	Disabled auto-update for now. It's too buggy.
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Search results in ascending/descending order
