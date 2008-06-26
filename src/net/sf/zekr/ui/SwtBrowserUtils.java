@@ -26,7 +26,8 @@ public class SwtBrowserUtils {
 			public void run() {
 				display.syncExec(new Runnable() {
 					public void run() {
-						browser.execute(script);
+						if (!browser.isDisposed())
+							browser.execute(script);
 					}
 				});
 			}
