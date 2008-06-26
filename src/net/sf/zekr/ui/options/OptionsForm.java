@@ -303,7 +303,8 @@ public class OptionsForm {
 
 		if (!suraNameType[suraNameMode.getSelectionIndex()].equals(props.getProperty("view.sura.name"))) {
 			props.setProperty("view.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
-			EventUtils.sendEvent(EventProtocol.UPDATE_SURA_NAMES);
+			if (!pressOkToApply) // it's refreshed upon form creation
+				EventUtils.sendEvent(EventProtocol.UPDATE_SURA_NAMES);
 		}
 
 		if (fromOk && pressOkToApply) {
