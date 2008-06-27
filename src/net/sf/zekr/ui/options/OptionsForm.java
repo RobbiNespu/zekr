@@ -478,7 +478,7 @@ public class OptionsForm {
 		addBut.setImage(new Image(display, resource.getString("icon.add")));
 		addBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				String key = MessageBoxUtils.textBoxPrompt(meaning("NEW_KEY"), lang.getMeaning("QUESTION"));
+				String key = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"), meaning("NEW_KEY"));
 				if (key == null || "".equals(key.trim()))
 					return;
 				logger.info("Add a table row");

@@ -174,7 +174,7 @@ public class FormUtils {
 	}
 
 	/**
-	 * return the maximum length for a button when two buttons are given
+	 * Return the maximum length for a button when two buttons are given
 	 * 
 	 * @author laejoh
 	 * @param button a first button Button object
@@ -186,7 +186,7 @@ public class FormUtils {
 	}
 
 	/**
-	 * return the maximum length for a button when two buttons and a minimum length are given
+	 * Return the maximum length for a button when two buttons and a minimum length are given.
 	 * 
 	 * @author laejoh
 	 * @param minimum an integer giving the minimum length a button has to have
@@ -199,7 +199,7 @@ public class FormUtils {
 	}
 
 	/**
-	 * return the maximum length for a button when three buttons are given
+	 * Return the maximum length for a button when three buttons are given.
 	 * 
 	 * @author laejoh
 	 * @param button a first button

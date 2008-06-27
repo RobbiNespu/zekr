@@ -17,8 +17,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 public abstract class BaseForm implements EventProtocol {
-	final protected Logger logger = Logger.getLogger(this.getClass());
-	protected LanguageEngine lang = LanguageEngine.getInstance();
+	protected final Logger logger = Logger.getLogger(this.getClass());
+	protected final LanguageEngine lang = LanguageEngine.getInstance();
 	protected final ResourceManager resource = ResourceManager.getInstance();
 	protected Shell shell, parent;
 	protected Display display;
