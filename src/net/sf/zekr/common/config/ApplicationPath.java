@@ -36,6 +36,12 @@ public class ApplicationPath {
 	public static final String TRANSLATION_DESC = rm.getString("text.trans.desc");
 	public static final String REVELATION_DIR = rm.getString("text.revel.baseDir");
 	public static final String REVELATION_DESC = rm.getString("text.revel.desc");
+	public static final String PAGING_DIR = rm.getString("text.paging.baseDir");
+
+	// extensions
+	public static final String REVEL_PACK_SUFFIX = rm.getString("text.revel.suffix");
+	public static final String TRANS_PACK_SUFFIX = rm.getString("text.trans.suffix");
+	public static final String PAGING_PACK_SUFFIX = rm.getString("text.paging.suffix");
 
 	/**
 	 * The directory relative path, containing language packs and language settings.
@@ -63,6 +69,5 @@ public class ApplicationPath {
 
 	/** Velocity Property Files */
 	public static final String VELOCITY_CONFIG = rm.getString("config.template");
-
 
 }
