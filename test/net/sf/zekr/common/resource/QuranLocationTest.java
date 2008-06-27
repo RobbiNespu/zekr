@@ -8,9 +8,13 @@
  */
 package net.sf.zekr.common.resource;
 
-import junit.framework.TestCase;
+import net.sf.zekr.ZekrBaseTest;
 
-public class QuranLocationTest extends TestCase {
+public class QuranLocationTest extends ZekrBaseTest {
+
+	public QuranLocationTest() throws Exception {
+		super();
+	}
 
 	public void testIsValidLocationIntInt() {
 		assertTrue(QuranLocation.isValidLocation(2, 268));
@@ -29,6 +33,16 @@ public class QuranLocationTest extends TestCase {
 		ql1 = new QuranLocation(5, 5);
 		ql2 = new QuranLocation(5, 8);
 		assertEquals(ql1.getNext().getNext().getNext(), ql2);
+	}
+
+	public void testGetPrev() {
+		QuranLocation ql1 = new QuranLocation(1, 7);
+		QuranLocation ql2 = new QuranLocation(2, 1);
+		assertEquals(ql1, ql2.getPrev());
+
+		ql1 = new QuranLocation(5, 8);
+		ql2 = new QuranLocation(5, 5);
+		assertEquals(ql1.getPrev().getPrev().getPrev(), ql2);
 	}
 
 	public void testCompareTo() {
