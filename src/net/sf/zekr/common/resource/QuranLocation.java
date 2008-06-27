@@ -35,9 +35,9 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	/**
-	 * Loads a QuranLocation with the format <tt>sura#-aya#</tt>. Sura and Aya numbers are both counted from
-	 * 1. If <code>location</code> is not of format <tt>sura#-aya#</tt>, an
-	 * <code>IllegalArgumentException</code> is thrown.<br>
+	 * Loads a QuranLocation with the format <tt>sura#-aya#</tt>. Sura and Aya numbers are both counted from 1.
+	 * If <code>location</code> is not of format <tt>sura#-aya#</tt>, an <code>IllegalArgumentException</code>
+	 * is thrown.<br>
 	 * Please note that no range check is performed for this method.
 	 * 
 	 * @param location Quran location to be parsed
@@ -116,6 +116,19 @@ public class QuranLocation implements IQuranLocation {
 			newLoc = new QuranLocation(sura + 1, 1);
 		else
 			newLoc = null;
+		return newLoc;
+	}
+
+	public IQuranLocation getPrev() {
+		QuranLocation newLoc;
+		if (aya > 1) {
+			newLoc = new QuranLocation(sura, aya - 1);
+		} else if (sura > 1) {
+			SuraProperties sp = QuranPropertiesUtils.getSura(sura - 1);
+			newLoc = new QuranLocation(sura - 1, sp.getAyaCount());
+		} else {
+			newLoc = null;
+		}
 		return newLoc;
 	}
 

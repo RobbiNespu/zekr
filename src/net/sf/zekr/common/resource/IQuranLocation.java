@@ -34,9 +34,17 @@ public interface IQuranLocation extends Comparable {
 	public IQuranLocation getNext();
 
 	/**
+	 * Returns the previous location (sura-aya pair).
+	 * 
+	 * @return the previous Quran location, or <code>null</code> if there is nothing
+	 */
+	public IQuranLocation getPrev();
+
+	/**
 	 * Pads the sura/aya number so that all strings are of the same width and sortable.
 	 * 
 	 * @return
 	 */
 	public String toSortableString();
+
 }
