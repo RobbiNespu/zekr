@@ -14,14 +14,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.config.ConfigNaming;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IQuranLocation;
@@ -41,6 +42,8 @@ import net.sf.zekr.engine.bookmark.ui.BookmarkUtils;
 import net.sf.zekr.engine.bookmark.ui.ManageBookmarkSetsForm;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.page.FixedAyaPagingData;
+import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.engine.translation.ui.CustomTranslationListForm;
@@ -92,7 +95,7 @@ public class QuranFormMenuFactory {
 	private Menu viewMenu;
 	private MenuItem suraReloadItem;
 	private MenuItem langName;
-	private MenuItem transName;
+	private MenuItem transName, viewMode;
 	private MenuItem quranOnly;
 	private MenuItem transOnly;
 	private MenuItem separate;
@@ -100,7 +103,7 @@ public class QuranFormMenuFactory {
 	private MenuItem multiTrans;
 	private int direction;
 	private MenuItem randomAyaItem;
-	private Menu transMenu;
+	private Menu transMenu, viewModeMenu;
 	private MenuItem customTransList;
 	private Menu audioMenu;
 	private MenuItem audioItem;
@@ -188,29 +191,97 @@ public class QuranFormMenuFactory {
 		transName.setMenu(transMenu);
 		createOrUpdateTranslationMenu();
 
+		// view mode: sura, aya, juz, hizb or custom
+		new MenuItem(viewMenu, SWT.SEPARATOR);
+		viewMode = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("VIEW_MODE"), 0, "icon.menu.layout");
+		viewModeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+		viewMode.setMenu(viewModeMenu);
+		MenuItem suraViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("SURA_PAGE_MODE"), 0, null);
+		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("FIXED_AYA_PAGE_MODE"), 0,
+				null);
+		MenuItem hizbViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("HIZB_PAGE_MODE"), 0, null);
+		MenuItem juzViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("JUZ_PAGE_MODE"), 0, null);
+		MenuItem customViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("CUSTOM_PAGE_MODE") + "...", 0,
+				null);
+
+		suraViewMode.setData("<sura>");
+		fixedAyaViewMode.setData("<fixedAya>");
+		juzViewMode.setData("<juz>");
+		hizbViewMode.setData("<hizb>");
+		// customViewMode.setData("<custom>");
+		IPagingData page = config.getQuranPaging().getDefault();
+
+		final Map pagingItems = new HashMap();
+		pagingItems.put(suraViewMode, suraViewMode.getData());
+		pagingItems.put(fixedAyaViewMode, fixedAyaViewMode.getData());
+		pagingItems.put(juzViewMode, juzViewMode.getData());
+		pagingItems.put(hizbViewMode, hizbViewMode.getData());
+
+		MenuItem def = (MenuItem) pagingItems.get(page.getId());
+		if (def != null)
+			def.setSelection(true);
+		else
+			customViewMode.setSelection(true);
+
+		SelectionListener viewModeSelection = new SelectionAdapter() {
+			MenuItem prevItem = null;
+
+			public void widgetSelected(SelectionEvent e) {
+				if (!((MenuItem) e.widget).getSelection()) {
+					prevItem = (MenuItem) e.widget;
+					return;
+				}
+				System.out.println(prevItem + " -- " + e);
+
+				String data = (String) e.widget.getData();
+				config.setPagingMode(data);
+				// config.getQuranPaging().get(data);
+				if ("<sura>".equals(data)) {
+				} else if ("<fixedAya>".equals(data)) {
+					if (!setFixedAyaMode()) {
+						((MenuItem) e.widget).setSelection(false);
+						prevItem.setSelection(true);
+					} else {
+						prevItem = (MenuItem) e.widget;
+					}
+				} else if ("<hizb>".equals(data)) {
+				} else if ("<juz>".equals(data)) {
+				} else if ("<custom>".equals(data)) {
+					logger.info("Choose custom page mode.");
+					new CustomPageModeForm(shell).show();
+				}
+			}
+		};
+
+		suraViewMode.addSelectionListener(viewModeSelection);
+		juzViewMode.addSelectionListener(viewModeSelection);
+		hizbViewMode.addSelectionListener(viewModeSelection);
+		fixedAyaViewMode.addSelectionListener(viewModeSelection);
+		customViewMode.addSelectionListener(viewModeSelection);
+
 		// cascading menu for view type
-		MenuItem viewType = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("LAYOUT"), 0,
+		MenuItem layoutType = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("LAYOUT"), 0,
 				"icon.menu.layout");
 
-		Menu viewTypeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
-		viewType.setMenu(viewTypeMenu);
+		Menu layoutTypeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
+		layoutType.setMenu(layoutTypeMenu);
 
-		quranOnly = createMenuItem(SWT.RADIO, viewTypeMenu, lang.getMeaning("QURAN"), 0, "icon.menu.quranOnly");
+		quranOnly = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("QURAN"), 0, "icon.menu.quranOnly");
 		quranOnly.setData("quranOnly");
 
-		transOnly = createMenuItem(SWT.RADIO, viewTypeMenu, lang.getMeaning("TRANSLATION"), 0, "icon.menu.transOnly");
+		transOnly = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("TRANSLATION"), 0, "icon.menu.transOnly");
 		transOnly.setData("transOnly");
 
-		separate = createMenuItem(SWT.RADIO, viewTypeMenu, lang.getMeaning("SEPARATE"), 0, "icon.menu.separate");
+		separate = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("SEPARATE"), 0, "icon.menu.separate");
 		separate.setData("separate");
 
-		mixed = createMenuItem(SWT.RADIO, viewTypeMenu, lang.getMeaning("MIXED"), 0, "icon.menu.mixed");
+		mixed = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("MIXED"), 0, "icon.menu.mixed");
 		mixed.setData("mixed");
 
-		multiTrans = createMenuItem(SWT.RADIO, viewTypeMenu, lang.getMeaning("MULTI_TRANS"), 0, "icon.menu.mixed");
+		multiTrans = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("MULTI_TRANS"), 0, "icon.menu.mixed");
 		multiTrans.setData("customMixed");
 
-		new MenuItem(viewTypeMenu, SWT.SEPARATOR | direction);
+		new MenuItem(layoutTypeMenu, SWT.SEPARATOR | direction);
 
 		SelectionAdapter sa = new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -249,14 +320,14 @@ public class QuranFormMenuFactory {
 		mixed.addSelectionListener(sa);
 		multiTrans.addSelectionListener(sa);
 
-		quranViewType = new MenuItem(viewTypeMenu, SWT.CASCADE | direction);
+		quranViewType = new MenuItem(layoutTypeMenu, SWT.CASCADE | direction);
 		quranViewType.setText(FormUtils.addAmpersand(lang.getMeaning("QURAN_VIEWTYPE")));
-		transViewType = new MenuItem(viewTypeMenu, SWT.CASCADE | direction);
+		transViewType = new MenuItem(layoutTypeMenu, SWT.CASCADE | direction);
 		transViewType.setText(FormUtils.addAmpersand(lang.getMeaning("TRANSLATION_VIEWTYPE")));
 
 		// Set default selection
 		if (config.getTranslation().getDefault() == null) { // if no translation found
-			viewType.setEnabled(false);
+			layoutType.setEnabled(false);
 			quranOnly.setSelection(true);
 			quranViewType.setEnabled(false);
 		} else {
@@ -686,9 +757,27 @@ public class QuranFormMenuFactory {
 			}
 		}
 		item.setText(FormUtils.addAmpersand(text) + accelStr);
-		if (imageKey != null)
+		if (imageKey != null && !GlobalConfig.isMac)
 			item.setImage(new Image(shell.getDisplay(), resource.getString(imageKey)));
 		return item;
+	}
+
+	private boolean setFixedAyaMode() {
+		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"),
+				"How many ayas should be displayed in each page?");
+		if (!StringUtils.isEmpty(ayaStr)) {
+			try {
+				int aya = Integer.parseInt(ayaStr);
+				FixedAyaPagingData fapd = (FixedAyaPagingData) config.getQuranPaging().get("<fixedAya>");
+				fapd.setAyaPerPage(aya);
+				logger.info("Reload fixed aya paging data with aya-per-page set to: " + aya);
+				fapd.reloadPaging();
+				return true;
+			} catch (NumberFormatException e) {
+				MessageBoxUtils.showError(lang.getMeaning("ENTER_VALID_NUMBER"));
+			}
+		}
+		return false;
 	}
 
 	protected void gotoRandomAya() {
@@ -710,10 +799,6 @@ public class QuranFormMenuFactory {
 	}
 
 	protected void createOrUpdateTranslationMenu() {
-		// cascading menu for translation selection
-		//		if (transName != null && !transName.isDisposed()) {
-		//			transName.dispose();
-		//		}
 		MenuItem[] transItems = transMenu.getItems();
 		for (int i = 0; i < transItems.length; i++) {
 			transItems[i].dispose();
@@ -753,7 +838,6 @@ public class QuranFormMenuFactory {
 			}
 		});
 
-		// ssssssssss
 		new MenuItem(transMenu, SWT.SEPARATOR);
 
 		final MenuItem moreTransItem = new MenuItem(transMenu, SWT.PUSH);
@@ -868,7 +952,7 @@ public class QuranFormMenuFactory {
 			for (Iterator iterator = transFileList.iterator(); iterator.hasNext();) {
 				File file2Import = (File) iterator.next();
 
-				if (!file2Import.getName().endsWith(ConfigNaming.TRANS_PACK_SUFFIX)) {
+				if (!file2Import.getName().endsWith(ApplicationPath.TRANS_PACK_SUFFIX)) {
 					logger.info("Invalid translation (unknown extension): " + file2Import);
 					continue;
 				}
@@ -910,9 +994,8 @@ public class QuranFormMenuFactory {
 
 	/**
 	 * This method imports one or more themes into Zekr theme installation directory. Imported theme is in
-	 * <tt>zip</tt> format, and after importing, it is extracted to <tt>res/ui/theme</tt>.
-	 * theme.properties is then copied into <tt>~/.zekr/config/theme</tt>, renaming to
-	 * <tt>[theme ID].properties</tt>.<br>
+	 * <tt>zip</tt> format, and after importing, it is extracted to <tt>res/ui/theme</tt>. theme.properties is
+	 * then copied into <tt>~/.zekr/config/theme</tt>, renaming to <tt>[theme ID].properties</tt>.<br>
 	 * Note that imported zip file should have the same base name as theme ID (theme directory name).
 	 */
 	private void importTheme() {
