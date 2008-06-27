@@ -520,7 +520,7 @@ public class ManageBookmarkSetsForm {
 	}
 
 	private void add() {
-		String id = MessageBoxUtils.textBoxPrompt(meaning("ENTER_ID") + ":", meaning("NEW_BOOKMARK_SET"));
+		String id = MessageBoxUtils.textBoxPrompt(meaning("NEW_BOOKMARK_SET"), meaning("ENTER_ID") + ":");
 		if (id != null && !"".equals(id.trim())) {
 			id = id.trim();
 			if (!bmsg.containsId(id)) {

@@ -22,12 +22,12 @@ public interface Signable {
 	public static final int NOT_AUTHENTIC = 2;
 
 	/**
-	 * @return
+	 * @return signature
 	 */
 	public byte[] getSignature();
 
 	/**
-	 * @return <code>UNKNOWN</code> if verification is not done yet, <code>AUTHENTIC</code> if verification
+	 * @return {@link Signable#UNKNOWN} if verification is not done yet, <code>AUTHENTIC</code> if verification
 	 *         is done and document is authentic and <code>NOT_AUTHENTIC</code> if document is not authentic.
 	 */
 	public int getVerificationResult();

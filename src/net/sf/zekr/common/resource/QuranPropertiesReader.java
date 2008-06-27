@@ -31,6 +31,7 @@ class QuranPropertiesReader extends BaseQuranProperties {
 	private NodeList suraNodeList, juzNodeList, sajdaNodeList;
 	private ResourceManager resource = ResourceManager.getInstance();
 	private NodeList suraNodeListL10N;
+	private NodeList pageNodeList;
 
 	ArrayList suraProp = new ArrayList();
 	ArrayList juzProp = new ArrayList();
@@ -53,12 +54,15 @@ class QuranPropertiesReader extends BaseQuranProperties {
 	QuranPropertiesReader() {
 		logger.info("Loading Quran properties...");
 		try {
-			logger.debug("Loading base Quran properties" + resource.getString("quran.props"));
+			logger.debug("Loading base Quran properties: " + resource.getString("quran.props"));
 			XmlReader reader = new XmlReader(resource.getString("quran.props"));
 			suraNodeList = reader.getNodes(QuranPropertiesNaming.SURA_TAG);
 			juzNodeList = reader.getNodes(QuranPropertiesNaming.JUZ_TAG);
 			sajdaNodeList = reader.getNodes(QuranPropertiesNaming.SAJDA_TAG);
+			logger.debug("Loading sura names localization data: " + resource.getString("quran.props.l10n"));
 			loadLocalizedProps();
+			logger.debug("Loading pagination data: " + resource.getString("quran.props.page"));
+			loadPaginationData();
 		} catch (XmlReadException e) {
 			logger.doFatal(e);
 		}
@@ -68,6 +72,7 @@ class QuranPropertiesReader extends BaseQuranProperties {
 		JuzProperties juz = new JuzProperties();
 		SajdaProperties sajda = new SajdaProperties();
 
+		logger.debug("Process sura data.");
 		for (i = 0; i < suraNodeList.size(); i++) {
 			sura = new SuraProperties();
 			Element suraElem = (Element) suraNodeList.item(i);
@@ -82,6 +87,7 @@ class QuranPropertiesReader extends BaseQuranProperties {
 			suraProp.add(sura);
 		}
 
+		logger.debug("Process juz data.");
 		for (i = 0; i < juzNodeList.size(); i++) {
 			Element juzElem = (Element) juzNodeList.item(i);
 			juz = new JuzProperties();
@@ -96,6 +102,7 @@ class QuranPropertiesReader extends BaseQuranProperties {
 			juzProp.add(juz);
 		}
 
+		logger.debug("Process sajda data.");
 		for (i = 0; i < sajdaNodeList.size(); i++) {
 			Element sajdaElem = (Element) sajdaNodeList.item(i);
 			sajda = new SajdaProperties();
@@ -133,6 +140,19 @@ class QuranPropertiesReader extends BaseQuranProperties {
 			return true;
 		} else {
 			logger.debug("No localized Quran metadata available: " + localizedPropFile);
+			return false;
+		}
+	}
+
+	private boolean loadPaginationData() throws XmlReadException {
+		File paginationFile = new File(resource.getString("quran.props.page"));
+		if (paginationFile.exists()) {
+			logger.debug("Loading  Quran pagination data from: " + paginationFile.getName());
+			XmlReader reader = new XmlReader(paginationFile);
+			pageNodeList = reader.getNodes(QuranPropertiesNaming.PAGE_TAG);
+			return true;
+		} else {
+			logger.debug("No Quran pagination metadata found: " + paginationFile);
 			return false;
 		}
 	}

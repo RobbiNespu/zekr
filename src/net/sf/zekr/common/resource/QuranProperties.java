@@ -10,10 +10,8 @@ package net.sf.zekr.common.resource;
 
 import java.util.List;
 
-
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class QuranProperties implements IQuranProperties {
 	private static QuranProperties thisInstance;
@@ -23,7 +21,7 @@ public class QuranProperties implements IQuranProperties {
 		quranPropsReader = new QuranPropertiesReader();
 	}
 
-	public static QuranProperties getInstance(){
+	public static QuranProperties getInstance() {
 		if (thisInstance == null)
 			thisInstance = new QuranProperties();
 		return thisInstance;

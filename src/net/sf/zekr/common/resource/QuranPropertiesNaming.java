@@ -37,6 +37,7 @@ public class QuranPropertiesNaming {
 	public static final String NAME_TRANSLATED_ATTR = NAME_ATTR;
 	public static final String NAME_TRANSLITERATED_ATTR = "tname";
 	public static final String EN_NAME_ATTR = "en";
+	public static final String PAGE_TAG = "page";
 
 	/** sura name in Arabic */
 	public static final String SURA_NAME_ARABIC = "arabic";
@@ -51,6 +52,6 @@ public class QuranPropertiesNaming {
 
 	public static final String MAKKI = "MAKKI";
 	public static final String MADANI = "MADANI";
-	public static final String MINOR_SAJDA = "MINOR"; // Mustahab Sajda
-	public static final String MAJOR_SAJDA = "MAJOR"; // wajib (obligatory) Sajda
+	public static final String RECOMMENDED_SAJDA = "RECOMMENDED"; // mustahab sajda
+	public static final String MANDATORY_SAJDA = "MANDATORY"; // wajib (obligatory) sajda
 }

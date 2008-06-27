@@ -156,7 +156,7 @@ public class RangedQuranText extends AbstractRangedQuranText {
 	 * @see net.sf.zekr.common.resource.IQuranText#getBismillah(int)
 	 */
 	public String getBismillah(int suraNum) {
-		return null;
+		throw new UnsupportedOperationException("Method not implemented.");
 	}
 
 	/* (non-Javadoc)

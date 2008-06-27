@@ -38,6 +38,9 @@ public class QuranPropertiesUtils {
 	/** Number of Quran ayas based on Uthmani Mushaf */
 	public static int QURAN_AYA_COUNT = 6236;
 
+	/** Number of Quran suras */
+	public static int QURAN_SURA_COUNT = 114;
+
 	private static String[][] suraAyas = new String[114][];
 	private static String[] suraNames = new String[114];
 	private static String[] indexedSuraNames = new String[114];
@@ -48,7 +51,8 @@ public class QuranPropertiesUtils {
 	private static IQuranLocation[] absoluteLocation = new QuranLocation[QURAN_AYA_COUNT];
 
 	public static final int getSajdaType(String sajda) {
-		return QuranPropertiesNaming.MINOR_SAJDA.equalsIgnoreCase(sajda) ? SajdaProperties.MINOR : SajdaProperties.MAJOR;
+		return QuranPropertiesNaming.RECOMMENDED_SAJDA.equalsIgnoreCase(sajda) ? SajdaProperties.MINOR
+				: SajdaProperties.MAJOR;
 	}
 
 	public static final boolean isMadani(String descent) {
@@ -132,6 +136,23 @@ public class QuranPropertiesUtils {
 	public static final SajdaProperties getSajda(int sajdaNum) {
 		QuranProperties props = QuranProperties.getInstance();
 		return props.getSajda(sajdaNum);
+	}
+
+	/**
+	 * Find and return the sajda for this location.
+	 * 
+	 * @param location
+	 * @return corresponding SajdaProperties (if any), or <code>null</code>, if there is no sajda for this
+	 *         location.
+	 */
+	public static final SajdaProperties getSajda(IQuranLocation location) {
+		List sajdaList = getSajdaInsideList(location.getSura());
+		for (int i = 0; i < sajdaList.size(); i++) {
+			SajdaProperties sajda = (SajdaProperties) sajdaList.get(i);
+			if (sajda.getAyaNumber() == location.getAya())
+				return sajda;
+		}
+		return null;
 	}
 
 	/**
@@ -360,6 +381,21 @@ public class QuranPropertiesUtils {
 		return aggrAyaCount[suraNum - 1];
 	}
 
+	/**
+	 * @param page Quran page, counted from 1
+	 * @return a list of Quran locations of type {@link IQuranPage}.
+	 */
+	public static final List getPageData(IQuranPage quranPage) {
+		List locList = new ArrayList();
+		IQuranLocation from = quranPage.getFrom();
+		IQuranLocation to = quranPage.getFrom();
+		while (to.compareTo(from) >= 0) {
+			locList.add(from);
+			from = from.getNext();
+		}
+		return locList;
+	}
+
 	public static void updateLocalizedSuraNames() {
 		QuranProperties props = QuranProperties.getInstance();
 		props.quranPropsReader.updateLocalizedSuraNames();
@@ -370,7 +406,8 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @return all Quran locations as an array
+	 * @return all Quran locations as an array. The size of the array is
+	 *         {@link QuranPropertiesUtils#QURAN_AYA_COUNT}.
 	 */
 	public static IQuranLocation[] getLocations() {
 		QuranProperties props = QuranProperties.getInstance();
@@ -393,7 +430,7 @@ public class QuranPropertiesUtils {
 	 * @return an IQuranLocation instance for this aya.
 	 */
 	public static final IQuranLocation getLocation(int absoluteAyaNum) {
-		return getLocations()[absoluteAyaNum];
+		return getLocations()[absoluteAyaNum - 1];
 	}
 
 }

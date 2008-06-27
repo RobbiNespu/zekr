@@ -26,16 +26,16 @@ import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.util.CryptoUtils;
+import net.sf.zekr.engine.common.LocalizedResource;
 import net.sf.zekr.engine.common.Signable;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 
-public class RevelationData implements Comparator, Signable {
+public class RevelationData extends LocalizedResource implements Comparator, Signable {
 	private final Logger logger = Logger.getLogger(this.getClass());
 	public static final int SURA_MODE = 1;
 	public static final int AYA_MODE = 2;
 
-	public Map names = new HashMap();
 	public int[] orders;
 	public int[] years;
 	public int mode;
@@ -50,23 +50,6 @@ public class RevelationData implements Comparator, Signable {
 	private int verificationResult = UNKNOWN;
 
 	public RevelationData() {
-	}
-
-	public Map getNames() {
-		return names;
-	}
-
-	public String getName(String langCode) {
-		return (String) names.get(langCode);
-	}
-
-	/**
-	 * Cautious: this method should only be called upon instantiation of {@link ApplicationConfig}.
-	 * 
-	 * @return
-	 */
-	public String getName() {
-		return getName(LanguageEngine.getInstance().getLocale().getLanguage());
 	}
 
 	public String getId() {

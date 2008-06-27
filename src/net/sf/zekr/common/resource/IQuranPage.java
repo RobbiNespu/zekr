@@ -10,10 +10,9 @@ package net.sf.zekr.common.resource;
 
 public interface IQuranPage {
 
-	public abstract int getIndex();
+	public abstract int getPageNum();
 
 	public abstract IQuranLocation getFrom();
 
 	public abstract IQuranLocation getTo();
-
 }
