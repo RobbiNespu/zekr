@@ -47,6 +47,14 @@ import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.page.AbstractQuranPagingData;
+import net.sf.zekr.engine.page.FixedAyaPagingData;
+import net.sf.zekr.engine.page.HizbQuadPagingData;
+import net.sf.zekr.engine.page.IPagingData;
+import net.sf.zekr.engine.page.JuzPagingData;
+import net.sf.zekr.engine.page.PagingData;
+import net.sf.zekr.engine.page.QuranPaging;
+import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.revelation.Revelation;
 import net.sf.zekr.engine.revelation.RevelationData;
 import net.sf.zekr.engine.search.lucene.IndexCreator;
@@ -88,6 +96,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private Theme theme = new Theme();
 	private Audio audio = new Audio();
 	private Revelation revelation = new Revelation();
+	private QuranPaging quranPaging = new QuranPaging();
 	private ApplicationRuntime runtime;
 	private QuranLocation quranLocation;
 	private PropertiesConfiguration props;
@@ -129,6 +138,7 @@ public class ApplicationConfig implements ConfigNaming {
 		// EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Initializing Audio Data");
 		extractAudioProps();
 		extractRevelOrderInfo();
+		extractPagingDataProps();
 
 		logger.info("Application configurations initialized.");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
@@ -371,7 +381,7 @@ public class ApplicationConfig implements ConfigNaming {
 			logger.info("Loading translation files info from: " + transDir);
 			FileFilter filter = new FileFilter() { // accept zip files
 				public boolean accept(File pathname) {
-					if (pathname.getName().toLowerCase().endsWith(TRANS_PACK_SUFFIX))
+					if (pathname.getName().toLowerCase().endsWith(ApplicationPath.TRANS_PACK_SUFFIX))
 						return true;
 					return false;
 				}
@@ -675,7 +685,7 @@ public class ApplicationConfig implements ConfigNaming {
 		logger.info("Loading revelation data packs from: " + revelDir);
 		FileFilter filter = new FileFilter() { // accept zip files
 			public boolean accept(File pathname) {
-				if (pathname.getName().toLowerCase().endsWith(REVEL_PACK_EXT))
+				if (pathname.getName().toLowerCase().endsWith(ApplicationPath.REVEL_PACK_SUFFIX))
 					return true;
 				return false;
 			}
@@ -683,10 +693,10 @@ public class ApplicationConfig implements ConfigNaming {
 		File[] revelFiles = revelDir.listFiles(filter);
 
 		RevelationData rd;
-		for (int transIndex = 0; transIndex < revelFiles.length; transIndex++) {
+		for (int revelIndex = 0; revelIndex < revelFiles.length; revelIndex++) {
 			ZipFile zipFile = null;
 			try {
-				rd = loadRevelationData(revelFiles[transIndex]);
+				rd = loadRevelationData(revelFiles[revelIndex]);
 				if (rd == null)
 					continue;
 				revelation.add(rd);
@@ -732,7 +742,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 		rd.version = pc.getString("version");
 		String zipFileName = revelZipFile.getName();
-		rd.id = zipFileName.substring(0, zipFileName.length() - REVEL_PACK_EXT.length());
+		rd.id = zipFileName.substring(0, zipFileName.length() - ApplicationPath.REVEL_PACK_SUFFIX.length());
 		rd.archiveFile = revelZipFile;
 		rd.delimiter = pc.getString("delimiter", "\n");
 		String sig = pc.getString("signature");
@@ -740,16 +750,65 @@ public class ApplicationConfig implements ConfigNaming {
 		Iterator nameIter = pc.getKeys("name");
 		for (Iterator iterator = nameIter; iterator.hasNext();) {
 			String key = (String) iterator.next();
-			rd.names.put(new String(key.substring(4)), pc.getString(key));
+			rd.getNames().put(new String(key.substring(4)), pc.getString(key));
 		}
 
-		if (StringUtils.isEmpty(rd.id) || rd.names.size() == 0 || StringUtils.isEmpty(rd.version)) {
+		if (StringUtils.isEmpty(rd.id) || rd.getNames().size() == 0 || StringUtils.isEmpty(rd.version)) {
 			logger.warn("Invalid revelation data package: \"" + rd + "\".");
 			return null;
 		}
 		return rd;
 	}
 
+	private void extractPagingDataProps() {
+		String def = props.getString("view.pagingMode");
+		logger.info("Default paging mode is: " + def);
+
+		File pagingDir = new File(ApplicationPath.PAGING_DIR);
+		if (!pagingDir.exists()) {
+			logger.debug("No paging data found.");
+			return;
+		}
+
+		logger.info("Loading paging data from: " + pagingDir);
+		FileFilter filter = new FileFilter() {
+			public boolean accept(File pathname) {
+				if (pathname.getName().toLowerCase().endsWith(ApplicationPath.PAGING_PACK_SUFFIX))
+					return true;
+				return false;
+			}
+		};
+		File[] pagingFiles = pagingDir.listFiles(filter);
+
+		// add built-in paging implementations
+		quranPaging.add(new SuraPagingData());
+		quranPaging.add(new FixedAyaPagingData(10));
+		quranPaging.add(new HizbQuadPagingData());
+		quranPaging.add(new JuzPagingData());
+
+		PagingData pd;
+		for (int i = 0; i < pagingFiles.length; i++) {
+			pd = new PagingData();
+			String name = pagingFiles[i].getName();
+			pd.id = name.substring(0, name.indexOf(ApplicationPath.PAGING_PACK_SUFFIX));
+			pd.file = pagingFiles[i];
+			quranPaging.add(pd);
+		}
+		IPagingData ipd = (IPagingData) quranPaging.get(def);
+		if (ipd != null) {
+			try {
+				logger.info("Default paging data is: " + ipd);
+				ipd.load();
+				logger.info("Default paging data loaded successfully: " + ipd);
+				quranPaging.setDefault(ipd);
+			} catch (Exception e) {
+				logger.warn("Can not load paging data \"" + ipd + "\" properly because of the following exception:");
+				logger.log(e);
+			}
+		}
+
+	}
+	
 	/**
 	 * @return application language engine
 	 * @see net.sf.zekr.engine.Language#getInstance()
@@ -845,12 +904,12 @@ public class ApplicationConfig implements ConfigNaming {
 		return props.getString("view.viewLayout");
 	}
 
-	public void setPageMode(String pageMode) {
-		props.setProperty("view.pageMode", pageMode);
+	public void setPagingMode(String pagingMode) {
+		props.setProperty("view.pagingMode", pagingMode);
 	}
 
-	public String getPageMode() {
-		return props.getString("view.pageMode");
+	public String getPagingMode() {
+		return props.getString("view.pagingMode");
 	}
 
 	public boolean isHttpServerEnabled() {
@@ -896,6 +955,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public Revelation getRevelation() {
 		return revelation;
+	}
+
+	public QuranPaging getQuranPaging() {
+		return quranPaging;
 	}
 
 	public ApplicationRuntime getRuntime() {
