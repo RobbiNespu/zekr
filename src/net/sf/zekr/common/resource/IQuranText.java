@@ -73,7 +73,6 @@ public interface IQuranText {
 
 	/**
 	 * Return Bismillah (the beginning part of suras).<br />
-	 * <b>This method should only be implemented in subclasses which are aimed for Quran text.</b>
 	 * 
 	 * @param suraNum sura number (1-based)
 	 * @return Bismillah part
@@ -81,11 +80,10 @@ public interface IQuranText {
 	public String getBismillah(int suraNum);
 
 	/**
-	 * Return Quran text mode.<br />
+	 * Return Quran text mode.<br>
 	 * <b>This method should only be implemented in subclasses which are aimed for Quran text.</b>
 	 * 
 	 * @return Quran text mode: <code>SIMPLE_MODE</code> or <code>UTHMANI_MODE</code>.
 	 */
 	public int getMode();
-
 }

@@ -12,7 +12,6 @@ import net.sf.zekr.engine.language.LanguageEngine;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class JuzProperties {
 	private int index;
@@ -74,5 +73,9 @@ public class JuzProperties {
 
 	public String toString() {
 		return LanguageEngine.getInstance().getMeaning("JUZ") + ": " + getIndex();
+	}
+
+	public IQuranLocation getLocation() {
+		return new QuranLocation(suraNumber, ayaNumber);
 	}
 }
