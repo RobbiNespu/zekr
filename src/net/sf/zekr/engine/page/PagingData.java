@@ -131,4 +131,18 @@ public class PagingData extends AbstractQuranPagingData implements IPagingData {
 			throw new PagingException(e);
 		}
 	}
+
+	/**
+	 * @param obj
+	 * @return true if <code>obj.id</code> equals with <code>this.id</code>, or false if either of IDs are
+	 *         null, or obj is not instance of {@link PagingData}
+	 */
+	public boolean equals(Object obj) {
+		if (obj instanceof PagingData) {
+			PagingData pd = (PagingData) obj;
+			if (pd.id != null && id != null)
+				return pd.id.equals(this.id);
+		}
+		return false;
+	}
 }

@@ -24,9 +24,11 @@ import net.sf.zekr.common.resource.SuraProperties;
  * @author Mohsen Saboorian
  */
 public class JuzPagingData extends AbstractQuranPagingData {
+	public static final String ID = "<juz>";
+	
 	public JuzPagingData() {
 		this.name = meaning("JUZ");
-		this.id = "<juz>";
+		this.id = ID;
 
 		pageList = new ArrayList();
 		List juzList = QuranProperties.getInstance().getJuzList();

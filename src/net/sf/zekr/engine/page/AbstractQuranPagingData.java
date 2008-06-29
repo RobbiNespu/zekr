@@ -57,6 +57,6 @@ public abstract class AbstractQuranPagingData extends LocalizedResource implemen
 	 * @see net.sf.zekr.engine.page.IPagingData#toString()
 	 */
 	public String toString() {
-		return getId() + ":(" + getName() + ")";
+		return getId() + ": (" + getName() + ")";
 	}
 }

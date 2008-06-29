@@ -19,16 +19,18 @@ import net.sf.zekr.common.resource.QuranPropertiesUtils;
  * @author Mohsen Saboorian
  */
 public class FixedAyaPagingData extends AbstractQuranPagingData {
+	public static final String ID = "<fixedAya>";
+
 	private int ayaPerPage;
 
 	public FixedAyaPagingData(int ayaPerPage) {
 		this.name = meaning("FIXED_AYA");
-		this.id = "<fixedAya>";
+		this.id = ID;
 		this.ayaPerPage = ayaPerPage;
-		reloadPaging();
+		loadPaging();
 	}
 
-	public void reloadPaging() {
+	private void loadPaging() {
 		pageList = new ArrayList();
 
 		int max = QuranPropertiesUtils.QURAN_AYA_COUNT;
@@ -51,9 +53,5 @@ public class FixedAyaPagingData extends AbstractQuranPagingData {
 
 	public int getAyaPerPage() {
 		return ayaPerPage;
-	}
-
-	public void setAyaPerPage(int ayaPerPage) {
-		this.ayaPerPage = ayaPerPage;
 	}
 }
