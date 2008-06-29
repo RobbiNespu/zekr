@@ -11,7 +11,7 @@ package net.sf.zekr.engine.search.lucene;
 
 import java.io.StringReader;
 
-import junit.framework.TestCase;
+import net.sf.zekr.ZekrBaseTest;
 import net.sf.zekr.common.resource.filter.QuranFilterContext;
 import net.sf.zekr.common.resource.filter.QuranIndexerFilter;
 
@@ -23,9 +23,12 @@ import org.apache.lucene.analysis.WhitespaceTokenizer;
  * Test case for <code>ArabicFilter</code> class.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
-public class ArabicFilterTest extends TestCase {
+public class ArabicFilterTest extends ZekrBaseTest {
+
+	public ArabicFilterTest() throws Exception {
+		super();
+	}
 
 	private static final String ARABIC_STR1 = "وَنَزَّلْنَا عَلَيْكَ الْكِتَابَ تِبْيَانًا لِّكُلِّ شَيْءٍ وَهُدًى وَرَحْمَةً وَبُشْرَى لِلْمُسْلِمِينَ";
 	private static final String ARABIC_STR2 = "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ ۖ أُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ ۖ فَلْيَسْتَجِيبُوا لِي وَلْيُؤْمِنُوا بِي لَعَلَّهُمْ يَرْشُدُونَ";
