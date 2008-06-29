@@ -257,7 +257,7 @@ public class QuranPropertiesUtils {
 		return quadIndex;
 	}
 
-	public static int getHizbQuadIndex(QuranLocation quranLoc) {
+	public static int getHizbQuadIndex(IQuranLocation quranLoc) {
 		return getHizbQuadIndex(quranLoc.getSura(), quranLoc.getAya());
 	}
 
@@ -431,6 +431,18 @@ public class QuranPropertiesUtils {
 	 */
 	public static final IQuranLocation getLocation(int absoluteAyaNum) {
 		return getLocations()[absoluteAyaNum - 1];
+	}
+
+	/**
+	 * @param iql Quran location to be looked up
+	 * @return Quran location absolute aya index or -1 if nothing found.
+	 */
+	public static final int getAbsoluteLocation(IQuranLocation iql) {
+		for (int i = 0; i < absoluteLocation.length; i++) {
+			if (iql.equals(absoluteLocation[i]))
+				return i;
+		}
+		return -1;
 	}
 
 }
