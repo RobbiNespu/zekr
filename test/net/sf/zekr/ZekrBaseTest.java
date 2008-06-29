@@ -8,19 +8,18 @@
  */
 package net.sf.zekr;
 
-import java.io.IOException;
-
-import net.sf.zekr.common.config.ApplicationConfig;
 import junit.framework.TestCase;
+import net.sf.zekr.common.config.ApplicationConfig;
 
 /**
  * All test cases should extend this base class.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ZekrBaseTest extends TestCase {
-
+	/**
+	 * Some test cases cannot run before {@link ApplicationConfig} is instantiated.
+	 */
 	public ZekrBaseTest() throws Exception {
 		ApplicationConfig.getInstance().getRuntime().configure();
 	}
