@@ -15,10 +15,8 @@ import org.apache.commons.lang.StringUtils;
  * This class is used to handle dynamic resource bundles which use <i>Velocity</i> as the template engine.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ResourceManager {
-	// private static PropertyResourceBundle resource;
 	private static ResourceManager thisInstance;
 	private static PropertiesConfiguration resource;
 
@@ -26,14 +24,12 @@ public class ResourceManager {
 		try {
 			resource = new PropertiesConfiguration();
 			resource.load(new VelocityInputStream("res/resource-path.properties"), "utf-8");
-			// resource = new PropertyResourceBundle(new VelocityInputStream(
-			// "res/resource-path.properties"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static ResourceManager getInstance() {
+	public static synchronized ResourceManager getInstance() {
 		if (thisInstance == null)
 			return (thisInstance = new ResourceManager());
 		return thisInstance;
