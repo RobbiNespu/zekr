@@ -49,6 +49,7 @@ public class QuranPropertiesUtils {
 	private static int[] aggrAyaCount = new int[114];
 	private static int[] revelOrder = new int[QURAN_AYA_COUNT];
 	private static IQuranLocation[] absoluteLocation = new QuranLocation[QURAN_AYA_COUNT];
+	private static IQuranLocation[][] locationCache = new QuranLocation[QURAN_SURA_COUNT][];
 
 	public static final int getSajdaType(String sajda) {
 		return QuranPropertiesNaming.RECOMMENDED_SAJDA.equalsIgnoreCase(sajda) ? SajdaProperties.MINOR
@@ -396,6 +397,21 @@ public class QuranPropertiesUtils {
 		return locList;
 	}
 
+	/**
+	 * @param page Quran page, counted from 1
+	 * @return a list of Quran locations of type {@link IQuranPage}.
+	 */
+	public static final List getPageData(IQuranText quranText, IQuranPage quranPage) {
+		List ayaList = new ArrayList();
+		IQuranLocation from = quranPage.getFrom();
+		IQuranLocation to = quranPage.getFrom();
+		while (to.compareTo(from) >= 0) {
+			ayaList.add(quranText.get(from));
+			from = from.getNext();
+		}
+		return ayaList;
+	}
+
 	public static void updateLocalizedSuraNames() {
 		QuranProperties props = QuranProperties.getInstance();
 		props.quranPropsReader.updateLocalizedSuraNames();
@@ -416,8 +432,11 @@ public class QuranPropertiesUtils {
 			int absolute = 0;
 			for (int sura = 1; sura <= 114; sura++) {
 				int ayaCount = props.getSura(sura).getAyaCount();
+				locationCache[sura - 1] = new QuranLocation[ayaCount];
+				IQuranLocation[] suraLoc = locationCache[sura - 1];
 				for (int aya = 1; aya <= ayaCount; aya++) {
 					absoluteLocation[absolute] = new QuranLocation(sura, aya);
+					suraLoc[aya - 1] = absoluteLocation[absolute];
 					absolute++;
 				}
 			}
@@ -431,6 +450,18 @@ public class QuranPropertiesUtils {
 	 */
 	public static final IQuranLocation getLocation(int absoluteAyaNum) {
 		return getLocations()[absoluteAyaNum - 1];
+	}
+
+	/**
+	 * This method returns a Quran location, which is looked up from a cache of al Quran location. Since
+	 * {@link IQuranLocation} is immutable, it can be shared.
+	 * 
+	 * @param sura
+	 * @param aya
+	 * @return a cached Quran location
+	 */
+	public static final IQuranLocation getLocation(int sura, int aya) {
+		return locationCache[sura][aya];
 	}
 
 	/**
