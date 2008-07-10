@@ -22,7 +22,7 @@ import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.helper.FormUtils;
 
-import org.apache.commons.io.filefilter.WildcardFilter;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -413,7 +413,7 @@ public class MessageBoxUtils {
 		fd.setFilterExtensions(filterWildcards); // Windows wild card
 		fd.setText(lang.getMeaning("OPEN"));
 
-		FileFilter fileFilter = new WildcardFilter(filterWildcards);
+		FileFilter fileFilter = new WildcardFileFilter(filterWildcards);
 		List fileList = new ArrayList();
 
 		String res = fd.open();
