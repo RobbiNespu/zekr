@@ -8,11 +8,22 @@
  */
 package net.sf.zekr.common.resource;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public interface IQuranPage {
-
+	/**
+	 * @return 1-base page number.
+	 */
 	public abstract int getPageNum();
 
+	/**
+	 * @return Quran page lower bound
+	 */
 	public abstract IQuranLocation getFrom();
 
+	/**
+	 * @return Quran page upper bound
+	 */
 	public abstract IQuranLocation getTo();
 }
