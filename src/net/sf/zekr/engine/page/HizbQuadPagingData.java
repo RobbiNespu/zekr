@@ -46,8 +46,12 @@ public class HizbQuadPagingData extends AbstractQuranPagingData {
 				prevPage = page;
 				pageList.add(page);
 			}
-			SuraProperties lastSura = QuranPropertiesUtils.getSura(QuranPropertiesUtils.QURAN_SURA_COUNT);
-			prevPage.setTo(new QuranLocation(QuranPropertiesUtils.QURAN_SURA_COUNT, lastSura.getAyaCount()));
+			if (i < juzList.size() - 1) {
+				prevPage.setTo(((JuzProperties) juzList.get(i + 1)).getLocation().getPrev());
+			} else {
+				SuraProperties lastSura = QuranPropertiesUtils.getSura(QuranPropertiesUtils.QURAN_SURA_COUNT);
+				prevPage.setTo(new QuranLocation(QuranPropertiesUtils.QURAN_SURA_COUNT, lastSura.getAyaCount()));
+			}
 		}
 	}
 }
