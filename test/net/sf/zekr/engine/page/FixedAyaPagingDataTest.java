@@ -60,4 +60,24 @@ public class FixedAyaPagingDataTest extends ZekrBaseTest {
 		fapd = new FixedAyaPagingData(87);
 		assertEquals(fapd.getAyaPerPage(), 87);
 	}
+
+	public final void testGetContainerPage() {
+		FixedAyaPagingData fapd = new FixedAyaPagingData(10);
+		assertEquals(fapd.getContainerPage(new QuranLocation(1, 1)), fapd.getPage(1));
+		assertEquals(fapd.getContainerPage(new QuranLocation(2, 3)), fapd.getPage(1));
+		assertEquals(fapd.getContainerPage(new QuranLocation(2, 4)), fapd.getPage(2));
+
+		QuranLocation loc = new QuranLocation(3, 123);
+		assertEquals(fapd.getContainerPage(loc), fapd.getPage(loc.getAbsoluteAya() / 10 + 1));
+
+		loc = new QuranLocation(9, 17);
+		assertEquals(fapd.getContainerPage(loc), fapd.getPage(loc.getAbsoluteAya() / 10 + 1));
+
+		loc = new QuranLocation(19, 22);
+		assertEquals(fapd.getContainerPage(loc), fapd.getPage(loc.getAbsoluteAya() / 10 + 1));
+
+		loc = new QuranLocation(114, 4);
+		assertEquals(fapd.getContainerPage(loc), fapd.getPage(loc.getAbsoluteAya() / 10 + 1));
+	}
+
 }
