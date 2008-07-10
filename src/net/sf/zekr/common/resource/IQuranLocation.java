@@ -8,14 +8,15 @@
  */
 package net.sf.zekr.common.resource;
 
+/**
+ * An immutable interface for a Quran location.
+ * 
+ * @author Mohsen Saboorian
+ */
 public interface IQuranLocation extends Comparable {
 	public int getAya();
 
-	public void setAya(int aya);
-
 	public int getSura();
-
-	public void setSura(int sura);
 
 	public String getSuraName();
 
@@ -46,5 +47,4 @@ public interface IQuranLocation extends Comparable {
 	 * @return
 	 */
 	public String toSortableString();
-
 }
