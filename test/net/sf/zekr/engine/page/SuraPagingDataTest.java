@@ -59,10 +59,10 @@ public class SuraPagingDataTest extends ZekrBaseTest {
 	}
 
 	public final void testGetContainerPage() {
-		assertEquals(spd.getContainerPage(new QuranLocation(1, 1)), spd.getPage(1));
-		assertEquals(spd.getContainerPage(new QuranLocation(2, 280)), spd.getPage(2));
-		assertEquals(spd.getContainerPage(new QuranLocation(3, 93)), spd.getPage(3));
-		assertEquals(spd.getContainerPage(new QuranLocation(100, 1)), spd.getPage(100));
+		assertEquals(spd.getContainerPage(new QuranLocation(1, 1)), spd.getQuranPage(1));
+		assertEquals(spd.getContainerPage(new QuranLocation(2, 280)), spd.getQuranPage(2));
+		assertEquals(spd.getContainerPage(new QuranLocation(3, 93)), spd.getQuranPage(3));
+		assertEquals(spd.getContainerPage(new QuranLocation(100, 1)), spd.getQuranPage(100));
 	}
 
 }

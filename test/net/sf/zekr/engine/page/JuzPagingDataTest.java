@@ -40,9 +40,9 @@ public class JuzPagingDataTest extends ZekrBaseTest {
 	}
 
 	public final void testGetContainerPage() {
-		assertEquals(jpd.getContainerPage(new QuranLocation(1, 1)), jpd.getPage(1));
-		assertEquals(jpd.getContainerPage(new QuranLocation(2, 280)), jpd.getPage(3));
-		assertEquals(jpd.getContainerPage(new QuranLocation(3, 93)), jpd.getPage(4));
-		assertEquals(jpd.getContainerPage(new QuranLocation(100, 1)), jpd.getPage(30));
+		assertEquals(jpd.getContainerPage(new QuranLocation(1, 1)), jpd.getQuranPage(1));
+		assertEquals(jpd.getContainerPage(new QuranLocation(2, 280)), jpd.getQuranPage(3));
+		assertEquals(jpd.getContainerPage(new QuranLocation(3, 93)), jpd.getQuranPage(4));
+		assertEquals(jpd.getContainerPage(new QuranLocation(100, 1)), jpd.getQuranPage(30));
 	}
 }
