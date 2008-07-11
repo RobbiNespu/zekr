@@ -18,7 +18,7 @@ import net.sf.zekr.engine.translation.TranslationData;
  * @author Mohsen Saboorian
  * @since Zekr 1.0
  */
-public class MultiTranslationViewTemplate extends AbstractQuranViewTemplate {
+public class MultiTranslationViewTemplate extends AbstractSuraViewTemplate {
 	private TranslationData transDataList[];
 
 	/**

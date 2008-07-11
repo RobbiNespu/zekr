@@ -14,7 +14,6 @@ import net.sf.zekr.common.ZekrBaseException;
  * This exception is thrown if any template transformation exception encountered.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class TemplateTransformationException extends ZekrBaseException {
 	private static final long serialVersionUID = 4306422359147802898L;

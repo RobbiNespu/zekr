@@ -14,7 +14,7 @@ import net.sf.zekr.common.resource.IQuranText;
 /**
  * @author Mohsen Saboorian
  */
-public class QuranViewTemplate extends AbstractQuranViewTemplate {
+public class QuranViewTemplate extends AbstractSuraViewTemplate {
 	public QuranViewTemplate(IQuranText quran, int suraNum, int ayaNum) {
 		super(quran, suraNum, ayaNum);
 		engine.put("TEXT_LAYOUT", config.getViewProp("view.quranLayout"));

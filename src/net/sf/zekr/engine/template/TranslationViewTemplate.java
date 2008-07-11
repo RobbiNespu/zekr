@@ -14,7 +14,7 @@ import net.sf.zekr.common.resource.IQuranText;
 /**
  * @author Mohsen Saboorian
  */
-public class TranslationViewTemplate extends AbstractQuranViewTemplate {
+public class TranslationViewTemplate extends AbstractSuraViewTemplate {
 
 	public TranslationViewTemplate(IQuranText trans, int suraNum, int ayaNum) {
 		super(trans, suraNum, ayaNum);
