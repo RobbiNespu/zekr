@@ -47,4 +47,6 @@ public interface IQuranLocation extends Comparable {
 	 * @return
 	 */
 	public String toSortableString();
+
+	public boolean isValid();
 }

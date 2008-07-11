@@ -59,7 +59,7 @@ public class QuranLocation implements IQuranLocation {
 	 * @return <code>true</code> if this is a valid Quran location, <code>false</code> otherwise.
 	 */
 	public static boolean isValidLocation(String loc) {
-		QuranLocation qloc;
+		IQuranLocation qloc;
 		try {
 			qloc = new QuranLocation(loc);
 		} catch (RuntimeException e) {
@@ -77,13 +77,13 @@ public class QuranLocation implements IQuranLocation {
 		return new QuranLocation(suraNum, ayaNum).isValid();
 	}
 
-	private boolean isValid() {
+	public boolean isValid() {
 		QuranProperties qp = QuranProperties.getInstance();
 		return between(getSura(), 1, QuranPropertiesUtils.QURAN_SURA_COUNT)
 				&& between(getAya(), 1, qp.getSura(getSura()).getAyaCount());
 	}
 
-	private static boolean between(int num, int from, int to) {
+	static boolean between(int num, int from, int to) {
 		return num >= from && num <= to;
 	}
 
@@ -109,7 +109,7 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	public IQuranLocation getNext() {
-		QuranLocation newLoc;
+		IQuranLocation newLoc;
 		SuraProperties sp = QuranPropertiesUtils.getSura(sura);
 		if (aya < sp.getAyaCount())
 			newLoc = new QuranLocation(sura, aya + 1);
@@ -121,7 +121,7 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	public IQuranLocation getPrev() {
-		QuranLocation newLoc;
+		IQuranLocation newLoc;
 		if (aya > 1) {
 			newLoc = new QuranLocation(sura, aya - 1);
 		} else if (sura > 1) {
