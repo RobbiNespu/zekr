@@ -39,6 +39,9 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(QuranPropertiesUtilsTest.class));
 		suite.addTest(new TestSuite(QuranLocationTest.class));
 
+		// http server test
+		suite.addTest(new TestSuite(DefaultHttpServerTest.class));
+
 		// paging data test
 		suite.addTest(new TestSuite(FixedAyaPagingDataTest.class));
 		suite.addTest(new TestSuite(JuzPagingDataTest.class));
