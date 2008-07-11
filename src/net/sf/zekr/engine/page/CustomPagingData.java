@@ -11,6 +11,7 @@ package net.sf.zekr.engine.page;
 import java.io.File;
 import java.util.ArrayList;
 
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.XmlReader;
@@ -62,7 +63,7 @@ public class CustomPagingData extends AbstractQuranPagingData implements IPaging
 				QuranPage page = new QuranPage();
 				Element pageElem = (Element) pageNodeList.item(i);
 				page.setIndex(Integer.parseInt(pageElem.getAttribute("index")));
-				QuranLocation fromLoc = new QuranLocation(Integer.parseInt(pageElem.getAttribute("sura")), Integer
+				IQuranLocation fromLoc = new QuranLocation(Integer.parseInt(pageElem.getAttribute("sura")), Integer
 						.parseInt(pageElem.getAttribute("aya")));
 				page.setFrom(fromLoc);
 				if (prevPage != null) { // works from second element

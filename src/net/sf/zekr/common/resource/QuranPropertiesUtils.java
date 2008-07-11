@@ -48,8 +48,8 @@ public class QuranPropertiesUtils {
 	private static List[] sajdaInside = new ArrayList[114];
 	private static int[] aggrAyaCount = new int[114];
 	private static int[] revelOrder = new int[QURAN_AYA_COUNT];
-	private static IQuranLocation[] absoluteLocation = new QuranLocation[QURAN_AYA_COUNT];
-	private static IQuranLocation[][] locationCache = new QuranLocation[QURAN_SURA_COUNT][];
+	private static IQuranLocation[] absoluteLocation = new IQuranLocation[QURAN_AYA_COUNT];
+	private static IQuranLocation[][] locationCache = new IQuranLocation[QURAN_SURA_COUNT][];
 
 	public static final int getSajdaType(String sajda) {
 		return QuranPropertiesNaming.RECOMMENDED_SAJDA.equalsIgnoreCase(sajda) ? SajdaProperties.MINOR
@@ -245,10 +245,10 @@ public class QuranPropertiesUtils {
 	 */
 	public static final int getHizbQuadIndex(int suraNum, int ayaNum) {
 		JuzProperties juz = getJuzOf(suraNum, ayaNum);
-		QuranLocation hizbQuads[] = juz.getHizbQuarters();
+		IQuranLocation hizbQuads[] = juz.getHizbQuarters();
 		int quadIndex = 0;
 		for (int i = 1; i < hizbQuads.length; i++) {
-			QuranLocation ql = hizbQuads[i];
+			IQuranLocation ql = hizbQuads[i];
 			if (suraNum > hizbQuads[i].getSura() || (suraNum == ql.getSura() && ayaNum >= ql.getAya())) {
 				quadIndex = i;
 			} else {
@@ -428,11 +428,11 @@ public class QuranPropertiesUtils {
 	public static IQuranLocation[] getLocations() {
 		QuranProperties props = QuranProperties.getInstance();
 		if (absoluteLocation[0] == null) { // not loaded yet
-			absoluteLocation = new QuranLocation[QURAN_AYA_COUNT];
+			absoluteLocation = new IQuranLocation[QURAN_AYA_COUNT];
 			int absolute = 0;
 			for (int sura = 1; sura <= 114; sura++) {
 				int ayaCount = props.getSura(sura).getAyaCount();
-				locationCache[sura - 1] = new QuranLocation[ayaCount];
+				locationCache[sura - 1] = new IQuranLocation[ayaCount];
 				IQuranLocation[] suraLoc = locationCache[sura - 1];
 				for (int aya = 1; aya <= ayaCount; aya++) {
 					absoluteLocation[absolute] = new QuranLocation(sura, aya);

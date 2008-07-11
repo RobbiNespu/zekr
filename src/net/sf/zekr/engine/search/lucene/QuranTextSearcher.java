@@ -203,7 +203,7 @@ public class QuranTextSearcher {
 		for (int i = 0; i < hits.length(); i++) {
 			Document doc = hits.doc(i);
 			final String contents = doc.get(QuranTextIndexer.CONTENTS_FIELD);
-			final QuranLocation location = new QuranLocation(doc.get(QuranTextIndexer.LOCATION_FIELD));
+			final IQuranLocation location = new QuranLocation(doc.get(QuranTextIndexer.LOCATION_FIELD));
 			TokenStream tokenStream = analyzer.tokenStream(QuranTextIndexer.CONTENTS_FIELD, new StringReader(contents));
 			// String resultStr = highlighter.getBestFragment(tokenStream, contents);
 			String resultStr = highlighter.getBestFragments(tokenStream, contents, 100, "...");

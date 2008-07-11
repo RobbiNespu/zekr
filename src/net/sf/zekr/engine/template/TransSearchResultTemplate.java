@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.resource.AbstractRangedQuranText;
-import net.sf.zekr.common.resource.QuranLocation;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.search.SearchUtils;
@@ -85,7 +85,7 @@ public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 			int pre = 0;
 			int post = 0;
 
-			QuranLocation loc = (QuranLocation) iter.next();
+			IQuranLocation loc = (IQuranLocation) iter.next();
 			List list = (List) result.get(loc);
 			l = new ArrayList();
 			String aya = quran.get(loc.getSura(), loc.getAya());

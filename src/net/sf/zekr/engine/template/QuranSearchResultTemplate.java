@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.zekr.common.resource.AbstractRangedQuranText;
-import net.sf.zekr.common.resource.QuranLocation;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.engine.search.AbstractQuranSearch;
 import net.sf.zekr.engine.search.QuranSearch;
 import net.sf.zekr.engine.search.Range;
@@ -25,7 +25,6 @@ import net.sf.zekr.engine.theme.ThemeData;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 
@@ -47,8 +46,7 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 			logger.info("Search for " + keyword + " finished; it took " + (date2.getTime() - date1.getTime()) + " ms.");
 
 			engine.put("COUNT", langEngine.getDynamicMeaning("SEARCH_RESULT_COUNT", new String[] {
-					i18n.localize(String.valueOf(qs.getResultCount())),
-					i18n.localize(String.valueOf(result.size())) }));
+					i18n.localize(String.valueOf(qs.getResultCount())), i18n.localize(String.valueOf(result.size())) }));
 			if (!ok) // more that maxAyaMatch ayas was matched
 				engine.put("TOO_MANY_RESULT", langEngine.getDynamicMeaning("TOO_MANY_RESULT", new String[] { ""
 						+ result.size() }));
@@ -74,7 +72,7 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 	private Map refineTransResult(Map result) {
 		Map ret = new LinkedHashMap(result.size());
 		for (Iterator iter = result.keySet().iterator(); iter.hasNext();) {
-			QuranLocation loc = (QuranLocation) iter.next();
+			IQuranLocation loc = (IQuranLocation) iter.next();
 			String aya = quran.get(loc);
 			ret.put(loc, aya);
 		}
@@ -92,7 +90,7 @@ public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 			int pre = 0;
 			int post = 0;
 
-			QuranLocation loc = (QuranLocation) iter.next();
+			IQuranLocation loc = (IQuranLocation) iter.next();
 			List list = (List) result.get(loc);
 			l = new ArrayList();
 			String aya = quran.get(loc.getSura(), loc.getAya());

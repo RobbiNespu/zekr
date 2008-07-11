@@ -98,7 +98,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private Revelation revelation = new Revelation();
 	private QuranPaging quranPaging = new QuranPaging();
 	private ApplicationRuntime runtime;
-	private QuranLocation quranLocation;
+	private IQuranLocation quranLocation;
 	private PropertiesConfiguration props;
 	private BookmarkSet bookmarkSet;
 	private BookmarkSetGroup bookmarkSetGroup = new BookmarkSetGroup();
@@ -888,7 +888,7 @@ public class ApplicationConfig implements ConfigNaming {
 		return new QuranLocation(props.getString("view.quranLoc"));
 	}
 
-	public void setQuranLocation(QuranLocation quranLocation) {
+	public void setQuranLocation(IQuranLocation quranLocation) {
 		props.setProperty("view.quranLoc", quranLocation);
 	}
 

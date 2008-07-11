@@ -11,6 +11,7 @@ package net.sf.zekr.engine.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.JuzProperties;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranProperties;
@@ -35,7 +36,7 @@ public class HizbQuadPagingData extends AbstractQuranPagingData {
 
 		for (int i = 0; i < juzList.size(); i++) {
 			JuzProperties juz = (JuzProperties) juzList.get(i);
-			QuranLocation[] hizbQuads = juz.getHizbQuarters();
+			IQuranLocation[] hizbQuads = juz.getHizbQuarters();
 			QuranPage prevPage = null;
 			for (int j = 0; j < hizbQuads.length; j++) {
 				QuranPage page = new QuranPage();

@@ -23,7 +23,7 @@ public class JuzProperties {
 	private int ayaNumber;
 
 	/** an 8-item array for addressing locations of each hizb quads in a juz */
-	private QuranLocation[] hizbQuarters = new QuranLocation[8];
+	private IQuranLocation[] hizbQuarters = new IQuranLocation[8];
 
 	public int getAyaNumber() {
 		return ayaNumber;
@@ -58,7 +58,7 @@ public class JuzProperties {
 	 * @param hizb can be either 1 or 2
 	 * @param quad can be either 1, 2, 3, or 4
 	 */
-	public void setHizbQuarters(int hizb, int quad, QuranLocation loc) {
+	public void setHizbQuarters(int hizb, int quad, IQuranLocation loc) {
 		hizbQuarters[(hizb - 1) * 4 + (quad - 1)] = loc;
 	}
 
@@ -67,7 +67,7 @@ public class JuzProperties {
 	 *         first quranter of Hizb 1, item 4 is the first quarter of Hizb 2, and item 7 is the third quarter
 	 *         of Hizb 2.
 	 */
-	public QuranLocation[] getHizbQuarters() {
+	public IQuranLocation[] getHizbQuarters() {
 		return hizbQuarters;
 	}
 

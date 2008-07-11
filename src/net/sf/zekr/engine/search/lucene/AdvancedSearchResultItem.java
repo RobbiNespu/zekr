@@ -8,7 +8,7 @@
  */
 package net.sf.zekr.engine.search.lucene;
 
-import net.sf.zekr.common.resource.QuranLocation;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.engine.search.SearchResultItem;
 
 /**
@@ -17,9 +17,9 @@ import net.sf.zekr.engine.search.SearchResultItem;
  */
 public class AdvancedSearchResultItem {
 	public String contents;
-	public QuranLocation location;
+	public IQuranLocation location;
 
-	public AdvancedSearchResultItem(QuranLocation location, String resultStr) {
+	public AdvancedSearchResultItem(IQuranLocation location, String resultStr) {
 		this.contents = resultStr;
 		this.location = location;
 	}
@@ -28,7 +28,7 @@ public class AdvancedSearchResultItem {
 		return contents;
 	}
 
-	public QuranLocation getLocation() {
+	public IQuranLocation getLocation() {
 		return location;
 	}
 }
