@@ -249,8 +249,12 @@ public class QuranFormMenuFactory {
 				} else if (JuzPagingData.ID.equals(data)) {
 				} else {
 					logger.info("Choose custom page mode.");
-					new CustomPageModeForm(shell).show();
+					CustomPageModeForm pageModeForm = new CustomPageModeForm(shell);
+					pageModeForm.show();
+					pageModeForm.loopEver();
 				}
+				
+				reconfigurePagingMode();
 			}
 		};
 
@@ -364,12 +368,10 @@ public class QuranFormMenuFactory {
 				if (e.widget.getData().equals("quran")) {
 					logger.info("Change Quran layout to block layout.");
 					config.setQuranLayout(ApplicationConfig.BLOCK);
-					// config.updateFile();
 					reloadQuran();
 				} else {
 					logger.info("Change translation layout to block layout.");
 					config.setTransLayout(ApplicationConfig.BLOCK);
-					// config.updateFile();
 					reloadTrans();
 				}
 			}
@@ -777,10 +779,11 @@ public class QuranFormMenuFactory {
 				}
 				FixedAyaPagingData fapd = (FixedAyaPagingData) config.getQuranPaging().get("<fixedAya>");
 				logger.info("Reload fixed aya paging data with aya-per-page set to: " + aya);
-				fapd = new FixedAyaPagingData(aya);
-				
-				config.getProps().setProperty("view.pagingMode.ayaPerPage", String.valueOf(aya));
-				config.getQuranPaging().add(fapd);
+				// fapd = new FixedAyaPagingData(aya);
+				fapd.reload(aya);
+
+				config.setPagingModeParam(String.valueOf(aya));
+				// config.getQuranPaging().add(fapd);
 				return true;
 			} catch (NumberFormatException e) {
 				logger.implicitLog(e);
@@ -1115,26 +1118,20 @@ public class QuranFormMenuFactory {
 	}
 
 	private void reconfigureViewLayout() {
-		// very nice business logic!
-		// boolean uq = form.updateQuran;
-		// boolean ut = form.updateTrans;
-		// int oldLayout = form.viewLayout;
 		form.setLayout(config.getViewProp("view.viewLayout"));
-		// boolean uqNew = form.updateQuran;
-		// boolean utNew = form.updateTrans;
-		// if (form.viewLayout != QuranForm.MIXED && oldLayout != QuranForm.MIXED) {
-		// if (uq && form.updateQuran)
-		// form.updateQuran = false;
-		// if (ut && form.updateTrans)
-		// form.updateTrans = false;
-		// }
+		reloadView();
+	}
+
+	private void reconfigurePagingMode() {
+		config.getQuranPaging().setDefault(config.getQuranPaging().get(config.getPagingMode()));
+		form.uvc.synchPage();
+		reloadView();
+	}
+
+	private void reloadView() {
 		form.suraChanged = true;
 		form.updateView();
 		form.suraChanged = false;
-		// if (form.viewLayout != QuranForm.MIXED && oldLayout != QuranForm.MIXED) {
-		// form.updateQuran = uqNew;
-		// form.updateTrans = utNew;
-		// }
 	}
 
 	private void reloadQuran() {
