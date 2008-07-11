@@ -50,7 +50,7 @@
 
 	<target name="gcj_support">
 		<mkdir dir="${build_gcjclassdir}" />
-		<javac srcdir="${gcjdir}" source="1.4" target="1.4" destdir="${build_gcjclassdir}" debug="${debug}" verbose="${verbose}">
+		<javac srcdir="${gcjdir}" encoding="UTF-8" source="1.4" target="1.4" destdir="${build_gcjclassdir}" debug="${debug}" verbose="${verbose}">
 			<classpath refid="buildlibs" />
 			<classpath path="lib/gcj-dom-impl-4.2.jar" />
 			<classpath path="D:\Devel\Java\Apache\XML\xercesImpl.jar" />
@@ -61,7 +61,7 @@
 	<target name="compile">
 		<mkdir dir="${build_classdir}" />
 		<unjar src="${src_dist.jar}" dest="${src_dir}" />
-		<javac srcdir="${src_dir}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
+		<javac srcdir="${src_dir}" encoding="UTF-8" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
 			<classpath refid="buildlibs" />
 		</javac>
 	</target>
