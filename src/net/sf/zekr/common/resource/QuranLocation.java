@@ -79,7 +79,8 @@ public class QuranLocation implements IQuranLocation {
 
 	private boolean isValid() {
 		QuranProperties qp = QuranProperties.getInstance();
-		return between(getSura(), 1, 114) && between(getAya(), 1, qp.getSura(getSura()).getAyaCount());
+		return between(getSura(), 1, QuranPropertiesUtils.QURAN_SURA_COUNT)
+				&& between(getAya(), 1, qp.getSura(getSura()).getAyaCount());
 	}
 
 	private static boolean between(int num, int from, int to) {
