@@ -57,7 +57,7 @@ public class VelocityUtils {
 	}
 
 	public int arraySize(Object arr) {
-		return ((Object[]) arr).length;
+		return arr == null ? -1 : ((Object[]) arr).length;
 	}
 
 	public String items2JsArray(IPlaylistProvider pp, int sura) {
@@ -70,5 +70,9 @@ public class VelocityUtils {
 		}
 		buf.append("]");
 		return buf.toString();
+	}
+	
+	public Object getItem(Object arr, int index) {
+		return ((Object[]) arr)[index];
 	}
 }

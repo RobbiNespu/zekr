@@ -8,8 +8,6 @@
  */
 package net.sf.zekr.common.resource.filter;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class QuranFilterContext {
 

@@ -9,7 +9,6 @@
 package net.sf.zekr.engine.audio;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

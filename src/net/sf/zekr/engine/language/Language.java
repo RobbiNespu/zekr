@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.resource.QuranPropertiesUtils;
 
 /**
  * This class is singleton.

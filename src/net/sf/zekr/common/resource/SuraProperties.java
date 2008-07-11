@@ -8,9 +8,6 @@
  */
 package net.sf.zekr.common.resource;
 
-import java.io.IOException;
-
-import net.sf.zekr.common.ZekrBaseRuntimeException;
 import net.sf.zekr.common.config.ApplicationConfig;
 
 /**

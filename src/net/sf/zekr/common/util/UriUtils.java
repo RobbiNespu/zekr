@@ -14,10 +14,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.engine.server.HttpServer;
-import net.sf.zekr.engine.server.HttpServerRuntimeException;
-
 /**
  * Simple URI utility methods.
  * 
