@@ -62,7 +62,7 @@ public class ApplicationRuntime {
 	}
 
 	/**
-	 * Recreates cache for Quran, translation and
+	 * Recreates cache for Quran, translation.
 	 * 
 	 * @throws IOException
 	 */
