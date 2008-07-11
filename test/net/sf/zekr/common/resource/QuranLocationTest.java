@@ -26,8 +26,8 @@ public class QuranLocationTest extends ZekrBaseTest {
 	}
 
 	public void testGetNext() {
-		QuranLocation ql1 = new QuranLocation(1, 7);
-		QuranLocation ql2 = new QuranLocation(2, 1);
+		IQuranLocation ql1 = new QuranLocation(1, 7);
+		IQuranLocation ql2 = new QuranLocation(2, 1);
 		assertEquals(ql1.getNext(), ql2);
 
 		ql1 = new QuranLocation(5, 5);
@@ -36,8 +36,8 @@ public class QuranLocationTest extends ZekrBaseTest {
 	}
 
 	public void testGetPrev() {
-		QuranLocation ql1 = new QuranLocation(1, 7);
-		QuranLocation ql2 = new QuranLocation(2, 1);
+		IQuranLocation ql1 = new QuranLocation(1, 7);
+		IQuranLocation ql2 = new QuranLocation(2, 1);
 		assertEquals(ql1, ql2.getPrev());
 
 		ql1 = new QuranLocation(5, 8);
@@ -46,8 +46,8 @@ public class QuranLocationTest extends ZekrBaseTest {
 	}
 
 	public void testCompareTo() {
-		QuranLocation ql1 = new QuranLocation(1, 7);
-		QuranLocation ql2 = new QuranLocation(2, 1);
+		IQuranLocation ql1 = new QuranLocation(1, 7);
+		IQuranLocation ql2 = new QuranLocation(2, 1);
 		assertTrue(ql1.compareTo(ql2) < 0);
 
 		ql1 = new QuranLocation(5, 8);

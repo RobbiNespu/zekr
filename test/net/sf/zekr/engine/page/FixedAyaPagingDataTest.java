@@ -9,6 +9,7 @@
 package net.sf.zekr.engine.page;
 
 import net.sf.zekr.ZekrBaseTest;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranPage;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
@@ -76,7 +77,7 @@ public class FixedAyaPagingDataTest extends ZekrBaseTest {
 		assertEquals(fapd.getContainerPage(new QuranLocation(2, 3)), fapd.getQuranPage(1));
 		assertEquals(fapd.getContainerPage(new QuranLocation(2, 4)), fapd.getQuranPage(2));
 
-		QuranLocation loc = new QuranLocation(3, 123);
+		IQuranLocation loc = new QuranLocation(3, 123);
 		assertEquals(fapd.getContainerPage(loc), fapd.getQuranPage(loc.getAbsoluteAya() / 10 + 1));
 
 		loc = new QuranLocation(9, 17);

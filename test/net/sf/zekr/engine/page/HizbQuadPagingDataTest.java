@@ -9,6 +9,7 @@
 package net.sf.zekr.engine.page;
 
 import net.sf.zekr.ZekrBaseTest;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranPage;
 import net.sf.zekr.common.resource.JuzProperties;
 import net.sf.zekr.common.resource.QuranLocation;
@@ -43,7 +44,7 @@ public class HizbQuadPagingDataTest extends ZekrBaseTest {
 		IQuranPage p12 = (IQuranPage) h.getPageList().get(11);
 		JuzProperties j11 = QuranPropertiesUtils.getJuzOf(p11.getFrom());
 		int p11hq = QuranPropertiesUtils.getHizbQuadIndex(p11.getFrom());
-		QuranLocation hqBegin = j11.getHizbQuarters()[p11hq];
+		IQuranLocation hqBegin = j11.getHizbQuarters()[p11hq];
 		assertEquals(hqBegin, p11.getFrom());
 
 		QuranPropertiesUtils.getJuzOf(p12.getTo());
