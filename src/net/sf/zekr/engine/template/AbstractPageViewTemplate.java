@@ -3,7 +3,6 @@ package net.sf.zekr.engine.template;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranPage;
 import net.sf.zekr.common.resource.IQuranText;
-import net.sf.zekr.common.resource.model.Page;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.ThemeData;
 
@@ -26,6 +25,10 @@ public class AbstractPageViewTemplate extends BaseViewTemplate {
 		this.quranPage = config.getQuranPaging().getDefault().getQuranPage(userView.getPage());
 	}
 
+	public AbstractPageViewTemplate(IQuranText quran, IUserView userView) {
+		this(quran, null, userView);
+	}
+
 	/**
 	 * Transforms a sura view (based on <code>suraNum</code> field set in constructor).
 	 * 
@@ -35,15 +38,13 @@ public class AbstractPageViewTemplate extends BaseViewTemplate {
 		String retStr = null;
 		ThemeData td = config.getTheme().getCurrent();
 		try {
-			// Page page = new Page(quranPage);
-			// engine.put("PAGE_MODE", config.getPagingMode());
-			// engine.put("PAGE", page);
-			// engine.put("AYA_LIST", page.getAyaList().toArray());
-			// engine.put("QURAN", quran);
+			engine.put("PAGE_MODE", config.getPagingMode());
 			engine.put("TITLE", langEngine.getMeaning("PAGE") + ": " + quranPage.getPageNum());
 			engine.put("SURA_NUM", new Integer(userView.getLocation().getSura()));
 			engine.put("AYA_NUM", new Integer(userView.getLocation().getAya()));
 			engine.put("PAGE_NUM", new Integer(userView.getPage()));
+			engine.put("AYA_COUNT", new Integer(quranPage.getTo().getAbsoluteAya() - quranPage.getFrom().getAbsoluteAya()
+					+ 1));
 			engine.put("AYA_VIEW", resource.getString("theme.page"));
 			retStr = engine.getUpdated(td.getPath() + "/" + resource.getString("theme.sura"));
 		} catch (Exception e) {
