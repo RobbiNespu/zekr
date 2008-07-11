@@ -214,7 +214,7 @@ public class QuranForm extends BaseForm {
 
 	private UpdateManager updateManager;
 
-	private IUserView uvc;
+	IUserView uvc;
 
 	private Listener globalKeyListener = new Listener() {
 		public void handleEvent(Event event) {
