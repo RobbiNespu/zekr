@@ -172,6 +172,7 @@
 			<text id="INVALID_TRANSLATION_FORMAT" value="قالب ترجمه نامعتبر است: {1}"   />
 			<text id="INVALID_TRANSLATION_SIGNATURE" value="امضای ترجمه نامعتبر است: {1}"   />
 			<text id="TRANSLATION_LOAD_FAILED" value="بارگزاری ناموفق ترجمهٔ &quot;{1}&quot; به دلیل این خطا: {2}" />
+			<text id="ENTER_VALID_NUMBER" value="لطفاً عدد معتبری وارد کنید."   />
 		</error>
 		<hint></hint>
 	</message>
