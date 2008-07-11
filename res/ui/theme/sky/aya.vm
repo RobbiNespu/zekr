@@ -17,8 +17,8 @@
 		#end
 	#end #end
 #end
-#set ($MINOR = 0)
-#set ($MAJOR = 1)
+#set ($RECOMMENDED = 0)
+#set ($MANDATORY = 1)
 #if($TRANSLATION == "true")
 	#set ($OPEN_PAREN = "(")
 	#set ($CLOSE_PAREN = ")")
@@ -85,10 +85,10 @@
 	#end
 	#foreach ($SAJDA in $SAJDA_LIST)
 		#if ($SAJDA.AyaNumber == $AYA_NUM)
-			#if ($SAJDA.Type == $MINOR)
-				<span id="minor" class="sajda" title="$SAJDA">[$SAJDA_SIGN]</span>
-			#elseif ($SAJDA.Type == $MAJOR)
-				<span id="major" class="sajda" title="$SAJDA">[[$SAJDA_SIGN]]</span>
+			#if ($SAJDA.Type == $RECOMMENDED)
+				<span id="recommended" class="sajda" title="$SAJDA">[$SAJDA_SIGN]</span>
+			#elseif ($SAJDA.Type == $MANDATORY)
+				<span id="mandatory" class="sajda" title="$SAJDA">[[$SAJDA_SIGN]]</span>
 			#end
 		#end
 	#end
