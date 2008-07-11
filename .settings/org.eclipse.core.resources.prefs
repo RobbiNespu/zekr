@@ -1,4 +1,4 @@
-#Sat Jun 21 23:33:02 GMT+03:30 2008
+#Fri Jul 11 10:56:09 GMT+03:30 2008
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
 encoding//doc/license/nanohttpd-license.txt=ISO-8859-1
@@ -11,7 +11,6 @@ encoding//res/audio/minshawi-online.properties=UTF-8
 encoding//res/config/config.properties=UTF-8
 encoding//res/lang/french.xml=UTF-8
 encoding//res/lang/russian.xml=UTF-8
-encoding//res/text/quran/quran-text.txt=utf-8
 encoding//res/ui/theme/sample/aya.vm=utf-8
 encoding//res/ui/theme/sample/sura.vm=UTF-8
 encoding/<project>=UTF-8
