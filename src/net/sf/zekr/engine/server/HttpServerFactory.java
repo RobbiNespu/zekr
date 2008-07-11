@@ -10,6 +10,11 @@ package net.sf.zekr.engine.server;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 
+/**
+ * An http server should be created through HttpServerFactory, not HttpServer abstract class.
+ * 
+ * @author Mohsen Saboorian
+ */
 public class HttpServerFactory {
 	public static HttpServer createHttpServer(PropertiesConfiguration props) {
 		return new DefaultHttpServer(props);
