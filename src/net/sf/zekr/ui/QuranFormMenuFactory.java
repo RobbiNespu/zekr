@@ -43,7 +43,10 @@ import net.sf.zekr.engine.bookmark.ui.ManageBookmarkSetsForm;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.page.FixedAyaPagingData;
+import net.sf.zekr.engine.page.HizbQuadPagingData;
 import net.sf.zekr.engine.page.IPagingData;
+import net.sf.zekr.engine.page.JuzPagingData;
+import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.engine.translation.ui.CustomTranslationListForm;
@@ -104,7 +107,7 @@ public class QuranFormMenuFactory {
 	private int direction;
 	private MenuItem randomAyaItem;
 	private Menu transMenu, viewModeMenu;
-	private MenuItem customTransList;
+	private MenuItem customTransList, _def;
 	private Menu audioMenu;
 	private MenuItem audioItem;
 	private MenuItem playItem;
@@ -204,49 +207,47 @@ public class QuranFormMenuFactory {
 		MenuItem customViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("CUSTOM_PAGE_MODE") + "...", 0,
 				null);
 
-		suraViewMode.setData("<sura>");
-		fixedAyaViewMode.setData("<fixedAya>");
-		juzViewMode.setData("<juz>");
-		hizbViewMode.setData("<hizb>");
+		suraViewMode.setData(SuraPagingData.ID);
+		fixedAyaViewMode.setData(FixedAyaPagingData.ID);
+		juzViewMode.setData(JuzPagingData.ID);
+		hizbViewMode.setData(HizbQuadPagingData.ID);
 		// customViewMode.setData("<custom>");
 		IPagingData page = config.getQuranPaging().getDefault();
 
 		final Map pagingItems = new HashMap();
-		pagingItems.put(suraViewMode, suraViewMode.getData());
-		pagingItems.put(fixedAyaViewMode, fixedAyaViewMode.getData());
-		pagingItems.put(juzViewMode, juzViewMode.getData());
-		pagingItems.put(hizbViewMode, hizbViewMode.getData());
+		pagingItems.put(suraViewMode.getData(), suraViewMode);
+		pagingItems.put(fixedAyaViewMode.getData(), fixedAyaViewMode);
+		pagingItems.put(juzViewMode.getData(), juzViewMode);
+		pagingItems.put(hizbViewMode.getData(), hizbViewMode);
 
-		MenuItem def = (MenuItem) pagingItems.get(page.getId());
-		if (def != null)
-			def.setSelection(true);
-		else
-			customViewMode.setSelection(true);
+		_def = (MenuItem) pagingItems.get(page.getId());
+		if (_def == null)
+			_def = customViewMode;
+		_def.setSelection(true);
 
 		SelectionListener viewModeSelection = new SelectionAdapter() {
-			MenuItem prevItem = null;
+			MenuItem prevItem = _def;
 
 			public void widgetSelected(SelectionEvent e) {
 				if (!((MenuItem) e.widget).getSelection()) {
 					prevItem = (MenuItem) e.widget;
 					return;
 				}
-				System.out.println(prevItem + " -- " + e);
 
 				String data = (String) e.widget.getData();
 				config.setPagingMode(data);
 				// config.getQuranPaging().get(data);
-				if ("<sura>".equals(data)) {
-				} else if ("<fixedAya>".equals(data)) {
+				if (SuraPagingData.ID.equals(data)) {
+				} else if (FixedAyaPagingData.ID.equals(data)) {
 					if (!setFixedAyaMode()) {
 						((MenuItem) e.widget).setSelection(false);
 						prevItem.setSelection(true);
 					} else {
 						prevItem = (MenuItem) e.widget;
 					}
-				} else if ("<hizb>".equals(data)) {
-				} else if ("<juz>".equals(data)) {
-				} else if ("<custom>".equals(data)) {
+				} else if (HizbQuadPagingData.ID.equals(data)) {
+				} else if (JuzPagingData.ID.equals(data)) {
+				} else {
 					logger.info("Choose custom page mode.");
 					new CustomPageModeForm(shell).show();
 				}
@@ -763,17 +764,26 @@ public class QuranFormMenuFactory {
 	}
 
 	private boolean setFixedAyaMode() {
-		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"),
-				"How many ayas should be displayed in each page?");
+		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"), lang.getMeaningById("PAGING_MODE",
+				"AYA_PER_SURA"));
 		if (!StringUtils.isEmpty(ayaStr)) {
 			try {
 				int aya = Integer.parseInt(ayaStr);
+				if (aya <= 0 || aya > QuranPropertiesUtils.QURAN_AYA_COUNT) {
+					MessageBoxUtils.showError(lang.getDynamicMeaning("NUMBER_LIMIT", new String[] { "1",
+							String.valueOf(QuranPropertiesUtils.QURAN_AYA_COUNT) }));
+					logger.error("Aya-per-page out of bound: " + aya);
+					return false;
+				}
 				FixedAyaPagingData fapd = (FixedAyaPagingData) config.getQuranPaging().get("<fixedAya>");
-				fapd.setAyaPerPage(aya);
 				logger.info("Reload fixed aya paging data with aya-per-page set to: " + aya);
-				fapd.reloadPaging();
+				fapd = new FixedAyaPagingData(aya);
+				
+				config.getProps().setProperty("view.pagingMode.ayaPerPage", String.valueOf(aya));
+				config.getQuranPaging().add(fapd);
 				return true;
 			} catch (NumberFormatException e) {
+				logger.implicitLog(e);
 				MessageBoxUtils.showError(lang.getMeaning("ENTER_VALID_NUMBER"));
 			}
 		}
