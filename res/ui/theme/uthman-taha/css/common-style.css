@@ -34,12 +34,12 @@ div.bodyTop {
 	width: 100%;
 }
 
-span.sajda#minor {
+span.sajda#recommended {
 	font-family: serif;
 	color: rgb(200, 40, 40);
 }
 
-span.sajda#major {
+span.sajda#mandatory {
 	font-family: serif;
 	color: rgb(240, 10, 10);
 }
