@@ -62,6 +62,15 @@ public class FixedAyaPagingDataTest extends ZekrBaseTest {
 		assertEquals(fapd.getAyaPerPage(), 87);
 	}
 	
+	public final void testReload() {
+		FixedAyaPagingData fapd = new FixedAyaPagingData(7);
+		assertEquals(fapd.size(), QuranPropertiesUtils.QURAN_AYA_COUNT / 7 + 1);
+		fapd.reload(21);
+		assertEquals(fapd.size(), QuranPropertiesUtils.QURAN_AYA_COUNT / 21 + 1);
+		fapd.reload(210);
+		assertEquals(fapd.size(), QuranPropertiesUtils.QURAN_AYA_COUNT / 210 + 1);
+	}
+	
 	public final void testGetPageNum() {
 		FixedAyaPagingData fapd = new FixedAyaPagingData(7);
 		assertEquals(1, fapd.getQuranPage(1).getPageNum());
