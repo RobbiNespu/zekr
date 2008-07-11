@@ -52,7 +52,7 @@ import net.sf.zekr.engine.page.FixedAyaPagingData;
 import net.sf.zekr.engine.page.HizbQuadPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
-import net.sf.zekr.engine.page.PagingData;
+import net.sf.zekr.engine.page.CustomPagingData;
 import net.sf.zekr.engine.page.QuranPaging;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.revelation.Revelation;
@@ -103,6 +103,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private BookmarkSet bookmarkSet;
 	private BookmarkSetGroup bookmarkSetGroup = new BookmarkSetGroup();
 	private Thread httpServerThread;
+	private IUserView userViewController;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -144,6 +145,14 @@ public class ApplicationConfig implements ConfigNaming {
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
 
 		startHttpServer();
+		
+		initViewController();
+	}
+
+	private void initViewController() {
+		userViewController = new UserViewController(quranPaging);
+		userViewController.setPage(getPageNum());
+		userViewController.setLocation(getQuranLocation());
 	}
 
 	private void startHttpServer() {
@@ -299,13 +308,6 @@ public class ApplicationConfig implements ConfigNaming {
 		return props;
 	}
 
-	/**
-	 * This method extracts the application runtime configurations and store it into RuntimeConfig bean.
-	 */
-	// private void extractRuntimeConfig() {
-	// runtimeConfig.setLanguage(langElem.getAttribute(ApplicationConfig.CURRENT_LANGUAGE_ATTR));
-	// runtimeConfig.setTextLayout(getQuranLayout());
-	// }
 	/**
 	 * This method extracts language properties from the corresponding node in the config file.
 	 */
@@ -782,17 +784,17 @@ public class ApplicationConfig implements ConfigNaming {
 
 		// add built-in paging implementations
 		quranPaging.add(new SuraPagingData());
-		quranPaging.add(new FixedAyaPagingData(10));
+		quranPaging.add(new FixedAyaPagingData(props.getInt("view.pagingMode.ayaPerPage", 20)));
 		quranPaging.add(new HizbQuadPagingData());
 		quranPaging.add(new JuzPagingData());
 
-		PagingData pd;
+		CustomPagingData cpd;
 		for (int i = 0; i < pagingFiles.length; i++) {
-			pd = new PagingData();
+			cpd = new CustomPagingData();
 			String name = pagingFiles[i].getName();
-			pd.id = name.substring(0, name.indexOf(ApplicationPath.PAGING_PACK_SUFFIX));
-			pd.file = pagingFiles[i];
-			quranPaging.add(pd);
+			cpd.setId(name.substring(0, name.indexOf(ApplicationPath.PAGING_PACK_SUFFIX)));
+			cpd.file = pagingFiles[i];
+			quranPaging.add(cpd);
 		}
 		IPagingData ipd = (IPagingData) quranPaging.get(def);
 		if (ipd != null) {
@@ -804,16 +806,19 @@ public class ApplicationConfig implements ConfigNaming {
 			} catch (Exception e) {
 				logger.warn("Can not load paging data \"" + ipd + "\" properly because of the following exception:");
 				logger.log(e);
+				logger.debug("Set default paging data to: sura.");
+				// set default paging model to sura, if nothing is set.
+				quranPaging.setDefault(quranPaging.get(SuraPagingData.ID));
+				props.setProperty("view.pagingMode", quranPaging.getDefault().getId());
 			}
 		}
-
 	}
 	
 	/**
 	 * @return application language engine
 	 * @see net.sf.zekr.engine.Language#getInstance()
 	 */
-	public LanguageEngine getLanguageEngine() {
+	public synchronized LanguageEngine getLanguageEngine() {
 		if (langEngine == null)
 			langEngine = LanguageEngine.getInstance();
 		return langEngine;
@@ -879,8 +884,11 @@ public class ApplicationConfig implements ConfigNaming {
 		props.setProperty("view.quranLayout", newLayout);
 	}
 
+	public int getPageNum() {
+		return props.getInt("view.page", 1);
+	}
+
 	public IQuranLocation getQuranLocation() {
-		// return new QuranLocation(theme.commonProps.get(QURAN_LOCATION));
 		return new QuranLocation(props.getString("view.quranLoc"));
 	}
 
@@ -975,6 +983,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public BookmarkSet getBookmark() {
 		return bookmarkSetGroup.getDefault();
+	}
+	
+	public IUserView getUserViewController() {
+		return userViewController;
 	}
 
 	/**
