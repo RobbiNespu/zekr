@@ -190,7 +190,7 @@ public class AdvancedTextSearch {
 
 	private String getClause(String text, Matcher matcher) {
 		int a = text.substring(0, matcher.start()).lastIndexOf(' ');
-		int b = text.indexOf(' ', matcher.end());
+		int b = text.indexOf(' ', matcher.end() - 1);
 		return new String(text.substring(a + 1, b));
 	}
 
@@ -204,6 +204,8 @@ public class AdvancedTextSearch {
 		s = "\"سلام علی\"";
 		s = "عنی إذا";
 		s = "سلام علی";
+		s = "\"محسن\"";
+		s = "محسن";
 		System.out.println(RegexUtils.enrichPattern(s, false));
 		System.out.println("Initialize AdvancedTextSearch" + new Date());
 		AdvancedTextSearch ats = new AdvancedTextSearch(QuranText.getSimpleTextInstance(),
