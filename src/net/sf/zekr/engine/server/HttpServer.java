@@ -19,26 +19,24 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.UriUtils;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * An abstract HTTP server model. An HTTP server implementation can be accessed through <code>getInstance()</code>.
+ * An abstract HTTP server model. An HTTP server implementation can be accessed through
+ * <code>getInstance()</code>.
  * 
  * @author Mohsen Saboorian
  */
 public abstract class HttpServer implements Runnable, HttpResourceNaming {
-	/** a map of some constant names (defined in {@link HttpResourceNaming}) to thier original normalized path */
+	/** a map of some constant names (defined in {@link HttpResourceNaming}) to their original normalized path */
 	public Map pathLookup = Collections.synchronizedMap(new LinkedHashMap());
 
 	protected HttpServer() {
 		pathLookup.put(CACHED_RESOURCE, FilenameUtils.normalize(Naming.getViewCacheDir()));
 		pathLookup.put(WORKSPACE_RESOURCE, FilenameUtils.normalize(Naming.getWorkspace()));
 		pathLookup.put(BASE_RESOURCE, FilenameUtils.normalize(GlobalConfig.RUNTIME_DIR));
-	}
-
-	public static HttpServer getServer() {
-		return DefaultHttpServer.getServer();
 	}
 
 	/**
