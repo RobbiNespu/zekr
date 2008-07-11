@@ -14,42 +14,37 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.log.Logger;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
 
 /**
- * This class intends to implement a simple HTTP server based on NanoHTTPD. It loops infinitely until it is interrupted.
+ * This class intends to implement a simple HTTP server based on NanoHTTPD. It loops infinitely until it is
+ * interrupted.
  * 
  * @author Mohsen Saboorian
  */
 public class DefaultHttpServer extends HttpServer {
-	private static final Logger logger = Logger.getLogger(DefaultHttpServer.class);
-	private static final ResourceManager res = ResourceManager.getInstance();
+	private final Logger logger = Logger.getLogger(this.getClass());
+	private final ResourceManager res = ResourceManager.getInstance();
 	private NanoHttpd httpFacade = null;
+	private PropertiesConfiguration props;
 
-	private static HttpServer thisInstance = new DefaultHttpServer();
-
-	private DefaultHttpServer() {
+	DefaultHttpServer(PropertiesConfiguration props) {
+		this.props = props;
 	}
-
-	public static HttpServer getServer() {
-		return thisInstance;
-	};
 
 	public void run() {
 		try {
 			logger.info("Starting HTTP server...");
 			httpFacade = new NanoHttpd(getServerPort()) {
-				private ApplicationConfig config = ApplicationConfig.getInstance();
-
 				public Response serve(String uri, String method, Properties header, Properties parms) {
 					if (!fromThisMachine(header) || !isAllowedUri(uri)) {
 						return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "Access denied.");
 					}
-					if (Boolean.valueOf(config.getProps().getString("server.http.log")).booleanValue())
+					if (Boolean.valueOf(props.getString("server.http.log")).booleanValue())
 						logger.debug("serving URI: " + uri);
 					String path = toRealPath(uri.substring(1));
 					if (!new File(path).exists())
@@ -64,7 +59,7 @@ public class DefaultHttpServer extends HttpServer {
 				}
 
 				private boolean fromThisMachine(Properties header) {
-					String deny = config.getProps().getString("server.http.denyRemoteAccess");
+					String deny = props.getString("server.http.denyRemoteAccess");
 					if (!new Boolean(deny).booleanValue())
 						return true;
 					String remoteAddress = (String) header.get(HEADER_REQUEST_ADDRESS);
@@ -86,7 +81,7 @@ public class DefaultHttpServer extends HttpServer {
 		}
 		while (true) {
 			try {
-				// do nothing, there is a saparate waiting thread for each request.
+				// do nothing, there is a separate waiting thread for each request.
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				logger.info("HTTP Server terminated.");
@@ -94,12 +89,11 @@ public class DefaultHttpServer extends HttpServer {
 		}
 	}
 
-	private static int getServerPort() {
-		int port = ApplicationConfig.getInstance().getHttpServerPort();
-		return port == -1 ? 8920 : port;
+	private int getServerPort() {
+		return props.getInt("server.http.port", 8920);
 	}
 
-	private static String getServerName() throws HttpServerRuntimeException {
+	private String getServerName() throws HttpServerRuntimeException {
 		try {
 			return InetAddress.getLocalHost().getCanonicalHostName();
 		} catch (UnknownHostException e) {
@@ -107,8 +101,8 @@ public class DefaultHttpServer extends HttpServer {
 		}
 	}
 
-	static String getServerAddress() throws HttpServerRuntimeException {
-		return ApplicationConfig.getInstance().getProps().getString("server.http.address");
+	private String getServerAddress() throws HttpServerRuntimeException {
+		return props.getString("server.http.address", "127.0.0.1");
 	}
 
 	public String getAddress() throws HttpServerRuntimeException {
