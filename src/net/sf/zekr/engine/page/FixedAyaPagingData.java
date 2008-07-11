@@ -26,6 +26,10 @@ public class FixedAyaPagingData extends AbstractQuranPagingData {
 	public FixedAyaPagingData(int ayaPerPage) {
 		this.name = meaning("FIXED_AYA");
 		this.id = ID;
+		init(ayaPerPage);
+	}
+
+	private void init(int ayaPerPage) {
 		this.ayaPerPage = ayaPerPage;
 		loadPaging();
 	}
@@ -53,5 +57,9 @@ public class FixedAyaPagingData extends AbstractQuranPagingData {
 
 	public int getAyaPerPage() {
 		return ayaPerPage;
+	}
+
+	public void reload(int aya) {
+		init(aya);
 	}
 }
