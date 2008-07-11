@@ -39,7 +39,7 @@ public class HizbQuadPagingData extends AbstractQuranPagingData {
 			QuranPage prevPage = null;
 			for (int j = 0; j < hizbQuads.length; j++) {
 				QuranPage page = new QuranPage();
-				page.setIndex(i * 4 + j + 1);
+				page.setIndex(i * 8 + j + 1);
 				page.setFrom(hizbQuads[j]);
 				if (prevPage != null)
 					prevPage.setTo(page.getFrom().getPrev());
