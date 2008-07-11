@@ -8,11 +8,19 @@
  */
 package net.sf.zekr.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.engine.page.FixedAyaPagingData;
+import net.sf.zekr.engine.page.HizbQuadPagingData;
 import net.sf.zekr.engine.page.IPagingData;
+import net.sf.zekr.engine.page.JuzPagingData;
+import net.sf.zekr.engine.page.QuranPaging;
+import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.eclipse.swt.SWT;
@@ -42,8 +50,8 @@ public class CustomPageModeForm extends BaseForm {
 		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
 		shell.setLayout(new FillLayout());
 		shell.setText(lang.getMeaning("PAGE_MODE"));
-		//		shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
-		//				new Image(display, resource.getString("icon.options32")) });
+		// shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
+		// new Image(display, resource.getString("icon.options32")) });
 		makeForm();
 		shell.pack();
 		shell.setSize(300, 300);
@@ -58,15 +66,24 @@ public class CustomPageModeForm extends BaseForm {
 		listWidget = new org.eclipse.swt.widgets.List(body, SWT.BORDER | SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
 		listWidget.setLayoutData(gd);
 
+		QuranPaging qp = conf.getQuranPaging();
 		Collection pagings = conf.getQuranPaging().getAllPagings();
 		listItems = new String[pagings.size()];
-		int i = 0;
-		for (Iterator iterator = pagings.iterator(); iterator.hasNext(); i++) {
+		IPagingData[] builtinPagings = new IPagingData[] {
+				(IPagingData) qp.get(FixedAyaPagingData.ID),
+				(IPagingData) qp.get(SuraPagingData.ID),
+				(IPagingData) qp.get(JuzPagingData.ID),
+				(IPagingData) qp.get(HizbQuadPagingData.ID)
+		};
+		List pagingList = Arrays.asList(builtinPagings);
+		List itemList = new ArrayList();
+		for (Iterator iterator = pagings.iterator(); iterator.hasNext();) {
 			IPagingData paging = (IPagingData) iterator.next();
-			listItems[i] = paging.toString();
+			if (!pagingList.contains(paging))
+				itemList.add(paging.toString());
 		}
 
-		listWidget.setItems(listItems);
+		listWidget.setItems((String[]) itemList.toArray(new String[0]));
 
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.LEAD;
