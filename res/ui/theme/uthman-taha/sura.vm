@@ -23,11 +23,6 @@
 	#set($LEAD="left")
 	#set($TRAIL="right")
 #end
-#macro(putBismillah)
-	#if ($SURA_NUM != 9) ##&& $SURA != 1) #** not a good idea! *#
-	<img src="$BISM_PATH" alt="بسم الله الرحمن الرحیم">
-	#end
-#end
 <html>
 #parse("$THEME_DIR/head.vm")
 <body id="${BODY_ID}" dir="${DIR}">
@@ -42,18 +37,18 @@ window.res = null;
 <div id="headerBar" class="headerBar" dir="${DIRECTION}">
 	<table width="100%" style="padding: 0px; margin: 0px" cellspacing="0" cellpadding="0">
 		<tr valign="middle"><td align="$LEAD">
-		$SURA_MSG: <input dir="ltr" id="suraNav" type="text" style="width: 3em" value="${SURA_NUM}" />
+		$DICT.getMeaning('SURA'): <input dir="ltr" id="suraNav" type="text" style="width: 3em" value="${SURA_NUM}" />
 		&nbsp;&nbsp;|&nbsp;&nbsp;
-		$AYA_MSG: <input dir="ltr" id="ayaNav" type="text" style="width: 3em" value="${AYA_NUM}" />
-		<input type="button" value=" ${GO_MSG} " onclick="navtoSuraAya()" />
+		$DICT.getMeaning('AYA'): <input dir="ltr" id="ayaNav" type="text" style="width: 3em" value="${AYA_NUM}" />
+		<input type="button" value=" $DICT.getMeaning('GO') " onclick="navtoSuraAya()" />
 		</td>
 		<td id="nextPrevButtons" align="$TRAIL" style="display: none">
 			<span id="focusedWord" class="focusedWord">&nbsp;</span>&nbsp;&nbsp;
-			<button title="$PREV" style="padding: 0px 10px 0px 10px;" onclick="$('#nextPrevButtons')[0]._res.prev()">
-			<img src="res/image/icon/up_arrow.gif" style="margin: 1px" alt="$PREV" />
+			<button title="$DICT.getMeaning('PREVIOUS')" style="padding: 0px 10px 0px 10px;" onclick="$('#nextPrevButtons')[0]._res.prev()">
+			<img src="res/image/icon/up_arrow.gif" style="margin: 1px" alt="$DICT.getMeaning('PREVIOUS')" />
 			</button>&nbsp;
-			<button title="$NEXT" style="padding: 0px 10px 0px 10px;" onclick="$('#nextPrevButtons')[0]._res.next()">
-			<img src="res/image/icon/down_arrow.gif" style="margin: 1px" alt="$NEXT"/>
+			<button title="$DICT.getMeaning('NEXT')" style="padding: 0px 10px 0px 10px;" onclick="$('#nextPrevButtons')[0]._res.next()">
+			<img src="res/image/icon/down_arrow.gif" style="margin: 1px" alt="$DICT.getMeaning('NEXT')"/>
 			</button>
 		</td></tr>
 	</table>
@@ -80,7 +75,6 @@ $("input#suraNav,input#ayaNav").bind("keyup", function(e) {
 	   $BISMILLAH
 	   </div>
 	   #end
-	##putBismillah()
 	</div>
 	<div id="quranSection" class="main">
 	#parse("$THEME_DIR/aya.vm")
