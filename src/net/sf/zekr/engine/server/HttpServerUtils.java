@@ -16,8 +16,9 @@ import net.sf.zekr.common.util.UriUtils;
  */
 public class HttpServerUtils {
 	public static String getUrl(String relativePath) {
-		if (ApplicationConfig.getInstance().isHttpServerEnabled())
-			return HttpServer.getServer().getUrl() + relativePath;
+		ApplicationConfig config = ApplicationConfig.getInstance();
+		if (config.isHttpServerEnabled())
+			return config.getHttpServer().getUrl() + relativePath;
 		return UriUtils.toUri(relativePath);
 	}
 }
