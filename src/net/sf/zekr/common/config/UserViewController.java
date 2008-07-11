@@ -41,13 +41,21 @@ public class UserViewController implements IUserView {
 	}
 
 	public void changeTo(int page) {
-		IQuranPage iqp = quranPaging.getDefault().getQuranPage(page);
 		setPage(page);
-		setLocation(iqp.getFrom());
+		synchLocation();
 	}
 
 	public void changeTo(IQuranLocation location) {
 		setLocation(location);
+		synchPage();
+	}
+
+	public void synchPage() {
 		page = quranPaging.getDefault().getContainerPage(location).getPageNum();
+	}
+
+	public void synchLocation() {
+		IQuranPage iqp = quranPaging.getDefault().getQuranPage(page);
+		setLocation(iqp.getFrom());
 	}
 }

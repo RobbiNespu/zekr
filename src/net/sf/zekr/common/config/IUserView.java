@@ -25,4 +25,8 @@ public interface IUserView {
 	public void changeTo(int page);
 
 	public void changeTo(IQuranLocation location);
+
+	public void synchPage();
+
+	public void synchLocation();
 }
