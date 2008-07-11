@@ -8,12 +8,17 @@
  */
 package net.sf.zekr.engine.server;
 
-import junit.framework.TestCase;
+import net.sf.zekr.ZekrBaseTest;
+import net.sf.zekr.common.config.ApplicationConfig;
 
 import org.apache.commons.io.FilenameUtils;
 
-public class DefaultHttpServerTest extends TestCase {
-	HttpServer server = (HttpServer) DefaultHttpServer.getServer();
+public class DefaultHttpServerTest extends ZekrBaseTest {
+	HttpServer server = new DefaultHttpServer(ApplicationConfig.getInstance().getProps());
+
+	public DefaultHttpServerTest() throws Exception {
+		super();
+	}
 
 	protected void setUp() throws Exception {
 		super.setUp();
