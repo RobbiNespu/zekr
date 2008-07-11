@@ -42,6 +42,7 @@ public class CustomPageModeForm extends BaseForm {
 	private Button editBut;
 	private org.eclipse.swt.widgets.List listWidget;
 	private String[] listItems;
+	private List listModel = new ArrayList();
 
 	public CustomPageModeForm(Shell parent) {
 		this.parent = parent;
@@ -79,8 +80,10 @@ public class CustomPageModeForm extends BaseForm {
 		List itemList = new ArrayList();
 		for (Iterator iterator = pagings.iterator(); iterator.hasNext();) {
 			IPagingData paging = (IPagingData) iterator.next();
-			if (!pagingList.contains(paging))
+			if (!pagingList.contains(paging)) {
 				itemList.add(paging.toString());
+				listModel.add(paging.getId());
+			}
 		}
 
 		listWidget.setItems((String[]) itemList.toArray(new String[0]));
@@ -145,7 +148,7 @@ public class CustomPageModeForm extends BaseForm {
 		okBut.setLayoutData(rdOk);
 		cancelBut.setLayoutData(rdCancel);
 	}
-
+	
 	private String meaning(String key) {
 		return lang.getMeaningById(FORM_ID, key);
 	}
