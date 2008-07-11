@@ -10,6 +10,7 @@ package net.sf.zekr.engine.page;
 
 import java.util.List;
 
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranPage;
 
 /**
@@ -17,23 +18,30 @@ import net.sf.zekr.common.resource.IQuranPage;
  */
 public interface IPagingData {
 
-	public abstract String getId();
+	public String getId();
 
-	public abstract String getName();
+	public String getName();
 
 	/**
 	 * @param pageNum page number (counted from 1)
 	 * @return
 	 */
-	public abstract IQuranPage getQuranPage(int pageNum);
+	public IQuranPage getQuranPage(int pageNum);
 
 	/**
 	 * @return a list of all {@link IQuranPage}s
 	 */
-	public abstract List getPageList();
+	public List getPageList();
 
-	public abstract int size();
+	public int size();
 
-	public abstract void load() throws PagingException;
+	public void load() throws PagingException;
 
+	/**
+	 * Find the page containing <code>location</code>.
+	 * 
+	 * @param location Quran location to be looked up in all pages
+	 * @return the page containing Quran location
+	 */
+	public IQuranPage getContainerPage(IQuranLocation location);
 }
