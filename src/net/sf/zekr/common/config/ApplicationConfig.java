@@ -47,12 +47,11 @@ import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.page.AbstractQuranPagingData;
+import net.sf.zekr.engine.page.CustomPagingData;
 import net.sf.zekr.engine.page.FixedAyaPagingData;
 import net.sf.zekr.engine.page.HizbQuadPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
-import net.sf.zekr.engine.page.CustomPagingData;
 import net.sf.zekr.engine.page.QuranPaging;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.revelation.Revelation;
@@ -60,6 +59,7 @@ import net.sf.zekr.engine.revelation.RevelationData;
 import net.sf.zekr.engine.search.lucene.IndexCreator;
 import net.sf.zekr.engine.search.lucene.IndexingException;
 import net.sf.zekr.engine.server.HttpServer;
+import net.sf.zekr.engine.server.HttpServerFactory;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.Translation;
@@ -77,8 +77,8 @@ import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
 
 /**
- * This singleton class reads the config files by the first invocation of <code>getInstance()</code>. You
- * can then read any option by using available getter methods.
+ * This singleton class reads the config files by the first invocation of <code>getInstance()</code>. You can
+ * then read any option by using available getter methods.
  * 
  * @author Mohsen Saboorian
  */
@@ -104,6 +104,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private BookmarkSetGroup bookmarkSetGroup = new BookmarkSetGroup();
 	private Thread httpServerThread;
 	private IUserView userViewController;
+	private HttpServer httpServer;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -112,11 +113,6 @@ public class ApplicationConfig implements ConfigNaming {
 		language = Language.getInstance();
 
 		runtime = new ApplicationRuntime();
-		// try {
-		// runtime.configure();
-		// } catch (IOException e) {
-		// logger.log(e);
-		// }
 
 		// language packs should be loaded before bookmarks
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Configuration Files");
@@ -124,8 +120,6 @@ public class ApplicationConfig implements ConfigNaming {
 
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Language Packs");
 		extractLangProps();
-
-		// extractRuntimeConfig();
 
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Bookmark Sets");
 		loadBookmarkSetGroup();
@@ -145,20 +139,22 @@ public class ApplicationConfig implements ConfigNaming {
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
 
 		startHttpServer();
-		
+
+		// extractPagingDataProps should be called before this method
 		initViewController();
 	}
 
 	private void initViewController() {
 		userViewController = new UserViewController(quranPaging);
-		userViewController.setPage(getPageNum());
 		userViewController.setLocation(getQuranLocation());
+		userViewController.synchPage();
 	}
 
 	private void startHttpServer() {
 		if (isHttpServerEnabled()) {
-			logger.info("Start HTTP server on port: " + getHttpServerPort());
-			httpServerThread = new Thread(HttpServer.getServer());
+			logger.info("Start HTTP server daemon on port: " + getHttpServerPort());
+			httpServer = HttpServerFactory.createHttpServer(props);
+			httpServerThread = new Thread(httpServer);
 			httpServerThread.setDaemon(true);
 			httpServerThread.start();
 		} else {
@@ -813,7 +809,7 @@ public class ApplicationConfig implements ConfigNaming {
 			}
 		}
 	}
-	
+
 	/**
 	 * @return application language engine
 	 * @see net.sf.zekr.engine.Language#getInstance()
@@ -969,6 +965,10 @@ public class ApplicationConfig implements ConfigNaming {
 		return quranPaging;
 	}
 
+	public HttpServer getHttpServer() {
+		return httpServer;
+	}
+
 	public ApplicationRuntime getRuntime() {
 		return runtime;
 	}
@@ -984,14 +984,13 @@ public class ApplicationConfig implements ConfigNaming {
 	public BookmarkSet getBookmark() {
 		return bookmarkSetGroup.getDefault();
 	}
-	
+
 	public IUserView getUserViewController() {
 		return userViewController;
 	}
 
 	/**
-	 * @return <code>true</code> if an instance of this class is initialized, and <code>false</code>
-	 *         otherwise.
+	 * @return <code>true</code> if an instance of this class is initialized, and <code>false</code> otherwise.
 	 */
 	public static boolean isFullyInitialized() {
 		return thisInstance != null;
@@ -1088,8 +1087,8 @@ public class ApplicationConfig implements ConfigNaming {
 	 * <code>IndexingException</code>.
 	 * 
 	 * @param mode can be <code>IndexCreator.ME_ONLY</code>, <code>IndexCreator.ALL_USERS</code>, or
-	 *           <code>IndexCreator.CUSTOM_PATH</code>. If mode is equal to <code>CUSTOM_PATH</code>,
-	 *           path parameter is also used, otherwise this parameter is unused.
+	 *           <code>IndexCreator.CUSTOM_PATH</code>. If mode is equal to <code>CUSTOM_PATH</code>, path
+	 *           parameter is also used, otherwise this parameter is unused.
 	 * @param path path for creating indices in. Used iff mode is equal to <code>CUSTOM_PATH</code>
 	 * @param stdout standard output to write progressing data to
 	 * @throws IndexingException
