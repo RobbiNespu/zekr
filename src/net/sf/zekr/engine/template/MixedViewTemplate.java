@@ -19,7 +19,7 @@ import net.sf.zekr.common.resource.model.Page;
  * 
  * @author Mohsen Saboorian
  */
-public class MixedViewTemplate extends AbstractPageViewTemplate /*AbstractSuraViewTemplate */{
+public class MixedViewTemplate extends AbstractPageViewTemplate {
 	/**
 	 * Creates a new mixed view template object. It will put a 2xN matrix in velocity context. There is 2 row
 	 * (first for the quran and second for translation). Each row holds the text of the sura (quran and
@@ -27,9 +27,7 @@ public class MixedViewTemplate extends AbstractPageViewTemplate /*AbstractSuraVi
 	 * 
 	 * @param quran the Quran text
 	 * @param trans the translation text
-	 * @param suraNum the sura number to be transformed (counted from 1)
-	 * @param ayaNum the selected aya number within the sura
-	 * @param playlistUrl recitation playlist URL
+	 * @param userView user location and page
 	 */
 	public MixedViewTemplate(IQuranText quran, IQuranText trans, IUserView userView) {
 		super(quran, trans, userView);
@@ -37,18 +35,8 @@ public class MixedViewTemplate extends AbstractPageViewTemplate /*AbstractSuraVi
 		engine.put("MIXED", "true");
 		engine.put("CUSTOM", "false"); // TODO: it should not be set!
 
-		// String[] quranSura = quran.getSura(suraNum);
-		// String[] transSura = trans.getSura(suraNum);
-
 		Page qPage = new Page(quran, quranPage);
 		Page tPage = new Page(trans, quranPage);
-
-		//		String[][] mixed = new String[quranSura.length][2];
-		//		for (int i = 0; i < mixed.length; i++) {
-		//			mixed[i][0] = quranSura[i];
-		//			mixed[i][1] = transSura[i];
-		//		}
-		//		engine.put("AYA_LIST", mixed);
 
 		Aya[][] mixed = new Aya[qPage.getSize()][2];
 		for (int i = 0; i < mixed.length; i++) {
@@ -57,8 +45,7 @@ public class MixedViewTemplate extends AbstractPageViewTemplate /*AbstractSuraVi
 		}
 		engine.put("AYA_LIST", mixed);
 
-		engine.put("QURAN_PAGE", qPage);
-		engine.put("TRANS_PAGE", tPage);
-		engine.put("AYA_COUNT", new Integer(qPage.getSize()));
+		// engine.put("QURAN_PAGE", qPage);
+		// engine.put("TRANS_PAGE", tPage);
 	}
 }
