@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * This class contains {@link PagingData} loaded from *.page.xml files from <tt>res/text/metadata</tt>.
+ * This class contains {@link CustomPagingData} loaded from *.page.xml files from <tt>res/text/metadata</tt>.
  * 
  * @author Mohsen Saboorian
  */
