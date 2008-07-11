@@ -53,7 +53,7 @@
 		<mkdir dir="${build_classdir}" />
 		<unjar src="${src_dist.jar}" dest="${src_dir}">
 		</unjar>
-		<javac srcdir="${src_dir}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="true" verbose="${verbose}">
+		<javac srcdir="${src_dir}" encoding="UTF-8" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="true" verbose="${verbose}">
 			<classpath refid="buildlibs" />
 		</javac>
 		<copy todir="${build_classdir}">
