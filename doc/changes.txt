@@ -494,12 +494,18 @@ Bug fixes:
 
 Version 0.7.0 beta 2 - [15-5-08]
 Features/Enhancements:
+	Upgrade:
+		- Lunuce x.y.z
+		- Tanzil Quran text file 1.0.2
+		- SWT 3.4.0
+		- commons-logging, commons-configurations, commons-io, commons-lang, commons-codec
 Bug fixes:
 	A bug with basic search fixed, which happened when a whole clause was found at the end of an aya.
 	Menu icons are not shown anymore in Mac.
 	Major and minor sajda replaced with "mandatory" and "recommended" sajda.
 	An incompatibility issue resolved which caused sura.vm not work with Velocity 1.5. Thanks for Serkan Kaba's patch.
 	Disabled auto-update for now. It's too buggy.
+	When an SWT Tree is set as SWT.SINGLE, it's selection listener is once called upon its first selection (which is selected by system). It caused aya not to be selected correctly in aya selection combo. A small but of checking (if (e.time > 0)) added to tree selectionm adapter in order to ignore its first systemy selection.
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Search results in ascending/descending order
