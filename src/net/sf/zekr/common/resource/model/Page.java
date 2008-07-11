@@ -31,7 +31,7 @@ public class Page {
 		ayaList = new ArrayList();
 		IQuranLocation from = quranPage.getFrom();
 		IQuranLocation to = quranPage.getTo();
-		while (to.compareTo(from) >= 0) {
+		while (from != null && to.compareTo(from) >= 0) {
 			ayaList.add(new Aya(quranText, from));
 			from = from.getNext();
 		}
