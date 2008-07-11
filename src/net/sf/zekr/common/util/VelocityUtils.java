@@ -9,6 +9,9 @@
 
 package net.sf.zekr.common.util;
 
+import java.util.Collection;
+import java.util.List;
+
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.audio.IPlaylistProvider;
 
@@ -57,6 +60,9 @@ public class VelocityUtils {
 	}
 
 	public int arraySize(Object arr) {
+		if (arr instanceof Collection) {
+			return ((Collection) arr).size();
+		}
 		return arr == null ? -1 : ((Object[]) arr).length;
 	}
 
@@ -71,8 +77,11 @@ public class VelocityUtils {
 		buf.append("]");
 		return buf.toString();
 	}
-	
+
 	public Object getItem(Object arr, int index) {
+		if (arr instanceof List) {
+			return ((List) arr).get(index);
+		}
 		return ((Object[]) arr)[index];
 	}
 }
