@@ -8,22 +8,31 @@
  */
 package net.sf.zekr.common.resource.model;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranPage;
+import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.QuranText;
 
 public class Page {
 	private int index;
 	private List ayaList;
 	private IQuranPage quranPage;
 
-	public Page(IQuranPage quranPage) {
+	public Page(IQuranPage quranPage) throws IOException {
+		this(QuranText.getInstance(), quranPage);
+	}
+
+	public Page(IQuranText quranText, IQuranPage quranPage) {
 		this.quranPage = quranPage;
+		ayaList = new ArrayList();
 		IQuranLocation from = quranPage.getFrom();
-		IQuranLocation to = quranPage.getFrom();
+		IQuranLocation to = quranPage.getTo();
 		while (to.compareTo(from) >= 0) {
-			ayaList.add(new Aya(from));
+			ayaList.add(new Aya(quranText, from));
 			from = from.getNext();
 		}
 	}
@@ -34,5 +43,9 @@ public class Page {
 
 	public List getAyaList() {
 		return ayaList;
+	}
+
+	public int getSize() {
+		return ayaList.size();
 	}
 }
