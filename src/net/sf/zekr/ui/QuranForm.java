@@ -602,9 +602,9 @@ public class QuranForm extends BaseForm {
 					if (e.item.getData() != null) {
 						navTo(getSelectedSura(), 1);
 						// ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(getSelectedSura()));
-//						ayaSelectorCombo.select(0);
-//						ayaChanged = false; // It must be set to true after ayaSelector.select
-//						suraChanged = true; // It must be set to false after apply()
+						//						ayaSelectorCombo.select(0);
+						//						ayaChanged = false; // It must be set to true after ayaSelector.select
+						//						suraChanged = true; // It must be set to false after apply()
 
 						// suraChanged = true;
 						// apply();
@@ -1514,7 +1514,7 @@ public class QuranForm extends BaseForm {
 		if (uvc.getLocation().getSura() > 1) {
 			// gotoAya(uvc.getLocation().getSura() - 1, 1);
 			navTo(uvc.getLocation().getSura() - 1, 1);
-			
+
 			//			selectSura(sura - 1);
 			//			onSuraChanged();
 			//			apply();
@@ -1603,7 +1603,7 @@ public class QuranForm extends BaseForm {
 			} else {
 				suraChanged = false;
 			}
-			
+
 			// boolean suraDoesChanged = loc.getSura() != uvc.getLocation().getSura();
 
 			if (pageChanged || loc.getSura() != uvc.getLocation().getSura()) {
@@ -1670,10 +1670,10 @@ public class QuranForm extends BaseForm {
 
 		// TODO
 		// quranLoc = new QuranLocation(sura, aya);
-//		uvc.setLocation(new QuranLocation(sura, aya));
-//
+		//		uvc.setLocation(new QuranLocation(sura, aya));
+		//
 		logger.info("Set location to " + uvc.getLocation());
-//		config.getProps().setProperty("view.quranLoc", uvc.getLocation().toString());
+		//		config.getProps().setProperty("view.quranLoc", uvc.getLocation().toString());
 
 		qpl = new ProgressAdapter() {
 			public void completed(ProgressEvent event) {
@@ -1796,8 +1796,8 @@ public class QuranForm extends BaseForm {
 
 	private void _onSuraChanged() {
 		ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(getSelectedSura()));
-//		ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(uvc.getLocation().getSura()));
-//		ayaSelectorCombo.select(0);
+		//		ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(uvc.getLocation().getSura()));
+		//		ayaSelectorCombo.select(0);
 		// ayaChanged = false; // It must be set to true after ayaSelector.select
 		// suraChanged = false; // It must be set to false after apply()
 	}
@@ -2163,6 +2163,7 @@ public class QuranForm extends BaseForm {
 		// syncing options
 		// config.getProps().setProperty("view.location.sync", String.valueOf(sync.getSelection()));
 		config.getProps().setProperty("view.quranLoc", uvc.getLocation().toString());
+		config.getProps().setProperty("view.page", String.valueOf(uvc.getPage()));
 
 		// search props
 		config.getProps().setProperty("view.search.tab", String.valueOf(searchTabFolder.getSelectionIndex()));
