@@ -57,21 +57,18 @@ public class HtmlRepository {
 	 * </ul>
 	 * Otherwise the file will be read from the HTML cache.
 	 * 
-	 * @param sura
-	 *           sura number <b>(which is counted from 1) </b>
-	 * @param aya
-	 *           the aya number (this will affect on the end of the URL, which appends something like: #<code>sura</code>,
-	 *           e.g. <code>file:///somepath/sura.html#5</code>. <b>Please note that <code>aya</code> should be sent
-	 *           and counted from 1. </b> If <code>aya</code> is 0 the URL will not have <code>#ayaNumber</code> at
-	 *           the end of it.
-	 * @param update
-	 *           Specify whether recreate the HTML file if it also exists.
+	 * @param sura sura number <b>(which is counted from 1) </b>
+	 * @param aya the aya number (this will affect on the end of the URL, which appends something like: #
+	 *           <code>sura</code>, e.g. <code>file:///somepath/sura.html#5</code>. <b>Please note that
+	 *           <code>aya</code> should be sent and counted from 1. </b> If <code>aya</code> is 0 the URL will
+	 *           not have <code>#ayaNumber</code> at the end of it.
+	 * @param update Specify whether recreate the HTML file if it also exists.
 	 * @return URL to the sura HTML file
 	 * @throws HtmlGenerationException
 	 */
 	public static String getQuranUri(int sura, int aya, boolean update) throws HtmlGenerationException {
 		try {
-			String fileName = sura + ".html";
+			String fileName = config.getUserViewController().getPage() + ".html";
 			File file = new File(Naming.getQuranCacheDir() + File.separator + fileName);
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
@@ -81,7 +78,8 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), sura, aya);
+				// ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), sura, aya);
+				ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), config.getUserViewController());
 				addPlaylistProvider(sura, transformer);
 				osw.write(transformer.transform());
 				osw.close();
@@ -104,7 +102,7 @@ public class HtmlRepository {
 	public static String getTransUri(int sura, int aya, boolean update) throws HtmlGenerationException {
 		try {
 			TranslationData td = config.getTranslation().getDefault();
-			String fileName = sura + "_" + td.id + ".html";
+			String fileName = config.getUserViewController().getPage() + "_" + td.id + ".html";
 			File file = new File(Naming.getTransCacheDir() + "/" + fileName);
 			// if the file doesn't exist, or a zero-byte file exists
 			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
@@ -113,7 +111,8 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				ITransformer transformer = new TranslationViewTemplate(td, sura, aya);
+				// ITransformer transformer = new TranslationViewTemplate(td, sura, aya);
+				ITransformer transformer = new TranslationViewTemplate(td, config.getUserViewController());
 				addPlaylistProvider(sura, transformer);
 				osw.write(transformer.transform());
 				osw.close();
@@ -131,7 +130,7 @@ public class HtmlRepository {
 	public static String getMixedUri(int sura, int aya, boolean update) throws HtmlGenerationException {
 		try {
 			TranslationData td = config.getTranslation().getDefault();
-			String fileName = sura + "_" + td.id + ".html";
+			String fileName = config.getUserViewController().getPage() + "_" + td.id + ".html";
 			File file = new File(Naming.getMixedCacheDir() + File.separator + fileName);
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
@@ -142,7 +141,8 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 
 				// ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, sura, aya);
-				ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, config.getUserViewController());
+				ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, config
+						.getUserViewController());
 				addPlaylistProvider(sura, transformer);
 
 				osw.write(transformer.transform());
@@ -164,7 +164,7 @@ public class HtmlRepository {
 				if (i + 1 < tdList.size())
 					tidList.append("-");
 			}
-			String fileName = sura + "_" + tidList + ".html";
+			String fileName = config.getUserViewController().getPage() + "_" + tidList + ".html";
 			File file = new File(Naming.getMixedCacheDir() + File.separator + fileName);
 			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
 			if (!file.exists() || file.length() == 0 || update) {
@@ -173,7 +173,9 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 				TranslationData[] transData = (TranslationData[]) tdList.toArray(new TranslationData[] {});
 
-				ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, sura, aya);
+				// ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, sura, aya);
+				ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, config
+						.getUserViewController());
 				addPlaylistProvider(sura, tx);
 
 				osw.write(tx.transform());
@@ -187,8 +189,7 @@ public class HtmlRepository {
 
 	/**
 	 * @param searcher
-	 * @param pageNo
-	 *           0-based page number
+	 * @param pageNo 0-based page number
 	 * @return generated search result HTML
 	 * @throws HtmlGenerationException
 	 */
@@ -210,28 +211,6 @@ public class HtmlRepository {
 		}
 	}
 
-/*	public static String getSearchQuranUri(String keyword, boolean matchDiac, SearchScope searchScope)
-			throws HtmlGenerationException {
-		try {
-			String fileName = keyword.hashCode() + ".html";
-			File file = new File(Naming.getSearchCacheDir() + File.separator + fileName);
-			// if (!file.exists() || file.length() == 0) {
-			logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
-			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
-					GlobalConfig.OUT_HTML_ENCODING);
-
-			RangedQuranText rqt = new RangedQuranText(FilteredQuranText.getSimpleTextInstance(), searchScope);
-			ITransformer tx = new QuranSearchResultTemplate(rqt, keyword, matchDiac);
-			osw.write(tx.transform());
-			osw.close();
-			// }
-			return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
-		} catch (Exception e) {
-			throw new HtmlGenerationException(e);
-		}
-	}
-*/
-	
 	public static String getSearchTransUri(String keyword, boolean matchDiac, boolean matchCase, SearchScope searchScope)
 			throws HtmlGenerationException {
 		try {
