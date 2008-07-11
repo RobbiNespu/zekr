@@ -11,7 +11,6 @@ package net.sf.zekr.common.resource.model;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.JuzProperties;
-import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.SajdaProperties;
 
@@ -23,6 +22,7 @@ public class Aya {
 	private IQuranText quranText = null;
 	private String text = null;
 	private String bismillah = null;
+	private boolean hasJuz;
 
 	public Aya(IQuranText quranText, IQuranLocation location) {
 		this.location = location;
@@ -31,10 +31,10 @@ public class Aya {
 		this.text = quranText.get(location);
 		this.bismillah = quranText.getBismillah(location.getSura());
 
-		JuzProperties jp = QuranPropertiesUtils.getJuzOf(location);
-		this.juz = jp.getLocation().equals(location) ? jp : null;
+		this.juz = QuranPropertiesUtils.getJuzOf(location);
+		this.hasJuz = juz.getLocation().equals(location) ? true : false;
 
-		QuranLocation[] hq = jp.getHizbQuarters();
+		IQuranLocation[] hq = juz.getHizbQuarters();
 		for (int i = 0; i < hq.length; i++) {
 			if (location.equals(hq[i])) {
 				hizbQuarter = i;
@@ -44,7 +44,7 @@ public class Aya {
 	}
 
 	public boolean hasJuz() {
-		return juz != null;
+		return hasJuz;
 	}
 
 	public boolean hasHizb() {
