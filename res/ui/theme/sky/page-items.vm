@@ -42,20 +42,24 @@
 #end
 <div id="searchableSection" class="$AYA_CLASS">
 #foreach ($AYA in $AYA_LIST)
-	#set($ITEM_INDEX = $velocityCount)
-	#set($AYA0 = $UTILS.getItem($AYA, 0))
-	#set($SURA_NUM = $AYA0.Location.Sura)
-	#set($SURA_NAME = $AYA0.Location.SuraName)
-	#set($AYA_NUM = $AYA0.Location.Aya)
+	#set ($ITEM_INDEX = $velocityCount)
+	#if ($MIXED == "true")
+		#set ($AYA0 = $UTILS.getItem($AYA, 0))
+	#else
+		#set ($AYA0 = $AYA)
+	#end
+	#set ($SURA_NUM = $AYA0.Location.Sura)
+	#set ($SURA_NAME = $AYA0.Location.SuraName)
+	#set ($AYA_NUM = $AYA0.Location.Aya)
 
 	#if ($AYA_NUM == 1)
 		<div class="bodyTop" align="center">
-			<div dir="${DIRECTION}" class="suraName quran">
+			<div dir="${DIRECTION}" class="quran suraName">
 			$DICT.getMeaning("SURA"):
 			$SURA_NAME
 			</div>
-			#if ($SURA_NUM != 9 && $SURA_NUM != 1 && $IS_QURAN == "true")
-				<div class="quran bismillah">$AYA0.Bismillah</div>
+			#if ($SURA_NUM != 9 && $SURA_NUM != 1)
+				<div class="${A_CLASS} bismillah">$AYA0.Bismillah</div>
 			#end
 		</div>
 	#end
@@ -79,7 +83,7 @@
 		</div>
 	#end #elseif ($CUSTOM == "true" && $MIXED == "true")
 		<div class="quran" lang="ar">#putHizbSignIfPossible()
-		$AYA.Text
+		$AYA0.Text
 		#if ($quran_showSuraAyaSign == "true")
 		<span class="suraAyaNum">[$I18N.localize("${SURA_NUM}:${AYA_NUM}","ar")]</span>
 		#end
