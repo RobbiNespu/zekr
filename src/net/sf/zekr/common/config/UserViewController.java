@@ -13,6 +13,8 @@ import net.sf.zekr.common.resource.IQuranPage;
 import net.sf.zekr.engine.page.QuranPaging;
 
 /**
+ * This class holds values of current location and page of user view.
+ * 
  * @author Mohsen Saboorian
  */
 public class UserViewController implements IUserView {
