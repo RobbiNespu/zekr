@@ -20,6 +20,7 @@ import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.IQuranPage;
 import net.sf.zekr.common.resource.JuzProperties;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranProperties;
@@ -28,6 +29,7 @@ import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.comparator.SearchResultComparatorFactory;
 import net.sf.zekr.engine.search.lucene.AdvancedSearchResult;
@@ -189,7 +191,7 @@ public class QuranForm extends BaseForm {
 	private boolean isSashed;
 
 	private DisposeListener dl;
-	private QuranLocation quranLoc;
+	private IQuranLocation quranLoc;
 
 	protected boolean updateTrans = true;
 	protected boolean updateQuran = true;
@@ -211,7 +213,7 @@ public class QuranForm extends BaseForm {
 	private boolean playerAutoNextSura = false;
 
 	private UpdateManager updateManager;
-	
+
 	private IUserView uvc;
 
 	private Listener globalKeyListener = new Listener() {
@@ -297,7 +299,8 @@ public class QuranForm extends BaseForm {
 
 		// TODO
 		// gotoSuraAya(quranLoc.getSura(), quranLoc.getAya());
-		gotoSuraAya(uvc.getLocation());
+		// gotoSuraAya(uvc.getLocation());
+		_navTo(uvc.getLocation(), true);
 
 		dl = new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -490,7 +493,8 @@ public class QuranForm extends BaseForm {
 						if (sura < 1 || aya < 1)
 							return; // do nothing
 						logger.info("Goto (" + aya + ")");
-						gotoAya(sura, aya);
+						// gotoAya(sura, aya);
+						navTo(sura, aya);
 					} else if (message.startsWith("ZEKR::TRANS") && config.getTranslation().getDefault() != null) {
 						int sura;
 						int aya;
@@ -574,12 +578,12 @@ public class QuranForm extends BaseForm {
 			suraSelectorCombo.setVisibleItemCount(15);
 			suraSelectorCombo.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
-					onSuraChanged();
+					_onSuraChanged();
+					ayaSelectorCombo.select(0);
 				}
 
 				public void widgetDefaultSelected(SelectionEvent e) {
-					onSuraChanged();
-					apply();
+					navTo(getSelectedSura(), 1);
 				}
 			});
 			suraSelectorCombo.select(0);
@@ -588,14 +592,22 @@ public class QuranForm extends BaseForm {
 			sst = new Tree(navGroup, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 			sst.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
-					if (e.item.getData() != null && e.time > 0)
-						onSuraChanged();
+					if (e.item.getData() != null && e.time > 0) {
+						_onSuraChanged();
+						ayaSelectorCombo.select(0);
+					}
 				}
 
 				public void widgetDefaultSelected(SelectionEvent e) {
 					if (e.item.getData() != null) {
-						suraChanged = true;
-						apply();
+						navTo(getSelectedSura(), 1);
+						// ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(getSelectedSura()));
+//						ayaSelectorCombo.select(0);
+//						ayaChanged = false; // It must be set to true after ayaSelector.select
+//						suraChanged = true; // It must be set to false after apply()
+
+						// suraChanged = true;
+						// apply();
 					}
 				}
 			});
@@ -641,7 +653,8 @@ public class QuranForm extends BaseForm {
 		goButton.setText(lang.getMeaning("GO"));
 		goButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				apply();
+				navTo(getSelectedSura(), getSelectedAya());
+				// apply();
 			}
 		});
 
@@ -1464,39 +1477,47 @@ public class QuranForm extends BaseForm {
 	*/
 	protected void gotoNextAya() {
 		if (ayaSelectorCombo.getSelectionIndex() < ayaSelectorCombo.getItemCount() - 1) {
-			gotoAya(uvc.getLocation().getSura(), uvc.getLocation().getAya() + 1);
-//			ayaSelectorCombo.select(ayaSelectorCombo.getSelectionIndex() + 1);
-//			ayaChanged = true;
-//			apply();
+			// gotoAya(uvc.getLocation().getSura(), uvc.getLocation().getAya() + 1);
+			navTo(uvc.getLocation().getSura(), uvc.getLocation().getAya() + 1);
+
+			//			ayaSelectorCombo.select(ayaSelectorCombo.getSelectionIndex() + 1);
+			//			ayaChanged = true;
+			//			apply();
 		}
 	}
 
 	protected void gotoPrevAya() {
 		if (ayaSelectorCombo.getSelectionIndex() > 0) {
-			gotoAya(uvc.getLocation().getSura(), uvc.getLocation().getAya() - 1);
-//			ayaSelectorCombo.select(ayaSelectorCombo.getSelectionIndex() - 1);
-//			ayaChanged = true;
-//			apply();
+			// gotoAya(uvc.getLocation().getSura(), uvc.getLocation().getAya() - 1);
+			navTo(uvc.getLocation().getSura(), uvc.getLocation().getAya() - 1);
+
+			//			ayaSelectorCombo.select(ayaSelectorCombo.getSelectionIndex() - 1);
+			//			ayaChanged = true;
+			//			apply();
 		}
 	}
 
 	protected void gotoNextSura() {
-		int sura = getSelectedSura();
-		if (sura < QuranPropertiesUtils.QURAN_SURA_COUNT) {
-			gotoAya(uvc.getLocation().getSura() + 1, 1);
-//			selectSura(sura + 1);
-//			onSuraChanged();
-//			apply();
+		// int sura = getSelectedSura();
+		if (uvc.getLocation().getSura() < QuranPropertiesUtils.QURAN_SURA_COUNT) {
+			// gotoAya(uvc.getLocation().getSura() + 1, 1);
+			navTo(uvc.getLocation().getSura() + 1, 1);
+
+			//			selectSura(sura + 1);
+			//			onSuraChanged();
+			//			apply();
 		}
 	}
 
 	protected void gotoPrevSura() {
-		int sura = getSelectedSura();
-		if (sura > 1) {
-			gotoAya(uvc.getLocation().getSura() - 1, 1);
-//			selectSura(sura - 1);
-//			onSuraChanged();
-//			apply();
+		// int sura = getSelectedSura();
+		if (uvc.getLocation().getSura() > 1) {
+			// gotoAya(uvc.getLocation().getSura() - 1, 1);
+			navTo(uvc.getLocation().getSura() - 1, 1);
+			
+			//			selectSura(sura - 1);
+			//			onSuraChanged();
+			//			apply();
 		}
 	}
 
@@ -1506,7 +1527,8 @@ public class QuranForm extends BaseForm {
 		JuzProperties jp = QuranPropertiesUtils.getJuzOf(uvc.getLocation());
 		if (jp.getIndex() < 30) {
 			jp = QuranPropertiesUtils.getJuz(jp.getIndex() + 1);
-			gotoSuraAya(jp.getSuraNumber(), jp.getAyaNumber());
+			// gotoSuraAya(jp.getSuraNumber(), jp.getAyaNumber());
+			navTo(jp.getSuraNumber(), jp.getAyaNumber());
 		}
 	}
 
@@ -1516,7 +1538,8 @@ public class QuranForm extends BaseForm {
 		JuzProperties jp = QuranPropertiesUtils.getJuzOf(uvc.getLocation());
 		if (jp.getIndex() > 1) {
 			jp = QuranPropertiesUtils.getJuz(jp.getIndex() - 1);
-			gotoSuraAya(jp.getSuraNumber(), jp.getAyaNumber());
+			// gotoSuraAya(jp.getSuraNumber(), jp.getAyaNumber());
+			navTo(jp.getSuraNumber(), jp.getAyaNumber());
 		}
 	}
 
@@ -1527,8 +1550,9 @@ public class QuranForm extends BaseForm {
 		int quad = QuranPropertiesUtils.getHizbQuadIndex(uvc.getLocation());
 		JuzProperties jp = QuranPropertiesUtils.getJuzOf(uvc.getLocation());
 		if (quad < 7) {
-			QuranLocation newLoc = jp.getHizbQuarters()[quad + 1];
-			gotoSuraAya(newLoc);
+			IQuranLocation newLoc = jp.getHizbQuarters()[quad + 1];
+			// gotoSuraAya(newLoc);
+			_navTo(newLoc);
 		} else if (jp.getIndex() < 30) {
 			gotoNextJuz();
 		}
@@ -1543,10 +1567,11 @@ public class QuranForm extends BaseForm {
 		JuzProperties jp = QuranPropertiesUtils.getJuzOf(uvc.getLocation());
 
 		if (quad > 0) {
-			QuranLocation newLoc = jp.getHizbQuarters()[quad - 1];
-			gotoSuraAya(newLoc);
+			IQuranLocation newLoc = jp.getHizbQuarters()[quad - 1];
+			// gotoSuraAya(newLoc);
+			_navTo(newLoc);
 		} else if (jp.getIndex() > 1) {
-			gotoSuraAya(QuranPropertiesUtils.getJuz(jp.getIndex() - 1).getHizbQuarters()[7]);
+			gotoPrevJuz();
 		}
 	}
 
@@ -1557,6 +1582,41 @@ public class QuranForm extends BaseForm {
 		FormUtils.updateTable(suraTable, suraMap);
 		logger.info("Updating view done.");
 		suraChanged = false;
+	}
+
+	protected void navTo(int sura, int aya) {
+		_navTo(new QuranLocation(sura, aya));
+	}
+
+	protected void _navTo(IQuranLocation loc) {
+		_navTo(loc, false);
+	}
+
+	protected void _navTo(IQuranLocation loc, boolean pageChanged) {
+		if (loc.isValid()) {
+			IPagingData qp = config.getQuranPaging().getDefault();
+			int p = uvc.getPage();
+			IQuranPage cp = qp.getContainerPage(loc);
+
+			if (pageChanged || cp.getPageNum() != p) { // page changed
+				suraChanged = true;
+			} else {
+				suraChanged = false;
+			}
+			
+			// boolean suraDoesChanged = loc.getSura() != uvc.getLocation().getSura();
+
+			if (pageChanged || loc.getSura() != uvc.getLocation().getSura()) {
+				selectSura(loc.getSura());
+				_onSuraChanged();
+			}
+			ayaSelectorCombo.select(loc.getAya() - 1);
+
+			uvc.changeTo(loc);
+			apply();
+		} else { // invalid location: update view
+			updateView();
+		}
 	}
 
 	protected void gotoSuraAya(IQuranLocation loc) {
@@ -1610,10 +1670,10 @@ public class QuranForm extends BaseForm {
 
 		// TODO
 		// quranLoc = new QuranLocation(sura, aya);
-		uvc.setLocation(new QuranLocation(sura, aya));
-		
+//		uvc.setLocation(new QuranLocation(sura, aya));
+//
 		logger.info("Set location to " + uvc.getLocation());
-		config.getProps().setProperty("view.quranLoc", uvc.getLocation().toString());
+//		config.getProps().setProperty("view.quranLoc", uvc.getLocation().toString());
 
 		qpl = new ProgressAdapter() {
 			public void completed(ProgressEvent event) {
@@ -1637,9 +1697,10 @@ public class QuranForm extends BaseForm {
 			updateTransView();
 	}
 
-	/**
-	 * @return
-	 */
+	private int getSelectedAya() {
+		return ayaSelectorCombo.getSelectionIndex() + 1;
+	}
+
 	private int getSelectedSura() {
 		if (tree) {
 			TreeItem[] tis = sst.getSelection();
@@ -1684,8 +1745,8 @@ public class QuranForm extends BaseForm {
 	private void focusOnAya(final Browser browser, int sura, int aya) {
 		final String misc = getMiscOptions();
 		// browser.execute("focusOnAya(" + sura + "," + aya + (misc == null ? "" : "," + misc) + ");");
-		// TODO: teickyExecute should be run on non-win platforms.
-		SwtBrowserUtils.trickyExecute(display, browser, "focusOnAya(" + sura+ "," + aya
+		// TODO: trickyExecute should be run on non-win platforms.
+		SwtBrowserUtils.trickyExecute(display, browser, "focusOnAya(" + sura + "," + aya
 				+ (misc == null ? "" : "," + misc) + ");");
 	}
 
@@ -1731,6 +1792,14 @@ public class QuranForm extends BaseForm {
 		ayaSelectorCombo.select(0);
 		ayaChanged = false; // It must be set to true after ayaSelector.select
 		suraChanged = true; // It must be set to false after apply()
+	}
+
+	private void _onSuraChanged() {
+		ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(getSelectedSura()));
+//		ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(uvc.getLocation().getSura()));
+//		ayaSelectorCombo.select(0);
+		// ayaChanged = false; // It must be set to true after ayaSelector.select
+		// suraChanged = false; // It must be set to false after apply()
 	}
 
 	private void advancedFind() {
@@ -2088,11 +2157,12 @@ public class QuranForm extends BaseForm {
 			config.getProps().setProperty("view.shell.location", list);
 			config.getProps().setProperty("view.shell.maximized", new Boolean(shell.getMaximized()));
 		}
-		
+
 		// TODO: save view controller values here.
 
 		// syncing options
 		// config.getProps().setProperty("view.location.sync", String.valueOf(sync.getSelection()));
+		config.getProps().setProperty("view.quranLoc", uvc.getLocation().toString());
 
 		// search props
 		config.getProps().setProperty("view.search.tab", String.valueOf(searchTabFolder.getSelectionIndex()));
