@@ -9,15 +9,19 @@
 
 package net.sf.zekr.engine.template;
 
+import java.io.IOException;
+
+import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.model.Page;
 
 /**
  * @author Mohsen Saboorian
  */
-public class QuranViewTemplate extends AbstractSuraViewTemplate {
-	public QuranViewTemplate(IQuranText quran, int suraNum, int ayaNum) {
-		super(quran, suraNum, ayaNum);
+public class QuranViewTemplate extends AbstractPageViewTemplate {
+	public QuranViewTemplate(IQuranText quran, IUserView userView) throws IOException {
+		super(quran, userView);
 		engine.put("TEXT_LAYOUT", config.getViewProp("view.quranLayout"));
-		engine.put("AYA_LIST", quran.getSura(suraNum));
+		engine.put("AYA_LIST", new Page(quran, quranPage).getAyaList());
 	}
 }

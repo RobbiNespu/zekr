@@ -9,18 +9,19 @@
 
 package net.sf.zekr.engine.template;
 
+import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.model.Page;
 
 /**
  * @author Mohsen Saboorian
  */
-public class TranslationViewTemplate extends AbstractSuraViewTemplate {
+public class TranslationViewTemplate extends AbstractPageViewTemplate {
 
-	public TranslationViewTemplate(IQuranText trans, int suraNum, int ayaNum) {
-		super(trans, suraNum, ayaNum);
-		engine.put("TEXT_LAYOUT", config.getViewProp("view.transLayout"));
+	public TranslationViewTemplate(IQuranText trans, IUserView userView) {
+		super(trans, userView);
+		engine.put("TEXT_LAYOUT", config.getViewProp("view.quranLayout"));
 		engine.put("TRANSLATION", "true");
-		// put sura ayas
-		engine.put("AYA_LIST", quran.getSura(suraNum));
+		engine.put("AYA_LIST", new Page(trans, quranPage).getAyaList());
 	}
 }
