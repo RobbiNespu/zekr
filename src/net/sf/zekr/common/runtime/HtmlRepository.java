@@ -18,25 +18,22 @@ import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.AbstractRangedQuranText;
-import net.sf.zekr.common.resource.QuranText;
+import net.sf.zekr.common.resource.FilteredQuranText;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.RangedQuranText;
 import net.sf.zekr.common.util.CollectionUtils;
-import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.audio.PlaylistProvider;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.search.AbstractSearchResult;
 import net.sf.zekr.engine.search.SearchScope;
-import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
-import net.sf.zekr.engine.search.tanzil.SearchResult;
 import net.sf.zekr.engine.server.HttpServer;
 import net.sf.zekr.engine.server.HttpServerUtils;
 import net.sf.zekr.engine.template.AdvancedQuranSearchResultTemplate;
 import net.sf.zekr.engine.template.ITransformer;
 import net.sf.zekr.engine.template.MixedViewTemplate;
 import net.sf.zekr.engine.template.MultiTranslationViewTemplate;
-import net.sf.zekr.engine.template.QuranSearchResultTemplate;
 import net.sf.zekr.engine.template.QuranViewTemplate;
 import net.sf.zekr.engine.template.TransSearchResultTemplate;
 import net.sf.zekr.engine.template.TranslationViewTemplate;
@@ -46,7 +43,6 @@ import net.sf.zekr.engine.translation.TranslationData;
  * HTML Creator object.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class HtmlRepository {
 	private final static Logger logger = Logger.getLogger(HtmlRepository.class);
@@ -145,7 +141,8 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, sura, aya);
+				// ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, sura, aya);
+				ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, config.getUserViewController());
 				addPlaylistProvider(sura, transformer);
 
 				osw.write(transformer.transform());
@@ -299,8 +296,24 @@ public class HtmlRepository {
 			transformer.setProperty("AUD_CONT_SURA", config.getProps().getProperty("audio.continuousSura"));
 			transformer.setProperty("AUD_CONT_AYA", config.getProps().getProperty("audio.continuousAya"));
 			transformer.setProperty("PLAYLIST_PROVIDER", playlistProvider);
-			transformer.setProperty("PLAYLIST_URL", HttpServer.getServer().toUrl(playlistPath));
+			transformer.setProperty("PLAYLIST_URL", config.getHttpServer().toUrl(playlistPath));
 		}
+	}
+
+	public static String getTransUri(IQuranLocation location) throws HtmlGenerationException {
+		return getTransUri(location.getSura(), location.getAya());
+	}
+
+	public static String getMixedUri(IQuranLocation loc) throws HtmlGenerationException {
+		return getMixedUri(loc.getSura(), loc.getAya());
+	}
+
+	public static String getCustomMixedUri(IQuranLocation loc) throws HtmlGenerationException {
+		return getCustomMixedUri(loc.getSura(), loc.getAya());
+	}
+
+	public static String getQuranUri(IQuranLocation loc) throws HtmlGenerationException {
+		return getQuranUri(loc.getSura(), loc.getAya());
 	}
 
 }
