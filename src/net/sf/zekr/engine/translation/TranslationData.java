@@ -235,13 +235,14 @@ public class TranslationData extends AbstractQuranText implements Signable {
 		return this;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * This method always returns the first aya of sura 1 (Al-Fatiha).
 	 * 
-	 * @see net.sf.zekr.common.resource.IQuranText#getBismillah(int)
+	 * @param suraNum sura number, counted from 1
+	 * @return sura 1, aya 1
 	 */
 	public String getBismillah(int suraNum) {
-		return null;
+		return get(1, 1);
 	}
 
 	public String toText() {
@@ -269,6 +270,6 @@ public class TranslationData extends AbstractQuranText implements Signable {
 	}
 
 	public int getMode() {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("Method not implemented.");
 	}
 }
