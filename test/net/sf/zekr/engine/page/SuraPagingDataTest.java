@@ -58,6 +58,15 @@ public class SuraPagingDataTest extends ZekrBaseTest {
 		assertEquals(spd.size(), QuranPropertiesUtils.QURAN_SURA_COUNT);
 	}
 
+	public final void testGetPageNum() {
+		FixedAyaPagingData spd = new FixedAyaPagingData(7);
+		assertEquals(1, spd.getQuranPage(1).getPageNum());
+		assertEquals(12, spd.getQuranPage(12).getPageNum());
+		assertEquals(31, spd.getQuranPage(31).getPageNum());
+		assertEquals(55, spd.getQuranPage(55).getPageNum());
+		assertEquals(145, spd.getQuranPage(145).getPageNum());
+	}
+
 	public final void testGetContainerPage() {
 		assertEquals(spd.getContainerPage(new QuranLocation(1, 1)), spd.getQuranPage(1));
 		assertEquals(spd.getContainerPage(new QuranLocation(2, 280)), spd.getQuranPage(2));

@@ -31,6 +31,15 @@ public class JuzPagingDataTest extends ZekrBaseTest {
 	public final void testGetId() {
 		assertEquals(jpd.getId(), JuzPagingData.ID);
 	}
+	
+	public final void testGetPageNum() {
+		FixedAyaPagingData jpd = new FixedAyaPagingData(7);
+		assertEquals(1, jpd.getQuranPage(1).getPageNum());
+		assertEquals(12, jpd.getQuranPage(12).getPageNum());
+		assertEquals(31, jpd.getQuranPage(31).getPageNum());
+		assertEquals(55, jpd.getQuranPage(55).getPageNum());
+		assertEquals(145, jpd.getQuranPage(145).getPageNum());
+	}
 
 	public final void testJuzPagingData() {
 		assertEquals("Quran has 30 juzs", jpd.getPageList().size(), 30);

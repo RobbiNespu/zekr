@@ -64,6 +64,13 @@ public class HizbQuadPagingDataTest extends ZekrBaseTest {
 	public final void testSize() {
 		assertEquals(h.size(), 30 * 8);
 	}
+	
+	public final void testGetPageNum() {
+		assertEquals(1, h.getQuranPage(1).getPageNum());
+		assertEquals(12, h.getQuranPage(12).getPageNum());
+		assertEquals(31, h.getQuranPage(31).getPageNum());
+		assertEquals(55, h.getQuranPage(55).getPageNum());
+	}
 
 	public final void testGetContainerPage() {
 		assertEquals(h.getContainerPage(new QuranLocation(1, 1)), h.getQuranPage(1));

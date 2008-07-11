@@ -57,6 +57,15 @@ public class CustomPagingDataTest extends ZekrBaseTest {
 		assertEquals(cpd.size(), 604);
 	}
 
+	public final void testGetPageNum() {
+		FixedAyaPagingData cpd = new FixedAyaPagingData(7);
+		assertEquals(1, cpd.getQuranPage(1).getPageNum());
+		assertEquals(12, cpd.getQuranPage(12).getPageNum());
+		assertEquals(31, cpd.getQuranPage(31).getPageNum());
+		assertEquals(55, cpd.getQuranPage(55).getPageNum());
+		assertEquals(145, cpd.getQuranPage(145).getPageNum());
+	}
+
 	public final void testGetContainerPage() {
 		assertEquals(cpd.getContainerPage(new QuranLocation(2, 1)), cpd.getQuranPage(2));
 		assertEquals(cpd.getContainerPage(new QuranLocation(5, 96)), cpd.getQuranPage(124));
