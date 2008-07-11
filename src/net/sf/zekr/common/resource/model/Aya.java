@@ -9,6 +9,7 @@
 package net.sf.zekr.common.resource.model;
 
 import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.JuzProperties;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
@@ -19,17 +20,23 @@ public class Aya {
 	private SajdaProperties sajda = null;
 	private JuzProperties juz = null;
 	private int hizbQuarter = -1;
+	private IQuranText quranText = null;
+	private String text = null;
+	private String bismillah = null;
 
-	public Aya(IQuranLocation location) {
+	public Aya(IQuranText quranText, IQuranLocation location) {
 		this.location = location;
+		this.quranText = quranText;
 		this.sajda = QuranPropertiesUtils.getSajda(location);
+		this.text = quranText.get(location);
+		this.bismillah = quranText.getBismillah(location.getSura());
 
 		JuzProperties jp = QuranPropertiesUtils.getJuzOf(location);
 		this.juz = jp.getLocation().equals(location) ? jp : null;
 
-		QuranLocation[] hq = juz == null ? null : juz.getHizbQuarters();
+		QuranLocation[] hq = jp.getHizbQuarters();
 		for (int i = 0; i < hq.length; i++) {
-			if (location.equals(hq)) {
+			if (location.equals(hq[i])) {
 				hizbQuarter = i;
 				break;
 			}
@@ -62,5 +69,17 @@ public class Aya {
 
 	public IQuranLocation getLocation() {
 		return location;
+	}
+
+	public IQuranText getQuranText() {
+		return quranText;
+	}
+
+	public String getBismillah() {
+		return bismillah;
+	}
+
+	public String getText() {
+		return text;
 	}
 }
