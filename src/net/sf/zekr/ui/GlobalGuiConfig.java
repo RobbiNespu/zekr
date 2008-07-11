@@ -11,7 +11,6 @@ package net.sf.zekr.ui;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.engine.log.Logger;
 
 import org.apache.commons.configuration.PropertiesConfiguration;

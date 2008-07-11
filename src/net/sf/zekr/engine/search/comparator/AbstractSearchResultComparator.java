@@ -10,7 +10,6 @@ package net.sf.zekr.engine.search.comparator;
 
 import java.util.Comparator;
 
-import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.engine.search.SearchResultItem;
 
 /**

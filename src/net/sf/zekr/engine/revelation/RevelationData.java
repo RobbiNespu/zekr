@@ -17,18 +17,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.util.CryptoUtils;
 import net.sf.zekr.engine.common.LocalizedResource;
 import net.sf.zekr.engine.common.Signable;
-import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 
 public class RevelationData extends LocalizedResource implements Comparator, Signable {

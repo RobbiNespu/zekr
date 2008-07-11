@@ -13,8 +13,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Hashtable;
-import java.util.Vector;
 
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -25,7 +23,6 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
  * A loader for templates stored on the file system.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ZekrFileResourceLoader extends ResourceLoader {
 	public void init(ExtendedProperties configuration) {

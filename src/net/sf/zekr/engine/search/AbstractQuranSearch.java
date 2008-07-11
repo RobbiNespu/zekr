@@ -13,8 +13,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.AbstractRangedQuranText;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 
 /**

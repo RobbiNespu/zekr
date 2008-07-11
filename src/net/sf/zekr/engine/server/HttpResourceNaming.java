@@ -8,13 +8,6 @@
  */
 package net.sf.zekr.engine.server;
 
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.common.runtime.Naming;
 
 interface HttpResourceNaming {
 	public static final String CACHED_RESOURCE = "[cache]";
