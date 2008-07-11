@@ -33,8 +33,8 @@ public abstract class BaseViewTemplate implements ITransformer {
 	protected final Logger logger = Logger.getLogger(BaseViewTemplate.class);
 
 	protected TemplateEngine engine = TemplateEngine.getInstance();
-	protected ApplicationConfig config = ApplicationConfig.getInstance();
-	protected ResourceManager resource = ResourceManager.getInstance();
+	protected static ApplicationConfig config = ApplicationConfig.getInstance();
+	protected static ResourceManager resource = ResourceManager.getInstance();
 	protected LanguageEngine langEngine = config.getLanguageEngine();
 
 	private Map props = new HashMap();
@@ -79,7 +79,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 
 		String serverUrl;
 		try {
-			serverUrl = HttpServer.getServer().getUrl();
+			serverUrl = config.getHttpServer().getUrl();
 		} catch (HttpServerRuntimeException e) {
 			logger.error(e);
 			serverUrl = "http://127.0.0.1:" + config.getProps().getInt("server.http.port") + "/";

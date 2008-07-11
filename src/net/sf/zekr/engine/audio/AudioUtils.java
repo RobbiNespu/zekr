@@ -8,14 +8,13 @@
  */
 package net.sf.zekr.engine.audio;
 
-import net.sf.zekr.engine.server.HttpServer;
+import net.sf.zekr.common.config.ApplicationConfig;
 
 public class AudioUtils {
-
 	public static String getAudioUrl(AudioData audioData, String fileName) {
 		String serverUrl = audioData.getAudioServerUrl();
 		if (serverUrl == null)
-			serverUrl = HttpServer.getServer().getUrl();
+			serverUrl = ApplicationConfig.getInstance().getHttpServer().getUrl();
 		else
 			serverUrl += "/";
 
