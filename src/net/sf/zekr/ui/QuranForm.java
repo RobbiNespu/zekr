@@ -12,6 +12,7 @@ package net.sf.zekr.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,10 @@ import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.page.HizbQuadPagingData;
 import net.sf.zekr.engine.page.IPagingData;
+import net.sf.zekr.engine.page.JuzPagingData;
+import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.comparator.SearchResultComparatorFactory;
 import net.sf.zekr.engine.search.lucene.AdvancedSearchResult;
@@ -207,6 +211,8 @@ public class QuranForm extends BaseForm {
 	private Spinner advancedSearchPaginationSpinner, searchPaginationSpinner;
 	private Button advNextPageBut, advPrevPageBut, nextPageBut, prevPageBut;
 
+	private Button prevPage, nextPage, prevAya, nextAya;
+
 	/** a state specifying if this is the first aya user focuses on */
 	private boolean firstTimePlaying;
 	/** specifies if audio player automatically brings user to the next sura */
@@ -216,15 +222,22 @@ public class QuranForm extends BaseForm {
 
 	IUserView uvc;
 
+	private static Map tooltipMap = new HashMap();
+	{
+		tooltipMap.put(HizbQuadPagingData.ID, "HIZBQ");
+		tooltipMap.put(JuzPagingData.ID, "JUZ");
+		tooltipMap.put(SuraPagingData.ID, "SURA");
+	}
+
 	private Listener globalKeyListener = new Listener() {
 		public void handleEvent(Event event) {
 			if (NAV_BUTTON.equals(event.widget.getData())) {
 				boolean isRTL = ((lang.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 				int d = event.keyCode ^ SWT.KEYCODE_BIT;
 				if (d == 1) {
-					gotoPrevSura();
+					gotoPrevPage();
 				} else if (d == 2) {
-					gotoNextSura();
+					gotoNextPage();
 				} else if (d == 3) {
 					if (isRTL)
 						gotoNextAya();
@@ -300,7 +313,7 @@ public class QuranForm extends BaseForm {
 		// TODO
 		// gotoSuraAya(quranLoc.getSura(), quranLoc.getAya());
 		// gotoSuraAya(uvc.getLocation());
-		_navTo(uvc.getLocation(), true);
+		navTo(uvc.getLocation(), true);
 
 		dl = new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -340,7 +353,7 @@ public class QuranForm extends BaseForm {
 						String s = (String) e.data;
 						s = s.substring(GOTO_LOCATION.length() + 1);
 						IQuranLocation loc = new QuranLocation(s);
-						gotoSuraAya(loc.getSura(), loc.getAya());
+						navTo(loc.getSura(), loc.getAya());
 					}
 					e.doit = false;
 				}
@@ -480,7 +493,7 @@ public class QuranForm extends BaseForm {
 						if (sura < 1 || aya < 1)
 							return; // do nothing
 						logger.info("Goto (" + sura + ", " + aya + ")");
-						gotoSuraAya(sura, aya);
+						navTo(sura, aya);
 					} else if (message.startsWith("ZEKR::NAVTO")) {
 						int sura;
 						int aya;
@@ -673,49 +686,48 @@ public class QuranForm extends BaseForm {
 		navComposite.setLayoutData(gd);
 
 		int style = SWT.PUSH | SWT.FLAT;
-		Button prevSura = new Button(navComposite, style);
-		Button prevAya = new Button(navComposite, style);
-		Button nextAya = new Button(navComposite, style);
-		Button nextSura = new Button(navComposite, style);
-		prevSura.setData(NAV_BUTTON);
-		nextSura.setData(NAV_BUTTON);
+		prevPage = new Button(navComposite, style);
+		prevAya = new Button(navComposite, style);
+		nextAya = new Button(navComposite, style);
+		nextPage = new Button(navComposite, style);
+		prevPage.setData(NAV_BUTTON);
+		nextPage.setData(NAV_BUTTON);
 		prevAya.setData(NAV_BUTTON);
 		nextAya.setData(NAV_BUTTON);
 
 		gd = new GridData(GridData.FILL_BOTH);
 		prevAya.setLayoutData(gd);
 		gd = new GridData(GridData.FILL_BOTH);
-		prevSura.setLayoutData(gd);
+		prevPage.setLayoutData(gd);
 		gd = new GridData(GridData.FILL_BOTH);
 		nextAya.setLayoutData(gd);
 		gd = new GridData(GridData.FILL_BOTH);
-		nextSura.setLayoutData(gd);
+		nextPage.setLayoutData(gd);
 
 		int l = lang.getSWTDirection();
 
 		// isRTL is only applicable for Windows
 		boolean isRTL = ((l == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 
-		Image prevSuraImg = new Image(display, isRTL ? resource.getString("icon.nextNext") : resource
+		Image prevPageImg = new Image(display, isRTL ? resource.getString("icon.nextNext") : resource
 				.getString("icon.prevPrev"));
 		Image prevAyaImg = new Image(display, isRTL ? resource.getString("icon.next") : resource.getString("icon.prev"));
 		Image nextAyaImg = new Image(display, isRTL ? resource.getString("icon.prev") : resource.getString("icon.next"));
-		Image nextSuraImg = new Image(display, isRTL ? resource.getString("icon.prevPrev") : resource
+		Image nextPageImg = new Image(display, isRTL ? resource.getString("icon.prevPrev") : resource
 				.getString("icon.nextNext"));
 
-		prevSura.setImage(prevSuraImg);
+		prevPage.setImage(prevPageImg);
 		prevAya.setImage(prevAyaImg);
 		nextAya.setImage(nextAyaImg);
-		nextSura.setImage(nextSuraImg);
+		nextPage.setImage(nextPageImg);
 
-		prevSura.setToolTipText(lang.getMeaning("PREV_SURA"));
-		prevAya.setToolTipText(lang.getMeaning("PREV_AYA"));
 		nextAya.setToolTipText(lang.getMeaning("NEXT_AYA"));
-		nextSura.setToolTipText(lang.getMeaning("NEXT_SURA"));
+		prevAya.setToolTipText(lang.getMeaning("PREV_AYA"));
+		updateNavPageKeysTooltip();
 
-		prevSura.addSelectionListener(new SelectionAdapter() {
+		prevPage.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				gotoPrevSura();
+				gotoPrevPage();
 			}
 		});
 
@@ -731,9 +743,9 @@ public class QuranForm extends BaseForm {
 			}
 		});
 
-		nextSura.addSelectionListener(new SelectionAdapter() {
+		nextPage.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				gotoNextSura();
+				gotoNextPage();
 			}
 		});
 
@@ -805,6 +817,15 @@ public class QuranForm extends BaseForm {
 		// this progress should be in the heart of makeFrame method!
 		logger.info("UI somewhat initialized.");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "UI Initialized");
+	}
+
+	void updateNavPageKeysTooltip() {
+		String key = (String) tooltipMap.get(config.getPagingMode());
+		if (key == null)
+			key = "PAGE";
+
+		nextPage.setToolTipText(lang.getMeaning("MENU_NEXT_" + key));
+		prevPage.setToolTipText(lang.getMeaning("MENU_PREV_" + key));
 	}
 
 	private int getBrowserStyle() {
@@ -1477,99 +1498,73 @@ public class QuranForm extends BaseForm {
 	*/
 	protected void gotoNextAya() {
 		if (ayaSelectorCombo.getSelectionIndex() < ayaSelectorCombo.getItemCount() - 1) {
-			// gotoAya(uvc.getLocation().getSura(), uvc.getLocation().getAya() + 1);
 			navTo(uvc.getLocation().getSura(), uvc.getLocation().getAya() + 1);
-
-			//			ayaSelectorCombo.select(ayaSelectorCombo.getSelectionIndex() + 1);
-			//			ayaChanged = true;
-			//			apply();
 		}
 	}
 
 	protected void gotoPrevAya() {
 		if (ayaSelectorCombo.getSelectionIndex() > 0) {
-			// gotoAya(uvc.getLocation().getSura(), uvc.getLocation().getAya() - 1);
 			navTo(uvc.getLocation().getSura(), uvc.getLocation().getAya() - 1);
-
-			//			ayaSelectorCombo.select(ayaSelectorCombo.getSelectionIndex() - 1);
-			//			ayaChanged = true;
-			//			apply();
 		}
 	}
 
 	protected void gotoNextSura() {
-		// int sura = getSelectedSura();
 		if (uvc.getLocation().getSura() < QuranPropertiesUtils.QURAN_SURA_COUNT) {
-			// gotoAya(uvc.getLocation().getSura() + 1, 1);
 			navTo(uvc.getLocation().getSura() + 1, 1);
-
-			//			selectSura(sura + 1);
-			//			onSuraChanged();
-			//			apply();
 		}
 	}
 
 	protected void gotoPrevSura() {
-		// int sura = getSelectedSura();
 		if (uvc.getLocation().getSura() > 1) {
-			// gotoAya(uvc.getLocation().getSura() - 1, 1);
 			navTo(uvc.getLocation().getSura() - 1, 1);
+		}
+	}
 
-			//			selectSura(sura - 1);
-			//			onSuraChanged();
-			//			apply();
+	protected void gotoNextPage() {
+		if (uvc.getPage() < config.getQuranPaging().getDefault().size()) {
+			navTo(config.getQuranPaging().getDefault().getQuranPage(uvc.getPage() + 1).getFrom());
+		}
+	}
+
+	protected void gotoPrevPage() {
+		if (uvc.getPage() > 1) {
+			navTo(config.getQuranPaging().getDefault().getQuranPage(uvc.getPage() - 1).getFrom());
 		}
 	}
 
 	protected void gotoNextJuz() {
-		// TODO
-		// JuzProperties jp = QuranPropertiesUtils.getJuzOf(quranLoc);
 		JuzProperties jp = QuranPropertiesUtils.getJuzOf(uvc.getLocation());
 		if (jp.getIndex() < 30) {
 			jp = QuranPropertiesUtils.getJuz(jp.getIndex() + 1);
-			// gotoSuraAya(jp.getSuraNumber(), jp.getAyaNumber());
 			navTo(jp.getSuraNumber(), jp.getAyaNumber());
 		}
 	}
 
 	protected void gotoPrevJuz() {
-		// TODO
-		// JuzProperties jp = QuranPropertiesUtils.getJuzOf(quranLoc);
 		JuzProperties jp = QuranPropertiesUtils.getJuzOf(uvc.getLocation());
 		if (jp.getIndex() > 1) {
 			jp = QuranPropertiesUtils.getJuz(jp.getIndex() - 1);
-			// gotoSuraAya(jp.getSuraNumber(), jp.getAyaNumber());
 			navTo(jp.getSuraNumber(), jp.getAyaNumber());
 		}
 	}
 
 	protected void gotoNextHizb() {
-		// TODO
-		// int quad = QuranPropertiesUtils.getHizbQuadIndex(quranLoc);
-		// JuzProperties juz = QuranPropertiesUtils.getJuzOf(quranLoc);
 		int quad = QuranPropertiesUtils.getHizbQuadIndex(uvc.getLocation());
 		JuzProperties jp = QuranPropertiesUtils.getJuzOf(uvc.getLocation());
 		if (quad < 7) {
 			IQuranLocation newLoc = jp.getHizbQuarters()[quad + 1];
-			// gotoSuraAya(newLoc);
-			_navTo(newLoc);
+			navTo(newLoc);
 		} else if (jp.getIndex() < 30) {
 			gotoNextJuz();
 		}
 	}
 
 	protected void gotoPrevHizb() {
-		// TODO
-		// int quad = QuranPropertiesUtils.getHizbQuadIndex(quranLoc);
-		// JuzProperties juz = QuranPropertiesUtils.getJuzOf(quranLoc);
-
 		int quad = QuranPropertiesUtils.getHizbQuadIndex(uvc.getLocation());
 		JuzProperties jp = QuranPropertiesUtils.getJuzOf(uvc.getLocation());
-
 		if (quad > 0) {
 			IQuranLocation newLoc = jp.getHizbQuarters()[quad - 1];
-			// gotoSuraAya(newLoc);
-			_navTo(newLoc);
+			navTo(newLoc);
 		} else if (jp.getIndex() > 1) {
 			gotoPrevJuz();
 		}
@@ -1585,14 +1580,14 @@ public class QuranForm extends BaseForm {
 	}
 
 	protected void navTo(int sura, int aya) {
-		_navTo(new QuranLocation(sura, aya));
+		navTo(new QuranLocation(sura, aya));
 	}
 
-	protected void _navTo(IQuranLocation loc) {
-		_navTo(loc, false);
+	protected void navTo(IQuranLocation loc) {
+		navTo(loc, false);
 	}
 
-	protected void _navTo(IQuranLocation loc, boolean pageChanged) {
+	protected void navTo(IQuranLocation loc, boolean pageChanged) {
 		if (loc.isValid()) {
 			IPagingData qp = config.getQuranPaging().getDefault();
 			int p = uvc.getPage();
@@ -1603,8 +1598,6 @@ public class QuranForm extends BaseForm {
 			} else {
 				suraChanged = false;
 			}
-
-			// boolean suraDoesChanged = loc.getSura() != uvc.getLocation().getSura();
 
 			if (pageChanged || loc.getSura() != uvc.getLocation().getSura()) {
 				selectSura(loc.getSura());
