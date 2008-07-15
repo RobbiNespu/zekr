@@ -43,6 +43,7 @@ public class CustomPageModeForm extends BaseForm {
 	private org.eclipse.swt.widgets.List listWidget;
 	private String[] listItems;
 	private List listModel = new ArrayList();
+	private int selectedMode = -1;
 
 	public CustomPageModeForm(Shell parent) {
 		this.parent = parent;
@@ -70,12 +71,9 @@ public class CustomPageModeForm extends BaseForm {
 		QuranPaging qp = conf.getQuranPaging();
 		Collection pagings = conf.getQuranPaging().getAllPagings();
 		listItems = new String[pagings.size()];
-		IPagingData[] builtinPagings = new IPagingData[] {
-				(IPagingData) qp.get(FixedAyaPagingData.ID),
-				(IPagingData) qp.get(SuraPagingData.ID),
-				(IPagingData) qp.get(JuzPagingData.ID),
-				(IPagingData) qp.get(HizbQuadPagingData.ID)
-		};
+		IPagingData[] builtinPagings = new IPagingData[] { (IPagingData) qp.get(FixedAyaPagingData.ID),
+				(IPagingData) qp.get(SuraPagingData.ID), (IPagingData) qp.get(JuzPagingData.ID),
+				(IPagingData) qp.get(HizbQuadPagingData.ID) };
 		List pagingList = Arrays.asList(builtinPagings);
 		List itemList = new ArrayList();
 		for (Iterator iterator = pagings.iterator(); iterator.hasNext();) {
@@ -87,6 +85,10 @@ public class CustomPageModeForm extends BaseForm {
 		}
 
 		listWidget.setItems((String[]) itemList.toArray(new String[0]));
+
+		int def = listModel.indexOf(conf.getQuranPaging().getDefault().getId());
+		if (def > -1)
+			listWidget.select(def);
 
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.LEAD;
@@ -122,7 +124,7 @@ public class CustomPageModeForm extends BaseForm {
 			};
 
 			public void widgetSelected(SelectionEvent e) {
-				listWidget.getSelectionIndices();
+				selectedMode = listWidget.getSelectionIndex();
 				shell.close();
 			};
 		});
@@ -148,8 +150,14 @@ public class CustomPageModeForm extends BaseForm {
 		okBut.setLayoutData(rdOk);
 		cancelBut.setLayoutData(rdCancel);
 	}
-	
+
 	private String meaning(String key) {
 		return lang.getMeaningById(FORM_ID, key);
+	}
+
+	public String getPagingMode() {
+		if (selectedMode == -1)
+			return null;
+		return (String) listModel.get(selectedMode);
 	}
 }
