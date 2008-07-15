@@ -912,16 +912,8 @@ public class ApplicationConfig implements ConfigNaming {
 		props.setProperty("view.pagingMode", pagingMode);
 	}
 
-	public void setPagingModeParam(String param) {
-		props.setProperty("view.pagingMode.param1", param);
-	}
-
 	public String getPagingMode() {
 		return props.getString("view.pagingMode");
-	}
-
-	public String getPagingModeParam() {
-		return props.getString("view.pagingMode.param1");
 	}
 
 	public boolean isHttpServerEnabled() {
