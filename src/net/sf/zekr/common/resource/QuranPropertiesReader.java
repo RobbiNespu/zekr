@@ -61,8 +61,6 @@ class QuranPropertiesReader extends BaseQuranProperties {
 			sajdaNodeList = reader.getNodes(QuranPropertiesNaming.SAJDA_TAG);
 			logger.debug("Loading sura names localization data: " + resource.getString("quran.props.l10n"));
 			loadLocalizedProps();
-			logger.debug("Loading pagination data: " + resource.getString("quran.props.page"));
-			loadPaginationData();
 		} catch (XmlReadException e) {
 			logger.doFatal(e);
 		}
@@ -140,19 +138,6 @@ class QuranPropertiesReader extends BaseQuranProperties {
 			return true;
 		} else {
 			logger.debug("No localized Quran metadata available: " + localizedPropFile);
-			return false;
-		}
-	}
-
-	private boolean loadPaginationData() throws XmlReadException {
-		File paginationFile = new File(resource.getString("quran.props.page"));
-		if (paginationFile.exists()) {
-			logger.debug("Loading  Quran pagination data from: " + paginationFile.getName());
-			XmlReader reader = new XmlReader(paginationFile);
-			pageNodeList = reader.getNodes(QuranPropertiesNaming.PAGE_TAG);
-			return true;
-		} else {
-			logger.debug("No Quran pagination metadata found: " + paginationFile);
 			return false;
 		}
 	}
