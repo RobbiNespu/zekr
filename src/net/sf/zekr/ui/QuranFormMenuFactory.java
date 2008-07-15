@@ -46,6 +46,8 @@ import net.sf.zekr.engine.page.FixedAyaPagingData;
 import net.sf.zekr.engine.page.HizbQuadPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
+import net.sf.zekr.engine.page.PagingException;
+import net.sf.zekr.engine.page.QuranPaging;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.translation.TranslationData;
@@ -113,7 +115,7 @@ public class QuranFormMenuFactory {
 	private MenuItem playItem;
 	private MenuItem stopItem;
 	private MenuItem nextSura, nextAya, prevSura, prevAya;
-	private MenuItem nextJuz, prevJuz, nextHizbQ, prevHizbQ, nextSajda, prevSajda;
+	private MenuItem nextJuz, prevJuz, nextHizbQ, prevHizbQ, nextSajda, prevSajda, nextPage, prevPage;
 	private MenuItem fullScreenItem;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
@@ -229,19 +231,19 @@ public class QuranFormMenuFactory {
 			MenuItem prevItem = _def;
 
 			public void widgetSelected(SelectionEvent e) {
+				boolean changeMode = true;
 				if (!((MenuItem) e.widget).getSelection()) {
 					prevItem = (MenuItem) e.widget;
 					return;
 				}
 
 				String data = (String) e.widget.getData();
-				config.setPagingMode(data);
-				// config.getQuranPaging().get(data);
 				if (SuraPagingData.ID.equals(data)) {
 				} else if (FixedAyaPagingData.ID.equals(data)) {
 					if (!setFixedAyaMode()) {
 						((MenuItem) e.widget).setSelection(false);
 						prevItem.setSelection(true);
+						changeMode = false;
 					} else {
 						prevItem = (MenuItem) e.widget;
 					}
@@ -252,9 +254,18 @@ public class QuranFormMenuFactory {
 					CustomPageModeForm pageModeForm = new CustomPageModeForm(shell);
 					pageModeForm.show();
 					pageModeForm.loopEver();
+					data = pageModeForm.getPagingMode();
+					if (data == null) {
+						((MenuItem) e.widget).setSelection(false);
+						prevItem.setSelection(true);
+						changeMode = false;
+					} else {
+						prevItem = (MenuItem) e.widget;
+					}
 				}
-				
-				reconfigurePagingMode();
+				if (changeMode) {
+					updatePagingMode(data);
+				}
 			}
 		};
 
@@ -442,6 +453,10 @@ public class QuranFormMenuFactory {
 					// form.gotoPrevSajda();
 				} else if (data.equals("prev_sajda")) {
 					// form.gotoNextSajda();
+				} else if (data.equals("next_page")) {
+					form.gotoPrevPage();
+				} else if (data.equals("prev_page")) {
+					form.gotoNextPage();
 				}
 			}
 		};
@@ -451,66 +466,36 @@ public class QuranFormMenuFactory {
 		gotoMenuItem.setMenu(gotoMenu);
 
 		boolean isRTL = ((direction == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
-		String strNext = isRTL ? "Left" : "Right";
+		// String strNext = isRTL ? "Left" : "Right";
 		char keyNextJuz = isRTL ? ',' : '.';
-		String strPrev = isRTL ? "Right" : "Left";
+		// String strPrev = isRTL ? "Right" : "Left";
 		char keyPrevJuz = isRTL ? '.' : ',';
 		int keyNext = isRTL ? SWT.ARROW_LEFT : SWT.ARROW_RIGHT;
 		int keyPrev = isRTL ? SWT.ARROW_RIGHT : SWT.ARROW_LEFT;
 
-		nextSura = new MenuItem(gotoMenu, SWT.PUSH);
-		nextSura.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_SURA")) + "\tAlt+Down");
-		nextSura.setAccelerator(SWT.ALT | SWT.ARROW_DOWN);
-		nextSura.setData("next_sura");
-		nextSura.addSelectionListener(navListener);
+		nextSura = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_SURA"), SWT.CTRL | SWT.ALT
+				| SWT.ARROW_DOWN, null, "next_sura", navListener);
+		prevSura = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_SURA"), SWT.CTRL | SWT.ALT
+				| SWT.ARROW_UP, null, "prev_sura", navListener);
 
-		prevSura = new MenuItem(gotoMenu, SWT.PUSH);
-		prevSura.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_SURA")) + "\tAlt+Up");
-		prevSura.setAccelerator(SWT.ALT | SWT.ARROW_UP);
-		prevSura.setData("prev_sura");
-		prevSura.addSelectionListener(navListener);
-
-		nextAya = new MenuItem(gotoMenu, SWT.PUSH);
-		nextAya.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_AYA")) + "\tAlt+" + strNext);
-		nextAya.setAccelerator(SWT.ALT | keyNext);
-		nextAya.setData("next_aya");
-		nextAya.addSelectionListener(navListener);
-
-		prevAya = new MenuItem(gotoMenu, SWT.PUSH);
-		prevAya.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_AYA")) + "\tAlt+" + strPrev);
-		prevAya.setAccelerator(SWT.ALT | keyPrev);
-		prevAya.setData("prev_aya");
-		prevAya.addSelectionListener(navListener);
+		nextAya = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_AYA"), SWT.ALT | keyNext, null,
+				"next_aya", navListener);
+		prevAya = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_AYA"), SWT.ALT | keyPrev, null,
+				"prev_aya", navListener);
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		nextHizbQ = new MenuItem(gotoMenu, SWT.PUSH);
-		nextHizbQ.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_HIZBQ")) + "\tCtrl+Shift+" + strNext);
-		nextHizbQ.setAccelerator(SWT.CTRL | SWT.SHIFT | keyNext);
-		nextHizbQ.setData("next_hizb");
-		nextHizbQ.addSelectionListener(navListener);
-
-		prevHizbQ = new MenuItem(gotoMenu, SWT.PUSH);
-		prevHizbQ.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_HIZBQ")) + "\tCtrl+Shift+" + strPrev);
-		prevHizbQ.setAccelerator(SWT.CTRL | SWT.SHIFT | keyPrev);
-		prevHizbQ.setData("prev_hizb");
-		prevHizbQ.addSelectionListener(navListener);
+		nextHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_HIZBQ"),
+				SWT.CTRL | SWT.SHIFT | keyNext, null, "next_hizb", navListener);
+		prevHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_HIZBQ"),
+				SWT.CTRL | SWT.SHIFT | keyPrev, null, "prev_hizb", navListener);
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		nextJuz = new MenuItem(gotoMenu, SWT.PUSH);
-		nextJuz.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_JUZ")) + "\tCtrl+" + keyNextJuz
-				+ (rtl ? I18N.LRM + "" : ""));
-		nextJuz.setAccelerator(SWT.CTRL | keyNextJuz);
-		nextJuz.setData("next_juz");
-		nextJuz.addSelectionListener(navListener);
-
-		prevJuz = new MenuItem(gotoMenu, SWT.PUSH);
-		prevJuz.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_JUZ")) + "\tCtrl+" + keyPrevJuz
-				+ (rtl ? I18N.LRM + "" : ""));
-		prevJuz.setAccelerator(SWT.CTRL | keyPrevJuz);
-		prevJuz.setData("prev_juz");
-		prevJuz.addSelectionListener(navListener);
+		nextJuz = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_JUZ"), SWT.CTRL | keyNextJuz, null,
+				"next_juz", navListener, "\tCtrl+" + keyNextJuz + (rtl ? I18N.LRM + "" : ""));
+		prevJuz = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_JUZ"), SWT.CTRL | keyPrevJuz, null,
+				"prev_juz", navListener, "\tCtrl+" + keyPrevJuz + (rtl ? I18N.LRM + "" : ""));
 
 		// new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 		//
@@ -523,6 +508,14 @@ public class QuranFormMenuFactory {
 		// prevSajda.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_SAJDA")));
 		// prevSajda.setData("prev_sajda");
 		// prevSajda.addSelectionListener(navListener);
+
+		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
+
+		nextPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_PAGE"), SWT.ALT | SWT.ARROW_DOWN, null,
+				"next_page", navListener);
+
+		prevPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_PAGE"), SWT.ALT | SWT.ARROW_UP, null,
+				"prev_page", navListener);
 
 		// Set default selection
 		String quranLayout = config.getQuranLayout();
@@ -725,6 +718,21 @@ public class QuranFormMenuFactory {
 	}
 
 	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey) {
+		return createMenuItem(swtStyle, parentMenu, text, accelerator, imageKey, null, null);
+	}
+
+	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey,
+			String data) {
+		return createMenuItem(swtStyle, parentMenu, text, accelerator, imageKey, data, null);
+	}
+
+	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey,
+			String data, SelectionListener sl) {
+		return createMenuItem(swtStyle, parentMenu, text, accelerator, imageKey, data, sl, null);
+	}
+
+	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey,
+			String data, SelectionListener sl, String acceleratorStr) {
 		MenuItem item = new MenuItem(parentMenu, swtStyle == 0 ? SWT.PUSH : swtStyle);
 		String accelStr = "";
 		if (accelerator != 0) {
@@ -752,22 +760,45 @@ public class QuranFormMenuFactory {
 				combKey += ((alt || ctrl) ? "+" : "") + "Shift";
 			}
 			item.setAccelerator(accelerator);
+			accelStr = combKey + "+";
 			if (accKey > 'A' && accKey < 'Z') {
-				accelStr = combKey + "+" + (char) accKey;
+				accelStr = accelStr + (char) accKey;
+			} else if (accKey >= SWT.ARROW_UP && accKey <= SWT.ARROW_RIGHT) {
+				String s = "";
+				switch (accKey) {
+				case SWT.ARROW_UP:
+					s = "Up";
+					break;
+				case SWT.ARROW_DOWN:
+					s = "Down";
+					break;
+				case SWT.ARROW_LEFT:
+					s = "Left";
+					break;
+				case SWT.ARROW_RIGHT:
+					s = "Right";
+					break;
+				}
+				accelStr = accelStr + s;
 			} else { // try function keys
 				int f = accKey - SWT.F1 + 1;
 				accelStr = combKey + "F" + f;
 			}
 		}
-		item.setText(FormUtils.addAmpersand(text) + accelStr);
+		item.setText(FormUtils.addAmpersand(text) + (acceleratorStr != null ? acceleratorStr : accelStr));
 		if (imageKey != null && !GlobalConfig.isMac)
 			item.setImage(new Image(shell.getDisplay(), resource.getString(imageKey)));
+		if (data != null)
+			item.setData(data);
+		if (sl != null)
+			item.addSelectionListener(sl);
 		return item;
 	}
 
 	private boolean setFixedAyaMode() {
+		int aypp = config.getProps().getInt("view.pagingMode.ayaPerPage", 20);
 		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"), lang.getMeaningById("PAGING_MODE",
-				"AYA_PER_SURA"));
+				"AYA_PER_SURA"), String.valueOf(aypp));
 		if (!StringUtils.isEmpty(ayaStr)) {
 			try {
 				int aya = Integer.parseInt(ayaStr);
@@ -777,13 +808,11 @@ public class QuranFormMenuFactory {
 					logger.error("Aya-per-page out of bound: " + aya);
 					return false;
 				}
-				FixedAyaPagingData fapd = (FixedAyaPagingData) config.getQuranPaging().get("<fixedAya>");
+				FixedAyaPagingData fapd = (FixedAyaPagingData) config.getQuranPaging().get(FixedAyaPagingData.ID);
 				logger.info("Reload fixed aya paging data with aya-per-page set to: " + aya);
-				// fapd = new FixedAyaPagingData(aya);
 				fapd.reload(aya);
 
-				config.setPagingModeParam(String.valueOf(aya));
-				// config.getQuranPaging().add(fapd);
+				config.getProps().setProperty("view.pagingMode.ayaPerPage", ayaStr);
 				return true;
 			} catch (NumberFormatException e) {
 				logger.implicitLog(e);
@@ -799,7 +828,7 @@ public class QuranFormMenuFactory {
 		Range r = QuranPropertiesUtils.getSuraInsideJuz(juz);
 		int sura = rnd.nextInt(r.to - r.from + 1) + r.from;
 		int aya = rnd.nextInt(QuranPropertiesUtils.getSura(sura).getAyaCount()) + 1;
-		form.gotoSuraAya(sura, aya);
+		form.navTo(sura, aya);
 	}
 
 	private MenuItem getBookmarksMenu() {
@@ -1122,10 +1151,23 @@ public class QuranFormMenuFactory {
 		reloadView();
 	}
 
-	private void reconfigurePagingMode() {
-		config.getQuranPaging().setDefault(config.getQuranPaging().get(config.getPagingMode()));
-		form.uvc.synchPage();
-		reloadView();
+	/**
+	 * Change current paging mode to the new mode passed.
+	 * 
+	 * @param pagingMode
+	 */
+	private void updatePagingMode(String pagingMode) {
+		try {
+			config.setPagingMode(pagingMode);
+			QuranPaging qp = config.getQuranPaging();
+			qp.setDefault(config.getQuranPaging().get(pagingMode));
+			qp.getDefault().load(); // ensure that paging data is loaded
+			form.uvc.synchPage();
+			form.updateNavPageKeysTooltip();
+			reloadView();
+		} catch (PagingException e) {
+			logger.log(e);
+		}
 	}
 
 	private void reloadView() {
