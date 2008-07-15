@@ -53,9 +53,10 @@ import org.eclipse.swt.widgets.ToolItem;
  */
 public class MessageBoxUtils {
 	public static class YesNoQuestionForm {
-		protected String result;
+		protected String result, defaultValue;
 
-		public YesNoQuestionForm(String question, String title) {
+		public YesNoQuestionForm(String question, String title, String defaultValue) {
+			this.defaultValue = defaultValue;
 			Shell parent = getShell();
 			Display display = parent.getDisplay();
 
@@ -97,6 +98,8 @@ public class MessageBoxUtils {
 			gd.horizontalIndent = imageComp.getSize().x + 28;
 			final Text text = new Text(c, SWT.LEFT_TO_RIGHT | SWT.BORDER | SWT.SINGLE);
 			text.setLayoutData(gd);
+			text.setText(defaultValue);
+			text.selectAll();
 
 			gd = new GridData();
 			gd = new GridData(SWT.CENTER, SWT.END, true, true);
@@ -197,7 +200,11 @@ public class MessageBoxUtils {
 	}
 
 	public static String textBoxPrompt(String title, String question) {
-		return new YesNoQuestionForm(question, title).getResult();
+		return textBoxPrompt(title, question, "");
+	}
+
+	public static String textBoxPrompt(String title, String question, String defaultValue) {
+		return new YesNoQuestionForm(question, title, defaultValue).getResult();
 	}
 
 	private static int __ret;
