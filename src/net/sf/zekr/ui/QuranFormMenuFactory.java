@@ -198,15 +198,14 @@ public class QuranFormMenuFactory {
 
 		// view mode: sura, aya, juz, hizb or custom
 		new MenuItem(viewMenu, SWT.SEPARATOR);
-		viewMode = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("VIEW_MODE"), 0, "icon.menu.layout");
+		viewMode = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("PAGING_MODE"), 0, null);
 		viewModeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		viewMode.setMenu(viewModeMenu);
-		MenuItem suraViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("SURA_PAGE_MODE"), 0, null);
-		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("FIXED_AYA_PAGE_MODE"), 0,
-				null);
-		MenuItem hizbViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("HIZB_PAGE_MODE"), 0, null);
-		MenuItem juzViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("JUZ_PAGE_MODE"), 0, null);
-		MenuItem customViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("CUSTOM_PAGE_MODE") + "...", 0,
+		MenuItem suraViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_SURA"), 0, null);
+		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_CONST_AYA"), 0, null);
+		MenuItem hizbViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_HIZB_QUARTER"), 0, null);
+		MenuItem juzViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_JUZ"), 0, null);
+		MenuItem customViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_CUSTOM") + "...", 0,
 				null);
 
 		suraViewMode.setData(SuraPagingData.ID);
@@ -792,8 +791,8 @@ public class QuranFormMenuFactory {
 
 	private boolean setFixedAyaMode() {
 		int aypp = config.getProps().getInt("view.pagingMode.ayaPerPage", 20);
-		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"), lang.getMeaningById("PAGING_MODE",
-				"AYA_PER_SURA"), String.valueOf(aypp));
+		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"),
+				lang.getMeaning("PAGING_AYA_PER_SURA"), String.valueOf(aypp));
 		if (!StringUtils.isEmpty(ayaStr)) {
 			try {
 				int aya = Integer.parseInt(ayaStr);
@@ -849,7 +848,7 @@ public class QuranFormMenuFactory {
 					: "")
 					+ "[" + td.locale + "]" + " " + (rtl ? I18N.RLM + "" : "") + td.localizedName,
 					GlobalConfig.MAX_MENU_STRING_LENGTH)
-					+ (rtl ? I18N.LRM + "" : ""), 0, "icon.menu.book");
+					+ (rtl ? I18N.LRM + "" : ""), 0, null /*"icon.menu.book"*/);
 
 			transItem.setData(td.id);
 			if (config.getTranslation().getDefault().id.equals(transItem.getData()))
