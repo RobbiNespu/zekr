@@ -44,8 +44,5 @@ public class MixedViewTemplate extends AbstractPageViewTemplate {
 			mixed[i][1] = tPage.getAya(i);
 		}
 		engine.put("AYA_LIST", mixed);
-
-		// engine.put("QURAN_PAGE", qPage);
-		// engine.put("TRANS_PAGE", tPage);
 	}
 }
