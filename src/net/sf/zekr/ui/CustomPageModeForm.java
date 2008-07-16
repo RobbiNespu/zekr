@@ -19,6 +19,7 @@ import net.sf.zekr.engine.page.FixedAyaPagingData;
 import net.sf.zekr.engine.page.HizbQuadPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
+import net.sf.zekr.engine.page.PagingException;
 import net.sf.zekr.engine.page.QuranPaging;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.ui.helper.FormUtils;
@@ -26,6 +27,7 @@ import net.sf.zekr.ui.helper.FormUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -51,9 +53,8 @@ public class CustomPageModeForm extends BaseForm {
 
 		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
 		shell.setLayout(new FillLayout());
-		shell.setText(lang.getMeaning("PAGE_MODE"));
-		// shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
-		// new Image(display, resource.getString("icon.options32")) });
+		shell.setText(lang.getMeaning("PAGING_MODE"));
+		shell.setImages(new Image[] { new Image(display, resource.getString("icon.paging")), });
 		makeForm();
 		shell.pack();
 		shell.setSize(300, 300);
@@ -71,16 +72,25 @@ public class CustomPageModeForm extends BaseForm {
 		QuranPaging qp = conf.getQuranPaging();
 		Collection pagings = conf.getQuranPaging().getAllPagings();
 		listItems = new String[pagings.size()];
-		IPagingData[] builtinPagings = new IPagingData[] { (IPagingData) qp.get(FixedAyaPagingData.ID),
-				(IPagingData) qp.get(SuraPagingData.ID), (IPagingData) qp.get(JuzPagingData.ID),
-				(IPagingData) qp.get(HizbQuadPagingData.ID) };
+		IPagingData[] builtinPagings = new IPagingData[] {
+			(IPagingData) qp.get(FixedAyaPagingData.ID),
+			(IPagingData) qp.get(SuraPagingData.ID),
+			(IPagingData) qp.get(JuzPagingData.ID),
+			(IPagingData) qp.get(HizbQuadPagingData.ID)
+		};
 		List pagingList = Arrays.asList(builtinPagings);
 		List itemList = new ArrayList();
 		for (Iterator iterator = pagings.iterator(); iterator.hasNext();) {
 			IPagingData paging = (IPagingData) iterator.next();
 			if (!pagingList.contains(paging)) {
-				itemList.add(paging.toString());
-				listModel.add(paging.getId());
+				try {
+					logger.debug("Try to load paging data which are not yet loaded.");
+					paging.load();
+					itemList.add(paging.toString());
+					listModel.add(paging.getId());
+				} catch (PagingException e) {
+					logger.error(e);
+				}
 			}
 		}
 
