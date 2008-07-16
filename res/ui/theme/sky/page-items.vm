@@ -3,7 +3,7 @@
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
- * @version 1
+ * @author Mohsen Saboorian
  *#
 #macro (putHizbSignIfPossible)
 	#if ($AYA0.HizbQuarter > -1)
@@ -17,6 +17,15 @@
 			<nobr><span class="juzSign" title="$AYA0.Juz">($I18N.localize($AYA0.Juz.Index))</span></nobr>
 		#end
 		<nobr><span class="hizbSign" title="$I18N.localize("${AYA0.Juz} - ${DICT.getMeaning('HIZB')}: ${hizbNum}${Q}")">&#1758;</span></nobr>
+	#end
+#end
+#macro (putSajdaSignIfAny)
+	#if ($AYA0.hasSajda())
+		#if ($AYA0.Sajda.Type == 0)
+			<span id="recommended" class="sajda" title="${AYA0.Sajda}">[&#1769;]</span>
+		#elseif ($AYA0.Sajda.Type == 1)
+			<span id="mandatory" class="sajda" title="${AYA0.Sajda}">[[&#1769;]]</span>
+		#end
 	#end
 #end
 #set ($RECOMMENDED = 0)
@@ -34,7 +43,6 @@
 	#set ($DIR = "rtl")
 	#set ($_DL = "ar")
 #end
-#set ($SAJDA_SIGN = "&#1769;")
 #if($MIXED == "true")
 	#set ($A_CLASS = "")
 #else
@@ -95,20 +103,14 @@
 	#if ($MIXED == "true")
 	<table><tr><td valign="middle">
 	#end
-		<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" title="${SURA_NAME} - $I18N.localize(${AYA_NUM})" class="ayaSign">$OPEN_PAREN$I18N.localize($AYA_NUM,"${_DL}")$CLOSE_PAREN</span></nobr>
+	<nobr>
+		#putSajdaSignIfAny()
+		<span id="sign_${SURA_NUM}_${AYA_NUM}" title="${SURA_NAME} - $I18N.localize(${AYA_NUM})" class="ayaSign">$OPEN_PAREN$I18N.localize($AYA_NUM,"${_DL}")$CLOSE_PAREN</span>
+	</nobr>
 	#if ($MIXED == "true")
 	</td><td width="100%" valign="middle">
 		<p class="ayaSep" />
 	<td></tr></table>
-	#end
-	#foreach ($SAJDA in $SAJDA_LIST)
-		#if ($SAJDA.AyaNumber == $AYA_NUM)
-			#if ($SAJDA.Type == $RECOMMENDED)
-				<span id="recommended" class="sajda" title="$SAJDA">[$SAJDA_SIGN]</span>
-			#elseif ($SAJDA.Type == $MANDATORY)
-				<span id="mandatory" class="sajda" title="$SAJDA">[[$SAJDA_SIGN]]</span>
-			#end
-		#end
 	#end
 	#if ($TEXT_LAYOUT == "line-by-line")
 		</div>
