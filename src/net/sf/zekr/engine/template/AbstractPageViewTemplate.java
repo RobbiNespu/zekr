@@ -45,34 +45,11 @@ public class AbstractPageViewTemplate extends BaseViewTemplate {
 			engine.put("PAGE_NUM", new Integer(userView.getPage()));
 			engine.put("AYA_COUNT", new Integer(quranPage.getTo().getAbsoluteAya() - quranPage.getFrom().getAbsoluteAya()
 					+ 1));
-			engine.put("AYA_VIEW", resource.getString("theme.page"));
-			retStr = engine.getUpdated(td.getPath() + "/" + resource.getString("theme.sura"));
+			engine.put("AYA_VIEW", resource.getString("theme.pageItem"));
+			retStr = engine.getUpdated(td.getPath() + "/" + resource.getString("theme.page"));
 		} catch (Exception e) {
 			Logger.getLogger(this.getClass()).log(e);
 		}
 		return retStr;
 	}
-
-	//	public String doTransform() {
-	//		String retStr = null;
-	//		ThemeData td = config.getTheme().getCurrent();
-	//		try {
-	//			engine.put("PAGE_MODE", config.getProps().getString("view.pagingMode"));
-	//			engine.put("BISMILLAH", quran.getBismillah(suraNum));
-	//			engine.put("JUZ_LIST", QuranPropertiesUtils.getJuzInsideSura(suraNum));
-	//			engine.put("ALL_JUZ_LIST", QuranPropertiesUtils.getSuraJuzAsList(suraNum));
-	//			engine.put("SAJDA_LIST", QuranPropertiesUtils.getSajdaInsideList(suraNum));
-	//			engine.put("SURA_NUM", new Integer(suraNum)); // Note: suraNum is counted from 1
-	//			engine.put("AYA_NUM", new Integer(ayaNum)); // Note: ayaNum is counted from 1
-	//			engine.put("SURA_NAME", QuranProperties.getInstance().getSura(suraNum).getName());
-	//			engine.put("TITLE", langEngine.getMeaning("SURA") + ": "
-	//					+ QuranProperties.getInstance().getSura(suraNum).getName()); // the same as SURA_NAME
-	//			engine.put("AYA_VIEW", resource.getString("theme.aya"));
-	//			retStr = engine.getUpdated(td.getPath() + "/" + resource.getString("theme.sura"));
-	//		} catch (Exception e) {
-	//			Logger.getLogger(this.getClass()).log(e);
-	//		}
-	//		return retStr;
-	//	}
-
 }
