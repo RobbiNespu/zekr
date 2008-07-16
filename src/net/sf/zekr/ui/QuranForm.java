@@ -27,6 +27,7 @@ import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.QuranText;
+import net.sf.zekr.common.resource.SajdaProperties;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
 import net.sf.zekr.engine.log.Logger;
@@ -1545,6 +1546,38 @@ public class QuranForm extends BaseForm {
 		if (jp.getIndex() > 1) {
 			jp = QuranPropertiesUtils.getJuz(jp.getIndex() - 1);
 			navTo(jp.getSuraNumber(), jp.getAyaNumber());
+		}
+	}
+
+	protected void gotoPrevSajda() {
+		List sajdaList = QuranPropertiesUtils.getSajdaList();
+		IQuranLocation prevSajda = null;
+		int i = sajdaList.size() - 1;
+		for (; i >= 0; i--) {
+			SajdaProperties sp = (SajdaProperties) sajdaList.get(i);
+			prevSajda = new QuranLocation(sp.getSuraNumber(), sp.getAyaNumber());
+			if (prevSajda.compareTo(uvc.getLocation()) < 0) {
+				break;
+			}
+		}
+		if (i > 0) {
+			navTo(prevSajda);
+		}
+	}
+
+	protected void gotoNextSajda() {
+		List sajdaList = QuranPropertiesUtils.getSajdaList();
+		IQuranLocation nextSajda = null;
+		int i = 0;
+		for (; i < sajdaList.size(); i++) {
+			SajdaProperties sp = (SajdaProperties) sajdaList.get(i);
+			nextSajda = new QuranLocation(sp.getSuraNumber(), sp.getAyaNumber());
+			if (nextSajda.compareTo(uvc.getLocation()) > 0) {
+				break;
+			}
+		}
+		if (i < sajdaList.size()) {
+			navTo(nextSajda);
 		}
 	}
 
