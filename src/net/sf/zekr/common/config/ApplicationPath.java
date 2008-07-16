@@ -58,16 +58,16 @@ public class ApplicationPath {
 
 	// Files
 
-	/** original configuration file */
+	/** Original configuration file */
 	public static final String MAIN_CONFIG = rm.getString("config.original"); // original config
 
-	/** user customized configuration file */
+	/** User-customized configuration file */
 	public static final String USER_CONFIG = rm.getString("config.user", new String[] { Naming.getConfigDir() });
 
-	/** Log4J Property Files */
+	/** Log4J property file */
 	public static final String DEFAULT_LOGGER = rm.getString("config.logger");
 
-	/** Velocity Property Files */
+	/** Velocity property file */
 	public static final String VELOCITY_CONFIG = rm.getString("config.template");
 
 }

@@ -19,7 +19,6 @@ import net.sf.zekr.engine.search.lucene.IndexingException;
  * Class for handling index (<tt>-index</tt>) command.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class IndexCommandHandler extends CommandHandler {
 
@@ -54,7 +53,7 @@ public class IndexCommandHandler extends CommandHandler {
 			Date date2 = new Date();
 			stdout.println("Indexing took " + (date2.getTime() - date1.getTime()) + " ms.");
 		} catch (IndexingException e) {
-			throw new CommandException("Indexing aborted with the following error: " + e.getMessage());
+			throw new CommandException("Indexing aborted with the following error: " + e);
 		}
 	}
 
