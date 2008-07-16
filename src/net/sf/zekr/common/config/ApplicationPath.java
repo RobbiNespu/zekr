@@ -15,7 +15,6 @@ import net.sf.zekr.common.runtime.Naming;
  * This class contains Zekr directory hierarchy.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ApplicationPath {
 	private static ResourceManager rm = ResourceManager.getInstance();
@@ -32,6 +31,7 @@ public class ApplicationPath {
 	public static final String SIMPLE_QURAN_TEXT_FILE = rm.getString("text.quran.simple");
 	public static final String UTHMANI_QURAN_TEXT_FILE = rm.getString("text.quran.uthmani");
 	public static final String QURAN_INDEX_DIR = rm.getString("text.quran.indexDir");
+	public static final String TRANS_INDEX_DIR = rm.getString("text.trans.indexDir");
 	public static final String TRANSLATION_DIR = rm.getString("text.trans.baseDir");
 	public static final String TRANSLATION_DESC = rm.getString("text.trans.desc");
 	public static final String REVELATION_DIR = rm.getString("text.revel.baseDir");
