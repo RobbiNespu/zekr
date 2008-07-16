@@ -483,32 +483,19 @@ public class QuranForm extends BaseForm {
 						transBrowser.execute("window.status='';"); // clear the status text
 
 					if (message.startsWith("ZEKR::GOTO")) {
-						int sura;
-						int aya;
+						int sura, aya, page;
 						try {
-							sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
-							aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
-						} catch (NumberFormatException e) {
+							String[] nums = message.substring(message.indexOf(' ') + 1, message.indexOf(';')).split(",");
+							sura = Integer.parseInt(nums[0].trim());
+							aya = Integer.parseInt(nums[1].trim());
+							page = Integer.parseInt(nums[2].trim());
+						} catch (Exception e) {
 							return; // do nothing
 						}
-						if (sura < 1 || aya < 1)
+						if (sura < 1 || aya < 1 || page < 1)
 							return; // do nothing
-						logger.info("Goto (" + sura + ", " + aya + ")");
-						navTo(sura, aya);
-					} else if (message.startsWith("ZEKR::NAVTO")) {
-						int sura;
-						int aya;
-						try {
-							sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
-							aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
-						} catch (NumberFormatException e) {
-							return; // do nothing
-						}
-						if (sura < 1 || aya < 1)
-							return; // do nothing
-						logger.info("Goto (" + aya + ")");
-						// gotoAya(sura, aya);
-						navTo(sura, aya);
+						logger.info("Goto (sura: " + sura + ", aya: " + aya + ", page: " + page + ")");
+						browserGoto(sura, aya, page);
 					} else if (message.startsWith("ZEKR::TRANS") && config.getTranslation().getDefault() != null) {
 						int sura;
 						int aya;
@@ -1612,15 +1599,29 @@ public class QuranForm extends BaseForm {
 		suraChanged = false;
 	}
 
-	protected void navTo(int sura, int aya) {
+	void browserGoto(int sura, int aya, int page) {
+		IQuranLocation newLoc;
+		if (uvc.getPage() != page) {
+			if (page > config.getQuranPaging().getDefault().size())
+				return; // page out of range
+			newLoc = config.getQuranPaging().getDefault().getQuranPage(page).getFrom();
+			navTo(newLoc);
+		} else {
+			newLoc = new QuranLocation(sura, aya);
+			if (!newLoc.isValid())
+				navTo(newLoc.getSura(), 1);
+		}
+	}
+
+	void navTo(int sura, int aya) {
 		navTo(new QuranLocation(sura, aya));
 	}
 
-	protected void navTo(IQuranLocation loc) {
+	void navTo(IQuranLocation loc) {
 		navTo(loc, false);
 	}
 
-	protected void navTo(IQuranLocation loc, boolean pageChanged) {
+	void navTo(IQuranLocation loc, boolean pageChanged) {
 		if (loc.isValid()) {
 			IPagingData qp = config.getQuranPaging().getDefault();
 			int p = uvc.getPage();
