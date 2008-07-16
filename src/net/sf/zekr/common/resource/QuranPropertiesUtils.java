@@ -60,6 +60,10 @@ public class QuranPropertiesUtils {
 		return QuranPropertiesNaming.MADANI.equalsIgnoreCase(descent);
 	}
 
+	public static List getSajdaList() {
+		return QuranProperties.getInstance().getSajdaList();
+	}
+
 	/**
 	 * @param suraNum sura number (counted from 1)
 	 * @return a String array of aya numbers in a sura. e.g. ["1", "2", "3", ...]
