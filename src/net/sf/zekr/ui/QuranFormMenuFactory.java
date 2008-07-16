@@ -450,13 +450,13 @@ public class QuranFormMenuFactory {
 				} else if (data.equals("prev_hizb")) {
 					form.gotoPrevHizb();
 				} else if (data.equals("next_sajda")) {
-					// form.gotoPrevSajda();
+					form.gotoNextSajda();
 				} else if (data.equals("prev_sajda")) {
-					// form.gotoNextSajda();
+					form.gotoPrevSajda();
 				} else if (data.equals("next_page")) {
-					form.gotoPrevPage();
-				} else if (data.equals("prev_page")) {
 					form.gotoNextPage();
+				} else if (data.equals("prev_page")) {
+					form.gotoPrevPage();
 				}
 			}
 		};
@@ -485,6 +485,14 @@ public class QuranFormMenuFactory {
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
+		nextPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_PAGE"), SWT.ALT | SWT.ARROW_DOWN, null,
+				"next_page", navListener);
+
+		prevPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_PAGE"), SWT.ALT | SWT.ARROW_UP, null,
+				"prev_page", navListener);
+
+		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
+
 		nextHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_HIZBQ"),
 				SWT.CTRL | SWT.SHIFT | keyNext, null, "next_hizb", navListener);
 		prevHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_HIZBQ"),
@@ -497,25 +505,12 @@ public class QuranFormMenuFactory {
 		prevJuz = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_JUZ"), SWT.CTRL | keyPrevJuz, null,
 				"prev_juz", navListener, "\tCtrl+" + keyPrevJuz + (rtl ? I18N.LRM + "" : ""));
 
-		// new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
-		//
-		// nextSajda = new MenuItem(gotoMenu, SWT.PUSH);
-		// nextSajda.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_NEXT_SAJDA")));
-		// nextSajda.setData("next_sajda");
-		// nextSajda.addSelectionListener(navListener);
-		//
-		// prevSajda = new MenuItem(gotoMenu, SWT.PUSH);
-		// prevSajda.setText(FormUtils.addAmpersand(lang.getMeaning("MENU_PREV_SAJDA")));
-		// prevSajda.setData("prev_sajda");
-		// prevSajda.addSelectionListener(navListener);
-
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		nextPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_PAGE"), SWT.ALT | SWT.ARROW_DOWN, null,
-				"next_page", navListener);
-
-		prevPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_PAGE"), SWT.ALT | SWT.ARROW_UP, null,
-				"prev_page", navListener);
+		nextSajda = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_SAJDA"), 0, null, "next_sajda",
+				navListener);
+		prevSajda = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_SAJDA"), 0, null, "prev_sajda",
+				navListener);
 
 		// Set default selection
 		String quranLayout = config.getQuranLayout();
