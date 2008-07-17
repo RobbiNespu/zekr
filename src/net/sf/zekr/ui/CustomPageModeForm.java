@@ -25,6 +25,8 @@ import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -73,11 +75,12 @@ public class CustomPageModeForm extends BaseForm {
 		Collection pagings = conf.getQuranPaging().getAllPagings();
 		listItems = new String[pagings.size()];
 		IPagingData[] builtinPagings = new IPagingData[] {
-			(IPagingData) qp.get(FixedAyaPagingData.ID),
-			(IPagingData) qp.get(SuraPagingData.ID),
-			(IPagingData) qp.get(JuzPagingData.ID),
-			(IPagingData) qp.get(HizbQuadPagingData.ID)
+				(IPagingData) qp.get(FixedAyaPagingData.ID),
+				(IPagingData) qp.get(SuraPagingData.ID),
+				(IPagingData) qp.get(JuzPagingData.ID),
+				(IPagingData) qp.get(HizbQuadPagingData.ID)
 		};
+
 		List pagingList = Arrays.asList(builtinPagings);
 		List itemList = new ArrayList();
 		for (Iterator iterator = pagings.iterator(); iterator.hasNext();) {
@@ -95,6 +98,13 @@ public class CustomPageModeForm extends BaseForm {
 		}
 
 		listWidget.setItems((String[]) itemList.toArray(new String[0]));
+		listWidget.addMouseListener(new MouseAdapter() {
+			public void mouseDoubleClick(MouseEvent e) {
+				if (listWidget.getSelectionCount() > 0) {
+					doOk();
+				}
+			}
+		});
 
 		int def = listModel.indexOf(conf.getQuranPaging().getDefault().getId());
 		if (def > -1)
@@ -134,8 +144,7 @@ public class CustomPageModeForm extends BaseForm {
 			};
 
 			public void widgetSelected(SelectionEvent e) {
-				selectedMode = listWidget.getSelectionIndex();
-				shell.close();
+				doOk();
 			};
 		});
 
@@ -169,5 +178,10 @@ public class CustomPageModeForm extends BaseForm {
 		if (selectedMode == -1)
 			return null;
 		return (String) listModel.get(selectedMode);
+	}
+
+	private void doOk() {
+		selectedMode = listWidget.getSelectionIndex();
+		shell.close();
 	}
 }
