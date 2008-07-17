@@ -49,8 +49,9 @@ public class IndexCommandHandler extends CommandHandler {
 		}
 		try {
 			Date date1 = new Date();
-			ApplicationConfig.getInstance().createQuranIndex(target, path, stdout);
+			ApplicationConfig.getInstance().getLuceneIndexManager().createQuranIndex(target, path, stdout);
 			Date date2 = new Date();
+			ApplicationConfig.getInstance().saveConfig();
 			stdout.println("Indexing took " + (date2.getTime() - date1.getTime()) + " ms.");
 		} catch (IndexingException e) {
 			throw new CommandException("Indexing aborted with the following error: " + e);
