@@ -21,24 +21,8 @@ public class Naming {
 
 	private static String WORKSPACE = GlobalConfig.USER_HOME_PATH + "/" + HOME_DIR_NAME;
 
-	/* Cache Directories */
-	// private static final String CACHE_DIR = WORKSPACE + "/cache";
-	// private static final String QURAN_CACHE_DIR = getCacheDir() + "/quran";
-	// private static final String TRANS_CACHE_DIR = getCacheDir() + "/trans";
-	// private static final String MIXED_CACHE_DIR = getCacheDir() + "/mixed";
-	// private static final String SEARCH_CACHE_DIR = getCacheDir() + "/search";
-	// private static final String CONFIG_DIR = WORKSPACE + "/config";
-	// private static final String THEME_PROPS_DIR = getConfigDir() + "/theme";
-	// private static final String BOOKMARK_DIR = WORKSPACE + "/bookmark";
-	/* Cache Directories */
-	// private static final String INDEX_DIR = WORKSPACE + "/index";
-	// private static final String QURAN_INDEX_DIR = getIndexDir() + "/quran";
-	/** Directory to import a translation for a user only. */
-	// private static final String TRANS_DIR = WORKSPACE + "/text/trans";
-	/** Directory to import a theme for a user only. */
-	// private static final String THEME_DIR = WORKSPACE + "/theme";
 	/**
-	 * Use with caution! This method should be called before any path is loaded from this file.
+	 * Use with caution! This method MUST be called before any path is loaded from this file.
 	 * 
 	 * @param workspace default workspace to set
 	 */
@@ -108,6 +92,10 @@ public class Naming {
 
 	public static String getTransDir() {
 		return getWorkspace() + "/text/trans";
+	}
+
+	public static String getTransIndexDir(String transId) {
+		return getIndexDir() + "/trans/" + transId;
 	}
 
 	public static String getThemeDir() {
