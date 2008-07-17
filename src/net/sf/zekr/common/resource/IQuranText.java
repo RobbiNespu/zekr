@@ -83,7 +83,7 @@ public interface IQuranText {
 	 * Return Quran text mode.<br>
 	 * <b>This method should only be implemented in subclasses which are aimed for Quran text.</b>
 	 * 
-	 * @return Quran text mode: <code>SIMPLE_MODE</code> or <code>UTHMANI_MODE</code>.
+	 * @return Quran text mode: {@link IQuranText#SIMPLE_MODE} or {@link IQuranText#UTHMANI_MODE}.
 	 */
 	public int getMode();
 }
