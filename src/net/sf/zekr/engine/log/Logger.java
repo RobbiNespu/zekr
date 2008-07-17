@@ -10,6 +10,7 @@
 package net.sf.zekr.engine.log;
 
 import java.io.File;
+import java.text.DecimalFormat;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.runtime.Naming;
@@ -90,6 +91,18 @@ public class Logger {
 		logger.info(msg);
 	}
 
+	/**
+	 * Log (info level) memory info.
+	 */
+	final public void memInfo() {
+		DecimalFormat df = new DecimalFormat("###,### kb");
+		long total = Runtime.getRuntime().totalMemory();
+		long free = Runtime.getRuntime().freeMemory();
+		String used = df.format((total - free) / 1024);
+		String max = df.format(total / 1024);
+		logger.info("Memory info - used: " + used + " / total vm memory: " + max + "");
+	}
+
 	final public void debug(Object msg) {
 		logger.debug(msg);
 	}
@@ -118,8 +131,8 @@ public class Logger {
 	 * This method logs <code>msg.toString()</code> if msg is not of type
 	 * <code>{@link java.lang.Throwable}</code> (exception). If the msg is in fact a <code>Throwable</code>
 	 * object, it logs it as an error message implicitly. Then if
-	 * <code>ApplicationConfig.isFullyInitialized()</code>, it brings up an error dialog and show the
-	 * exception to user.
+	 * <code>ApplicationConfig.isFullyInitialized()</code>, it brings up an error dialog and show the exception
+	 * to user.
 	 * 
 	 * @param msg any object of type <code>String</code> or <code>Throwable</code>
 	 */
@@ -162,8 +175,8 @@ public class Logger {
 	}
 
 	/**
-	 * A call to this method will first log the <code>Throwable</code> error, and then <code>exit</code>s
-	 * the virtual machine with 1 error status.
+	 * A call to this method will first log the <code>Throwable</code> error, and then <code>exit</code>s the
+	 * virtual machine with 1 error status.
 	 * 
 	 * @param th throwable object
 	 */
