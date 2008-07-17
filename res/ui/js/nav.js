@@ -47,12 +47,13 @@ function refocus() {
 function navtoSuraAya() {
 	var sura = $("input#suraNav").val();
 	var aya = $("input#ayaNav").val();
+	var page = $("input#pageNav").val();
 	var origSuraNum = $("input#hiddenSuraNum").val();
 	if (!isNaN(parseInt(sura.trim())) && !isNaN(parseInt(aya.trim())))
 		if (origSuraNum != sura)
-			gotoSuraAya(sura + "-" + aya);
+			gotoSuraAya(sura + "-" + aya + "-" + page);
 		else
-			gotoAya(sura + "-" + aya); // sura should also be passed (may user change the sura combo box)
+			gotoSuraAya(sura + "-" + aya + "-" + page);
 }
 
 function getObjectHeight(obj) { return obj.offsetHeight; }
