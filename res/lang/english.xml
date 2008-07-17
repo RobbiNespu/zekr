@@ -123,6 +123,8 @@
 			<text id="MENU_PREV_HIZBQ" value="Previous Hi&amp;zb Quarter" />
 			<text id="MENU_NEXT_SAJDA" value="Next Sa&amp;jda" />
 			<text id="MENU_PREV_SAJDA" value="Previous Saj&amp;da" />
+			<text id="MENU_NEXT_PAGE" value="Next Page"   />
+			<text id="MENU_PREV_PAGE" value="Previous Page"   />
 			<text id="CHECK4UPDATE" value="Check for update"   />
 			<text id="ASCENDING" value="Ascending"   />
 			<text id="DESCENDING" value="Descending"   />
@@ -130,6 +132,17 @@
 			<text id="FULL_SCREEN" value="Full Screen"   />
 			<text id="WARNING" value="Warning"   />
 			<text id="ONLINE_HELP" value="Online Help"   />
+
+			<text id="PAGING_MODE" value="Paging Mode"   />
+			<text id="PAGING_SURA" value="Sura"   />
+			<text id="PAGING_HIZB_QUARTER" value="Hizb quarter"   />
+			<text id="PAGING_JUZ" value="Juz"   />
+			<text id="PAGING_CONST_AYA" value="Constant aya"   />
+			<text id="PAGING_CUSTOM" value="Custom"   />
+			<text id="PAGING_AYA_PER_SURA" value="How many ayas should appear in each page?"   />
+
+			<text id="PANEL" value="Panel"   />
+			<text id="DETAIL_PANEL" value="Detail Panel"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />
@@ -299,12 +312,12 @@
 			<text id="NEW_BETA_AVAILABLE" value="A newer beta version (unstable) is available for download" />
 			<text id="NEW_FINAL_AVAILABLE" value="A newer release (final) is available for download" />
 		</form>
-		<form id="PAGING_MODE">
+		<form id="CUSTOM_PAGE_MODE">
 			<text id="JUZ" value="Juz" />
 			<text id="FIXED_AYA" value="Constant aya" />
 			<text id="SURA" value="Sura" />
 			<text id="HIZB_QUAD" value="Hizb quarter" />
-			<text id="AYA_PER_SURA" value="How many ayas should be displayed in each page?" />
+			<text id="AYA_PER_SURA" value="How many ayas should appear in each page?" />
 		</form>
 	</forms>
 </language>
