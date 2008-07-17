@@ -13,11 +13,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.Iterator;
 import java.util.List;
 
-import net.sf.zekr.common.ZekrBaseRuntimeException;
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
@@ -29,16 +26,15 @@ import net.sf.zekr.engine.search.SearchScopeItem;
 import net.sf.zekr.engine.search.SearchUtils;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Filter;
-import org.apache.lucene.search.Hit;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -68,30 +64,40 @@ public class QuranTextSearcher {
 	private String rawQuery;
 	private boolean ascending;
 	private AbstractSearchResultComparator searchResultComparator;
+	private IndexReader indexReader;
 
 	/**
 	 * Checks first user home directory and then installation directory for indices.
+	 * 
+	 * @throws IOException
+	 * @throws CorruptIndexException
 	 */
-	public QuranTextSearcher() {
+	public QuranTextSearcher() throws CorruptIndexException, IOException {
 		this(new File(Naming.getQuranIndexDir()).exists() ? Naming.getQuranIndexDir() : ApplicationPath.QURAN_INDEX_DIR,
 				null);
 	}
 
-	public QuranTextSearcher(File indexDir, SearchScope searchScope) {
-		PropertiesConfiguration props = ApplicationConfig.getInstance().getProps();
-		if (props.getProperty("index.quran.done") == null || !props.getBoolean("index.quran.done"))
-			throw new ZekrBaseRuntimeException("Indexing is not done yet.");
-		this.indexDir = indexDir;
+	public QuranTextSearcher(File indexDir, SearchScope searchScope) throws CorruptIndexException, IOException {
+		this(IndexReader.open(indexDir), searchScope);
+	}
+
+	public QuranTextSearcher(String indexDir, SearchScope searchScope) throws CorruptIndexException, IOException {
+		this(new File(indexDir), searchScope);
+	}
+
+	public QuranTextSearcher(LuceneIndexManager luceneIndexManager, SearchScope searchScope) throws IndexingException {
+		this(luceneIndexManager.getQuranIndex(), searchScope);
+	}
+
+	public QuranTextSearcher(IndexReader indexReader, SearchScope searchScope) {
+		this.searchScope = searchScope;
+		this.indexReader = indexReader;
 		this.searchScope = searchScope;
 		this.analyzer = new ArabicAnalyzer();
 		this.maxClauseCount = MAX_CLAUSE_COUNT;
 		this.sortResultOrder = Sort.RELEVANCE;
 		this.highlightFormatter = new ZekrHighlightFormatter();
 		this.pageNum = 0;
-	}
-
-	public QuranTextSearcher(String indexDir, SearchScope searchScope) {
-		this(new File(indexDir), searchScope);
 	}
 
 	public void setSortResultOrder(Sort sortResultOrder) {
@@ -146,6 +152,10 @@ public class QuranTextSearcher {
 		return query;
 	}
 
+	public boolean isIndexReaderOpen() {
+		return indexReader != null;
+	}
+
 	public void setSearchScope(SearchScope searchScope) {
 		this.searchScope = searchScope;
 	}
@@ -173,9 +183,7 @@ public class QuranTextSearcher {
 	 * @throws ParseException
 	 */
 	private List internalSearch(String q) throws IOException, ParseException {
-		logger.debug("Open index reader.");
-		IndexReader reader = IndexReader.open(indexDir);
-		IndexSearcher is = new IndexSearcher(reader);
+		IndexSearcher is = new IndexSearcher(indexReader);
 		QueryParser parser = new QueryParser(QuranTextIndexer.CONTENTS_FIELD, analyzer);
 
 		// allow search terms like "*foo" with leading star
@@ -186,7 +194,7 @@ public class QuranTextSearcher {
 		query = parser.parse(q);
 		BooleanQuery.setMaxClauseCount(maxClauseCount);
 		logger.debug("Rewrite query.");
-		query = query.rewrite(reader); // required to expand search terms
+		query = query.rewrite(indexReader); // required to expand search terms
 		logger.debug("Searching for: " + query.toString());
 		Hits hits;
 		if (searchScope != null && searchScope.getScopeItems().size() > 0) {
@@ -248,44 +256,6 @@ public class QuranTextSearcher {
 		return ret.toString();
 	}
 
-	public static void main(String[] args) throws Exception {
-		String q = "location:[001-001 TO 001-006]"; // "اسل*"
-		IndexReader reader = IndexReader.open(new File("c:/temp/sss"));
-		IndexSearcher is = new IndexSearcher(reader);
-		ArabicAnalyzer myanalyzer = new ArabicAnalyzer();
-		QueryParser parser = new QueryParser(QuranTextIndexer.CONTENTS_FIELD, myanalyzer);
-		Query query = parser.parse(q);
-		BooleanQuery.setMaxClauseCount(MAX_CLAUSE_COUNT);
-		query = query.rewrite(reader); // required to expand search terms
-		System.out.println("Searching for: " + query.toString());
-		Hits hits = is.search(query, Sort.RELEVANCE);
-		// TopFieldDocs tops = is.search(query, null, 10, Sort.RELEVANCE);
-		// is.search(query, null, new HitCollector() {
-		// public void collect(int doc, float score) {
-		// System.out.println(doc + " - " + score);
-		// }
-		// });
-		System.out.println(hits.length());
-		for (Iterator iter = hits.iterator(); iter.hasNext();) {
-			Hit hit = (Hit) iter.next();
-			System.out.println(hit.getDocument().toString());
-		}
-
-		// for (int i = 0; i < tops.scoreDocs.length; i++) {
-		// ScoreDoc scoreDoc = tops.scoreDocs[i];
-		// System.out.println(is.doc(scoreDoc.doc));
-		// }
-
-		Highlighter highlighter = new Highlighter(new ZekrHighlightFormatter(), new QueryScorer(query));
-		for (int i = 0; i < hits.length(); i++) {
-			String text = hits.doc(i).get(QuranTextIndexer.CONTENTS_FIELD);
-			TokenStream tokenStream = myanalyzer.tokenStream(QuranTextIndexer.CONTENTS_FIELD, new StringReader(text));
-			// Get 3 best fragments and seperate with a "..."
-			String results = highlighter.getBestFragment(tokenStream, text);
-			System.out.println(results);
-		}
-	}
-
 	public void setSearchResultComparator(AbstractSearchResultComparator searchResultComparator) {
 		this.searchResultComparator = searchResultComparator;
 	}
@@ -298,6 +268,8 @@ public class QuranTextSearcher {
 
 /**
  * Constrains search results to only match those which also match a provided search scope.
+ * 
+ * @author Mohsen Saboorian
  */
 class QuranRangeFilter extends Filter {
 	/**
@@ -315,11 +287,6 @@ class QuranRangeFilter extends Filter {
 		this.searchScope = searchScope;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.apache.lucene.search.Filter#bits(org.apache.lucene.index.IndexReader)
-	 */
 	public BitSet bits(IndexReader reader) throws IOException {
 		BitSet bits = new BitSet(reader.maxDoc());
 		for (int i = 0; i < reader.maxDoc(); i++) {
