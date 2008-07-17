@@ -506,6 +506,8 @@ Features/Enhancements:
 		- User may choose View > Paging Mode > Custom... in order to utilize a custom paging data available in (res/text/metadata/*.page.xml).
 		- Navigation bar now accepts page as well as sura-aya pair. If page differs from the current page, it just navigates to the beginning of that page, otherwise it navigates to the entered sura-aya location.
 		- Navigation buttons in work pane navigate through pages and ayas instead of suras and ayas. For example the button previously was for Next Sura, now navigates to the next page (if default paging mode is sura, it goes to the next sura). 
+	New config properties introduced: index.quran.path, index.quran.version, index.trans.path.<translation id>, and index.trans.version.<translation id>. properties. index.[quran|trans].path.[<translation id>] holds quran or a translation index location (identified with <translation id>), and index.[quran|trans].version.[<translation id>] is for Zekr build number which creates that index. Indexes created with different versions of Zekr may not be generally compatible, so it should reindex on each version (build number) update.
+	New menu group added: View > Panel, in order to show and hide different panels. For now sura detail panel can be toggled. The state of a panel visibility is persisted under view.panel.<panel id> in config.properties.
 Bug fixes:
 	A bug with basic search fixed, which happened when a whole clause was found at the end of an aya.
 	Menu icons are not shown anymore in Mac.
