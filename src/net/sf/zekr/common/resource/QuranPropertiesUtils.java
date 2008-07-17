@@ -456,16 +456,29 @@ public class QuranPropertiesUtils {
 		return getLocations()[absoluteAyaNum - 1];
 	}
 
+	public static final boolean isValid(int sura, int aya) {
+		QuranProperties qp = QuranProperties.getInstance();
+		return between(sura, 1, QuranPropertiesUtils.QURAN_SURA_COUNT) && between(aya, 1, qp.getSura(sura).getAyaCount());
+	}
+
+	public static final boolean isValid(IQuranLocation quranLocation) {
+		return isValid(quranLocation.getSura(), quranLocation.getAya());
+	}
+
+	private final static boolean between(int num, int from, int to) {
+		return num >= from && num <= to;
+	}
+
 	/**
 	 * This method returns a Quran location, which is looked up from a cache of al Quran location. Since
 	 * {@link IQuranLocation} is immutable, it can be shared.
 	 * 
-	 * @param sura
-	 * @param aya
+	 * @param sura (counted from 1)
+	 * @param aya (counted from 1)
 	 * @return a cached Quran location
 	 */
 	public static final IQuranLocation getLocation(int sura, int aya) {
-		return locationCache[sura][aya];
+		return locationCache[sura - 1][aya - 1];
 	}
 
 	/**
