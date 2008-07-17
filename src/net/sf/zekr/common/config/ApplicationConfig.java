@@ -58,6 +58,7 @@ import net.sf.zekr.engine.revelation.Revelation;
 import net.sf.zekr.engine.revelation.RevelationData;
 import net.sf.zekr.engine.search.lucene.IndexCreator;
 import net.sf.zekr.engine.search.lucene.IndexingException;
+import net.sf.zekr.engine.search.lucene.LuceneIndexManager;
 import net.sf.zekr.engine.server.HttpServer;
 import net.sf.zekr.engine.server.HttpServerFactory;
 import net.sf.zekr.engine.theme.Theme;
@@ -73,6 +74,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.lucene.index.IndexReader;
 import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
 
@@ -105,6 +107,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private Thread httpServerThread;
 	private IUserView userViewController;
 	private HttpServer httpServer;
+	private LuceneIndexManager luceneIndexManager;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -142,6 +145,8 @@ public class ApplicationConfig implements ConfigNaming {
 
 		// extractPagingDataProps should be called before this method
 		initViewController();
+
+		luceneIndexManager = new LuceneIndexManager(props);
 	}
 
 	private void initViewController() {
@@ -286,7 +291,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 	/**
 	 * Save properties configuration file, which was read into <code>props</code>, to
-	 * <code>ApplicationPath.USER_CONFIG</code>.
+	 * {@link ApplicationPath#USER_CONFIG}.
 	 */
 	public void saveConfig() {
 		try {
@@ -1051,53 +1056,9 @@ public class ApplicationConfig implements ConfigNaming {
 		props.setProperty("trans.custom", newIdList);
 		saveConfig();
 	}
-
-	/**
-	 * This method first checks if the Quran is previously indexed (first in user home and then in installation
-	 * directory). If not, it will try to index it, asking user where to index. If this is already indexed,
-	 * returns the directory where Quran indices are.
-	 * 
-	 * @return directory of the Quran index if indexing was successful (or found index somewhere),
-	 *         <code>null</code> otherwise
-	 */
-	public String createQuranIndex() {
-		if (props.getProperty("index.quran.done") != null && props.getBoolean("index.quran.done")) {
-			File meOnlyIndex = new File(Naming.getQuranIndexDir());
-			File allUsersIndex = new File(ApplicationPath.QURAN_INDEX_DIR);
-			if (meOnlyIndex.exists() && meOnlyIndex.isDirectory() && meOnlyIndex.list().length != 0)
-				return meOnlyIndex.getAbsolutePath();
-			if (allUsersIndex.exists() && allUsersIndex.isDirectory() && allUsersIndex.list().length != 0)
-				return allUsersIndex.getAbsolutePath();
-
-			// otherwise do index again...
-		}
-		// not indexed yet, try to index now
-		IndexCreator indexCreator = new IndexCreator(Display.getCurrent());
-		boolean succeed = indexCreator.indexQuranText();
-		if (succeed) {
-			props.setProperty("index.quran.done", "true");
-			return indexCreator.getIndexDir();
-		} else
-			return null;
-	}
-
-	/**
-	 * This method silently indexes Quran text. It should only be used for command line indexing. This method
-	 * sets <tt>index.quran.done</tt> property to <code>true</code> if indexing finished without throwing
-	 * <code>IndexingException</code>.
-	 * 
-	 * @param mode can be <code>IndexCreator.ME_ONLY</code>, <code>IndexCreator.ALL_USERS</code>, or
-	 *           <code>IndexCreator.CUSTOM_PATH</code>. If mode is equal to <code>CUSTOM_PATH</code>, path
-	 *           parameter is also used, otherwise this parameter is unused.
-	 * @param path path for creating indices in. Used iff mode is equal to <code>CUSTOM_PATH</code>
-	 * @param stdout standard output to write progressing data to
-	 * @throws IndexingException
-	 */
-	public void createQuranIndex(int mode, String path, PrintStream stdout) throws IndexingException {
-		IndexCreator indexCreator = new IndexCreator(Display.getCurrent());
-		indexCreator.indexQuranTextSilently(mode, path, stdout);
-		props.setProperty("index.quran.done", "true");
-		saveConfig();
+	
+	public LuceneIndexManager getLuceneIndexManager() {
+		return luceneIndexManager;
 	}
 
 	public boolean isAudioEnabled() {
