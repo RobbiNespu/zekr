@@ -99,7 +99,7 @@ html>body div.footerBar {
 	bottom: 2px;
 }
 
-div.headerBar input, div.footerBar input  {
+div.headerBar input, div.headerBar button, div.footerBar input  {
 	font: 0.82em Tahoma, Sans-serif, Arial;
 }
 
