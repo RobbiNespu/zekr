@@ -13,9 +13,7 @@ import java.io.PrintStream;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IQuranText;
-import net.sf.zekr.common.resource.filter.QuranIndexerFilter;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
@@ -24,6 +22,7 @@ import net.sf.zekr.ui.ProgressForm;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -34,7 +33,6 @@ import org.eclipse.swt.widgets.Display;
  * This class is immutable, hence thread-safe.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class IndexCreator {
 	private static final LanguageEngine lang = ApplicationConfig.getInstance().getLanguageEngine();
@@ -44,32 +42,53 @@ public class IndexCreator {
 	private boolean indexingErrorOccurred = false;
 	private String indexDir;
 	private IndexingException indexingException;
+	private Analyzer analyzer;
+	private IQuranText quranText;
+	private String[] pathArray;
 
 	public static final int ME_ONLY = 1;
 	public static final int ALL_USERS = 2;
 	public static final int CUSTOM_PATH = 3;
 
-	public IndexCreator(Display display) {
+	/**
+	 * @param path a two-value array of paths. The first one is for {@link #ME_ONLY} and the second one is for
+	 *           {@link #ALL_USERS} index path.
+	 * @param quranText the abstract Quran text to index
+	 * @param analyzer the analyzer to be used for indexing. The same analyzer should be used later for query
+	 *           parsing.
+	 * @param display graphical display to use for showing indexing progress on (if a non-silent indexing is
+	 *           performed)
+	 */
+	public IndexCreator(String[] path, IQuranText quranText, Analyzer analyzer, Display display) {
+		this.pathArray = path;
+		this.quranText = quranText;
+		this.analyzer = analyzer;
 		this.display = display;
 	}
 
-	public IndexCreator() {
-		this(null);
+	/**
+	 * @param path a two-value array of paths. The first one is for {@link #ME_ONLY} and the second one is for
+	 *           {@link #ALL_USERS} index path.
+	 * @param quranText the abstract Quran text to index
+	 * @param analyzer the analyzer to be used for indexing. The same analyzer should be used later for query
+	 *           parsing.
+	 */
+	public IndexCreator(String[] path, IQuranText quranText, Analyzer analyzer) {
+		this(path, quranText, analyzer, Display.getCurrent());
 	}
 
-	private Thread indexThread = new Thread() {
+	private Thread indexThread = new Thread("Quran text indexer") {
 		public void run() {
 			QuranTextIndexer qti = null;
 			try {
-				qti = new QuranTextIndexer(new FilteredQuranText(new QuranIndexerFilter(), IQuranText.SIMPLE_MODE), new File(
-						indexDir));
+				qti = new QuranTextIndexer(quranText, new File(indexDir), analyzer);
 				qti.doIndex();
 				indexQuranText_finished = true;
 				logger.debug("Index files created successfully.");
 			} catch (Exception e) {
 				logger.implicitLog(e);
 				indexingException = new IndexingException(e);
-				logger.error("Quran indexing failed!");
+				logger.error("Indexing failed on: " + quranText);
 			} finally {
 				if (!indexQuranText_finished) {
 					if (qti != null) {
@@ -84,8 +103,8 @@ public class IndexCreator {
 
 	/**
 	 * @param mode can be {@link #ME_ONLY}, {@link #ALL_USERS}, or {@link #CUSTOM_PATH}. If mode is equal to
-	 *           <code>CUSTOM_PATH</code>, path parameter is also used, otherwise this parameter is unused.
-	 * @param path path for creating indices in. Used iff mode is equal to <code>CUSTOM_PATH</code>
+	 *           {@link #CUSTOM_PATH}, path parameter is also used, otherwise this parameter is unused.
+	 * @param path path for creating indices in. Used iff mode is equal to {@link #CUSTOM_PATH}
 	 * @param stdout standard output to write progressing data to
 	 * @throws IndexingException if any exception occurred during indexing process
 	 */
@@ -133,9 +152,9 @@ public class IndexCreator {
 			return false;
 
 		if (result == 0) {
-			indexDir = Naming.getQuranIndexDir();
+			indexDir = pathArray[0];
 		} else {
-			indexDir = ApplicationPath.QURAN_INDEX_DIR;
+			indexDir = pathArray[1];
 		}
 
 		// start indexing thread
