@@ -118,4 +118,7 @@ public class FilteredQuranText extends AbstractQuranText {
 		return quranText.getMode();
 	}
 
+	public String toString() {
+		return "Filtered (" + quranText.toString() + ")";
+	}
 }

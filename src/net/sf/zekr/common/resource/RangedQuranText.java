@@ -172,4 +172,8 @@ public class RangedQuranText extends AbstractRangedQuranText {
 	public int getMode() {
 		return quran.getMode();
 	}
+
+	public String toString() {
+		return "RangedQuranText (" + quran.toString() + ")";
+	}
 }

@@ -189,4 +189,8 @@ public class QuranText extends AbstractQuranText {
 	public String getBismillah(int suraNum) {
 		return get(1, 1);
 	}
+	
+	public String toString() {
+		return (mode == SIMPLE_MODE ? "Simple" : "Uthmani") + " Quran";
+	}
 }
