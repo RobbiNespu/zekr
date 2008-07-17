@@ -11,6 +11,9 @@ package net.sf.zekr.ui;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Display;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class SwtBrowserUtils {
 	/**
 	 * Tricky execution of a script using a deferred thread. This is a workaround for Mozilla issue which
