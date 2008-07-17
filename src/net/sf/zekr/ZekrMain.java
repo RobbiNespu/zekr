@@ -24,10 +24,9 @@ import net.sf.zekr.ui.splash.AdvancedSplashScreen;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * Application main class. This class launches Zekr platform.
+ * Application main class. This class launches Zekr.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ZekrMain {
 	private final static Logger logger = Logger.getLogger(ZekrMain.class);
@@ -48,7 +47,6 @@ public class ZekrMain {
 			splash.show();
 			logger.info("Configure runtime configurations...");
 			ApplicationConfig.getInstance().getRuntime().configure();// TODO: some directories already created in
-			// ApplicationConfig
 
 			quranForm = new QuranForm(display);
 			EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS_FULLY + ":" + "UI Initialized");
@@ -56,6 +54,7 @@ public class ZekrMain {
 
 			Date date2 = new Date();
 			logger.info("Startup took " + (date2.getTime() - date1.getTime()) + " ms.");
+			logger.memInfo();
 
 			splash.dispose(); // close splash screen
 
@@ -77,8 +76,10 @@ public class ZekrMain {
 		} finally {
 			if (display != null)
 				display.dispose();
-			if (logger != null)
+			if (logger != null) {
+				logger.memInfo();
 				logger.info("Zekr is now down.\n");
+			}
 		}
 	}
 
