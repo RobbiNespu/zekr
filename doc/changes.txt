@@ -500,6 +500,12 @@ Features/Enhancements:
 		- Tanzil Quran text file 1.0.2
 		- SWT 3.4.0
 		- commons-logging, commons-configurations, commons-io, commons-lang, commons-codec
+	Support paging:
+		- Four built-in paging data introduced: Sura, Juz, Hizb quarter, Constant aya. As a result a new menu item (paging mode) introduced.
+		- New add-on: paging data pack. *.page.xml files in res/text/metadata are used to introduce new paging data. An Uthmani paging is by default supported (uthmani.page.xml).
+		- User may choose View > Paging Mode > Custom... in order to utilize a custom paging data available in (res/text/metadata/*.page.xml).
+		- Navigation bar now accepts page as well as sura-aya pair. If page differs from the current page, it just navigates to the beginning of that page, otherwise it navigates to the entered sura-aya location.
+		- Navigation buttons in work pane navigate through pages and ayas instead of suras and ayas. For example the button previously was for Next Sura, now navigates to the next page (if default paging mode is sura, it goes to the next sura). 
 Bug fixes:
 	A bug with basic search fixed, which happened when a whole clause was found at the end of an aya.
 	Menu icons are not shown anymore in Mac.
