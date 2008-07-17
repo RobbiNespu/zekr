@@ -56,6 +56,7 @@ import net.sf.zekr.engine.update.UpdateManager;
 import net.sf.zekr.ui.helper.FormUtils;
 import net.sf.zekr.ui.options.OptionsForm;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -117,10 +118,12 @@ public class QuranFormMenuFactory {
 	private MenuItem nextSura, nextAya, prevSura, prevAya;
 	private MenuItem nextJuz, prevJuz, nextHizbQ, prevHizbQ, nextSajda, prevSajda, nextPage, prevPage;
 	private MenuItem fullScreenItem;
+	private MenuItem detailPanelItem;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.form = form;
 		config = ApplicationConfig.getInstance();
+		props = config.getProps();
 		lang = config.getLanguageEngine();
 		this.shell = shell;
 		direction = form.lang.getSWTDirection();
@@ -465,9 +468,7 @@ public class QuranFormMenuFactory {
 		gotoMenuItem.setMenu(gotoMenu);
 
 		boolean isRTL = ((direction == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
-		// String strNext = isRTL ? "Left" : "Right";
 		char keyNextJuz = isRTL ? ',' : '.';
-		// String strPrev = isRTL ? "Right" : "Left";
 		char keyPrevJuz = isRTL ? '.' : ',';
 		int keyNext = isRTL ? SWT.ARROW_LEFT : SWT.ARROW_RIGHT;
 		int keyPrev = isRTL ? SWT.ARROW_RIGHT : SWT.ARROW_LEFT;
@@ -522,6 +523,18 @@ public class QuranFormMenuFactory {
 			transLineLayoutItem.setSelection(true);
 		else if (transLayout.equals(ApplicationConfig.BLOCK))
 			transBlockLayoutItem.setSelection(true);
+
+		// show view parts
+		new MenuItem(viewMenu, SWT.SEPARATOR);
+		MenuItem showView = createMenuItem(SWT.CASCADE, viewMenu, lang.getMeaning("PANEL"), 0, null);
+		Menu showViewMenu = new Menu(shell, SWT.DROP_DOWN);
+		showView.setMenu(showViewMenu);
+		detailPanelItem = createMenuItem(SWT.CHECK, showViewMenu, lang.getMeaning("DETAIL_PANEL"), "detail", new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				form.togglePanel((String) e.widget.getData(), detailPanelItem.getSelection());
+			}
+		});
+		detailPanelItem.setSelection(props.getBoolean("view.panel.detail", true));
 
 		// fullscreen menu item
 		new MenuItem(viewMenu, SWT.SEPARATOR);
@@ -691,7 +704,7 @@ public class QuranFormMenuFactory {
 				check4Update();
 			}
 		});
-		check4UpdateItem.setEnabled(config.getProps().getBoolean("update.enable"));
+		check4UpdateItem.setEnabled(props.getBoolean("update.enable"));
 
 		new MenuItem(helpMenu, SWT.SEPARATOR);
 		MenuItem aboutItem = createMenuItem(0, helpMenu, lang.getMeaning("ABOUT"), 0, "icon.menu.about");
@@ -713,6 +726,10 @@ public class QuranFormMenuFactory {
 
 	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey) {
 		return createMenuItem(swtStyle, parentMenu, text, accelerator, imageKey, null, null);
+	}
+
+	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, String data, SelectionListener sl) {
+		return createMenuItem(swtStyle, parentMenu, text, 0, null, data, sl);
 	}
 
 	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey,
@@ -947,6 +964,7 @@ public class QuranFormMenuFactory {
 	}
 
 	BookmarkSetForm bsf = null;
+	private PropertiesConfiguration props;
 
 	private void manageBookmarks() {
 		if (bsf != null && Arrays.asList(shell.getShells()).contains(bsf.getShell())) { // shell is already
