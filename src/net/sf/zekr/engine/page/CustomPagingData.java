@@ -95,6 +95,6 @@ public class CustomPagingData extends AbstractQuranPagingData implements IPaging
 	}
 
 	public String toString() {
-		return loaded ? (getName() + " (" + size() + ")") : ("[" + lang.getMeaning("NOT_LOADED") + "]");
+		return loaded ? (getName() + " (" + size() + ")") : (getId() + " [" + lang.getMeaning("NOT_LOADED") + "]");
 	}
 }
