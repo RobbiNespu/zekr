@@ -30,11 +30,9 @@ public class ArabicFilter extends TokenFilter {
 		// return a token with filtered characters.
 		return new Token(simplify(new String(t.termBuffer(), 0, t.termLength())), t.startOffset(), t.endOffset(), t
 				.type());
-		// return new Token(new String(t.termBuffer(), 0, t.termLength()), t.startOffset(), t.endOffset(), t.type());
 	}
 
 	private static String simplify(String text) {
 		return QuranFilterUtils.filterSimilarCharacters(QuranFilterUtils.filterHarakat(text));
-		//return SearchUtils.arabicSimplify4AdvancedSearch(text);
 	}
 }
