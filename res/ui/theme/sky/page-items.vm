@@ -62,7 +62,7 @@
 
 	#if ($AYA_NUM == 1)
 		<div class="bodyTop" align="center">
-			<div dir="${DIRECTION}" class="quran suraName">
+			<div dir="${DIRECTION}" class="def suraName">
 			$DICT.getMeaning("SURA"):
 			$SURA_NAME
 			</div>

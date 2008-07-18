@@ -1,3 +1,7 @@
+.def {
+	font-family: Georgia, Serif;
+}
+
 .quran, .quran td {
 #set($qBold = "")
 #set($qItalic = "")
@@ -44,7 +48,8 @@ div.bodyTop {
 
 .suraName {
 	font-weight: bold;
-	padding-top: 3px;
+	padding-top: 7px;
+	font-size: 13pt;
 	height: 40px;
 	background: url(${APP_PATH}res/image/sura-header.png) no-repeat center center;
 }
