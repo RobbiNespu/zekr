@@ -104,8 +104,7 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	public String getSuraName() {
-		QuranProperties qp = QuranProperties.getInstance();
-		return qp.getSura(sura).getName();
+		return QuranPropertiesUtils.getSura(getSura()).toText();
 	}
 
 	public IQuranLocation getNext() {

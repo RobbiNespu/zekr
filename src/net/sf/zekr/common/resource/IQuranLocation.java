@@ -18,6 +18,9 @@ public interface IQuranLocation extends Comparable {
 
 	public int getSura();
 
+	/**
+	 * @return the sura name in the language and format specified in <tt>view.sura.name</tt> property.
+	 */
 	public String getSuraName();
 
 	/**
