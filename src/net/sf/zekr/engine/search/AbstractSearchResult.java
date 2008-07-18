@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
 public class AbstractSearchResult {
@@ -22,6 +23,7 @@ public class AbstractSearchResult {
 	protected String rawQuery;
 	protected String clause;
 	protected int maxResultPerPage;
+	private IQuranText quranText;
 
 	/**
 	 * A list of matched <code>SearchResultItem</code>s.
@@ -48,6 +50,7 @@ public class AbstractSearchResult {
 	}
 
 	/**
+	 * @param quranText
 	 * @param results
 	 * @param clase clause in the text which are either matched or excluded. This string holds a list of items
 	 *           which are encountered by the exploded query and are not necessarily present in
@@ -55,8 +58,9 @@ public class AbstractSearchResult {
 	 * @param totalMatch
 	 * @param ayaComparator
 	 */
-	public AbstractSearchResult(List results, String clause, String rawQuery, int totalMatch,
+	public AbstractSearchResult(IQuranText quranText, List results, String clause, String rawQuery, int totalMatch,
 			AbstractSearchResultComparator ayaComparator, boolean ascending) {
+		this.quranText = quranText;
 		this.results = results;
 		this.totalMatch = totalMatch;
 		this.resultPerPage = ApplicationConfig.getInstance().getProps().getInt("options.search.maxResult");
@@ -103,6 +107,10 @@ public class AbstractSearchResult {
 
 	public int getTotalMatch() {
 		return totalMatch;
+	}
+
+	public IQuranText getQuranText() {
+		return quranText;
 	}
 
 	/**
