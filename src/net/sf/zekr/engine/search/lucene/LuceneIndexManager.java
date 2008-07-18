@@ -43,7 +43,7 @@ public class LuceneIndexManager {
 	 *         <code>null</code> otherwise
 	 * @throws IndexingException if indexing or opening existing index failed
 	 */
-	public IndexReader getQuranIndex() throws IndexingException {
+	public ZekrIndexReader getQuranIndex() throws IndexingException {
 		try {
 			String quranIndexPath = props.getString("index.quran.path");
 			return getIndex(new String[] { Naming.getQuranIndexDir(), ApplicationPath.QURAN_INDEX_DIR },
@@ -54,54 +54,53 @@ public class LuceneIndexManager {
 		}
 	}
 
-	public IndexReader getIndex(IQuranText quranText) throws IndexingException {
+	public ZekrIndexReader getIndex(IQuranText quranText) throws IndexingException {
 		if (quranText instanceof TranslationData)
 			return getIndex((TranslationData) quranText);
 		return getQuranIndex();
 	}
 
-	public IndexReader getIndex(TranslationData td) throws IndexingException {
-		String lang = td.getLocale().getLanguage();
+	public ZekrIndexReader getIndex(TranslationData td) throws IndexingException {
 		String id = td.getId();
 		String pathKey = "index.trans.path." + id;
 		String versionKey = "index.trans.version." + id;
 		String[] pathArray = new String[] { Naming.getTransIndexDir(td.getId()),
-				ApplicationPath.TRANS_INDEX_DIR + "/" + lang };
-		String quranIndexPath = props.getString("index.quran.path");
-		return getIndex(pathArray, td, id, quranIndexPath, pathKey, versionKey);
+				ApplicationPath.TRANS_INDEX_DIR + "/" + td.getId() };
+		return getIndex(pathArray, td, id, props.getString(pathKey), pathKey, versionKey);
 	}
 
-	private IndexReader getIndex(String[] pathArray, IQuranText quranText, String indexId, String indexPath,
+	private ZekrIndexReader getIndex(String[] pathArray, IQuranText quranText, String indexId, String indexPath,
 			String indexPathKey, String indexVersionKey) throws IndexingException {
 		try {
-			IndexReader ir = (IndexReader) indexReaderMap.get(indexId);
-			if (ir == null) {
+			ZekrIndexReader zir = (ZekrIndexReader) indexReaderMap.get(indexId);
+			if (zir == null) {
 				if (indexPath != null && IndexReader.indexExists(indexPath)) {
-					return addIndexReader(indexId, indexPath);
+					return newIndexReader(quranText, indexId, indexPath);
 				} else {
 					IndexCreator indexCreator = new IndexCreator(pathArray, quranText, LuceneAnalyzerFactory
 							.getAnalyzer(quranText));
 					if (indexCreator.indexQuranText()) {
 						props.setProperty(indexPathKey, indexCreator.getIndexDir());
 						props.setProperty(indexVersionKey, GlobalConfig.ZEKR_BUILD_NUMBER);
-						return addIndexReader(indexId, indexCreator.getIndexDir());
+						return newIndexReader(quranText, indexId, indexCreator.getIndexDir());
 					} else {
 						return null;
 					}
 				}
 			} else {
-				return ir;
+				return zir;
 			}
 		} catch (Exception e) {
 			throw new IndexingException(e);
 		}
 	}
 
-	private IndexReader addIndexReader(String indexReaderKey, String indexPath) throws CorruptIndexException,
-			IOException {
+	private ZekrIndexReader newIndexReader(IQuranText quranText, String indexReaderKey, String indexPath)
+			throws CorruptIndexException, IOException {
 		IndexReader ir = IndexReader.open(indexPath);
-		indexReaderMap.put(indexReaderKey, ir);
-		return ir;
+		ZekrIndexReader zir = new ZekrIndexReader(quranText, indexReaderKey, ir);
+		indexReaderMap.put(indexReaderKey, zir);
+		return zir;
 	}
 
 	/**
