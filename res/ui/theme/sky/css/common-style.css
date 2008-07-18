@@ -2,6 +2,10 @@
 	font-family: Georgia, Serif;
 }
 
+.def:lang(ar),.def:lang(fa) { /* CSS 3 Selector */
+	font-family: Nazli, Roya, Scheherazade;
+}
+
 .quran, .quran td {
 #set($qBold = "")
 #set($qItalic = "")
@@ -49,7 +53,7 @@ div.bodyTop {
 .suraName {
 	font-weight: bold;
 	padding-top: 7px;
-	font-size: 13pt;
+	font-size: 12pt;
 	height: 40px;
 	background: url(${APP_PATH}res/image/sura-header.png) no-repeat center center;
 }
