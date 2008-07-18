@@ -82,8 +82,8 @@ public class SuraProperties {
 	}
 
 	/**
-	 * @return <code>true</code> if <code>sura</code> is <i>Madani</i> or (otherwise) <code>false</code>
-	 *         if it is <i>Makki</i>
+	 * @return <code>true</code> if <code>sura</code> is <i>Madani</i> or (otherwise) <code>false</code> if it
+	 *         is <i>Makki</i>
 	 */
 	public boolean isMadani() {
 		return madani;
@@ -104,6 +104,19 @@ public class SuraProperties {
 		this.index = index;
 	}
 
+	/**
+	 * There are currently 5 modes to show sura name. These modes are specified in Zekr configuration
+	 * properties under <tt>view.sura.name</tt> property.
+	 * <ol>
+	 * <li>{@link QuranPropertiesNaming#SURA_NAME_ARABIC}</li>
+	 * <li>{@link QuranPropertiesNaming#SURA_NAME_ENGLISH_T9N}</li>
+	 * <li>{@link QuranPropertiesNaming#SURA_NAME_ENGLISH_T13N}</li>
+	 * <li>{@link QuranPropertiesNaming#SURA_NAME_T9N}</li>
+	 * <li>{@link QuranPropertiesNaming#SURA_NAME_T13N}</li>
+	 * </ol>
+	 * 
+	 * @return the sura name, in the format specified by <tt>view.sura.name</tt> properties.
+	 */
 	public String toText() {
 		ApplicationConfig config = ApplicationConfig.getInstance();
 		String suraNameMode = config.getProps().getString("view.sura.name");
