@@ -6,8 +6,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.8.jar" sourcepath="D:/Devel/Java/Apache/Log4J/jakarta-log4j-1.2.8/src/java"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-	<classpathentry kind="lib" path="lib/lucene-core-2.3.0.jar" sourcepath="D:/Devel/Java/Apache/Lucene/lucene-2.3.0/src/java"/>
-	<classpathentry kind="lib" path="lib/lucene-highlighter-2.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-core-2.3.2.jar" sourcepath="lib/src/lucene-core-2.3.2-src.zip"/>
 	<classpathentry kind="lib" path="lib/swt.jar" sourcepath="lib/src/swt-src.zip"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar" sourcepath="lib/src/commons-codec-1.3-src.zip"/>
 	<classpathentry kind="lib" path="lib/commons-configuration-1.5.jar" sourcepath="lib/src/commons-configuration-1.5-src.zip"/>
@@ -15,5 +14,7 @@
 	<classpathentry kind="lib" path="lib/commons-lang-2.4.jar" sourcepath="lib/src/commons-lang-2.4-src.zip"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar" sourcepath="lib/src/commons-collections-3.2.1-src.zip"/>
+	<classpathentry kind="lib" path="lib/lucene-snowball-2.3.2.jar" sourcepath="lib/src/lucene-snowball-2.3.2-src.zip"/>
+	<classpathentry kind="lib" path="lib/lucene-highlighter-2.3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
