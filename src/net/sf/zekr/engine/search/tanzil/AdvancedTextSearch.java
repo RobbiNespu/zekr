@@ -158,7 +158,7 @@ public class AdvancedTextSearch {
 			sri.text = highlighter.highlight(sri.text, highlightPattern);
 		}
 
-		return new SearchResult(resultItems, CollectionUtils.toString(clauses, " "), rawQuery, total,
+		return new SearchResult(quranText, resultItems, CollectionUtils.toString(clauses, " "), rawQuery, total,
 				searchResultComparator, ascending);
 	}
 
