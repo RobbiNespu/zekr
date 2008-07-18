@@ -10,6 +10,7 @@ package net.sf.zekr.engine.search.tanzil;
 
 import java.util.List;
 
+import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.engine.search.AbstractSearchResult;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
@@ -24,8 +25,8 @@ import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
  */
 public class SearchResult extends AbstractSearchResult {
 
-	public SearchResult(List results, String clause, String rawQuery, int totalMatch,
+	public SearchResult(IQuranText quranText, List results, String clause, String rawQuery, int totalMatch,
 			AbstractSearchResultComparator ayaComparator, boolean ascending) {
-		super(results, clause, rawQuery, totalMatch, ayaComparator, ascending);
+		super(quranText, results, clause, rawQuery, totalMatch, ayaComparator, ascending);
 	}
 }
