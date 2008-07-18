@@ -8,9 +8,11 @@
  */
 package net.sf.zekr.engine.template;
 
+import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.engine.search.AbstractSearchResult;
 import net.sf.zekr.engine.search.SearchUtils;
 import net.sf.zekr.engine.theme.ThemeData;
+import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * @author Mohsen Saboorian
@@ -44,6 +46,16 @@ public class AdvancedQuranSearchResultTemplate extends AbstractSearchResultTempl
 			engine.put("CLAUSE", searchResult.getClause());
 			String k = SearchUtils.arabicSimplify(searchResult.getRawQuery());
 			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));
+
+			IQuranText iqt = searchResult.getQuranText();
+			if (iqt instanceof TranslationData) {
+				engine.put("TRANSLATE", langEngine.getMeaning("QURAN"));
+				engine.put("TRANSLATION", "true");
+				engine.put("TRANS_DIRECTION", iqt.getTranslationData().direction);
+			} else {
+				engine.put("TRANSLATE", langEngine.getMeaning("TRANSLATION"));
+			}
+
 			ThemeData theme = config.getTheme().getCurrent();
 			ret = engine.getUpdated(theme.getPath() + "/" + resource.getString("theme.search.result"));
 			return ret;
