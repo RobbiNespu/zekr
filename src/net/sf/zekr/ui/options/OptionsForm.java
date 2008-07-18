@@ -305,6 +305,7 @@ public class OptionsForm {
 			props.setProperty("view.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
 			if (!pressOkToApply) // it's refreshed upon form creation
 				EventUtils.sendEvent(EventProtocol.UPDATE_SURA_NAMES);
+			refreshView = true;
 		}
 
 		if (fromOk && pressOkToApply) {
