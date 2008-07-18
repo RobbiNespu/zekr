@@ -1877,7 +1877,10 @@ public class QuranForm extends BaseForm {
 
 		LuceneIndexManager lim = config.getLuceneIndexManager();
 		try {
-			qts = new QuranTextSearcher(lim, searchScope);
+			if (quranScopeBut.getSelection())
+				qts = new QuranTextSearcher(lim, searchScope);
+			else
+				qts = new QuranTextSearcher(lim, searchScope, config.getTranslation().getDefault());
 		} catch (IndexingException e) {
 			logger.implicitLog(e);
 			MessageBoxUtils.showError("Indexing Error: " + e);
