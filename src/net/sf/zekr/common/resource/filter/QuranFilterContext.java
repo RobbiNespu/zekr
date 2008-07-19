@@ -8,9 +8,10 @@
  */
 package net.sf.zekr.common.resource.filter;
 
-
+/**
+ * @author Mohsen Saboorian
+ */
 public class QuranFilterContext {
-
 	public QuranFilterContext(String ayaText, int suraNum, int ayaNum) {
 		this.text = ayaText;
 		this.suraNum = suraNum;
