@@ -515,6 +515,7 @@ Bug fixes:
 	An incompatibility issue resolved which caused sura.vm not work with Velocity 1.5. Thanks for Serkan Kaba's patch.
 	Disabled auto-update for now. It's too buggy.
 	When an SWT Tree is set as SWT.SINGLE, it's selection listener is once called upon its first selection (which is selected by system). It caused aya not to be selected correctly in aya selection combo. A small but of checking (if (e.time > 0)) added to tree selectionm adapter in order to ignore its first systemy selection.
+	A bug with unloading (TranslationData.unload()) currently in use translations, when multi-translation layout was selected is fixed. Since it mistakenly unload a translation which was in use, Zekr gave NPE errors for accessing translation of ayas.
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Search results in ascending/descending order
