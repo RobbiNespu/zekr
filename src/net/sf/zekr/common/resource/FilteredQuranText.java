@@ -21,9 +21,15 @@ import net.sf.zekr.engine.translation.TranslationData;
 public class FilteredQuranText extends AbstractQuranText {
 	private IQuranText quranText;
 	private IQuranFilter filter;
+	private int filterParams;
 
+	/**
+	 * Call FilteredQuranText(QuranText.getSimpleTextInstance(), IQuranFilter.HIGHLIGHT_WAQF_SIGN)
+	 * 
+	 * @throws IOException
+	 */
 	public FilteredQuranText() throws IOException {
-		this(QuranText.getInstance());
+		this(QuranText.getSimpleTextInstance(), IQuranFilter.HIGHLIGHT_WAQF_SIGN);
 	}
 
 	public FilteredQuranText(IQuranText quranText) throws IOException {
@@ -38,9 +44,22 @@ public class FilteredQuranText extends AbstractQuranText {
 		this(QuranText.getInstance(mode), filter);
 	}
 
-	public FilteredQuranText(IQuranText quranText, IQuranFilter filter) throws IOException {
+	public FilteredQuranText(IQuranText quranText, IQuranFilter filter, int filterParams) throws IOException {
 		this.quranText = quranText;
 		this.filter = filter;
+		this.filterParams = filterParams;
+	}
+
+	public FilteredQuranText(int mode, int filterParams) throws IOException {
+		this(QuranText.getInstance(mode), filterParams);
+	}
+
+	public FilteredQuranText(IQuranText quranText, int filterParams) throws IOException {
+		this(quranText, new QuranWriterFilter(), filterParams);
+	}
+
+	public FilteredQuranText(IQuranText quranText, IQuranFilter quranFilter) throws IOException {
+		this(quranText, quranFilter, quranText.getMode() == IQuranText.UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0);
 	}
 
 	/*
@@ -88,13 +107,15 @@ public class FilteredQuranText extends AbstractQuranText {
 
 	private String filter(int suraNum, int ayaNum) {
 		QuranFilterContext qfc = new QuranFilterContext(quranText.get(suraNum, ayaNum), suraNum, ayaNum);
-		qfc.params = quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0;
+		// qfc.params = quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0;
+		qfc.params = filterParams;
 		return filter.filter(qfc);
 	}
 
 	private String filter(String str) {
 		QuranFilterContext qfc = new QuranFilterContext(str, -1, -1);
-		qfc.params = quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0;
+		// qfc.params = quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0;
+		qfc.params = filterParams;
 		return filter.filter(qfc);
 	}
 
