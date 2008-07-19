@@ -17,8 +17,6 @@ import org.apache.commons.lang.StringUtils;
 
 public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
 	private static final String REPLACE_HIGHLIGHT = "<span class=\"waqfSign\">&nbsp;$1</span>";
-	//	private static String WAQF_REGEX = ".([" + WAQF_SALA + WAQF_QALA + WAQF_SMALL_MEEM + WAQF_LA + WAQF_JEEM
-	//			+ WAQF_THREE_DOT + WAQF_HIGH_SEEN + "])";
 	private static final String WAQF_REGEX = RegexUtils.regTrans(" ([$HIGH_SALA-$HIGH_SEEN])");
 
 	private static final Pattern highlightRegex = Pattern.compile(WAQF_REGEX);
@@ -48,7 +46,15 @@ public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
 		}
 
 		str = StringUtils.replace(str, String.valueOf(ALEF) + MADDA, String.valueOf(ALEF_MADDA));
-		str = highlightRegex.matcher(str).replaceAll(REPLACE_HIGHLIGHT);
+
+		if ((qfc.params & SHOW_WAQF_SIGN) != SHOW_WAQF_SIGN) {
+			// remove all waqf signs
+			str = str.replaceAll(WAQF_REGEX, "");
+		}
+
+		if ((qfc.params & HIGHLIGHT_WAQF_SIGN) == HIGHLIGHT_WAQF_SIGN)
+			// highlight waqf sign
+			str = highlightRegex.matcher(str).replaceAll(REPLACE_HIGHLIGHT);
 		return str;
 	}
 }
