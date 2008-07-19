@@ -14,28 +14,15 @@ import org.apache.velocity.runtime.log.LogSystem;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
- * @version 0.1
  */
 public class LogSystemImpl implements LogSystem {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.apache.velocity.runtime.log.LogSystem#init(org.apache.velocity.runtime.RuntimeServices)
-	 */
 	public void init(RuntimeServices rs) throws Exception {
 		Logger.getLogger(LogSystemImpl.class).info("Velocity Template Engine for Zekr initialized.");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.apache.velocity.runtime.log.LogSystem#logVelocityMessage(int,
-	 *      java.lang.String)
-	 */
 	public void logVelocityMessage(int level, String message) {
-//		 Logger.getLogger().log(Level.toLevel(level), message);
+		// Logger.getLogger().log(Level.toLevel(level), message);
 	}
 
 }
