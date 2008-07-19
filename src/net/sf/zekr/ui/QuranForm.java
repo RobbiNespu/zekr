@@ -47,7 +47,6 @@ import net.sf.zekr.engine.search.tanzil.SearchResult;
 import net.sf.zekr.engine.search.tanzil.SimpleSearchResultHighlighter;
 import net.sf.zekr.engine.search.ui.ManageScopesForm;
 import net.sf.zekr.engine.search.ui.SearchScopeForm;
-import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.engine.update.UpdateManager;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
@@ -74,8 +73,6 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -83,7 +80,6 @@ import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
-import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -117,8 +113,8 @@ import org.eclipse.swt.widgets.TreeItem;
  */
 public class QuranForm extends BaseForm {
 	private Composite body;
-	private Browser quranBrowser;
-	private Browser transBrowser;
+	Browser quranBrowser;
+	Browser transBrowser;
 	private Combo suraSelectorCombo;
 	private Combo ayaSelectorCombo;
 	private Tree sst;
@@ -168,7 +164,11 @@ public class QuranForm extends BaseForm {
 
 	private static final String NAV_BUTTON = "NAV_BUTTON";
 
-	private int searchTarget;
+	/**
+	 * Can be {@link #QURAN_ONLY} or {@link #TRANS_ONLY} based on the current seach scope selected.
+	 */
+	int searchTarget;
+
 	/** match case behavior for search */
 	// private boolean matchCase;
 	private final String FORM_ID = "QURAN_FORM";
@@ -180,8 +180,8 @@ public class QuranForm extends BaseForm {
 	/** Specifies whether aya selector changed since a sura was selected. */
 	protected boolean ayaChanged;
 
-	/** Specifies whether sura selector changed for making a new sura view. */
-	protected boolean suraChanged;
+	/** Specifies whether page changed. */
+	protected boolean pageChanged;
 
 	/** The current Quran URI loaded in the browser */
 	private String quranUri;
@@ -224,9 +224,11 @@ public class QuranForm extends BaseForm {
 	/** a state specifying if this is the first aya user focuses on */
 	private boolean firstTimePlaying;
 	/** specifies if audio player automatically brings user to the next sura */
-	private boolean playerAutoNextSura = false;
+	boolean playerAutoNextSura = false;
 
 	private UpdateManager updateManager;
+
+	private BrowserCallbacHandler bch = new BrowserCallbacHandler(this);
 
 	IUserView uvc;
 
@@ -298,7 +300,7 @@ public class QuranForm extends BaseForm {
 		shell.setMenuBar((qmf = new QuranFormMenuFactory(this, shell)).getQuranFormMenu());
 
 		ayaChanged = false;
-		suraChanged = false;
+		pageChanged = false;
 
 		logger.info("Loading last visited Quran location: " + quranLoc + ".");
 		// TODO: remove commented line when tested
@@ -402,7 +404,7 @@ public class QuranForm extends BaseForm {
 	protected void reload() {
 		try {
 			config.getRuntime().recreateViewCache();
-			suraChanged = true;
+			pageChanged = true;
 			qmf.resetMenuStatus();
 			apply();
 		} catch (IOException e) {
@@ -479,72 +481,7 @@ public class QuranForm extends BaseForm {
 				if (StringUtils.isNotEmpty(event.text)) {
 					// IE changes status text a lot.
 					// logger.debug("Browser status message changed: " + event.text);
-					doBrowserCallback(event.text);
-				}
-			}
-
-			private void doBrowserCallback(String message) {
-				if (message.startsWith("ZEKR::")) {
-					quranBrowser.execute("window.status='';"); // clear the status text
-					if (transBrowser != null)
-						transBrowser.execute("window.status='';"); // clear the status text
-
-					if (message.startsWith("ZEKR::GOTO")) {
-						int sura = 0, aya = 0, page = 0;
-						try {
-							String[] nums = message.substring(message.indexOf(' ') + 1, message.indexOf(';')).split("-");
-							sura = Integer.parseInt(nums[0].trim());
-							aya = Integer.parseInt(nums[1].trim());
-							if (nums.length > 2)
-								page = Integer.parseInt(nums[2].trim());
-						} catch (Exception e) {
-							return; // do nothing
-						}
-						// if (sura < 1 || aya < 1 || page < 1)
-						// return; // do nothing
-						logger.info("Goto (sura: " + sura + ", aya: " + aya + ", page: " + page + ")");
-						browserGoto(sura, aya, page);
-					} else if (message.startsWith("ZEKR::TRANS") && config.getTranslation().getDefault() != null) {
-						int sura;
-						int aya;
-						try {
-							sura = Integer.parseInt(message.substring(message.indexOf(' '), message.indexOf('-')).trim());
-							aya = Integer.parseInt(message.substring(message.indexOf('-') + 1, message.indexOf(';')).trim());
-						} catch (NumberFormatException e1) {
-							return; // do nothing
-						}
-						PopupBox pe = null;
-						if (searchTarget == QURAN_ONLY) {
-							logger.info("Show translation: (" + sura + ", " + aya + ")");
-							TranslationData td = config.getTranslation().getDefault();
-							pe = new PopupBox(shell, meaning("TRANSLATION_SCOPE"), td.get(sura, aya), FormUtils
-									.toSwtDirection(td.direction));
-						} else {
-							logger.info("Show quran: (" + sura + ", " + aya + ")");
-							try {
-								pe = new PopupBox(shell, meaning("QURAN_SCOPE"), QuranText.getSimpleTextInstance().get(sura,
-										aya), SWT.RIGHT_TO_LEFT);
-							} catch (IOException e) {
-								logger.log(e);
-							}
-						}
-						Point p = display.getCursorLocation();
-						p.y += 15;
-						int x = 300;
-						pe.open(new Point(x, 100), new Point(p.x - x / 2, p.y));
-					} else if (message.startsWith("ZEKR::PLAYER_VOLUME")) {
-						Integer volume = new Integer(message.substring(message.indexOf(' '), message.indexOf(';')).trim());
-						config.getProps().setProperty("audio.volume", volume);
-					} else if (message.startsWith("ZEKR::PLAYER_PLAYPAUSE")) {
-						playerTogglePlayPause();
-					} else if (message.startsWith("ZEKR::PLAYER_STOP")) {
-						playerStop();
-					} else if (message.startsWith("ZEKR::PLAYER_NEXT_SURA")) {
-						playerAutoNextSura = true;
-					} else if (message.startsWith("ZEKR::PLAYER_CONT")) {
-						String contAya = message.substring(message.indexOf(' ') + 1, message.indexOf(';')).trim();
-						config.getProps().setProperty("audio.continuousAya", contAya);
-					}
+					bch.doBrowserCallback(event.text);
 				}
 			}
 		};
@@ -821,11 +758,11 @@ public class QuranForm extends BaseForm {
 		return config.useMozilla() ? SWT.MOZILLA : SWT.NONE;
 	}
 
-	private void playerStop() {
+	void playerStop() {
 		qmf.playerStop(false);
 	}
 
-	private void playerTogglePlayPause() {
+	void playerTogglePlayPause() {
 		qmf.playerTogglePlayPause(false);
 	}
 
@@ -1638,7 +1575,7 @@ public class QuranForm extends BaseForm {
 		suraMap = QuranPropertiesUtils.getSuraPropsMap(getSelectedSura());
 		FormUtils.updateTable(suraTable, suraMap);
 		logger.info("Updating view done.");
-		suraChanged = false;
+		pageChanged = false;
 	}
 
 	void browserGoto(int sura, int aya, int page) {
@@ -1657,27 +1594,47 @@ public class QuranForm extends BaseForm {
 		}
 	}
 
+	void browserGoto(int sura, int aya, int page, boolean changePage) {
+		IQuranLocation newLoc;
+		if (uvc.getPage() != page && page > 0) {
+			if (page > config.getQuranPaging().getDefault().size())
+				return; // page out of range
+			newLoc = config.getQuranPaging().getDefault().getQuranPage(page).getFrom();
+			navTo(newLoc, changePage);
+		} else {
+			if (QuranPropertiesUtils.isValid(sura, aya)) {
+				navTo(sura, aya, changePage);
+			} else if (sura < QuranPropertiesUtils.QURAN_SURA_COUNT) {
+				navTo(sura, 1, changePage);
+			}
+		}
+	}
+
 	void navTo(int sura, int aya) {
-		navTo(new QuranLocation(sura, aya));
+		navTo(sura, aya, false);
+	}
+
+	void navTo(int sura, int aya, boolean changePage) {
+		navTo(new QuranLocation(sura, aya), changePage);
 	}
 
 	void navTo(IQuranLocation loc) {
 		navTo(loc, false);
 	}
 
-	void navTo(IQuranLocation loc, boolean pageChanged) {
+	void navTo(IQuranLocation loc, boolean changePage) {
 		if (loc.isValid()) {
 			IPagingData qp = config.getQuranPaging().getDefault();
 			int p = uvc.getPage();
 			IQuranPage cp = qp.getContainerPage(loc);
 
-			if (pageChanged || cp.getPageNum() != p) { // page changed
-				suraChanged = true;
+			if (changePage || cp.getPageNum() != p) { // page changed
+				pageChanged = true;
 			} else {
-				suraChanged = false;
+				pageChanged = false;
 			}
 
-			if (pageChanged || loc.getSura() != uvc.getLocation().getSura()) {
+			if (changePage || loc.getSura() != uvc.getLocation().getSura()) {
 				selectSura(loc.getSura());
 				_onSuraChanged();
 			}
@@ -1791,7 +1748,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	private void updateTransView() {
-		if (suraChanged) {
+		if (pageChanged) {
 			try {
 				transBrowser.addProgressListener(tpl);
 				logger.info("Set translation location to " + uvc.getLocation());
@@ -1832,7 +1789,7 @@ public class QuranForm extends BaseForm {
 
 	private void updateQuranView() {
 		try {
-			if (suraChanged) {
+			if (pageChanged) {
 				quranBrowser.addProgressListener(qpl);
 				logger.info("Set Quran location to " + uvc.getLocation());
 				if (viewLayout == MIXED) {
@@ -1855,7 +1812,7 @@ public class QuranForm extends BaseForm {
 		ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(getSelectedSura()));
 		ayaSelectorCombo.select(0);
 		ayaChanged = false; // It must be set to true after ayaSelector.select
-		suraChanged = true; // It must be set to false after apply()
+		pageChanged = true; // It must be set to false after apply()
 	}
 
 	private void _onSuraChanged() {
@@ -2027,7 +1984,7 @@ public class QuranForm extends BaseForm {
 			Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
 			searchBrowser.setUrl(HtmlRepository.getAdvancedSearchQuranUri(asr, pageNo - 1));
 			ayaChanged = true;
-			suraChanged = true;
+			pageChanged = true;
 		} catch (HtmlGenerationException e) {
 			logger.log(e);
 		}
@@ -2065,7 +2022,7 @@ public class QuranForm extends BaseForm {
 			Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
 			searchBrowser.setUrl(HtmlRepository.getAdvancedSearchQuranUri(sr, pageNo - 1));
 			ayaChanged = true;
-			suraChanged = true;
+			pageChanged = true;
 		} catch (HtmlGenerationException e) {
 			logger.log(e);
 		}
