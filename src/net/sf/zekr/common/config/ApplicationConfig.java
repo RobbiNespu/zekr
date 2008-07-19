@@ -843,8 +843,21 @@ public class ApplicationConfig implements ConfigNaming {
 	public void setCurrentTranslation(String transId) throws TranslationException {
 		logger.info("Trying to change default translation to: " + transId);
 
-		if (!translation.getDefault().id.equals(transId))
+		boolean transIsInUse = false;
+		if (!translation.getDefault().id.equals(transId)) {
+			transIsInUse = false;
+			for (Iterator iterator = translation.getCustomGroup().iterator(); iterator.hasNext();) {
+				TranslationData td = (TranslationData) iterator.next();
+				if (td.id.equals(transId)) {
+					transIsInUse = true;
+					break;
+				}
+			}
+		}
+		if (!transIsInUse) {
+			logger.info("Unload previous selected translation (it's not used anywhere): " + translation.getDefault());
 			translation.getDefault().unload();
+		}
 
 		TranslationData newTrans = getTranslation().get(transId);
 		newTrans.load();
@@ -1056,7 +1069,7 @@ public class ApplicationConfig implements ConfigNaming {
 		props.setProperty("trans.custom", newIdList);
 		saveConfig();
 	}
-	
+
 	public LuceneIndexManager getLuceneIndexManager() {
 		return luceneIndexManager;
 	}
