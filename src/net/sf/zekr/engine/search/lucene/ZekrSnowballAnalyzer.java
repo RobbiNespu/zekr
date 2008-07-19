@@ -9,17 +9,25 @@
 package net.sf.zekr.engine.search.lucene;
 
 import java.io.Reader;
-import java.util.Set;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.LowerCaseFilter;
-import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.snowball.SnowballFilter;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
+/**
+ * A wrapper class around {@link SnowballFilter} which also adds support to ArabicFilter when
+ * {@link #QURAN_ANALYZER} is used as the ID.
+ * 
+ * @author Mohsen Saboorian
+ */
 public class ZekrSnowballAnalyzer extends Analyzer {
+	/**
+	 * This constant is to be used as {@link ZekrSnowballAnalyzer} ID for instantiating a Quran (Arabic)
+	 * Analyzer.
+	 */
 	public static final String QURAN_ANALYZER = "QURAN";
 	private String id;
 
