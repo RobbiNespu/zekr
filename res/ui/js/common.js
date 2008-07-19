@@ -14,6 +14,7 @@ var ayaFocusHooks = [];
 
 // Browser <-> SWT communication
 function gotoSuraAya(suraAya) { setMessage('ZEKR::GOTO ' + suraAya + ';'); } // use it when sura changed
+function redirect(suraAya) { setMessage('ZEKR::REDIRECT ' + suraAya + ';'); } // used for search results
 function gotoAya(suraAya) { setMessage('ZEKR::NAVTO ' + suraAya + ';'); } // only use it when sura is not changed
 function translate(location) { setMessage('ZEKR::TRANS ' + location + ';'); }
 function setMessage(msg) { window.status = msg; }
