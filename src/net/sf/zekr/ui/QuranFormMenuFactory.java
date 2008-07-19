@@ -529,11 +529,12 @@ public class QuranFormMenuFactory {
 		MenuItem showView = createMenuItem(SWT.CASCADE, viewMenu, lang.getMeaning("PANEL"), 0, null);
 		Menu showViewMenu = new Menu(shell, SWT.DROP_DOWN);
 		showView.setMenu(showViewMenu);
-		detailPanelItem = createMenuItem(SWT.CHECK, showViewMenu, lang.getMeaning("DETAIL_PANEL"), "detail", new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				form.togglePanel((String) e.widget.getData(), detailPanelItem.getSelection());
-			}
-		});
+		detailPanelItem = createMenuItem(SWT.CHECK, showViewMenu, lang.getMeaning("DETAIL_PANEL"), "detail",
+				new SelectionAdapter() {
+					public void widgetSelected(SelectionEvent e) {
+						form.togglePanel((String) e.widget.getData(), detailPanelItem.getSelection());
+					}
+				});
 		detailPanelItem.setSelection(props.getBoolean("view.panel.detail", true));
 
 		// fullscreen menu item
@@ -1183,9 +1184,9 @@ public class QuranFormMenuFactory {
 	}
 
 	private void reloadView() {
-		form.suraChanged = true;
+		form.pageChanged = true;
 		form.updateView();
-		form.suraChanged = false;
+		form.pageChanged = false;
 	}
 
 	private void reloadQuran() {
@@ -1197,7 +1198,7 @@ public class QuranFormMenuFactory {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		form.suraChanged = true;
+		form.pageChanged = true;
 		form.apply();
 	}
 
@@ -1210,7 +1211,7 @@ public class QuranFormMenuFactory {
 		} catch (IOException e) {
 			logger.log(e);
 		}
-		form.suraChanged = true;
+		form.pageChanged = true;
 		form.apply();
 	}
 
