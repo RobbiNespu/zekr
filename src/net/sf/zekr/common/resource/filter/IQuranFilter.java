@@ -24,6 +24,12 @@ public interface IQuranFilter {
 	public static final int HIGHLIGHT_WAQF_SIGN = 8 | SHOW_WAQF_SIGN;
 
 	/**
+	 * Default filtering scheme. Neither {@link #SHOW_WAQF_SIGN} nor {@link #UTHMANI_TEXT} or
+	 * {@link #HIGHLIGHT_WAQF_SIGN} is applied.
+	 */
+	public static final int NONE = 0;
+
+	/**
 	 * Implementations of this method manipulates the input parameter as needed.
 	 * 
 	 * @param str input string to be manipulated
