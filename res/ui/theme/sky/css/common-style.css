@@ -1,5 +1,5 @@
 .def {
-	font-family: Georgia, Serif;
+	font-family: Garamond, Georgia, Serif;
 }
 
 .def:lang(ar),.def:lang(fa) { /* CSS 3 Selector */
