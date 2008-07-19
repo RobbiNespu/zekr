@@ -24,12 +24,12 @@ import org.eclipse.swt.graphics.Point;
 /**
  * @author Mohsen Saboorian
  */
-public class BrowserCallbacHandler {
+public class BrowserCallbackHandler {
 	private Logger logger = Logger.getLogger(this.getClass());
 	private ApplicationConfig config = ApplicationConfig.getInstance();
 	private QuranForm form;
 
-	public BrowserCallbacHandler(QuranForm form) {
+	public BrowserCallbackHandler(QuranForm form) {
 		this.form = form;
 	}
 
@@ -76,7 +76,7 @@ public class BrowserCallbacHandler {
 					logger.info("Show quran: (" + sura + ", " + aya + ")");
 					try {
 						pe = new PopupBox(form.shell, form.meaning("QURAN_SCOPE"), new FilteredQuranText(
-								IQuranText.SIMPLE_MODE, IQuranFilter.SHOW_WAQF_SIGN).get(sura, aya), SWT.RIGHT_TO_LEFT);
+								IQuranText.SIMPLE_MODE, IQuranFilter.NONE).get(sura, aya), SWT.RIGHT_TO_LEFT);
 					} catch (IOException e) {
 						logger.log(e);
 					}

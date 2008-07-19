@@ -228,7 +228,7 @@ public class QuranForm extends BaseForm {
 
 	private UpdateManager updateManager;
 
-	private BrowserCallbacHandler bch = new BrowserCallbacHandler(this);
+	private BrowserCallbackHandler bch = new BrowserCallbackHandler(this);
 
 	IUserView uvc;
 
