@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
  * @author Mohsen Saboorian
  */
 public class RegexUtils extends LetterConstants {
+	private static Pattern REGTRANS_PATTERN = Pattern.compile("\\$([A-Z_]+)");
 
 	// matching rules
 	public static Map matchingRules = new LinkedHashMap();
@@ -69,18 +70,17 @@ public class RegexUtils extends LetterConstants {
 	 */
 	public static final String regTrans(String str) {
 		StringBuffer ret = new StringBuffer();
-		Pattern regex = Pattern.compile("\\$([A-Z_]+)");
-		Matcher matcher = regex.matcher(str);
+		Matcher matcher = REGTRANS_PATTERN.matcher(str);
 
 		int lastEnd = 0;
 		while (matcher.find()) {
 			String group = matcher.group(1);
 
 			String replacement;
-			if (UGroups.containsKey(group))
-				replacement = (String) UGroups.get(group);
-			else if (UChars.containsKey(group))
-				replacement = ((Character) UChars.get(group)).toString();
+			if (GROUPS.containsKey(group))
+				replacement = (String) GROUPS.get(group);
+			else if (CHARS.containsKey(group))
+				replacement = ((Character) CHARS.get(group)).toString();
 			else
 				continue;
 			ret.append(str.substring(lastEnd, matcher.start()));
@@ -131,18 +131,29 @@ public class RegexUtils extends LetterConstants {
 			buf.append(chars[i]);
 		}
 		pattern = buf.toString();
-		pattern = pattern.replaceAll("_", " ");
-		pattern = pattern.replaceAll("\"", "+");
-		// pattern = pattern.replaceAll("\\+", "");
+
+		//	pattern = pattern.replaceAll("^(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
+		// pattern = StringUtils.replace(pattern, "_", " ");
+		pattern = pattern.replace('_', ' ');
+		// pattern = StringUtils.replace(pattern, "\"", " ");
+		// pattern = pattern.replace('+', ' ');
+		pattern = pattern.replaceAll("\\+", "");
 
 		// remove extra operators
 		pattern = pattern.replaceAll("^[+|]+", "").replaceAll("[+|!]+$", "");
 		pattern = pattern.replaceAll("\\+*([+|!])\\+*", "$1");
-
 		return pattern;
 	}
 
-	// enrich arabic search pattern
+	/**
+	 * Enrich arabic search pattern. It adds all possible Arabic diacritics after each character of the
+	 * pattern. The resulting string is a valid regexp which can be used to match the Quran text.
+	 * 
+	 * @param pattern the plain pattern to be enriched
+	 * @param ignoreHaraka if <code>true</code>, any no diacritic (haraka) on the original pattern is taken
+	 *           into consideration
+	 * @return enriched pattern
+	 */
 	public static String enrichPattern(String pattern, boolean ignoreHaraka) {
 		if (ignoreHaraka)
 			pattern = pregReplace(pattern, "$HARAKA", "");
@@ -157,7 +168,6 @@ public class RegexUtils extends LetterConstants {
 
 		pattern = applyRules(pattern, matchingRules);
 		pattern = applyRules(pattern, wildcards);
-
 		return pattern;
 	}
 
@@ -166,7 +176,11 @@ public class RegexUtils extends LetterConstants {
 		// System.out.println(handleSpaces("sadsa \"asdfasdf asdf asdf\"sdf as \"sdf sdf\" "));
 		// System.out.println(regTrans("$ALEF$ALEF_MAKSURA$ALEF_WITH_MADDA_ABOVE$ALEF_WITH_HAMZA_ABOVE$ALEF_WITH_HAMZA_BELOW$ALEF_WASLA"));
 		// System.out.println(enrichPattern("salam?", false));
-		System.out.println(enrichPattern("سلام علی", false));
+		System.out.println(regTrans("$ARABIC_COMMA"));
+		System.out.println(enrichPattern("\"salamon\" ala", true));
+		//		System.out.println(enrichPattern("\"salamon\" ala", false));
+		System.out.println(enrichPattern("\"سلامٔ \" عَلی", false));
+		System.out.println(enrichPattern("\"سلامٔ \" عَلی", true));
 		// System.out.println("salam azizam".replaceAll("(.)", "'$1'"));
 	}
 }
