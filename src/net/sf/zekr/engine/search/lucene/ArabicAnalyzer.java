@@ -13,9 +13,12 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Set;
 
+import net.sf.zekr.engine.search.tanzil.LetterConstants;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.WhitespaceTokenizer;
 import org.apache.lucene.analysis.WordlistLoader;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
@@ -24,10 +27,12 @@ import org.apache.lucene.analysis.standard.StandardTokenizer;
  * stop words.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ArabicAnalyzer extends Analyzer {
-	private static final String[] ARABIC_STOP_WORDS = {};
+	private static final String[] ARABIC_STOP_WORDS = {
+		(String) LetterConstants.CHARS.get("ARABIC_COMMA"),
+		(String) LetterConstants.CHARS.get("ARABIC_SEMICOLON"),
+		".", ",", "?", "!", "(", ")"};
 
 	private Set stopSet;
 
