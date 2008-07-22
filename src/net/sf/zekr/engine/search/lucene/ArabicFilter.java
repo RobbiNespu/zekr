@@ -33,6 +33,6 @@ public class ArabicFilter extends TokenFilter {
 	}
 
 	private static String simplify(String text) {
-		return QuranFilterUtils.filterSimilarCharacters(QuranFilterUtils.filterHarakat(text));
+		return QuranFilterUtils.filterSimilarArabicCharacters(QuranFilterUtils.filterHarakat(text));
 	}
 }
