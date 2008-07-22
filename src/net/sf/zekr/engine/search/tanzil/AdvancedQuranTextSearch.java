@@ -49,7 +49,7 @@ class ZeroScorer implements ISearchScorer {
  * @author Hamid Zarrabi-Zadeh
  * @author Mohsen Saboorian
  */
-public class AdvancedTextSearch {
+public class AdvancedQuranTextSearch {
 	private Logger logger = Logger.getLogger(this.getClass());
 	private ISearchResultHighlighter highlighter;
 	private SearchScope searchScope;
@@ -85,7 +85,7 @@ public class AdvancedTextSearch {
 		this.searchScorer = searchScorer;
 	}
 
-	public AdvancedTextSearch(IQuranText quranText, ISearchResultHighlighter highlighter, ISearchScorer searchScorer) {
+	public AdvancedQuranTextSearch(IQuranText quranText, ISearchResultHighlighter highlighter, ISearchScorer searchScorer) {
 		if (highlighter == null)
 			this.highlighter = new ZeroHighlighter();
 		else
@@ -150,16 +150,27 @@ public class AdvancedTextSearch {
 		}
 
 		// score and highlight results
-		logger.debug("Score results.");
-		for (int i = 0; i < resultItems.size(); i++) {
-			SearchResultItem sri = (SearchResultItem) resultItems.get(i);
-			sri.score = searchScorer.score(sri);
-			sri.score /= (double) patterns.length;
-			sri.text = highlighter.highlight(sri.text, highlightPattern);
-		}
+		logger.debug("Score and highlight search results.");
+		scoreSearchResult(resultItems, highlightPattern, patterns.length);
 
 		return new SearchResult(quranText, resultItems, CollectionUtils.toString(clauses, " "), rawQuery, total,
 				searchResultComparator, ascending);
+	}
+
+	/**
+	 * Score and highlight the search result.
+	 * 
+	 * @param resultItems
+	 * @param highlightPattern
+	 * @param patternCount
+	 */
+	private void scoreSearchResult(List resultItems, String highlightPattern, int patternCount) {
+		for (int i = 0; i < resultItems.size(); i++) {
+			SearchResultItem sri = (SearchResultItem) resultItems.get(i);
+			sri.score = searchScorer.score(sri);
+			sri.score /= (double) patternCount;
+			sri.text = highlighter.highlight(sri.text, highlightPattern);
+		}
 	}
 
 	private List filterBucket(List intermediateResult, String pattern, boolean exclude, boolean firstTime) {
@@ -207,8 +218,8 @@ public class AdvancedTextSearch {
 		s = "\"محسن\"";
 		s = "محسن";
 		System.out.println(RegexUtils.enrichPattern(s, false));
-		System.out.println("Initialize AdvancedTextSearch" + new Date());
-		AdvancedTextSearch ats = new AdvancedTextSearch(QuranText.getSimpleTextInstance(),
+		System.out.println("Initialize AdvancedQuranTextSearch" + new Date());
+		AdvancedQuranTextSearch ats = new AdvancedQuranTextSearch(QuranText.getSimpleTextInstance(),
 				new SimpleSearchResultHighlighter(), new DefaultSearchScorer());
 		System.out.println(s);
 		System.out.println("Before search: " + new Date());
