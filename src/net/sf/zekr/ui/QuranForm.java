@@ -41,7 +41,7 @@ import net.sf.zekr.engine.search.lucene.AdvancedSearchResult;
 import net.sf.zekr.engine.search.lucene.IndexingException;
 import net.sf.zekr.engine.search.lucene.LuceneIndexManager;
 import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
-import net.sf.zekr.engine.search.tanzil.AdvancedTextSearch;
+import net.sf.zekr.engine.search.tanzil.AdvancedQuranTextSearch;
 import net.sf.zekr.engine.search.tanzil.DefaultSearchScorer;
 import net.sf.zekr.engine.search.tanzil.SearchResult;
 import net.sf.zekr.engine.search.tanzil.SimpleSearchResultHighlighter;
@@ -190,10 +190,10 @@ public class QuranForm extends BaseForm {
 	private String transUri;
 
 	private QuranTextSearcher qts;
-	private AdvancedTextSearch ats;
+	private AdvancedQuranTextSearch ats;
 	private AdvancedSearchResult asr;
 
-	private AdvancedTextSearch searcher;
+	private AdvancedQuranTextSearch searcher;
 	private SearchResult sr;
 
 	private ApplicationConfig config;
@@ -1912,7 +1912,7 @@ public class QuranForm extends BaseForm {
 			int sortBy = searchOrderCombo.getSelectionIndex();
 			if (ats == null) {
 				try {
-					ats = new AdvancedTextSearch(QuranText.getSimpleTextInstance(), new SimpleSearchResultHighlighter(),
+					ats = new AdvancedQuranTextSearch(QuranText.getSimpleTextInstance(), new SimpleSearchResultHighlighter(),
 							new DefaultSearchScorer());
 				} catch (Exception e) {
 					logger.implicitLog(e);
