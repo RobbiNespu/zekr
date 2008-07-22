@@ -17,14 +17,13 @@ import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 /**
  * Instances of this class hold search results including number of matched ayas, number of total matched
  * elements and highlighted matched ayas.
- * <p />
- * This class actually implements <code>Iterable</code> but this interface is absent in Java 1.4.2.
+ * <p>
+ * This class should actually implement {@link Iterable} if it was Java 5 dependent.
  * 
  * @author Hamid Zarrabi-Zadeh
  * @author Mohsen Saboorian
  */
 public class SearchResult extends AbstractSearchResult {
-
 	public SearchResult(IQuranText quranText, List results, String clause, String rawQuery, int totalMatch,
 			AbstractSearchResultComparator ayaComparator, boolean ascending) {
 		super(quranText, results, clause, rawQuery, totalMatch, ayaComparator, ascending);
