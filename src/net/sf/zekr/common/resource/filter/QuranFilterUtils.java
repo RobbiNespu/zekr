@@ -45,13 +45,25 @@ public class QuranFilterUtils {
 	private static final Pattern WAW = Pattern
 			.compile(RegexUtils.regTrans("[$WAW$WAW_WITH_HAMZA_ABOVE$SMALL_WAW]"));
 	private static final Pattern YEH = Pattern.compile(RegexUtils.regTrans("[$YEH$ALEF_MAKSURA"
-			+ "$YEH_WITH_HAMZA$SMALL_YEH]"));
-
-	public static String filterSimilarCharacters(String text) {
+			+ "$YEH_WITH_HAMZA$SMALL_YEH$FARSI_YEH$YEH_BARREE]"));
+	private static final Pattern KAF = Pattern.compile(RegexUtils.regTrans("[$KAF$FARSI_KEHEH"
+			+ "$SWASH_KAF]"));
+	
+	public static String filterSimilarArabicCharacters(String text) {
 		text = RegexUtils.pregReplace(text, TEH, "$TEH");
 		text = RegexUtils.pregReplace(text, ALEF, "$ALEF");
 		text = RegexUtils.pregReplace(text, WAW, "$WAW");
 		text = RegexUtils.pregReplace(text, YEH, "$YEH");
+		text = RegexUtils.pregReplace(text, KAF, "$KAF");
+		return text;
+	}
+
+	public static String filterSimilarPersianCharacters(String text) {
+		text = RegexUtils.pregReplace(text, TEH, "$TEH");
+		text = RegexUtils.pregReplace(text, ALEF, "$ALEF");
+		text = RegexUtils.pregReplace(text, WAW, "$WAW");
+		text = RegexUtils.pregReplace(text, YEH, "$YEH");
+		text = RegexUtils.pregReplace(text, KAF, "$KAF");
 		return text;
 	}
 
