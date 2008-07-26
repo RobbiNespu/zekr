@@ -20,6 +20,7 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.util.FileUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.update.ui.UpdateForm;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.ui.MessageBoxUtils;
 import net.sf.zekr.ui.ProgressForm;
@@ -34,6 +35,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ * Zekr update manager. This class is capable of checking for new updates available on the remote site of
+ * Zekr.
+ * 
+ * @author Mohsen Saboorian
+ */
 public class UpdateManager {
 	final private Logger logger = Logger.getLogger(this.getClass());
 	final private ApplicationConfig config = ApplicationConfig.getInstance();
@@ -79,8 +86,15 @@ public class UpdateManager {
 			public void run() {
 				logger.debug("Start update checking in a separate thread.");
 
-				if (manual)
+				if (manual) {
 					display.asyncExec(new ProgressThread(checkThread));
+				} else {
+					try {
+						Thread.sleep(2000); // wait some seconds to ensure that application is fully started up
+					} catch (InterruptedException e) {
+						// damp exception
+					}
+				}
 
 				checkThread.setDaemon(true);
 				checkThread.start();
@@ -95,8 +109,8 @@ public class UpdateManager {
 				props.setProperty("update.lastCheck", dateFormat.format(new Date()));
 
 				// update checking should either fail (updateCheckFailed = true), or finish (updateCheckFinished)!
-				if (updateCheckFailed) {
-					MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + ":\n" + failureCause);
+				if (manual && updateCheckFailed) {
+					MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + failureCause);
 				} else if (updateCheckFinished) {
 					String msg;
 					if (Long.parseLong(updateInfo.build) > Long.parseLong(GlobalConfig.ZEKR_BUILD_NUMBER)) {
@@ -155,9 +169,10 @@ public class UpdateManager {
 	private Thread checkThread = new Thread() {
 		public void run() {
 			try {
-				String url = config.getProps().getString("update.address") + "/update-info.xml";
+				String url = GlobalConfig.UPDATE_SITE + "/update-info.xml";
 				logger.info("Checking for any update on the remote site: " + url);
-				InputStream is = FileUtils.getContent(new URI(url).toURL());
+				InputStream is;
+				is = FileUtils.getContent(new URI(url).toURL());
 
 				logger.debug("Parse update info XML.");
 				XmlReader xr = new XmlReader(is);
@@ -188,7 +203,7 @@ public class UpdateManager {
 				updateCheckFailed = true;
 				failureCause = e;
 				logger.implicitLog(e);
-				logger.error("Failed to check for update!");
+				logger.error("Zekr failed to check for updates.");
 			}
 		}
 	};
