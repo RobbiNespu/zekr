@@ -8,21 +8,21 @@
  */
 package net.sf.zekr.common.runtime;
 
+import net.sf.zekr.common.config.ApplicationConfig;
+
 /**
  * <p>
- * A java bean class intended to hold runtime configurations (those which can be changed
- * at runtime). An instance of this class can be accessed through
- * <code>ApplicationConfig</code>.
+ * A java bean class intended to hold runtime configurations (those which can be changed at runtime). An
+ * instance of this class can be accessed through <code>ApplicationConfig</code>.
  * </p>
  * <p>
- * The philosophy of existence of this file is that retrieving application configurations
- * from <code>ApplicationConfig</code> is a time consuming job since it loads the
- * configuration from a heavyweight DOM (level 2) XML object in the memory.
+ * The philosophy of existence of this file is that retrieving application configurations from
+ * <code>ApplicationConfig</code> is a time consuming job since it loads the configuration from a heavyweight
+ * DOM (level 2) XML object in the memory.
  * </p>
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
- * @version 0.1
+ * @deprecated use {@link ApplicationConfig} instead. This class will be deleted before final 0.7.0 release.
  */
 public class RuntimeConfig {
 	String language;
@@ -36,8 +36,7 @@ public class RuntimeConfig {
 	}
 
 	/**
-	 * @param language
-	 *            The language to set.
+	 * @param language The language to set.
 	 */
 	public void setLanguage(String language) {
 		this.language = language;
@@ -51,8 +50,7 @@ public class RuntimeConfig {
 	}
 
 	/**
-	 * @param textLayout
-	 *            The textLayout to set.
+	 * @param textLayout The textLayout to set.
 	 */
 	public void setTextLayout(String textLayout) {
 		this.textLayout = textLayout;
