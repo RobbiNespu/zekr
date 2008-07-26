@@ -15,16 +15,16 @@ import net.sf.zekr.common.resource.JuzProperties;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 
-public class HizbQuadPagingDataTest extends ZekrBaseTest {
-	HizbQuadPagingData h;
+public class HizbQuarterPagingDataTest extends ZekrBaseTest {
+	HizbQuarterPagingData h;
 
-	public HizbQuadPagingDataTest() throws Exception {
+	public HizbQuarterPagingDataTest() throws Exception {
 		super();
 	}
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		h = new HizbQuadPagingData();
+		h = new HizbQuarterPagingData();
 	}
 
 	protected void tearDown() throws Exception {
@@ -59,7 +59,7 @@ public class HizbQuadPagingDataTest extends ZekrBaseTest {
 	}
 
 	public final void testGetId() {
-		assertEquals(h.getId(), HizbQuadPagingData.ID);
+		assertEquals(h.getId(), HizbQuarterPagingData.ID);
 	}
 
 	public final void testSize() {
