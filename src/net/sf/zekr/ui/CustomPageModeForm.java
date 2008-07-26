@@ -16,7 +16,7 @@ import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.page.FixedAyaPagingData;
-import net.sf.zekr.engine.page.HizbQuadPagingData;
+import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
 import net.sf.zekr.engine.page.PagingException;
@@ -78,7 +78,7 @@ public class CustomPageModeForm extends BaseForm {
 				(IPagingData) qp.get(FixedAyaPagingData.ID),
 				(IPagingData) qp.get(SuraPagingData.ID),
 				(IPagingData) qp.get(JuzPagingData.ID),
-				(IPagingData) qp.get(HizbQuadPagingData.ID)
+				(IPagingData) qp.get(HizbQuarterPagingData.ID)
 		};
 
 		List pagingList = Arrays.asList(builtinPagings);
