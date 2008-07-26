@@ -31,7 +31,7 @@ import net.sf.zekr.common.resource.SajdaProperties;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.page.HizbQuadPagingData;
+import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
 import net.sf.zekr.engine.page.SuraPagingData;
@@ -124,8 +124,8 @@ public class QuranForm extends BaseForm {
 	private Combo searchCombo, advancedSearchCombo;
 	private Text searchBox, advancedSearchBox;
 	private Button goButton;
-	private Button quranScopeBut;
-	private Button transScopeBut;
+	Button quranTargetBut, transTargetBut;
+	Button advancedQuranTargetBut, advancedTransTargetBut;
 	private Button sync;
 	private Button matchDiacCheckBox;
 	private Button currentPageCheckBox;
@@ -142,7 +142,6 @@ public class QuranForm extends BaseForm {
 	private SashForm sashForm;
 	private SashForm navSashForm;
 	private Menu searchMenu;
-	//	private StackLayout advancedSearchStackLayout;
 	private Button searchButton, advancedSearchButton;
 	private Button searchArrowBut, advancedSearchArrowBut;
 	private Button sortOrderButton, advancedSortOrderButton;
@@ -164,11 +163,6 @@ public class QuranForm extends BaseForm {
 
 	private static final String NAV_BUTTON = "NAV_BUTTON";
 
-	/**
-	 * Can be {@link #QURAN_ONLY} or {@link #TRANS_ONLY} based on the current seach scope selected.
-	 */
-	int searchTarget;
-
 	/** match case behavior for search */
 	// private boolean matchCase;
 	private final String FORM_ID = "QURAN_FORM";
@@ -176,9 +170,6 @@ public class QuranForm extends BaseForm {
 	private static final Logger logger = Logger.getLogger(QuranForm.class);
 
 	private QuranProperties quranProp;
-
-	/** Specifies whether aya selector changed since a sura was selected. */
-	protected boolean ayaChanged;
 
 	/** Specifies whether page changed. */
 	protected boolean pageChanged;
@@ -234,7 +225,7 @@ public class QuranForm extends BaseForm {
 
 	private static Map tooltipMap = new HashMap();
 	{
-		tooltipMap.put(HizbQuadPagingData.ID, "HIZBQ");
+		tooltipMap.put(HizbQuarterPagingData.ID, "HIZBQ");
 		tooltipMap.put(JuzPagingData.ID, "JUZ");
 		tooltipMap.put(SuraPagingData.ID, "SURA");
 	}
@@ -283,9 +274,6 @@ public class QuranForm extends BaseForm {
 	}
 
 	protected void init() {
-		searchTarget = QURAN_ONLY;
-		// matchCase = false;
-
 		viewLayout = 0; // no layout set yet
 		uvc = config.getUserViewController();
 
@@ -299,12 +287,9 @@ public class QuranForm extends BaseForm {
 				new Image(display, resource.getString("icon.form256")) });
 		shell.setMenuBar((qmf = new QuranFormMenuFactory(this, shell)).getQuranFormMenu());
 
-		ayaChanged = false;
 		pageChanged = false;
 
 		logger.info("Loading last visited Quran location: " + quranLoc + ".");
-		// TODO: remove commented line when tested
-		// quranLoc = new QuranLocation(config.getProps().getString("view.quranLoc"));
 
 		tree = config.getProps().getString("view.sura.mode", "combo").equals("tree");
 
@@ -320,9 +305,6 @@ public class QuranForm extends BaseForm {
 			setLayout(config.getViewProp("view.viewLayout"));
 		}
 
-		// TODO
-		// gotoSuraAya(quranLoc.getSura(), quranLoc.getAya());
-		// gotoSuraAya(uvc.getLocation());
 		navTo(uvc.getLocation(), true);
 
 		dl = new DisposeListener() {
@@ -577,7 +559,6 @@ public class QuranForm extends BaseForm {
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
-				ayaChanged = true;
 				apply();
 			}
 		});
@@ -899,7 +880,7 @@ public class QuranForm extends BaseForm {
 			advancedSearchStackLayout.topControl = advancedSearchComboComp;
 		}
 
-		////////////////////////
+		// ===== advanced search target radio buttons
 		KeyAdapter ka = new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == 13) {
@@ -910,35 +891,27 @@ public class QuranForm extends BaseForm {
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
-		final Composite searchScopeComp = new Composite(advancedSearchTabBody, SWT.NONE);
-		searchScopeComp.setLayoutData(gd);
-		searchScopeComp.setLayout(new FillLayout());
+		final Composite advancedSearchScopeComp = new Composite(advancedSearchTabBody, SWT.NONE);
+		advancedSearchScopeComp.setLayoutData(gd);
+		advancedSearchScopeComp.setLayout(new FillLayout());
 
-		quranScopeBut = new Button(searchScopeComp, SWT.RADIO);
-		quranScopeBut.setText(meaning("QURAN_SCOPE"));
+		advancedQuranTargetBut = new Button(advancedSearchScopeComp, SWT.RADIO);
+		advancedQuranTargetBut.setText(meaning("QURAN_SCOPE"));
 
-		boolean searchQuranContent = config.getProps().getBoolean("view.search.simple.searchQuranContent");
+		advancedQuranTargetBut.addKeyListener(ka);
 
-		quranScopeBut.setSelection(searchQuranContent);
-		quranScopeBut.addKeyListener(ka);
-
-		transScopeBut = new Button(searchScopeComp, SWT.RADIO);
-		transScopeBut.setText(meaning("TRANSLATION_SCOPE"));
-		SelectionListener transScopeSA = new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (transScopeBut.getSelection()) {
-					searchTarget = TRANS_ONLY;
-				} else {
-					searchTarget = QURAN_ONLY;
-				}
+		advancedTransTargetBut = new Button(advancedSearchScopeComp, SWT.RADIO);
+		advancedTransTargetBut.setText(meaning("TRANSLATION_SCOPE"));
+		advancedTransTargetBut.addKeyListener(ka);
+		if (config.getTranslation().getDefault() == null) {
+			advancedTransTargetBut.setEnabled(false);
+		} else {
+			if (config.getProps().getString("view.search.advanced.target", "quran").equals("quran")) {
+				advancedQuranTargetBut.setSelection(true);
+			} else {
+				advancedTransTargetBut.setSelection(true);
 			}
-		};
-		transScopeBut.addKeyListener(ka);
-		transScopeBut.setSelection(!searchQuranContent);
-		transScopeBut.addSelectionListener(transScopeSA);
-		if (config.getTranslation().getDefault() == null)
-			transScopeBut.setEnabled(false);
-		//////////////////////////
+		}
 
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
@@ -1157,6 +1130,40 @@ public class QuranForm extends BaseForm {
 			searchStackLayout.topControl = searchComboComp;
 		}
 
+		// ===== search target radio buttons
+		KeyAdapter ka = new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.keyCode == 13) {
+					doFind();
+				}
+			}
+		};
+
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		final Composite searchScopeComp = new Composite(searchTabBody, SWT.NONE);
+		searchScopeComp.setLayoutData(gd);
+		searchScopeComp.setLayout(new FillLayout());
+
+		quranTargetBut = new Button(searchScopeComp, SWT.RADIO);
+		quranTargetBut.setText(meaning("QURAN_SCOPE"));
+
+		quranTargetBut.addKeyListener(ka);
+
+		transTargetBut = new Button(searchScopeComp, SWT.RADIO);
+		transTargetBut.setText(meaning("TRANSLATION_SCOPE"));
+		transTargetBut.addKeyListener(ka);
+		if (config.getTranslation().getDefault() == null) {
+			transTargetBut.setEnabled(false);
+		} else {
+			if (config.getProps().getString("view.search.target", "quran").equals("quran")) {
+				quranTargetBut.setSelection(true);
+			} else {
+				transTargetBut.setSelection(true);
+			}
+		}
+		//////////////////////////
+
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
 		gl = new GridLayout(3, false);
@@ -1310,159 +1317,6 @@ public class QuranForm extends BaseForm {
 		find();
 	}
 
-	/*
-		private void createSimpleSearchTabContent() {
-			searchCombo = new Combo(searchTabBody, SWT.DROP_DOWN);
-			searchCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			searchCombo.setVisibleItemCount(8);
-			searchCombo.addSelectionListener(new SelectionAdapter() {
-				public void widgetDefaultSelected(SelectionEvent e) {
-					find();
-				}
-			});
-			// searchCombo.addKeyListener(comboSelectAll);
-
-			GridLayout gl = new GridLayout(2, false);
-			gl.horizontalSpacing = 0;
-			gl.marginWidth = 0;
-			gl.verticalSpacing = 0;
-
-			Composite searchButComp = new Composite(searchTabBody, SWT.NONE);
-			searchButComp.setLayout(gl);
-
-			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-
-			searchButton = new Button(searchButComp, SWT.PUSH);
-			searchButton.setText(lang.getMeaning("SEARCH"));
-			searchButton.setLayoutData(gd);
-			searchButton.addSelectionListener(new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent e) {
-					find();
-				}
-			});
-
-			// search option button
-			gd = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
-			// gd = new GridData(GlobalConfig.isLinux ? GridData.FILL_BOTH : GridData.FILL_HORIZONTAL);
-			gd.horizontalIndent = -1;
-
-			searchArrowBut = new Button(searchButComp, SWT.TOGGLE);
-			searchMenu = _searchScopeMenu;
-			searchMenu.addMenuListener(new MenuAdapter() {
-				public void menuHidden(MenuEvent e) {
-					searchArrowBut.setSelection(false);
-				}
-			});
-			searchArrowBut.setImage(new Image(display, resource.getString("icon.down")));
-			searchArrowBut.setLayoutData(gd);
-			searchArrowBut.addSelectionListener(new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent e) {
-					Point loc = display.map(searchArrowBut, null, 0, 0);
-					Point size = searchArrowBut.getSize();
-					searchMenu.setLocation(loc.x, loc.y + size.y);
-					searchMenu.setVisible(true);
-				}
-			});
-
-			KeyAdapter ka = new KeyAdapter() {
-				public void keyPressed(KeyEvent e) {
-					if (e.keyCode == 13) {
-						find();
-					}
-				}
-			};
-
-			gd = new GridData(GridData.FILL_HORIZONTAL);
-			gd.horizontalSpan = 2;
-			final Composite searchScopeComp = new Composite(searchTabBody, SWT.NONE);
-			searchScopeComp.setLayoutData(gd);
-			searchScopeComp.setLayout(new FillLayout());
-
-			quranScopeBut = new Button(searchScopeComp, SWT.RADIO);
-			quranScopeBut.setText(meaning("QURAN_SCOPE"));
-
-			boolean searchQuranContent = config.getProps().getBoolean("view.search.simple.searchQuranContent");
-
-			quranScopeBut.setSelection(searchQuranContent);
-			quranScopeBut.addKeyListener(ka);
-
-			transScopeBut = new Button(searchScopeComp, SWT.RADIO);
-			transScopeBut.setText(meaning("TRANSLATION_SCOPE"));
-			SelectionListener transScopeSA = new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent e) {
-					if (transScopeBut.getSelection()) {
-						searchTarget = TRANS_ONLY;
-						matchDiacCheckBox.setEnabled(false);
-						matchCaseCheckBox.setEnabled(true);
-					} else {
-						searchTarget = QURAN_ONLY;
-						matchDiacCheckBox.setEnabled(true);
-						matchCaseCheckBox.setEnabled(false);
-					}
-				}
-			};
-			transScopeBut.addKeyListener(ka);
-			transScopeBut.setSelection(!searchQuranContent);
-			transScopeBut.addSelectionListener(transScopeSA);
-			if (config.getTranslation().getDefault() == null)
-				transScopeBut.setEnabled(false);
-
-			gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
-			gd.horizontalSpan = 2;
-			currentPageCheckBox = new Button(searchTabBody, SWT.CHECK);
-			currentPageCheckBox.setText(meaning("CURRENT_PAGE"));
-			currentPageCheckBox.setLayoutData(gd);
-			currentPageCheckBox.addKeyListener(ka);
-			SelectionListener currPageSA = new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent e) {
-					if (currentPageCheckBox.getSelection()) {
-						searchArrowBut.setEnabled(false);
-						quranScopeBut.setEnabled(false);
-						transScopeBut.setEnabled(false);
-						matchCaseCheckBox.setEnabled(true);
-						matchDiacCheckBox.setEnabled(true);
-					} else {
-						searchArrowBut.setEnabled(true);
-						quranScopeBut.setEnabled(true);
-						transScopeBut.setEnabled(config.getTranslation().getDefault() != null);
-						if (transScopeBut.getSelection()) {
-							matchCaseCheckBox.setEnabled(true);
-							matchDiacCheckBox.setEnabled(false);
-						} else {
-							matchCaseCheckBox.setEnabled(false);
-							matchDiacCheckBox.setEnabled(true);
-						}
-					}
-				}
-			};
-			currentPageCheckBox.setSelection(config.getProps().getBoolean("view.search.simple.currentPageOnly"));
-			currentPageCheckBox.addSelectionListener(currPageSA);
-
-			gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
-			gd.horizontalSpan = 2;
-			matchDiacCheckBox = new Button(searchTabBody, SWT.CHECK);
-			matchDiacCheckBox.setText(lang.getMeaning("MATCH_DIACRITIC"));
-			matchDiacCheckBox.setLayoutData(gd);
-			matchDiacCheckBox.addKeyListener(ka);
-			matchDiacCheckBox.setSelection(config.getProps().getBoolean("view.search.simple.matchDiacritics"));
-
-			gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING, GridData.BEGINNING, true, false);
-			gd.horizontalSpan = 2;
-			matchCaseCheckBox = new Button(searchTabBody, SWT.CHECK);
-			matchCaseCheckBox.setText(lang.getMeaning("MATCH_CASE"));
-			matchCaseCheckBox.setLayoutData(gd);
-			matchCaseCheckBox.addKeyListener(ka);
-			matchCaseCheckBox.setSelection(config.getProps().getBoolean("view.search.simple.matchCase"));
-			// matchCaseCheckBox.addSelectionListener(new SelectionAdapter() {
-			// public void widgetSelected(SelectionEvent e) {
-			// matchCase = matchCaseCheckBox.getSelection();
-			// }
-			// });
-
-			transScopeSA.widgetSelected(null); // this call causes some checkbox states to be set
-			currPageSA.widgetSelected(null); // this call causes all check box states to be set (disabled/enabled)
-		}
-	*/
 	protected void gotoNextAya() {
 		IQuranLocation nextLoc = uvc.getLocation().getNext();
 		if (nextLoc != null)
@@ -1623,6 +1477,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	void navTo(IQuranLocation loc, boolean changePage) {
+		uvc.setViewMode(IUserView.VM_QURAN_TRANS);
 		if (loc.isValid()) {
 			IPagingData qp = config.getQuranPaging().getDefault();
 			int p = uvc.getPage();
@@ -1659,7 +1514,6 @@ public class QuranForm extends BaseForm {
 			int ayaCount = QuranProperties.getInstance().getSura(sura).getAyaCount();
 			if (aya <= ayaCount && aya >= 1) {
 				ayaSelectorCombo.select(aya - 1);
-				ayaChanged = true;
 			}
 			apply();
 		} else {
@@ -1680,7 +1534,6 @@ public class QuranForm extends BaseForm {
 			int ayaCount = QuranProperties.getInstance().getSura(uvc.getLocation().getSura()).getAyaCount();
 			if (aya <= ayaCount && aya >= 1) {
 				ayaSelectorCombo.select(aya - 1);
-				ayaChanged = true;
 				uvc.changeTo(new QuranLocation(sura, aya));
 				apply();
 			} else {
@@ -1811,7 +1664,6 @@ public class QuranForm extends BaseForm {
 	private void onSuraChanged() {
 		ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(getSelectedSura()));
 		ayaSelectorCombo.select(0);
-		ayaChanged = false; // It must be set to true after ayaSelector.select
 		pageChanged = true; // It must be set to false after apply()
 	}
 
@@ -1819,7 +1671,6 @@ public class QuranForm extends BaseForm {
 		ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(getSelectedSura()));
 		//		ayaSelectorCombo.setItems(QuranPropertiesUtils.getSuraAyas(uvc.getLocation().getSura()));
 		//		ayaSelectorCombo.select(0);
-		// ayaChanged = false; // It must be set to true after ayaSelector.select
 		// suraChanged = false; // It must be set to false after apply()
 	}
 
@@ -1834,7 +1685,7 @@ public class QuranForm extends BaseForm {
 
 		LuceneIndexManager lim = config.getLuceneIndexManager();
 		try {
-			if (quranScopeBut.getSelection())
+			if (advancedQuranTargetBut.getSelection())
 				qts = new QuranTextSearcher(lim, searchScope);
 			else
 				qts = new QuranTextSearcher(lim, searchScope, config.getTranslation().getDefault());
@@ -1910,16 +1761,20 @@ public class QuranForm extends BaseForm {
 			Date date1 = new Date();
 
 			int sortBy = searchOrderCombo.getSelectionIndex();
-			if (ats == null) {
-				try {
-					ats = new AdvancedQuranTextSearch(QuranText.getSimpleTextInstance(), new SimpleSearchResultHighlighter(),
-							new DefaultSearchScorer());
-				} catch (Exception e) {
-					logger.implicitLog(e);
-					MessageBoxUtils.showError("Searcher failed to initialize:\n\t" + e);
-					return; // search failed
-				}
+			//if (ats == null) {
+			try {
+				if (quranTargetBut.getSelection())
+					ats = new AdvancedQuranTextSearch(QuranText.getSimpleTextInstance(),
+							new SimpleSearchResultHighlighter(), new DefaultSearchScorer());
+				else
+					ats = new AdvancedQuranTextSearch(config.getTranslation().getDefault(),
+							new SimpleSearchResultHighlighter(), new DefaultSearchScorer());
+			} catch (Exception e) {
+				logger.implicitLog(e);
+				MessageBoxUtils.showError("Basic searcher failed to initialize:\n\t" + e);
+				return; // search failed
 			}
+			// }
 			if (searchScope != ats.getSearchScope()) { // no need to .equals()
 				ats.setSearchScope(searchScope);
 			}
@@ -1957,6 +1812,7 @@ public class QuranForm extends BaseForm {
 	 */
 	private void advancedFindGoto(int pageNo) {
 		try {
+			uvc.setViewMode(IUserView.VM_ADVANCED_SEARCH);
 			if (asr == null) {
 				logger.error("Advanced search is not done yet!");
 				return;
@@ -1983,7 +1839,6 @@ public class QuranForm extends BaseForm {
 			logger.info("Navigate to page #" + pageNo + " of advanced search result.");
 			Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
 			searchBrowser.setUrl(HtmlRepository.getAdvancedSearchQuranUri(asr, pageNo - 1));
-			ayaChanged = true;
 			pageChanged = true;
 		} catch (HtmlGenerationException e) {
 			logger.log(e);
@@ -1995,6 +1850,7 @@ public class QuranForm extends BaseForm {
 	 */
 	private void findGoto(int pageNo) {
 		try {
+			uvc.setViewMode(IUserView.VM_SEARCH);
 			if (sr == null) {
 				logger.error("Search is not done yet!");
 				return;
@@ -2021,56 +1877,12 @@ public class QuranForm extends BaseForm {
 			logger.info("Navigate to page #" + pageNo + " of search result.");
 			Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
 			searchBrowser.setUrl(HtmlRepository.getAdvancedSearchQuranUri(sr, pageNo - 1));
-			ayaChanged = true;
 			pageChanged = true;
 		} catch (HtmlGenerationException e) {
 			logger.log(e);
 		}
 	}
 
-	/*
-		private void find() {
-			doPreFind();
-
-			String str = searchCombo.getText();
-			Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
-
-			if (!"".equals(str.trim()) && str.indexOf('$') == -1 && str.indexOf('\\') == -1) {
-
-				if (searchCombo.getItemCount() <= 0 || !str.equals(searchCombo.getItem(0)))
-					searchCombo.add(str, 0);
-				if (searchCombo.getItemCount() > 40)
-					searchCombo.remove(40, searchCombo.getItemCount() - 1);
-
-				if (!currentPageCheckBox.getSelection()) {
-					ayaChanged = true;
-					suraChanged = true;
-					try {
-						if (searchTarget == QURAN_ONLY) {
-							logger.info("Search on the Quran for \"" + str + "\" with diacritic match set to "
-									+ matchDiacCheckBox.getSelection() + ", on scope: " + searchScope);
-							searchBrowser.setUrl(quranUri = HtmlRepository.getSearchQuranUri(str, matchDiacCheckBox
-									.getSelection(), searchScope));
-						} else { // TRANS_ONLY
-							logger.info("Search on the translation for \"" + str + "\" with diacritic match set to "
-									+ matchDiacCheckBox.getSelection() + ", on scope: " + searchScope);
-							searchBrowser.setUrl(quranUri = HtmlRepository.getSearchTransUri(str, matchDiacCheckBox
-									.getSelection(), matchCaseCheckBox.getSelection(), searchScope));
-						}
-						logger.info("End of search.");
-					} catch (HtmlGenerationException e) {
-						logger.log(e);
-					}
-				} else {
-					logger.info("Start searching the current page for \"" + str + "\" with diacritic match set to "
-							+ matchDiacCheckBox.getSelection() + ".");
-					searchBrowser.execute("find(\"" + str + "\", " + matchDiacCheckBox.getSelection() + ", "
-							+ matchCaseCheckBox.getSelection() + ");");
-					logger.info("End of search.");
-				}
-			}
-		}
-	*/
 	void recreate() {
 		logger.info("Recreating Quran form...");
 		shell.close();
@@ -2207,7 +2019,9 @@ public class QuranForm extends BaseForm {
 
 		// search props
 		config.getProps().setProperty("view.search.tab", String.valueOf(searchTabFolder.getSelectionIndex()));
-		// config.getProps().setProperty("view.search.simple.searchQuranContent", String.valueOf(!transScopeBut.getSelection()));
+		config.getProps().setProperty("view.search.target", quranTargetBut.getSelection() ? "quran" : "trans");
+		config.getProps().setProperty("view.search.advanced.target",
+				advancedQuranTargetBut.getSelection() ? "quran" : "trans");
 		// config.getProps().setProperty("view.search.simple.matchCase", String.valueOf(matchCaseCheckBox.getSelection()));
 		// config.getProps().setProperty("view.search.simple.matchDiacritics", String.valueOf(matchDiacCheckBox.getSelection()));
 		// config.getProps().setProperty("view.search.simple.currentPageOnly", String.valueOf(currentPageCheckBox.getSelection()));
