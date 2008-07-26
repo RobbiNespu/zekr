@@ -29,7 +29,7 @@ import org.apache.commons.io.FileUtils;
  */
 public class ApplicationRuntime {
 	private ArrayList dirList = new ArrayList();
-	private static final Logger logger = Logger.getLogger(ApplicationRuntime.class);
+	private final Logger logger = Logger.getLogger(ApplicationRuntime.class);
 
 	public ApplicationRuntime() {
 		dirList.add(Naming.getWorkspace());
@@ -160,9 +160,9 @@ public class ApplicationRuntime {
 	public void recreateThemePropertiesDirectory() {
 		try {
 			FileUtils.deleteDirectory(new File(Naming.getThemePropsDir()));
-			new File(Naming.getThemePropsDir()).mkdir();
+			new File(Naming.getThemePropsDir()).mkdirs();
 		} catch (IOException e) {
-			logger.error("Error while saving config to " + ApplicationPath.USER_CONFIG);
+			logger.error("Error while saving config to: " + Naming.getThemePropsDir());
 		}
 	}
 }
