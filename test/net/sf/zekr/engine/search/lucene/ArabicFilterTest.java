@@ -23,6 +23,7 @@ import org.apache.lucene.analysis.WhitespaceTokenizer;
  * Test case for <code>ArabicFilter</code> class.
  * 
  * @author Mohsen Saboorian
+ * @deprecated {@link ZekrLuceneAnalyzerTest} should be used.
  */
 public class ArabicFilterTest extends ZekrBaseTest {
 
