@@ -73,8 +73,8 @@ public class GlobalConfig {
 	public static final int MAX_MENU_STRING_LENGTH = 50;
 
 	/**
-	 * A unique number for each build. It contains full date plus hour. For example <tt>2008021020</tt> is
-	 * used for a version released on Feb. 2, 2008, on 20 o'clock.
+	 * A unique number for each build. It contains full date plus hour. For example <tt>2008021020</tt> is used
+	 * for a version released on Feb. 2, 2008, on 20 o'clock.
 	 */
 	public static final String ZEKR_BUILD_NUMBER;
 
@@ -87,6 +87,11 @@ public class GlobalConfig {
 	 */
 	public static final String ZEKR_VERSION;
 
+	/**
+	 * Zekr update URL.
+	 */
+	public static final String UPDATE_SITE;
+
 	static {
 		PropertyResourceBundle prb = null;
 		try {
@@ -98,12 +103,13 @@ public class GlobalConfig {
 			ZEKR_VERSION = prb == null ? "" : prb.getString("zekr.version");
 			ZEKR_BUILD_NUMBER = prb == null ? "" : prb.getString("zekr.build.number");
 			ZEKR_BUILD_STATUS = prb == null ? "" : prb.getString("zekr.build.status");
+			UPDATE_SITE = prb == null ? "http://zekr.org/update" : prb.getString("zekr.update.address");
 		}
 	}
 
 	/**
-	 * @return Tries to find user's desktop folder. If failed, returns <code>USER_HOME_PATH</code> (<tt>user.home</tt>
-	 *         system property).
+	 * @return Tries to find user's desktop folder. If failed, returns <code>USER_HOME_PATH</code> (
+	 *         <tt>user.home</tt> system property).
 	 */
 	public static final String getDefaultStartFolder() {
 		String ret = USER_HOME_PATH;
