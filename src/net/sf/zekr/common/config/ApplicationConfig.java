@@ -16,8 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +33,6 @@ import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
-import net.sf.zekr.common.runtime.RuntimeConfig;
 import net.sf.zekr.common.util.Base64;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.audio.Audio;
@@ -49,15 +46,14 @@ import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.page.CustomPagingData;
 import net.sf.zekr.engine.page.FixedAyaPagingData;
-import net.sf.zekr.engine.page.HizbQuadPagingData;
+import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
 import net.sf.zekr.engine.page.QuranPaging;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.revelation.Revelation;
 import net.sf.zekr.engine.revelation.RevelationData;
-import net.sf.zekr.engine.search.lucene.IndexCreator;
-import net.sf.zekr.engine.search.lucene.IndexingException;
+import net.sf.zekr.engine.search.SearchInfo;
 import net.sf.zekr.engine.search.lucene.LuceneIndexManager;
 import net.sf.zekr.engine.server.HttpServer;
 import net.sf.zekr.engine.server.HttpServerFactory;
@@ -70,12 +66,11 @@ import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.index.IndexReader;
-import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
 
 /**
@@ -87,8 +82,6 @@ import org.w3c.dom.Element;
 public class ApplicationConfig implements ConfigNaming {
 	private final static Logger logger = Logger.getLogger(ApplicationConfig.class);
 	private static ApplicationConfig thisInstance;
-
-	private RuntimeConfig runtimeConfig = new RuntimeConfig();
 
 	private XmlReader configReader;
 	private LanguageEngine langEngine;
@@ -108,6 +101,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private IUserView userViewController;
 	private HttpServer httpServer;
 	private LuceneIndexManager luceneIndexManager;
+	private SearchInfo searchInfo;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -134,19 +128,57 @@ public class ApplicationConfig implements ConfigNaming {
 		extractViewProps();
 
 		// EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Initializing Audio Data");
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Audio packs");
 		extractAudioProps();
+
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Revelation orders");
 		extractRevelOrderInfo();
+
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Paging data");
 		extractPagingDataProps();
+
+		if (isHttpServerEnabled()) {
+			EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Start HTTP server");
+			startHttpServer();
+		}
+
+		// #extractPagingDataProps() should be called before this method
+		initViewController();
+
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading search metadata");
+		initSearchInfo();
+
+		luceneIndexManager = new LuceneIndexManager(props);
 
 		logger.info("Application configurations initialized.");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
+	}
 
-		startHttpServer();
+	private void initSearchInfo() {
+		logger.info("Load search info...");
+		searchInfo = new SearchInfo();
+		Configuration stopWordConf = props.subset("search.stopword");
+		List defaultStopWord = props.getList("search.stopword");
+		Configuration replacePatternConf = props.subset("search.pattern.replace");
+		List defaultReplacePattern = props.getList("search.pattern.replace");
 
-		// extractPagingDataProps should be called before this method
-		initViewController();
+		searchInfo.setDefaultStopWord(defaultStopWord);
+		for (Iterator iterator = stopWordConf.getKeys(); iterator.hasNext();) {
+			String langCode = (String) iterator.next();
+			if (langCode.length() <= 0) // default value
+				continue;
+			logger.debug("\tAdd stop words for: " + langCode);
+			searchInfo.addStopWord(langCode, stopWordConf.getList(langCode));
+		}
 
-		luceneIndexManager = new LuceneIndexManager(props);
+		searchInfo.setDefaultReplacePattern(defaultReplacePattern);
+		for (Iterator iterator = replacePatternConf.getKeys(); iterator.hasNext();) {
+			String langCode = (String) iterator.next();
+			if (langCode.length() <= 0) // default value
+				continue;
+			logger.debug("\tAdd replace patterns for: " + langCode);
+			searchInfo.addReplacePattern(langCode, replacePatternConf.getList(langCode));
+		}
 	}
 
 	private void initViewController() {
@@ -156,15 +188,12 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	private void startHttpServer() {
-		if (isHttpServerEnabled()) {
-			logger.info("Start HTTP server daemon on port: " + getHttpServerPort());
-			httpServer = HttpServerFactory.createHttpServer(props);
-			httpServerThread = new Thread(httpServer);
-			httpServerThread.setDaemon(true);
-			httpServerThread.start();
-		} else {
-			logger.info("HTTP server is disabled and will not start.");
-		}
+		logger.info("Start HTTP server daemon on port: " + getHttpServerPort());
+		httpServer = HttpServerFactory.createHttpServer(props);
+		httpServer.run();
+		// httpServerThread = new Thread(httpServer);
+		// httpServerThread.setDaemon(true);
+		// httpServerThread.start();
 	}
 
 	public static ApplicationConfig getInstance() {
@@ -186,10 +215,12 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 		try {
 			InputStream fis = new FileInputStream(confFile);
-			Reader reader = new InputStreamReader(fis, "UTF-8");
+			// Reader reader = new InputStreamReader(fis, "UTF-8");
 			props = new PropertiesConfiguration();
-			props.load(reader);
-			reader.close();
+			props.setBasePath(ApplicationPath.CONFIG_DIR);
+			props.setEncoding("UTF-8");
+			props.load(fis, "UTF-8");
+			// reader.close();
 			fis.close();
 
 			if (!GlobalConfig.ZEKR_VERSION.equals(props.getString("version"))) {
@@ -197,6 +228,7 @@ public class ApplicationConfig implements ConfigNaming {
 						+ GlobalConfig.ZEKR_VERSION);
 
 				String ver = props.getString("version");
+				InputStreamReader reader;
 				if (!ver.startsWith("0.7")) { // config file is too old
 					logger.info("Previous version was too old: " + ver);
 					logger.info("Cannot migrate old settings. Will reset settings.");
@@ -296,7 +328,7 @@ public class ApplicationConfig implements ConfigNaming {
 	public void saveConfig() {
 		try {
 			logger.info("Save user config file to " + ApplicationPath.USER_CONFIG);
-			props.save(new OutputStreamWriter(new FileOutputStream(ApplicationPath.USER_CONFIG), "UTF-8"));
+			props.save(new FileOutputStream(ApplicationPath.USER_CONFIG), "UTF-8");
 		} catch (Exception e) {
 			logger.error("Error while saving config to " + ApplicationPath.USER_CONFIG + ": " + e);
 		}
@@ -786,7 +818,7 @@ public class ApplicationConfig implements ConfigNaming {
 		// add built-in paging implementations
 		quranPaging.add(new SuraPagingData());
 		quranPaging.add(new FixedAyaPagingData(props.getInt("view.pagingMode.ayaPerPage", 20)));
-		quranPaging.add(new HizbQuadPagingData());
+		quranPaging.add(new HizbQuarterPagingData());
 		quranPaging.add(new JuzPagingData());
 
 		CustomPagingData cpd;
@@ -812,6 +844,10 @@ public class ApplicationConfig implements ConfigNaming {
 				quranPaging.setDefault(quranPaging.get(SuraPagingData.ID));
 				props.setProperty("view.pagingMode", quranPaging.getDefault().getId());
 			}
+		}
+		if (quranPaging.getDefault() == null) {
+			logger.warn("No default paging data found. Will load Hizb Quarter paging data.");
+			quranPaging.setDefault(quranPaging.get(HizbQuarterPagingData.ID));
 		}
 	}
 
@@ -950,10 +986,6 @@ public class ApplicationConfig implements ConfigNaming {
 		return port == null ? -1 : Integer.parseInt(port);
 	}
 
-	public RuntimeConfig getRuntimeConfig() {
-		return runtimeConfig;
-	}
-
 	public Language getLanguage() {
 		return language;
 	}
@@ -981,6 +1013,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public QuranPaging getQuranPaging() {
 		return quranPaging;
+	}
+
+	public SearchInfo getSearchInfo() {
+		return searchInfo;
 	}
 
 	public HttpServer getHttpServer() {
