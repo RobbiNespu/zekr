@@ -1,4 +1,4 @@
-#Thu Jul 17 06:00:50 GMT+03:30 2008
+#Thu Jul 24 22:17:23 GMT+03:30 2008
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
 encoding//doc/license/nanohttpd-license.txt=ISO-8859-1
@@ -9,6 +9,7 @@ encoding//misc/zekrc-launch4j.xml=ISO-8859-1
 encoding//res/audio/minshawi-offline.properties=UTF-8
 encoding//res/audio/minshawi-online.properties=UTF-8
 encoding//res/config/config.properties=UTF-8
+encoding//res/config/search-info.properties=UTF-8
 encoding//res/lang/french.xml=UTF-8
 encoding//res/lang/russian.xml=UTF-8
 encoding//res/ui/theme/sample/aya.vm=utf-8
