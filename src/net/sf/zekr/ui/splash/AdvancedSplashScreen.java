@@ -28,9 +28,12 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class AdvancedSplashScreen extends AbstractSplachScreen {
 	private static final int ALPHA_LIMIT = 0;
-	private static final int PROGRESS_BAR_HEIGHT = 10;
+	private static final int PROGRESS_BAR_HEIGHT = 12;
 	private ImageData imageData;
 	private Region region;
 
@@ -58,15 +61,9 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 						shell.update();
 					} else if (((String) e.data).startsWith(EventProtocol.SPLASH_PROGRESS)) {
 						progressMsg = ((String) e.data).substring(EventProtocol.SPLASH_PROGRESS.length() + 1);
-						progBar.setSelection(progressCount += 10);
+						progBar.setSelection(progressCount += 7);
 						shell.redraw();
 						shell.update();
-
-						// try {
-						// Thread.sleep(1500);
-						// } catch (InterruptedException e1) {
-						// e1.printStackTrace();
-						// }
 					}
 				}
 			}
@@ -132,7 +129,7 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 		progBar = new ProgressBar(shell, SWT.SMOOTH | SWT.HORIZONTAL);
 		progBar.setSelection(progressCount);
 		Point shellSize = shell.getSize();
-		progBar.setBounds(0, shellSize.y - 10, shellSize.x, PROGRESS_BAR_HEIGHT);
+		progBar.setBounds(0, shellSize.y - PROGRESS_BAR_HEIGHT, shellSize.x, PROGRESS_BAR_HEIGHT);
 	}
 
 	public void showSplash() {
