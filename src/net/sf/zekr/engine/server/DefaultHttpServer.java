@@ -79,14 +79,14 @@ public class DefaultHttpServer extends HttpServer {
 			logger.implicitLog(ioe);
 			return;
 		}
-		while (true) {
-			try {
-				// do nothing, there is a separate waiting thread for each request.
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				logger.info("HTTP Server terminated.");
-			}
-		}
+//		while (true) {
+//			try {
+//				// do nothing, there is a separate waiting thread for each request.
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				logger.info("HTTP Server terminated.");
+//			}
+//		}
 	}
 
 	private int getServerPort() {
