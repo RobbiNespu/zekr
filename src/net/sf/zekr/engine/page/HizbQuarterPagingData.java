@@ -19,16 +19,16 @@ import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.SuraProperties;
 
 /**
- * This class holds paging data of type hizb quad, which means each page contains a single hizb quad of the
+ * This class holds paging data of type hizb quarter, which means each page contains a single hizb quad of the
  * Quran.
  * 
  * @author Mohsen Saboorian
  */
-public class HizbQuadPagingData extends AbstractQuranPagingData {
-	public static final String ID = "<hizbQuad>";
+public class HizbQuarterPagingData extends AbstractQuranPagingData {
+	public static final String ID = "<hizbQuarter>";
 
-	public HizbQuadPagingData() {
-		this.name = meaning("HIZB_QUAD");
+	public HizbQuarterPagingData() {
+		this.name = meaning("HIZB_QUARTER");
 		this.id = ID;
 
 		pageList = new ArrayList();
