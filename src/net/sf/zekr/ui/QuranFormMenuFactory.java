@@ -43,7 +43,7 @@ import net.sf.zekr.engine.bookmark.ui.ManageBookmarkSetsForm;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.page.FixedAyaPagingData;
-import net.sf.zekr.engine.page.HizbQuadPagingData;
+import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
 import net.sf.zekr.engine.page.PagingException;
@@ -183,14 +183,6 @@ public class QuranFormMenuFactory {
 			}
 		});
 
-		randomAyaItem = createMenuItem(0, viewMenu, lang.getMeaning("RANDOM_AYA"), SWT.CTRL | SWT.SHIFT | 'R',
-				"icon.menu.randomAya");
-		randomAyaItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				gotoRandomAya();
-			}
-		});
-
 		// separator
 		new MenuItem(viewMenu, SWT.SEPARATOR);
 		transName = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("TRANSLATION"), 0,
@@ -214,7 +206,7 @@ public class QuranFormMenuFactory {
 		suraViewMode.setData(SuraPagingData.ID);
 		fixedAyaViewMode.setData(FixedAyaPagingData.ID);
 		juzViewMode.setData(JuzPagingData.ID);
-		hizbViewMode.setData(HizbQuadPagingData.ID);
+		hizbViewMode.setData(HizbQuarterPagingData.ID);
 		// customViewMode.setData("<custom>");
 		IPagingData page = config.getQuranPaging().getDefault();
 
@@ -249,7 +241,7 @@ public class QuranFormMenuFactory {
 					} else {
 						prevItem = (MenuItem) e.widget;
 					}
-				} else if (HizbQuadPagingData.ID.equals(data)) {
+				} else if (HizbQuarterPagingData.ID.equals(data)) {
 				} else if (JuzPagingData.ID.equals(data)) {
 				} else {
 					logger.info("Choose custom page mode.");
@@ -463,9 +455,19 @@ public class QuranFormMenuFactory {
 			}
 		};
 
-		MenuItem gotoMenuItem = createMenuItem(SWT.CASCADE, viewMenu, lang.getMeaning("GOTO"), 0, "icon.menu.goto");
+		MenuItem gotoMenuItem = createMenuItem(SWT.CASCADE, menu, lang.getMeaning("GOTO"), 0, null);
 		Menu gotoMenu = new Menu(shell, SWT.DROP_DOWN);
 		gotoMenuItem.setMenu(gotoMenu);
+
+		randomAyaItem = createMenuItem(0, gotoMenu, lang.getMeaning("RANDOM_AYA"), SWT.CTRL | SWT.SHIFT | 'R',
+				"icon.menu.randomAya");
+		randomAyaItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				gotoRandomAya();
+			}
+		});
+
+		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
 		boolean isRTL = ((direction == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 		char keyNextJuz = isRTL ? ',' : '.';
