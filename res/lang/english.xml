@@ -15,7 +15,7 @@
 			<text id="HELP" value="Help" />
 			<text id="EDIT" value="Edit" />
 			<text id="SEARCH" value="Search" />
-			<text id="GOTO" value="Go to" />
+			<text id="GOTO" value="Go To" />
 			<text id="VIEW" value="View" />
 			<text id="CLOSE" value="Close" />
 			<text id="INSERT" value="Insert" />
@@ -135,9 +135,9 @@
 
 			<text id="PAGING_MODE" value="Paging Mode"   />
 			<text id="PAGING_SURA" value="Sura"   />
-			<text id="PAGING_HIZB_QUARTER" value="Hizb quarter"   />
+			<text id="PAGING_HIZB_QUARTER" value="Hizb Quarter"   />
 			<text id="PAGING_JUZ" value="Juz"   />
-			<text id="PAGING_CONST_AYA" value="Constant aya"   />
+			<text id="PAGING_CONST_AYA" value="Constant Aya"   />
 			<text id="PAGING_CUSTOM" value="Custom"   />
 			<text id="PAGING_AYA_PER_SURA" value="How many ayas should appear in each page?"   />
 
@@ -200,9 +200,9 @@
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
-			<text id="NEW_SCOPE" value="New scope" />
-			<text id="EDIT_SCOPES" value="Edit scopes" />
-			<text id="NO_SCOPE" value="No scope" />
+			<text id="NEW_SCOPE" value="New Scope" />
+			<text id="EDIT_SCOPES" value="Edit Scopes" />
+			<text id="NO_SCOPE" value="No Scope" />
 			<text id="CURRENT_PAGE" value="Current page" />
 			<text id="QURAN_SCOPE" value="Quran" />
 			<text id="TRANSLATION_SCOPE" value="Translation" />
