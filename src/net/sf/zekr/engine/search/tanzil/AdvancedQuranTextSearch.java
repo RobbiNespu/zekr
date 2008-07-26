@@ -27,6 +27,8 @@ import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchResultItem;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
+import net.sf.zekr.engine.search.tanzil.PatternEnricherFactory.ArabicPatternEnricher;
+import net.sf.zekr.engine.translation.TranslationData;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -109,7 +111,15 @@ public class AdvancedQuranTextSearch {
 	public SearchResult search(String rawQuery) {
 		logger.debug("Searching for query: " + rawQuery);
 		rawQuery = rawQuery.replaceAll("\\-", "!");
-		String pattern = RegexUtils.enrichPattern(rawQuery, false);
+
+		PatternEnricher enricher;
+		if (quranText instanceof TranslationData) { // it's translation
+			enricher = PatternEnricherFactory.getEnricher(((TranslationData) quranText).getLocale().getLanguage());
+		} else { // it's Quran
+			enricher = PatternEnricherFactory.getEnricher("ar");
+			enricher.setParameter(ArabicPatternEnricher.IGNORE_HARAKA, Boolean.FALSE);
+		}
+		String pattern = enricher.enrich(rawQuery);
 
 		// TODO: '!' characters present in the highlighter pattern, but it seems to be safe
 		String highlightPattern = pattern.replaceAll("\\+", "|").replaceAll("!", "");
@@ -137,7 +147,7 @@ public class AdvancedQuranTextSearch {
 		for (int i = 0; i < patterns.length; i++) {
 			if (patterns[i].charAt(0) == '!') // ignore exclude patterns
 				continue;
-			Pattern regex = Pattern.compile(patterns[i]);
+			Pattern regex = Pattern.compile(patterns[i], Pattern.CASE_INSENSITIVE);
 			for (int j = 0; j < resultItems.size(); j++) {
 				SearchResultItem sri = (SearchResultItem) resultItems.get(j);
 				Matcher matcher = regex.matcher(sri.text);
@@ -175,7 +185,7 @@ public class AdvancedQuranTextSearch {
 
 	private List filterBucket(List intermediateResult, String pattern, boolean exclude, boolean firstTime) {
 		List res = new ArrayList();
-		Pattern regex = Pattern.compile(pattern);
+		Pattern regex = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
 		for (int i = 0; i < intermediateResult.size(); i++) {
 			Matcher matcher;
 			String line;
