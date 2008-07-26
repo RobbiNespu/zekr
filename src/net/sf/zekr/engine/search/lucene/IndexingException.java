@@ -12,7 +12,6 @@ package net.sf.zekr.engine.search.lucene;
  * Exception class, thrown when an error occurs during indexing a document.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class IndexingException extends Exception {
 	private static final long serialVersionUID = 7212085304024780204L;
@@ -24,5 +23,4 @@ public class IndexingException extends Exception {
 	public IndexingException(Throwable th) {
 		super(th);
 	}
-
 }

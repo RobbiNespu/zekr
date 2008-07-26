@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.engine.search.lucene;
 
+import java.io.IOException;
+
 import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 
 import org.apache.lucene.analysis.Token;
@@ -23,7 +25,7 @@ public class ArabicFilter extends TokenFilter {
 		super(input);
 	}
 
-	public final Token next() throws java.io.IOException {
+	public final Token next() throws IOException {
 		final Token t = input.next();
 		if (t == null)
 			return null;
