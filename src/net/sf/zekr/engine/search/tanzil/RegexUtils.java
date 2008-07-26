@@ -23,7 +23,7 @@ public class RegexUtils extends LetterConstants {
 	private static Pattern REGTRANS_PATTERN = Pattern.compile("\\$([A-Z_]+)");
 
 	// matching rules
-	public static Map matchingRules = new LinkedHashMap();
+	static Map matchingRules = new LinkedHashMap();
 	static {
 		matchingRules.put("$HAMZA_SHAPE", "$HAMZA_SHAPE");
 		matchingRules.put("$ALEF_MAKSURA", "YY");
@@ -38,7 +38,7 @@ public class RegexUtils extends LetterConstants {
 	}
 
 	// wildcards
-	public static Map wildcardRegs = new LinkedHashMap();
+	static Map wildcardRegs = new LinkedHashMap();
 	static {
 		wildcardRegs.put("\\.", "P");
 		wildcardRegs.put("\\*", "S");
@@ -48,7 +48,7 @@ public class RegexUtils extends LetterConstants {
 	}
 
 	// wildcards
-	public static Map wildcards = new LinkedHashMap();
+	static Map wildcards = new LinkedHashMap();
 	static {
 		wildcards.put("S", "$LETTER_HARAKA*");
 		// wildcards.put("S", "($LETTER|$HARAKA)*");
@@ -56,10 +56,17 @@ public class RegexUtils extends LetterConstants {
 		wildcards.put("P", "$LETTER");
 	}
 
-	public static Map preProcess = new LinkedHashMap();
+	static Map preProcess = new LinkedHashMap();
 	static {
 		preProcess.put("[$FARSI_YEH$YEH_BARREE]", "$YEH");
 		preProcess.put("[$FARSI_KEHEH$SWASH_KAF]", "$KAF");
+	}
+
+	static {
+		for (Iterator iterator = GROUPS.entrySet().iterator(); iterator.hasNext();) {
+			Entry entry = (Entry) iterator.next();
+			entry.setValue(RegexUtils.regTrans((String) entry.getValue()));
+		}
 	}
 
 	/**
@@ -85,13 +92,10 @@ public class RegexUtils extends LetterConstants {
 				continue;
 			ret.append(str.substring(lastEnd, matcher.start()));
 			ret.append(replacement);
-			// str = str.replaceAll(matcher.group(0), replacement);
-			// matcher = regex.matcher(str);
 			lastEnd = matcher.end();
 		}
 		ret.append(str.substring(lastEnd));
 		return ret.toString();
-		// return str;
 	}
 
 	// simulate preg_replace
@@ -106,7 +110,7 @@ public class RegexUtils extends LetterConstants {
 		return fromExp.matcher(str).replaceAll(toExp);
 	}
 
-	private static final String applyRules(String str, Map rule) {
+	static final String applyRules(String str, Map rule) {
 		for (Iterator iterator = rule.entrySet().iterator(); iterator.hasNext();) {
 			Entry entry = (Entry) iterator.next();
 			str = pregReplace(str, entry.getKey().toString(), entry.getValue().toString());
@@ -114,7 +118,7 @@ public class RegexUtils extends LetterConstants {
 		return str;
 	}
 
-	private static final String handleSpaces(String pattern) {
+	static final String handleSpaces(String pattern) {
 		if ("".equals(pattern))
 			return pattern;
 		pattern = pattern.replaceAll("\\s+", " ");
@@ -154,7 +158,7 @@ public class RegexUtils extends LetterConstants {
 	 *           into consideration
 	 * @return enriched pattern
 	 */
-	public static String enrichPattern(String pattern, boolean ignoreHaraka) {
+	static String enrichPattern(String pattern, boolean ignoreHaraka) {
 		if (ignoreHaraka)
 			pattern = pregReplace(pattern, "$HARAKA", "");
 
@@ -169,6 +173,20 @@ public class RegexUtils extends LetterConstants {
 		pattern = applyRules(pattern, matchingRules);
 		pattern = applyRules(pattern, wildcards);
 		return pattern;
+	}
+
+	/**
+	 * @param replacePatternMap a {@link Map} from {@link Pattern}s to replace {@link String}s
+	 * @param src original string to apply replace all on.
+	 * @return the resulting string after replacing patterns
+	 */
+	public static String replaceAll(Map replacePatternMap, String src) {
+		for (Iterator iterator = replacePatternMap.entrySet().iterator(); iterator.hasNext();) {
+			Entry entry = (Entry) iterator.next();
+			Matcher m = ((Pattern) entry.getKey()).matcher(src);
+			src = m.replaceAll((String) entry.getValue());
+		}
+		return src;
 	}
 
 	public static void main(String[] args) {
