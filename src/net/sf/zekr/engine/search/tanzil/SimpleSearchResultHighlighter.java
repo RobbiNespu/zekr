@@ -31,7 +31,7 @@ public class SimpleSearchResultHighlighter implements ISearchResultHighlighter {
 	private int highlightCount;
 
 	public String highlight(String text, String pattern) {
-		text = text.replaceAll('(' + pattern + ')', "◄$1►");
+		text = Pattern.compile('(' + pattern + ')', Pattern.CASE_INSENSITIVE).matcher(text).replaceAll("◄$1►");
 		text = p1.matcher(text).replaceAll(" ◄");
 		text = p2.matcher(text).replaceAll("► ");
 
@@ -43,6 +43,8 @@ public class SimpleSearchResultHighlighter implements ISearchResultHighlighter {
 			text = p7.matcher(text).replaceAll("$1");
 		}
 		text = p8.matcher(text).replaceAll("<span class=\"highlight\">$1</span>");
+
+		// FIXME: this is a Quran-text specific method call!
 		return QuranFilterUtils.filterSearchResult(text);
 	}
 }
