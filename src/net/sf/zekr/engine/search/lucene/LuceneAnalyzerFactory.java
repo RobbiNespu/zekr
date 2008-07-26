@@ -20,45 +20,48 @@ import org.apache.lucene.analysis.Analyzer;
  * @author Mohsen Saboorian
  */
 public class LuceneAnalyzerFactory {
-	private final static Map langMap = new HashMap();
+	/**
+	 * This map contains ISO code for those stemmers available in snowball package.
+	 */
+	private final static Map snowballLangMap = new HashMap();
 	static {
-		langMap.put("da", "Danish");
-		langMap.put("nl", "Dutch");
-		langMap.put("en", "English");
-		langMap.put("fi", "Finnish");
-		langMap.put("fr", "French");
-		langMap.put("de", "German");
-		langMap.put("it", "Italian");
-		langMap.put("no", "Norwegian");
-		langMap.put("pt", "Portuguese");
-		langMap.put("ru", "Russian");
-		langMap.put("es", "Spanish");
-		langMap.put("sv", "Swedish");
+		snowballLangMap.put("da", "Danish");
+		snowballLangMap.put("nl", "Dutch");
+		snowballLangMap.put("en", "English");
+		snowballLangMap.put("fi", "Finnish");
+		snowballLangMap.put("fr", "French");
+		snowballLangMap.put("de", "German");
+		snowballLangMap.put("it", "Italian");
+		snowballLangMap.put("no", "Norwegian");
+		snowballLangMap.put("pt", "Portuguese");
+		snowballLangMap.put("ru", "Russian");
+		snowballLangMap.put("es", "Spanish");
+		snowballLangMap.put("sv", "Swedish");
 	}
 
 	/**
-	 * @param code can be either tho-char language ISO code, {@link ZekrSnowballAnalyzer#QURAN_ANALYZER}, or
-	 *           either of the available snowball analyzers such as <tt>Lovins</tt>, <tt>Porter</tt> or
+	 * @param langCode can be either two-char language ISO code, {@link ZekrLuceneAnalyzer#QURAN_LANG_CODE},
+	 *           or either of the available snowball analyzers such as <tt>Lovins</tt>, <tt>Porter</tt> or
 	 *           <tt>Kp</tt>.
-	 * @return a new instance of ZekrSnowballAnalyzer
+	 * @return a new instance of ZekrLuceneAnalyzer
 	 */
-	public static Analyzer getAnalyzer(String code) {
-		String langName = (String) langMap.get(code);
-		if (langName != null)
-			code = langName;
-		return new ZekrSnowballAnalyzer(code);
+	public static Analyzer getAnalyzer(String langCode) {
+		String langName = (String) snowballLangMap.get(langCode);
+		return new ZekrLuceneAnalyzer(langCode, langName);
 	}
 
 	/**
 	 * This method decides to return based on the type of quranText parameter, whether a language-specific
 	 * translation analyzer or a Quran analyzer.
 	 * 
-	 * @param quranText the abstract quran text
+	 * @param quranText the abstract Quran text
 	 * @return
 	 */
 	public static Analyzer getAnalyzer(IQuranText quranText) {
-		if (quranText instanceof TranslationData)
+		if (quranText instanceof TranslationData) { // it is a translation
 			return getAnalyzer(((TranslationData) quranText).getLocale().getLanguage());
-		return getAnalyzer(ZekrSnowballAnalyzer.QURAN_ANALYZER);
+		} else { // it should be Quran
+			return getAnalyzer(ZekrLuceneAnalyzer.QURAN_LANG_CODE);
+		}
 	}
 }
