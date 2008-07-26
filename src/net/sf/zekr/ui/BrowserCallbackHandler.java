@@ -11,6 +11,7 @@ package net.sf.zekr.ui;
 import java.io.IOException;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.filter.IQuranFilter;
@@ -67,7 +68,13 @@ public class BrowserCallbackHandler {
 					return; // do nothing
 				}
 				PopupBox pe = null;
-				if (form.searchTarget == QuranForm.QURAN_ONLY) {
+				boolean isQuranTarget = false;
+				if (form.uvc.getViewMode() == IUserView.VM_ADVANCED_SEARCH) {
+					isQuranTarget = form.advancedQuranTargetBut.getSelection();
+				} else {
+					isQuranTarget = form.quranTargetBut.getSelection();
+				}
+				if (isQuranTarget) {
 					logger.info("Show translation: (" + sura + ", " + aya + ")");
 					TranslationData td = config.getTranslation().getDefault();
 					pe = new PopupBox(form.shell, form.meaning("TRANSLATION_SCOPE"), td.get(sura, aya), FormUtils
