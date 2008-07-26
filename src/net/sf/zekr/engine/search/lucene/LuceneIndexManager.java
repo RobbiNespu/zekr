@@ -25,6 +25,11 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 
+/**
+ * This class manages Lucene indices for Quran and translations.
+ * 
+ * @author Mohsen Saboorian
+ */
 public class LuceneIndexManager {
 	private static final String QURAN_INDEX = "quran";
 	private Map indexReaderMap = new HashMap();
@@ -118,7 +123,7 @@ public class LuceneIndexManager {
 	public void createQuranIndex(int mode, String path, PrintStream stdout) throws IndexingException {
 		try {
 			IndexCreator indexCreator = new IndexCreator(null, new FilteredQuranText(new QuranIndexerFilter(),
-					IQuranText.SIMPLE_MODE), LuceneAnalyzerFactory.getAnalyzer(ZekrSnowballAnalyzer.QURAN_ANALYZER));
+					IQuranText.SIMPLE_MODE), LuceneAnalyzerFactory.getAnalyzer(ZekrLuceneAnalyzer.QURAN_LANG_CODE));
 			indexCreator.indexQuranTextSilently(mode, path, stdout);
 			props.setProperty("index.quran.path", indexCreator.getIndexDir());
 			props.setProperty("index.quran.version", GlobalConfig.ZEKR_BUILD_NUMBER);
