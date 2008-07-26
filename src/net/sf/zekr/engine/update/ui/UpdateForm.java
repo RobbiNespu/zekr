@@ -6,10 +6,11 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Feb 15, 2008
  */
-package net.sf.zekr.engine.update;
+package net.sf.zekr.engine.update.ui;
 
 import java.text.DateFormat;
 
+import net.sf.zekr.engine.update.UpdateInfo;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.helper.FormUtils;
 
@@ -26,6 +27,9 @@ import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class UpdateForm extends BaseForm {
 	private UpdateInfo updateInfo;
 
