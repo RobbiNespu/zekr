@@ -66,7 +66,7 @@ public class QuranTextSearcher {
 
 	public QuranTextSearcher(LuceneIndexManager luceneIndexManager, SearchScope searchScope) throws IndexingException {
 		this(luceneIndexManager.getQuranIndex(), searchScope, LuceneAnalyzerFactory
-				.getAnalyzer(ZekrSnowballAnalyzer.QURAN_ANALYZER));
+				.getAnalyzer(ZekrLuceneAnalyzer.QURAN_LANG_CODE));
 	}
 
 	public QuranTextSearcher(LuceneIndexManager luceneIndexManager, SearchScope searchScope, IQuranText quranText)
