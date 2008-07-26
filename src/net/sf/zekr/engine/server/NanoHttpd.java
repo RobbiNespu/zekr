@@ -31,10 +31,9 @@ import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 /**
- * This is a slightly modified version of NanoHttpd 1.1, A simple, tiny, nicely embeddable HTTP 1.0 server in Java.
- * <br />
- * NanoHttpd version 1.1, Copyright &copy; 2001,2005-2007 Jarno Elonen (elonen@iki.fi, http://iki.fi/elonen/)
- * Distributed under Modified BSD licence (nanohttpd-license.txt).
+ * This is a slightly modified version of NanoHttpd 1.1, A simple, tiny, nicely embeddable HTTP 1.0 server in
+ * Java. <br /> NanoHttpd version 1.1, Copyright &copy; 2001,2005-2007 Jarno Elonen (elonen@iki.fi,
+ * http://iki.fi/elonen/) Distributed under Modified BSD licence (nanohttpd-license.txt).
  * 
  * @author Jarno Elonen (original author)
  * @author Mohsen Saboorian
@@ -310,8 +309,8 @@ public class NanoHttpd {
 		}
 
 		/**
-		 * Decodes parameters in percent-encoded URI-format ( e.g. "name=Jack%20Daniels&pass=Single%20Malt" ) and adds
-		 * them to given Properties.
+		 * Decodes parameters in percent-encoded URI-format ( e.g. "name=Jack%20Daniels&pass=Single%20Malt" )
+		 * and adds them to given Properties.
 		 */
 		private void decodeParms(String parms, Properties p) throws InterruptedException {
 			if (parms == null)
@@ -327,7 +326,8 @@ public class NanoHttpd {
 		}
 
 		/**
-		 * Returns an error message as a HTTP response and throws InterruptedException to stop furhter request processing.
+		 * Returns an error message as a HTTP response and throws InterruptedException to stop furhter request
+		 * processing.
 		 */
 		private void sendError(String status, String msg) throws InterruptedException {
 			sendResponse(status, MIME_PLAINTEXT, null, new ByteArrayInputStream(msg.getBytes()));
@@ -419,7 +419,8 @@ public class NanoHttpd {
 	// ==================================================
 
 	/**
-	 * Serves file from homeDir and its' subdirectories (only). Uses only URI, ignores all headers and HTTP parameters.
+	 * Serves file from homeDir and its' subdirectories (only). Uses only URI, ignores all headers and HTTP
+	 * parameters.
 	 */
 	public Response serveFile(String uri, Properties header, File homeDir, boolean allowDirectoryListing) {
 		// Make sure we won't die of an exception later
@@ -534,13 +535,13 @@ public class NanoHttpd {
 			Response r = new Response(HTTP_OK, mime, fis);
 			r.addHeader("Content-length", "" + (f.length() - startFrom));
 			r.addHeader("Content-range", "" + startFrom + "-" + (f.length() - 1) + "/" + f.length());
-			
-			if (mime.equals(MIME_TYPES.get("htm")) || mime.equals(MIME_TYPES.get("htm")) || mime.equals(MIME_TYPES.get("js"))
-					|| mime.equals(MIME_TYPES.get("css"))) {
+
+			if (mime.equals(MIME_TYPES.get("htm")) || mime.equals(MIME_TYPES.get("htm"))
+					|| mime.equals(MIME_TYPES.get("js")) || mime.equals(MIME_TYPES.get("css"))) {
 				r.addHeader("Cache-Control", "no-cache");
 				r.addHeader("Expires", "0");
 			}
-			
+
 			return r;
 		} catch (IOException ioe) {
 			return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: Reading file failed.");
@@ -568,8 +569,7 @@ public class NanoHttpd {
 	public static void main(String[] args) {
 		try {
 			System.out.println("salam");
-			new NanoHttpd(
-					1) {
+			new NanoHttpd(1) {
 				public Response serve(String uri, String method, Properties header, Properties parms) {
 					System.out.println("serving uir: " + uri);
 					Response resp = new Response(HTTP_OK, (String) MIME_TYPES.get("html"), "salam!");
