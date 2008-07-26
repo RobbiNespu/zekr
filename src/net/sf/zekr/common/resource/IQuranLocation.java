@@ -24,6 +24,13 @@ public interface IQuranLocation extends Comparable {
 	public String getSuraName();
 
 	/**
+	 * @param localize specifies whether or not to localize sura name
+	 * @return the sura name either in Arabic or the language and format specified in <tt>view.sura.name</tt>
+	 *         property (if <code>localize</code> parameter is true).
+	 */
+	public String getSuraName(boolean localize);
+
+	/**
 	 * Counts the aya number from the start of the Quran. The value can be a number between 1 to 6236.
 	 * 
 	 * @return the absolute aya number counted from the start of the Quran.
