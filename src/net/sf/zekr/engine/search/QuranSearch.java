@@ -15,6 +15,7 @@ import net.sf.zekr.common.resource.AbstractRangedQuranText;
 
 /**
  * @author Mohsen Saboorian
+ * @deprecated This search method is not used anymore. It will be deleted in 0.8.0.
  */
 public class QuranSearch extends AbstractQuranSearch {
 
