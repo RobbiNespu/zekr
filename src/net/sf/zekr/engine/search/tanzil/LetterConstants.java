@@ -115,11 +115,4 @@ public class LetterConstants {
 		GROUPS.put("HAMZA_SHAPE", "[$HAMZA_ABOVE$HAMZA$ALEF_WITH_HAMZA_ABOVE-$YEH_WITH_HAMZA]");
 		GROUPS.put("LETTER_HARAKA", "[$HAMZA-$ALEF_WASLA]");
 	}
-
-	static {
-		for (Iterator iterator = GROUPS.entrySet().iterator(); iterator.hasNext();) {
-			Entry entry = (Entry) iterator.next();
-			entry.setValue(RegexUtils.regTrans((String) entry.getValue()));
-		}
-	}
 }
