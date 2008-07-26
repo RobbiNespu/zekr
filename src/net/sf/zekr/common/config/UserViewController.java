@@ -21,6 +21,7 @@ public class UserViewController implements IUserView {
 	private IQuranLocation location;
 	private int page;
 	private QuranPaging quranPaging;
+	private int viewMode;
 
 	public UserViewController(QuranPaging quranPaging) {
 		this.quranPaging = quranPaging;
@@ -59,5 +60,13 @@ public class UserViewController implements IUserView {
 	public void synchLocation() {
 		IQuranPage iqp = quranPaging.getDefault().getQuranPage(page);
 		setLocation(iqp.getFrom());
+	}
+
+	public int getViewMode() {
+		return viewMode;
+	}
+
+	public void setViewMode(int viewMode) {
+		this.viewMode = viewMode;
 	}
 }
