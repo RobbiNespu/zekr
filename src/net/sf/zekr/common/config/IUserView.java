@@ -10,7 +10,25 @@ package net.sf.zekr.common.config;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public interface IUserView {
+	/**
+	 * View mode corresponds to advanced search.
+	 */
+	public static final int VM_ADVANCED_SEARCH = 1;
+
+	/**
+	 * View mode corresponds to search.
+	 */
+	public static final int VM_SEARCH = 2;
+
+	/**
+	 * View mode corresponds to simple non-search mode set in the Quran browser.
+	 */
+	public static final int VM_QURAN_TRANS = 3;
+
 	public IQuranLocation getLocation();
 
 	public void setLocation(IQuranLocation location);
@@ -26,7 +44,28 @@ public interface IUserView {
 
 	public void changeTo(IQuranLocation location);
 
+	/**
+	 * Synchronize internal page number with the current location.
+	 */
 	public void synchPage();
 
+	/**
+	 * Synchronize internal location with the current page number.
+	 */
 	public void synchLocation();
+
+	/**
+	 * Set current runtime view mode. Can be one of the <code>VM_*</code> constants available in this
+	 * interface.
+	 * 
+	 * @param viewMode runtime view mode. Can be one of {@link #VM_ADVANCED_SEARCH}, {@link #VM_SEARCH}, or
+	 *           {@link #VM_QURAN_TRANS}.
+	 */
+	public void setViewMode(int viewMode);
+
+	/**
+	 * @return current runtime view mode. Can be one of {@link #VM_ADVANCED_SEARCH}, {@link #VM_SEARCH}, or
+	 *         {@link #VM_QURAN_TRANS}.
+	 */
+	public int getViewMode();
 }
