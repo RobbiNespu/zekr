@@ -59,6 +59,7 @@ public class ApplicationPath {
 	// Files
 
 	/** Original configuration file */
+	public static final String CONFIG_DIR = rm.getString("config.baseDir");
 	public static final String MAIN_CONFIG = rm.getString("config.original"); // original config
 
 	/** User-customized configuration file */
