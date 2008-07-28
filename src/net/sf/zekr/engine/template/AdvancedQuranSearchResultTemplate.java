@@ -44,8 +44,9 @@ public class AdvancedQuranSearchResultTemplate extends AbstractSearchResultTempl
 					i18n.localize(String.valueOf(pageNo + 1)),
 					i18n.localize(String.valueOf(searchResult.getResultPageCount())) }));
 			engine.put("CLAUSE", searchResult.getClause());
-			String k = SearchUtils.arabicSimplify(searchResult.getRawQuery());
-			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));
+			// String k = SearchUtils.arabicSimplify(searchResult.getRawQuery());
+			// engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { k }));
+			engine.put("TITLE", langEngine.getDynamicMeaning("SEARCH_RESULT_TITLE", new String[] { searchResult.getRawQuery() }));
 
 			IQuranText iqt = searchResult.getQuranText();
 			if (iqt instanceof TranslationData) {
