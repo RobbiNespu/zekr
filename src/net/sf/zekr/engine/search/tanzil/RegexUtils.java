@@ -141,7 +141,8 @@ public class RegexUtils extends LetterConstants {
 		pattern = pattern.replace('_', ' ');
 		// pattern = StringUtils.replace(pattern, "\"", " ");
 		// pattern = pattern.replace('+', ' ');
-		pattern = pattern.replaceAll("\\+", "");
+		// pattern = pattern.replaceAll("\\+", "");
+		pattern = pattern.replaceAll("\"", "+");
 
 		// remove extra operators
 		pattern = pattern.replaceAll("^[+|]+", "").replaceAll("[+|!]+$", "");
