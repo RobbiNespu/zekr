@@ -25,6 +25,7 @@ import net.sf.zekr.engine.theme.ThemeData;
 
 /**
  * @author Mohsen Saboorian
+ * @deprecated old basic search method is not used anymore.
  */
 public class QuranSearchResultTemplate extends AbstractSearchResultTemplate {
 

@@ -25,7 +25,7 @@ import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
+ * @depricated: as old basic search is depricated, this class is not used anymore.
  */
 public class TransSearchResultTemplate extends AbstractSearchResultTemplate {
 	private boolean matchCase;
