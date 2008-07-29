@@ -18,12 +18,12 @@ public interface IQuranPage {
 	public abstract int getPageNum();
 
 	/**
-	 * @return Quran page lower bound
+	 * @return Quran page lower bound (inclusive)
 	 */
 	public abstract IQuranLocation getFrom();
 
 	/**
-	 * @return Quran page upper bound
+	 * @return Quran page upper bound (inclusive)
 	 */
 	public abstract IQuranLocation getTo();
 }
