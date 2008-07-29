@@ -137,9 +137,6 @@ public class QuranLocation implements IQuranLocation {
 		return newLoc;
 	}
 
-	/**
-	 * Makes a string representation of this class as: <tt>sura#-aya#</tt>
-	 */
 	public String toString() {
 		return new StringBuffer(String.valueOf(sura)).append("-").append(aya).toString();
 	}
@@ -175,6 +172,6 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	public int getAbsoluteAya() {
-		return QuranPropertiesUtils.getAggregativeAyaCount(sura) + aya;
+		return QuranPropertiesUtils.getAggregateAyaCount(sura) + aya;
 	}
 }

@@ -59,4 +59,11 @@ public interface IQuranLocation extends Comparable {
 	public String toSortableString();
 
 	public boolean isValid();
+
+	/**
+	 * Makes a string representation of this class as: <tt>sura#-aya#</tt>
+	 * 
+	 * @return a string representation of the Quran location in the format <tt>sura#-aya#</tt>.
+	 */
+	public String toString();
 }
