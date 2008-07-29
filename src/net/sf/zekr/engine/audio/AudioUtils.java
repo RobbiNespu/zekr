@@ -10,6 +10,9 @@ package net.sf.zekr.engine.audio;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class AudioUtils {
 	public static String getAudioUrl(AudioData audioData, String fileName) {
 		String serverUrl = audioData.getAudioServerUrl();
