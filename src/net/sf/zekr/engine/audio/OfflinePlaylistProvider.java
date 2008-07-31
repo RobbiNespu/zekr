@@ -14,8 +14,10 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.IQuranPage;
 import net.sf.zekr.common.resource.QuranProperties;
-import net.sf.zekr.common.resource.SuraProperties;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.template.BaseViewTemplate;
@@ -31,11 +33,10 @@ import org.apache.commons.lang.StringUtils;
 public class OfflinePlaylistProvider extends PlaylistProvider {
 	/**
 	 * @param audioData
-	 * @param suraNum
-	 *           1-base sura number; only used when playlist mode is <em>sura<em> (not <em>collection</em>)
+	 * @param pageNum 1-base page number
 	 */
-	public OfflinePlaylistProvider(AudioData audioData, int suraNum) {
-		super(audioData, suraNum);
+	public OfflinePlaylistProvider(AudioData audioData, int pageNum) {
+		super(audioData, pageNum);
 	}
 
 	public String providePlaylist() throws PlaylistProvisionException {
@@ -43,7 +44,7 @@ public class OfflinePlaylistProvider extends PlaylistProvider {
 			String fileName = audioData.getPlaylistFileName();
 			if (audioData.getPlaylistMode().equals(AudioData.SURA_PLAYLIST)) {
 				String playlistSuraPad = audioData.getPlaylistSuraPad();
-				String s = StringUtils.leftPad(String.valueOf(suraNum), playlistSuraPad.length() + 1, playlistSuraPad);
+				String s = StringUtils.leftPad(String.valueOf(pageNum), playlistSuraPad.length() + 1, playlistSuraPad);
 				fileName = StringUtils.replace(fileName, "{SURA}", s);
 			} else { // a playlist for the whole Quran
 				fileName = StringUtils.replace(fileName, "{SURA}", "all");
@@ -62,34 +63,24 @@ public class OfflinePlaylistProvider extends PlaylistProvider {
 			// caching...
 			final String[] ayaParts = new String[290];
 			for (int ap = 0; ap < ayaParts.length; ap++) {
-				ayaParts[ap] = StringUtils.leftPad(String.valueOf(ap + 1), ayaPad.length() + 1, ayaPad);
+				ayaParts[ap] = StringUtils.leftPad(String.valueOf(ap), ayaPad.length() + 1, ayaPad);
 			}
 			final String[] suraParts = new String[120];
 			for (int sp = 0; sp < suraParts.length; sp++) {
-				suraParts[sp] = StringUtils.leftPad(String.valueOf(sp + 1), suraPad.length() + 1, suraPad);
+				suraParts[sp] = StringUtils.leftPad(String.valueOf(sp), suraPad.length() + 1, suraPad);
 			}
 
-			QuranProperties quranProps = QuranProperties.getInstance();
-
-			if (audioData.getPlaylistMode().equals(AudioData.SURA_PLAYLIST)) {
-				SuraProperties suraProps = quranProps.getSura(suraNum);
-				for (int aya = 0; aya < suraProps.getAyaCount(); aya++) {
-					String s = StringUtils.replace(filePattern, "{SURA}", suraParts[suraNum - 1]);
-					s = StringUtils.replace(s, "{AYA}", ayaParts[aya]);
-					String url = AudioUtils.getAudioUrl(audioData, s);
-					trackList.add(new Track(suraProps, aya + 1, url));
-				}
-			} else {
-				for (int sura = 0; sura < 114; sura++) {
-					SuraProperties suraProps = quranProps.getSura(sura + 1);
-					for (int aya = 0; aya < suraProps.getAyaCount(); aya++) {
-						String s = StringUtils.replace(filePattern, "{SURA}", suraParts[sura]);
-						s = StringUtils.replace(s, "{AYA}", ayaParts[aya]);
-						String url = AudioUtils.getAudioUrl(audioData, s);
-						trackList.add(new Track(suraProps, aya + 1, url));
-					}
-				}
+			IQuranPage quranPage = ApplicationConfig.getInstance().getQuranPaging().getDefault().getQuranPage(pageNum);
+			IQuranLocation from = quranPage.getFrom();
+			IQuranLocation to = quranPage.getTo();
+			while (from != null && from.compareTo(to) <= 0) {
+				String s = StringUtils.replace(filePattern, "{SURA}", suraParts[from.getSura()]);
+				s = StringUtils.replace(s, "{AYA}", ayaParts[from.getAya()]);
+				String url = AudioUtils.getAudioUrl(audioData, s);
+				trackList.add(new Track(from, url));
+				from = from.getNext();
 			}
+
 			OfflinePlaylistTempalate olpt = new OfflinePlaylistTempalate(playlistUrl, trackList);
 			olpt.transform();
 			return playlistUrl;
