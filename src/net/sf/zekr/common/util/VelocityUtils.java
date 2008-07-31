@@ -12,8 +12,14 @@ package net.sf.zekr.common.util;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.IQuranPage;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.audio.IPlaylistProvider;
+import net.sf.zekr.engine.page.IPagingData;
 
 /**
  * This class contains some helper methods to be used in Velocity templates. This is a replacement for
@@ -66,15 +72,31 @@ public class VelocityUtils {
 		return arr == null ? -1 : ((Object[]) arr).length;
 	}
 
-	public String items2JsArray(IPlaylistProvider pp, int sura) {
-		int ayaCount = QuranPropertiesUtils.getSura(sura).getAyaCount();
+	//	public String items2JsArray(IPlaylistProvider pp, int page) {
+	//		int ayaCount = QuranPropertiesUtils.getSura(page).getAyaCount();
+	//		StringBuffer buf = new StringBuffer("[");
+	//		if (ayaCount > 0) // always true :-)
+	//			buf.append(pp.getItem(page, 1));
+	//		for (int aya = 2; aya <= ayaCount; aya++) {
+	//			buf.append(", " + pp.getItem(page, aya));
+	//		}
+	//		buf.append("]");
+	//		return buf.toString();
+	//	}
+
+	public String items2JsArray(int pageNum) {
+		IPagingData pagingData = ApplicationConfig.getInstance().getQuranPaging().getDefault();
+		IQuranPage quranPage = pagingData.getQuranPage(pageNum);
+		IQuranLocation fromLoc = quranPage.getFrom();
+		IQuranLocation toLoc = quranPage.getTo();
 		StringBuffer buf = new StringBuffer("[");
-		if (ayaCount > 0) // always true :-)
-			buf.append(pp.getItem(sura, 1));
-		for (int aya = 2; aya <= ayaCount; aya++) {
-			buf.append(", " + pp.getItem(sura, aya));
+		while (fromLoc != null && fromLoc.compareTo(toLoc) <= 0) {
+			buf.append('\'').append(fromLoc.toString()).append('\'').append(", ");
+			fromLoc = fromLoc.getNext();
 		}
-		buf.append("]");
+		if (buf.length() > 1) {
+			buf.replace(buf.length() - 2, buf.length(), "]");
+		}
 		return buf.toString();
 	}
 
@@ -83,5 +105,16 @@ public class VelocityUtils {
 			return ((List) arr).get(index);
 		}
 		return ((Object[]) arr)[index];
+	}
+
+	public String getRepeatOptions(int repeatTime) {
+		StringBuffer buf = new StringBuffer();
+		PropertiesConfiguration props = ApplicationConfig.getInstance().getProps();
+		int max = props.getInt("audio.maxRepeatTime", 10);
+		for (int i = 1; i <= max; i++) {
+			buf.append("<option" + (i == repeatTime ? " selected=\"selected\"" : "") + ">&nbsp;").append(i).append(
+					"&nbsp;</option>");
+		}
+		return buf.toString();
 	}
 }
