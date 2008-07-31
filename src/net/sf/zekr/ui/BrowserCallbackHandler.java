@@ -104,6 +104,9 @@ public class BrowserCallbackHandler {
 			} else if (message.startsWith("ZEKR::PLAYER_CONT")) {
 				String contAya = message.substring(message.indexOf(' ') + 1, message.indexOf(';')).trim();
 				config.getProps().setProperty("audio.continuousAya", contAya);
+			} else if (message.startsWith("ZEKR::PLAYER_REPEAT")) {
+				Integer repeatTime = new Integer(message.substring(message.indexOf(' ') + 1, message.indexOf(';')).trim());
+				config.getProps().setProperty("audio.repeatTime", repeatTime);
 			}
 		}
 	}
