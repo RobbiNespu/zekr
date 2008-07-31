@@ -18,6 +18,7 @@ import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.AbstractRangedQuranText;
 import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IQuranLocation;
@@ -68,7 +69,8 @@ public class HtmlRepository {
 	 */
 	public static String getQuranUri(int sura, int aya, boolean update) throws HtmlGenerationException {
 		try {
-			String fileName = config.getUserViewController().getPage() + ".html";
+			IUserView uvc = config.getUserViewController();
+			String fileName = uvc.getPage() + ".html";
 			File file = new File(Naming.getQuranCacheDir() + File.separator + fileName);
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
@@ -79,8 +81,8 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 
 				// ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), sura, aya);
-				ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), config.getUserViewController());
-				addPlaylistProvider(sura, transformer);
+				ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), uvc);
+				addPlaylistProvider(uvc.getPage(), transformer);
 				osw.write(transformer.transform());
 				osw.close();
 			}
@@ -102,7 +104,8 @@ public class HtmlRepository {
 	public static String getTransUri(int sura, int aya, boolean update) throws HtmlGenerationException {
 		try {
 			TranslationData td = config.getTranslation().getDefault();
-			String fileName = config.getUserViewController().getPage() + "_" + td.id + ".html";
+			IUserView uvc = config.getUserViewController();
+			String fileName = uvc.getPage() + "_" + td.id + ".html";
 			File file = new File(Naming.getTransCacheDir() + "/" + fileName);
 			// if the file doesn't exist, or a zero-byte file exists
 			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
@@ -112,8 +115,8 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 
 				// ITransformer transformer = new TranslationViewTemplate(td, sura, aya);
-				ITransformer transformer = new TranslationViewTemplate(td, config.getUserViewController());
-				addPlaylistProvider(sura, transformer);
+				ITransformer transformer = new TranslationViewTemplate(td, uvc);
+				addPlaylistProvider(uvc.getPage(), transformer);
 				osw.write(transformer.transform());
 				osw.close();
 			}
@@ -130,7 +133,8 @@ public class HtmlRepository {
 	public static String getMixedUri(int sura, int aya, boolean update) throws HtmlGenerationException {
 		try {
 			TranslationData td = config.getTranslation().getDefault();
-			String fileName = config.getUserViewController().getPage() + "_" + td.id + ".html";
+			IUserView uvc = config.getUserViewController();
+			String fileName = uvc.getPage() + "_" + td.id + ".html";
 			File file = new File(Naming.getMixedCacheDir() + File.separator + fileName);
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
@@ -141,9 +145,8 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 
 				// ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, sura, aya);
-				ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, config
-						.getUserViewController());
-				addPlaylistProvider(sura, transformer);
+				ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, uvc);
+				addPlaylistProvider(uvc.getPage(), transformer);
 
 				osw.write(transformer.transform());
 				osw.close();
@@ -164,7 +167,8 @@ public class HtmlRepository {
 				if (i + 1 < tdList.size())
 					tidList.append("-");
 			}
-			String fileName = config.getUserViewController().getPage() + "_" + tidList + ".html";
+			IUserView uvc = config.getUserViewController();
+			String fileName = uvc.getPage() + "_" + tidList + ".html";
 			File file = new File(Naming.getMixedCacheDir() + File.separator + fileName);
 			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
 			if (!file.exists() || file.length() == 0 || update) {
@@ -174,9 +178,8 @@ public class HtmlRepository {
 				TranslationData[] transData = (TranslationData[]) tdList.toArray(new TranslationData[] {});
 
 				// ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, sura, aya);
-				ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, config
-						.getUserViewController());
-				addPlaylistProvider(sura, tx);
+				ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, uvc);
+				addPlaylistProvider(uvc.getPage(), tx);
 
 				osw.write(tx.transform());
 				osw.close();
@@ -257,12 +260,12 @@ public class HtmlRepository {
 		return config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE : Naming.getViewCacheDir();
 	}
 
-	private static void addPlaylistProvider(int sura, ITransformer transformer) throws Exception {
+	private static void addPlaylistProvider(int page, ITransformer transformer) throws Exception {
 		if (config.getAudio().getCurrent() == null) {
 			transformer.setProperty("AUDIO_DISABLED", Boolean.TRUE);
 		} else {
 			transformer.setProperty("AUDIO_DISABLED", Boolean.valueOf(!config.isAudioEnabled()));
-			PlaylistProvider playlistProvider = config.getAudio().getCurrent().newPlaylistProvider(sura);
+			PlaylistProvider playlistProvider = config.getAudio().getCurrent().newPlaylistProvider(page);
 			String playlistPath = playlistProvider.providePlaylist();
 
 			List list = new ArrayList();
@@ -271,9 +274,10 @@ public class HtmlRepository {
 			list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_END)));
 			transformer.setProperty("SPECIAL_INDEX_LIST", CollectionUtils.toSimpleJson(list));
 
-			transformer.setProperty("VOLUME", config.getProps().getProperty("audio.volume"));
-			transformer.setProperty("AUD_CONT_SURA", config.getProps().getProperty("audio.continuousSura"));
-			transformer.setProperty("AUD_CONT_AYA", config.getProps().getProperty("audio.continuousAya"));
+			transformer.setProperty("VOLUME", config.getProps().getInteger("audio.volume", new Integer(50)));
+			transformer.setProperty("AUD_REPEAT_TIME", config.getProps().getInteger("audio.repeatTime", new Integer(1)));
+			transformer.setProperty("AUD_CONT_SURA", config.getProps().getString("audio.continuousSura", "true"));
+			transformer.setProperty("AUD_CONT_AYA", config.getProps().getString("audio.continuousAya", "true"));
 			transformer.setProperty("PLAYLIST_PROVIDER", playlistProvider);
 			transformer.setProperty("PLAYLIST_URL", config.getHttpServer().toUrl(playlistPath));
 		}
