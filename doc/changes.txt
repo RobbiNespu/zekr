@@ -505,7 +505,7 @@ Features/Enhancements:
 		- New add-on: paging data pack. *.page.xml files in res/text/metadata are used to introduce new paging data. An Uthmani paging is by default supported (uthmani.page.xml).
 		- User may choose View > Paging Mode > Custom... in order to utilize a custom paging data available in (res/text/metadata/*.page.xml).
 		- Navigation bar now accepts page as well as sura-aya pair. If page differs from the current page, it just navigates to the beginning of that page, otherwise it navigates to the entered sura-aya location.
-		- Navigation buttons in work pane navigate through pages and ayas instead of suras and ayas. For example the button previously was for Next Sura, now navigates to the next page (if default paging mode is sura, it goes to the next sura). 
+		- Navigation buttons in work pane navigate through pages and ayas instead of suras and ayas. For example the button previously was for Next Sura, now navigates to the next page (if default paging mode is sura, it goes to the next sura).
 	New config properties introduced: index.quran.path, index.quran.version, index.trans.path.<translation id>, and index.trans.version.<translation id>. properties. index.[quran|trans].path.[<translation id>] holds quran or a translation index location (identified with <translation id>), and index.[quran|trans].version.[<translation id>] is for Zekr build number which creates that index. Indexes created with different versions of Zekr may not be generally compatible, so it should reindex on each version (build number) update.
 	New menu group added: View > Panel, in order to show and hide different panels. For now sura detail panel can be toggled. The state of a panel visibility is persisted under view.panel.<panel id> in config.properties.
 	A few more progress point added for startup splash screen. A progress now increases startup progress bar value by 7%.
@@ -513,9 +513,15 @@ Features/Enhancements:
 		- Search metadata contains language-specific replace patterns for non-searchable or equivalent characters. It also has a list of stopwords, which is used to ignore those words for indexing.
 		- A new class SearchInfo (metadata) introduced
 		- A new config file res/config/search-info.properties added. This config file is included in main config.properties.
+	Translation search:
+		- Basic search support. It uses pattern replacements provided in search-info.properties.
+		- Advanced search support. It uses pattern replacements provided in search-info.properties, or built-in Lucene analyzers if available for that language. 
 	All 'View > Go To' menu items moved to a new global Menu: Go To. Random Aya also moved to this new menu.
 	Two backups for zekr.log are kept: log4j.appender.RUNTIME.MaxBackupIndex=2.
 	Update site URL moved from config.properties to version.properties. It's a security risk to have the URL inside user config.
+	Root database:
+		- A new configuration property: "root.enabled". One can disabled root database, because it's somewhat memory consuming.
+		- All the Quran roots (indexed by root itself), and reverse index for roots of a single aya are loaded from res/text/metadata/quran-root.txt.
 Bug fixes:
 	A bug with basic search fixed, which happened when a whole clause was found at the end of an aya.
 	Menu icons are not shown anymore in Mac.
@@ -525,6 +531,7 @@ Bug fixes:
 	When an SWT Tree is set as SWT.SINGLE, it's selection listener is once called upon its first selection (which is selected by system). It caused aya not to be selected correctly in aya selection combo. A small but of checking (if (e.time > 0)) added to tree selectionm adapter in order to ignore its first systemy selection.
 	A bug with unloading (TranslationData.unload()) currently in use translations, when multi-translation layout was selected is fixed. Since it mistakenly unload a translation which was in use, Zekr gave NPE errors for accessing translation of ayas.
 	Just one thread is started for HTTP server. It used to start two separate thread, one of them was redundant.
+	Manually focusing on an aya in the page during playing a recitation causes to recite that aya after current one (previously ignored the focusing aya).
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Search results in ascending/descending order

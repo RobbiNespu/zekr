@@ -5,22 +5,26 @@
  *
  * @author Mohsen Saboorian
  */
+var _zekr_log_enabled_ = false;
 
-function lookupMovie(movie) {
-	if($.browser.msie) return window[movie];
-	return document[movie];
+function getPlayer(id) {
+	if($.browser.msie) return window[id || 'quranPlayer'];
+	return document[id || 'quranPlayer'];
 }
 
 function sendEvent(typ, p) {
-	var swf = lookupMovie("quranPlayer");
-	if (swf && swf.sendEvent) swf.sendEvent(typ, p);
+	var player = getPlayer();
+	if (player && player.sendEvent) player.sendEvent(typ, p);
 }
 
 function log(msg) {
-	$('#messageArea').val($('#messageArea').val() + '\r\n' + msg);
+	if (_zekr_log_enabled_)
+		$('#messageArea').val($('#messageArea').val() + '\r\n' + msg);
 }
 
 Player = function() {
+	this.ready = false;
+	this.client;
 	this.items = [];
 	this.index = 0;
 	this.locked = false;
@@ -30,6 +34,8 @@ Player = function() {
 	this.volume = $('#hiddenVolume').val();
 	this.playlist = '';
 	this.elapsed = 0;
+	this.repeatTime = $('#hiddenRepeatTime').val();
+	this.repeatElapsed = 0;
 	this.contAya = ($('#hiddenContinuousAyaPlay').val() == 'true'); // continuous aya playing
 	this.butPressed = false; // is true only when html play/pause button is pressed (to distinct it from JWPlayer button)
 	this.setup = function(playlist, volume, items, index, contAya) {
@@ -38,16 +44,24 @@ Player = function() {
 		this.items = items;
 		this.index = index;
 		if (contAya != undefined) this.contAya = contAya;
-		var fo = { movie:'res/audio/player.swf', width:'220', height:'20', majorversion:'8', menu: 'false',
-				build:'0', bgcolor:'#ffffff', id:'quranPlayer', flashvars:'file=' + playlist + '&volume=' + volume +
+		var fo = {
+			movie:'res/audio/player.swf', width:'220', height:'20',
+			menu: 'false', allowscriptaccess: 'always',
+			id: 'quranPlayer', name: 'quranPlayer', bgcolor: '#ffffff',
+			majorversion: '8', build: '0',
+			flashvars: 'file=' + playlist + '&volume=' + volume +
 				'&repeat=' + (this.contAya ? 'list' : 'false') +
-			'&height=20&enablejs=true&shuffle=false&javascriptid=quranPlayer' + 
-			'&allowscriptaccess=always' +
-			'&backcolor=0xeee0e0&frontcolor=0x0011cc' + 
-			'&showdigits=true&autostart=false' };
+				'&height=20&enablejs=true&javascriptid=quranPlayer' +
+				'&width=220&height=20' +
+				'&backcolor=0xeee0e0&frontcolor=0x0011cc' + 
+				'&shuffle=false&showdigits=true&autostart=false' };
 		UFO.create(fo, 'reciterBar');
 	}
-	
+
+	this.setContMode = function(continuous) {
+		this.contAya = continuous;
+	}
+
 	this.setVolume = function(v) { sendEvent('volume', v); this.volume = v; }
 	this.stop = function() { sendEvent('stop'); this.playing = false; }
 	this.playPause = function() { sendEvent('playpause'); this.playing = !this.playing; }
@@ -55,7 +69,7 @@ Player = function() {
 	this.prev = function() { sendEvent('prev'); this.playing = true; }
 	this.goto = function(index) {
 		this.index = index;
-		sendEvent('playitem', this.items[this.index]);
+		sendEvent('playitem', this.index);
 		this.playing = true;
 	}
 };
@@ -77,9 +91,9 @@ var playerOnLoad = function(jq, contAya) {
 				$('#hiddenContinuousAyaPlay').val(player.contAya)
 				$('#hiddenVolum').val(player.volume)
 				if (obj.firstTime) {
-					player.goto(eval($('#hiddenSpecialItemArray').val())[0]);
+					// player.goto(eval($('#hiddenSpecialItemArray').val())[0]);
 				} else if (obj.autoPlay) {
-					player.goto(eval($('#hiddenSpecialItemArray').val())[1]);
+					// player.goto(eval($('#hiddenSpecialItemArray').val())[1]);
 				}
 			});
 		}, 100);
@@ -88,6 +102,10 @@ var playerOnLoad = function(jq, contAya) {
 
 $(function() {
 	setTimeout(playerOnLoad, 100);
+	$('#repeatAya').bind('change', function(e) {
+		player.repeatTime = parseInt($(this).find(':selected').text().trim());
+		setMessage('ZEKR::PLAYER_REPEAT ' + player.repeatTime + ';');
+	});
 });
 
 // call back function to be called from action script. The name should be exactly 'getUpdate'.
@@ -106,18 +124,14 @@ function getUpdate(tp, p1, p2, pid) {
 	} else if(tp == "state") {
 		// 0=pause, 1=buffering, 2=playing, 3=completed
 		player.state = p1;
-		if (p1 == 0) {
-			//if (player.playing && !player.butPressed) { _toggleButton($('#playButton')); player.playing = false; player.butPressed = false; }
-		} else if (p1 == 1 || p1 == 3) {
-			//if (player.playing && !player.butPressed) { _toggleButton($('#playButton')); player.butPressed = false; }
-		} else if (p1 == 3) {
+		if (p1 == 3) {
 			if (!player.contAya) stopPlayer();
-			if (player.load == 0) {
+			/*if (player.load == 0) {
 				// kill flash player, to prevent 100% CPU usage!
 				player.locked = true;
 				stopPlayer();
 				playerOnLoad();
-			}
+			}*/
 		}
 		if (player.state == 3 && player.index + 1 == $('#hiddenAyaCount').val()) { // end of list
 			player.locked = true;
@@ -132,10 +146,15 @@ function getUpdate(tp, p1, p2, pid) {
 			else
 				player.goto(s);
 		}
-	} else if(tp == "item") {
+	} else if (tp == "item") {
 		if (player.elapsed != 0) {
-			gotoAya($('#hiddenSuraNum').val() + '-' + (parseInt(p1) + 1));
+			var suraAya = $('#hiddenSuraNum').val() + '-' + $('#hiddenAyaNum').val();
+			var i = $(player.items).index(suraAya);
+			var ayaCount = $('#hiddenAyaCount').val();
+			if (i < ayaCount && i + 1 != p1) { player.goto(i); p1 = i; }
+			// else { stopPlayer(); return; }
 			player.index = p1;
+			gotoSuraAya(player.items[p1])
 		}
 	}
 };
@@ -154,14 +173,19 @@ function _toggleButton(but) {
 
 function swtTogglePlayPause() {
 	_toggleButton($('#playButton'));
-	var i = $('#hiddenAyaNum').val() - 1;
+	var i = $(player.items).index($('#hiddenSuraNum').val() + 
+			'-' + $('#hiddenAyaNum').val());
 	if (player.index != i && !player.playing) {
 		player.goto(i);
 	} else {
 		player.playPause();
 	}
 }
-function togglePlayPause() { player.butPressed = true; setMessage('ZEKR::PLAYER_PLAYPAUSE;'); swtTogglePlayPause(); }
+function togglePlayPause() {
+	player.butPressed = true;
+	setMessage('ZEKR::PLAYER_PLAYPAUSE;');
+	swtTogglePlayPause();
+}
 
 function swtStopPlayer() {
 	player.stop();
@@ -176,10 +200,9 @@ function stopPlayer() {
 
 function toggleAyaButton() {
 	_toggleButton($('#contAyaButton'));
-	player.contAya = !player.contAya;
+	player.setContMode(!player.contAya);
 	$('#hiddenContinuousAyaPlay', player.contAya);
 	if (player.playing) togglePlayPause();
-
 	setMessage('ZEKR::PLAYER_CONT ' + player.contAya + ';');
 	playerOnLoad(null, player.contAya);
 }
