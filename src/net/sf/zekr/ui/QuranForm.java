@@ -1478,13 +1478,12 @@ public class QuranForm extends BaseForm {
 	}
 
 	void navTo(IQuranLocation loc, boolean changePage) {
-		uvc.setViewMode(IUserView.VM_QURAN_TRANS);
 		if (loc.isValid()) {
 			IPagingData qp = config.getQuranPaging().getDefault();
 			int p = uvc.getPage();
 			IQuranPage cp = qp.getContainerPage(loc);
 
-			if (changePage || cp.getPageNum() != p) { // page changed
+			if (uvc.getViewMode() != IUserView.VM_QURAN_TRANS || changePage || cp.getPageNum() != p) {
 				pageChanged = true;
 			} else {
 				pageChanged = false;
@@ -1501,6 +1500,7 @@ public class QuranForm extends BaseForm {
 		} else { // invalid location: update view
 			updateView();
 		}
+		uvc.setViewMode(IUserView.VM_QURAN_TRANS);
 	}
 
 	protected void gotoSuraAya(IQuranLocation loc) {
