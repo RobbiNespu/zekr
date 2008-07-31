@@ -197,7 +197,8 @@ public class QuranFormMenuFactory {
 		viewModeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		viewMode.setMenu(viewModeMenu);
 		MenuItem suraViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_SURA"), 0, null);
-		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_CONST_AYA"), 0, null);
+		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_CONST_AYA") + "...",
+				0, null);
 		MenuItem hizbViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_HIZB_QUARTER"), 0, null);
 		MenuItem juzViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_JUZ"), 0, null);
 		MenuItem customViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_CUSTOM") + "...", 0,
@@ -527,7 +528,6 @@ public class QuranFormMenuFactory {
 			transBlockLayoutItem.setSelection(true);
 
 		// show view parts
-		new MenuItem(viewMenu, SWT.SEPARATOR);
 		MenuItem showView = createMenuItem(SWT.CASCADE, viewMenu, lang.getMeaning("PANEL"), 0, null);
 		Menu showViewMenu = new Menu(shell, SWT.DROP_DOWN);
 		showView.setMenu(showViewMenu);
@@ -1172,17 +1172,10 @@ public class QuranFormMenuFactory {
 	 * @param pagingMode
 	 */
 	private void updatePagingMode(String pagingMode) {
-		try {
-			config.setPagingMode(pagingMode);
-			QuranPaging qp = config.getQuranPaging();
-			qp.setDefault(config.getQuranPaging().get(pagingMode));
-			qp.getDefault().load(); // ensure that paging data is loaded
-			form.uvc.synchPage();
-			form.updateNavPageKeysTooltip();
-			reloadView();
-		} catch (PagingException e) {
-			logger.log(e);
-		}
+		config.setPagingMode(pagingMode);
+		form.uvc.synchPage();
+		form.updateNavPageKeysTooltip();
+		reloadView();
 	}
 
 	private void reloadView() {
