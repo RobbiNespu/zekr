@@ -375,7 +375,7 @@ public class QuranPropertiesUtils {
 	 * @param suraNum sura number (counted from 1)
 	 * @return the sum of aya count from sura 1 to suraNum - 1.
 	 */
-	public static final int getAggregativeAyaCount(int suraNum) {
+	public static final int getAggregateAyaCount(int suraNum) {
 		if (aggrAyaCount[113] == 0) { // not loaded yet
 			int k = 0;
 			for (int i = 0; i < 114; i++) {
@@ -394,7 +394,7 @@ public class QuranPropertiesUtils {
 		List locList = new ArrayList();
 		IQuranLocation from = quranPage.getFrom();
 		IQuranLocation to = quranPage.getFrom();
-		while (to.compareTo(from) >= 0) {
+		while (from != null && to.compareTo(from) >= 0) {
 			locList.add(from);
 			from = from.getNext();
 		}
@@ -409,7 +409,7 @@ public class QuranPropertiesUtils {
 		List ayaList = new ArrayList();
 		IQuranLocation from = quranPage.getFrom();
 		IQuranLocation to = quranPage.getFrom();
-		while (to.compareTo(from) >= 0) {
+		while (from != null && to.compareTo(from) >= 0) {
 			ayaList.add(quranText.get(from));
 			from = from.getNext();
 		}
@@ -491,6 +491,15 @@ public class QuranPropertiesUtils {
 				return i;
 		}
 		return -1;
+	}
+
+	/**
+	 * @param loc1 first location
+	 * @param loc2 second location
+	 * @return absolute aya number for location 1 - absolute number for location 2
+	 */
+	public static final int diff(IQuranLocation loc1, IQuranLocation loc2) {
+		return getAbsoluteLocation(loc1) - getAbsoluteLocation(loc2);
 	}
 
 }
