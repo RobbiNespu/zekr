@@ -196,13 +196,16 @@ public class QuranFormMenuFactory {
 		viewMode = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("PAGING_MODE"), 0, null);
 		viewModeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		viewMode.setMenu(viewModeMenu);
-		MenuItem suraViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_SURA"), 0, null);
-		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_CONST_AYA") + "...",
-				0, null);
-		MenuItem hizbViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_HIZB_QUARTER"), 0, null);
-		MenuItem juzViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_JUZ"), 0, null);
-		MenuItem customViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaning("PAGING_CUSTOM") + "...", 0,
+		MenuItem suraViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "SURA"), 0,
 				null);
+		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE",
+				"CONST_AYA")
+				+ "...", 0, null);
+		MenuItem hizbViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang
+				.getMeaningById("PAGING_MODE", "HIZB_QUARTER"), 0, null);
+		MenuItem juzViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "JUZ"), 0, null);
+		MenuItem customViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "CUSTOM")
+				+ "...", 0, null);
 
 		suraViewMode.setData(SuraPagingData.ID);
 		fixedAyaViewMode.setData(FixedAyaPagingData.ID);
@@ -811,8 +814,8 @@ public class QuranFormMenuFactory {
 
 	private boolean setFixedAyaMode() {
 		int aypp = config.getProps().getInt("view.pagingMode.ayaPerPage", 20);
-		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"),
-				lang.getMeaning("PAGING_AYA_PER_SURA"), String.valueOf(aypp));
+		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"), lang.getMeaningById("PAGING_MODE",
+				"AYA_PER_SURA"), String.valueOf(aypp));
 		if (!StringUtils.isEmpty(ayaStr)) {
 			try {
 				int aya = Integer.parseInt(ayaStr);
