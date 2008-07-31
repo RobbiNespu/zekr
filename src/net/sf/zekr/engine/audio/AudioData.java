@@ -11,14 +11,22 @@ package net.sf.zekr.engine.audio;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class AudioData {
 	/**
-	 * Single playlist for each sura.
+	 * Single playlist for each page.
+	 * 
+	 * @deprecated all playlists are paged-playlists.
 	 */
 	public static final String SURA_PLAYLIST = "sura";
 
 	/**
 	 * A playlist for the whole Quran.
+	 * 
+	 * @deprecated this kind of playlist causes a high performance overload on the client machines. It should
+	 *             not be used anywhere.
 	 */
 	public static final String COLLECTION_PLAYLIST = "all";
 
@@ -129,9 +137,9 @@ public class AudioData {
 	}
 
 	/**
-	 * Should always have a trailing slash, so that it can be concatenated with playlist file name. This should be
-	 * ignored for offline playlist providers, because offline playlists have always a specific path on workspace (audio
-	 * cache).
+	 * Should always have a trailing slash, so that it can be concatenated with playlist file name. This should
+	 * be ignored for offline playlist providers, because offline playlists have always a specific path on
+	 * workspace (audio cache).
 	 * 
 	 * @return playlist base URL
 	 */
@@ -199,10 +207,10 @@ public class AudioData {
 		this.playlistSuraPad = playlistSuraPad;
 	}
 
-	public PlaylistProvider newPlaylistProvider(int suraNum) throws ClassNotFoundException, InstantiationException,
+	public PlaylistProvider newPlaylistProvider(int page) throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		return (PlaylistProvider) Class.forName(getPlaylistProvider()).getConstructor(
-				new Class[] { AudioData.class, int.class }).newInstance(new Object[] { this, new Integer(suraNum) });
+				new Class[] { AudioData.class, int.class }).newInstance(new Object[] { this, new Integer(page) });
 	}
 
 	public String toString() {
