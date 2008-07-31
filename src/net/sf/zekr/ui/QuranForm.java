@@ -35,6 +35,7 @@ import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
 import net.sf.zekr.engine.page.SuraPagingData;
+import net.sf.zekr.engine.search.SearchException;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.comparator.SearchResultComparatorFactory;
 import net.sf.zekr.engine.search.lucene.AdvancedSearchResult;
@@ -1781,7 +1782,11 @@ public class QuranForm extends BaseForm {
 			ats.setSearchResultComparator(SearchResultComparatorFactory.getComparator((String) searchOrderCombo
 					.getData(String.valueOf(sortBy))));
 			ats.setAscending(sortOrderButton.getData().equals("asc"));
-			sr = ats.search(str);
+			try {
+				sr = ats.search(str);
+			} catch (SearchException se) {
+				MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + se.toString());
+			}
 			Date date2 = new Date();
 			logger.info("Search for " + str + " finished; took " + (date2.getTime() - date1.getTime()) + " ms.");
 
