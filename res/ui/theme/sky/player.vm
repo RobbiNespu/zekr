@@ -8,7 +8,8 @@
 <input type="hidden" id="hiddenPlaylistUrl" value="$PLAYLIST_URL" />
 <input type="hidden" id="hiddenContinuousAyaPlay" value="$AUD_CONT_AYA" />
 <input type="hidden" id="hiddenContinuousSuraPlay" value="$AUD_CONT_SURA" />
-<input type="hidden" id="hiddenPlaylistItemArray" value="$UTILS.items2JsArray($PLAYLIST_PROVIDER, $SURA_NUM)" />
+<input type="hidden" id="hiddenRepeatTime" value="$AUD_REPEAT_TIME" />
+<input type="hidden" id="hiddenPlaylistItemArray" value="$UTILS.items2JsArray($PAGE_NUM)" />
 <input type="hidden" id="hiddenSpecialItemArray" value="$SPECIAL_INDEX_LIST" />
 <input type="hidden" id="prestartAudioItem" value="$PLAYLIST_PROVIDER.getSpecialItem('prestart')" />
 <input type="hidden" id="startAudioItem" value="$PLAYLIST_PROVIDER.getSpecialItem('start')" />
@@ -37,5 +38,8 @@
 		zekrtitle="#if($AUD_CONT_AYA=='true')$DISC_AYA_TEXT#else$CONT_AYA_TEXT#end">
 		<img src="#if($AUD_CONT_AYA=='true')$CONT_AYA_ICON#else$DISC_AYA_ICON#end"
 		zekricon="#if($AUD_CONT_AYA=='true')$DISC_AYA_ICON#else$CONT_AYA_ICON#end" alt="" /></button></td>
+	<td>| Repeat: <select id="repeatAya">
+		$UTILS.getRepeatOptions($AUD_REPEAT_TIME)
+	</select></td>
 </tr></table>
 </div>
