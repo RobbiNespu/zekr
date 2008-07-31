@@ -13,9 +13,14 @@ package net.sf.zekr.common.resource;
  */
 public interface IQuranPage {
 	/**
-	 * @return 1-base page number.
+	 * @return 1-base page number
 	 */
 	public abstract int getPageNum();
+
+	//	/**
+	//	 * @return the number of ayas in this page
+	//	 */
+	//	public abstract int getPageSize();
 
 	/**
 	 * @return Quran page lower bound (inclusive)
