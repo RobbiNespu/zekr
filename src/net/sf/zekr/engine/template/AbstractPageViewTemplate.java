@@ -3,6 +3,7 @@ package net.sf.zekr.engine.template;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranPage;
 import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.ThemeData;
 
@@ -42,6 +43,8 @@ public class AbstractPageViewTemplate extends BaseViewTemplate {
 			engine.put("TITLE", langEngine.getMeaning("PAGE") + ": " + quranPage.getPageNum());
 			engine.put("SURA_NUM", new Integer(userView.getLocation().getSura()));
 			engine.put("AYA_NUM", new Integer(userView.getLocation().getAya()));
+			engine.put("AYA_NUM_IN_PAGE", new Integer(1 + QuranPropertiesUtils.diff(userView.getLocation(), quranPage
+					.getFrom())));
 			engine.put("PAGE_NUM", new Integer(userView.getPage()));
 			engine.put("AYA_COUNT", new Integer(quranPage.getTo().getAbsoluteAya() - quranPage.getFrom().getAbsoluteAya()
 					+ 1));
