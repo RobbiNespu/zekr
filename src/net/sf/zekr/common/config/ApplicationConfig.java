@@ -962,8 +962,23 @@ public class ApplicationConfig implements ConfigNaming {
 		return props.getString("view.viewLayout");
 	}
 
-	public void setPagingMode(String pagingMode) {
-		props.setProperty("view.pagingMode", pagingMode);
+	public void setPagingMode(String pagingModeId) {
+		try {
+			IPagingData pagingData = getQuranPaging().get(pagingModeId);
+			if (pagingData == null) {
+				logger.warn("No such paging data: " + pagingModeId);
+				return;
+			}
+			logger.info("Change current paging mode to to " + pagingModeId);
+			pagingData.load(); // ensure that paging data is loaded
+			quranPaging.setDefault(pagingData);
+			props.setProperty("view.pagingMode", pagingModeId);
+
+			runtime.recreateViewCache(); // HTML files are not valid anymore from paging POV
+			runtime.recreatePlaylistCache(); // playlists are not valid anymore from paging POV
+		} catch (Exception e) {
+			logger.log(e);
+		}
 	}
 
 	public String getPagingMode() {
