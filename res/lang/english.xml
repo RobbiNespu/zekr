@@ -143,6 +143,7 @@
 
 			<text id="PANEL" value="Panel"   />
 			<text id="DETAIL_PANEL" value="Detail Panel"   />
+			<text id="REPEAT" value="Repeat"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />
