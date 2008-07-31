@@ -6,7 +6,7 @@
 	<creator>${AUDIO_DATA.License}</creator>
 	<trackList>
 		#foreach ($TRACK in $TRACK_LIST)<track>
-			<title>$TRACK.Sura.Name ($TRACK.Sura.Index) - $TRACK.Aya</title>
+			<title>$TRACK.Location.SuraName ($TRACK.Location.Sura) - $TRACK.Location.Aya</title>
 			<location>$TRACK.Url</location>
 		</track>#end
 #*		#foreach ($SPECIAL_ITEM in $SPECIAL_ITEM_LIST)<track>
