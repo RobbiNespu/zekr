@@ -18,18 +18,18 @@ import org.apache.commons.lang.StringUtils;
 public class OnlinePlaylistProvider extends PlaylistProvider {
 	/**
 	 * @param audioData
-	 * @param suraNum
-	 *           1-base sura number
+	 * @param pageNum
+	 *           1-base page number
 	 */
-	public OnlinePlaylistProvider(AudioData audioData, int suraNum) {
-		super(audioData, suraNum);
+	public OnlinePlaylistProvider(AudioData audioData, int pageNum) {
+		super(audioData, pageNum);
 	}
 
 	public String providePlaylist() {
 		String fileName = audioData.getPlaylistFileName();
 		if (audioData.getPlaylistMode().equals(AudioData.SURA_PLAYLIST)) {
 			String playlistSuraPad = audioData.getPlaylistSuraPad();
-			String s = StringUtils.leftPad(String.valueOf(suraNum), playlistSuraPad.length() + 1, playlistSuraPad);
+			String s = StringUtils.leftPad(String.valueOf(pageNum), playlistSuraPad.length() + 1, playlistSuraPad);
 			fileName = StringUtils.replace(fileName, "{SURA}", s);
 		} else { // a playlist for the whole Quran
 			// do nothing
