@@ -73,7 +73,7 @@ public class RevelationData extends LocalizedResource implements Comparator, Sig
 	 * @return
 	 */
 	public int getOrder(int suraNum) {
-		return mode == SURA_MODE ? orders[suraNum - 1] : orders[QuranPropertiesUtils.getAggregativeAyaCount(suraNum) + 1];
+		return mode == SURA_MODE ? orders[suraNum - 1] : orders[QuranPropertiesUtils.getAggregateAyaCount(suraNum) + 1];
 	}
 
 	public int[] getYears() {

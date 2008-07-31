@@ -22,15 +22,15 @@ public class QuranPropertiesUtilsTest extends TestCase {
 
 	public void testGetAggregativeAyaCount() {
 		QuranProperties qp = QuranProperties.getInstance();
-		int k = QuranPropertiesUtils.getAggregativeAyaCount(3);
+		int k = QuranPropertiesUtils.getAggregateAyaCount(3);
 		assertEquals(k, 293);
 		k += qp.getSura(3).getAyaCount() + qp.getSura(4).getAyaCount();
-		assertEquals(QuranPropertiesUtils.getAggregativeAyaCount(5), k);
+		assertEquals(QuranPropertiesUtils.getAggregateAyaCount(5), k);
 
 		for (int i = 5; i < 114; i++) {
 			k += qp.getSura(i).getAyaCount();
 		}
-		assertEquals(QuranPropertiesUtils.getAggregativeAyaCount(114), k);
+		assertEquals(QuranPropertiesUtils.getAggregateAyaCount(114), k);
 	}
 
 	public void testGetJuzOf() throws Exception {
