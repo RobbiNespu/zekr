@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class CustomPageModeForm extends BaseForm {
-	private static final String FORM_ID = "CUSTOM_PAGE_MODE";
+	private static final String FORM_ID = "PAGING_MODE";
 	private final ApplicationConfig conf = ApplicationConfig.getInstance();
 	private Button editBut;
 	private org.eclipse.swt.widgets.List listWidget;
@@ -55,7 +55,7 @@ public class CustomPageModeForm extends BaseForm {
 
 		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
 		shell.setLayout(new FillLayout());
-		shell.setText(lang.getMeaning("PAGING_MODE"));
+		shell.setText(meaning("TITLE"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.paging")), });
 		makeForm();
 		shell.pack();
