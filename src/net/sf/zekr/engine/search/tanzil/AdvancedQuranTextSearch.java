@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranText;
@@ -24,6 +25,7 @@ import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.search.SearchException;
 import net.sf.zekr.engine.search.SearchResultItem;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
@@ -108,7 +110,7 @@ public class AdvancedQuranTextSearch {
 		return ascending;
 	}
 
-	public SearchResult search(String rawQuery) {
+	public SearchResult search(String rawQuery) throws SearchException {
 		logger.debug("Searching for query: " + rawQuery);
 		rawQuery = rawQuery.replaceAll("\\-", "!");
 
@@ -183,30 +185,36 @@ public class AdvancedQuranTextSearch {
 		}
 	}
 
-	private List filterBucket(List intermediateResult, String pattern, boolean exclude, boolean firstTime) {
-		List res = new ArrayList();
-		Pattern regex = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
-		for (int i = 0; i < intermediateResult.size(); i++) {
-			Matcher matcher;
-			String line;
-			IQuranLocation loc;
-			if (firstTime) {
-				loc = (IQuranLocation) intermediateResult.get(i);
-				line = ' ' + quranText.get(loc) + ' ';
-			} else {
-				SearchResultItem sri = (SearchResultItem) intermediateResult.get(i);
-				loc = sri.location;
-				line = sri.text;
+	private List filterBucket(List intermediateResult, String pattern, boolean exclude, boolean firstTime)
+			throws SearchException {
+		try {
+			List res = new ArrayList();
+			Pattern regex = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+			for (int i = 0; i < intermediateResult.size(); i++) {
+				Matcher matcher;
+				String line;
+				IQuranLocation loc;
+				if (firstTime) {
+					loc = (IQuranLocation) intermediateResult.get(i);
+					line = ' ' + quranText.get(loc) + ' ';
+				} else {
+					SearchResultItem sri = (SearchResultItem) intermediateResult.get(i);
+					loc = sri.location;
+					line = sri.text;
+				}
+				matcher = regex.matcher(line);
+				if ((matcher.find() ^ exclude)) {
+					if (firstTime)
+						res.add(new SearchResultItem(line, loc));
+					else
+						res.add((SearchResultItem) intermediateResult.get(i));
+				}
 			}
-			matcher = regex.matcher(line);
-			if ((matcher.find() ^ exclude)) {
-				if (firstTime)
-					res.add(new SearchResultItem(line, loc));
-				else
-					res.add((SearchResultItem) intermediateResult.get(i));
-			}
+			return res;
+		} catch (PatternSyntaxException pse) {
+			logger.implicitLog(pse);
+			throw new SearchException(pse.getMessage());
 		}
-		return res;
 	}
 
 	private String getClause(String text, Matcher matcher) {
