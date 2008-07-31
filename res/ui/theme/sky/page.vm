@@ -22,9 +22,7 @@
 	#set($LEAD="left")
 	#set($TRAIL="right")
 #end
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 #parse("$THEME_DIR/head.vm")
 <body id="${BODY_ID}" dir="${DIR}">
 <script>
@@ -33,6 +31,7 @@ window.res = null;
 #set ($AUDIO_ENABLED = !($AUDIO_DISABLED == true))
 <input type="hidden" id="hiddenSuraNum" value="$SURA_NUM" />
 <input type="hidden" id="hiddenAyaNum" value="$AYA_NUM" />
+<input type="hidden" id="hiddenCurrentItem" value="$AYA_NUM_IN_PAGE" />
 <input type="hidden" id="hiddenAyaCount" value="$AYA_COUNT" />
 <input type="hidden" id="hiddenAudioEnabled" value="$AUDIO_ENABLED" />
 <div id="headerBar" class="headerBar" dir="${DIRECTION}">
