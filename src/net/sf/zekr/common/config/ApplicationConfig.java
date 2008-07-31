@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -53,6 +54,7 @@ import net.sf.zekr.engine.page.QuranPaging;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.revelation.Revelation;
 import net.sf.zekr.engine.revelation.RevelationData;
+import net.sf.zekr.engine.root.QuranRoot;
 import net.sf.zekr.engine.search.SearchInfo;
 import net.sf.zekr.engine.search.lucene.LuceneIndexManager;
 import net.sf.zekr.engine.server.HttpServer;
@@ -102,6 +104,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private HttpServer httpServer;
 	private LuceneIndexManager luceneIndexManager;
 	private SearchInfo searchInfo;
+	private QuranRoot quranRoot;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -150,6 +153,11 @@ public class ApplicationConfig implements ConfigNaming {
 
 		luceneIndexManager = new LuceneIndexManager(props);
 
+		if (isRootDatabaseEnabled()) {
+			EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Quran root database");
+			loadRootList();
+		}
+
 		logger.info("Application configurations initialized.");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
 	}
@@ -178,6 +186,22 @@ public class ApplicationConfig implements ConfigNaming {
 				continue;
 			logger.debug("\tAdd replace patterns for: " + langCode);
 			searchInfo.addReplacePattern(langCode, replacePatternConf.getList(langCode));
+		}
+	}
+
+	private void loadRootList() {
+		try {
+			logger.info("Loading Quran root word database...");
+			ResourceManager res = ResourceManager.getInstance();
+			String rootFile = res.getString("text.quran.root");
+			String rootRawStr = net.sf.zekr.common.util.FileUtils.readFully(new FileInputStream(rootFile), (int) new File(
+					rootFile).length());
+			Date date1 = new Date();
+			quranRoot = new QuranRoot(rootRawStr);
+			Date date2 = new Date();
+			logger.debug("Took " + (date2.getTime() - date1.getTime()) + " ms.");
+		} catch (IOException ioe) {
+			logger.implicitLog(ioe);
 		}
 	}
 
@@ -987,6 +1011,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public boolean isHttpServerEnabled() {
 		return props.getBoolean("server.http.enable");
+	}
+
+	public boolean isRootDatabaseEnabled() {
+		return props.getBoolean("root.enabled", true);
 	}
 
 	public boolean useMozilla() {
