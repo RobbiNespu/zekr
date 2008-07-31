@@ -18,12 +18,10 @@ import net.sf.zekr.common.resource.IQuranPage;
  */
 public class QuranPage implements IQuranPage {
 	private int index;
+	// private int pageSize;
 	private IQuranLocation from;
 	private IQuranLocation to;
 
-	/* (non-Javadoc)
-	 * @see net.sf.zekr.common.resource.IQuranPage#getIndex()
-	 */
 	public int getPageNum() {
 		return index;
 	}
@@ -32,20 +30,22 @@ public class QuranPage implements IQuranPage {
 		this.index = index;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.zekr.common.resource.IQuranPage#getFrom()
-	 */
 	public IQuranLocation getFrom() {
 		return from;
 	}
+
+	//	void setPageSize(int pageSize) {
+	//		this.pageSize = pageSize;
+	//	}
+	//
+	//	public int getPageSize() {
+	//		return pageSize;
+	//	}
 
 	public void setFrom(IQuranLocation from) {
 		this.from = from;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.zekr.common.resource.IQuranPage#getTo()
-	 */
 	public IQuranLocation getTo() {
 		return to;
 	}
