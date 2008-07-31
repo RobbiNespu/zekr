@@ -8,33 +8,26 @@
  */
 package net.sf.zekr.engine.audio;
 
-import net.sf.zekr.common.resource.SuraProperties;
+import net.sf.zekr.common.resource.IQuranLocation;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class Track {
-	private SuraProperties sura;
-	private int aya;
+	private IQuranLocation location;
 	private String url;
 
-	public Track(SuraProperties sura, int aya, String url) {
-		this.sura = sura;
-		this.aya = aya;
+	public Track(IQuranLocation location, String url) {
+		this.location = location;
 		this.url = url;
 	}
 
-	public int getAya() {
-		return aya;
+	public IQuranLocation getLocation() {
+		return location;
 	}
 
-	public void setAya(int aya) {
-		this.aya = aya;
-	}
-
-	public SuraProperties getSura() {
-		return sura;
-	}
-
-	public void setSura(SuraProperties sura) {
-		this.sura = sura;
+	public void setLocation(IQuranLocation location) {
+		this.location = location;
 	}
 
 	public String getUrl() {
