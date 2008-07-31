@@ -73,7 +73,7 @@ public class FileUtils {
 		if (dir.exists())
 			if (!FileUtils.delete(dir))
 				throw new IOException("Can not delete directory \"" + dir + "\".");
-		dir.mkdir();
+		dir.mkdirs();
 	}
 
 	public static void recreateDirectory(String dir) throws IOException {
