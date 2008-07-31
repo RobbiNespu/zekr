@@ -7,7 +7,7 @@
  */
 
 String.prototype.trim = function() {
-    return this.replace(/(\s+$)|(^\s+)/g, '');
+    return this.replace(/([\s\xA0]+$)|(^[\s\xA0]+)/g, '');
 };
 
 var ayaFocusHooks = [];
