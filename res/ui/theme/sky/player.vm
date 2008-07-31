@@ -38,8 +38,8 @@
 		zekrtitle="#if($AUD_CONT_AYA=='true')$DISC_AYA_TEXT#else$CONT_AYA_TEXT#end">
 		<img src="#if($AUD_CONT_AYA=='true')$CONT_AYA_ICON#else$DISC_AYA_ICON#end"
 		zekricon="#if($AUD_CONT_AYA=='true')$DISC_AYA_ICON#else$CONT_AYA_ICON#end" alt="" /></button></td>
-	<td>| Repeat: <select id="repeatAya">
+#**	<td>| Repeat: <select id="repeatAya">
 		$UTILS.getRepeatOptions($AUD_REPEAT_TIME)
-	</select></td>
+	</select></td>*#
 </tr></table>
 </div>
