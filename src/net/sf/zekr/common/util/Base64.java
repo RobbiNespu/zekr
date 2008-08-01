@@ -1,15 +1,13 @@
 package net.sf.zekr.common.util;
 
 /**
- * Encodes and decodes to and from Base64 notation.<br />
- * Homepage: <a href="http://iharder.net/base64">http://iharder.net/base64</a>.<br />
- * The <tt>options</tt> parameter, which appears in a few places, is used to pass several pieces of
- * information to the encoder. In the "higher level" methods such as encodeBytes( bytes, options ) the options
- * parameter can be used to indicate such things as first gzipping the bytes before encoding them, not
- * inserting linefeeds (though that breaks strict Base64 compatibility), and encoding using the URL-safe and
- * Ordered dialects.<br />
- * The constants defined in Base64 can be OR-ed together to combine options, so you might make a call like
- * this:<br />
+ * Encodes and decodes to and from Base64 notation.<br /> Homepage: <a
+ * href="http://iharder.net/base64">http://iharder.net/base64</a>.<br /> The <tt>options</tt> parameter, which
+ * appears in a few places, is used to pass several pieces of information to the encoder. In the
+ * "higher level" methods such as encodeBytes( bytes, options ) the options parameter can be used to indicate
+ * such things as first gzipping the bytes before encoding them, not inserting linefeeds (though that breaks
+ * strict Base64 compatibility), and encoding using the URL-safe and Ordered dialects.<br /> The constants
+ * defined in Base64 can be OR-ed together to combine options, so you might make a call like this:<br />
  * <code>String encoded = Base64.encodeBytes( mybytes, Base64.GZIP | Base64.DONT_BREAK_LINES );</code>
  * <p>
  * to compress the data before encoding it and then making the output have no newline characters.
@@ -24,6 +22,7 @@ package net.sf.zekr.common.util;
  * @author Robert Harder
  * @author rob@iharder.net
  * @version 2.2.2
+ * @deprecated use Common Codecs Base64 implementation instead.
  */
 public class Base64 {
 	/** No options specified. Value is zero. */
@@ -243,9 +242,9 @@ public class Base64 {
 
 	/**
 	 * Encodes up to the first three bytes of array <var>threeBytes</var> and returns a four-byte array in
-	 * Base64 notation. The actual number of significant bytes in your array is given by <var>numSigBytes</var>.
-	 * The array <var>threeBytes</var> needs only be as big as <var>numSigBytes</var>. Code can reuse a byte
-	 * array by passing a four-byte array as <var>b4</var>.
+	 * Base64 notation. The actual number of significant bytes in your array is given by
+	 * <var>numSigBytes</var>. The array <var>threeBytes</var> needs only be as big as <var>numSigBytes</var>.
+	 * Code can reuse a byte array by passing a four-byte array as <var>b4</var>.
 	 * 
 	 * @param b4 A reusable byte array to reduce array instantiation
 	 * @param threeBytes the array to convert
@@ -261,11 +260,11 @@ public class Base64 {
 	/**
 	 * <p>
 	 * Encodes up to three bytes of the array <var>source</var> and writes the resulting four Base64 bytes to
-	 * <var>destination</var>. The source and destination arrays can be manipulated anywhere along their
-	 * length by specifying <var>srcOffset</var> and <var>destOffset</var>. This method does not check to
-	 * make sure your arrays are large enough to accomodate <var>srcOffset</var> + 3 for the <var>source</var>
-	 * array or <var>destOffset</var> + 4 for the <var>destination</var> array. The actual number of
-	 * significant bytes in your array is given by <var>numSigBytes</var>.
+	 * <var>destination</var>. The source and destination arrays can be manipulated anywhere along their length
+	 * by specifying <var>srcOffset</var> and <var>destOffset</var>. This method does not check to make sure
+	 * your arrays are large enough to accomodate <var>srcOffset</var> + 3 for the <var>source</var> array or
+	 * <var>destOffset</var> + 4 for the <var>destination</var> array. The actual number of significant bytes
+	 * in your array is given by <var>numSigBytes</var>.
 	 * </p>
 	 * <p>
 	 * This is the lowest level of the encoding methods with all possible parameters.
@@ -334,7 +333,6 @@ public class Base64 {
 	 *   DONT_BREAK_LINES: don't break lines at 76 characters
 	 *     &lt;i&gt;Note: Technically, this makes your encoding non-compliant.&lt;/i&gt;
 	 * </pre>
-	 * 
 	 * <p>
 	 * Example: <code>encodeBytes( myData, Base64.GZIP )</code> or
 	 * <p>
@@ -372,7 +370,6 @@ public class Base64 {
 	 *   DONT_BREAK_LINES: don't break lines at 76 characters
 	 *     &lt;i&gt;Note: Technically, this makes your encoding non-compliant.&lt;/i&gt;
 	 * </pre>
-	 * 
 	 * <p>
 	 * Example: <code>encodeBytes( myData, Base64.GZIP )</code> or
 	 * <p>
@@ -480,11 +477,11 @@ public class Base64 {
 
 	/**
 	 * Decodes four bytes from array <var>source</var> and writes the resulting bytes (up to three of them) to
-	 * <var>destination</var>. The source and destination arrays can be manipulated anywhere along their
-	 * length by specifying <var>srcOffset</var> and <var>destOffset</var>. This method does not check to
-	 * make sure your arrays are large enough to accomodate <var>srcOffset</var> + 4 for the <var>source</var>
-	 * array or <var>destOffset</var> + 3 for the <var>destination</var> array. This method returns the
-	 * actual number of bytes that were converted from the Base64 encoding.
+	 * <var>destination</var>. The source and destination arrays can be manipulated anywhere along their length
+	 * by specifying <var>srcOffset</var> and <var>destOffset</var>. This method does not check to make sure
+	 * your arrays are large enough to accomodate <var>srcOffset</var> + 4 for the <var>source</var> array or
+	 * <var>destOffset</var> + 3 for the <var>destination</var> array. This method returns the actual number of
+	 * bytes that were converted from the Base64 encoding.
 	 * <p>
 	 * This is the lowest level of the decoding methods with all possible parameters.
 	 * </p>
@@ -688,8 +685,8 @@ public class Base64 {
 	} // end decode
 
 	/**
-	 * Attempts to decode Base64 data and deserialize a Java Object within. Returns <tt>null</tt> if there
-	 * was an error.
+	 * Attempts to decode Base64 data and deserialize a Java Object within. Returns <tt>null</tt> if there was
+	 * an error.
 	 * 
 	 * @param encodedObject The Base64 data to decode
 	 * @return The decoded and deserialized object
@@ -923,7 +920,6 @@ public class Base64 {
 		 *     (only meaningful when encoding)
 		 *     &lt;i&gt;Note: Technically, this makes your encoding non-compliant.&lt;/i&gt;
 		 * </pre>
-		 * 
 		 * <p>
 		 * Example: <code>new Base64.InputStream( in, Base64.DECODE )</code>
 		 * 
@@ -1053,8 +1049,8 @@ public class Base64 {
 		} // end read
 
 		/**
-		 * Calls {@link #read()} repeatedly until the end of stream is reached or <var>len</var> bytes are
-		 * read. Returns number of bytes read into array or -1 if end of stream is encountered.
+		 * Calls {@link #read()} repeatedly until the end of stream is reached or <var>len</var> bytes are read.
+		 * Returns number of bytes read into array or -1 if end of stream is encountered.
 		 * 
 		 * @param dest array to hold values
 		 * @param off offset for array
@@ -1126,7 +1122,6 @@ public class Base64 {
 		 *     (only meaningful when encoding)
 		 *     &lt;i&gt;Note: Technically, this makes your encoding non-compliant.&lt;/i&gt;
 		 * </pre>
-		 * 
 		 * <p>
 		 * Example: <code>new Base64.OutputStream( out, Base64.ENCODE )</code>
 		 * 
