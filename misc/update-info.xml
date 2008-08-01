@@ -1,14 +1,9 @@
-<zekr-update fullName="Zekr 0.7.0 beta 1" version="0.7.0beta1" status="BETA" build="2008032700" date="27-03-2008"
-	downloadUrl="http://zekr.org/download" noteUrl="http://zekr.org/wiki/Zekr_0.7.0_beta_1">
+<zekr-update fullName="Zekr 0.7.0 beta 2" version="0.7.0beta2"
+	status="BETA" build="2008080400" date="04-08-2008" downloadUrl="http://zekr.org/download"
+	noteUrl="http://zekr.org/wiki/Zekr_0.7.0_beta_2">
 	<info><![CDATA[A new version of Zekr is available!
-in this version, you can find a number of new features including:
-1. Automatical and manual checking for update.
-2. Revelation pack support (revelation order of suras or ayas)
-3. Full screen support.
-4. More advanced basic search.
-5. More options for sorting search results.
-6. Display sura names in a tree.
-7. Enhanced Sky theme.
-8. Translated or transliterated sura names/
-9. Verifying if a resource (translation or revelation pack) is authentic.]]></info>
+in this version, you the following *new* features:
+1. Search (basic and advanced) within translations
+2. Quran root/stem database
+3. Different paging mode support: juz-by-juz, sura-by-sura, constant aya, custom, ...]]></info>
 </zekr-update>
