@@ -19,6 +19,7 @@ import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.search.SearchResultItem;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.SearchScopeItem;
@@ -150,13 +151,13 @@ public class QuranTextSearcher {
 		return searchScope;
 	}
 
-	public AdvancedSearchResult search(String query) throws IOException, ParseException {
+	public SearchResultModel search(String query) throws IOException, ParseException {
 		this.rawQuery = query;
 		String s = SearchUtils.simplifyAdvancedSearchQuery(query);
 		results = internalSearch(s);
 		if (sortResultOrder.equals(Sort.RELEVANCE))
 			ascending = !ascending; // Lucene sorts relevance descending, while natural order ascending!
-		return new AdvancedSearchResult(zekrIndexReader.quranText, results, getQuery().toString(QuranTextIndexer.CONTENTS_FIELD), rawQuery,
+		return new SearchResultModel(zekrIndexReader.quranText, results, getQuery().toString(QuranTextIndexer.CONTENTS_FIELD), rawQuery,
 				matchedItemCount, searchResultComparator, ascending);
 	}
 
