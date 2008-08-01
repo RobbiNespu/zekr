@@ -1942,8 +1942,7 @@
 #  - This root database can be used in any website or application,
 #    provided its sources (primary source: CRCIS - www.noorsoft.org,
 #    and reproduction sources: Tanzil Project - www.tanzil.info,
-#    Zekr Project - zekr.org) is clearly indicated, and a link is
-#    made to the websites.
+#    Zekr Project - zekr.org) is clearly indicated.
 #
 #  - This notice shall be included in all verbatim copies of 
 #    the text, and shall be reproduced appropriately in all files 
