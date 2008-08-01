@@ -102,28 +102,18 @@ public class IndexCreator {
 	};
 
 	/**
-	 * @param mode can be {@link #ME_ONLY}, {@link #ALL_USERS}, or {@link #CUSTOM_PATH}. If mode is equal to
-	 *           {@link #CUSTOM_PATH}, path parameter is also used, otherwise this parameter is unused.
-	 * @param path path for creating indices in. Used iff mode is equal to {@link #CUSTOM_PATH}
+	 * @param path path for creating indices in.
 	 * @param stdout standard output to write progressing data to
 	 * @throws IndexingException if any exception occurred during indexing process
 	 */
-	public void indexQuranTextSilently(int mode, String path, PrintStream stdout) throws IndexingException {
-		if (mode == ME_ONLY) {
-			indexDir = Naming.getQuranIndexDir();
-		} else if (mode == ALL_USERS) {
-			indexDir = ApplicationPath.QURAN_INDEX_DIR;
-		} else if (mode == CUSTOM_PATH) {
-			indexDir = path;
-		} else {
-			throw new IndexingException("Invalid index mode");
-		}
+	public void indexSilently(String path, PrintStream stdout) throws IndexingException {
+		indexDir = path;
 
-		logger.debug("Start Quran text indexer in a separate thread.");
+		logger.debug("Start Quran/translation text indexer in a separate thread.");
 		indexThread.start();
-		logger.info("Start indexing Quran text...");
+		logger.info("Start indexing text " + quranText + "...");
 
-		stdout.print("Indexing.");
+		stdout.print("Indexing [" + quranText + "] .");
 		while (indexThread.isAlive()) {
 			try {
 				Thread.sleep(500);
