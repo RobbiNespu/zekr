@@ -23,13 +23,13 @@ public class PatternEnricherFactory {
 			pattern = RegexUtils.regTrans(pattern); // allows using letter constants in pattern
 			pattern = RegexUtils.handleSpaces(pattern);
 			pattern = RegexUtils.applyRules(pattern, RegexUtils.preProcess);
-			pattern = RegexUtils.applyRules(pattern, RegexUtils.wildcardRegs);
+			pattern = RegexUtils.applyRules(pattern, RegexUtils.arabicWildcardRegs);
 
 			// add haraka between letters
 			pattern = RegexUtils.pregReplace(pattern, "(.)", "$1$HARAKA*");
 
 			pattern = RegexUtils.applyRules(pattern, RegexUtils.matchingRules);
-			pattern = RegexUtils.applyRules(pattern, RegexUtils.wildcards);
+			pattern = RegexUtils.applyRules(pattern, RegexUtils.arabicWildcards);
 			return pattern;
 		}
 	}
@@ -43,9 +43,13 @@ public class PatternEnricherFactory {
 
 		public String enrich(String pattern) {
 			ApplicationConfig conf = ApplicationConfig.getInstance();
-			Map replacePatternMap = conf.getSearchInfo().getReplacePattern(langCode);
 
+			Map replacePatternMap = conf.getSearchInfo().getReplacePattern(langCode);
 			pattern = RegexUtils.replaceAll(replacePatternMap, pattern);
+
+			pattern = RegexUtils.applyRules(pattern, RegexUtils.genericWildcardRegs);
+			pattern = RegexUtils.applyRules(pattern, RegexUtils.genericWildcards);
+
 			pattern = RegexUtils.handleSpaces(pattern);
 
 			return pattern;
