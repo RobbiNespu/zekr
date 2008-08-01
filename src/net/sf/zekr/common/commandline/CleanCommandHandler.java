@@ -24,7 +24,6 @@ import org.apache.commons.io.FileUtils;
  * Class for handling clean (<tt>-clean</tt>) command.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class CleanCommandHandler extends CommandHandler {
 

@@ -12,7 +12,6 @@ package net.sf.zekr.common.commandline;
  * Command interface.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public interface Command {
 	/**
@@ -25,8 +24,8 @@ public interface Command {
 	/**
 	 * Specifies whether application should be launched after performing the command or not.
 	 * 
-	 * @return <code>true</code> if application should be launched after performing this command; <code>false</code>
-	 *         otherwise.
+	 * @return <code>true</code> if application should be launched after performing this command;
+	 *         <code>false</code> otherwise.
 	 */
 	boolean launchAfter();
 }
