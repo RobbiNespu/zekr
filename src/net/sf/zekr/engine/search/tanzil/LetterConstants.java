@@ -8,10 +8,8 @@
  */
 package net.sf.zekr.engine.search.tanzil;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Helper class for Regex-based search.

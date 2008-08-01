@@ -10,6 +10,7 @@ package net.sf.zekr.engine.search.tanzil;
 
 import java.util.List;
 
+import net.sf.zekr.engine.search.ISearchScorer;
 import net.sf.zekr.engine.search.SearchResultItem;
 
 /**
