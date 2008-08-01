@@ -38,22 +38,38 @@ public class RegexUtils extends LetterConstants {
 	}
 
 	// wildcards
-	static Map wildcardRegs = new LinkedHashMap();
+	static Map arabicWildcardRegs = new LinkedHashMap();
 	static {
-		wildcardRegs.put("\\.", "P");
-		wildcardRegs.put("\\*", "S");
-		wildcardRegs.put("[?؟]", "Q");
-		wildcardRegs.put("[QS]*S[QS]*", "S");
-		wildcardRegs.put("^\\s*[QS]*", "");
+		arabicWildcardRegs.put("\\.", "P");
+		arabicWildcardRegs.put("\\*", "S");
+		arabicWildcardRegs.put("[?؟]", "Q");
+		arabicWildcardRegs.put("[QS]*S[QS]*", "SS");
+		arabicWildcardRegs.put("^\\s*[QS]*", "");
+	}
+
+	static Map genericWildcardRegs = new LinkedHashMap();
+	static {
+		genericWildcardRegs.put("\\.", "__PP__");
+		genericWildcardRegs.put("\\*", "__SS__");
+		genericWildcardRegs.put("[?؟]", "__QQ__");
+		genericWildcardRegs.put("(__QQ__|__SS__)*__S__(__QQ__|__SS__)*", "__SS__");
+		genericWildcardRegs.put("^\\s*(__QQ__|__SS__)*", "");
 	}
 
 	// wildcards
-	static Map wildcards = new LinkedHashMap();
+	static Map arabicWildcards = new LinkedHashMap();
 	static {
-		wildcards.put("S", "$LETTER_HARAKA*");
+		arabicWildcards.put("S", "$LETTER_HARAKA*");
 		// wildcards.put("S", "($LETTER|$HARAKA)*");
-		wildcards.put("Q", "$LETTER?");
-		wildcards.put("P", "$LETTER");
+		arabicWildcards.put("Q", "$LETTER?");
+		arabicWildcards.put("P", "$LETTER");
+	}
+
+	static Map genericWildcards = new LinkedHashMap();
+	static {
+		genericWildcards.put("__SS__", "\\\\p{L}*");
+		genericWildcards.put("__QQ__", "\\\\p{L}?");
+		genericWildcards.put("__PP__", "\\\\p{L}");
 	}
 
 	static Map preProcess = new LinkedHashMap();
@@ -166,13 +182,13 @@ public class RegexUtils extends LetterConstants {
 		pattern = regTrans(pattern); // allows using letter constants in pattern
 		pattern = handleSpaces(pattern);
 		pattern = applyRules(pattern, preProcess);
-		pattern = applyRules(pattern, wildcardRegs);
+		pattern = applyRules(pattern, arabicWildcardRegs);
 
 		// add haraka between letters
 		pattern = pregReplace(pattern, "(.)", "$1$HARAKA*");
 
 		pattern = applyRules(pattern, matchingRules);
-		pattern = applyRules(pattern, wildcards);
+		pattern = applyRules(pattern, arabicWildcards);
 		return pattern;
 	}
 
