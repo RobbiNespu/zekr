@@ -9,8 +9,7 @@
 package net.sf.zekr.engine.template;
 
 import net.sf.zekr.common.resource.IQuranText;
-import net.sf.zekr.engine.search.AbstractSearchResult;
-import net.sf.zekr.engine.search.SearchUtils;
+import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.TranslationData;
 
@@ -18,14 +17,14 @@ import net.sf.zekr.engine.translation.TranslationData;
  * @author Mohsen Saboorian
  */
 public class AdvancedQuranSearchResultTemplate extends AbstractSearchResultTemplate {
-	private AbstractSearchResult searchResult;
+	private SearchResultModel searchResult;
 	int pageNo;
 
 	/**
 	 * @param qts QuranTextSearcher instance
 	 * @param pageNo counted from 1
 	 */
-	public AdvancedQuranSearchResultTemplate(AbstractSearchResult searchResult, int pageNo) {
+	public AdvancedQuranSearchResultTemplate(SearchResultModel searchResult, int pageNo) {
 		super(null, null, false);
 		engine.put("ADVANCED", "true");
 		this.searchResult = searchResult;
