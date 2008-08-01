@@ -26,7 +26,7 @@ public class QuranFilterUtils {
 	public static final String filterSearchResult(String text) {
 		text = SEARCH_RESULT_SIGN.matcher(text).replaceAll("");
 		text = StringUtils.replace(text, ALEFMADDA, ALEF_WITH_MADDA_ABOVE);
-		return text;
+		return filterExtraWhiteSpaces(text);
 	}
 
 	private static final Pattern HARAKA = Pattern.compile(RegexUtils.regTrans("[$HARAKA]"));
