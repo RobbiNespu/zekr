@@ -109,27 +109,36 @@ public class LuceneIndexManager {
 	}
 
 	/**
-	 * This method silently indexes Quran text. It should only be used for command line indexing. This method
-	 * sets <tt>index.quran.path</tt> property to the index directory, if indexing finished without throwing
-	 * <code>IndexingException</code>.
+	 * This method silently indexes a Quran text. It should only be used for command line indexing. This method
+	 * sets <tt>index.[quran/trans].path[.trans id]</tt> property to the index directory, if indexing finished
+	 * without throwing <code>IndexingException</code>.
 	 * 
-	 * @param mode can be {@link IndexCreator#ME_ONLY}, {@link IndexCreator#ALL_USERS}, or
-	 *           {@link IndexCreator#CUSTOM_PATH}. If mode is equal to <code>CUSTOM_PATH</code>, path parameter
-	 *           is also used, otherwise this parameter is unused.
+	 * @param mode can be {@link IndexCreator#ME_ONLY} or {@link IndexCreator#ALL_USERS}.
 	 * @param path path for creating indices in. Used iff mode is equal to {@link IndexCreator#CUSTOM_PATH}
 	 * @param stdout standard output to write progressing data to
 	 * @throws IndexingException if any error occurred during indexing process.
 	 */
-	public void createQuranIndex(int mode, String path, PrintStream stdout) throws IndexingException {
-		try {
-			IndexCreator indexCreator = new IndexCreator(null, new FilteredQuranText(new QuranIndexerFilter(),
-					IQuranText.SIMPLE_MODE), LuceneAnalyzerFactory.getAnalyzer(ZekrLuceneAnalyzer.QURAN_LANG_CODE));
-			indexCreator.indexQuranTextSilently(mode, path, stdout);
-			props.setProperty("index.quran.path", indexCreator.getIndexDir());
-			props.setProperty("index.quran.version", GlobalConfig.ZEKR_BUILD_NUMBER);
-		} catch (IOException e) {
-			throw new IndexingException(e);
+	public void createQuranIndex(IQuranText quranText, int mode, String path, PrintStream stdout)
+			throws IndexingException {
+		String pathKey;
+		String versionKey;
+		String[] pathArray;
+		if (quranText instanceof TranslationData) {
+			String id = ((TranslationData) quranText).getId();
+			pathKey = "index.trans.path." + id;
+			versionKey = "index.trans.version." + id;
+			pathArray = new String[] { Naming.getTransIndexDir(id), ApplicationPath.TRANS_INDEX_DIR + "/" + id };
+		} else {
+			pathKey = "index.quran.path";
+			versionKey = "index.quran.version";
+			pathArray = new String[] { Naming.getQuranIndexDir(), ApplicationPath.QURAN_INDEX_DIR };
 		}
-	}
+		String indexPath = mode == IndexCreator.ME_ONLY ? pathArray[0] : pathArray[1];
 
+		IndexCreator indexCreator = new IndexCreator(null, quranText, LuceneAnalyzerFactory.getAnalyzer(quranText));
+		indexCreator.indexSilently(indexPath, stdout);
+
+		props.setProperty(pathKey, indexCreator.getIndexDir());
+		props.setProperty(versionKey, GlobalConfig.ZEKR_BUILD_NUMBER);
+	}
 }
