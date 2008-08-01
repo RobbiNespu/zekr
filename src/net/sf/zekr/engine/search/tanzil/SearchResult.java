@@ -11,7 +11,7 @@ package net.sf.zekr.engine.search.tanzil;
 import java.util.List;
 
 import net.sf.zekr.common.resource.IQuranText;
-import net.sf.zekr.engine.search.AbstractSearchResult;
+import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
 /**
@@ -22,8 +22,9 @@ import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
  * 
  * @author Hamid Zarrabi-Zadeh
  * @author Mohsen Saboorian
+ * @deprecated use {@link SearchResultModel} instead.
  */
-public class SearchResult extends AbstractSearchResult {
+public class SearchResult extends SearchResultModel {
 	public SearchResult(IQuranText quranText, List results, String clause, String rawQuery, int totalMatch,
 			AbstractSearchResultComparator ayaComparator, boolean ascending) {
 		super(quranText, results, clause, rawQuery, totalMatch, ayaComparator, ascending);
