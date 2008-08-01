@@ -17,10 +17,10 @@ import net.sf.zekr.common.resource.IQuranLocation;
  */
 public class RootAddress {
 	public IQuranLocation loc;
-	public int wordCount;
+	public int wordIndex;
 
-	public RootAddress(IQuranLocation loc, int wordCount) {
+	public RootAddress(IQuranLocation loc, int wordIndex) {
 		this.loc = loc;
-		this.wordCount = wordCount;
+		this.wordIndex = wordIndex;
 	}
 }
