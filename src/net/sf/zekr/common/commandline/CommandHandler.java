@@ -10,6 +10,9 @@ package net.sf.zekr.common.commandline;
 
 import java.io.PrintStream;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public abstract class CommandHandler implements Command {
 	protected String options[];
 	protected String command;
@@ -23,9 +26,6 @@ public abstract class CommandHandler implements Command {
 
 	abstract public void execute() throws CommandException;
 
-	/* (non-Javadoc)
-	 * @see net.sf.zekr.common.commandline.Command#launchAfter()
-	 */
 	public boolean launchAfter() {
 		return false;
 	}
