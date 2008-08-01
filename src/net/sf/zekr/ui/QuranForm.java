@@ -947,7 +947,7 @@ public class QuranForm extends BaseForm {
 		advancedSearchOrderCombo.setData("3", "net.sf.zekr.engine.search.comparator.AyaLengthComparator");
 		advancedSearchOrderCombo.addKeyListener(ka);
 
-		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		gd = new GridData(SWT.FILL, SWT.BEGINNING, false, false);
 		advancedSortOrderButton = new Button(advancedSearchOptionsComp, SWT.PUSH | SWT.FLAT);
 		advancedSortOrderButton.setData(config.getProps().getString("view.search.advanced.sortOrder", "des"));
 		addSortOrderButton(advancedSortOrderButton, gd);
@@ -1131,7 +1131,7 @@ public class QuranForm extends BaseForm {
 		searchOrderCombo.setData("3", "net.sf.zekr.engine.search.comparator.AyaLengthComparator");
 		searchOrderCombo.addKeyListener(ka);
 
-		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		gd = new GridData(SWT.FILL, SWT.BEGINNING, false, false);
 		sortOrderButton = new Button(searchOptionsComp, SWT.PUSH | SWT.FLAT);
 		sortOrderButton.setData(config.getProps().getString("view.search.sortOrder", "des"));
 		addSortOrderButton(sortOrderButton, gd);
