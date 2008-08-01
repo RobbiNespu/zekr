@@ -99,7 +99,7 @@ html>body div.footerBar {
 	bottom: 2px;
 }
 
-div.headerBar input, div.footerBar input  {
+div.headerBar input, div.headerBar button, div.footerBar input  {
 	font: 0.82em Tahoma, Sans-serif, Arial;
 }
 
@@ -194,7 +194,6 @@ table.customTrans td {
 	border: 1px solid $trans_borderColor;
 #end
 }
-
 
 .quran .searchResult { /* IE6 bug with me_quran */
 	font: 17pt Scheherazade, me_quran, mry_KacstQurn, Mitra, Nazli, Sans-serif, Helvetica;

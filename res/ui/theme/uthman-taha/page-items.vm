@@ -3,19 +3,30 @@
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
- * @version 1
+ * @author Mohsen Saboorian
  *#
 #macro (putHizbSignIfPossible)
-	#foreach ($JUZ in $ALL_JUZ_LIST) #foreach ($LOC in $JUZ.HizbQuarters) #set($hizbQuarter = $velocityCount - 1)
-		#if ($SURA_NUM == $LOC.Sura && $AYA_NUM == $LOC.Aya)
-			#set ($hizbNum = $hizbQuarter / 4 + 1)
-			#set ($hizbNum = ($JUZ.Index - 1) * 2 + $hizbNum)
-			#set ($hizbQuarter = $hizbQuarter % 4)
-			#if ($hizbQuarter != 0) #set ($Q = " - $DICT.getMeaning('QUARTER'): $hizbQuarter")
-		 	#else #set ($Q = "") #end
-			<nobr><span class="hizbSign" title="$I18N.localize("${JUZ} - ${DICT.getMeaning('HIZB')}: ${hizbNum}${Q}")">&#1758;</span></nobr>
+	#if ($AYA0.HizbQuarter > -1)
+		#set ($hizbQuarter = $AYA0.HizbQuarter)
+		#set ($hizbNum = $hizbQuarter / 4 + 1)
+		#set ($hizbNum = ($AYA0.Juz.Index - 1) * 2 + $hizbNum)
+		#set ($hizbQuarter = $hizbQuarter % 4)
+		#if ($hizbQuarter != 0) #set ($Q = " - $DICT.getMeaning('QUARTER'): $hizbQuarter")
+	 	#else #set ($Q = "") #end
+		#if ($AYA0.hasJuz())
+			<nobr><span class="juzSign" title="$AYA0.Juz">($I18N.localize($AYA0.Juz.Index))</span></nobr>
 		#end
-	#end #end
+		<nobr><span class="hizbSign" title="$I18N.localize("${AYA0.Juz} - ${DICT.getMeaning('HIZB')}: ${hizbNum}${Q}")">&#1758;</span></nobr>
+	#end
+#end
+#macro (putSajdaSignIfAny)
+	#if ($AYA0.hasSajda())
+		#if ($AYA0.Sajda.Type == 0)
+			<span id="recommended" class="sajda" title="${AYA0.Sajda}">[&#1769;]</span>
+		#elseif ($AYA0.Sajda.Type == 1)
+			<span id="mandatory" class="sajda" title="${AYA0.Sajda}">[[&#1769;]]</span>
+		#end
+	#end
 #end
 #set ($RECOMMENDED = 0)
 #set ($MANDATORY = 1)
@@ -32,7 +43,6 @@
 	#set ($DIR = "rtl")
 	#set ($_DL = "ar")
 #end
-#set ($SAJDA_SIGN = "&#1769;")
 #if($MIXED == "true")
 	#set ($A_CLASS = "")
 #else
@@ -40,12 +50,28 @@
 #end
 <div id="searchableSection" class="$AYA_CLASS">
 #foreach ($AYA in $AYA_LIST)
-	#set($AYA_NUM = $velocityCount)
-	#foreach ($JUZ in $JUZ_LIST)
-		#if ($JUZ.AyaNumber == $AYA_NUM)
-			<nobr><span class="juzSign" title="$JUZ">[$I18N.localize($JUZ.Index)]</span></nobr>
-		#end
+	#set ($ITEM_INDEX = $velocityCount)
+	#if ($MIXED == "true")
+		#set ($AYA0 = $UTILS.getItem($AYA, 0))
+	#else
+		#set ($AYA0 = $AYA)
 	#end
+	#set ($SURA_NUM = $AYA0.Location.Sura)
+	#set ($SURA_NAME = $AYA0.Location.SuraName)
+	#set ($AYA_NUM = $AYA0.Location.Aya)
+
+	#if ($AYA_NUM == 1)
+		<div class="bodyTop" align="center">
+			<div dir="${DIRECTION}" class="def suraName">
+			$DICT.getMeaning("SURA"):
+			$SURA_NAME
+			</div>
+			#if ($SURA_NUM != 9 && $SURA_NUM != 1)
+				<div class="${A_CLASS} bismillah">$AYA0.Bismillah</div>
+			#end
+		</div>
+	#end
+
 	#if ($TEXT_LAYOUT == "line-by-line")
 		<div class="aya${A_CLASS}" id="${SURA_NUM}_${AYA_NUM}">
 	#elseif ($TEXT_LAYOUT == "block")
@@ -59,38 +85,32 @@
 		<div class="quran" lang="ar">#putHizbSignIfPossible()
 		#set ($_LANG="ar")
 		#end
-		${A}
+		$A.Text
 		#if (($velocityCount == 1 && $quran_showSuraAyaSign == "true") || ($velocityCount == 2 && $trans_showSuraAyaSign == "true"))
 		<span class="suraAyaNum">[$I18N.localize("${SURA_NUM}:${AYA_NUM}","${_LANG}")]</span> #end
 		</div>
 	#end #elseif ($CUSTOM == "true" && $MIXED == "true")
 		<div class="quran" lang="ar">#putHizbSignIfPossible()
-		$AYA
+		$AYA0.Text
 		#if ($quran_showSuraAyaSign == "true")
 		<span class="suraAyaNum">[$I18N.localize("${SURA_NUM}:${AYA_NUM}","ar")]</span>
 		#end
 		#parse("$THEME_DIR/multi-trans.vm")
 		</div>
 	#else
-		#putHizbSignIfPossible() $AYA
+		#putHizbSignIfPossible() $AYA.Text
 	#end
 	#if ($MIXED == "true")
 	<table><tr><td valign="middle">
 	#end
-		<nobr><span id="sign_${SURA_NUM}_${AYA_NUM}" title="${SURA_NAME} - $I18N.localize(${AYA_NUM})" class="ayaSign">$OPEN_PAREN$I18N.localize($AYA_NUM,"${_DL}")$CLOSE_PAREN</span></nobr>
+	<nobr>
+		#putSajdaSignIfAny()
+		<span id="sign_${SURA_NUM}_${AYA_NUM}" title="${SURA_NAME} - $I18N.localize(${AYA_NUM})" class="ayaSign">$OPEN_PAREN$I18N.localize($AYA_NUM,"${_DL}")$CLOSE_PAREN</span>
+	</nobr>
 	#if ($MIXED == "true")
 	</td><td width="100%" valign="middle">
 		<p class="ayaSep" />
 	<td></tr></table>
-	#end
-	#foreach ($SAJDA in $SAJDA_LIST)
-		#if ($SAJDA.AyaNumber == $AYA_NUM)
-			#if ($SAJDA.Type == $RECOMMENDED)
-				<span id="recommended" class="sajda" title="$SAJDA">[$SAJDA_SIGN]</span>
-			#elseif ($SAJDA.Type == $MANDATORY)
-				<span id="mandatory" class="sajda" title="$SAJDA">[[$SAJDA_SIGN]]</span>
-			#end
-		#end
 	#end
 	#if ($TEXT_LAYOUT == "line-by-line")
 		</div>

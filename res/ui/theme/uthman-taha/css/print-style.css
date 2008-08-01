@@ -57,11 +57,7 @@ div.footerBar {
 }
 
 div.main {
-	vertical-align: top;/*
-	border-left: 1px solid rgb(190, 220, 255);
-	border-right: 1px solid rgb(190, 220, 255);
-	border-top: 3px double rgb(140, 150, 250);
-	border-bottom: 3px double rgb(140, 150, 250);*/
+	vertical-align: top;
 	padding: 7 8;
 /*	line-height: 150%;*/
 }
@@ -94,11 +90,8 @@ td .ayaSep {
 table.customTrans {
 	width: 100%
 }
-table.customTrans td {
-}
 
 table.customTrans td {
-	_text-align: justify;
 }
 
 td.searchResult {
