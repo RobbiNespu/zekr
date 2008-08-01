@@ -526,6 +526,7 @@ Features/Enhancements:
 		- Sort results by: 1. Natural order, 2. Similarity, 3. Revelation order, and 4. Aya length.
 		- Sort order: ascending and descending.
 		- Set search scope for limiting root search results.
+	Add support to index transltion data through command line (-index option).
 Bug fixes:
 	A bug with basic search fixed, which happened when a whole clause was found at the end of an aya.
 	Menu icons are not shown anymore in Mac.
