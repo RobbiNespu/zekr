@@ -16,6 +16,7 @@ import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.QuranText;
+import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
 import net.sf.zekr.engine.language.LanguageEngine;
@@ -345,7 +346,8 @@ public class RootTabForm {
 		rootSearchNav.resetSearch(pageCount);
 	}
 
-	private void filterList(String filter) {
+	private String filterList(String filter) {
+		filter = QuranFilterUtils.filterSimilarArabicCharacters(filter);
 		filter = filter.trim();
 		List list = config.getQuranRoot().getRootList();
 		List newList = new ArrayList();
@@ -354,7 +356,7 @@ public class RootTabForm {
 		} else {
 			for (int i = 0; i < list.size(); i++) {
 				String item = (String) list.get(i);
-				if (item.indexOf(filter) > -1) {
+				if (QuranFilterUtils.filterSimilarArabicCharacters(item).indexOf(filter) > -1) {
 					newList.add(item);
 				}
 				// if (FilenameUtils.wildcardMatch(item, filter)) {
@@ -363,6 +365,7 @@ public class RootTabForm {
 			}
 		}
 		rootList.setItems((String[]) newList.toArray(new String[0]));
+		return filter;
 	}
 
 	public TabItem createTabItem() {
@@ -387,9 +390,9 @@ public class RootTabForm {
 	}
 
 	private void doFind() {
-		int selection = rootList.getSelectionIndex();
-		if (selection != -1) {
-			searchCombo.setText(rootList.getItem(selection));
+		int[] selection = rootList.getSelectionIndices();
+		if (selection.length > 0) {
+			searchCombo.setText(rootList.getItem(selection[0]));
 			find();
 		}
 	}
