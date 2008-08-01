@@ -224,7 +224,7 @@ public class RootTabForm {
 		searchOrderCombo.setItems(new String[] { quranForm.meaning("RELEVANCE"), quranForm.meaning("NATURAL_ORDER"),
 				lang.getMeaning("REVEL_ORDER"), quranForm.meaning("AYA_LENGTH") });
 		searchOrderCombo.setLayoutData(gd);
-		searchOrderCombo.select(config.getProps().getInt("view.search.sortBy"));
+		searchOrderCombo.select(config.getProps().getInt("view.search.root.sortBy"));
 
 		searchOrderCombo.setData("0", "net.sf.zekr.engine.search.comparator.SimilarityComparator");
 		searchOrderCombo.setData("1", null);
@@ -234,7 +234,7 @@ public class RootTabForm {
 
 		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
 		sortOrderButton = new Button(searchOptionsComp, SWT.PUSH | SWT.FLAT);
-		sortOrderButton.setData(config.getProps().getString("view.search.rootSortOrder", "des"));
+		sortOrderButton.setData(config.getProps().getString("view.search.root.sortOrder", "des"));
 		quranForm.addSortOrderButton(sortOrderButton, gd);
 
 		rootSearchNav = new SearchResultNavigator(tabBody, new IPageNavigator() {
