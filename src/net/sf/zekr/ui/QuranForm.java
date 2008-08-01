@@ -1779,6 +1779,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	protected void setFullScreen(boolean full, boolean fromMenu) {
+		saveLocationAndSize();
 		if (full) {
 			shell.setMaximized(true);
 			shell.setFullScreen(true);
@@ -1872,18 +1873,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	private void saveConfigProps() {
-		// add form size and location
-		List list = new ArrayList();
-		Rectangle r = shell.getBounds();
-		list.add(new Integer(r.x));
-		list.add(new Integer(r.y));
-		list.add(new Integer(r.width));
-		list.add(new Integer(r.height));
-
-		if (!shell.getFullScreen()) { // don't save fullscreen state
-			config.getProps().setProperty("view.shell.location", list);
-			config.getProps().setProperty("view.shell.maximized", new Boolean(shell.getMaximized()));
-		}
+		saveLocationAndSize();
 
 		config.getProps().setProperty("view.quranLoc", uvc.getLocation().toString());
 		config.getProps().setProperty("view.page", String.valueOf(uvc.getPage()));
@@ -1921,6 +1911,20 @@ public class QuranForm extends BaseForm {
 			config.getProps().setProperty("view.quranForm.paneSashWeight", new String[] { "" + w[0], "" + w[1] });
 		}
 
+	}
+
+	private void saveLocationAndSize() {
+		// add form size and location
+		List list = new ArrayList();
+		Rectangle r = shell.getBounds();
+		list.add(new Integer(r.x));
+		list.add(new Integer(r.y));
+		list.add(new Integer(r.width));
+		list.add(new Integer(r.height));
+		if (!shell.getFullScreen()) { // don't save fullscreen state
+			config.getProps().setProperty("view.shell.location", list);
+			config.getProps().setProperty("view.shell.maximized", new Boolean(shell.getMaximized()));
+		}
 	}
 
 	public void close() {
