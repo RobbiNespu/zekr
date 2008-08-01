@@ -109,13 +109,22 @@ public class RootTabForm {
 		searchCombo = new Combo(searchComp, SWT.DROP_DOWN | SWT.RIGHT_TO_LEFT);
 		searchCombo.setLayoutData(gd);
 		searchCombo.setVisibleItemCount(6);
+		searchCombo.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.keyCode == SWT.ARROW_DOWN) {
+					e.doit = false;
+				}
+			}
+		});
 		searchCombo.addTraverseListener(new TraverseListener() {
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_RETURN) {
 					doFind();
 				} else if (e.keyCode == SWT.ARROW_DOWN && e.detail == SWT.TRAVERSE_ARROW_NEXT) {
-					e.doit = false;
 					rootList.setFocus();
+					if (rootList.getItemCount() > 0) {
+						rootList.select(0);
+					}
 				} else if (e.detail == SWT.TRAVERSE_ESCAPE) {
 					resetSearchBox();
 				}
@@ -124,7 +133,7 @@ public class RootTabForm {
 
 		gd = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		gd.verticalIndent = 5;
-		cancelButton = new Button(searchComp, SWT.PUSH);
+		cancelButton = new Button(searchComp, SWT.PUSH | SWT.FLAT);
 		cancelButton.setImage(new Image(display, resource.getString("icon.cancel")));
 		cancelButton.setLayoutData(gd);
 		cancelButton.setToolTipText(lang.getMeaning("RESET"));
@@ -232,7 +241,7 @@ public class RootTabForm {
 		searchOrderCombo.setData("3", "net.sf.zekr.engine.search.comparator.AyaLengthComparator");
 		searchOrderCombo.addKeyListener(ka);
 
-		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		gd = new GridData(SWT.FILL, SWT.BEGINNING, false, false);
 		sortOrderButton = new Button(searchOptionsComp, SWT.PUSH | SWT.FLAT);
 		sortOrderButton.setData(config.getProps().getString("view.search.root.sortOrder", "des"));
 		quranForm.addSortOrderButton(sortOrderButton, gd);
