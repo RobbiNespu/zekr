@@ -23,6 +23,7 @@ import net.sf.zekr.engine.search.SearchScopeItemTest;
 import net.sf.zekr.engine.search.SearchScopeTest;
 import net.sf.zekr.engine.search.lucene.ArabicFilterTest;
 import net.sf.zekr.engine.search.lucene.ZekrLuceneAnalyzerTest;
+import net.sf.zekr.engine.search.root.RootHighlighterTest;
 import net.sf.zekr.engine.server.DefaultHttpServerTest;
 import net.sf.zekr.ui.helper.FormUtilsTest;
 
@@ -36,6 +37,7 @@ public class AllTests extends TestCase {
 
 		suite.addTest(new TestSuite(ArabicFilterTest.class));
 		suite.addTest(new TestSuite(ZekrLuceneAnalyzerTest.class));
+		suite.addTest(new TestSuite(RootHighlighterTest.class));
 
 		suite.addTest(new TestSuite(MiscJavaApiTest.class));
 		suite.addTest(new TestSuite(FormUtilsTest.class));
