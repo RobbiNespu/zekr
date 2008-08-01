@@ -15,19 +15,24 @@ import net.sf.zekr.common.resource.IQuranLocation;
  */
 public interface IUserView {
 	/**
-	 * View mode corresponds to advanced search.
+	 * View mode corresponds to basic search.
 	 */
-	public static final int VM_ADVANCED_SEARCH = 1;
+	public static final int VM_SEARCH = 1;
 
 	/**
-	 * View mode corresponds to search.
+	 * View mode corresponds to advanced search.
 	 */
-	public static final int VM_SEARCH = 2;
+	public static final int VM_ADVANCED_SEARCH = 2;
+
+	/**
+	 * View mode corresponds to root search.
+	 */
+	public static final int VM_ROOT_SEARCH = 3;
 
 	/**
 	 * View mode corresponds to simple non-search mode set in the Quran browser.
 	 */
-	public static final int VM_QURAN_TRANS = 3;
+	public static final int VM_QURAN_TRANS = 4;
 
 	public IQuranLocation getLocation();
 
@@ -58,14 +63,14 @@ public interface IUserView {
 	 * Set current runtime view mode. Can be one of the <code>VM_*</code> constants available in this
 	 * interface.
 	 * 
-	 * @param viewMode runtime view mode. Can be one of {@link #VM_ADVANCED_SEARCH}, {@link #VM_SEARCH}, or
-	 *           {@link #VM_QURAN_TRANS}.
+	 * @param viewMode runtime view mode. Can be one of {@link #VM_SEARCH}, {@link #VM_ADVANCED_SEARCH},
+	 *           {@link #VM_ROOT_SEARCH}, or {@link #VM_QURAN_TRANS}.
 	 */
 	public void setViewMode(int viewMode);
 
 	/**
-	 * @return current runtime view mode. Can be one of {@link #VM_ADVANCED_SEARCH}, {@link #VM_SEARCH}, or
-	 *         {@link #VM_QURAN_TRANS}.
+	 * @return current runtime view mode. Can be one of {@link #VM_SEARCH}, {@link #VM_ADVANCED_SEARCH},
+	 *         {@link #VM_ROOT_SEARCH}, or {@link #VM_QURAN_TRANS}.
 	 */
 	public int getViewMode();
 }
