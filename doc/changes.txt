@@ -531,7 +531,6 @@ Bug fixes:
 	Menu icons are not shown anymore in Mac.
 	Major and minor sajda replaced with "mandatory" and "recommended" sajda.
 	An incompatibility issue resolved which caused sura.vm not work with Velocity 1.5. Thanks for Serkan Kaba's patch.
-	Disabled auto-update for now. It's too buggy.
 	When an SWT Tree is set as SWT.SINGLE, it's selection listener is once called upon its first selection (which is selected by system). It caused aya not to be selected correctly in aya selection combo. A small but of checking (if (e.time > 0)) added to tree selectionm adapter in order to ignore its first systemy selection.
 	A bug with unloading (TranslationData.unload()) currently in use translations, when multi-translation layout was selected is fixed. Since it mistakenly unload a translation which was in use, Zekr gave NPE errors for accessing translation of ayas.
 	Just one thread is started for HTTP server. It used to start two separate thread, one of them was redundant.
@@ -539,7 +538,7 @@ Bug fixes:
 	Fixed a bug with basic (tanzil) search highlighter. Search result was not highlighted correctly two or more phrases enetered in the query, and at least one phrase (other than the first one) was exclusive (leaded with '-').
 	use StringUtils.isBlank() instead of isEmpty(). isBlank() also trims the string.quran.text.delim = \\r\\n
 	Change quran.text.delim to \\r\\n (Tanzil text files are in Windows line delimiter model).
-	
+	Remove extra whitespaces for search result ayas. Extra whitespaces caused non-elegant highlighted results.
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Search results in ascending/descending order
