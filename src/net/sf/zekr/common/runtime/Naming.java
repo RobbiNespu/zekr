@@ -13,7 +13,6 @@ import net.sf.zekr.common.config.GlobalConfig;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class Naming {
 	// Application home directory
