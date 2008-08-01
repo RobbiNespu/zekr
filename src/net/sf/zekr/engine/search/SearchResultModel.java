@@ -17,7 +17,12 @@ import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
-public class AbstractSearchResult {
+/**
+ * Instances of this class hold search results.
+ * 
+ * @author Mohsen Saboorian
+ */
+public class SearchResultModel {
 	protected int resultPerPage;
 	protected int totalMatch;
 	protected String rawQuery;
@@ -50,15 +55,17 @@ public class AbstractSearchResult {
 	}
 
 	/**
-	 * @param quranText
-	 * @param results
-	 * @param clase clause in the text which are either matched or excluded. This string holds a list of items
-	 *           which are encountered by the exploded query and are not necessarily present in
-	 *           <code>results</code> list.
-	 * @param totalMatch
-	 * @param ayaComparator
+	 * Create an instance of this class to hold search results.
+	 * 
+	 * @param quranText Quran or translation text on which search taken place
+	 * @param results a list of {@link SearchResultItem}s
+	 * @param clause a string representation of whole-words of all the matched text parts
+	 * @param rawQuery raw user query
+	 * @param totalMatch total count of all highlighted text parts
+	 * @param ayaComparator the {@link AbstractSearchResultComparator} to be used for sorting results
+	 * @param ascending
 	 */
-	public AbstractSearchResult(IQuranText quranText, List results, String clause, String rawQuery, int totalMatch,
+	public SearchResultModel(IQuranText quranText, List results, String clause, String rawQuery, int totalMatch,
 			AbstractSearchResultComparator ayaComparator, boolean ascending) {
 		this.quranText = quranText;
 		this.results = results;
