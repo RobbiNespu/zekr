@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,7 +35,6 @@ import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
-import net.sf.zekr.common.util.Base64;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.audio.Audio;
 import net.sf.zekr.engine.audio.AudioData;
@@ -68,6 +68,7 @@ import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -562,11 +563,12 @@ public class ApplicationConfig implements ConfigNaming {
 		td.localizedName = pc.getString(LOCALIZED_NAME_ATTR, td.name);
 		td.archiveFile = transZipFile;
 		td.delimiter = pc.getString(LINE_DELIMITER_ATTR, "\n");
-		String sig = pc.getString(SIGNATURE_ATTR);
-		td.signature = sig == null ? null : Base64.decode(sig);
+		byte[] sig;
+		sig = pc.getString(SIGNATURE_ATTR).getBytes("US-ASCII");
+		td.signature = sig == null ? null : Base64.decodeBase64(sig);
 
-		if (StringUtils.isEmpty(td.id) || StringUtils.isEmpty(td.name) || StringUtils.isEmpty(td.file)
-				|| StringUtils.isEmpty(td.version)) {
+		if (StringUtils.isBlank(td.id) || StringUtils.isBlank(td.name) || StringUtils.isBlank(td.file)
+				|| StringUtils.isBlank(td.version)) {
 			logger.warn("Invalid translation: \"" + td + "\".");
 			return null;
 		}
@@ -805,14 +807,17 @@ public class ApplicationConfig implements ConfigNaming {
 		rd.archiveFile = revelZipFile;
 		rd.delimiter = pc.getString("delimiter", "\n");
 		String sig = pc.getString("signature");
-		rd.signature = sig == null ? null : Base64.decode(sig);
+
+		byte[] sigBytes = sig.getBytes("US-ASCII");
+		rd.signature = sig == null ? null : Base64.decodeBase64(sigBytes);
+
 		Iterator nameIter = pc.getKeys("name");
 		for (Iterator iterator = nameIter; iterator.hasNext();) {
 			String key = (String) iterator.next();
 			rd.getNames().put(new String(key.substring(4)), pc.getString(key));
 		}
 
-		if (StringUtils.isEmpty(rd.id) || rd.getNames().size() == 0 || StringUtils.isEmpty(rd.version)) {
+		if (StringUtils.isBlank(rd.id) || rd.getNames().size() == 0 || StringUtils.isBlank(rd.version)) {
 			logger.warn("Invalid revelation data package: \"" + rd + "\".");
 			return null;
 		}
@@ -1014,7 +1019,7 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	public boolean isRootDatabaseEnabled() {
-		return props.getBoolean("root.enabled", true);
+		return props.getBoolean("root.enable", true);
 	}
 
 	public boolean useMozilla() {
@@ -1056,6 +1061,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public QuranPaging getQuranPaging() {
 		return quranPaging;
+	}
+
+	public QuranRoot getQuranRoot() {
+		return quranRoot;
 	}
 
 	public SearchInfo getSearchInfo() {
