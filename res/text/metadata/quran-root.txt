@@ -1917,3 +1917,36 @@
 يونس‌=655:20,874:3,1461:9,3926:2
 يى‌=84:2,130:14,134:6,261:42,272:22,312:13,326:1,330:11,359:4,367:29,371:21,501:7,712:14,731:3,872:12,875:3,921:16,1110:5,1111:25,1125:9,1126:9,1446:5,1744:9,1786:5,1789:6,2031:1,2090:13,2189:17,2307:9,2307:16,2825:16,2830:5,3366:7,3745:5,3864:2,4003:6,4524:39,4755:4,4755:8,5178:5
 يئس‌=671:32,1481:10,1675:2,1682:9,1682:15,1705:3,1737:20,2111:12,3362:7,4266:10,5162:12,5162:16,5220:2
+
+
+# PLEASE DO NOT REMOVE THIS BLOCK
+#===================================================================
+#
+#  Quran Root/Stem List 
+#  Version 0.9.0
+#  Initially produced and copyrighted by CRCIS (www.noorsoft.org)
+#  Reproduced by http://tanzil.info, http://zekr.org
+#
+#  This copy of the Quran root/stem list is not verified to be precise. 
+#  USE IT AT YOUR OWN RISK. 
+#
+#  TERMS OF USE:
+#
+#  - This piece of work is distributed under the terms of:
+#    creativecommons by-nc-nd 3.0 (non-free) license.
+#    You may not use this work for commercial purposes.
+#
+#  - Permission is granted to copy and distribute (non-commercially)
+#    verbatim copies of this text, but CHANGING IT IS NOT ALLOWED.
+#
+#  - This root database can be used in any website or application,
+#    provided its sources (primary source: CRCIS - www.noorsoft.org,
+#    and reproduction sources: Tanzil Project - www.tanzil.info,
+#    Zekr Project - zekr.org) is clearly indicated, and a link is
+#    made to the websites.
+#
+#  - This notice shall be included in all verbatim copies of 
+#    the text, and shall be reproduced appropriately in all files 
+#    derived from or containing substantial portion of this text.
+# 
+#===================================================================
