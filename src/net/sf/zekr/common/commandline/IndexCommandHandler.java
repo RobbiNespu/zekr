@@ -11,9 +11,16 @@ package net.sf.zekr.common.commandline;
 import java.io.File;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.resource.FilteredQuranText;
+import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.filter.QuranIndexerFilter;
 import net.sf.zekr.engine.search.lucene.IndexCreator;
 import net.sf.zekr.engine.search.lucene.IndexingException;
+import net.sf.zekr.engine.search.lucene.LuceneIndexManager;
+import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * Class for handling index (<tt>-index</tt>) command.
@@ -32,6 +39,17 @@ public class IndexCommandHandler extends CommandHandler {
 			throw new CommandException("Indexing target not specified. "
 					+ "Enter either `me', `all' or a path as indexing target.");
 		String o = options[0].trim();
+		String tid = null;
+		ApplicationConfig config = ApplicationConfig.getInstance();
+		if (options.length >= 2) {
+			tid = options[1].trim();
+			if (StringUtils.isBlank(tid)) {
+				throw new CommandException("Enter a valid translation id.");
+			} else if (config.getTranslation().get(tid) == null) {
+				throw new CommandException("No such translation pack: " + tid);
+			}
+		}
+
 		int target;
 		String path = null;
 		if (o.equals("me")) {
@@ -39,21 +57,23 @@ public class IndexCommandHandler extends CommandHandler {
 		} else if (o.equals("all")) {
 			target = IndexCreator.ALL_USERS;
 		} else {
-			target = IndexCreator.CUSTOM_PATH;
-			path = o;
-			File indexDir = new File(o);
-			if (!indexDir.exists())
-				throw new CommandException("Path not found: " + o);
-			if (!indexDir.isDirectory())
-				throw new CommandException("Not a directory: " + o);
+			throw new CommandException("No such target: " + o);
 		}
 		try {
 			Date date1 = new Date();
-			ApplicationConfig.getInstance().getLuceneIndexManager().createQuranIndex(target, path, stdout);
+			LuceneIndexManager lim = config.getLuceneIndexManager();
+			if (tid == null) { // index Quran
+				lim.createQuranIndex(new FilteredQuranText(new QuranIndexerFilter(), IQuranText.SIMPLE_MODE), target, path,
+						stdout);
+			} else { // index translation
+				TranslationData td = config.getTranslation().get(tid);
+				td.load();
+				lim.createQuranIndex(td, target, path, stdout);
+			}
 			Date date2 = new Date();
-			ApplicationConfig.getInstance().saveConfig();
+			config.saveConfig();
 			stdout.println("Indexing took " + (date2.getTime() - date1.getTime()) + " ms.");
-		} catch (IndexingException e) {
+		} catch (Exception e) {
 			throw new CommandException("Indexing aborted with the following error: " + e);
 		}
 	}
