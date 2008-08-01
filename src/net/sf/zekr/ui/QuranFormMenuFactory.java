@@ -46,8 +46,6 @@ import net.sf.zekr.engine.page.FixedAyaPagingData;
 import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
-import net.sf.zekr.engine.page.PagingException;
-import net.sf.zekr.engine.page.QuranPaging;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.translation.TranslationData;
@@ -816,7 +814,7 @@ public class QuranFormMenuFactory {
 		int aypp = config.getProps().getInt("view.pagingMode.ayaPerPage", 20);
 		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"), lang.getMeaningById("PAGING_MODE",
 				"AYA_PER_SURA"), String.valueOf(aypp));
-		if (!StringUtils.isEmpty(ayaStr)) {
+		if (!StringUtils.isBlank(ayaStr)) {
 			try {
 				int aya = Integer.parseInt(ayaStr);
 				if (aya <= 0 || aya > QuranPropertiesUtils.QURAN_AYA_COUNT) {
