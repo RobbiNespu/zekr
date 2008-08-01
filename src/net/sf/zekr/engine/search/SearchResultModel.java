@@ -18,7 +18,7 @@ import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
 /**
- * Instances of this class hold search results.
+ * Instances of this class hold search results. This class supports iteration.
  * 
  * @author Mohsen Saboorian
  */
