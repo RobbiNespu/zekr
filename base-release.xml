@@ -7,7 +7,7 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.7.0beta1" />
+	<property name="component_version" value="0.7.0beta2" />
 
 	<property name="main_class" value="${package}.ZekrMain" />
 
@@ -36,17 +36,29 @@
 	<property name="swt.jar" value="${libdir}/swt.jar" />
 	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
-	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.3.0.jar" />
-	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.3.0.jar" />
-	<property name="apache-commons.jar" value="${libdir}/apache-commons.jar" />
+	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.3.2.jar" />
+	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.3.2.jar" />
+	<property name="lucene-snowball.jar" value="${libdir}/lucene-snowball-2.3.2.jar" />
+	<property name="commons-logging.jar" value="${libdir}/commons-logging-1.0.4.jar" />
+	<property name="commons-lang.jar" value="${libdir}/commons-lang-2.4.jar" />
+	<property name="commons-io.jar" value="${libdir}/commons-io-1.4.jar" />
+	<property name="commons-collections.jar" value="${libdir}/commons-collections-3.2.1.jar" />
+	<property name="commons-codec.jar" value="${libdir}/commons-codec-1.3.jar" />
+	<property name="commons-configuration.jar" value="${libdir}/commons-configuration-1.5.jar" />
 
 	<path id="buildlibs">
 		<pathelement location="${log4j.jar}" />
 		<pathelement location="${swt.jar}" />
 		<pathelement location="${lucene-core.jar}" />
 		<pathelement location="${lucene-highlighter.jar}" />
+		<pathelement location="${lucene-snowball.jar}" />
+		<pathelement location="${commons-logging.jar}" />
+		<pathelement location="${commons-lang.jar}" />
+		<pathelement location="${commons-io.jar}" />
+		<pathelement location="${commons-collections.jar}" />
+		<pathelement location="${commons-codec.jar}" />
+		<pathelement location="${commons-configuration.jar}" />
 		<pathelement location="${velocity.jar}" />
-		<pathelement location="${apache-commons.jar}" />
 	</path>
 
 	<target name="compile">
