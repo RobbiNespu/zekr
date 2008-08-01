@@ -25,9 +25,12 @@ import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.search.ISearchScorer;
 import net.sf.zekr.engine.search.SearchException;
 import net.sf.zekr.engine.search.SearchResultItem;
+import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.search.SearchScope;
+import net.sf.zekr.engine.search.ZeroScorer;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 import net.sf.zekr.engine.search.tanzil.PatternEnricherFactory.ArabicPatternEnricher;
 import net.sf.zekr.engine.translation.TranslationData;
@@ -37,12 +40,6 @@ import org.apache.commons.lang.StringUtils;
 class ZeroHighlighter implements ISearchResultHighlighter {
 	public String highlight(String text, String pattern) {
 		return text;
-	}
-}
-
-class ZeroScorer implements ISearchScorer {
-	public double score(SearchResultItem sri) {
-		return 0;
 	}
 }
 
@@ -110,7 +107,7 @@ public class AdvancedQuranTextSearch {
 		return ascending;
 	}
 
-	public SearchResult search(String rawQuery) throws SearchException {
+	public SearchResultModel search(String rawQuery) throws SearchException {
 		logger.debug("Searching for query: " + rawQuery);
 		rawQuery = rawQuery.replaceAll("\\-", "!");
 
@@ -123,8 +120,8 @@ public class AdvancedQuranTextSearch {
 		}
 		String pattern = enricher.enrich(rawQuery);
 
-		// TODO: '!' characters present in the highlighter pattern, but it seems to be safe
-		String highlightPattern = pattern.replaceAll("\\+", "|").replaceAll("!", "");
+		String highlightPattern = pattern.replaceAll("[+!]", "|");
+		highlightPattern.replaceAll("^[|]+", "").replaceAll("!", "");// remove leading '|'s
 		logger.debug("Rewritten query: " + pattern);
 
 		pattern = StringUtils.replace(pattern, "!", "+!");
@@ -165,7 +162,7 @@ public class AdvancedQuranTextSearch {
 		logger.debug("Score and highlight search results.");
 		scoreSearchResult(resultItems, highlightPattern, patterns.length);
 
-		return new SearchResult(quranText, resultItems, CollectionUtils.toString(clauses, " "), rawQuery, total,
+		return new SearchResultModel(quranText, resultItems, CollectionUtils.toString(clauses, " "), rawQuery, total,
 				searchResultComparator, ascending);
 	}
 
@@ -241,7 +238,7 @@ public class AdvancedQuranTextSearch {
 				new SimpleSearchResultHighlighter(), new DefaultSearchScorer());
 		System.out.println(s);
 		System.out.println("Before search: " + new Date());
-		SearchResult res = ats.search(s);
+		SearchResultModel res = ats.search(s);
 		System.out.println("After search: " + new Date());
 		System.out.println(res.getTotalMatch() + " - " + res.getResults().size() + ":");
 		for (Iterator iterator = res.getResults().iterator(); iterator.hasNext();) {
