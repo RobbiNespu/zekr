@@ -17,7 +17,6 @@ import java.util.List;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranPage;
-import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.template.BaseViewTemplate;

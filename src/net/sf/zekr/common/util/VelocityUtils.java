@@ -12,14 +12,12 @@ package net.sf.zekr.common.util;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranPage;
-import net.sf.zekr.common.resource.QuranPropertiesUtils;
-import net.sf.zekr.engine.audio.IPlaylistProvider;
 import net.sf.zekr.engine.page.IPagingData;
+
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * This class contains some helper methods to be used in Velocity templates. This is a replacement for

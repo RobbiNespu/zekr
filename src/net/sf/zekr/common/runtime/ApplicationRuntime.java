@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.template.ITransformer;
 import net.sf.zekr.engine.template.TemplateTransformationException;

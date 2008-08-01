@@ -19,8 +19,8 @@ public class SearchResultItem {
 	public double score;
 
 	/**
-	 * matchedParts <code>null</code> matchedParts means that this item was matched because of an exclude
-	 * term in the search query
+	 * <code>null</code> matchedParts means that this item was matched because of an exclude term in the search
+	 * query.
 	 */
 	public List matchedParts = new ArrayList();
 

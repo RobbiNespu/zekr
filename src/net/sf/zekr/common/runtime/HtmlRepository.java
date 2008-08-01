@@ -26,8 +26,7 @@ import net.sf.zekr.common.resource.RangedQuranText;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.audio.PlaylistProvider;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.page.IPagingData;
-import net.sf.zekr.engine.search.AbstractSearchResult;
+import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.server.HttpServer;
 import net.sf.zekr.engine.server.HttpServerUtils;
@@ -196,7 +195,7 @@ public class HtmlRepository {
 	 * @return generated search result HTML
 	 * @throws HtmlGenerationException
 	 */
-	public static String getAdvancedSearchQuranUri(AbstractSearchResult searchResult, int pageNo)
+	public static String getAdvancedSearchQuranUri(SearchResultModel searchResult, int pageNo)
 			throws HtmlGenerationException {
 		try {
 			String fileName = searchResult.getRawQuery().hashCode() + "_" + pageNo + ".html";
