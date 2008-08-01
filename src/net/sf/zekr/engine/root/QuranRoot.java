@@ -25,8 +25,9 @@ import org.apache.commons.collections.map.ListOrderedMap;
  * @author Mohsen Saboorian
  */
 public class QuranRoot {
-	List rootList = new ArrayList(1919);
-	Map rootAddr = new HashMap(1919);
+	private static final int ROOT_LIST_SIZE = 1919;
+	List rootList = new ArrayList(ROOT_LIST_SIZE);
+	Map rootAddr = new HashMap(ROOT_LIST_SIZE);
 
 	/**
 	 * An array of all ayas of the Quran. Each entry is a {@link List} of root of each word in that aya,
@@ -34,19 +35,9 @@ public class QuranRoot {
 	 */
 	OrderedMap[] reverseIndex = new OrderedMap[QuranPropertiesUtils.QURAN_AYA_COUNT];
 
-	public static class RootAddress {
-		private IQuranLocation loc;
-		private int wordCount;
-
-		public RootAddress(IQuranLocation loc, int wordCount) {
-			this.loc = loc;
-			this.wordCount = wordCount;
-		}
-	}
-
 	public QuranRoot(String rawRootText) {
 		String[] rootLines = rawRootText.split("\n");
-		for (int i = 0; i < rootLines.length - 1; i++) {
+		for (int i = 0; i < ROOT_LIST_SIZE; i++) {
 			String[] rootBody = rootLines[i].split("=");
 			String rootStr = rootBody[0];
 			String rootAddrStr;
@@ -60,14 +51,15 @@ public class QuranRoot {
 				IQuranLocation loc;
 				absoluteAya = Integer.parseInt(locStr[0]);
 				loc = QuranPropertiesUtils.getLocation(absoluteAya + 1);
-				int wordCount = Integer.parseInt(locStr[1]);
-				RootAddress ra = new RootAddress(loc, wordCount);
+				int wordIndex = Integer.parseInt(locStr[1]);
+				RootAddress ra = new RootAddress(loc, wordIndex);
 				rootAddrList.add(ra);
 
-				if (reverseIndex[absoluteAya] == null) {
-					reverseIndex[absoluteAya] = new ListOrderedMap();
-				}
-				reverseIndex[absoluteAya].put(new Integer(wordCount), rootStr);
+				// TODO: load it for next release.
+				// if (reverseIndex[absoluteAya] == null) {
+				// reverseIndex[absoluteAya] = new ListOrderedMap();
+				// }
+				// reverseIndex[absoluteAya].put(new Integer(wordIndex), rootStr);
 			}
 			rootAddr.put(rootStr, rootAddrList);
 		}
@@ -75,5 +67,13 @@ public class QuranRoot {
 
 	public Map getRootMap(IQuranLocation loc) {
 		return reverseIndex[QuranPropertiesUtils.getAbsoluteLocation(loc)];
+	}
+
+	public List getRootList() {
+		return rootList;
+	}
+
+	public List getRootAddress(String rootStr) {
+		return (List) rootAddr.get(rootStr);
 	}
 }
