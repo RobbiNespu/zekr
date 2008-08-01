@@ -6,11 +6,11 @@
  * Author:         Mohsen Saboorian
  * Start Date:     Mar 21, 2008
  */
-package net.sf.zekr.engine.search.tanzil;
-
-import net.sf.zekr.engine.search.SearchResultItem;
+package net.sf.zekr.engine.search;
 
 /**
+ * Search scorer interface.
+ * 
  * @author Mohsen Saboorian
  */
 public interface ISearchScorer {
