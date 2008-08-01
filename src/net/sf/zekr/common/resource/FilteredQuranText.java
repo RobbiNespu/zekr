@@ -62,10 +62,6 @@ public class FilteredQuranText extends AbstractQuranText {
 		this(quranText, quranFilter, quranText.getMode() == IQuranText.UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sf.zekr.common.resource.IQuranText#get(int, int)
-	 */
 	public String get(int suraNum, int ayaNum) {
 		return filter(suraNum, ayaNum);
 	}
@@ -77,10 +73,6 @@ public class FilteredQuranText extends AbstractQuranText {
 		return quranText.getFullText();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sf.zekr.common.resource.IQuranText#getSura(int)
-	 */
 	public String[] getSura(int suraNum) {
 		String[][] qt = quranText.getFullText();
 		String[] text = new String[qt[suraNum - 1].length];
@@ -90,17 +82,10 @@ public class FilteredQuranText extends AbstractQuranText {
 		return text;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.zekr.common.resource.IQuranText#get(int)
-	 */
 	public String get(int absoluteAyaNum) {
 		throw new UnsupportedOperationException("Method not implemented.");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sf.zekr.common.resource.IQuranText#getTranslationData()
-	 */
 	public TranslationData getTranslationData() {
 		return null;
 	}
@@ -132,9 +117,6 @@ public class FilteredQuranText extends AbstractQuranText {
 		return filter(aya1.substring(0, sp + 1));
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.zekr.common.resource.IQuranText#getMode()
-	 */
 	public int getMode() {
 		return quranText.getMode();
 	}
