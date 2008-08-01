@@ -207,10 +207,15 @@ public class RootTabForm {
 		rootList.setItems((String[]) stringRootList.toArray(new String[0]));
 		rootList.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
-				int selection = rootList.getSelectionIndex();
-				if (selection != -1) {
-					searchCombo.setText(rootList.getItem(selection));
-					find();
+				doFind();
+			}
+		});
+		rootList.addTraverseListener(new TraverseListener() {
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_RETURN) {
+					doFind();
+				} else if (e.detail == SWT.TRAVERSE_ARROW_PREVIOUS && rootList.getSelectionIndex() <= 0) {
+					searchCombo.setFocus();
 				}
 			}
 		});
