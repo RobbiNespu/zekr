@@ -36,15 +36,14 @@ import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.search.SearchException;
+import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.comparator.SearchResultComparatorFactory;
-import net.sf.zekr.engine.search.lucene.AdvancedSearchResult;
 import net.sf.zekr.engine.search.lucene.IndexingException;
 import net.sf.zekr.engine.search.lucene.LuceneIndexManager;
 import net.sf.zekr.engine.search.lucene.QuranTextSearcher;
 import net.sf.zekr.engine.search.tanzil.AdvancedQuranTextSearch;
 import net.sf.zekr.engine.search.tanzil.DefaultSearchScorer;
-import net.sf.zekr.engine.search.tanzil.SearchResult;
 import net.sf.zekr.engine.search.tanzil.SimpleSearchResultHighlighter;
 import net.sf.zekr.engine.search.ui.ManageScopesForm;
 import net.sf.zekr.engine.search.ui.SearchScopeForm;
@@ -98,7 +97,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
@@ -148,6 +146,7 @@ public class QuranForm extends BaseForm {
 	private Button sortOrderButton, advancedSortOrderButton;
 	private Menu advancedSearchMenu;
 
+	private RootTabForm rootTabForm;
 	private ProgressAdapter qpl, tpl;
 	private String title;
 	private Shell fullScreenFloatShell;
@@ -183,10 +182,10 @@ public class QuranForm extends BaseForm {
 
 	private QuranTextSearcher qts;
 	private AdvancedQuranTextSearch ats;
-	private AdvancedSearchResult asr;
+	private SearchResultModel asr;
 
 	private AdvancedQuranTextSearch searcher;
-	private SearchResult sr;
+	private SearchResultModel sr;
 
 	private ApplicationConfig config;
 	private boolean isClosed;
@@ -199,15 +198,15 @@ public class QuranForm extends BaseForm {
 	protected boolean updateQuran = true;
 	private QuranFormMenuFactory qmf;
 	private boolean clearOnExit = false;
-	private SearchScope searchScope;
+	SearchScope searchScope;
 	private List searchScopeList;
 	private TabFolder searchTabFolder;
 	private Composite searchTabBody, advancedSearchTabBody;
-	private Menu searchScopeMenu;
+	Menu searchScopeMenu;
 	private Combo searchOrderCombo, advancedSearchOrderCombo;
-	private Composite advancedSearchPaginationComp, searchPaginationComp;
-	private Spinner advancedSearchPaginationSpinner, searchPaginationSpinner;
-	private Button advNextPageBut, advPrevPageBut, nextPageBut, prevPageBut;
+	//	private Composite advancedSearchPaginationComp/*, searchPaginationComp*/;
+	//	private Spinner advancedSearchPaginationSpinner, searchPaginationSpinner*/;
+	//	private Button advNextPageBut, advPrevPageBut/*, nextPageBut, prevPageBut*/;
 	private ScrolledComposite workPaneScroller;
 	private Button collapseDetail;
 
@@ -221,6 +220,7 @@ public class QuranForm extends BaseForm {
 	private UpdateManager updateManager;
 
 	private BrowserCallbackHandler bch = new BrowserCallbackHandler(this);
+	private SearchResultNavigator searchNav, advSearchNav, rootNav;
 
 	IUserView uvc;
 
@@ -690,6 +690,9 @@ public class QuranForm extends BaseForm {
 				SWT.DEFAULT, SWT.DEFAULT, gd, SWT.HIDE_SELECTION);
 		suraTable.setMenu(propsMenu);
 
+		// create search scope menu
+		searchScopeMenu = createSearchScopeMenu();
+
 		if (tree) {
 			gd = new GridData(SWT.FILL, SWT.FILL, true, false);
 		} else {
@@ -697,14 +700,20 @@ public class QuranForm extends BaseForm {
 		}
 		searchTabFolder = new TabFolder(workPane, lang.getSWTDirection());
 		searchTabFolder.setLayoutData(gd);
+		rootTabForm = new RootTabForm(this, searchTabFolder);
 
 		TabItem normalSearchTab = new TabItem(searchTabFolder, SWT.NONE);
 		TabItem advancedSearchTab = new TabItem(searchTabFolder, SWT.NONE);
+		rootTabForm.createTabItem();
+
 		normalSearchTab.setText(lang.getMeaning("SEARCH"));
 		advancedSearchTab.setText(lang.getMeaning("ADVANCED"));
 
-		if (config.getProps().getInt("view.search.tab") != 0)
-			searchTabFolder.setSelection(1);
+		int selectedSearchTab = config.getProps().getInt("view.search.tab", 0);
+		if (!config.isRootDatabaseEnabled() && selectedSearchTab == 2) {
+			selectedSearchTab = 0;
+		}
+		searchTabFolder.setSelection(selectedSearchTab);
 
 		gl = new GridLayout(2, false);
 		searchTabBody = new Composite(searchTabFolder, SWT.NONE);
@@ -715,10 +724,8 @@ public class QuranForm extends BaseForm {
 		advancedSearchTabBody.setLayout(new GridLayout(2, false));
 		advancedSearchTab.setControl(advancedSearchTabBody);
 
-		searchScopeMenu = createSearchScopeMenu();
 		createLuceneSearchTabContent();
 		createSearchTabContent();
-		// createSimpleSearchTabContent();
 
 		workPaneScroller.setMinSize(workPane.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
@@ -938,84 +945,18 @@ public class QuranForm extends BaseForm {
 		advancedSearchOrderCombo.setData("1", null);
 		advancedSearchOrderCombo.setData("2", "net.sf.zekr.engine.search.comparator.RevelationOrderComparator");
 		advancedSearchOrderCombo.setData("3", "net.sf.zekr.engine.search.comparator.AyaLengthComparator");
+		advancedSearchOrderCombo.addKeyListener(ka);
 
 		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
 		advancedSortOrderButton = new Button(advancedSearchOptionsComp, SWT.PUSH | SWT.FLAT);
 		advancedSortOrderButton.setData(config.getProps().getString("view.search.advanced.sortOrder", "des"));
 		addSortOrderButton(advancedSortOrderButton, gd);
 
-		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		gd.horizontalSpan = 2;
-		gl.marginHeight = 0;
-		gl = new GridLayout(3, true);
-		gl.marginWidth = 0;
-		advancedSearchPaginationComp = new Composite(advancedSearchTabBody, SWT.NONE);
-		advancedSearchPaginationComp.setLayout(gl);
-		advancedSearchPaginationComp.setLayoutData(gd);
-		advancedSearchPaginationComp.setVisible(false);
-
-		boolean isRTL = ((lang.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
-		Image prevPageImg = new Image(display, isRTL ? resource.getString("icon.nextNext") : resource
-				.getString("icon.prevPrev"));
-		Image nextPageImg = new Image(display, isRTL ? resource.getString("icon.prevPrev") : resource
-				.getString("icon.nextNext"));
-
-		gd = new GridData(SWT.FILL, SWT.CENTER, true, true);
-		advPrevPageBut = new Button(advancedSearchPaginationComp, SWT.PUSH);
-		advPrevPageBut.setLayoutData(gd);
-		advPrevPageBut.setToolTipText(lang.getMeaning("PREVIOUS"));
-		advPrevPageBut.setImage(prevPageImg);
-		advPrevPageBut.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				int newPage = advancedSearchPaginationSpinner.getSelection() - 1;
-				advancedSearchPaginationSpinner.setSelection(newPage);
-				advancedFindGoto(newPage);
+		advSearchNav = new SearchResultNavigator(advancedSearchTabBody, new IPageNavigator() {
+			public void gotoPage(int page) {
+				advancedFindGoto(page);
 			}
 		});
-
-		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		advancedSearchPaginationSpinner = new Spinner(advancedSearchPaginationComp, SWT.BORDER);
-		advancedSearchPaginationSpinner.setLayoutData(gd);
-		advancedSearchPaginationSpinner.setToolTipText(lang.getMeaning("PAGE"));
-		advancedSearchPaginationSpinner.setMinimum(1);
-		advancedSearchPaginationSpinner.setMaximum(1000);
-		advancedSearchPaginationSpinner.addTraverseListener(new TraverseListener() {
-			public void keyTraversed(TraverseEvent e) {
-				if (e.detail == SWT.TRAVERSE_RETURN)
-					advancedFindGoto(advancedSearchPaginationSpinner.getSelection());
-			}
-		});
-		advancedSearchPaginationSpinner.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				int p = advancedSearchPaginationSpinner.getSelection();
-				if (p > 1) {
-					advPrevPageBut.setEnabled(true);
-				} else {
-					advPrevPageBut.setEnabled(false);
-				}
-				if (p < asr.getResultPageCount()) {
-					advNextPageBut.setEnabled(true);
-				} else {
-					advNextPageBut.setEnabled(false);
-				}
-			}
-		});
-
-		gd = new GridData(SWT.FILL, SWT.CENTER, true, true);
-		advNextPageBut = new Button(advancedSearchPaginationComp, SWT.PUSH);
-		advNextPageBut.setLayoutData(gd);
-		advNextPageBut.setToolTipText(lang.getMeaning("NEXT"));
-		advNextPageBut.setImage(nextPageImg);
-		advNextPageBut.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				int newPage = advancedSearchPaginationSpinner.getSelection() + 1;
-				advancedSearchPaginationSpinner.setSelection(newPage);
-				advancedFindGoto(newPage);
-			}
-		});
-
-		advNextPageBut.setEnabled(false);
-		advPrevPageBut.setEnabled(false);
 	}
 
 	private void createSearchTabContent() {
@@ -1163,7 +1104,6 @@ public class QuranForm extends BaseForm {
 				transTargetBut.setSelection(true);
 			}
 		}
-		//////////////////////////
 
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		gd.horizontalSpan = 2;
@@ -1189,87 +1129,22 @@ public class QuranForm extends BaseForm {
 		searchOrderCombo.setData("1", null);
 		searchOrderCombo.setData("2", "net.sf.zekr.engine.search.comparator.RevelationOrderComparator");
 		searchOrderCombo.setData("3", "net.sf.zekr.engine.search.comparator.AyaLengthComparator");
+		searchOrderCombo.addKeyListener(ka);
 
 		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
 		sortOrderButton = new Button(searchOptionsComp, SWT.PUSH | SWT.FLAT);
 		sortOrderButton.setData(config.getProps().getString("view.search.sortOrder", "des"));
 		addSortOrderButton(sortOrderButton, gd);
 
-		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		gd.horizontalSpan = 2;
-		gl.marginHeight = 0;
-		gl = new GridLayout(3, true);
-		gl.marginWidth = 0;
-		searchPaginationComp = new Composite(searchTabBody, SWT.NONE);
-		searchPaginationComp.setLayout(gl);
-		searchPaginationComp.setLayoutData(gd);
-		searchPaginationComp.setVisible(false);
-
-		boolean isRTL = ((lang.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
-		Image prevPageImg = new Image(display, isRTL ? resource.getString("icon.nextNext") : resource
-				.getString("icon.prevPrev"));
-		Image nextPageImg = new Image(display, isRTL ? resource.getString("icon.prevPrev") : resource
-				.getString("icon.nextNext"));
-
-		gd = new GridData(SWT.FILL, SWT.CENTER, true, true);
-		prevPageBut = new Button(searchPaginationComp, SWT.PUSH);
-		prevPageBut.setLayoutData(gd);
-		prevPageBut.setToolTipText(lang.getMeaning("PREVIOUS"));
-		prevPageBut.setImage(prevPageImg);
-		prevPageBut.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				int newPage = searchPaginationSpinner.getSelection() - 1;
-				searchPaginationSpinner.setSelection(newPage);
-				advancedFindGoto(newPage);
+		searchNav = new SearchResultNavigator(searchTabBody, new IPageNavigator() {
+			public void gotoPage(int page) {
+				findGoto(page);
 			}
 		});
 
-		gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		searchPaginationSpinner = new Spinner(searchPaginationComp, SWT.BORDER);
-		searchPaginationSpinner.setLayoutData(gd);
-		searchPaginationSpinner.setToolTipText(lang.getMeaning("PAGE"));
-		searchPaginationSpinner.setMinimum(1);
-		searchPaginationSpinner.setMaximum(1000);
-		searchPaginationSpinner.addTraverseListener(new TraverseListener() {
-			public void keyTraversed(TraverseEvent e) {
-				if (e.detail == SWT.TRAVERSE_RETURN)
-					findGoto(searchPaginationSpinner.getSelection());
-			}
-		});
-		searchPaginationSpinner.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				int p = searchPaginationSpinner.getSelection();
-				if (p > 1) {
-					prevPageBut.setEnabled(true);
-				} else {
-					prevPageBut.setEnabled(false);
-				}
-				if (p < sr.getResultPageCount()) {
-					nextPageBut.setEnabled(true);
-				} else {
-					nextPageBut.setEnabled(false);
-				}
-			}
-		});
-
-		gd = new GridData(SWT.FILL, SWT.CENTER, true, true);
-		nextPageBut = new Button(searchPaginationComp, SWT.PUSH);
-		nextPageBut.setLayoutData(gd);
-		nextPageBut.setToolTipText(lang.getMeaning("NEXT"));
-		nextPageBut.setImage(nextPageImg);
-		nextPageBut.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				int newPage = searchPaginationSpinner.getSelection() + 1;
-				searchPaginationSpinner.setSelection(newPage);
-				findGoto(newPage);
-			}
-		});
-
-		nextPageBut.setEnabled(false);
-		prevPageBut.setEnabled(false);
 	}
 
-	private void addSortOrderButton(Button button, GridData gd) {
+	void addSortOrderButton(Button button, GridData gd) {
 		button.setLayoutData(gd);
 		button.setToolTipText(lang.getMeaning("DESCENDING"));
 		final Image desImage = new Image(display, resource.getString("icon.descending"));
@@ -1719,30 +1594,26 @@ public class QuranForm extends BaseForm {
 			} catch (Exception e) {
 				logger.implicitLog(e);
 				MessageBoxUtils.showError("Advanced Search Error: " + e);
+				searchNav.setVisible(false);
 				return; // search failed
 			}
 			Date date2 = new Date();
 			logger.info("Search for " + str + " finished; took " + (date2.getTime() - date1.getTime()) + " ms.");
 
-			int pc = asr.getResultPageCount();
-			logger.debug("Search result has " + pc + " pages.");
-			if (pc > 1) {
-				advancedSearchPaginationComp.setVisible(true);
+			int pageCount = asr.getResultPageCount();
+			logger.debug("Search result has " + pageCount + " pages.");
+			if (pageCount > 1) {
+				advSearchNav.setVisible(true);
 			} else {
-				advancedSearchPaginationComp.setVisible(false);
-				advNextPageBut.setEnabled(true);
+				advSearchNav.setVisible(false);
+				advSearchNav.nextPageBut.setEnabled(true);
 			}
 
-			// reset spinner
-			advancedSearchPaginationSpinner.setMaximum(pc >= 1 ? pc : 1);
-			advancedSearchPaginationSpinner.setSelection(1);
-
-			advancedFindGoto(0); // 0 means the first page
+			advSearchNav.resetSearch(pageCount);
 		}
 	}
 
 	private void find() {
-		// doPreFind();
 		String str;
 		if (toggleMultiLine.getSelection())
 			str = searchBox.getText();
@@ -1762,7 +1633,6 @@ public class QuranForm extends BaseForm {
 			Date date1 = new Date();
 
 			int sortBy = searchOrderCombo.getSelectionIndex();
-			//if (ats == null) {
 			try {
 				if (quranTargetBut.getSelection())
 					ats = new AdvancedQuranTextSearch(QuranText.getSimpleTextInstance(),
@@ -1775,7 +1645,6 @@ public class QuranForm extends BaseForm {
 				MessageBoxUtils.showError("Basic searcher failed to initialize:\n\t" + e);
 				return; // search failed
 			}
-			// }
 			if (searchScope != ats.getSearchScope()) { // no need to .equals()
 				ats.setSearchScope(searchScope);
 			}
@@ -1786,6 +1655,8 @@ public class QuranForm extends BaseForm {
 				sr = ats.search(str);
 			} catch (SearchException se) {
 				MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + se.toString());
+				searchNav.setVisible(false);
+				return; // search failed
 			}
 			Date date2 = new Date();
 			logger.info("Search for " + str + " finished; took " + (date2.getTime() - date1.getTime()) + " ms.");
@@ -1793,21 +1664,16 @@ public class QuranForm extends BaseForm {
 			int pageCount = sr.getResultPageCount();
 			logger.debug("Search result has " + pageCount + " pages.");
 			if (pageCount > 1) {
-				searchPaginationComp.setVisible(true);
+				searchNav.setVisible(true);
 			} else {
-				searchPaginationComp.setVisible(false);
-				nextPageBut.setEnabled(true);
+				searchNav.setVisible(false);
+				searchNav.nextPageBut.setEnabled(true);
 			}
-
-			// reset spinner
-			searchPaginationSpinner.setMaximum(pageCount >= 1 ? pageCount : 1);
-			searchPaginationSpinner.setSelection(1);
-
-			findGoto(0); // 0 = first page
+			searchNav.resetSearch(pageCount);
 		}
 	}
 
-	private void doPreFind() {
+	void doPreFind() {
 		qmf.setAudioMenuEnabled(false);
 		qmf.resetAudioMenuStatus();
 	}
@@ -1830,14 +1696,14 @@ public class QuranForm extends BaseForm {
 
 			doPreFind();
 			if (pageNo > 1) {
-				advPrevPageBut.setEnabled(true);
+				advSearchNav.prevPageBut.setEnabled(true);
 			} else {
-				advPrevPageBut.setEnabled(false);
+				advSearchNav.prevPageBut.setEnabled(false);
 			}
 			if (pageNo < asr.getResultPageCount()) {
-				advNextPageBut.setEnabled(true);
+				advSearchNav.nextPageBut.setEnabled(true);
 			} else {
-				advNextPageBut.setEnabled(false);
+				advSearchNav.nextPageBut.setEnabled(false);
 			}
 
 			pageNo = pageNo == 0 ? 1 : pageNo;
@@ -1868,14 +1734,14 @@ public class QuranForm extends BaseForm {
 
 			doPreFind();
 			if (pageNo > 1) {
-				prevPageBut.setEnabled(true);
+				searchNav.prevPageBut.setEnabled(true);
 			} else {
-				prevPageBut.setEnabled(false);
+				searchNav.prevPageBut.setEnabled(false);
 			}
 			if (pageNo < sr.getResultPageCount()) {
-				nextPageBut.setEnabled(true);
+				searchNav.nextPageBut.setEnabled(true);
 			} else {
-				nextPageBut.setEnabled(false);
+				searchNav.nextPageBut.setEnabled(false);
 			}
 
 			pageNo = pageNo == 0 ? 1 : pageNo;
@@ -2022,14 +1888,13 @@ public class QuranForm extends BaseForm {
 		config.getProps().setProperty("view.quranLoc", uvc.getLocation().toString());
 		config.getProps().setProperty("view.page", String.valueOf(uvc.getPage()));
 
-		// search props
+		// basic search props
 		config.getProps().setProperty("view.search.tab", String.valueOf(searchTabFolder.getSelectionIndex()));
 		config.getProps().setProperty("view.search.target", quranTargetBut.getSelection() ? "quran" : "trans");
 		config.getProps().setProperty("view.search.advanced.target",
 				advancedQuranTargetBut.getSelection() ? "quran" : "trans");
-		// config.getProps().setProperty("view.search.simple.matchCase", String.valueOf(matchCaseCheckBox.getSelection()));
-		// config.getProps().setProperty("view.search.simple.matchDiacritics", String.valueOf(matchDiacCheckBox.getSelection()));
-		// config.getProps().setProperty("view.search.simple.currentPageOnly", String.valueOf(currentPageCheckBox.getSelection()));
+
+		// advanced search props
 		config.getProps().setProperty("view.search.advanced.sortBy",
 				String.valueOf(advancedSearchOrderCombo.getSelectionIndex()));
 		config.getProps().setProperty("view.search.advanced.sortOrder", advancedSortOrderButton.getData());
@@ -2039,8 +1904,12 @@ public class QuranForm extends BaseForm {
 		config.getProps().setProperty("view.search.sortOrder", sortOrderButton.getData());
 		config.getProps().setProperty("view.search.multiLine", String.valueOf(toggleMultiLine.getSelection()));
 
-		// add search scopes
-		// searchScopeList
+		// root search props
+		config.getProps().setProperty("view.search.root.sortBy",
+				String.valueOf(rootTabForm.searchOrderCombo.getSelectionIndex()));
+		config.getProps().setProperty("view.search.root.sortOrder", rootTabForm.sortOrderButton.getData());
+
+		// TODO: add search scopes
 
 		// sash props
 		if (viewLayout == SEPARATE) {
