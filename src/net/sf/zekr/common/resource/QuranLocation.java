@@ -155,6 +155,9 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
 		if (obj instanceof QuranLocation) {
 			QuranLocation loc = (QuranLocation) obj;
 			return loc.aya == aya && loc.sura == sura;
