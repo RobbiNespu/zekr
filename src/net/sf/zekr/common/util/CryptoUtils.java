@@ -9,6 +9,7 @@
 package net.sf.zekr.common.util;
 
 import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -22,19 +23,31 @@ import java.security.SignatureException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+import net.sf.zekr.common.ZekrBaseException;
+import net.sf.zekr.common.ZekrBaseRuntimeException;
+
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * @author Mohsen Saboorian
  */
 public class CryptoUtils {
-	public static final byte[] PUBLIC_KEY = Base64
-			.decode("MIIBtzCCASwGByqGSM44BAEwggEfAoGBAP1/U4EddRIpUt9KnC7s5Of2EbdSPO9EAMMeP4C2USZp"
-					+ "RV1AIlH7WT2NWPq/xfW6MPbLm1Vs14E7gB00b/JmYLdrmVClpJ+f6AR7ECLCT7up1/63xhv4O1fn"
-					+ "xqimFQ8E+4P208UewwI1VBNaFpEy9nXzrith1yrv8iIDGZ3RSAHHAhUAl2BQjxUjC8yykrmCouuE"
-					+ "C/BYHPUCgYEA9+GghdabPd7LvKtcNrhXuXmUr7v6OuqC+VdMCz0HgmdRWVeOutRZT+ZxBxCBgLRJ"
-					+ "FnEj6EwoFhO3zwkyjMim4TwWeotUfI0o4KOuHiuzpnWRbqN/C/ohNWLx+2J6ASQ7zKTxvqhRkImo"
-					+ "g9/hWuWfBpKLZl6Ae1UlZAFMO/7PSSoDgYQAAoGAW+7HDcQiEiNnPsHa/wx5f53CltL2iTDCqSCQ"
-					+ "d6AoNQe/OfBUtFUnohFh3CD0iFfCKEDbsP1Q/4tI62Y1hKFJv/S5Ju4CzBCwt5/SRDgVwJ0pP808"
-					+ "OZQ38Yx6ZOqVdgaHaYt5Yo3P/shkVZvlVu9VO66dcnnS7A+NP37IbwxSJb8=");
+	public static final byte[] PUBLIC_KEY;
+	static {
+		try {
+			PUBLIC_KEY = Base64
+					.decodeBase64(("MIIBtzCCASwGByqGSM44BAEwggEfAoGBAP1/U4EddRIpUt9KnC7s5Of2EbdSPO9EAMMeP4C2USZp"
+							+ "RV1AIlH7WT2NWPq/xfW6MPbLm1Vs14E7gB00b/JmYLdrmVClpJ+f6AR7ECLCT7up1/63xhv4O1fn"
+							+ "xqimFQ8E+4P208UewwI1VBNaFpEy9nXzrith1yrv8iIDGZ3RSAHHAhUAl2BQjxUjC8yykrmCouuE"
+							+ "C/BYHPUCgYEA9+GghdabPd7LvKtcNrhXuXmUr7v6OuqC+VdMCz0HgmdRWVeOutRZT+ZxBxCBgLRJ"
+							+ "FnEj6EwoFhO3zwkyjMim4TwWeotUfI0o4KOuHiuzpnWRbqN/C/ohNWLx+2J6ASQ7zKTxvqhRkImo"
+							+ "g9/hWuWfBpKLZl6Ae1UlZAFMO/7PSSoDgYQAAoGAW+7HDcQiEiNnPsHa/wx5f53CltL2iTDCqSCQ"
+							+ "d6AoNQe/OfBUtFUnohFh3CD0iFfCKEDbsP1Q/4tI62Y1hKFJv/S5Ju4CzBCwt5/SRDgVwJ0pP808"
+							+ "OZQ38Yx6ZOqVdgaHaYt5Yo3P/shkVZvlVu9VO66dcnnS7A+NP37IbwxSJb8=").getBytes("US-ASCII"));
+		} catch (UnsupportedEncodingException e) {
+			throw new ZekrBaseRuntimeException(e);
+		}
+	}
 
 	public static byte[] sign(String datafile, PrivateKey prvKey, String sigAlg) throws Exception {
 		Signature sig = Signature.getInstance(sigAlg);
