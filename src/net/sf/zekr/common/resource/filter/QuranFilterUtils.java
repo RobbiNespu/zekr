@@ -43,9 +43,14 @@ public class QuranFilterUtils {
 	private static final Pattern TEH = Pattern.compile(RegexUtils.regTrans("[$TEH$MARBUTA]"));
 	private static final Pattern ALEF = Pattern.compile(RegexUtils.regTrans("[$ALEF$"
 			+ "ALEF_WITH_MADDA_ABOVE$ALEF_WITH_HAMZA_ABOVE$ALEF_WITH_HAMZA_BELOW$ALEF_WASLA]"));
+	private static final Pattern ALEF_ROOT = Pattern.compile(RegexUtils.regTrans("[$ALEF$"
+			+ "ALEF_WITH_HAMZA_ABOVE$ALEF_WITH_HAMZA_BELOW$ALEF_WASLA]"));
 	private static final Pattern WAW = Pattern.compile(RegexUtils.regTrans("[$WAW$WAW_WITH_HAMZA_ABOVE$SMALL_WAW]"));
+	private static final Pattern WAW_ROOT = Pattern.compile(RegexUtils.regTrans("[$WAW$SMALL_WAW]"));
 	private static final Pattern YEH = Pattern.compile(RegexUtils.regTrans("[$YEH$ALEF_MAKSURA"
 			+ "$YEH_WITH_HAMZA$SMALL_YEH$FARSI_YEH$YEH_BARREE]"));
+	private static final Pattern YEH_ROOT = Pattern.compile(RegexUtils.regTrans("[$YEH$ALEF_MAKSURA"
+			+ "$SMALL_YEH$FARSI_YEH$YEH_BARREE]"));
 	private static final Pattern KAF = Pattern.compile(RegexUtils.regTrans("[$KAF$FARSI_KEHEH" + "$SWASH_KAF]"));
 
 	public static String filterSimilarArabicCharacters(String text) {
@@ -53,6 +58,15 @@ public class QuranFilterUtils {
 		text = RegexUtils.pregReplace(text, ALEF, "$ALEF");
 		text = RegexUtils.pregReplace(text, WAW, "$WAW");
 		text = RegexUtils.pregReplace(text, YEH, "$YEH");
+		text = RegexUtils.pregReplace(text, KAF, "$KAF");
+		return text;
+	}
+
+	public static String filterSimilarArabicCharactersForRootSearch(String text) {
+		text = RegexUtils.pregReplace(text, TEH, "$TEH");
+		text = RegexUtils.pregReplace(text, ALEF_ROOT, "$ALEF");
+		text = RegexUtils.pregReplace(text, WAW_ROOT, "$WAW");
+		text = RegexUtils.pregReplace(text, YEH_ROOT, "$YEH");
 		text = RegexUtils.pregReplace(text, KAF, "$KAF");
 		return text;
 	}
