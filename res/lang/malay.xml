@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="H N Jafar" version="0.6">
+<language author="H N Jafar" version="0.7">
 	<locale localizedName="Malay" name="Malay" id="ms_MY" direction="ltr" />
 	<word>
 		<common>
@@ -9,7 +9,7 @@
 			<text id="NO"       value="Tidak" />
 			<text id="APPLY"    value="Terapkan" />
 			<text id="START"    value="Mulai" />
-			<text id="RESET"    value="Reset" />
+			<text id="RESET"    value="Ulangtetap" />
 			<text id="NEW"      value="Baru" />
 			<text id="SAVE_AS"  value="Simpan Sebagai" />
 			<text id="HELP"     value="Bantuan" />
@@ -29,7 +29,7 @@
 			<text id="NAME"     value="Nama" />
 			<text id="VALUE"    value="Nilai" />
 			<text id="NUMBER"   value="Nombor" />
-			<text id="OPTION"   value="Pilihan" />
+			<text id="OPTION"   value="Opsyen" />
 			<text id="FILE"     value="Fail" />
 			<text id="RELOAD"   value="Ulang Muat" />
 			<text id="TYPE"     value="Jenis" />
@@ -91,7 +91,7 @@
 			<text id="SET_DEFAULT" value="Set sebagai default" />
 			<text id="NOT_LOADED" value="Tidak dimuatkan" />
 			<text id="ID"       value="ID" />
-			<text id="OVERWRITE" value="Overwrite" />
+			<text id="OVERWRITE" value="Tindih" />
 			<text id="SAVE"     value="Simpan" />
 			<text id="PATH"     value="Path" />
 			<text id="SHOW_REFS" value="Papar Rujukan" />
@@ -99,7 +99,7 @@
 			<text id="MOVE_DOWN" value="Ke bawah" />
 			<text id="MULTI_TRANS" value="Multi-translasi" /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
 			<text id="CONFIG_CUSTOM_TRANS" value="Ubahsuai Terjemahan" />
-			<text id="GO" value="Go" />
+			<text id="GO" value="Cari" />
 			<text id="CAUTION" value="Amaran" />
 			<text id="ADVANCED" value="Carian Lanjut" />
 			<text id="QUERY_DETAIL" value="Tanya Lanjut" />
@@ -129,7 +129,7 @@
 			<text id="QURAN_VIEWTYPE"    value="Quran"   />
 			<text id="SURA"     value="Surah" />
 			<text id="AYA"      value="Ayat" />
-			<text id="SAJDA"    value="Sajda" />
+			<text id="SAJDA"    value="Sujud" />
 			<text id="JUZ"      value="Juzuk" />
 			<text id="HIZB"     value="Hizb" />
 			<text id="QUARTER"  value="Seperempat" />
@@ -137,8 +137,8 @@
 			<text id="MADANI"   value="Madaniah" />
 			<text id="DESCENT"  value="Turun" />
 			<text id="AYA_COUNT"  value="Jumlah Ayat" />
-			<text id="MINOR_SAJDA" value="Sajda Kecil" /> <!-- Mustahab Sajda -->
-			<text id="MAJOR_SAJDA" value="Sajda Besar" /> <!-- Wajib Sajda -->
+			<text id="MINOR_SAJDA" value="Sunat Sujud " /> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="Wajib Sujud " /> <!-- Wajib Sajda -->
 			<text id="LOCATION" value="Lokasi" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
@@ -221,7 +221,7 @@
 			<text id="DBL_CLICK" value="Double click pada item untuk muat atau/dan sunting ." />
 			<text id="SET_AS_DEFAULT" value="Anda mahu set  &quot;{1}&quot; sebagai default set bookmark?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="tidak dapat membuang default bookmark." />
-			<text id="CANNOT_OVERWRITE_DEFAULT" value="Tidak boleh overwrite pada set bookmark asal,Pilih lain lain set bookmark dan cuba import." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="Tidak boleh tindih pada set bookmark asal,Pilih lain lain set bookmark dan cuba import." />
 			<text id="ENTER_ID" value="Masukkan bookmark ID" />
 			<text id="NEW_BOOKMARK_SET" value="Set Bookmark Baru" />
 			<text id="EXPORT4WEB" value="Eksport untuk web" />
@@ -244,13 +244,13 @@
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="REMOVE_CUSTOM"   value="Buang"   />
 			<text id="ADD_CUSTOM"      value="Tambah"   />
-			<text id="TITLE" value="Konfigure Terjemahan" />
+			<text id="TITLE" value="Konfigurasi Terjemahan" />
 			<text id="AVAILABLE" value="Terjemahan Yang Ada" />
 			<text id="CURRENT" value="Terjemahan semasa" />
 		</form>
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="Sila Tunggu" />
-			<text id="INDEXING" value="Indexing" /><!-- The process of indexing a document for faster search -->
+			<text id="INDEXING" value="Index.." /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="Proses ini akan mengambil masa beberapa minit, bergantung kepada saiz dokument yang diindexkan" />
 		</form>
 	</forms>
