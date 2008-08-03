@@ -498,9 +498,9 @@ public class QuranFormMenuFactory {
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
 		nextHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_HIZBQ"),
-				SWT.CTRL | SWT.SHIFT | keyNext, null, "next_hizb", navListener);
+				SWT.CTRL | SWT.ALT | keyNext, null, "next_hizb", navListener);
 		prevHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_HIZBQ"),
-				SWT.CTRL | SWT.SHIFT | keyPrev, null, "prev_hizb", navListener);
+				SWT.CTRL | SWT.ALT | keyPrev, null, "prev_hizb", navListener);
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
