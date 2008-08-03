@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Michael Kalinin" version="0.6">
+<language author="Michael Kalinin" version="0.7">
 	<locale localizedName="Русский" name="Russian" id="ru_RU" direction="ltr" />
 	<word>
 		<common>
