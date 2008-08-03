@@ -90,6 +90,7 @@ public class QuranRootSearch {
 		List resultItems = new ArrayList();
 		Set clauses = new LinkedHashSet();
 		List addrList = config.getQuranRoot().getRootAddress(rootStr);
+		int totalResult = 0;
 
 		for (int i = 0; i < addrList.size(); i++) {
 			List wordIndexList = new ArrayList();
@@ -101,6 +102,7 @@ public class QuranRootSearch {
 			if (!locations.contains(loc)) {
 				continue;
 			}
+			totalResult++;
 
 			wordIndexList.add(new Integer(rootAddr.wordIndex));
 			// find occurrences in the same aya
@@ -109,6 +111,7 @@ public class QuranRootSearch {
 				if (i + 1 < addrList.size()) {
 					RootAddress nextAddr = (RootAddress) addrList.get(i + 1);
 					if (nextAddr.loc.equals(loc)) {
+						totalResult++;
 						wordIndexList.add(new Integer(nextAddr.wordIndex));
 						i++;
 					} else {
@@ -134,7 +137,7 @@ public class QuranRootSearch {
 			resultItems.add(sri);
 		}
 
-		return new SearchResultModel(quranText, resultItems, CollectionUtils.toString(clauses, " "), rootStr, addrList
-				.size(), searchResultComparator, ascending);
+		return new SearchResultModel(quranText, resultItems, CollectionUtils.toString(clauses, " "), rootStr,
+				totalResult, searchResultComparator, ascending);
 	}
 }
