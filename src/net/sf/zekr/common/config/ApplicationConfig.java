@@ -202,7 +202,7 @@ public class ApplicationConfig implements ConfigNaming {
 			Date date2 = new Date();
 			logger.debug("Took " + (date2.getTime() - date1.getTime()) + " ms.");
 		} catch (IOException ioe) {
-			logger.implicitLog(ioe);
+			logger.log(ioe);
 		}
 	}
 

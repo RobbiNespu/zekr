@@ -527,17 +527,18 @@ Features/Enhancements:
 		- Sort order: ascending and descending.
 		- Set search scope for limiting root search results.
 	Add support to index transltion data through command line (-index option).
+	Goto Next/prev hizb quarter shortcut changed to Ctrl+Alt+Right/Left.
 Bug fixes:
 	A bug with basic search fixed, which happened when a whole clause was found at the end of an aya.
 	Menu icons are not shown anymore in Mac.
 	Major and minor sajda replaced with "mandatory" and "recommended" sajda.
 	An incompatibility issue resolved which caused sura.vm not work with Velocity 1.5. Thanks for Serkan Kaba's patch.
-	When an SWT Tree is set as SWT.SINGLE, it's selection listener is once called upon its first selection (which is selected by system). It caused aya not to be selected correctly in aya selection combo. A small but of checking (if (e.time > 0)) added to tree selectionm adapter in order to ignore its first systemy selection.
+	When an SWT Tree is set as SWT.SINGLE, it's selection listener is once called upon its first selection (which is selected by system). It caused aya not to be selected correctly in aya selection combo. A small but of checking (if (e.time > 0)) added to tree selection adapter in order to ignore its first systemy selection.
 	A bug with unloading (TranslationData.unload()) currently in use translations, when multi-translation layout was selected is fixed. Since it mistakenly unload a translation which was in use, Zekr gave NPE errors for accessing translation of ayas.
 	Just one thread is started for HTTP server. It used to start two separate thread, one of them was redundant.
 	Manually focusing on an aya in the page during playing a recitation causes to recite that aya after current one (previously ignored the focusing aya).
-	Fixed a bug with basic (tanzil) search highlighter. Search result was not highlighted correctly two or more phrases enetered in the query, and at least one phrase (other than the first one) was exclusive (leaded with '-').
-	use StringUtils.isBlank() instead of isEmpty(). isBlank() also trims the string.quran.text.delim = \\r\\n
+	Fixed a bug with basic (tanzil) search highlighter. Search result was not highlighted correctly two or more phrases entered in the query, and at least one phrase (other than the first one) was exclusive (leaded with '-').
+	use StringUtils.isBlank() instead of isEmpty(). isBlank() also trims the input string.
 	Change quran.text.delim to \\r\\n (Tanzil text files are in Windows line delimiter model).
 	Remove extra whitespaces for search result ayas. Extra whitespaces caused non-elegant highlighted results.
 _____________________________________________________

@@ -312,7 +312,7 @@
 			<text id="SURA" value="Sura"   />
 			<text id="HIZB_QUARTER" value="Hizb Quarter"   />
 			<text id="JUZ" value="Juz"   />
-			<text id="CONST_AYA" value="Constant Aya"   />
+			<text id="CONST_AYA" value="Constant Aya Count"   />
 			<text id="CUSTOM" value="Custom"   />
 			<text id="AYA_PER_SURA" value="How many ayas should appear in each page?"   />
 		</form>
