@@ -123,6 +123,13 @@
 			<text id="MENU_PREV_HIZBQ" value="Vorige Hizb Kwart" />
 			<text id="MENU_NEXT_SAJDA" value="Volgende Sajda" />
 			<text id="MENU_PREV_SAJDA" value="Vorige Sajda" />
+			<text id="CHECK4UPDATE" value="Kijk of er update zijn" />
+			<text id="ASCENDING" value="Opklimmende volgorde" />
+			<text id="DESCENDING" value="Dalende volgorde" />
+			<text id="REVEL_ORDER" value="Volgorde van openbaring" />
+			<text id="FULL_SCREEN" value="Volledige &amp;scherm" />
+			<text id="WARNING" value="Waarschuwing" />
+			<text id="ONLINE_HELP" value="Online Help" /> 
 		</common>
 		<special>
 			<text id="QURAN"  value="Koran" />
@@ -151,6 +158,8 @@
 			<text id="TOO_MANY_RESULT" value="Zoekresultaat levert meer dan {1} ayat op." />
 			<text id="FILE_ALREADY_EXISTS" value="Een bestand met de naam &quot;{1}&quot; bestaat reeds. Overschrijven?" />
 			<text id="RESTART_APP" value="Herstart de applicatie, daar reeds een versie werkzaam is." />
+			<text id="ACTION_PERFORMED" value="De actie werd goed uitgevoerd." />
+			<text id="TRANSLATION_ADDED" value="De volgende vertaling werd onder {1} menu toegevoegd" />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Weet U het zeker?" />
@@ -159,7 +168,10 @@
 		<error>
 			<text id="GENERAL_ERROR" value="Onbekende fout opgetreden" />
 			<text id="FNF" value="Bestand niet gevonden" />
-			<text id="ACTION_FAILED" value="Actie gefaald!" />
+			<text id="ACTION_FAILED" value="De actie is mislukt!" />
+			<text id="INVALID_TRANSLATION_FORMAT" value="Verkeerd vertalingsformaat: {1}" />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Verkeerde vertalingshandtekening: {1}" />
+			<text id="TRANSLATION_LOAD_FAILED" value="Het inladen van vertaling &quot;{1}&quot; is mislukt omwille van volgende fout: {2}" />
 		</error>
 		<hint></hint>
 	</message>
@@ -181,7 +193,9 @@
 			<text id="TRANSLATION_SCOPE" value="Vertaling" />
 			<text id="NATURAL_ORDER" value="Voorkomen" />
 			<text id="RELEVANCE" value="Relevantie" />
+			<text id="AYA_LENGTH" value="Lengte van de ayat" />
 			<text id="SORT_BY" value="Sorteer resultaten op" />
+			<text id="TOGGLE_FULL_SCREEN" value="Flip het volledige scherm aan of uit" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS" value="Thema" />
@@ -194,6 +208,14 @@
 			<text id="PRESS_OK_TO_APPLY" value="Klik op de &quot;OK&quot; knop om de verandering door te voeren!" />
 			<text id="MAX_SEARCH_RESULT" value="Maximale aantal zoekresultaten" />
 			<text id="RESIZEABLE_TASK_PANE" value="Maak de grootte van het zijpaneel aanpasbaar" />
+			<text id="SURA_NAMES" value="Toon de soera namen in " />
+			<text id="ARABIC" value="het arabisch" />
+			<text id="EN_T9N" value="de engelse vertaling" />
+			<text id="EN_T13N" value="de engelse transliteratie" />
+			<text id="T9N" value="de gekozen vertaling" />
+			<text id="T13N" value="de gekozen transliteratie" />
+			<text id="ENABLE_AUDIO" value="Zet het geluid aan" />
+			<text id="SURA_NAME_TREE" value="Toon de soera namen in een boomstructuur" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configureer zoekbereik" />
@@ -252,6 +274,28 @@
 			<text id="PLEASE_WAIT" value="Even geduld" />
 			<text id="INDEXING" value="Indexering" /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="Deze actie kan enige tijd in beslag nemen. De wachttijd is afhankelijk van de grootte van het document." />
+			<text id="CHECKING" value="Kijk of er updates beschikbaar staan" />
+			<text id="ZEKR_IS_CHECKING" value="Zekr is nu aan het kijken of er updates beschikbaar staan" />
+		</form>
+		<form id="ABOUT">
+			<text id="TITLE" value="Over Zekr" />
+			<text id="VIEW_LOG" value="Bekijk de log file" />
+		</form>
+		<form id="UPDATE">
+			<text id="TITLE" value="Update Informatie" />
+			<text id="VERSION_INFO" value="Versie infie" />
+			<text id="BUILD_NUM" value="Build nummer" />
+			<text id="VERSION" value="Versie" />
+			<text id="RELEASE_NAME" value="Release naam" />
+			<text id="RELEASE_STATE" value="Build status" />
+			<text id="RELEASE_DATE" value="Release datum" />
+			<text id="RELEASE_NOTES" value="Release notes" />
+			<text id="DOWNLOAD" value="Download" />
+			<text id="MORE_INFO" value="Meer informatie" />
+			<text id="NO_UPDATE" value="U gebruikt al de allernieuwste versie." />
+			<text id="NEW_DEV_AVAILABLE" value="Een nieuwere ontwikkelingsversie (onstabiel) is beschikbaar" />
+			<text id="NEW_BETA_AVAILABLE" value="Een nieuwere beta versie (onstalie) is beschikbaar" />
+			<text id="NEW_FINAL_AVAILABLE" value="Een nieuwere release (finale versie) is beschikbaar" />
 		</form>
 	</forms>
 </language>
