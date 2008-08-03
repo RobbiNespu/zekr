@@ -71,9 +71,12 @@ public class BrowserCallbackHandler {
 				boolean isQuranTarget = false;
 				if (form.uvc.getViewMode() == IUserView.VM_ADVANCED_SEARCH) {
 					isQuranTarget = form.advancedQuranTargetBut.getSelection();
-				} else {
+				} else if (form.uvc.getViewMode() == IUserView.VM_SEARCH) {
 					isQuranTarget = form.quranTargetBut.getSelection();
+				} else { // root
+					isQuranTarget = true;
 				}
+
 				if (isQuranTarget) {
 					logger.info("Show translation: (" + sura + ", " + aya + ")");
 					TranslationData td = config.getTranslation().getDefault();
