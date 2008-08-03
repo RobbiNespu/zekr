@@ -38,7 +38,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
@@ -90,12 +89,6 @@ public class RootTabForm {
 	}
 
 	private void createTabContent() {
-		SelectionListener searchListener = new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				find();
-			}
-		};
-
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, false);
 		GridLayout gl = new GridLayout(2, false);
 		gl.horizontalSpacing = 2;
@@ -120,6 +113,7 @@ public class RootTabForm {
 		searchCombo.addTraverseListener(new TraverseListener() {
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_RETURN) {
+					selectTextInList();
 					doFind();
 				} else if (e.keyCode == SWT.ARROW_DOWN && e.detail == SWT.TRAVERSE_ARROW_NEXT) {
 					rootList.setFocus();
@@ -168,7 +162,13 @@ public class RootTabForm {
 		Button searchButton = new Button(searchButComp, SWT.PUSH);
 		searchButton.setText(lang.getMeaning("SEARCH"));
 		searchButton.setLayoutData(gd);
-		searchButton.addSelectionListener(searchListener);
+		searchButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				selectTextInList();
+				doFind();
+			}
+
+		});
 
 		// add small controlling arrow button
 		gd = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
@@ -195,6 +195,7 @@ public class RootTabForm {
 		KeyAdapter ka = new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == 13) {
+					selectTextInList();
 					doFind();
 				}
 			}
@@ -259,9 +260,25 @@ public class RootTabForm {
 		});
 	}
 
+	private void selectTextInList() {
+		if (rootList.getItemCount() == 1) {
+			rootList.select(0);
+			return;
+		}
+
+		String q = simplifyText(searchCombo.getText());
+		String[] items = rootList.getItems();
+		for (int i = 0; i < items.length; i++) {
+			if (simplifyText(items[i]).equals(q)) {
+				rootList.select(i);
+				break;
+			}
+		}
+	}
+
 	private void findGoto(int pageNo) {
 		try {
-			quranForm.uvc.setViewMode(IUserView.VM_SEARCH);
+			quranForm.uvc.setViewMode(IUserView.VM_ROOT_SEARCH);
 			if (srm == null) {
 				logger.error("Search is not done yet!");
 				return;
@@ -347,8 +364,8 @@ public class RootTabForm {
 	}
 
 	private String filterList(String filter) {
-		filter = QuranFilterUtils.filterSimilarArabicCharacters(filter);
 		filter = filter.trim();
+		filter = simplifyText(filter);
 		List list = config.getQuranRoot().getRootList();
 		List newList = new ArrayList();
 		if (StringUtils.isBlank(filter)) {
@@ -356,7 +373,7 @@ public class RootTabForm {
 		} else {
 			for (int i = 0; i < list.size(); i++) {
 				String item = (String) list.get(i);
-				if (QuranFilterUtils.filterSimilarArabicCharacters(item).indexOf(filter) > -1) {
+				if (simplifyText(item).indexOf(filter) > -1) {
 					newList.add(item);
 				}
 				// if (FilenameUtils.wildcardMatch(item, filter)) {
@@ -366,6 +383,10 @@ public class RootTabForm {
 		}
 		rootList.setItems((String[]) newList.toArray(new String[0]));
 		return filter;
+	}
+
+	private static final String simplifyText(String filter) {
+		return QuranFilterUtils.filterSimilarArabicCharactersForRootSearch(filter);
 	}
 
 	public TabItem createTabItem() {
