@@ -38,21 +38,29 @@ public class QuranRoot {
 	public QuranRoot(String rawRootText) {
 		String[] rootLines = rawRootText.split("\n");
 		for (int i = 0; i < ROOT_LIST_SIZE; i++) {
-			String[] rootBody = rootLines[i].split("=");
+			String[] rootBody = rootLines[i].split("\t");
 			String rootStr = rootBody[0];
 			String rootAddrStr;
-			rootAddrStr = rootBody[1];
+			// rootrootBody[1] is frequency, not really needed!
+			rootAddrStr = rootBody[2];
 			rootList.add(rootStr);
 			String[] addrList = rootAddrStr.split(",");
 			List rootAddrList = new ArrayList();
+			RootAddress ra = null;
 			for (int j = 0; j < addrList.length; j++) {
 				String[] locStr = addrList[j].split(":");
 				int absoluteAya;
 				IQuranLocation loc;
-				absoluteAya = Integer.parseInt(locStr[0]);
-				loc = QuranPropertiesUtils.getLocation(absoluteAya + 1);
-				int wordIndex = Integer.parseInt(locStr[1]);
-				RootAddress ra = new RootAddress(loc, wordIndex);
+				int wordIndex;
+				if (locStr.length == 1) { // location is the same as previous aya
+					loc = ra.loc;
+					wordIndex = Integer.parseInt(locStr[0]);
+				} else {
+					absoluteAya = Integer.parseInt(locStr[0]);
+					loc = QuranPropertiesUtils.getLocation(absoluteAya + 1);
+					wordIndex = Integer.parseInt(locStr[1]);
+				}
+				ra = new RootAddress(loc, wordIndex);
 				rootAddrList.add(ra);
 
 				// TODO: load it for next release.
