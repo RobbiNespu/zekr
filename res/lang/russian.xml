@@ -123,6 +123,13 @@
 			<text id="MENU_PREV_HIZBQ" value="Предыдущая четверть хизба"   />
 			<text id="MENU_NEXT_SAJDA" value="Следующая саджда"   />
 			<text id="MENU_PREV_SAJDA" value="Предыдущая саджда"   />
+			<text id="CHECK4UPDATE" value="Проверить обновления"   />
+			<text id="ASCENDING" value="По возрастанию"   />
+			<text id="DESCENDING" value="По убыванию"   />
+			<text id="REVEL_ORDER" value="В порядке ниспослания"   />
+			<text id="FULL_SCREEN" value="Полноэкранный режим"   />
+			<text id="WARNING" value="Предупреждение"   />
+			<text id="ONLINE_HELP" value="Справка онлайн"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Коран" />
@@ -151,6 +158,8 @@
 			<text id="TOO_MANY_RESULT" value="Результат поиска в более, чем {1} аятах" />
 			<text id="FILE_ALREADY_EXISTS" value="Файл с именем &quot;{1}&quot; уже существует. Вы хотите заменить его?" />
 			<text id="RESTART_APP" value="Требуется перезапуск приложения, чтобы изменения вступили в силу." />
+			<text id="ACTION_PERFORMED" value="Действие успешно выполнено."   />
+			<text id="TRANSLATION_ADDED" value="Следующий перевод добавлен в меню {1}"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Вы уверены?" />
@@ -160,6 +169,9 @@
 			<text id="GENERAL_ERROR" value="Произошла неожиданная ошибка" />
 			<text id="FNF" value="Файл не найден" />
 			<text id="ACTION_FAILED" value="Действие не удалось!" />
+			<text id="INVALID_TRANSLATION_FORMAT" value="Неверный формат перевода: {1}"   />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Неверная подпись перевода: {1}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="Загрузка перевода &quot;{1}&quot; не удалась из-за следующей ошибки: {2}"   />
 		</error>
 		<hint></hint>
 	</message>
@@ -181,7 +193,9 @@
 			<text id="TRANSLATION_SCOPE" value="Перевод"   />
 			<text id="NATURAL_ORDER" value="Обычный порядок" />
 			<text id="RELEVANCE" value="По релевантности" />
+			<text id="AYA_LENGTH" value="По длине аята"   />
 			<text id="SORT_BY" value="Сортировка" />
+			<text id="TOGGLE_FULL_SCREEN" value="Переключатель полноэкранного режима"   />			
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS"    value="Тема"   />
@@ -194,6 +208,14 @@
 			<text id="PRESS_OK_TO_APPLY" value="Нажмите клавишу &quot;OK&quot;, чтобы изменения вступили в силу." />
 			<text id="MAX_SEARCH_RESULT" value="Максимальное число аятов, участвующих в поиске" />
 			<text id="RESIZEABLE_TASK_PANE" value="Разрешить изменение размера панелей" />
+			<text id="SURA_NAMES" value="Названия сур"   />
+			<text id="ARABIC" value="Арабские"   />
+			<text id="EN_T9N" value="Английский перевод"   />
+			<text id="EN_T13N" value="Английская транслитерация"   />
+			<text id="T9N" value="Перевод (если доступен)"   />
+			<text id="T13N" value="Транслитерация (если доступна)"   />
+			<text id="ENABLE_AUDIO" value="Включить поддержку аудио"   />
+			<text id="SURA_NAME_TREE" value="Показать названия сур в виде дерева"   />			
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Настройка правил поиска" />
@@ -252,6 +274,28 @@
 			<text id="PLEASE_WAIT" value="Пожалуйста, подождите" />
 			<text id="INDEXING" value="Индексация" /><!-- Процесс индексации документа для быстрого поиска -->
 			<text id="TAKE_TIME" value="Это действие может занять несколько минут в зависимости от размера индексируемого документа." />
+			<text id="CHECKING" value="Проверка обновлений" />
+			<text id="ZEKR_IS_CHECKING" value="Зикр сейчас проверяет обновления" />
+		</form>
+		<form id="ABOUT">
+			<text id="TITLE" value="О программе Зикр" />
+			<text id="VIEW_LOG" value="Просмотреть файл отчетов" />
+		</form>
+		<form id="UPDATE">
+			<text id="TITLE" value="Информация об обновлении" />
+			<text id="VERSION_INFO" value="Информация о версии" />
+			<text id="BUILD_NUM" value="Номер сборки" />
+			<text id="VERSION" value="Версия" />
+			<text id="RELEASE_NAME" value="Название выпуска" />
+			<text id="RELEASE_STATE" value="Состояние сборки" />
+			<text id="RELEASE_DATE" value="Дата выпуска" />
+			<text id="RELEASE_NOTES" value="Замечания к выпуску" />
+			<text id="DOWNLOAD" value="Загрузить" />
+			<text id="MORE_INFO" value="Дополнительная информация" />
+			<text id="NO_UPDATE" value="Вы используете самую новую версию." />
+			<text id="NEW_DEV_AVAILABLE" value="Новая версия для разработчиков (нестабильная) доступна для загрузки" />
+			<text id="NEW_BETA_AVAILABLE" value="Новая бета-версия (нестабильная) доступна для загрузки" />
+			<text id="NEW_FINAL_AVAILABLE" value="Новый выпуск программы (окончательный) доступен для загрузки" />			
 		</form>
 	</forms>
 </language>
