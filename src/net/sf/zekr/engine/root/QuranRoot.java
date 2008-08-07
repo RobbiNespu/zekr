@@ -17,7 +17,7 @@ import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 
 import org.apache.commons.collections.OrderedMap;
-import org.apache.commons.collections.map.ListOrderedMap;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Data structure to hold Quran word root and their addresses.
@@ -36,33 +36,35 @@ public class QuranRoot {
 	OrderedMap[] reverseIndex = new OrderedMap[QuranPropertiesUtils.QURAN_AYA_COUNT];
 
 	public QuranRoot(String rawRootText) {
-		String[] rootLines = rawRootText.split("\n");
+		parse(rawRootText);
+	}
+
+	/**
+	 * Parse the raw root text db.
+	 * 
+	 * @param rawRootText
+	 */
+	private void parse(String rawRootText) {
+		String[] rootLines = StringUtils.split(rawRootText, '\n');
 		for (int i = 0; i < ROOT_LIST_SIZE; i++) {
-			String[] rootBody = rootLines[i].split("\t");
+			String[] rootBody = StringUtils.split(rootLines[i], '\t');
 			String rootStr = rootBody[0];
 			String rootAddrStr;
 			// rootrootBody[1] is frequency, not really needed!
 			rootAddrStr = rootBody[2];
 			rootList.add(rootStr);
-			String[] addrList = rootAddrStr.split(",");
+			String[] addrList = StringUtils.split(rootAddrStr, ";"); // aya separator
 			List rootAddrList = new ArrayList();
 			RootAddress ra = null;
 			for (int j = 0; j < addrList.length; j++) {
-				String[] locStr = addrList[j].split(":");
-				int absoluteAya;
-				IQuranLocation loc;
-				int wordIndex;
-				if (locStr.length == 1) { // location is the same as previous aya
-					loc = ra.loc;
-					wordIndex = Integer.parseInt(locStr[0]);
-				} else {
-					absoluteAya = Integer.parseInt(locStr[0]);
-					loc = QuranPropertiesUtils.getLocation(absoluteAya + 1);
-					wordIndex = Integer.parseInt(locStr[1]);
+				String[] locStr = StringUtils.split(addrList[j], ':');
+				String[] wordIndex = StringUtils.split(locStr[1], ',');
+				int absoluteAya = Integer.parseInt(locStr[0]);
+				IQuranLocation loc = QuranPropertiesUtils.getLocation(absoluteAya + 1);
+				for (int k = 0; k < wordIndex.length; k++) {
+					ra = new RootAddress(loc, Integer.parseInt(wordIndex[k]));
+					rootAddrList.add(ra);
 				}
-				ra = new RootAddress(loc, wordIndex);
-				rootAddrList.add(ra);
-
 				// TODO: load it for next release.
 				// if (reverseIndex[absoluteAya] == null) {
 				// reverseIndex[absoluteAya] = new ListOrderedMap();
