@@ -1,4 +1,4 @@
-#Fri Aug 01 22:41:59 GMT+03:30 2008
+#Sun Aug 03 20:12:30 GMT+03:30 2008
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
 encoding//doc/license/nanohttpd-license.txt=ISO-8859-1
@@ -22,6 +22,7 @@ encoding//res/audio/shuraim-online.properties=UTF-8
 encoding//res/config/config.properties=UTF-8
 encoding//res/config/search-info.properties=UTF-8
 encoding//res/lang/french.xml=UTF-8
+encoding//res/lang/pashto.xml=UTF-8
 encoding//res/lang/russian.xml=UTF-8
 encoding//res/ui/theme/sample/aya.vm=utf-8
 encoding//res/ui/theme/sample/sura.vm=UTF-8
