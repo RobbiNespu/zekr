@@ -6,11 +6,11 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.7.0beta1" />
+	<property name="component_version" value="0.7.0beta2" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.0/beta1" />
+	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.0/beta2" />
 	<property name="distdir" value="${dest_dir}/develdist" />
 
 	<property name="srcdir" value="src" />
@@ -63,9 +63,15 @@
 	<property name="swt.jar" value="${libdir}/swt.jar" />
 	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
-	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.3.0.jar" />
-	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.3.0.jar" />
-	<property name="apache-commons.jar" value="${libdir}/apache-commons.jar" />
+	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.3.2.jar" />
+	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.3.2.jar" />
+	<property name="lucene-snowball.jar" value="${libdir}/lucene-snowball-2.3.2.jar" />
+	<property name="commons-logging.jar" value="${libdir}/commons-logging-1.0.4.jar" />
+	<property name="commons-lang.jar" value="${libdir}/commons-lang-2.4.jar" />
+	<property name="commons-io.jar" value="${libdir}/commons-io-1.4.jar" />
+	<property name="commons-collections.jar" value="${libdir}/commons-collections-3.2.1.jar" />
+	<property name="commons-codec.jar" value="${libdir}/commons-codec-1.3.jar" />
+	<property name="commons-configuration.jar" value="${libdir}/commons-configuration-1.5.jar" />
 
 	<!-- 3rd Party Dependencies  -->
 	<property name="junit.jar" value="${ext_libdir}/junit.jar" />
@@ -76,7 +82,13 @@
 		<pathelement location="${swt.jar}" />
 		<pathelement location="${lucene-core.jar}" />
 		<pathelement location="${lucene-highlighter.jar}" />
-		<pathelement location="${apache-commons.jar}" />
+		<pathelement location="${lucene-snowball.jar}" />
+		<pathelement location="${commons-logging.jar}" />
+		<pathelement location="${commons-lang.jar}" />
+		<pathelement location="${commons-io.jar}" />
+		<pathelement location="${commons-collections.jar}" />
+		<pathelement location="${commons-codec.jar}" />
+		<pathelement location="${commons-configuration.jar}" />
 		<pathelement location="${velocity.jar}" />
 		<pathelement location="${testfiles}" />
 	</path>
@@ -93,8 +105,8 @@
 	</path>
 
 	<path id="launch4j.classpath">
-		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-pre2-win32/launch4j/lib/xstream.jar" />
-		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-pre2-win32/launch4j/launch4j.jar" />
+		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-win32/lib/xstream.jar" />
+		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-win32/launch4j.jar" />
 	</path>
 
 	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />
@@ -109,6 +121,12 @@
 		<javac encoding="UTF-8" srcdir="${javamain}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
 			<classpath refid="buildlibs" />
 		</javac>
+		<copy todir="${build_classdir}">
+			<fileset dir="${javamain}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+		<jar jarfile="${component_name}.jar" basedir="${build_classdir}" />
 	</target>
 
 	<target name="compile_targets">
@@ -183,14 +201,14 @@
 		<zip destfile="${dev_export.zip}" casesensitive="yes">
 			<fileset dir=".">
 				<include name="doc/changes.txt" />
-				<include name="doc/apache-license-2.0.txt" />
-				<include name="doc/apache-software-license-1.1.txt" />
-				<include name="doc/epl-1.0.txt" />
-				<include name="doc/lgpl-2.1.txt" />
-				<include name="doc/zekr-license.txt" />
-				<include name="doc/nanohttpd-license.txt" />
-				<include name="doc/tanzil-license.txt" />
-				<include name="doc/readme-0.7.0.txt" />
+				<include name="doc/license/apache-license-2.0.txt" />
+				<include name="doc/license/apache-software-license-1.1.txt" />
+				<include name="doc/license/epl-1.0.txt" />
+				<include name="doc/license/lgpl-2.1.txt" />
+				<include name="doc/license/zekr-license.txt" />
+				<include name="doc/license/nanohttpd-license.txt" />
+				<include name="doc/license/tanzil-license.txt" />
+				<include name="doc/readme.txt" />
 			</fileset>
 			<fileset dir=".">
 				<exclude name="**/text/trans/*" />
