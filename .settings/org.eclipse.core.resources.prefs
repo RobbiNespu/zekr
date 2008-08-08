@@ -1,10 +1,12 @@
-#Sun Aug 03 20:12:30 GMT+03:30 2008
+#Fri Aug 08 12:41:23 GMT+03:30 2008
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
 encoding//doc/license/nanohttpd-license.txt=ISO-8859-1
 encoding//misc/ZerkrRunScript.nsi=ISO-8859-1
 encoding//misc/general-setup.nsi=ISO-8859-1
+encoding//misc/zekr-launch4j-jre.xml=ISO-8859-1
 encoding//misc/zekr-launch4j.xml=ISO-8859-1
+encoding//misc/zekrc-launch4j-jre.xml=ISO-8859-1
 encoding//misc/zekrc-launch4j.xml=ISO-8859-1
 encoding//res/audio/abdulbasit-online.properties=UTF-8
 encoding//res/audio/afasi-online.properties=UTF-8
