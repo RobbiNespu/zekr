@@ -40,11 +40,11 @@
     <fileVersion>0.7.0.0</fileVersion>
     <txtFileVersion>0.7.0.0</txtFileVersion>
     <fileDescription>Zekr - Open Quranic Project</fileDescription>
-    <copyright>ï¿½ 2004-2008 zekr.org</copyright>
+    <copyright>© 2004-2008 zekr.org</copyright>
     <productVersion>0.7.0.0</productVersion>
     <txtProductVersion>0.7.0.0</txtProductVersion>
     <productName>Zekr</productName>
-    <companyName>zekr.com</companyName>
+    <companyName>zekr.org</companyName>
     <internalName>Zekr</internalName>
     <originalFilename>zekr.exe</originalFilename>
   </versionInfo>
