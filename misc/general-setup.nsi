@@ -8,9 +8,9 @@ SetCompressor /SOLID lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_UNIX_NAME "zekr"
 !define VERSION 0.7.0.0
-!define RELEASE_VERSION "0.7.0beta1"
+!define RELEASE_VERSION "0.7.0beta2"
 !define COMPANY siahe.com
-!define URL http://siahe.com/zekr
+!define URL http://zekr.org
 
 # MUI defines
 !define MUI_ABORTWARNING
@@ -39,7 +39,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.0\beta1\win32-special"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.0\beta2\win32"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -48,7 +48,7 @@ Var JDK_HOME
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "${BASE_APP}\doc\zekr-license.txt"
+!insertmacro MUI_PAGE_LICENSE "${BASE_APP}\doc\license\zekr-license.txt"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
 !insertmacro MUI_PAGE_INSTFILES
