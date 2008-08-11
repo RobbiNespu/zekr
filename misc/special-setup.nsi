@@ -9,8 +9,8 @@ SetCompressor /SOLID lzma
 !define APP_UNIX_NAME "zekr"
 !define VERSION 0.7.0.0
 !define RELEASE_VERSION "0.7.0beta1"
-!define COMPANY siahe.com
-!define URL http://siahe.com/zekr
+!define COMPANY zekr.org
+!define URL http://zekr.org
 
 # MUI defines
 !define MUI_ABORTWARNING
