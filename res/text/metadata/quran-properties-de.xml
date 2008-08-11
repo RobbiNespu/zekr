@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quran>
+    <sura-detail>
+        <sura index="1" name="Die Eröffnende" tname="Die Eröffnende" />
+        <sura index="2" name="Die Kuh" tname="Die Kuh" />
+        <sura index="3" name="Die Sippe Imrans" tname="Die Sippe Imrans" />
+        <sura index="4" name="Die Frauen" tname="Die Frauen" />
+        <sura index="5" name="Der Tisch" tname="Der Tisch" />
+        <sura index="6" name="Das Vieh" tname="Das Vieh" />
+        <sura index="7" name="Die Höhen" tname="Die Höhen" />
+        <sura index="8" name="Die Beute" tname="Die Beute1" />
+        <sura index="9" name="Die Reue" tname="Die Reue" />
+        <sura index="10" name="Yunus" tname="Yunus" />
+        <sura index="11" name="Hud" tname="Hud" />
+        <sura index="12" name="Yusuf" tname="Yusuf" />
+        <sura index="13" name="Der Donner" tname="Der Donner" />
+        <sura index="14" name="Abraham" tname="Abraham" />
+        <sura index="15" name="Al-Hijr" tname="Al-Hijr" />
+        <sura index="16" name="Die Bienen" tname="Die Bienen" />
+        <sura index="17" name="Die Nachtreise" tname="Die Nachtreise" />
+        <sura index="18" name="Die Höhle" tname="Die Höhle" />
+        <sura index="19" name="Maryam" tname="Maryam" />
+        <sura index="20" name="Taa-Haa" tname="Taa-Haa" />
+        <sura index="21" name="Die Propheten" tname="Die Propheten" />
+        <sura index="22" name="Die Pilgerfahrt" tname="Die Pilgerfahrt" />
+        <sura index="23" name="Die Gläubigen" tname="Die Gläubigen" />
+        <sura index="24" name="Das Licht" tname="Das Licht" />
+        <sura index="25" name="Die Unterscheidung" tname="Die Unterscheidung" />
+        <sura index="26" name="Die Dichter" tname="Die Dichter" />
+        <sura index="27" name="Die Ameisen" tname="Die Ameisen" />
+        <sura index="28" name="Die Geschichten" tname="Die Geschichten" />
+        <sura index="29" name="Die Spinne" tname="Die Spinne" />
+        <sura index="30" name="Die Römer" tname="Die Römer" />
+        <sura index="31" name="Luqman" tname="Luqman" />
+        <sura index="32" name="Die Niederwerfung" tname="Die Niederwerfung" />
+        <sura index="33" name="Die Gruppierungen" tname="Die Gruppierungen" />
+        <sura index="34" name="Die Sabaer" tname="Die Sabaer" />
+        <sura index="35" name="Der Erschaffer" tname="Der Erschaffer" />
+        <sura index="36" name="Ya-Sin" tname="Ya-Sin" />
+        <sura index="37" name="Die sich Reihenden" tname="Die sich Reihenden" />
+        <sura index="38" name="The letter Saad" tname="Saad" />
+        <sura index="39" name="Die Scharen" tname="Die Scharen" />
+        <sura index="40" name="Der Vergebende" tname="Der Vergebende" />
+        <sura index="41" name="Ausführlich dargelegt" tname="Ausführlich dargelegt" />
+        <sura index="42" name="Die Beratung" tname="Die Beratung" />
+        <sura index="43" name="Die Zierde" tname="Die Zierde" />
+        <sura index="44" name="Der Rauch" tname="Der Rauch" />
+        <sura index="45" name="Die Kniende" tname="Die Kniende" />
+        <sura index="46" name="Al-Ahqaf" tname="Al-Ahqaf" />
+        <sura index="47" name="Muhammad" tname="Muhammad" />
+        <sura index="48" name="Der Sieg" tname="Der Sieg" />
+        <sura index="49" name="Die Gemächer" tname="Die Gemächer" />
+        <sura index="50" name="Qaaf" tname="Qaaf" />
+        <sura index="51" name="Die Zerstreuenden" tname="Die Zerstreuenden" />
+        <sura index="52" name="Der Berg" tname="Der Berg" />
+        <sura index="53" name="Der Stern" tname="Der Stern" />
+        <sura index="54" name="Der Mond" tname="Der Mond" />
+        <sura index="55" name="Der Allerbarmer" tname="Der Allerbarmer" />
+        <sura index="56" name="Die eintreffen wird" tname="Die eintreffen wird" />
+        <sura index="57" name="Das Eisen" tname="Das Eisen" />
+        <sura index="58" name="Die Streitende" tname="Die Streitende" />
+        <sura index="59" name="Die Versammlung" tname="Die Versammlung" />
+        <sura index="60" name="Die Geprüfte" tname="Die Geprüfte" />
+        <sura index="61" name="Die Reihe" tname="Die Reihe" />
+        <sura index="62" name="Der Freitag" tname="Der Freitag" />
+        <sura index="63" name="Die Heuchler" tname="Die Heuchler" />
+        <sura index="64" name="Die Übervorteilung" tname="Die Übervorteilung" />
+        <sura index="65" name="Die Scheidung" tname="Die Scheidung" />
+        <sura index="66" name="Das Verbieten" tname="Das Verbieten" />
+        <sura index="67" name="Die Herrschaft" tname="Die Herrschaft" />
+        <sura index="68" name="Das Schreibrohr" tname="Das Schreibrohr" />
+        <sura index="69" name="Die fällig Werdende" tname="Die fällig Werdende" />
+        <sura index="70" name="Die Aufstiegswege" tname="Die Aufstiegswege" />
+        <sura index="71" name="Nuh" tname="Nuh" />
+        <sura index="72" name="Die Ginn" tname="Die Ginn" />
+        <sura index="73" name="Der Eingehüllte" tname="Der Eingehüllte" />
+        <sura index="74" name="Der Zugedeckte" tname="Der Zugedeckte" />
+        <sura index="75" name="Die Auferstehung" tname="Die Auferstehung" />
+        <sura index="76" name="Der Mensch" tname="Der Mensch" />
+        <sura index="77" name="Die Entsandten" tname="Die Entsandten" />
+        <sura index="78" name="Die Kunde" tname="Die Kunde" />
+        <sura index="79" name="Die Entreißenden" tname="Die Entreißenden" />
+        <sura index="80" name="Er blickte düster" tname="Er blickte düster" />
+        <sura index="81" name="Das Umschlingen" tname="Das Umschlingen" />
+        <sura index="82" name="Das Zerbrechen" tname="Das Zerbrechen" />
+        <sura index="83" name="Die das Maß Kürzenden" tname="Die das Maß Kürzenden" />
+        <sura index="84" name="Das Sichspalten" tname="Das Sichspalten" />
+        <sura index="85" name="Die Türme" tname="Die Türme" />
+        <sura index="86" name="Der Pochende" tname="Der Pochende" />
+        <sura index="87" name="Der Höchste" tname="Der Höchste" />
+        <sura index="88" name="Die Überdeckende" tname="Die Überdeckende" />
+        <sura index="89" name="Die Morgendämmerung" tname="Die Morgendämmerung" />
+        <sura index="90" name="Die Ortschaft" tname="Die Ortschaft" />
+        <sura index="91" name="Die Sonne" tname="Die Sonne" />
+        <sura index="92" name="Die Nacht" tname="Die Nacht" />
+        <sura index="93" name="Die Morgenhelle" tname="Die Morgenhelle" />
+        <sura index="94" name="Das Auftun" tname="Das Auftun" />
+        <sura index="95" name="Die Feige" tname="Die Feige" />
+        <sura index="96" name="Das Anhängsel" tname="Das Anhängsel" />
+        <sura index="97" name="Die Bestimmung" tname="Die Bestimmung" />
+        <sura index="98" name="Der klare Beweis" tname="Der klare Beweis" />
+        <sura index="99" name="Das Beben" tname="Das Beben" />
+        <sura index="100" name="Die Rennenden" tname="Die Rennenden" />
+        <sura index="101" name="Das Verhängnis" tname="Das Verhängnis" />
+        <sura index="102" name="Die Vermehrung" tname="Die Vermehrung" />
+        <sura index="103" name="Das Zeitalter" tname="Das Zeitalter" />
+        <sura index="104" name="Der Stichler" tname="Der Stichler" />
+        <sura index="105" name="Der Elefant" tname="Der Elefant" />
+        <sura index="106" name="Qurais" tname="Qurais" />
+        <sura index="107" name="Die Hilfeleistung" tname="Die Hilfeleistung" />
+        <sura index="108" name="Al-Kautar" tname="Al-Kautar" />
+        <sura index="109" name="Die Ungläubigen" tname="Die Ungläubigen" />
+        <sura index="110" name="Die Hilfe" tname="Die Hilfe" />
+        <sura index="111" name="Die Palmfasern" tname="Die Palmfasern" />
+        <sura index="112" name="Die Aufrichtigkeit" tname="Die Aufrichtigkeit" />
+        <sura index="113" name="Der Tagesanbruch" tname="Der Tagesanbruch" />
+        <sura index="114" name="Die Menschen" tname="Die Menschen" />
+    </sura-detail>
+</quran>
