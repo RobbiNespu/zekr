@@ -1894,10 +1894,12 @@ public class QuranForm extends BaseForm {
 		config.getProps().setProperty("view.search.sortOrder", sortOrderButton.getData());
 		config.getProps().setProperty("view.search.multiLine", String.valueOf(toggleMultiLine.getSelection()));
 
-		// root search props
-		config.getProps().setProperty("view.search.root.sortBy",
-				String.valueOf(rootTabForm.searchOrderCombo.getSelectionIndex()));
-		config.getProps().setProperty("view.search.root.sortOrder", rootTabForm.sortOrderButton.getData());
+		// root search props (only if root is enabled)
+		if (config.isRootDatabaseEnabled()) {
+			config.getProps().setProperty("view.search.root.sortBy",
+					String.valueOf(rootTabForm.searchOrderCombo.getSelectionIndex()));
+			config.getProps().setProperty("view.search.root.sortOrder", rootTabForm.sortOrderButton.getData());
+		}
 
 		// TODO: add search scopes
 
