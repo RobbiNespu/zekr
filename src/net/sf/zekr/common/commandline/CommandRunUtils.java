@@ -20,10 +20,12 @@ public class CommandRunUtils {
 	private final static Logger logger = Logger.getLogger(CommandRunUtils.class);
 
 	/**
+	 * This method performs all command-related tasks, and catch and display any {@link CommandException}
+	 * occurred.
+	 * 
 	 * @param args
-	 * @return <code>true</code> if application should be also launched, <code>false</code> otherwise. Normally if
-	 *         user enters an argument, Zekr is not launched, executing that command instead.
-	 * @throws CommandException
+	 * @return <code>true</code> if application should be also launched, <code>false</code> otherwise. Normally
+	 *         if user enters an argument, Zekr is not launched, executing that command instead.
 	 */
 	public static boolean performAll(String[] args) {
 		try {
