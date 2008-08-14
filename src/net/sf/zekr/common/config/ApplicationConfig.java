@@ -922,14 +922,15 @@ public class ApplicationConfig implements ConfigNaming {
 			}
 		}
 
+		TranslationData oldTd = translation.getDefault();
 		TranslationData newTrans = getTranslation().get(transId);
 		newTrans.load();
 		translation.setDefault(newTrans);
 		props.setProperty("trans.default", transId);
 
 		if (unloadPrevTrans) {
-			logger.info("Unload previous selected translation which is not used anymore: " + translation.getDefault());
-			translation.getDefault().unload();
+			logger.info("Unload previous selected translation which is not used anymore: " + oldTd);
+			oldTd.unload();
 		}
 
 		try {
