@@ -497,10 +497,10 @@ public class QuranFormMenuFactory {
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		nextHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_HIZBQ"),
-				SWT.CTRL | SWT.ALT | keyNext, null, "next_hizb", navListener);
-		prevHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_HIZBQ"),
-				SWT.CTRL | SWT.ALT | keyPrev, null, "prev_hizb", navListener);
+		nextHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_HIZBQ"), SWT.CTRL | SWT.ALT | keyNext,
+				null, "next_hizb", navListener);
+		prevHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_HIZBQ"), SWT.CTRL | SWT.ALT | keyPrev,
+				null, "prev_hizb", navListener);
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
@@ -865,11 +865,12 @@ public class QuranFormMenuFactory {
 		for (Iterator iter = trans.iterator(); iter.hasNext();) {
 			TranslationData td = (TranslationData) iter.next();
 
+			String img = getTranslationValidityIcon(td);
 			final MenuItem transItem = createMenuItem(SWT.RADIO, transMenu, StringUtils.abbreviate((rtl ? I18N.RLE + ""
 					: "")
 					+ "[" + td.locale + "]" + " " + (rtl ? I18N.RLM + "" : "") + td.localizedName,
 					GlobalConfig.MAX_MENU_STRING_LENGTH)
-					+ (rtl ? I18N.LRM + "" : ""), 0, null /*"icon.menu.book"*/);
+					+ (rtl ? I18N.LRM + "" : ""), 0, img);
 
 			transItem.setData(td.id);
 			if (config.getTranslation().getDefault().id.equals(transItem.getData()))
@@ -879,7 +880,7 @@ public class QuranFormMenuFactory {
 					MenuItem mi = (MenuItem) event.widget;
 					if (mi.getSelection() == true) {
 						if (!config.getTranslation().getDefault().id.equals(transItem.getData())) {
-							setTrans((String) mi.getData());
+							setTrans(mi);
 						}
 					}
 				}
@@ -904,6 +905,16 @@ public class QuranFormMenuFactory {
 				HyperlinkUtils.openBrowser(GlobalConfig.RESOURCE_PAGE);
 			}
 		});
+	}
+
+	private String getTranslationValidityIcon(TranslationData td) {
+		String img = "icon.menu.transUnknown";
+		if (td.getVerificationResult() == TranslationData.AUTHENTIC) {
+			img = "icon.menu.transValid";
+		} else if (td.getVerificationResult() == TranslationData.NOT_AUTHENTIC) {
+			img = "icon.menu.transInvalid";
+		}
+		return img;
 	}
 
 	protected void createOrUpdateBookmarkMenu() {
@@ -1211,11 +1222,14 @@ public class QuranFormMenuFactory {
 		form.apply();
 	}
 
-	private void setTrans(String transId) {
+	private void setTrans(MenuItem mi) {
 		try {
+			String transId = (String) mi.getData();
 			config.setCurrentTranslation(transId);
 			if (form.viewLayout != QuranForm.QURAN_ONLY)
 				form.reload();
+			TranslationData td = config.getTranslation().get(transId);
+			mi.setImage(new Image(shell.getDisplay(), resource.getString(getTranslationValidityIcon(td))));
 		} catch (ZekrMessageException zme) {
 			logger.error(zme);
 			MessageBoxUtils.showError(zme);
