@@ -563,9 +563,8 @@ public class ApplicationConfig implements ConfigNaming {
 		td.localizedName = pc.getString(LOCALIZED_NAME_ATTR, td.name);
 		td.archiveFile = transZipFile;
 		td.delimiter = pc.getString(LINE_DELIMITER_ATTR, "\n");
-		byte[] sig;
-		sig = pc.getString(SIGNATURE_ATTR).getBytes("US-ASCII");
-		td.signature = sig == null ? null : Base64.decodeBase64(sig);
+		String sig = pc.getString(SIGNATURE_ATTR);
+		td.signature = sig == null ? null : Base64.decodeBase64(sig.getBytes("US-ASCII"));
 
 		if (StringUtils.isBlank(td.id) || StringUtils.isBlank(td.name) || StringUtils.isBlank(td.file)
 				|| StringUtils.isBlank(td.version)) {
@@ -882,7 +881,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 	/**
 	 * @return application language engine
-	 * @see net.sf.zekr.engine.Language#getInstance()
+	 * @see Language#getInstance()
 	 */
 	public synchronized LanguageEngine getLanguageEngine() {
 		if (langEngine == null)
@@ -906,28 +905,33 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	public void setCurrentTranslation(String transId) throws TranslationException {
-		logger.info("Trying to change default translation to: " + transId);
+		boolean unloadPrevTrans = true;
+		String defId = translation.getDefault().id;
 
-		boolean transIsInUse = false;
-		if (!translation.getDefault().id.equals(transId)) {
-			transIsInUse = false;
-			for (Iterator iterator = translation.getCustomGroup().iterator(); iterator.hasNext();) {
-				TranslationData td = (TranslationData) iterator.next();
-				if (td.id.equals(transId)) {
-					transIsInUse = true;
-					break;
-				}
-			}
+		if (defId.equals(transId)) {
+			logger.info("Translation is already selected: " + transId);
 		}
-		if (!transIsInUse) {
-			logger.info("Unload previous selected translation (it's not used anywhere): " + translation.getDefault());
-			translation.getDefault().unload();
+
+		logger.info("Change default translation: " + defId + " => " + transId);
+
+		for (Iterator iterator = translation.getCustomGroup().iterator(); iterator.hasNext();) {
+			TranslationData td = (TranslationData) iterator.next();
+			if (td.id.equals(defId)) {
+				unloadPrevTrans = false;
+				break;
+			}
 		}
 
 		TranslationData newTrans = getTranslation().get(transId);
 		newTrans.load();
 		translation.setDefault(newTrans);
 		props.setProperty("trans.default", transId);
+
+		if (unloadPrevTrans) {
+			logger.info("Unload previous selected translation which is not used anymore: " + translation.getDefault());
+			translation.getDefault().unload();
+		}
+
 		try {
 			runtime.recreateViewCache();
 		} catch (IOException e) {
@@ -1148,8 +1152,10 @@ public class ApplicationConfig implements ConfigNaming {
 		List oldCustomList = translation.getCustomGroup();
 		for (int i = 0; i < oldCustomList.size(); i++) {
 			TranslationData oldTd = (TranslationData) oldCustomList.get(i);
-			if (!newIdList.contains(oldTd.id) && !oldTd.id.equals(defaultId))
+			if (!newIdList.contains(oldTd.id) && !oldTd.id.equals(defaultId)) {
+				logger.info("Unload previous selected translation which is not used anymore: " + oldTd);
 				oldTd.unload();
+			}
 		}
 
 		translation.setCustomGroup(newList);
