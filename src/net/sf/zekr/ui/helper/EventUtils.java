@@ -8,21 +8,20 @@
  */
 package net.sf.zekr.ui.helper;
 
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class EventUtils {
 	/**
-	 * Creates and sends an event of type <code>EventProtocol.CUSTOM_ZEKR_EVENT</code> to all shells listening for this
-	 * event. <code>Event.data</code> is set as <code>eventName</code> parameter.
+	 * Creates and sends an event of type <code>EventProtocol.CUSTOM_ZEKR_EVENT</code> to all shells listening
+	 * for this event. <code>Event.data</code> is set as <code>eventName</code> parameter.
 	 * 
-	 * @param eventName
-	 *           <code>Event.data</code> to be sent
+	 * @param eventName <code>Event.data</code> to be sent
 	 */
 	public static void sendEvent(String eventName) {
 		sendEvent(EventProtocol.CUSTOM_ZEKR_EVENT, eventName);
@@ -32,10 +31,8 @@ public class EventUtils {
 	 * Creates and sends an event of type <code>eventType</code> to all shells listening for this event.
 	 * <code>Event.data</code> is set as <code>eventName</code> parameter.
 	 * 
-	 * @param eventType
-	 *           <code>Event.type</code> to be sent
-	 * @param eventName
-	 *           <code>Event.data</code> to be sent
+	 * @param eventType <code>Event.type</code> to be sent
+	 * @param eventName <code>Event.data</code> to be sent
 	 */
 	public static void sendEvent(int eventType, String eventName) {
 		Display disp = Display.getCurrent();
@@ -50,33 +47,27 @@ public class EventUtils {
 	}
 
 	/**
-	 * Creates and sends an event of type <code>eventType</code> to the specified shell. <code>Event.data</code> is
-	 * set as <code>eventName</code> parameter.
+	 * Creates and sends an event of type <code>eventType</code> to the specified shell.
+	 * <code>Event.data</code> is set as <code>eventName</code> parameter.
 	 * 
-	 * @param shell
-	 *           event target
-	 * @param eventType
-	 *           <code>Event.type</code> to be sent
-	 * @param eventName
-	 *           <code>Event.data</code> to be sent
+	 * @param control event target
+	 * @param eventType <code>Event.type</code> to be sent
+	 * @param eventName <code>Event.data</code> to be sent
 	 */
-	public static void sendEvent(Shell shell, int eventType, String eventName) {
+	public static void sendEvent(Control control, int eventType, String eventName) {
 		Event event = createEvent(eventType, eventName);
-		shell.notifyListeners(eventType, event);
+		control.notifyListeners(eventType, event);
 	}
 
 	/**
 	 * Creates and sends an event of type <code>EventProtocol.CUSTOM_ZEKR_EVENT</code> to the specified shell.
 	 * <code>Event.data</code> is set as <code>eventName</code> parameter.
 	 * 
-	 * @param shell
-	 *           event target
-	 * @param eventName
-	 *           <code>Event.data</code> to be sent
+	 * @param control event target
+	 * @param eventName <code>Event.data</code> to be sent
 	 */
-	public static void sendEvent(Shell shell, String eventName) {
-		Event event = createEvent(EventProtocol.CUSTOM_ZEKR_EVENT, eventName);
-		shell.notifyListeners(EventProtocol.CUSTOM_ZEKR_EVENT, event);
+	public static void sendEvent(Control control, String eventName) {
+		sendEvent(control, EventProtocol.CUSTOM_ZEKR_EVENT, eventName);
 	}
 
 	private static Event createEvent(int eventType, String eventName) {
