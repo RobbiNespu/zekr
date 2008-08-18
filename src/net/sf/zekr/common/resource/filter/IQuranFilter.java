@@ -32,7 +32,7 @@ public interface IQuranFilter {
 	/**
 	 * Implementations of this method manipulates the input parameter as needed.
 	 * 
-	 * @param str input string to be manipulated
+	 * @param quranFilterContext
 	 * @return manipulated string
 	 */
 	public String filter(QuranFilterContext quranFilterContext);

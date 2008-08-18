@@ -46,7 +46,6 @@ public interface IQuranText {
 	 * 
 	 * @param quranLocation sura-aya location of the Quran text to be retrieved
 	 * @return returns requested Quran location
-	 * @return
 	 */
 	public String get(IQuranLocation quranLocation);
 

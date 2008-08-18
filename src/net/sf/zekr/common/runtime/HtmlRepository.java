@@ -190,7 +190,7 @@ public class HtmlRepository {
 	}
 
 	/**
-	 * @param searcher
+	 * @param searchResult
 	 * @param pageNo 0-based page number
 	 * @return generated search result HTML
 	 * @throws HtmlGenerationException

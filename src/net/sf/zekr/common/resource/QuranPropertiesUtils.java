@@ -387,7 +387,7 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param page Quran page, counted from 1
+	 * @param quranPage
 	 * @return a list of Quran locations of type {@link IQuranPage}.
 	 */
 	public static final List getPageData(IQuranPage quranPage) {
@@ -402,7 +402,8 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param page Quran page, counted from 1
+	 * @param quranText
+	 * @param quranPage
 	 * @return a list of Quran locations of type {@link IQuranPage}.
 	 */
 	public static final List getPageData(IQuranText quranText, IQuranPage quranPage) {

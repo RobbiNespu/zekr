@@ -54,7 +54,7 @@ public interface IQuranLocation extends Comparable {
 	/**
 	 * Pads the sura/aya number so that all strings are of the same width and sortable.
 	 * 
-	 * @return
+	 * @return a sortable representation of the quran location.
 	 */
 	public String toSortableString();
 
