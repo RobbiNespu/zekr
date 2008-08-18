@@ -91,7 +91,7 @@ public class I18N {
 	 * Replaces all occurrences of digits in <code>str</code> with corresponding localized digits.
 	 * 
 	 * @param str
-	 * @return
+	 * @return localized string
 	 */
 	public String localize(String str) {
 		return localize(str, locale.getLanguage());

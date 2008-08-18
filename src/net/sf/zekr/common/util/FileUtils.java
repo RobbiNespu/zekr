@@ -84,7 +84,7 @@ public class FileUtils {
 	 * Open a connection to a remote/local URL.
 	 * 
 	 * @param url
-	 * @return
+	 * @return an open stream to the URL 
 	 * @throws IOException
 	 */
 	public static InputStream getContent(URL url) throws IOException {
