@@ -24,7 +24,7 @@ public interface IPagingData {
 
 	/**
 	 * @param pageNum page number (counted from 1)
-	 * @return
+	 * @return quran page
 	 */
 	public IQuranPage getQuranPage(int pageNum);
 
