@@ -90,8 +90,6 @@ public class BookmarkSet {
 	 *           bookmark id
 	 * @param isNew
 	 *           a dummy parameter
-	 * @throws IOException
-	 *            if any IO error occurred during blank bookmark copy
 	 */
 	public BookmarkSet(String id, boolean isNew) {
 		ResourceManager res = ResourceManager.getInstance();

@@ -36,7 +36,7 @@ public class LocalizedResource {
 	/**
 	 * Cautious: this method should only be called upon instantiation of {@link ApplicationConfig}.
 	 * 
-	 * @return
+	 * @return localized resource name
 	 */
 	public String getLocalizedName() {
 		return getName(LanguageEngine.getInstance().getLocale().getLanguage());
