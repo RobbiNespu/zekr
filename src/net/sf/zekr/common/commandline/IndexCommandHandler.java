@@ -8,19 +8,17 @@
  */
 package net.sf.zekr.common.commandline;
 
-import java.io.File;
 import java.util.Date;
-
-import org.apache.commons.lang.StringUtils;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.filter.QuranIndexerFilter;
 import net.sf.zekr.engine.search.lucene.IndexCreator;
-import net.sf.zekr.engine.search.lucene.IndexingException;
 import net.sf.zekr.engine.search.lucene.LuceneIndexManager;
 import net.sf.zekr.engine.translation.TranslationData;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Class for handling index (<tt>-index</tt>) command.

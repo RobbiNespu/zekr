@@ -8,8 +8,6 @@
  */
 package net.sf.zekr.common.resource;
 
-import java.io.IOException;
-
 import net.sf.zekr.ZekrBaseTest;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.SearchScopeItem;

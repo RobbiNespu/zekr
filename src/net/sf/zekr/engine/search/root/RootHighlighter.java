@@ -10,7 +10,6 @@ package net.sf.zekr.engine.search.root;
 
 import java.util.List;
 
-import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 import net.sf.zekr.common.util.StringUtils;
 import net.sf.zekr.common.util.StringUtils.Region;
 import net.sf.zekr.engine.search.SearchException;

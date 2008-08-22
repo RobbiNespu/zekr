@@ -9,7 +9,6 @@
 package net.sf.zekr.engine.search;
 
 import net.sf.zekr.ZekrBaseTest;
-import junit.framework.TestCase;
 
 public class SearchScopeTest extends ZekrBaseTest {
 	private SearchScope ss;

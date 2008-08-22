@@ -12,9 +12,7 @@ import java.io.File;
 import java.io.PrintStream;
 
 import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.resource.IQuranText;
-import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.MessageBoxUtils;
