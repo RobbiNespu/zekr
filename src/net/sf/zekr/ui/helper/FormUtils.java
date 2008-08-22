@@ -177,8 +177,8 @@ public class FormUtils {
 	 * Return the maximum length for a button when two buttons are given
 	 * 
 	 * @author laejoh
-	 * @param button a first button Button object
-	 * @param button a second button Button object
+	 * @param button1 a first button Button object
+	 * @param button2 a second button Button object
 	 * @return int max length of the two buttons given
 	 */
 	public static int buttonLength(final Button button1, final Button button2) {
@@ -190,8 +190,8 @@ public class FormUtils {
 	 * 
 	 * @author laejoh
 	 * @param minimum an integer giving the minimum length a button has to have
-	 * @param button a first button Button object
-	 * @param button a second button Button object
+	 * @param button1 a first button Button object
+	 * @param button2 a second button Button object
 	 * @return int max length of the two buttons given
 	 */
 	public static int buttonLength(final int minimum, final Button button1, final Button button2) {
@@ -202,8 +202,8 @@ public class FormUtils {
 	 * Return the maximum length for a button when three buttons are given.
 	 * 
 	 * @author laejoh
-	 * @param button a first button
-	 * @param button a second button
+	 * @param button1 a first button
+	 * @param button2 a second button
 	 * @return int max length of the two buttons given
 	 */
 	public static int buttonLength(final Button button1, final Button button2, final Button button3) {
@@ -215,8 +215,8 @@ public class FormUtils {
 	 * 
 	 * @author laejoh
 	 * @param minimum an integer giving the minimum length a button has to have
-	 * @param button a first button
-	 * @param button a second button
+	 * @param button1 a first button
+	 * @param button2 a second button
 	 * @return int max length of the two buttons given
 	 */
 	public static int buttonLength(final int minimum, final Button button1, final Button button2, final Button button3) {
@@ -237,7 +237,7 @@ public class FormUtils {
 	/**
 	 * Adds click listener to the link widget.
 	 * 
-	 * @param link
+	 * @param widget
 	 */
 	public static void addLinkListener(Widget widget) {
 		widget.addListener(SWT.Selection, linkListener);
