@@ -23,6 +23,9 @@ under GNU GPL v.2, which is available here: [zekr]/doc/zekr-license.txt.
 Tanzil Quran text files 1.0.2 (quran-simple.txt and quran-uthmani.txt) are bundled 
 under the following agreement: [zekr]/doc/tanzil-license.txt.
 
+CRCIS Quran root and stem list, ver. 0.9.0 (quran-root.txt) is licensed under the following
+agreement: [zekr]/doc/quran-root-crcis-license.txt.
+
 Most of images and icons used in this application are taken from Linux icon packs,
 which are under Lesser General Public License 2.1, [zekr]/doc/lgpl-2.1.txt.
 Others are either unspecified or made by Zekr author under GPLv2.
