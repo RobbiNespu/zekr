@@ -492,7 +492,7 @@ Bug fixes:
 	quran_detailedTextFile changed to quran_uthmaniTextFile in theme.properties.
 	theme.properties in user workspace is overwritten with the base one if the base theme.properties is newer that user's. This resets all theme-related configurations when installing a newer version of Zekr.
 
-Version 0.7.0 beta 2 - [4-8-08]
+Version 0.7.0 beta 2 - [24-8-08]
 Features/Enhancements:
 	Show the meaning of bismillah in be beginning of each sura in translation.
 	Upgrade:
@@ -528,6 +528,8 @@ Features/Enhancements:
 		- Set search scope for limiting root search results.
 	Add support to index transltion data through command line (-index option).
 	Goto Next/prev hizb quarter shortcut changed to Ctrl+Alt+Right/Left.
+	Indicative icons added near each translation item in the menu, to showing if a translation is signed, unknown (not loaded), or unsigned.
+	New language pack: hebrew.xml (Yotam Benshalom).
 Bug fixes:
 	A bug with basic search fixed, which happened when a whole clause was found at the end of an aya.
 	Menu icons are not shown anymore in Mac.
@@ -538,7 +540,7 @@ Bug fixes:
 	Just one thread is started for HTTP server. It used to start two separate thread, one of them was redundant.
 	Manually focusing on an aya in the page during playing a recitation causes to recite that aya after current one (previously ignored the focusing aya).
 	Fixed a bug with basic (tanzil) search highlighter. Search result was not highlighted correctly two or more phrases entered in the query, and at least one phrase (other than the first one) was exclusive (leaded with '-').
-	use StringUtils.isBlank() instead of isEmpty(). isBlank() also trims the input string.
+	Use StringUtils.isBlank() instead of isEmpty(). isBlank() also trims the input string.
 	Change quran.text.delim to \\r\\n (Tanzil text files are in Windows line delimiter model).
 	Remove extra whitespaces for search result ayas. Extra whitespaces caused non-elegant highlighted results.
 _____________________________________________________
