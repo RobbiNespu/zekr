@@ -189,7 +189,6 @@ Function .onInstSuccess
 FunctionEnd
 
 !define GET_JAVA_URL "http://java.sun.com/getjava"
-Var JAVA_INSTALLATION_MSG
 Function .onInit
     ;Detect already running installer
     System::Call 'kernel32::CreateMutexA(i 0, i 0, t "myMutex") i .r1 ?e'
