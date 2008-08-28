@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Nedim Hadžić i Alma Aganović" version="0.7">
+<language author="Nedim Hadžić i Alma Aganović" version="0.6">
     <locale localizedName="Bosanski" name="Bosnian" id="bs_BA" direction="ltr" />
     <word>
         <common>
@@ -123,7 +123,7 @@
             <text id="MENU_PREV_HIZBQ" value="Prethodna Hizb četvrtina"   />
             <text id="MENU_NEXT_SAJDA" value="Sljedeća sedžda"   />
             <text id="MENU_PREV_SAJDA" value="Prethodna sedžda"   />
-            <text id="MENU_NEXT_PAGE" value="Slijedeća strana"   />
+            <text id="MENU_NEXT_PAGE" value="Sljedeća strana"   />
             <text id="MENU_PREV_PAGE" value="Prethodna strana"   />
             <text id="CHECK4UPDATE" value="Provjeri najnoviju verziju"   />
             <text id="ASCENDING" value="Rastući raspored"   />
@@ -132,7 +132,7 @@
             <text id="FULL_SCREEN" value="Cijeli ekran"   />
             <text id="WARNING" value="Upozorenje"   />
             <text id="ONLINE_HELP" value="Online pomoć"   />
-            <text id="PAGING_MODE" value="Nacin straničenja"   />
+            <text id="PAGING_MODE" value="Način straničenja"   />
             <text id="PANEL" value="Prikaz okvira"   />
             <text id="DETAIL_PANEL" value="Detalji"   />
             <text id="REPEAT" value="Ponovi"   />
@@ -167,7 +167,7 @@
             <text id="FILE_ALREADY_EXISTS" value="Datoteka sa imenom &quot;{1}&quot; već postoji. Želite li je zamijeniti?" />
             <text id="RESTART_APP" value="Molimo restartujte aplikaciju da bi promjene imale efekta." />
             <text id="ACTION_PERFORMED" value="Naredba uspješno izvršena."   />
-            <text id="TRANSLATION_ADDED" value="Slijedeći prijevod je dodan u {1} meni"   />
+            <text id="TRANSLATION_ADDED" value="Sljedeći prijevod je dodan u {1} meni"   />
         </inform>
         <confirm>
             <text id="YES_NO" value="Sigurni ste?" />
@@ -179,7 +179,7 @@
             <text id="ACTION_FAILED" value="Akcija nije uspjela!" />
             <text id="INVALID_TRANSLATION_FORMAT" value="Neispravan format prijevoda: {1}"   />
             <text id="INVALID_TRANSLATION_SIGNATURE" value="Neispravan potpis prijevoda: {1}"   />
-            <text id="TRANSLATION_LOAD_FAILED" value="Učitavam prijevod &quot;{1}&quot; neuspjelo učitavanje zbog slijedeće grešker: {2}"   />
+            <text id="TRANSLATION_LOAD_FAILED" value="Učitavam prijevod &quot;{1}&quot; neuspjelo učitavanje zbog sljedeće grešker: {2}"   />
             <text id="ENTER_VALID_NUMBER" value="Molim unesite ispravan broj."   />
             <text id="NUMBER_LIMIT" value="Molim unesite broj između '{1}' i '{2}'."   />
         </error>
@@ -221,7 +221,7 @@
             <text id="SURA_NAMES" value="Prikaz imena sura"   />
             <text id="ARABIC" value="Arapski"   />
             <text id="EN_T9N" value="Engleski prijevod"   />
-            <text id="EN_T13N" value="Engleska Transliteracija"   />
+            <text id="EN_T13N" value="Engleska transliteracija"   />
             <text id="T9N" value="Prijevod (ako postoji)"   />
             <text id="T13N" value="Transliteracija (ako postoji)"   />
             <text id="ENABLE_AUDIO" value="Aktiviraj audio podršku"   />
@@ -303,18 +303,18 @@
             <text id="DOWNLOAD" value="Preuzmi" />
             <text id="MORE_INFO" value="Više informacija" />
             <text id="NO_UPDATE" value="Već koristite najnoviju verziju." />
-            <text id="NEW_DEV_AVAILABLE" value="Najnovija razvojna verzija (nestabilna) je dostupna za preuzimanje" />
-            <text id="NEW_BETA_AVAILABLE" value="Najnovija beta verzija (nestabilna) je dostupna za preuzimanje" />
-            <text id="NEW_FINAL_AVAILABLE" value="Najnovije izdanje (finalna verzija) je dostupna za preuzimanje" />
+            <text id="NEW_DEV_AVAILABLE" value="Nova razvojna verzija (nestabilna) je dostupna za preuzimanje" />
+            <text id="NEW_BETA_AVAILABLE" value="Nova beta verzija (nestabilna) je dostupna za preuzimanje" />
+            <text id="NEW_FINAL_AVAILABLE" value="Nova verzija je dostupna za preuzimanje" />
         </form>
         <form id="PAGING_MODE">
-            <text id="TITLE" value="Prikaz po stranici"   />
+            <text id="TITLE" value="Način straničenja"   />
             <text id="SURA" value="Sura"   />
             <text id="HIZB_QUARTER" value="Hizb četvrtina"   />
             <text id="JUZ" value="Džuz"   />
             <text id="CONST_AYA" value="Grupa ajeta"   />
             <text id="CUSTOM" value="Prilagođeno"   />
-            <text id="AYA_PER_SURA" value="Koliko ajeta će biti prikazano na svakoj stranici?"   />
+            <text id="AYA_PER_SURA" value="Broj ajeta po stranici?"   />
         </form>
     </forms>
 </language>
