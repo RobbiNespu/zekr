@@ -11,6 +11,9 @@ package net.sf.zekr.common.config;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.PropertyResourceBundle;
 
 import org.eclipse.swt.SWT;
@@ -78,6 +81,12 @@ public class GlobalConfig {
 	 */
 	public static final String ZEKR_BUILD_NUMBER;
 
+	/**
+	 * Zekr build date in {@link Date} format, originally obtained from {@link #ZEKR_BUILD_NUMBER}. This
+	 * variable is intentionally left non-final, and should not be changed.
+	 */
+	public static Date ZEKR_BUILD_DATE;
+
 	/** Build status: FINAL, BETA, DEV */
 	public static final String ZEKR_BUILD_STATUS;
 
@@ -92,6 +101,8 @@ public class GlobalConfig {
 	 */
 	public static final String UPDATE_SITE;
 
+	private static SimpleDateFormat zekrDateFormatter = new SimpleDateFormat("yyyyMMddHH");
+
 	static {
 		PropertyResourceBundle prb = null;
 		try {
@@ -104,6 +115,11 @@ public class GlobalConfig {
 			ZEKR_BUILD_NUMBER = prb == null ? "" : prb.getString("zekr.build.number");
 			ZEKR_BUILD_STATUS = prb == null ? "" : prb.getString("zekr.build.status");
 			UPDATE_SITE = prb == null ? "http://zekr.org/update" : prb.getString("zekr.update.address");
+			try {
+				ZEKR_BUILD_DATE = prb == null ? null : zekrDateFormatter.parse(ZEKR_BUILD_NUMBER);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
