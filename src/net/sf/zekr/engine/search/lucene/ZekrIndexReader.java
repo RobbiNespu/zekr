@@ -14,8 +14,8 @@ import net.sf.zekr.engine.translation.TranslationData;
 import org.apache.lucene.index.IndexReader;
 
 /**
- * This class is actually a wrapper class for Lucene {@link IndexReader}. It holds the ID for the enclosing
- * translation, if {@link IQuranText} is a {@link TranslationData}.
+ * This is a wrapper class for Lucene {@link IndexReader}. It holds the ID for the enclosing translation, if
+ * {@link IQuranText} is a {@link TranslationData}.
  * 
  * @author Mohsen Saboorian
  */
