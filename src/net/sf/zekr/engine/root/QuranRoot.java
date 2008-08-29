@@ -16,7 +16,6 @@ import java.util.Map;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 
-import org.apache.commons.collections.OrderedMap;
 import org.apache.commons.lang.StringUtils;
 
 /**
