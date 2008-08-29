@@ -468,7 +468,7 @@ public class ManageBookmarkSetsForm {
 				}
 			}
 		} catch (IOException e) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			MessageBoxUtils.showActionFailureError(e);
 			logger.implicitLog(e);
 		}
 	}
@@ -493,7 +493,7 @@ public class ManageBookmarkSetsForm {
 			//new BookmarkTransformer(bms, destFile).export();
 			BookmarkTransformer.getInstance().export(bms, destFile);
 		} catch (Exception e) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			MessageBoxUtils.showActionFailureError(e);
 			logger.implicitLog(e);
 		}
 	}
@@ -514,7 +514,7 @@ public class ManageBookmarkSetsForm {
 			logger.info("Export bookmark " + bms.getId() + " to " + destFile);
 			FileUtils.copyFile(sourceFile, destFile);
 		} catch (IOException e) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			MessageBoxUtils.showActionFailureError(e);
 			logger.implicitLog(e);
 		}
 	}
@@ -531,7 +531,7 @@ public class ManageBookmarkSetsForm {
 					bmsg.addBookmarkSet(bms);
 					addTableItem(bms);
 				} catch (BookmarkSaveException bse) {
-					MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + bse.getMessage());
+					MessageBoxUtils.showActionFailureError(bse);
 					logger.error("Adding new bookmark set failed: " + id);
 				}
 			} else

@@ -725,7 +725,7 @@ public class BookmarkSetForm {
 		try {
 			bookmarkSet.save();
 		} catch (BookmarkSaveException e) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + ":\n" + e.getMessage());
+			MessageBoxUtils.showActionFailureError(e);
 			logger.error("Bookmark could not be saved.");
 			return;
 		}
