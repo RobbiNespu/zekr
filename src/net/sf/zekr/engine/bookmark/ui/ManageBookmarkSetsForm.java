@@ -62,7 +62,6 @@ import org.eclipse.swt.widgets.Text;
  * Bookmarks Sets GUI form.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ManageBookmarkSetsForm {
 	public static final String FORM_ID = "BOOKMARK_SET_MANAGE_FORM";

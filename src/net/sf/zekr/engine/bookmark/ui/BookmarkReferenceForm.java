@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.TableItem;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class BookmarkReferenceForm {
 	private final static Logger logger = Logger.getLogger(BookmarkReferenceForm.class);
