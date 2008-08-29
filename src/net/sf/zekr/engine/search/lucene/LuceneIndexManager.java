@@ -20,6 +20,7 @@ import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.filter.QuranIndexerFilter;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.translation.TranslationData;
+import net.sf.zekr.ui.MessageBoxUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.index.CorruptIndexException;
@@ -89,6 +90,10 @@ public class LuceneIndexManager {
 						props.setProperty(indexVersionKey, GlobalConfig.ZEKR_BUILD_NUMBER);
 						return newIndexReader(quranText, indexId, indexCreator.getIndexDir());
 					} else {
+						// a non-interruption error occurred
+						if (indexCreator.isIndexingErrorOccurred() && indexCreator.getIndexingException() != null) {
+							MessageBoxUtils.showActionFailureError(indexCreator.getIndexingException());
+						}
 						return null;
 					}
 				}

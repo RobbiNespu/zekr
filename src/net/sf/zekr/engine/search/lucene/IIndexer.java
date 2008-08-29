@@ -15,8 +15,8 @@ public interface IIndexer {
 	/**
 	 * Performs all the indexing process.
 	 * 
-	 * @throws IndexingException
-	 *            if any exception occurred during indexing process
+	 * @throws IndexingException if any exception occurred during indexing process
+	 * @throws InterruptedException if indexing thread interrupted
 	 */
-	void doIndex() throws IndexingException;
+	void doIndex() throws IndexingException, InterruptedException;
 }

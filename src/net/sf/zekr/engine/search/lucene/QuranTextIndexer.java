@@ -46,7 +46,7 @@ public class QuranTextIndexer implements IIndexer {
 		this.analyzer = analyzer;
 	}
 
-	public void doIndex() throws IndexingException {
+	public void doIndex() throws IndexingException, InterruptedException {
 		try {
 			Date d1 = new Date();
 			logger.debug("Indexing started for: " + quranText);
@@ -65,8 +65,8 @@ public class QuranTextIndexer implements IIndexer {
 					indexWriter.addDocument(doc);
 
 					if (Thread.interrupted()) { // test and clear interrupted status
-						indexWriter.close(); // if not closed, operation cannot be roll back (because index files are locked) 
-						throw new IndexingException("Indexing thread interrupted!");
+						indexWriter.close(); // if not closed, operation cannot be rolled back (because index files are locked)
+						throw new InterruptedException("Indexing task interrupted.");
 					}
 				}
 				logger.debug("Sura " + sura + " indexed.");

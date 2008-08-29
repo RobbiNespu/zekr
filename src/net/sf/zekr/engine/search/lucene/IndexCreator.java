@@ -36,7 +36,7 @@ public class IndexCreator {
 	private static final LanguageEngine lang = ApplicationConfig.getInstance().getLanguageEngine();
 	private final static Logger logger = Logger.getLogger(IndexCreator.class);
 	private Display display;
-	private boolean indexQuranText_finished = false;
+	private boolean indexQuranTextFinished = false;
 	private boolean indexingErrorOccurred = false;
 	private String indexDir;
 	private IndexingException indexingException;
@@ -81,14 +81,16 @@ public class IndexCreator {
 			try {
 				qti = new QuranTextIndexer(quranText, new File(indexDir), analyzer);
 				qti.doIndex();
-				indexQuranText_finished = true;
+				indexQuranTextFinished = true;
 				logger.debug("Index files created successfully.");
+			} catch (InterruptedException ie) {
+				logger.error("Indexing interrupted on: " + quranText);
 			} catch (Exception e) {
 				logger.implicitLog(e);
 				indexingException = new IndexingException(e);
 				logger.error("Indexing failed on: " + quranText);
 			} finally {
-				if (!indexQuranText_finished) {
+				if (!indexQuranTextFinished) {
 					if (qti != null) {
 						logger.error("Rolling back indexing...");
 						qti.rollBack();
@@ -124,6 +126,7 @@ public class IndexCreator {
 		if (!indexingErrorOccurred)
 			stdout.print(" done.");
 		stdout.println();
+
 		if (indexingErrorOccurred)
 			throw indexingException;
 	}
@@ -158,7 +161,7 @@ public class IndexCreator {
 				display.sleep();
 			}
 		}
-		return indexQuranText_finished;
+		return indexQuranTextFinished;
 	}
 
 	public String getIndexDir() {
@@ -177,7 +180,7 @@ public class IndexCreator {
 					+ "..." + "\n\n" + meaning("TAKE_TIME"));
 			pf.show();
 			while (!pf.getShell().isDisposed()) {
-				if (indexQuranText_finished || indexingErrorOccurred)
+				if (indexQuranTextFinished || indexingErrorOccurred)
 					EventUtils.sendEvent(EventProtocol.END_WAITING);
 				if (!pf.getDisplay().readAndDispatch()) {
 					pf.getDisplay().sleep();
@@ -194,4 +197,11 @@ public class IndexCreator {
 		}
 	}
 
+	public IndexingException getIndexingException() {
+		return indexingException;
+	}
+
+	public boolean isIndexingErrorOccurred() {
+		return indexingErrorOccurred;
+	}
 }
