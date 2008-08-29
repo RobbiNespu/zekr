@@ -546,7 +546,7 @@ public class QuranFormMenuFactory {
 				"icon.menu.fullScreen");
 		fullScreenItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				form.setFullScreen(fullScreenItem.getSelection(), true);
+				form.setFullScreen(!form.shell.getFullScreen(), true);
 			}
 		});
 
@@ -957,6 +957,14 @@ public class QuranFormMenuFactory {
 		findRefItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				findReferences();
+			}
+		});
+
+		MenuItem bookmarkThis = createMenuItem(0, bookmarksMenu, lang.getMeaning("BOOKMARK_THIS_AYA") + "...",
+				SWT.CTRL | 'D', "icon.menu.bookmark.add");
+		bookmarkThis.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				form.bookmarkThisAya();
 			}
 		});
 
