@@ -546,14 +546,13 @@ Bug fixes:
 
 Version 0.7.0 beta 2 - [24-8-08]
 Features/Enhancements:
-    Ctrl+F focuses on the visible search box.
+	Ctrl+F focuses on the visible search box.
 Bug fixes:
-    Changed the way quran-root is loaded. It was incompatible with GCJ.
-    An error message box is now shown when indexing error occurs. User indexing cancellation is not assumed as an error.
+	Changed the way quran-root is loaded. It was incompatible with GCJ.
+	An error message box is now shown when indexing error occurs. User indexing cancellation is not assumed as an error.
+	Show the correct bookmark references to an aya. It was looking for an incorrect Quran location since last beta release.
 
 _____________________________________________________
-	TODO: Update screenshots on the website
-	TODO: Search results in ascending/descending order
 	TODO: Export search results
 
 	TODO: aya change in nav bar should work even when a html is "saved as...".
@@ -573,11 +572,7 @@ _____________________________________________________
 	TODO: Store search scopes, so that the next time it loads previous settings
 
 	TODO: Add a stand-alone (no dependency to ApplicationConfig) Error Form to show startup errors
-
 	TODO: Move all explicit references to *.vm in a template file to resource-path.propertis
 	TODO: Pluggable (plug-in based) search.
-
-    TODO: A simple help page for advanced search
-    TODO: use tanzil.info wildcard search functions to extend Zekr basic search
-    TODO: Quranic Ruku locations.
-    TODO: Different display modes (on the top of all the current layouts): 1) a whole sura, 2) a single Uthmani page 3) a hizb quarter
+	TODO: A simple help page for advanced search
+	TODO: Quranic Ruku locations.
