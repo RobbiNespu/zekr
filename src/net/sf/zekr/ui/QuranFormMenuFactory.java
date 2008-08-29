@@ -971,7 +971,7 @@ public class QuranFormMenuFactory {
 	}
 
 	private void findReferences() {
-		IQuranLocation loc = config.getQuranLocation();
+		IQuranLocation loc = form.uvc.getLocation();
 		logger.info("Find bookmark references to: " + loc);
 		List resultList = BookmarkUtils.findReferences(config.getBookmark(), loc);
 		logger.debug("Show references in form.");
