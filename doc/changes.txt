@@ -547,10 +547,12 @@ Bug fixes:
 Version 0.7.0 beta 2 - [24-8-08]
 Features/Enhancements:
 	Ctrl+F focuses on the visible search box.
+	A new stand-alone bookmarking feature: Bookmark This Aya. This feature is available through Ctrl+D, or Bookmarks > Bookmark This Aya menu item. It adds a default title to the bookmark item (based on the current aya) as well as the current Quran location to it.
 Bug fixes:
 	Changed the way quran-root is loaded. It was incompatible with GCJ.
 	An error message box is now shown when indexing error occurs. User indexing cancellation is not assumed as an error.
 	Show the correct bookmark references to an aya. It was looking for an incorrect Quran location since last beta release.
+	A bug with toggling full screen fixed. It caused application to remain in full screen mode, even after pressing again Toggle full menu item.
 
 _____________________________________________________
 	TODO: Export search results
