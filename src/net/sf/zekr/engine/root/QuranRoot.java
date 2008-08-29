@@ -29,11 +29,11 @@ public class QuranRoot {
 	List rootList = new ArrayList(ROOT_LIST_SIZE);
 	Map rootAddr = new HashMap(ROOT_LIST_SIZE);
 
-	/**
+	/*
 	 * An array of all ayas of the Quran. Each entry is a {@link List} of root of each word in that aya,
 	 * exactly at the location at which the word exists in that aya.
 	 */
-	OrderedMap[] reverseIndex = new OrderedMap[QuranPropertiesUtils.QURAN_AYA_COUNT];
+	// OrderedMap[] reverseIndex = new OrderedMap[QuranPropertiesUtils.QURAN_AYA_COUNT];
 
 	public QuranRoot(String rawRootText) {
 		parse(rawRootText);
@@ -75,9 +75,9 @@ public class QuranRoot {
 		}
 	}
 
-	public Map getRootMap(IQuranLocation loc) {
-		return reverseIndex[QuranPropertiesUtils.getAbsoluteLocation(loc)];
-	}
+	//	public Map getRootMap(IQuranLocation loc) {
+	//		return reverseIndex[QuranPropertiesUtils.getAbsoluteLocation(loc)];
+	//	}
 
 	public List getRootList() {
 		return rootList;
