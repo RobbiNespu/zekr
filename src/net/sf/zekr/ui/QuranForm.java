@@ -792,9 +792,15 @@ public class QuranForm extends BaseForm {
 	 */
 	void bookmarkThisAya() {
 		try {
-			IQuranText qt = new FilteredQuranText(QuranText.getSimpleTextInstance(), IQuranFilter.NONE);
-			String abbr = net.sf.zekr.common.util.StringUtils.abbreviate(qt.get(uvc.getLocation()), 30);
-			BookmarkSetForm.addNew(shell, uvc.getLocation(), QuranFilterUtils.filterHarakat(abbr));
+			String titleMode = config.getProps().getString("bookmark.add.titleMode", "quran");
+			String title;
+			if (titleMode.equals("quran") || config.getTranslation().getDefault() == null) {
+				IQuranText qt = new FilteredQuranText(QuranText.getSimpleTextInstance(), IQuranFilter.NONE);
+				title = QuranFilterUtils.filterHarakat(qt.get(uvc.getLocation()));
+			} else { // translation mode
+				title = config.getTranslation().getDefault().get(uvc.getLocation());
+			}
+			BookmarkSetForm.addNew(shell, uvc.getLocation(), net.sf.zekr.common.util.StringUtils.abbreviate(title, 20));
 		} catch (IOException e) {
 			logger.error(e);
 		}
