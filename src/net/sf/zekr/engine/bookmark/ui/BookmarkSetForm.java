@@ -8,12 +8,14 @@
  */
 package net.sf.zekr.engine.bookmark.ui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ResourceManager;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
 import net.sf.zekr.engine.bookmark.BookmarkSaveException;
@@ -70,7 +72,6 @@ import org.eclipse.swt.widgets.TreeItem;
  * Bookmarks form GUI.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class BookmarkSetForm {
 	public static final String FORM_ID = "BOOKMARK_SET_FORM";
@@ -701,13 +702,39 @@ public class BookmarkSetForm {
 		}
 	}
 
+	/**
+	 * Stand-alone add bookmark.
+	 * 
+	 * @param shell parent shell
+	 * @param quranLocation current Quran location to be bookmarked
+	 * @param bookmarkTitle default bookmark title
+	 */
+	public static void addNew(Shell shell, IQuranLocation quranLocation, String bookmarkTitle) {
+		BookmarkSet bookmarkSet = config.getBookmark();
+		int direction = LanguageEngineNaming.RIGHT_TO_LEFT.equals(bookmarkSet.getDirection()) ? SWT.RIGHT_TO_LEFT
+				: SWT.LEFT_TO_RIGHT;
+
+		List locList = new ArrayList();
+		locList.add(quranLocation);
+		BookmarkItemForm bmItemForm = new BookmarkItemForm(shell, locList, bookmarkTitle, direction);
+		if (bmItemForm.open(false)) {
+			BookmarkItem newBookmarkItem = bmItemForm.getBookmarkItem();
+			newBookmarkItem.setId(bookmarkSet.nextItemId());
+			bookmarkSet.getBookmarksItems().add(newBookmarkItem);
+			logger.debug("Added new bookmark item too root: " + newBookmarkItem);
+
+			logger.info("Recreate bookmark menu.");
+			EventUtils.sendEvent(EventProtocol.UPDATE_BOOKMARKS_MENU);
+		}
+	}
+
 	private void ok() {
 		apply();
 		shell.close();
 	}
 
 	private void apply() {
-		logger.info("Apply bookmark settings for " + bookmarkSet);
+		logger.info("Apply bookmark settings for: " + bookmarkSet);
 		List bookmarkItems = bookmarkSet.getBookmarksItems();
 		bookmarkItems.clear();
 
