@@ -172,7 +172,7 @@ public class MessageBoxUtils {
 	}
 
 	public static void showActionFailureError(Exception ex) {
-		showError(lang.getMeaning("ACTION_FAILED") + "\n" + ex.toString());
+		showError(lang.getMeaning("ACTION_FAILED") + "\n" + ex.getMessage());
 	}
 
 	public static void showError(ZekrMessageException zme) {
