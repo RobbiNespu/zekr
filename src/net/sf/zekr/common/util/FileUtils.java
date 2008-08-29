@@ -26,13 +26,18 @@ public class FileUtils {
 	 * @return <code>true</code> if successful, <code>false</code> otherwise
 	 */
 	public static boolean delete(File file) {
-		if (file.isDirectory())
-			if (file.list().length == 0)
+		String[] lst;
+		if (file.isDirectory()) {
+			lst = file.list();
+			if (lst == null)
+				return false;
+			if (lst.length == 0)
 				return file.delete(); // an empty directory
 			else
 				return deltree(file);
-		else
+		} else {
 			return file.delete();
+		}
 	}
 
 	private static boolean deltree(File file) {
@@ -54,6 +59,15 @@ public class FileUtils {
 		return file.delete();
 	}
 
+	/**
+	 * <b>This method doesn't work correctly on GCJ</b>
+	 * 
+	 * @param is
+	 * @param size
+	 * @param encoding
+	 * @return the whole file being read
+	 * @throws IOException
+	 */
 	public static String readFully(InputStream is, int size, String encoding) throws IOException {
 		InputStreamReader isr = new InputStreamReader(is, encoding);
 		char[] cbuf = new char[(int) size];
@@ -63,7 +77,13 @@ public class FileUtils {
 	}
 
 	/**
-	 * <code>FileUtils.readFully(is, size, "UTF-8")</code>
+	 * <code>FileUtils.readFully(is, size, "UTF-8")</code><br>
+	 * <b>This method doesn't work correctly on GCJ</b>
+	 * 
+	 * @param is
+	 * @param size
+	 * @return the whole stream being read
+	 * @throws IOException
 	 */
 	public static String readFully(InputStream is, int size) throws IOException {
 		return readFully(is, size, "UTF-8");
@@ -84,7 +104,7 @@ public class FileUtils {
 	 * Open a connection to a remote/local URL.
 	 * 
 	 * @param url
-	 * @return an open stream to the URL 
+	 * @return an open stream to the URL
 	 * @throws IOException
 	 */
 	public static InputStream getContent(URL url) throws IOException {
