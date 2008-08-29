@@ -546,7 +546,7 @@ Bug fixes:
 
 Version 0.7.0 beta 2 - [24-8-08]
 Features/Enhancements:
-
+    Ctrl+F focuses on the visible search box.
 Bug fixes:
     Changed the way quran-root is loaded. It was incompatible with GCJ.
     An error message box is now shown when indexing error occurs. User indexing cancellation is not assumed as an error.
