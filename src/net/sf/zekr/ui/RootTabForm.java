@@ -66,7 +66,7 @@ public class RootTabForm {
 	private final static Logger logger = Logger.getLogger(RootTabForm.class);
 
 	private TabFolder tabFolder;
-	private Combo searchCombo;
+	Combo searchCombo;
 	private org.eclipse.swt.widgets.List rootList;
 	private Composite tabBody;
 	private QuranForm quranForm;

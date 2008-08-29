@@ -89,6 +89,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -233,7 +234,9 @@ public class QuranForm extends BaseForm {
 
 	private Listener globalKeyListener = new Listener() {
 		public void handleEvent(Event event) {
-			if (NAV_BUTTON.equals(event.widget.getData())) {
+			if (event.stateMask == SWT.CTRL && event.keyCode == 'f') {
+				focusOnSearchBox(event);
+			} else if (NAV_BUTTON.equals(event.widget.getData())) {
 				boolean isRTL = ((lang.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 				int d = event.keyCode ^ SWT.KEYCODE_BIT;
 				if (d == 1) {
@@ -772,6 +775,26 @@ public class QuranForm extends BaseForm {
 		}
 		if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
 			transBrowser.execute("swtTogglePlayPause();");
+		}
+	}
+
+	private void focusOnSearchBox(Event event) {
+		int i = searchTabFolder.getSelectionIndex();
+		Control text = null;
+		try {
+			text = null;
+			if (i == 0) {
+				text = searchCombo.isVisible() ? (Control) searchCombo : searchBox;
+			} else if (i == 1) {
+				text = advancedSearchCombo.isVisible() ? (Control) advancedSearchCombo : advancedSearchBox;
+			} else {
+				text = rootTabForm.searchCombo;
+			}
+		} catch (Exception e) {
+			logger.implicitLog(e);
+		} finally {
+			if (text != null)
+				text.setFocus();
 		}
 	}
 
