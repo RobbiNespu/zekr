@@ -24,6 +24,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -34,8 +36,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
+ * Zekr about form.
+ * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class AboutForm extends BaseForm {
 	private Label mem;
@@ -113,25 +116,28 @@ public class AboutForm extends BaseForm {
 		Label delim = new Label(body, SWT.SEPARATOR | SWT.HORIZONTAL);
 		delim.setLayoutData(gd);
 
-		gd = new GridData(SWT.END, SWT.BEGINNING, true, false);
+		gd = new GridData(SWT.END, SWT.END, true, true);
 		gd.horizontalSpan = 2;
-		Link logLink = new Link(body, SWT.NONE);
-		logLink.setText("<a>" + meaning("VIEW_LOG") + "</a>");
-		logLink.setLayoutData(gd);
-		logLink.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				logger.debug("Open log file: " + Logger.LOG_FILE_PATH);
-				HyperlinkUtils.openEditor(Logger.LOG_FILE_PATH);
-			}
-		});
 
+		Composite butComp = new Composite(body, SWT.NONE);
+		butComp.setLayoutData(gd);
+		RowLayout rl = new RowLayout();
+		rl.spacing = 8;
+		butComp.setLayout(rl);
+
+		RowData rd;
 		if (GlobalConfig.DEBUG_MODE) {
-			Button forceGC = new Button(body, SWT.PUSH);
-			forceGC.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-			forceGC.setText("&Force GC");
 
-			mem = new Label(body, SWT.NONE);
+			mem = new Label(butComp, SWT.NONE);
 			mem.setText(getMemText());
+
+			Button forceGC = new Button(butComp, SWT.PUSH);
+			// forceGC.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+			forceGC.setText("&Force GC");
+			rd = new RowData();
+			forceGC.pack();
+			rd.width = Math.max(80, forceGC.getSize().x);
+			forceGC.setLayoutData(rd);
 
 			forceGC.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
@@ -140,6 +146,28 @@ public class AboutForm extends BaseForm {
 				}
 			});
 		}
+
+		Link logLink = new Link(butComp, SWT.NONE);
+		logLink.setText("<a>" + meaning("VIEW_LOG") + "</a>");
+		logLink.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				logger.debug("Open log file: " + Logger.LOG_FILE_PATH);
+				HyperlinkUtils.openEditor(Logger.LOG_FILE_PATH);
+			}
+		});
+
+		gd = new GridData(SWT.END, SWT.BEGINNING, false, false);
+		Button closeBut = new Button(butComp, SWT.PUSH);
+		closeBut.setText(lang.getMeaning("CLOSE"));
+		closeBut.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				shell.close();
+			}
+		});
+		rd = new RowData();
+		closeBut.pack();
+		rd.width = Math.max(80, closeBut.getSize().x);
+		closeBut.setLayoutData(rd);
 
 		shell.pack();
 		shell.setSize(480, shell.getSize().y);
