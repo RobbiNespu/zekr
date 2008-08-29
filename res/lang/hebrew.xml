@@ -19,7 +19,7 @@
 			<text id="CLOSE" value="סבור" />
 			<text id="INSERT" value="הכנס" />
 			<text id="DETAILS" value="פרטים" />
-			<text id="MORE" value="עוד" />
+			<text id="MORE" value="ע&amp;וד" />
 			<text id="NEXT" value="הבא" />
 			<text id="PREVIOUS" value="הקודם" />
 			<text id="REFRESH" value="רענן" />
@@ -96,9 +96,9 @@
 			<text id="SHOW_REFS" value="הצג מראי מקום" />
 			<text id="MOVE_UP" value="הזז מעלה" />
 			<text id="MOVE_DOWN" value="הזז מטה" />
-			<text id="MULTI_TRANS" value="תרגומים מרובים" />
+			<text id="MULTI_TRANS" value="תרגומים מ&amp;רובים" />
 			<text id="CONFIG_CUSTOM_TRANS" value="ערוך תצורת תרגומים מותאמים אישית" />
-			<text id="GO" value="פעל" />
+			<text id="GO" value="לך" />
 			<text id="CAUTION" value="זהירות" />
 			<text id="ADVANCED" value="מתקדם" />
 			<text id="QUERY_DETAIL" value="פרטי שאילתה" />
@@ -112,18 +112,18 @@
 			<text id="PAUSE" value="הפסק" />
 			<text id="STOP" value="עצור" />
 			<text id="RECITATION" value="קריאה בקול" />
-			<text id="MENU_NEXT_AYA" value="האיה הבאה" />
-			<text id="MENU_NEXT_SURA" value="הסורה הבאה" />
-			<text id="MENU_PREV_AYA" value="האיה הקודמת" />
-			<text id="MENU_PREV_SURA" value="הסורה הקודמת" />
-			<text id="MENU_NEXT_JUZ" value="הג'וז הבא" />
-			<text id="MENU_PREV_JUZ" value="הג'וז הקודם" />
-			<text id="MENU_NEXT_HIZBQ" value="רבע החזב הבא" />
-			<text id="MENU_PREV_HIZBQ" value="רבע החזב הקודם" />
-			<text id="MENU_NEXT_SAJDA" value="הסג'דה הבאה" />
-			<text id="MENU_PREV_SAJDA" value="הסג'דה הקודמת" />
-			<text id="MENU_NEXT_PAGE" value="העמוד הבא" />
-			<text id="MENU_PREV_PAGE" value="העמוד הקודם" />
+			<text id="MENU_NEXT_AYA" value="ה&amp;איה הבאה" />
+			<text id="MENU_NEXT_SURA" value="ה&amp;סורה הבאה" />
+			<text id="MENU_PREV_AYA" value="הא&amp;יה הקודמת" />
+			<text id="MENU_PREV_SURA" value="הס&amp;ורה הקודמת" />
+			<text id="MENU_NEXT_JUZ" value="ה&amp;ג'וז הבא" />
+			<text id="MENU_PREV_JUZ" value="הג'ו&amp;ז הקודם" />
+			<text id="MENU_NEXT_HIZBQ" value="רבע ה&amp;חזב הבא" />
+			<text id="MENU_PREV_HIZBQ" value="רבע החז&amp;ב הקודם" />
+			<text id="MENU_NEXT_SAJDA" value="הסג'&amp;דה הבאה" />
+			<text id="MENU_PREV_SAJDA" value="הסג'ד&amp;ה הקודמת" />
+			<text id="MENU_NEXT_PAGE" value="ה&amp;עמוד הבא" />
+			<text id="MENU_PREV_PAGE" value="הע&amp;מוד הקודם" />
 			<text id="CHECK4UPDATE" value="בדוק עדכונים" />
 			<text id="ASCENDING" value="עולה" />
 			<text id="DESCENDING" value="יורד" />
@@ -131,11 +131,11 @@
 			<text id="FULL_SCREEN" value="מסך מלא" />
 			<text id="WARNING" value="אזהרה" />
 			<text id="ONLINE_HELP" value="עזרה מקוונת" />
-			<text id="PAGING_MODE" value="מצב דפדוף" />
+			<text id="PAGING_MODE" value="מצב &amp;דפדוף" />
 			<text id="PANEL" value="פאנל" />
 			<text id="DETAIL_PANEL" value="פאנל מפורט" />
 			<text id="REPEAT" value="חזור" />
-			<text id="ROOT" value="שורש" /> <!-- word root -->
+			<text id="ROOT" value="שורש" />
 			<text id="ADDRESS" value="כתובת" />
 		</common>
 		<special>
@@ -311,7 +311,7 @@
 			<text id="HIZB_QUARTER" value="רבע חזב" />
 			<text id="JUZ" value="ג'וז" />
 			<text id="CONST_AYA" value="מספר איות קבוע" />
-			<text id="CUSTOM" value="מותאם אישית" />
+			<text id="CUSTOM" value="מותאם &amp;אישית" />
 			<text id="AYA_PER_SURA" value="כמה איות יופיעו בכל דף?" />
 		</form>
 	</forms>
