@@ -1045,7 +1045,7 @@ public class QuranFormMenuFactory {
 				MessageBoxUtils.showWarning(str);
 			}
 		} catch (IOException e) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			MessageBoxUtils.showActionFailureError(e);
 			logger.implicitLog(e);
 		} finally {
 			if (config.getTranslation().getDefault() == null && errorList.size() <= 0 && transFileList.size() > 0)
@@ -1100,7 +1100,7 @@ public class QuranFormMenuFactory {
 			}
 			MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
 		} catch (IOException e) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			MessageBoxUtils.showActionFailureError(e);
 			logger.implicitLog(e);
 		}
 	}
@@ -1134,7 +1134,7 @@ public class QuranFormMenuFactory {
 
 			MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
 		} catch (IOException e) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			MessageBoxUtils.showActionFailureError(e);
 			logger.implicitLog(e);
 		}
 	}
@@ -1150,7 +1150,7 @@ public class QuranFormMenuFactory {
 			logger.info("Save current view to file: " + f);
 			FileUtils.copyFile(UriUtils.toFile(form.getCurrentUri()), f);
 		} catch (Exception e) {
-			MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + e.getMessage());
+			MessageBoxUtils.showActionFailureError(e);
 		}
 	}
 
