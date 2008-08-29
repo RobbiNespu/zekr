@@ -171,7 +171,7 @@ public class MessageBoxUtils {
 		show(msg, lang.getMeaning("ERROR"), SWT.ICON_ERROR | lang.getSWTDirection());
 	}
 
-	public static void showActionFailureError(String msg, Exception ex) {
+	public static void showActionFailureError(Exception ex) {
 		showError(lang.getMeaning("ACTION_FAILED") + "\n" + ex.toString());
 	}
 
