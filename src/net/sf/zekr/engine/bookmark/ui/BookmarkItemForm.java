@@ -50,6 +50,11 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * A form for viewing and managing a single bookmark item or folder.
+ * 
+ * @author Mohsen Saboorian
+ */
 public class BookmarkItemForm extends BaseForm {
 	private Table table;
 	private TableEditor editor;
@@ -79,11 +84,10 @@ public class BookmarkItemForm extends BaseForm {
 	}
 
 	/**
-	 * Makes a new <code>BookmarkItemForm</code>. The underling <code>BookmarkItem</code> is also created, but its
-	 * ID is not assigned.
+	 * Makes a new instance of this class. The underling {@link BookmarkItem} is also created, but its ID is
+	 * not assigned.
 	 * 
-	 * @param parent
-	 *           the parent shell
+	 * @param parent the parent shell
 	 * @param isFolder
 	 * @param bookmarkSetDirection
 	 */
@@ -95,6 +99,30 @@ public class BookmarkItemForm extends BaseForm {
 		bookmarkItem.setLocations(new ArrayList());
 		bookmarkItem.setDescription("");
 		bookmarkItem.setName(meaning(isFolder ? "NEW_FOLDER" : "NEW_BOOKMARK"));
+		_init();
+	}
+
+	/**
+	 * Makes a new instance of this class, as a bookmark item (not folder). It uses locationList to initialize
+	 * {@link IQuranLocation}s this item refers to. The underling {@link BookmarkItem} is also created, but its
+	 * ID is not assigned.<br>
+	 * This constructor is used for stand-alone bookmarking.
+	 * 
+	 * @param parent the parent shell
+	 * @param locationList a list of {@link IQuranLocation}s to be set as default locations to this bookmark
+	 *           item
+	 * @param bookmarkName default bookmark name (title). If this value is null, localized value for the key
+	 *           NEW_BOOKMARK is used.
+	 * @param bookmarkSetDirection
+	 */
+	public BookmarkItemForm(Shell parent, List locationList, String bookmarkName, int bookmarkSetDirection) {
+		this.parent = parent;
+		this.bookmarkSetDirection = bookmarkSetDirection;
+		bookmarkItem = new BookmarkItem();
+		bookmarkItem.setFolder(false);
+		bookmarkItem.setLocations(locationList);
+		bookmarkItem.setDescription("");
+		bookmarkItem.setName(bookmarkName != null ? bookmarkName : meaning("NEW_BOOKMARK"));
 		_init();
 	}
 
@@ -243,7 +271,7 @@ public class BookmarkItemForm extends BaseForm {
 
 		okBut = new Button(butComposite, SWT.PUSH);
 		cancelBut = new Button(butComposite, SWT.PUSH);
-		okBut.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
+		okBut.setText(FormUtils.addAmpersand(lang.getMeaning("OK")));
 		okBut.pack();
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -258,7 +286,7 @@ public class BookmarkItemForm extends BaseForm {
 		});
 		shell.setDefaultButton(okBut);
 
-		cancelBut.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
+		cancelBut.setText(FormUtils.addAmpersand(lang.getMeaning("CANCEL")));
 		cancelBut.pack();
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -272,10 +300,10 @@ public class BookmarkItemForm extends BaseForm {
 		// set both OK and CANCEL to the same width
 		int buttonLength = FormUtils.buttonLength(80, okBut, cancelBut);
 		rdOk.width = buttonLength;
-		rdCancel.width = buttonLength;		
+		rdCancel.width = buttonLength;
 		okBut.setLayoutData(rdOk);
 		cancelBut.setLayoutData(rdCancel);
-		
+
 		if (!bookmarkItem.isFolder()) {
 			TableColumn suraCol = new TableColumn(table, SWT.NONE);
 			suraCol.setText(lang.getMeaning("SURA"));
@@ -482,8 +510,7 @@ public class BookmarkItemForm extends BaseForm {
 	}
 
 	/**
-	 * @param readOnly
-	 *           disables OK button if <code>true</code>.
+	 * @param readOnly disables OK button if <code>true</code>.
 	 * @return <code>true</code> if ok pressed, <code>false</code> otherwise.
 	 */
 	public boolean open(boolean readOnly) {
