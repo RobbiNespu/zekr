@@ -543,6 +543,14 @@ Bug fixes:
 	Use StringUtils.isBlank() instead of isEmpty(). isBlank() also trims the input string.
 	Change quran.text.delim to \\r\\n (Tanzil text files are in Windows line delimiter model).
 	Remove extra whitespaces for search result ayas. Extra whitespaces caused non-elegant highlighted results.
+
+Version 0.7.0 beta 2 - [24-8-08]
+Features/Enhancements:
+
+Bug fixes:
+    Changed the way quran-root is loaded. It was incompatible with GCJ.
+    An error message box is now shown when indexing error occurs. User indexing cancellation is not assumed as an error.
+
 _____________________________________________________
 	TODO: Update screenshots on the website
 	TODO: Search results in ascending/descending order
