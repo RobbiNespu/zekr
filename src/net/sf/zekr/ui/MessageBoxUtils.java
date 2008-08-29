@@ -404,6 +404,8 @@ public class MessageBoxUtils {
 		item.setImage(new Image(shell.getDisplay(), res.getString("icon.toolbar.fullScreen")));
 		floatShell.pack();
 		floatShell.open();
+		
+		quranForm.getShell().forceFocus();
 		return floatShell;
 	}
 
