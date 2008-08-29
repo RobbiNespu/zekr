@@ -30,15 +30,20 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
+import net.sf.zekr.engine.log.Logger;
+
 /**
  * This is a slightly modified version of NanoHttpd 1.1, A simple, tiny, nicely embeddable HTTP 1.0 server in
- * Java. <br /> NanoHttpd version 1.1, Copyright &copy; 2001,2005-2007 Jarno Elonen (elonen@iki.fi,
- * http://iki.fi/elonen/) Distributed under Modified BSD licence (nanohttpd-license.txt).
+ * Java.<br>
+ * NanoHttpd version 1.1, Copyright &copy; 2001,2005-2007 Jarno Elonen (elonen@iki.fi, http://iki.fi/elonen/)
+ * Distributed under Modified BSD licence (doc/license/snanohttpd-license.txt).
  * 
  * @author Jarno Elonen (original author)
  * @author Mohsen Saboorian
  */
 public class NanoHttpd {
+	private final Logger logger = Logger.getLogger(this.getClass());
+
 	// ==================================================
 	// API parts
 	// ==================================================
@@ -166,7 +171,9 @@ public class NanoHttpd {
 
 		myTcpPort = port;
 
+		logger.debug("Instantiate a ServerSocet on port: " + myTcpPort);
 		final ServerSocket ss = new ServerSocket(myTcpPort);
+
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -179,7 +186,10 @@ public class NanoHttpd {
 			}
 		});
 		t.setDaemon(true);
+
+		logger.debug("Start connection acceptance thread.");
 		t.start();
+		logger.debug("Acceptance thread started.");
 	}
 
 	/**
