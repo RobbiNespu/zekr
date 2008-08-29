@@ -58,7 +58,7 @@
 			<text id="DELETE" value="حذف کردن" />
 			<text id="REMOVE" value="حذف کردن" />
 			<text id="TRANSLATION" value="ترجمه" />
-			<text id="TRANSLATION_VIEWTYPE" value="ترجمه"   />
+			<text id="TRANSLATION_VIEWTYPE" value="ترجمه" />
 			<text id="OPEN" value="باز کردن" />
 			<text id="IMPORT" value="وارد کردن" />
 			<text id="COPY" value="کپی" />
@@ -106,42 +106,43 @@
 			<text id="PAGE" value="صفحه" />
 			<text id="MULTILINE" value="چندخطی" />
 			<text id="TOGGLE" value="باز/بسته" />
-			<text id="AUDIO" value="صوت"   />
-			<text id="CONTINUOUS" value="پیوسته"   />
-			<text id="DISCRETE" value="گسسته"   />
-			<text id="PLAY" value="پخش"   />
-			<text id="PAUSE" value="مکث"   />
-			<text id="STOP" value="توقف"   />
-			<text id="RECITATION" value="قرائت"   />
-			<text id="MENU_NEXT_AYA" value="آیهٔ بعد"   />
-			<text id="MENU_NEXT_SURA" value="سورهٔ بعد"   />
-			<text id="MENU_PREV_AYA" value="آیهٔ قبل"   />
-			<text id="MENU_PREV_SURA" value="سورهٔ قبل"   />
-			<text id="MENU_NEXT_JUZ" value="جزء بعد"   />
-			<text id="MENU_PREV_JUZ" value="جزء قبل"   />
-			<text id="MENU_NEXT_HIZBQ" value="ربع حزب بعد"   />
-			<text id="MENU_PREV_HIZBQ" value="ربع حزب قبل"   />
-			<text id="MENU_NEXT_SAJDA" value="سجدهٔ بعد"   />
-			<text id="MENU_PREV_SAJDA" value="سجدهٔ قبل"   />
-			<text id="MENU_NEXT_PAGE" value="صفحهٔ بعد"   />
-			<text id="MENU_PREV_PAGE" value="صفحهٔ قبل"   />
-            <text id="CHECK4UPDATE" value="وارسی برای نسخهٔ جدید" />
+			<text id="AUDIO" value="صوت" />
+			<text id="CONTINUOUS" value="پیوسته" />
+			<text id="DISCRETE" value="گسسته" />
+			<text id="PLAY" value="پخش" />
+			<text id="PAUSE" value="مکث" />
+			<text id="STOP" value="توقف" />
+			<text id="RECITATION" value="قرائت" />
+			<text id="MENU_NEXT_AYA" value="آیهٔ بعد" />
+			<text id="MENU_NEXT_SURA" value="سورهٔ بعد" />
+			<text id="MENU_PREV_AYA" value="آیهٔ قبل" />
+			<text id="MENU_PREV_SURA" value="سورهٔ قبل" />
+			<text id="MENU_NEXT_JUZ" value="جزء بعد" />
+			<text id="MENU_PREV_JUZ" value="جزء قبل" />
+			<text id="MENU_NEXT_HIZBQ" value="ربع حزب بعد" />
+			<text id="MENU_PREV_HIZBQ" value="ربع حزب قبل" />
+			<text id="MENU_NEXT_SAJDA" value="سجدهٔ بعد" />
+			<text id="MENU_PREV_SAJDA" value="سجدهٔ قبل" />
+			<text id="MENU_NEXT_PAGE" value="صفحهٔ بعد" />
+			<text id="MENU_PREV_PAGE" value="صفحهٔ قبل" />
+			<text id="CHECK4UPDATE" value="وارسی برای نسخهٔ جدید" />
 			<text id="ASCENDING" value="صعودی" />
 			<text id="DESCENDING" value="نزولی" />
 			<text id="REVEL_ORDER" value="ترتیب نزول" />
 			<text id="FULL_SCREEN" value="تمام‌صفحه" />
 			<text id="WARNING" value="هشدار" />
 			<text id="ONLINE_HELP" value="کمک برخط" />
-			<text id="PAGING_MODE" value="نوع صفحه‌بندی"   />
-			<text id="PANEL" value="تابلو"   />
-			<text id="DETAIL_PANEL" value="تابلوی جزئیات"   />
-			<text id="REPEAT" value="تکرار"   />
-			<text id="ROOT" value="ریشه"   /> <!-- word root -->
-			<text id="ADDRESS" value="آدرس"   />
+			<text id="PAGING_MODE" value="نوع صفحه‌بندی" />
+			<text id="PANEL" value="تابلو" />
+			<text id="DETAIL_PANEL" value="تابلوی جزئیات" />
+			<text id="REPEAT" value="تکرار" />
+			<text id="ROOT" value="ریشه" /> <!-- word root -->
+			<text id="ADDRESS" value="آدرس" />
+			<text id="BOOKMARK_THIS_AYA" value="نشان‌گذاری این آیه" />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
-			<text id="QURAN_VIEWTYPE" value="قرآن"   />
+			<text id="QURAN_VIEWTYPE" value="قرآن" />
 			<text id="SURA" value="سوره" />
 			<text id="AYA" value="آیه" />
 			<text id="SAJDA" value="سجده" />
@@ -167,7 +168,7 @@
 			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است. آیا می‌خواهید آن‌را جایگزین کنید؟" />
 			<text id="RESTART_APP" value="برای اعمال تغییرات، برنامه را بسته و مجدداً اجرا کنید." />
 			<text id="ACTION_PERFORMED" value="عملیات با موفقیت انجام شد." />
-			<text id="TRANSLATION_ADDED" value="این ترجمه‌ها زیرِ منوی {1} اضافه شدند"   />
+			<text id="TRANSLATION_ADDED" value="این ترجمه‌ها زیرِ منوی {1} اضافه شدند" />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="آیا مطمئن هستید؟" />
@@ -177,11 +178,11 @@
 			<text id="GENERAL_ERROR" value="وقوع خطای ناخواسته در برنامه" />
 			<text id="FNF" value="فایل پیدا نشد" />
 			<text id="ACTION_FAILED" value="انجام عملیات ناموفق بود!" />
-			<text id="INVALID_TRANSLATION_FORMAT" value="قالب ترجمه نامعتبر است: {1}"   />
-			<text id="INVALID_TRANSLATION_SIGNATURE" value="امضای ترجمه نامعتبر است: {1}"   />
+			<text id="INVALID_TRANSLATION_FORMAT" value="قالب ترجمه نامعتبر است: {1}" />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="امضای ترجمه نامعتبر است: {1}" />
 			<text id="TRANSLATION_LOAD_FAILED" value="بارگزاری ناموفق ترجمهٔ &quot;{1}&quot; به دلیل این خطا: {2}" />
-			<text id="ENTER_VALID_NUMBER" value="لطفاً عدد معتبری وارد کنید."   />
-			<text id="NUMBER_LIMIT" value="لطفاً عددی بین '{1}' و '{2}' وارد کنید."   />
+			<text id="ENTER_VALID_NUMBER" value="لطفاً عدد معتبری وارد کنید." />
+			<text id="NUMBER_LIMIT" value="لطفاً عددی بین '{1}' و '{2}' وارد کنید." />
 		</error>
 		<hint></hint>
 	</message>
@@ -199,18 +200,18 @@
 			<text id="EDIT_SCOPES" value="ویرایش محدوده‌ها" />
 			<text id="NO_SCOPE" value="بدون محدوده" />
 			<text id="CURRENT_PAGE" value="صفحهٔ جاری" />
-			<text id="QURAN_SCOPE" value="قرآن"   />
-			<text id="TRANSLATION_SCOPE" value="ترجمه"   />
+			<text id="QURAN_SCOPE" value="قرآن" />
+			<text id="TRANSLATION_SCOPE" value="ترجمه" />
 			<text id="NATURAL_ORDER" value="ترتیب طبیعی" />
 			<text id="RELEVANCE" value="شباهت" />
-			<text id="AYA_LENGTH" value="طول آیه"   />
+			<text id="AYA_LENGTH" value="طول آیه" />
 			<text id="SORT_BY" value="مرتب بر اساس" />
-			<text id="TOGGLE_FULL_SCREEN" value="تمام صفحه / عادی"   />
+			<text id="TOGGLE_FULL_SCREEN" value="تمام صفحه / عادی" />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="THEME_OPTIONS" value="مضمون"   />
-			<text id="GENERAL_OPTIONS" value="عمومی"   />
-			<text id="VIEW_OPTIONS" value="نمایش"   />
+			<text id="THEME_OPTIONS" value="مضمون" />
+			<text id="GENERAL_OPTIONS" value="عمومی" />
+			<text id="VIEW_OPTIONS" value="نمایش" />
 			<text id="TITLE" value="تنظیمات برنامه" />
 			<text id="SHOW_SPLASH" value="نمایش تصویر ابتدای برنامه" />
 			<text id="NEW_KEY" value="یک کلید جدید وارد کنید" />
@@ -218,12 +219,12 @@
 			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید &quot;قبول&quot; را فشار دهید." />
 			<text id="MAX_SEARCH_RESULT" value="حداکثر تعداد نتایج جستجو" />
 			<text id="RESIZEABLE_TASK_PANE" value="قابلیت تغییر اندازه برای قاب وظایف" />
-			<text id="SURA_NAMES" value="نمایش نام سوره‌ها به"   />
-            <text id="ARABIC" value="عربی" />
-            <text id="EN_T9N" value="ترجمهٔ انگلیسی" />
-            <text id="EN_T13N" value="آوانگاری انگلیسی" />
-            <text id="T9N" value="ترجمه‌شده (اگر موجود است)" />
-            <text id="T13N" value="آوانگاری‌شده (اگر موجود است)" />
+			<text id="SURA_NAMES" value="نمایش نام سوره‌ها به" />
+			<text id="ARABIC" value="عربی" />
+			<text id="EN_T9N" value="ترجمهٔ انگلیسی" />
+			<text id="EN_T13N" value="آوانگاری انگلیسی" />
+			<text id="T9N" value="ترجمه‌شده (اگر موجود است)" />
+			<text id="T13N" value="آوانگاری‌شده (اگر موجود است)" />
 			<text id="ENABLE_AUDIO" value="فعال‌سازی امکان قرائت" />
 			<text id="SURA_NAME_TREE" value="نمایش نام سوره‌ها به صورت درختی" />
 		</form>
@@ -274,8 +275,8 @@
 			<text id="FOLLOWING_USERS" value="شاخص گذاری برای این کاربران" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
-			<text id="REMOVE_CUSTOM" value="حذف کردن"   />
-			<text id="ADD_CUSTOM" value="اضافه کردن"   />
+			<text id="REMOVE_CUSTOM" value="حذف کردن" />
+			<text id="ADD_CUSTOM" value="اضافه کردن" />
 			<text id="TITLE" value="تنظیم ترجمه‌های سفارشی‌شده" />
 			<text id="AVAILABLE" value="ترجمه‌های موجود" />
 			<text id="CURRENT" value="ترجمه‌های کنونی" />
@@ -284,37 +285,37 @@
 			<text id="PLEASE_WAIT" value="لطفاً صبر کنید" />
 			<text id="INDEXING" value="در حال شاخص گذاری" />
 			<text id="TAKE_TIME" value="این عملیات بسته به اندازهٔ مستند، ممکن است تا چند دقیقه طول بکشد." />
-            <text id="CHECKING" value="بررسی برای به‌هنگام رسانی" />
-            <text id="ZEKR_IS_CHECKING" value="ذکر در حال بررسی وجود نسخهٔ به‌هنگام است" />
+			<text id="CHECKING" value="بررسی برای به‌هنگام رسانی" />
+			<text id="ZEKR_IS_CHECKING" value="ذکر در حال بررسی وجود نسخهٔ به‌هنگام است" />
 		</form>
-        <form id="ABOUT">
-            <text id="TITLE" value="دربارهٔ ذکر" />
-            <text id="VIEW_LOG" value="نمایش فایل لاگ" />
-        </form>
-        <form id="UPDATE">
-            <text id="TITLE" value="اطلاعات نسخهٔ به‌هنگام" />
-            <text id="VERSION_INFO" value="اطلاعات نسخه" />
-            <text id="BUILD_NUM" value="شمارهٔ ساخت" />
-            <text id="VERSION" value="نسخه" />
-            <text id="RELEASE_NAME" value="نام نسخه" />
-            <text id="RELEASE_STATE" value="وضعیت انتشار" />
-            <text id="RELEASE_DATE" value="تاریخ انتشار" />
-            <text id="RELEASE_NOTES" value="توضیحات نسخه" />
-            <text id="DOWNLOAD" value="بارگذاری" />
-            <text id="MORE_INFO" value="اطلاعات بیشتر" />
-            <text id="NO_UPDATE" value="شما از آخرین نسخه استفاده می‌کنید" />
-            <text id="NEW_DEV_AVAILABLE" value="نسخهٔ جدیدتر توسعه‌ای (ناپایدار) آماده برای بارگذاری است" />
-            <text id="NEW_BETA_AVAILABLE" value="نسخهٔ جدیدتر بتا (ناپایدار) آماده برای بارگذاری است" />
-            <text id="NEW_FINAL_AVAILABLE" value="نسخهٔ جدیدتر منتشرشده آماده برای بارگذاری است" />
-        </form>
+		<form id="ABOUT">
+			<text id="TITLE" value="دربارهٔ ذکر" />
+			<text id="VIEW_LOG" value="نمایش فایل لاگ" />
+		</form>
+		<form id="UPDATE">
+			<text id="TITLE" value="اطلاعات نسخهٔ به‌هنگام" />
+			<text id="VERSION_INFO" value="اطلاعات نسخه" />
+			<text id="BUILD_NUM" value="شمارهٔ ساخت" />
+			<text id="VERSION" value="نسخه" />
+			<text id="RELEASE_NAME" value="نام نسخه" />
+			<text id="RELEASE_STATE" value="وضعیت انتشار" />
+			<text id="RELEASE_DATE" value="تاریخ انتشار" />
+			<text id="RELEASE_NOTES" value="توضیحات نسخه" />
+			<text id="DOWNLOAD" value="بارگذاری" />
+			<text id="MORE_INFO" value="اطلاعات بیشتر" />
+			<text id="NO_UPDATE" value="شما از آخرین نسخه استفاده می‌کنید" />
+			<text id="NEW_DEV_AVAILABLE" value="نسخهٔ جدیدتر توسعه‌ای (ناپایدار) آماده برای بارگذاری است" />
+			<text id="NEW_BETA_AVAILABLE" value="نسخهٔ جدیدتر بتا (ناپایدار) آماده برای بارگذاری است" />
+			<text id="NEW_FINAL_AVAILABLE" value="نسخهٔ جدیدتر منتشرشده آماده برای بارگذاری است" />
+		</form>
 		<form id="PAGING_MODE">
-			<text id="TITLE" value="نوع صفحه‌بندی"   />
-			<text id="SURA" value="سوره"   />
-			<text id="HIZB_QUARTER" value="ربع حزب"   />
-			<text id="JUZ" value="جزء"   />
-			<text id="CONST_AYA" value="تعداد ثابت آیه"   />
-			<text id="CUSTOM" value="سفارشی"   />
-			<text id="AYA_PER_SURA" value="چند آیه در هر صفحه نمایش داده شود؟"   />
+			<text id="TITLE" value="نوع صفحه‌بندی" />
+			<text id="SURA" value="سوره" />
+			<text id="HIZB_QUARTER" value="ربع حزب" />
+			<text id="JUZ" value="جزء" />
+			<text id="CONST_AYA" value="تعداد ثابت آیه" />
+			<text id="CUSTOM" value="سفارشی" />
+			<text id="AYA_PER_SURA" value="چند آیه در هر صفحه نمایش داده شود؟" />
 		</form>
 	</forms>
 </language>
