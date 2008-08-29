@@ -20,16 +20,21 @@ import java.util.Map;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.IUserView;
+import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranPage;
+import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.JuzProperties;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.SajdaProperties;
+import net.sf.zekr.common.resource.filter.IQuranFilter;
+import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
+import net.sf.zekr.engine.bookmark.ui.BookmarkSetForm;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
@@ -234,8 +239,12 @@ public class QuranForm extends BaseForm {
 
 	private Listener globalKeyListener = new Listener() {
 		public void handleEvent(Event event) {
-			if (event.stateMask == SWT.CTRL && event.keyCode == 'f') {
-				focusOnSearchBox(event);
+			if (event.stateMask == SWT.CTRL) {
+				if (event.keyCode == 'f') { // find
+					focusOnSearchBox();
+				} else if (event.keyCode == 'd') { // bookmark
+					bookmarkThisAya();
+				}
 			} else if (NAV_BUTTON.equals(event.widget.getData())) {
 				boolean isRTL = ((lang.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
 				int d = event.keyCode ^ SWT.KEYCODE_BIT;
@@ -778,7 +787,23 @@ public class QuranForm extends BaseForm {
 		}
 	}
 
-	private void focusOnSearchBox(Event event) {
+	/**
+	 * Bring up bookmark item form.
+	 */
+	void bookmarkThisAya() {
+		try {
+			IQuranText qt = new FilteredQuranText(QuranText.getSimpleTextInstance(), IQuranFilter.NONE);
+			String abbr = net.sf.zekr.common.util.StringUtils.abbreviate(qt.get(uvc.getLocation()), 30);
+			BookmarkSetForm.addNew(shell, uvc.getLocation(), QuranFilterUtils.filterHarakat(abbr));
+		} catch (IOException e) {
+			logger.error(e);
+		}
+	}
+
+	/**
+	 * Focus on the current visible search box
+	 */
+	private void focusOnSearchBox() {
 		int i = searchTabFolder.getSelectionIndex();
 		Control text = null;
 		try {
@@ -1804,13 +1829,14 @@ public class QuranForm extends BaseForm {
 	protected void setFullScreen(boolean full, boolean fromMenu) {
 		saveLocationAndSize();
 		if (full) {
-			shell.setMaximized(true);
+			// shell.setMaximized(true);
 			shell.setFullScreen(true);
 			fullScreenFloatShell = MessageBoxUtils.getFullScreenToolbar(this);
 		} else {
 			if (fullScreenFloatShell != null && !fullScreenFloatShell.isDisposed()) {
 				fullScreenFloatShell.close();
 			}
+			shell.setFullScreen(false);
 			show();
 		}
 		if (!fromMenu) {
