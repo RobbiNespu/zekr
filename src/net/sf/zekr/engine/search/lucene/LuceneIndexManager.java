@@ -8,8 +8,10 @@
  */
 package net.sf.zekr.engine.search.lucene;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.MessageBoxUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 
@@ -75,6 +78,20 @@ public class LuceneIndexManager {
 		return getIndex(pathArray, td, id, props.getString(pathKey), pathKey, versionKey);
 	}
 
+	/**
+	 * Creates an index in the place user selects. This method first checks if an index already exists for
+	 * all-users or not. If not it continues to ask where to create index files.<br>
+	 * It uses underlying cache to store {@link ZekrIndexReader}s already read in this session.
+	 * 
+	 * @param pathArray the first element should be for me-only mode, the second element for all-users.
+	 * @param quranText
+	 * @param indexId
+	 * @param indexPath
+	 * @param indexPathKey
+	 * @param indexVersionKey
+	 * @return cached or newly-created {@link ZekrIndexReader} instance
+	 * @throws IndexingException
+	 */
 	private ZekrIndexReader getIndex(String[] pathArray, IQuranText quranText, String indexId, String indexPath,
 			String indexPathKey, String indexVersionKey) throws IndexingException {
 		try {
@@ -83,6 +100,20 @@ public class LuceneIndexManager {
 				if (indexPath != null && IndexReader.indexExists(indexPath)) {
 					return newIndexReader(quranText, indexId, indexPath);
 				} else {
+					// check if index is already created for all-users, and its modify date is newer than zekr build date
+					File indexDir = new File(pathArray[1]);
+					if (IndexReader.indexExists(indexDir)) {
+						Collection listFiles = FileUtils.listFiles(indexDir, new String[] { "cfs" }, false);
+						if (listFiles.size() > 0) {
+							if (FileUtils.isFileNewer((File) listFiles.iterator().next(), GlobalConfig.ZEKR_BUILD_DATE)) {
+								ZekrIndexReader res;
+								res = newIndexReader(quranText, indexId, pathArray[1]);
+								props.setProperty(indexPathKey, pathArray[1]);
+								props.setProperty(indexVersionKey, GlobalConfig.ZEKR_BUILD_NUMBER);
+								return res;
+							}
+						}
+					}
 					IndexCreator indexCreator = new IndexCreator(pathArray, quranText, LuceneAnalyzerFactory
 							.getAnalyzer(quranText));
 					if (indexCreator.indexQuranText()) {
@@ -90,7 +121,7 @@ public class LuceneIndexManager {
 						props.setProperty(indexVersionKey, GlobalConfig.ZEKR_BUILD_NUMBER);
 						return newIndexReader(quranText, indexId, indexCreator.getIndexDir());
 					} else {
-						// a non-interruption error occurred
+						// a non-interruption (bad) exception occurred
 						if (indexCreator.isIndexingErrorOccurred() && indexCreator.getIndexingException() != null) {
 							MessageBoxUtils.showActionFailureError(indexCreator.getIndexingException());
 						}
