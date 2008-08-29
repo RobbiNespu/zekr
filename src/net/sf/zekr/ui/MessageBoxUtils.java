@@ -171,6 +171,10 @@ public class MessageBoxUtils {
 		show(msg, lang.getMeaning("ERROR"), SWT.ICON_ERROR | lang.getSWTDirection());
 	}
 
+	public static void showActionFailureError(String msg, Exception ex) {
+		showError(lang.getMeaning("ACTION_FAILED") + "\n" + ex.toString());
+	}
+
 	public static void showError(ZekrMessageException zme) {
 		showError(lang.getDynamicMeaning(zme.getMessage(), zme.getParams()));
 	}
