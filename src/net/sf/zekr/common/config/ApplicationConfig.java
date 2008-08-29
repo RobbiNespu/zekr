@@ -194,8 +194,7 @@ public class ApplicationConfig implements ConfigNaming {
 			logger.info("Loading Quran root word database...");
 			ResourceManager res = ResourceManager.getInstance();
 			String rootFile = res.getString("text.quran.root");
-			String rootRawStr = net.sf.zekr.common.util.FileUtils.readFully(new FileInputStream(rootFile), (int) new File(
-					rootFile).length());
+			String rootRawStr = FileUtils.readFileToString(new File(rootFile), "UTF-8");
 			Date date1 = new Date();
 			quranRoot = new QuranRoot(rootRawStr);
 			Date date2 = new Date();
