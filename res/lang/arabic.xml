@@ -102,27 +102,28 @@
 			<text id="GO" value="إذهب" />
 			<text id="CAUTION" value="تحذير" />
 			<text id="ADVANCED" value="متقدّم" />
-            <text id="QUERY_DETAIL" value="تفاصيل الإستعلام" />
-            <text id="PAGE" value="صفحة" />
-            <text id="MULTILINE" value="أسطر متعدّدة" />
-            <text id="TOGGLE" value="عكس الحالة" />
-            <text id="AUDIO" value="صوت"   />
-            <text id="CONTINUOUS" value="مستمر"   />
-            <text id="DISCRETE" value="مقطّع"   />
-            <text id="PLAY" value="قراءة"   />
-            <text id="PAUSE" value="توقّف مؤقت"   />
-            <text id="STOP" value="توقّف"   />
-            <text id="RECITATION" value="تلاوة"   />
-            <text id="MENU_NEXT_AYA" value="الآية التالية"   />
-            <text id="MENU_NEXT_SURA" value="السورية التالية"   />
-            <text id="MENU_PREV_AYA" value="الآية السابقة"   />
-            <text id="MENU_PREV_SURA" value="السورة السابقة"   />
-            <text id="MENU_NEXT_JUZ" value="الجزء التالي"   />
-            <text id="MENU_PREV_JUZ" value="الجزء السابق"   />
-            <text id="MENU_NEXT_HIZBQ" value="ربع الحزب التالي"   />
-            <text id="MENU_PREV_HIZBQ" value="ربع الحزب السابق"   />
-            <text id="MENU_NEXT_SAJDA" value="السجدة التالية"   />
-            <text id="MENU_PREV_SAJDA" value="السجدة السابقة"   />
+			<text id="QUERY_DETAIL" value="تفاصيل الإستعلام" />
+			<text id="PAGE" value="صفحة" />
+			<text id="MULTILINE" value="أسطر متعدّدة" />
+			<text id="TOGGLE" value="عكس الحالة" />
+			<text id="AUDIO" value="صوت"   />
+			<text id="CONTINUOUS" value="مستمر"   />
+			<text id="DISCRETE" value="مقطّع"   />
+			<text id="PLAY" value="قراءة"   />
+			<text id="PAUSE" value="توقّف مؤقت"   />
+			<text id="STOP" value="توقّف"   />
+			<text id="RECITATION" value="تلاوة"   />
+			<text id="MENU_NEXT_AYA" value="الآية التالية"   />
+			<text id="MENU_NEXT_SURA" value="السورية التالية"   />
+			<text id="MENU_PREV_AYA" value="الآية السابقة"   />
+			<text id="MENU_PREV_SURA" value="السورة السابقة"   />
+			<text id="MENU_NEXT_JUZ" value="الجزء التالي"   />
+			<text id="MENU_PREV_JUZ" value="الجزء السابق"   />
+			<text id="MENU_NEXT_HIZBQ" value="ربع الحزب التالي"   />
+			<text id="MENU_PREV_HIZBQ" value="ربع الحزب السابق"   />
+			<text id="MENU_NEXT_SAJDA" value="السجدة التالية"   />
+			<text id="MENU_PREV_SAJDA" value="السجدة السابقة"   />
+			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />

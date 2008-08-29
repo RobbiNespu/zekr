@@ -138,6 +138,7 @@
             <text id="REPEAT" value="Tekrarla"   />
             <text id="ROOT" value="Kök"   /> <!-- word root -->
             <text id="ADDRESS" value="Adres"   />
+			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
         </common>
         <special>
             <text id="QURAN" value="Kur'an" />

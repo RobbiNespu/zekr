@@ -138,6 +138,7 @@
             <text id="REPEAT" value="Ponovi"   />
             <text id="ROOT" value="Korijen"   /> <!-- word root -->
             <text id="ADDRESS" value="Adresa"   />
+            <text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
         </common>
         <special>
             <text id="QURAN" value="Kur'an" />

@@ -130,6 +130,7 @@
 			<text id="FULL_SCREEN" value="Volledige &amp;scherm" />
 			<text id="WARNING" value="Waarschuwing" />
 			<text id="ONLINE_HELP" value="Online Help" /> 
+			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
 		</common>
 		<special>
 			<text id="QURAN"  value="Koran" />

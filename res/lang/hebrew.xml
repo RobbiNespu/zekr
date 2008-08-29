@@ -137,6 +137,7 @@
 			<text id="REPEAT" value="חזור" />
 			<text id="ROOT" value="שורש" />
 			<text id="ADDRESS" value="כתובת" />
+			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
 		</common>
 		<special>
 			<text id="QURAN" value="קוראן" />

@@ -138,6 +138,7 @@
 			<text id="REPEAT" value="Repeat"   />
 			<text id="ROOT" value="Root"   /> <!-- word root -->
 			<text id="ADDRESS" value="Address"   />
+			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />

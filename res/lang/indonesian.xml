@@ -123,6 +123,7 @@
 			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
 			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
 			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
+			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />

@@ -123,6 +123,7 @@
 			<text id="MENU_PREV_HIZBQ" value="Үткән Хизеб Чиреге"   />
 			<text id="MENU_NEXT_SAJDA" value="Киләсе Сәҗдә"   />
 			<text id="MENU_PREV_SAJDA" value="Үткән Сәҗдә"   />
+			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Коръән-и Кәрим" />

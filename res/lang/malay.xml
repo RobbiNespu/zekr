@@ -140,6 +140,7 @@
 			<text id="MINOR_SAJDA" value="Sunat Sujud " /> <!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="Wajib Sujud " /> <!-- Wajib Sajda -->
 			<text id="LOCATION" value="Lokasi" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
 		</special>
 	</word>
 
