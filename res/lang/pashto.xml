@@ -138,7 +138,7 @@
 			<text id="REPEAT" value="بياځلي"/>
 			<text id="ROOT" value="ولۍ"/> <!-- word root -->
 			<text id="ADDRESS" value="پته"/>
-			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
+			<text id="BOOKMARK_THIS_AYA" value="دا ايت ليکنښول" />
 		</common>
 		<special>
 			<text id="QURAN" value="قران"/>
