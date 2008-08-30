@@ -138,7 +138,7 @@
             <text id="REPEAT" value="Répéter"   />
             <text id="ROOT" value="Racine"   /> <!-- word root -->
             <text id="ADDRESS" value="Adresse"   />
-            <text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
+            <text id="BOOKMARK_THIS_AYA" value="Repérer cette Aya" /> 
         </common>
         <special>
             <text id="QURAN"  value="Coran" />
@@ -252,7 +252,7 @@
         <form id="BOOKMARK_SET_MANAGE_FORM">
             <text id="TITLE" value="Éditer les groupes de repère" />
             <text id="DBL_CLICK" value="Double click sur les items pour charger et/ou éditer." />
-            <text id="SET_AS_DEFAULT" value=" Voulez vous mettre        &quot;{1}&quot; par défaut votre ensemble du repère?" />
+            <text id="SET_AS_DEFAULT" value="Voulez vous mettre &quot;{1}&quot; par défaut votre ensemble du repère?" />
             <text id="CANNOT_REMOVE_DEFAULT" value="Impossible d'effacer le repère par défaut." />
             <text id="CANNOT_OVERWRITE_DEFAULT" value="Impossible d'écraser sur l'ensemble du repère par défaut. Sélectionner un autre ensemble  d'un repère par défaut, et essayer d'importer." />
             <text id="ENTER_ID" value="Enter l'ID du repère " />
