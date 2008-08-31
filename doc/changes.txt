@@ -544,7 +544,7 @@ Bug fixes:
 	Change quran.text.delim to \\r\\n (Tanzil text files are in Windows line delimiter model).
 	Remove extra whitespaces for search result ayas. Extra whitespaces caused non-elegant highlighted results.
 
-Version 0.7.0 beta 2 - [1-9-08]
+Version 0.7.0 (Zekr Ramadan Edition 2) - [1-9-08]
 Features/Enhancements:
 	Ctrl+F focuses on the visible search box.
 	A new stand-alone bookmarking feature: Bookmark This Aya. This feature is available through Ctrl+D, or Bookmarks > Bookmark This Aya menu item. It adds a default title to the bookmark item (based on the current aya) as well as the current Quran location to it.
