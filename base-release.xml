@@ -7,7 +7,7 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.7.0beta2" />
+	<property name="component_version" value="0.7.0" />
 
 	<property name="main_class" value="${package}.ZekrMain" />
 
