@@ -952,19 +952,19 @@ public class QuranFormMenuFactory {
 
 		new MenuItem(bookmarksMenu, SWT.SEPARATOR);
 
-		MenuItem findRefItem = createMenuItem(0, bookmarksMenu, lang.getMeaning("SHOW_REFS") + "...", SWT.CTRL
-				| SWT.SHIFT | 'F', "icon.menu.bookmark.findRef");
-		findRefItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				findReferences();
-			}
-		});
-
 		MenuItem bookmarkThis = createMenuItem(0, bookmarksMenu, lang.getMeaning("BOOKMARK_THIS_AYA") + "...",
 				SWT.CTRL | 'D', "icon.menu.bookmark.add");
 		bookmarkThis.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				form.bookmarkThisAya();
+			}
+		});
+
+		MenuItem findRefItem = createMenuItem(0, bookmarksMenu, lang.getMeaning("SHOW_REFS") + "...", SWT.CTRL
+				| SWT.SHIFT | 'F', "icon.menu.bookmark.findRef");
+		findRefItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				findReferences();
 			}
 		});
 
