@@ -6,11 +6,11 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.7.0beta2" />
+	<property name="component_version" value="0.7.0" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.0/beta2" />
+	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.0/final" />
 	<property name="distdir" value="${dest_dir}/develdist" />
 
 	<property name="srcdir" value="src" />
