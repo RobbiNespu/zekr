@@ -6,9 +6,9 @@ SetCompressor /SOLID lzma
 
 # Defines
 !define REGKEY "SOFTWARE\$(^Name)"
-!define APP_UNIX_NAME "zekr"
-!define VERSION 0.7.0.0
-!define RELEASE_VERSION "0.7.0"
+!define APP_NAME "zekr"
+!define VERSION 0.7.1.0
+!define RELEASE_VERSION "0.7.1"
 !define COMPANY zekr.org
 !define URL http://zekr.org
 
@@ -30,16 +30,23 @@ SetCompressor /SOLID lzma
 !define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
 
+!define INSTDIR_REG_ROOT "HKLM"
+!define INSTDIR_REG_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
+ 
 # Included files
 !include Sections.nsh
 !include MUI.nsh
+;include the Uninstall log header
+!include AdvUninstLog.nsh
+
+!insertmacro UNATTENDED_UNINSTALL
 
 # Reserved Files
 !insertmacro MUI_RESERVEFILE_LANGDLL
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.0\final\win32"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.1\final\win64"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -84,7 +91,7 @@ Var JDK_HOME
 
 # Installer attributes
 BrandingText "The Zekr Project"
-OutFile ${APP_UNIX_NAME}-${RELEASE_VERSION}-setup.exe
+OutFile ${APP_NAME}-${RELEASE_VERSION}-setup.exe
 InstallDir $PROGRAMFILES\Zekr
 CRCCheck on
 XPStyle on
@@ -104,15 +111,17 @@ ShowUninstDetails show
 
 # Installer sections
 Section -Main SEC0000
-    SetOutPath $INSTDIR
-    SetOverwrite on
-    File /r "${BASE_APP}\*"
+	SetOutPath $INSTDIR
+	!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+	SetOverwrite on
+	File /r "${BASE_APP}\*"
 
-    ; Arabic font copy
-    SetOverwrite try
-    File "/oname=$WINDIR\Fonts\me_quran_volt_newmet.ttf" "${BASE_APP}\..\..\me_quran_volt_newmet.ttf"
+	; Arabic font copy
+	SetOverwrite try
+	File "/oname=$WINDIR\Fonts\me_quran_volt_newmet.ttf" "${BASE_APP}\..\..\me_quran_volt_newmet.ttf"
 
-    WriteRegStr HKLM "${REGKEY}\Components" Main 1
+	WriteRegStr HKLM "${REGKEY}\Components" Main 1
+	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 SectionEnd
 
 Section -post SEC0001
@@ -128,28 +137,13 @@ Section -post SEC0001
     WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
     WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
  
-#    SetOutPath $SMPROGRAMS\$StartMenuGroup
     SetOutPath "$INSTDIR\"
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
         CreateDirectory "$SMPROGRAMS\$StartMenuGroup"
         CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Zekr.lnk" $INSTDIR\zekr.exe
         CreateShortCut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
-#        CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Browse site.lnk" $INSTDIR\doc\site\index.html
     !insertmacro MUI_STARTMENU_WRITE_END
 
-    ; remove previous zekr cache home
-#    IfFileExists "$DOCUMENTS\..\.zekr" 0 +2
-#    DetailPrint "Removing old Zekr home directory"
-#    RMDir /r "$DOCUMENTS\..\.zekr"
-
-    ; javaw.exe.manifest file copy
-#    SetOverwrite try
-#    SetOutPath $SYSDIR
-#    File "${BASE_APP}\res\javaw.exe.manifest"
-#    SetOutPath "$JRE_HOME\bin"
-#    File "${BASE_APP}\res\javaw.exe.manifest"
-#    SetOutPath "$JDK_HOME\bin"
-#    File "${BASE_APP}\res\javaw.exe.manifest"
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -167,8 +161,20 @@ done${UNSECTION_ID}:
 
 # Uninstaller sections
 Section /o un.Main UNSEC0000
-    RMDir /r /REBOOTOK $INSTDIR\Zekr
-    DeleteRegValue HKLM "${REGKEY}\Components" Main
+	# RMDir /r /REBOOTOK $INSTDIR\Zekr
+	#Call un.CreateLogFromFile
+	#Call un.RemoveDirectoriesFromLog
+
+	;begin uninstall, especially for MUI could be added in UN.onInit function instead
+	!insertmacro UNINSTALL.LOG_BEGIN_UNINSTALL
+	;uninstall from path, must be repeated for every install logged path individual
+	!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR"
+	;uninstall from path, must be repeated for every install logged path individual
+	!insertmacro UNINSTALL.LOG_UNINSTALL "$APPDATA\${APP_NAME}"
+	;end uninstall, after uninstall from all logged paths has been performed
+	!insertmacro UNINSTALL.LOG_END_UNINSTALL
+
+	DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
 
 Section un.post UNSEC0001
@@ -180,12 +186,13 @@ Section un.post UNSEC0001
     DeleteRegKey /ifempty HKLM "${REGKEY}\Components"
     DeleteRegKey /ifempty HKLM "${REGKEY}"
     RMDir /r /REBOOTOK $SMPROGRAMS\$StartMenuGroup
-    RMDir /r /REBOOTOK $INSTDIR
+    ; RMDir /r /REBOOTOK $INSTDIR
 SectionEnd
 
 # Installer functions
 Function .onInstSuccess
-#    Exec $\"$INSTDIR\zekr.exe$\"
+	;create/update log always within .onInstSuccess function
+	!insertmacro UNINSTALL.LOG_UPDATE_INSTALL
 FunctionEnd
 
 !define GET_JAVA_URL "http://java.sun.com/getjava"
@@ -234,7 +241,10 @@ Function .onInit
     advsplash::show 1000 700 600 -1 $PLUGINSDIR\spltmp
     Pop $R1
     Pop $R1
-    !insertmacro MUI_LANGDLL_DISPLAY
+
+	;prepare log always within .onInit function
+	!insertmacro UNINSTALL.LOG_PREPARE_INSTALL
+	!insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
 
 # Uninstaller functions
@@ -245,6 +255,9 @@ Function un.onInit
     StrCmp $R0 0 +3
     MessageBox MB_OK|MB_ICONEXCLAMATION "The installer is already running."
     Abort
+
+	;begin uninstall, could be added on top of uninstall section instead
+	; !insertmacro UNINSTALL.LOG_BEGIN_UNINSTALL
 
     ReadRegStr $INSTDIR HKLM "${REGKEY}" Path
     ReadRegStr $StartMenuGroup HKLM "${REGKEY}" StartMenuGroup
