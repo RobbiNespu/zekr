@@ -192,7 +192,7 @@
 			<text id="APP_NAME" value="ذکر" />
 			<text id="APP_FULL_NAME" value="پروژهٔ قرآنی ذکر" />
 			<text id="FORM_TITLE" value="ذکر" />
-			<text id="COPYRIGHT_DISCLAIMER" value="این برنامه بصورت رایگان و به امید اینکه مفید باشد در اختیار شما قرار گرفته است، ولی بدون هیچگونه ضمانت." />
+			<text id="COPYRIGHT_DISCLAIMER" value="این برنامه بصورت رایگان و به امید اینکه مفید باشد ولی بدون هیچگونه ضمانت، در اختیار شما قرار گرفته است." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="ذکر" />

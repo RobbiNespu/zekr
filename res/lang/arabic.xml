@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="محمد بشير النعيمي" version="0.6">
+<language author="أحمد المحمودي,محمد بشير النعيمي" version="0.7">
 	<locale localizedName="عربي" name="Arabic" id="ar_SY" direction="rtl" />
 	<word>
 		<common>
@@ -123,7 +123,16 @@
 			<text id="MENU_PREV_HIZBQ" value="ربع الحزب السابق"   />
 			<text id="MENU_NEXT_SAJDA" value="السجدة التالية"   />
 			<text id="MENU_PREV_SAJDA" value="السجدة السابقة"   />
+			<text id="MENU_NEXT_PAGE" value="الصفحة التالية"   />
+			<text id="MENU_PREV_PAGE" value="الصفحة السابقة"   />
 			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
+			<text id="ROOT" value="جذر"   />
+			<text id="PAGING_MODE" value="نظام الصفحة"   />
+			<text id="FULL_SCREEN" value="شاشة كاملة"   />
+			<text id="PANEL" value="لوحة"   />
+			<text id="DETAIL_PANEL" value="لوحة التفاصيل"   />
+      <text id="ONLINE_HELP" value="مساعدة" />
+      <text id="CHECK4UPDATE" value="تحديث" />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -141,6 +150,7 @@
 			<text id="MINOR_SAJDA" value="سجدة صغيرة" /> <!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="سجدة كبيرة" /> <!-- Wajib Sajda -->
 			<text id="LOCATION" value="مسار" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+      <text id="REVEL_ORDER" value="ترتيب النزول" />
 		</special>
 	</word>
 
@@ -183,6 +193,7 @@
 			<text id="NATURAL_ORDER" value="ترتيب عادي" />
 			<text id="RELEVANCE" value="صلة" />
 			<text id="SORT_BY" value="ترتيب حسب" />
+			<text id="AYA_LENGTH" value="طول الآية" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS" value="سمة"   />
@@ -195,6 +206,9 @@
 			<text id="PRESS_OK_TO_APPLY" value="اضغط على الزر &quot;موافق&quot; لتطبيق التغييرات." />
 			<text id="MAX_SEARCH_RESULT" value="أكبر قيمة لنتائج البحث." />
 			<text id="RESIZEABLE_TASK_PANE" value="الشريط الجانبي قابل للتمديد" />
+			<text id="SURA_NAMES" value="أسماء السور" />
+			<text id="SURA_NAME_TREE" value="شجرة أسماء السور" />
+			<text id="ENABLE_AUDIO" value="تشغيل الصوت" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="إعداد مجال البحث" />
@@ -253,6 +267,14 @@
 			<text id="PLEASE_WAIT" value="إنتظر من فضلك" />
 			<text id="INDEXING" value="فهرسة" /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="هذه العملية ستأخذ بعض الوقت وذلك تبعاً لحجم المستتند المستخدم" />
+		</form>
+		<form id="PAGING_MODE">
+			<text id="TITLE" value="نظام الصفحة"   />
+      <text id="SURA" value="سورة"   />
+      <text id="CONST_AYA" value="عدد آيات"   />
+      <text id="HIZB_QUARTER" value="ربع حزب"   />
+      <text id="JUZ" value="جزء"   />
+      <text id="CUSTOM" value="تفصيل" />
 		</form>
 	</forms>
 </language>

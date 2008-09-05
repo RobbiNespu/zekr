@@ -138,7 +138,7 @@
             <text id="REPEAT" value="Повторить"   />
             <text id="ROOT" value="Корень слова"   /> <!-- корень слова -->
             <text id="ADDRESS" value="Адрес"   />
-            <text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
+            <text id="BOOKMARK_THIS_AYA" value="Добавить этот аят в закладки"   />
         </common>
         <special>
             <text id="QURAN"    value="Коран" />

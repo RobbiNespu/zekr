@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Mahdi Reyes" version="0.6">
+<language author="Mahdi Reyes" version="0.7">
 	<locale localizedName="Español" name="Spanish" id="es_ES" direction="ltr" />
 	<word>
 		<common>
@@ -58,7 +58,7 @@
 			<text id="DELETE" value="Borrar" />
 			<text id="REMOVE" value="Quitar" />
 			<text id="TRANSLATION" value="Traducción" />
-			<text id="TRANSLATION_VIEWTYPE" value="T&amp;raducción diseño" />
+			<text id="TRANSLATION_VIEWTYPE" value="T&amp;raducción diseño"   />
 			<text id="OPEN" value="Abrir" />
 			<text id="IMPORT" value="Importar" />
 			<text id="COPY" value="Copiar" />
@@ -106,43 +106,43 @@
 			<text id="PAGE" value="Página" />
 			<text id="MULTILINE" value="Multilinea" />
 			<text id="TOGGLE" value="Intercambiar" />
-			<text id="AUDIO" value="Audio" />
-			<text id="CONTINUOUS" value="Continuo" />
-			<text id="DISCRETE" value="Discreto" />
-			<text id="PLAY" value="En marcha" />
-			<text id="PAUSE" value="Pausa" />
-			<text id="STOP" value="Parar" />
-			<text id="RECITATION" value="Recitación" />
-			<text id="MENU_NEXT_AYA" value="Si&amp;guiente Aya" />
-			<text id="MENU_NEXT_SURA" value="Siguiente Sura" />
-			<text id="MENU_PREV_AYA" value="Anterior &amp;Aya" />
-			<text id="MENU_PREV_SURA" value="Anterior Sura" />
-			<text id="MENU_NEXT_JUZ" value="Siguien&amp;te Juz" />
-			<text id="MENU_PREV_JUZ" value="Ante&amp;rior Juz" />
-			<text id="MENU_NEXT_HIZBQ" value="Siguiente Hiz&amp;b cuarto" />
-			<text id="MENU_PREV_HIZBQ" value="Anterior Hi&amp;zb cuarto" />
-			<text id="MENU_NEXT_SAJDA" value="Siguiente Sa&amp;jda" />
-			<text id="MENU_PREV_SAJDA" value="Anterior Saj&amp;da" />
-			<text id="MENU_NEXT_PAGE" value="Siguiente Pagina" />
-			<text id="MENU_PREV_PAGE" value="Anterior Pagina" />
-			<text id="CHECK4UPDATE" value="Buscar actualizacion" />
-			<text id="ASCENDING" value="Ascendente" />
-			<text id="DESCENDING" value="Descendente" />
-			<text id="REVEL_ORDER" value="Orden de revelación" />
-			<text id="FULL_SCREEN" value="Pantalla Completa" />
-			<text id="WARNING" value="Peligro" />
-			<text id="ONLINE_HELP" value="Ayuda en linea" />
-			<text id="PAGING_MODE" value="Modo de Pagina" />
-			<text id="PANEL" value="Panel" />
-			<text id="DETAIL_PANEL" value="Detalles del Panel" />
-			<text id="REPEAT" value="Repetir" />
-			<text id="ROOT" value="Raiz" /> <!-- word root -->
-			<text id="ADDRESS" value="Dirección" />
-			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya" />
+			<text id="AUDIO" value="Audio"   />
+			<text id="CONTINUOUS" value="Continuo"   />
+			<text id="DISCRETE" value="Discreto"   />
+			<text id="PLAY" value="En marcha"   />
+			<text id="PAUSE" value="Pausa"   />
+			<text id="STOP" value="Parar"   />
+			<text id="RECITATION" value="Recitación"   />
+			<text id="MENU_NEXT_AYA" value="Si&amp;guiente Aya"   />
+			<text id="MENU_NEXT_SURA" value="Siguiente Sura"   />
+			<text id="MENU_PREV_AYA" value="Anterior &amp;Aya"   />
+			<text id="MENU_PREV_SURA" value="Anterior Sura"   />
+			<text id="MENU_NEXT_JUZ" value="Siguien&amp;te Juz"   />
+			<text id="MENU_PREV_JUZ" value="Ante&amp;rior Juz"   />
+			<text id="MENU_NEXT_HIZBQ" value="Siguiente Hiz&amp;b cuarto"   />
+			<text id="MENU_PREV_HIZBQ" value="Anterior Hi&amp;zb cuarto"   />
+			<text id="MENU_NEXT_SAJDA" value="Siguiente Sa&amp;jda"   />
+			<text id="MENU_PREV_SAJDA" value="Anterior Saj&amp;da"   />
+			<text id="MENU_NEXT_PAGE" value="Siguiente Pagina"   />
+			<text id="MENU_PREV_PAGE" value="Anterior Pagina"   />
+			<text id="CHECK4UPDATE" value="Buscar actualizacion"   />
+			<text id="ASCENDING" value="Ascendente"   />
+			<text id="DESCENDING" value="Descendente"   />
+			<text id="REVEL_ORDER" value="Orden de revelación"   />
+			<text id="FULL_SCREEN" value="Pantalla Completa"   />
+			<text id="WARNING" value="Peligro"   />
+			<text id="ONLINE_HELP" value="Ayuda en linea"   />		
+			<text id="PAGING_MODE" value="Modo de Pagina"   />
+			<text id="PANEL" value="Panel"   />
+			<text id="DETAIL_PANEL" value="Detalles del Panel"   />
+			<text id="REPEAT" value="Repetir"   />
+			<text id="ROOT" value="Raiz"   /> <!-- word root -->
+			<text id="ADDRESS" value="Dirección"   />
+			<text id="BOOKMARK_THIS_AYA" value="Marcar esta aya"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Coran" />
-			<text id="QURAN_VIEWTYPE" value="C&amp;oran diseño" />
+			<text id="QURAN_VIEWTYPE" value="C&amp;oran diseño"   />
 			<text id="SURA" value="Sura" />
 			<text id="AYA" value="Aya" />
 			<text id="SAJDA" value="Sajda" />
@@ -153,9 +153,9 @@
 			<text id="MADANI" value="Medina" />
 			<text id="DESCENT" value="Revelada en" />
 			<text id="AYA_COUNT" value="Aya numero" />
-			<text id="MINOR_SAJDA" value="Menor sajda" /> <!-- Mustahab Sajda -->
-			<text id="MAJOR_SAJDA" value="Mayor sajda" /> <!-- Wajib Sajda -->
-			<text id="LOCATION" value="Localizacion" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+			<text id="MINOR_SAJDA" value="Menor sajda" /><!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="Mayor sajda" /><!-- Wajib Sajda -->
+			<text id="LOCATION" value="Localizacion" /><!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
 
@@ -167,8 +167,8 @@
 			<text id="TOO_MANY_RESULT" value="Resultado de la busqueda en mas de {1} ayas" />
 			<text id="FILE_ALREADY_EXISTS" value="Un archivo con el nombre &quot;{1}&quot; ya existe. Quiere reemplazarlo?" />
 			<text id="RESTART_APP" value="Necesita reiniciar la aplicación para que los cambios tengan efecto." />
-			<text id="ACTION_PERFORMED" value="Action performed successfully." />
-			<text id="TRANSLATION_ADDED" value="The following translation added under {1} menu" />
+			<text id="ACTION_PERFORMED" value="Accion realizada con exito."   />
+			<text id="TRANSLATION_ADDED" value="La siguiente traduccion fue añadida bajo {1} menu"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Esta seguro?" />
@@ -178,11 +178,11 @@
 			<text id="GENERAL_ERROR" value="Un error inexperado a ocurrido" />
 			<text id="FNF" value="Archivo no encontrado" />
 			<text id="ACTION_FAILED" value="Accion fallida!" />
-			<text id="INVALID_TRANSLATION_FORMAT" value="Formato de traducción no valido: {1}" />
-			<text id="INVALID_TRANSLATION_SIGNATURE" value="Firma de traducción no valida: {1}" />
-			<text id="TRANSLATION_LOAD_FAILED" value="Traducción cargada &quot;{1}&quot; fallida por el siguiente error: {2}" />
-			<text id="ENTER_VALID_NUMBER" value="Por favor introduce un numero valido." />
-			<text id="NUMBER_LIMIT" value="Por favor introduce un numero entre '{1}' y '{2}'." />
+			<text id="INVALID_TRANSLATION_FORMAT" value="Formato de traducción no valido: {1}"   />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Firma de traducción no valida: {1}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="Traducción cargada &quot;{1}&quot; fallida por el siguiente error: {2}"   />		
+			<text id="ENTER_VALID_NUMBER" value="Por favor introduce un numero valido."   />
+			<text id="NUMBER_LIMIT" value="Por favor introduce un numero entre '{1}' y '{2}'."   />
 		</error>
 		<hint></hint>
 	</message>
@@ -200,18 +200,18 @@
 			<text id="EDIT_SCOPES" value="Editar ambito" />
 			<text id="NO_SCOPE" value="Sin ambito" />
 			<text id="CURRENT_PAGE" value="Página actual" />
-			<text id="QURAN_SCOPE" value="Coran" />
-			<text id="TRANSLATION_SCOPE" value="Traducción" />
+			<text id="QURAN_SCOPE" value="Coran"   />
+			<text id="TRANSLATION_SCOPE" value="Traducción"   />
 			<text id="NATURAL_ORDER" value="Orden Natural" />
 			<text id="RELEVANCE" value="Relevancia" />
-			<text id="AYA_LENGTH" value="Longitud de la AYA" />
+			<text id="AYA_LENGTH" value="Longitud de la AYA"   />			
 			<text id="SORT_BY" value="Resultados agrupados por" />
-			<text id="TOGGLE_FULL_SCREEN" value="Cambiar a pantalla completa" />
+			<text id="TOGGLE_FULL_SCREEN" value="Cambiar a pantalla completa"   />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="THEME_OPTIONS" value="Tema" />
-			<text id="GENERAL_OPTIONS" value="General" />
-			<text id="VIEW_OPTIONS" value="Ver" />
+			<text id="THEME_OPTIONS" value="Tema"   />
+			<text id="GENERAL_OPTIONS" value="General"   />
+			<text id="VIEW_OPTIONS" value="Ver"   />
 			<text id="TITLE" value="Opciones de Aplicación" />
 			<text id="SHOW_SPLASH" value="Mostrar logo al comenzar" />
 			<text id="NEW_KEY" value="Entrar nueva llave" />
@@ -219,14 +219,14 @@
 			<text id="PRESS_OK_TO_APPLY" value="Presionar &quot;Aceptar&quot; boton para aplicar los cambios." />
 			<text id="MAX_SEARCH_RESULT" value="Numero maximo de la busqueda" />
 			<text id="RESIZEABLE_TASK_PANE" value="Redimensionar el panel" />
-			<text id="SURA_NAMES" value="Mostrar nombres de la sura en" />
-			<text id="ARABIC" value="Arabe" />
-			<text id="EN_T9N" value="Traducción Inglesa" />
-			<text id="EN_T13N" value="Transliteración Inglesa" />
-			<text id="T9N" value="Traducción (si esta disponible)" />
-			<text id="T13N" value="Transliteración (si esta disponible)" />
-			<text id="ENABLE_AUDIO" value="Activar soporte de audio" />
-			<text id="SURA_NAME_TREE" value="Mostrar nombres de suras en arbol" />
+			<text id="SURA_NAMES" value="Mostrar nombres de la sura en"   />
+			<text id="ARABIC" value="Arabe"   />
+			<text id="EN_T9N" value="Traducción Inglesa"   />
+			<text id="EN_T13N" value="Transliteración Inglesa"   />
+			<text id="T9N" value="Traducción (si esta disponible)"   />
+			<text id="T13N" value="Transliteración (si esta disponible)"   />
+			<text id="ENABLE_AUDIO" value="Activar soporte de audio"   />
+			<text id="SURA_NAME_TREE" value="Mostrar nombres de suras en arbol"   />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configurar ambito de busqueda" />
@@ -275,8 +275,8 @@
 			<text id="FOLLOWING_USERS" value="Indexar para los siguientes usuarios" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
-			<text id="REMOVE_CUSTOM" value="No usar" />
-			<text id="ADD_CUSTOM" value="Usar" />
+			<text id="REMOVE_CUSTOM" value="No usar"   />
+			<text id="ADD_CUSTOM" value="Usar"   />
 			<text id="TITLE" value="Configurar traducciones personalizadas" />
 			<text id="AVAILABLE" value="Traducciones disponibles" />
 			<text id="CURRENT" value="Traducciones usadas actualmente" />
@@ -286,7 +286,7 @@
 			<text id="INDEXING" value="Indexando" /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="Esta acción puede requerir de varios minutos, dependiendo del tamaño del documento que esta siendo indexado." />
 			<text id="CHECKING" value="Buscando posibles actualizaciones" />
-			<text id="ZEKR_IS_CHECKING" value="Zekr esta buscando actualizaciones" />
+			<text id="ZEKR_IS_CHECKING" value="Zekr esta buscando actualizaciones" />		
 		</form>
 		<form id="ABOUT">
 			<text id="TITLE" value="Sobre Zekr" />
@@ -307,15 +307,15 @@
 			<text id="NEW_DEV_AVAILABLE" value="Una nueva versión en desarrollo (inestable) esta disponible para descargar" />
 			<text id="NEW_BETA_AVAILABLE" value="Una nueva versión beta (inestable) esta disponible para descargar" />
 			<text id="NEW_FINAL_AVAILABLE" value="Una nueva versión (final) esta disponible para descargar" />
-		</form>
+		</form>	
 		<form id="PAGING_MODE">
-			<text id="TITLE" value="Modo de pagina" />
-			<text id="SURA" value="Sura" />
-			<text id="HIZB_QUARTER" value="Hizb cuarto" />
-			<text id="JUZ" value="Juz" />
-			<text id="CONST_AYA" value="Numero de ayas" />
-			<text id="CUSTOM" value="Personalizar" />
-			<text id="AYA_PER_SURA" value="¿Cuantas ayas deben aparecer en cada página?" />
+			<text id="TITLE" value="Modo de pagina"   />
+			<text id="SURA" value="Sura"   />
+			<text id="HIZB_QUARTER" value="Hizb cuarto"   />
+			<text id="JUZ" value="Juz"   />
+			<text id="CONST_AYA" value="Numero de ayas"   />
+			<text id="CUSTOM" value="Personalizar"   />
+			<text id="AYA_PER_SURA" value="¿Cuantas ayas deben aparecer en cada página?"   />
 		</form>
 	</forms>
 </language>
