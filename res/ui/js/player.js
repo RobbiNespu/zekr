@@ -64,14 +64,14 @@ Player = function() {
 		this.contAya = continuous;
 	}
 
-	this.setVolume = function(v) { sendEvent('volume', v); this.volume = v; }
-	this.stop = function() { sendEvent('stop'); this.playing = false; }
+	this.setVolume = function(v) { sendEvent('volume', v, this.playerId); this.volume = v; }
+	this.stop = function() { sendEvent('stop', '', this.playerId); this.playing = false; }
 	this.playPause = function() {
 		sendEvent('playpause', '', this.playerId);
 		this.playing = !this.playing;
 	}
-	this.next = function() { sendEvent('next'); this.playing = true; }
-	this.prev = function() { sendEvent('prev'); this.playing = true; }
+	this.next = function() { sendEvent('next', '', this.playerId); this.playing = true; }
+	this.prev = function() { sendEvent('prev', '', this.playerId); this.playing = true; }
 	this.goto = function(index) {
 		this.index = index;
 		sendEvent('playitem', this.index, this.playerId);
@@ -87,7 +87,7 @@ var playerOnLoad = function(jq, contAya) {
 	if (playlist != "") {
 		var playlistItems = $('#hiddenPlaylistItemArray').val();
 		player.setup(playlist, $('#hiddenVolume').val(), eval(playlistItems), 0, contAya, 'quranPlayer');
-		buffer.setup(playlist, $('#hiddenVolume').val(), eval(playlistItems), 0, contAya, 'bufferPlayer', '0', '0', 'bufferBar');
+		buffer.setup(playlist, '0', eval(playlistItems), 0, false, 'bufferPlayer', '0', '0', 'bufferBar');
 		setTimeout(function() { // make sure that flash object is created (bug fix for IE)
 			ayaFocusHooks = [];
 			ayaFocusHooks.push(function(o) {
@@ -127,7 +127,7 @@ function getUpdate(tp, p1, p2, pid) {
 			if (player.index + 1 < ayaCount) {
 				buffer.goto(player.index + 1);
 				buffer.playPause();
-				buffer.playPause();
+				if (buffer.playing) buffer.playPause();
 			}
 		}
 	} if (tp == "time") {
