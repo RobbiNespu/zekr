@@ -12,8 +12,8 @@ function getPlayer(id) {
 	return document[id || 'quranPlayer'];
 }
 
-function sendEvent(typ, p) {
-	var player = getPlayer();
+function sendEvent(typ, p, playerId) {
+	var player = getPlayer(playerId);
 	if (player && player.sendEvent) player.sendEvent(typ, p);
 }
 
@@ -33,29 +33,31 @@ Player = function() {
 	this.load = 0;
 	this.volume = $('#hiddenVolume').val();
 	this.playlist = '';
+	this.playerId = '';
 	this.elapsed = 0;
 	this.repeatTime = $('#hiddenRepeatTime').val();
 	this.repeatElapsed = 0;
 	this.contAya = ($('#hiddenContinuousAyaPlay').val() == 'true'); // continuous aya playing
 	this.butPressed = false; // is true only when html play/pause button is pressed (to distinct it from JWPlayer button)
-	this.setup = function(playlist, volume, items, index, contAya) {
+	this.setup = function(playlist, volume, items, index, contAya, playerId, width, height, divId) {
 		this.playlist = playlist;
 		this.volume = volume;
 		this.items = items;
 		this.index = index;
+		this.playerId = playerId;
 		if (contAya != undefined) this.contAya = contAya;
 		var fo = {
-			movie:'res/audio/player.swf', width:'220', height:'20',
+			movie:'res/audio/player.swf', width: (width || '220'), height: (height || '20'),
 			menu: 'false', allowscriptaccess: 'always',
-			id: 'quranPlayer', name: 'quranPlayer', bgcolor: '#ffffff',
+			id: playerId, name: playerId, bgcolor: '#ffffff',
 			majorversion: '8', build: '0',
 			flashvars: 'file=' + playlist + '&volume=' + volume +
 				'&repeat=' + (this.contAya ? 'list' : 'false') +
-				'&height=20&enablejs=true&javascriptid=quranPlayer' +
-				'&width=220&height=20' +
+				'&enablejs=true&javascriptid=' + playerId +
+				'&width=' + (width || 220) + '&height=' + (height || 20) +
 				'&backcolor=0xeee0e0&frontcolor=0x0011cc' + 
 				'&shuffle=false&showdigits=true&autostart=false' };
-		UFO.create(fo, 'reciterBar');
+		UFO.create(fo, divId || 'reciterBar');
 	}
 
 	this.setContMode = function(continuous) {
@@ -64,23 +66,28 @@ Player = function() {
 
 	this.setVolume = function(v) { sendEvent('volume', v); this.volume = v; }
 	this.stop = function() { sendEvent('stop'); this.playing = false; }
-	this.playPause = function() { sendEvent('playpause'); this.playing = !this.playing; }
+	this.playPause = function() {
+		sendEvent('playpause', '', this.playerId);
+		this.playing = !this.playing;
+	}
 	this.next = function() { sendEvent('next'); this.playing = true; }
 	this.prev = function() { sendEvent('prev'); this.playing = true; }
 	this.goto = function(index) {
 		this.index = index;
-		sendEvent('playitem', this.index);
+		sendEvent('playitem', this.index, this.playerId);
 		this.playing = true;
 	}
 };
 
-var player;
+var player, buffer;
 var playerOnLoad = function(jq, contAya) {
 	player = new Player();
+	buffer = new Player();
 	var playlist = $('#hiddenPlaylistUrl').val().trim();
 	if (playlist != "") {
 		var playlistItems = $('#hiddenPlaylistItemArray').val();
-		player.setup(playlist, $('#hiddenVolume').val(), eval(playlistItems), 0, contAya);
+		player.setup(playlist, $('#hiddenVolume').val(), eval(playlistItems), 0, contAya, 'quranPlayer');
+		buffer.setup(playlist, $('#hiddenVolume').val(), eval(playlistItems), 0, contAya, 'bufferPlayer', '0', '0', 'bufferBar');
 		setTimeout(function() { // make sure that flash object is created (bug fix for IE)
 			ayaFocusHooks = [];
 			ayaFocusHooks.push(function(o) {
@@ -111,9 +118,18 @@ $(function() {
 // call back function to be called from action script. The name should be exactly 'getUpdate'.
 function getUpdate(tp, p1, p2, pid) {
 	log(tp + ' - ' + p1 + ' - ' + p2);
+	if (pid != "quranPlayer") return;
 	if (player.locked) return;
 	if (tp == "load") {
 		player.load = p1;
+		if (p1 == 100) {
+			var ayaCount = $('#hiddenAyaCount').val();
+			if (player.index + 1 < ayaCount) {
+				buffer.goto(player.index + 1);
+				buffer.playPause();
+				buffer.playPause();
+			}
+		}
 	} if (tp == "time") {
 		player.butPressed = false; // reset state
 		player.elapsed = p1;
@@ -126,12 +142,6 @@ function getUpdate(tp, p1, p2, pid) {
 		player.state = p1;
 		if (p1 == 3) {
 			if (!player.contAya) stopPlayer();
-			/*if (player.load == 0) {
-				// kill flash player, to prevent 100% CPU usage!
-				player.locked = true;
-				stopPlayer();
-				playerOnLoad();
-			}*/
 		}
 		if (player.state == 3 && player.index + 1 == $('#hiddenAyaCount').val()) { // end of list
 			player.locked = true;
@@ -190,6 +200,7 @@ function togglePlayPause() {
 function swtStopPlayer() {
 	player.stop();
 }
+
 function stopPlayer() {
 	player.butPressed = true;
 	if (player.playing)
