@@ -112,7 +112,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 /**
  * Main Zekr form. This class contains all the Zekr main screen, except menus which are in
- * <code>QuranFormMenuFactory</code>.
+ * {@link QuranFormMenuFactory}.
  * 
  * @author Mohsen Saboorian
  */
@@ -210,9 +210,6 @@ public class QuranForm extends BaseForm {
 	private Composite searchTabBody, advancedSearchTabBody;
 	Menu searchScopeMenu;
 	private Combo searchOrderCombo, advancedSearchOrderCombo;
-	//	private Composite advancedSearchPaginationComp/*, searchPaginationComp*/;
-	//	private Spinner advancedSearchPaginationSpinner, searchPaginationSpinner*/;
-	//	private Button advNextPageBut, advPrevPageBut/*, nextPageBut, prevPageBut*/;
 	private ScrolledComposite workPaneScroller;
 	private Button collapseDetail;
 
@@ -769,7 +766,7 @@ public class QuranForm extends BaseForm {
 
 	protected void sendPlayerStop() {
 		logger.debug("Stop player.");
-		if (viewLayout == SEPARATE || viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
+		if (/*viewLayout == SEPARATE || */viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
 			quranBrowser.execute("swtStopPlayer();");
 		}
 		if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
@@ -779,7 +776,7 @@ public class QuranForm extends BaseForm {
 
 	protected void sendPlayerTogglePlayPause() {
 		logger.debug("Toggle play/pause state.");
-		if (viewLayout == SEPARATE || viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
+		if (/*viewLayout == SEPARATE || */viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
 			quranBrowser.execute("swtTogglePlayPause();");
 		}
 		if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
