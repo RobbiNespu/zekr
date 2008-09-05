@@ -82,6 +82,7 @@ public class QuranFormMenuFactory {
 	QuranForm form;
 	private final static ResourceManager resource = ResourceManager.getInstance();
 	private static final Logger logger = Logger.getLogger(QuranFormMenuFactory.class);
+
 	private boolean rtl;
 	private MenuItem quranLineLayoutItem;
 	private MenuItem transLineLayoutItem;
@@ -117,6 +118,8 @@ public class QuranFormMenuFactory {
 	private MenuItem nextJuz, prevJuz, nextHizbQ, prevHizbQ, nextSajda, prevSajda, nextPage, prevPage;
 	private MenuItem fullScreenItem;
 	private MenuItem detailPanelItem;
+
+	private final boolean SHOW_MENU_IMAGE = !GlobalConfig.isMac; // do not show menu item image on Mac
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.form = form;
@@ -601,7 +604,7 @@ public class QuranFormMenuFactory {
 			for (Iterator iter = recitationList.iterator(); iter.hasNext();) {
 				AudioData ad = (AudioData) iter.next();
 				final MenuItem audioItem = new MenuItem(recitationListMenu, SWT.RADIO);
-				if (!GlobalConfig.isMac)
+				if (SHOW_MENU_IMAGE)
 					audioItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playlistItem")));
 				audioItem.setText(StringUtils.abbreviate(ad.getName(), GlobalConfig.MAX_MENU_STRING_LENGTH)
 						+ (rtl ? I18N.LRM + "" : ""));
@@ -801,7 +804,7 @@ public class QuranFormMenuFactory {
 			}
 		}
 		item.setText(FormUtils.addAmpersand(text) + (acceleratorStr != null ? acceleratorStr : accelStr));
-		if (imageKey != null && !GlobalConfig.isMac)
+		if (imageKey != null && SHOW_MENU_IMAGE)
 			item.setImage(new Image(shell.getDisplay(), resource.getString(imageKey)));
 		if (data != null)
 			item.setData(data);
@@ -1271,11 +1274,13 @@ public class QuranFormMenuFactory {
 		String accelText = text.substring(text.indexOf('\t'));
 		if (playItem.getData().equals("play")) {
 			playItem.setData("pause");
-			playItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.play")));
+			if (SHOW_MENU_IMAGE)
+				playItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.play")));
 			playItem.setText(FormUtils.addAmpersand(lang.getMeaning("PLAY") + accelText));
 		} else {
 			playItem.setData("play");
-			playItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.pause")));
+			if (SHOW_MENU_IMAGE)
+				playItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.pause")));
 			playItem.setText(FormUtils.addAmpersand(lang.getMeaning("PAUSE") + accelText));
 		}
 		if (bubbleEvent)
