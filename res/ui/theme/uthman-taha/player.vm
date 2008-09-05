@@ -32,7 +32,9 @@
 #set($CONT_AYA_TEXT = $DICT.getMeaning('CONTINUOUS'))
 #set($DISC_AYA_TEXT= $DICT.getMeaning('DISCRETE'))
 #if($AUD_CONT_AYA=='true') #set($SURA_BUT_STAT = '') #else #set($SURA_BUT_STAT = 'disabled="true"') #end
-	<td><div class="reciterBar" id="reciterBar"></div></td>
+	<td><div class="reciterBar" id="reciterBar"> </div>
+		<div id="bufferBar" style="width: 0; height: 0"> </div>
+	</td>
 	<td width="25"><button id="contAyaButton" title="#if($AUD_CONT_AYA=='true')$CONT_AYA_TEXT#else$DISC_AYA_TEXT#end"
 		style="width: 25px; padding: 0px 0px" onclick="toggleAyaButton(this)" zekrstate="$AUD_CONT_AYA"
 		zekrtitle="#if($AUD_CONT_AYA=='true')$DISC_AYA_TEXT#else$CONT_AYA_TEXT#end">
