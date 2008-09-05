@@ -142,8 +142,8 @@ public class ApplicationConfig implements ConfigNaming {
 
 		if (isHttpServerEnabled()) {
 			EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Start HTTP server");
-			startHttpServer();
 		}
+		startHttpServer();
 
 		// #extractPagingDataProps() should be called before this method
 		initViewController();
@@ -213,7 +213,9 @@ public class ApplicationConfig implements ConfigNaming {
 	private void startHttpServer() {
 		logger.info("Start HTTP server daemon on port: " + getHttpServerPort());
 		httpServer = HttpServerFactory.createHttpServer(props);
-		httpServer.run();
+		if (isHttpServerEnabled()) {
+			httpServer.run();
+		}
 		// httpServerThread = new Thread(httpServer);
 		// httpServerThread.setDaemon(true);
 		// httpServerThread.start();
