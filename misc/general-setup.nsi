@@ -46,7 +46,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.1\final\win32-bs"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.1\final\win32"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
