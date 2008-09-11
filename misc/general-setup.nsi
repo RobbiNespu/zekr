@@ -46,7 +46,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.1\final\win32"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.1\final\win32-bs"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -98,12 +98,11 @@ XPStyle on
 ShowInstDetails show
 Icon "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
 VIProductVersion ${VERSION}
-VIAddVersionKey /lang=${LANG_ENGLISH} ProductName Zekr
-VIAddVersionKey ProductVersion "${RELEASE_VERSION}"
+VIAddVersionKey /lang=${LANG_ENGLISH} ProductName "Zekr"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "${RELEASE_VERSION}"
-VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Quranic Project"
+VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Quranic Project (Bosnian Ed.)"
 VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2008 zekr.org"
 InstallDirRegKey HKLM "${REGKEY}" Path
 UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
