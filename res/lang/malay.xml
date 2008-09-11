@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="H N Jafar" version="0.7">
+<language author="H N Jafar" version="0.7.0">
 	<locale localizedName="Malay" name="Malay" id="ms_MY" direction="ltr" />
 	<word>
 		<common>
@@ -52,7 +52,7 @@
 			<text id="PREV_AYA" value="Ayat Sebelumnya" />
 			<text id="PREV_SURA" value="Surah Sebelumnya" />
 			<text id="THEME"     value="Tema" />
-			<text id="LAYOUT"   value="Tampilan" />
+			<text id="LAYOUT"   value="Susunatur" />
 			<text id="TOOLS"    value="Peralatan" />
 			<text id="ADD"      value="Tambah" />
 			<text id="DELETE"   value="Hapus" />
@@ -75,7 +75,7 @@
 			<text id="SELECT"   value="Pilih" />
 			<text id="EXPORT"   value="Eksport" />
 			<text id="IMPORT"   value="Import" />
-			<text id="DESCRIPTION" value="Diskripsi" />
+			<text id="DESCRIPTION" value="Huraian" />
 			<text id="BOOKMARKS" value="Penandabuku" />
 			<text id="CONFIGURE" value="Konfigurasi" />
 			<text id="EDIT_BOOKMARK_SET" value="Sunting Set Penandabuku" />
@@ -105,12 +105,12 @@
 			<text id="QUERY_DETAIL" value="Tanya Lanjut" />
 			<text id="PAGE" value="Mukasurat" />
 			<text id="MULTILINE" value="Berbilang Baris" />
-			<text id="TOGGLE" value="Toggle" />
+			<text id="TOGGLE" value="Togol" />
 			<text id="AUDIO" value="Audio"   />
 			<text id="CONTINUOUS" value="Ulang"   />
 			<text id="DISCRETE" value="Asingkan"   />
 			<text id="PLAY" value="Mainkan"   />
-			<text id="PAUSE" value="HentiSeketika"   />
+			<text id="PAUSE" value="Henti Seketika"   />
 			<text id="STOP" value="Henti"   />
 			<text id="RECITATION" value="Bacaan"   />
 			<text id="MENU_NEXT_AYA" value="Ayat Seterusnya"   />
@@ -123,6 +123,22 @@
 			<text id="MENU_PREV_HIZBQ" value="Hizb Quarter Sebelumnya"   />
 			<text id="MENU_NEXT_SAJDA" value="Sajda Seterusnya"   />
 			<text id="MENU_PREV_SAJDA" value="Sajda Sebelumnya"   />
+			<text id="MENU_NEXT_PAGE" value="Mukasurat seterusnya"   />
+			<text id="MENU_PREV_PAGE" value="Mukasurat sebelumnya"   />
+			<text id="CHECK4UPDATE" value="Periksa kemaskini"   />
+			<text id="ASCENDING" value="Menurun"   />
+			<text id="DESCENDING" value="Menaik"   />
+			<text id="REVEL_ORDER" value="Turutan Wahyu"   />
+			<text id="FULL_SCREEN" value="Skrin Penuh"   />
+			<text id="WARNING" value="Amaran"   />
+			<text id="ONLINE_HELP" value="Bantuan Online"   />
+			<text id="PAGING_MODE" value="Mod Halaman"   />
+			<text id="PANEL" value="Panel"   />
+			<text id="DETAIL_PANEL" value="Detail Panel"   />
+			<text id="REPEAT" value="Ulang"   />
+			<text id="ROOT" value="Root"   /> <!-- word root -->
+			<text id="ADDRESS" value="Alamat"   />
+			<text id="BOOKMARK_THIS_AYA" value="Tanda Ayat ini"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -133,14 +149,13 @@
 			<text id="JUZ"      value="Juzuk" />
 			<text id="HIZB"     value="Hizb" />
 			<text id="QUARTER"  value="Seperempat" />
-			<text id="MAKKI"    value="Makkiah" />
-			<text id="MADANI"   value="Madaniah" />
+			<text id="MAKKI"    value="Makah" />
+			<text id="MADANI"   value="Madinah" />
 			<text id="DESCENT"  value="Turun" />
 			<text id="AYA_COUNT"  value="Jumlah Ayat" />
 			<text id="MINOR_SAJDA" value="Sunat Sujud " /> <!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="Wajib Sujud " /> <!-- Wajib Sajda -->
 			<text id="LOCATION" value="Lokasi" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
-			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
 		</special>
 	</word>
 
@@ -152,6 +167,8 @@
 			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
 			<text id="FILE_ALREADY_EXISTS" value="File dengan nama &quot;{1}&quot; sudah ada. Anda ingin menggantinya?" />
 			<text id="RESTART_APP" value="Untuk melihat kesan  perubahan yang telah dilakukan, Anda harus restart aplikasi ini." />
+			<text id="ACTION_PERFORMED" value="Tindakan berjaya ."   />
+			<text id="TRANSLATION_ADDED" value="Terjemahan berikut ditambah di bawah {1} menu"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Anda Yakin?" />
@@ -161,6 +178,11 @@
 			<text id="GENERAL_ERROR" value="Kesalahan yang tidak diharapkan telah terjadi" />
 			<text id="FNF" value="Fail Tidak Dijumpai" />
 			<text id="ACTION_FAILED" value="Gagal!" />
+			<text id="INVALID_TRANSLATION_FORMAT" value="Format terjemahan tidak sah: {1}"   />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Sign terjemahan tidak sah: {1}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="proses memuatkan terjemahan &quot;{1}&quot; gagal kerana : {2}"   />
+			<text id="ENTER_VALID_NUMBER" value="Sila masukkan nombor yang betul."   />
+			<text id="NUMBER_LIMIT" value="Sila masukkan nombor antara'{1}' dan '{2}'."   />
 		</error>
 		<hint></hint>
 	</message>
@@ -181,8 +203,10 @@
 			<text id="QURAN_SCOPE"    value="Quran"   />
 			<text id="TRANSLATION_SCOPE" value="Terjemahan"   />
 			<text id="NATURAL_ORDER" value="Susunan Natural" />
-			<text id="RELEVANCE" value="Reliven" />
+			<text id="RELEVANCE" value="Kaitan" />
 			<text id="SORT_BY" value="Susun Keputusan Dengan Cara" />
+			<text id="TOGGLE_FULL_SCREEN" value="Togol Skrin Penuh"   />
+			<text id="AYA_LENGTH" value="Panjang Ayat"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS"     value="Tema"   />
@@ -195,7 +219,15 @@
 			<text id="PRESS_OK_TO_APPLY" value="Tekan kekunci &quot;OK&quot; untuk perubahan." />
 			<text id="MAX_SEARCH_RESULT" value="Jumlah hasil pencarian maksimal" />
 			<text id="RESIZEABLE_TASK_PANE" value="Task Pane Bolehubah" />
-		</form>
+			<text id="SURA_NAMES" value="Paparkan nama surah dalam"   />
+			<text id="ARABIC" value="Bahasa Arab"   />
+			<text id="EN_T9N" value="Terjemahan Inggeris"   />
+			<text id="EN_T13N" value="English Transliteration"   />
+			<text id="T9N" value="Terjemahan (jika ada)"   />
+			<text id="T13N" value="Transliteration (if available)"   />
+			<text id="ENABLE_AUDIO" value="Hidupkan audio"   />
+			<text id="SURA_NAME_TREE" value="Paparkan nama surah dalam pepohon"   />
+			</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Konfigurasi Skop Carian" />
 			<text id="SEARCH_SCOPE" value="Skop Carian" />
@@ -253,6 +285,37 @@
 			<text id="PLEASE_WAIT" value="Sila Tunggu" />
 			<text id="INDEXING" value="Index.." /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="Proses ini akan mengambil masa beberapa minit, bergantung kepada saiz dokument yang diindexkan" />
+			<text id="CHECKING" value="Memeriksa Kemaskini " />
+			<text id="ZEKR_IS_CHECKING" value="Zekr sedang memeriksa kemaskini" />
+		</form>
+		<form id="ABOUT">
+			<text id="TITLE" value="About Zekr" />
+			<text id="VIEW_LOG" value="View Log File" />
+		</form>
+			<form id="UPDATE">
+			<text id="TITLE" value="Update Info" />
+			<text id="VERSION_INFO" value="Version info" />
+			<text id="BUILD_NUM" value="Build number" />
+			<text id="VERSION" value="Versi" />
+			<text id="RELEASE_NAME" value="Release name" />
+			<text id="RELEASE_STATE" value="Build state" />
+			<text id="RELEASE_DATE" value="Release date" />
+			<text id="RELEASE_NOTES" value="Release notes" />
+			<text id="DOWNLOAD" value="Muat turun" />
+			<text id="MORE_INFO" value="Lebih maklumat " />
+			<text id="NO_UPDATE" value="Anda telah menggunakan versi terbaru." />
+			<text id="NEW_DEV_AVAILABLE" value="Satu versi pembangunan lebih baru (tidak stabil) tersedia untuk muat turun " />
+			<text id="NEW_BETA_AVAILABLE" value="Satu versi beta yang lebih baru (tidak stabil) tersedia untuk muat turun " />
+			<text id="NEW_FINAL_AVAILABLE" value="Satu siaran yang lebih baru (akhir) tersedia untuk muat turun " />
+		</form>
+		<form id="PAGING_MODE">
+			<text id="TITLE" value="Paging Mode"   />
+			<text id="SURA" value="Sura"   />
+			<text id="HIZB_QUARTER" value="Hizb Quarter"   />
+			<text id="JUZ" value="Juz"   />
+			<text id="CONST_AYA" value="Constant Aya Count"   />
+			<text id="CUSTOM" value="Custom"   />
+			<text id="AYA_PER_SURA" value="Berapa banyak ayat sepatutnya muncul dalam setiap muka surat?"   />
 		</form>
 	</forms>
 </language>

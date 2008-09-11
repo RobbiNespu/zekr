@@ -1,5 +1,5 @@
 <language author="Yotam Benshalom" version="0.7">
-	<locale localizedName="עברית" name="Hebrew" id="he_IL" direction="rtl" />
+	<locale localizedName="עברית" name="Hebrew" id="hw_IL" direction="rtl" />
 	<word>
 		<common>
 			<text id="OK" value="אישור" />
@@ -16,7 +16,7 @@
 			<text id="SEARCH" value="חיפוש" />
 			<text id="GOTO" value="לך אל" />
 			<text id="VIEW" value="תצוגה" />
-			<text id="CLOSE" value="סבור" />
+			<text id="CLOSE" value="סגור" />
 			<text id="INSERT" value="הכנס" />
 			<text id="DETAILS" value="פרטים" />
 			<text id="MORE" value="ע&amp;וד" />
@@ -57,7 +57,7 @@
 			<text id="DELETE" value="מחק" />
 			<text id="REMOVE" value="הסר" />
 			<text id="TRANSLATION" value="תרגום" />
-			<text id="TRANSLATION_VIEWTYPE" value="אופן תצוגת תרגום" />
+			<text id="TRANSLATION_VIEWTYPE" value="אופן תצוגת תר&amp;גום" />
 			<text id="OPEN" value="פתח" />
 			<text id="IMPORT" value="ייבא" />
 			<text id="COPY" value="העתק" />
@@ -141,7 +141,7 @@
 		</common>
 		<special>
 			<text id="QURAN" value="קוראן" />
-			<text id="QURAN_VIEWTYPE" value="אופן תצוגת קוראן" />
+			<text id="QURAN_VIEWTYPE" value="אופן תצוגת קור&amp;אן" />
 			<text id="SURA" value="סורה" />
 			<text id="AYA" value="איה" />
 			<text id="SAJDA" value="סג'דה" />
