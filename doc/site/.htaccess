@@ -1,0 +1,19 @@
+RewriteEngine On
+DirectoryIndex index.xml index.php index.html index.htm
+
+AddHandler php5 .php
+AddHandler application/x-httpd-php5 .php
+
+# Remove www., always.
+RewriteCond %{HTTP_HOST} ^www\.zekr\.org$ [NC]
+RewriteRule ^(.*)$ http://zekr.org/$1 [R=301,L]
+
+# MediaWiki
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^wiki/$ w/index.php [PT,L,QSA]
+RewriteRule ^wiki/(.*)$ w/index.php?title=$1 [PT,L,QSA]
+RewriteRule ^wiki/*$ wiki/ [L,QSA]
+#RewriteRule ^/*$ wiki/ [L,QSA]
+RewriteRule ^myapt(.*)$ apt/index.html [PT,L,QSA]
+Options All -Indexes
