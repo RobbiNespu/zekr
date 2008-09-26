@@ -722,6 +722,13 @@ public class BookmarkSetForm {
 			newBookmarkItem.setId(bookmarkSet.nextItemId());
 			bookmarkSet.getBookmarksItems().add(newBookmarkItem);
 			logger.debug("Added new bookmark item too root: " + newBookmarkItem);
+			try {
+				bookmarkSet.save();
+			} catch (BookmarkSaveException e) {
+				MessageBoxUtils.showActionFailureError(e);
+				logger.error("Bookmark could not be saved.");
+				return;
+			}
 
 			logger.info("Recreate bookmark menu.");
 			EventUtils.sendEvent(EventProtocol.UPDATE_BOOKMARKS_MENU);
