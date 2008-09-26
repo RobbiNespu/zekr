@@ -563,6 +563,13 @@ Bug fixes:
 	A blocker bug which prevents Zekr starting fixed. It happened when the user disabled audio support through Tools > Options menu.
 	A bug fixed with sending flash JavaScript events to a browser without any flash player. This happened when separate layout is selected (in which flash player is loaded in the translation browser).
 	A bug fixed which caused menu icons being shown in Mac when toggling play-pause state of the player. Icons are not shown intentionally in Mac.
+
+Version 0.7.x - [?]
+Features/Enhancements:
+
+Bug fixes:
+	language pack ID and Quran metadata for Hebrew updated to have hw ISO code instead of deprecated he ISO code.
+	quran-properties-ba => quran-properties-bs
 _____________________________________________________
 	TODO: Export search results
 

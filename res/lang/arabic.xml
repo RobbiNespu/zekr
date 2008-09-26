@@ -52,29 +52,29 @@
 			<text id="PREV_AYA" value="الآية السابقة" />
 			<text id="PREV_SURA" value="السورة السابقة" />
 			<text id="THEME" value="سمة" />
-			<text id="LAYOUT"   value="تخطيط العرض" />
-			<text id="TOOLS"    value="أدوات" />
-			<text id="ADD"      value="إضافة" />
-			<text id="DELETE"   value="حذف" />
-			<text id="REMOVE"   value="إزالة" />
+			<text id="LAYOUT" value="تخطيط العرض" />
+			<text id="TOOLS" value="أدوات" />
+			<text id="ADD" value="إضافة" />
+			<text id="DELETE" value="حذف" />
+			<text id="REMOVE" value="إزالة" />
 			<text id="TRANSLATION" value="ترجمة" />
-			<text id="TRANSLATION_VIEWTYPE" value="ترجمة"   />
-			<text id="OPEN"     value="فتح" />
-			<text id="IMPORT"   value="استيراد" />
-			<text id="COPY"     value="نسخ" />
+			<text id="TRANSLATION_VIEWTYPE" value="ترجمة" />
+			<text id="OPEN" value="فتح" />
+			<text id="IMPORT" value="استيراد" />
+			<text id="COPY" value="نسخ" />
 			<text id="SEPARATE" value="منفصل" />
-			<text id="MIXED"    value="مختلط" />
-			<text id="OPTIONS"  value="خيارات" />
+			<text id="MIXED" value="مختلط" />
+			<text id="OPTIONS" value="خيارات" />
 			<text id="QUESTION" value="سؤال" />
-			<text id="FONT"     value="خط" />
-			<text id="EXIT"     value="خروج" />
-			<text id="GENERAL"  value="عام" />
-			<text id="EXCLUDE"  value="إستثناء" />
-			<text id="TRUE"     value="محقق" />
-			<text id="FALSE"    value="غير محقق" />
-			<text id="SELECT"   value="تحديد" />
-			<text id="EXPORT"   value="تصدير" />
-			<text id="IMPORT"   value="إستيراد" />
+			<text id="FONT" value="خط" />
+			<text id="EXIT" value="خروج" />
+			<text id="GENERAL" value="عام" />
+			<text id="EXCLUDE" value="إستثناء" />
+			<text id="TRUE" value="محقق" />
+			<text id="FALSE" value="غير محقق" />
+			<text id="SELECT" value="تحديد" />
+			<text id="EXPORT" value="تصدير" />
+			<text id="IMPORT" value="إستيراد" />
 			<text id="DESCRIPTION" value="الوصف" />
 			<text id="BOOKMARKS" value="إشارات مرجعية" />
 			<text id="CONFIGURE" value="إعدادات" />
@@ -82,18 +82,18 @@
 			<text id="MANAGE_BOOKMARK_SETS" value="إدارة الإشارات المرجعية" />
 			<text id="DIRECTION" value="الإتجاه" />
 			<text id="LANG_DIRECTION" value="إتجاه اللغة" />
-			<text id="RTL"      value="يمين لليسار" />
-			<text id="LTR"      value="يسار لليمين" />
-			<text id="AUTHOR"   value="المؤلف" />
-			<text id="VERSION"  value="الإصدار" />
+			<text id="RTL" value="يمين لليسار" />
+			<text id="LTR" value="يسار لليمين" />
+			<text id="AUTHOR" value="المؤلف" />
+			<text id="VERSION" value="الإصدار" />
 			<text id="RANDOM_AYA" value="آية عشوائية" />
 			<text id="UNTITLED" value="بدون تسمية" />
 			<text id="SET_DEFAULT" value="تخصيص كإفتراضي" />
 			<text id="NOT_LOADED" value="لم يتم تحميله" />
-			<text id="ID"       value="الرقم المعرّف" />
+			<text id="ID" value="الرقم المعرّف" />
 			<text id="OVERWRITE" value="إعادة الكتابة" />
-			<text id="SAVE"     value="حفظ" />
-			<text id="PATH"     value="المسار" />
+			<text id="SAVE" value="حفظ" />
+			<text id="PATH" value="المسار" />
 			<text id="SHOW_REFS" value="بحث عن المراجع" />
 			<text id="MOVE_UP" value="تحريك للأعلى" />
 			<text id="MOVE_DOWN" value="تحريك للأسفل" />
@@ -106,43 +106,49 @@
 			<text id="PAGE" value="صفحة" />
 			<text id="MULTILINE" value="أسطر متعدّدة" />
 			<text id="TOGGLE" value="عكس الحالة" />
-			<text id="AUDIO" value="صوت"   />
-			<text id="CONTINUOUS" value="مستمر"   />
-			<text id="DISCRETE" value="مقطّع"   />
-			<text id="PLAY" value="قراءة"   />
-			<text id="PAUSE" value="توقّف مؤقت"   />
-			<text id="STOP" value="توقّف"   />
-			<text id="RECITATION" value="تلاوة"   />
-			<text id="MENU_NEXT_AYA" value="الآية التالية"   />
-			<text id="MENU_NEXT_SURA" value="السورية التالية"   />
-			<text id="MENU_PREV_AYA" value="الآية السابقة"   />
-			<text id="MENU_PREV_SURA" value="السورة السابقة"   />
-			<text id="MENU_NEXT_JUZ" value="الجزء التالي"   />
-			<text id="MENU_PREV_JUZ" value="الجزء السابق"   />
-			<text id="MENU_NEXT_HIZBQ" value="ربع الحزب التالي"   />
-			<text id="MENU_PREV_HIZBQ" value="ربع الحزب السابق"   />
-			<text id="MENU_NEXT_SAJDA" value="السجدة التالية"   />
-			<text id="MENU_PREV_SAJDA" value="السجدة السابقة"   />
-			<text id="MENU_NEXT_PAGE" value="الصفحة التالية"   />
-			<text id="MENU_PREV_PAGE" value="الصفحة السابقة"   />
-			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
-			<text id="ROOT" value="جذر"   />
-			<text id="PAGING_MODE" value="نظام الصفحة"   />
-			<text id="FULL_SCREEN" value="شاشة كاملة"   />
-			<text id="PANEL" value="لوحة"   />
-			<text id="DETAIL_PANEL" value="لوحة التفاصيل"   />
-      <text id="ONLINE_HELP" value="مساعدة" />
-      <text id="CHECK4UPDATE" value="تحديث" />
+			<text id="AUDIO" value="صوت" />
+			<text id="CONTINUOUS" value="مستمر" />
+			<text id="DISCRETE" value="مقطّع" />
+			<text id="PLAY" value="قراءة" />
+			<text id="PAUSE" value="توقّف مؤقت" />
+			<text id="STOP" value="توقّف" />
+			<text id="RECITATION" value="تلاوة" />
+			<text id="MENU_NEXT_AYA" value="الآية التالية" />
+			<text id="MENU_NEXT_SURA" value="السورية التالية" />
+			<text id="MENU_PREV_AYA" value="الآية السابقة" />
+			<text id="MENU_PREV_SURA" value="السورة السابقة" />
+			<text id="MENU_NEXT_JUZ" value="الجزء التالي" />
+			<text id="MENU_PREV_JUZ" value="الجزء السابق" />
+			<text id="MENU_NEXT_HIZBQ" value="ربع الحزب التالي" />
+			<text id="MENU_PREV_HIZBQ" value="ربع الحزب السابق" />
+			<text id="MENU_NEXT_SAJDA" value="السجدة التالية" />
+			<text id="MENU_PREV_SAJDA" value="السجدة السابقة" />
+			<text id="MENU_NEXT_PAGE" value="الصفحة التالية" />
+			<text id="MENU_PREV_PAGE" value="الصفحة السابقة" />
+			<text id="CHECK4UPDATE" value="تحديث" />
+			<text id="ASCENDING" value="Ascending" />
+			<text id="DESCENDING" value="Descending" />
+			<text id="REVEL_ORDER" value="ترتيب النزول" />
+			<text id="FULL_SCREEN" value="شاشة كاملة" />
+			<text id="WARNING" value="Warning" />
+			<text id="ONLINE_HELP" value="مساعدة" />
+			<text id="PAGING_MODE" value="نظام الصفحة" />
+			<text id="PANEL" value="لوحة" />
+			<text id="DETAIL_PANEL" value="لوحة التفاصيل" />
+			<text id="REPEAT" value="Repeat" />
+			<text id="ROOT" value="جذر" />
+			<text id="ADDRESS" value="Address" />
+			<text id="BOOKMARK_THIS_AYA" value="أضف الآية للإشارات المرجعية" />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
-			<text id="QURAN_VIEWTYPE" value="قرآن"   />
+			<text id="QURAN_VIEWTYPE" value="قرآن" />
 			<text id="SURA" value="سورة" />
 			<text id="AYA" value="آية" />
 			<text id="SAJDA" value="سجدة" />
 			<text id="JUZ" value="جزء" />
-			<text id="HIZB"     value="حزب" />
-			<text id="QUARTER"  value="ربع" />
+			<text id="HIZB" value="حزب" />
+			<text id="QUARTER" value="ربع" />
 			<text id="MAKKI" value="مكي" />
 			<text id="MADANI" value="مدني" />
 			<text id="DESCENT" value="نزول" />
@@ -150,7 +156,6 @@
 			<text id="MINOR_SAJDA" value="سجدة صغيرة" /> <!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="سجدة كبيرة" /> <!-- Wajib Sajda -->
 			<text id="LOCATION" value="مسار" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
-      <text id="REVEL_ORDER" value="ترتيب النزول" />
 		</special>
 	</word>
 
@@ -162,6 +167,8 @@
 			<text id="TOO_MANY_RESULT" value="حصلت نتائج في أكثر من {1} آية" />
 			<text id="FILE_ALREADY_EXISTS" value="ملف يحمل الإسم &quot;{1}&quot; يوجد حاليا. هل تريد استبداله ؟" />
 			<text id="RESTART_APP" value="يجب إعادة تشغيل البرنامج لكي يتم تطبيق التغييرات." />
+			<text id="ACTION_PERFORMED" value="Action performed successfully." />
+			<text id="TRANSLATION_ADDED" value="The following translation added under {1} menu" />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="هل أنت متأكد؟" />
@@ -171,6 +178,11 @@
 			<text id="GENERAL_ERROR" value="خطأ غير متوقع" />
 			<text id="FNF" value="الملف غير موجود" />
 			<text id="ACTION_FAILED" value="لم تنجح العملية!" />
+			<text id="INVALID_TRANSLATION_FORMAT" value="Invalid tranalation format: {1}" />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Invalid translation signature: {1}" />
+			<text id="TRANSLATION_LOAD_FAILED" value="Loading translation &quot;{1}&quot; failed because of the following error: {2}" />
+			<text id="ENTER_VALID_NUMBER" value="Please enter a valid number." />
+			<text id="NUMBER_LIMIT" value="Please enter a number between '{1}' and '{2}'." />
 		</error>
 		<hint></hint>
 	</message>
@@ -188,17 +200,18 @@
 			<text id="EDIT_SCOPES" value="تحرير المجالات" />
 			<text id="NO_SCOPE" value="بدون مجال" />
 			<text id="CURRENT_PAGE" value="الصفحة الحالية" />
-			<text id="QURAN_SCOPE" value="قرآن"   />
-			<text id="TRANSLATION_SCOPE" value="ترجمة"   />
+			<text id="QURAN_SCOPE" value="قرآن" />
+			<text id="TRANSLATION_SCOPE" value="ترجمة" />
 			<text id="NATURAL_ORDER" value="ترتيب عادي" />
 			<text id="RELEVANCE" value="صلة" />
-			<text id="SORT_BY" value="ترتيب حسب" />
 			<text id="AYA_LENGTH" value="طول الآية" />
+			<text id="SORT_BY" value="ترتيب حسب" />
+			<text id="TOGGLE_FULL_SCREEN" value="Toggle full screen" />
 		</form>
 		<form id="OPTIONS_FORM">
-			<text id="THEME_OPTIONS" value="سمة"   />
-			<text id="GENERAL_OPTIONS"  value="عام"   />
-			<text id="VIEW_OPTIONS" value="عرض"   />
+			<text id="THEME_OPTIONS" value="سمة" />
+			<text id="GENERAL_OPTIONS" value="عام" />
+			<text id="VIEW_OPTIONS" value="عرض" />
 			<text id="TITLE" value="خيارات البرنامج" />
 			<text id="SHOW_SPLASH" value="عرض الشاشة الترحيبية عند التشغيل" />
 			<text id="NEW_KEY" value="أدخل مفتاحا جديدا" />
@@ -207,8 +220,13 @@
 			<text id="MAX_SEARCH_RESULT" value="أكبر قيمة لنتائج البحث." />
 			<text id="RESIZEABLE_TASK_PANE" value="الشريط الجانبي قابل للتمديد" />
 			<text id="SURA_NAMES" value="أسماء السور" />
-			<text id="SURA_NAME_TREE" value="شجرة أسماء السور" />
+			<text id="ARABIC" value="Arabic" />
+			<text id="EN_T9N" value="English Translation" />
+			<text id="EN_T13N" value="English Transliteration" />
+			<text id="T9N" value="Translation (if available)" />
+			<text id="T13N" value="Transliteration (if available)" />
 			<text id="ENABLE_AUDIO" value="تشغيل الصوت" />
+			<text id="SURA_NAME_TREE" value="شجرة أسماء السور" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="إعداد مجال البحث" />
@@ -257,8 +275,8 @@
 			<text id="FOLLOWING_USERS" value="فهرس للمستخدمين التاليين" />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
-			<text id="REMOVE_CUSTOM"   value="إزالة"   />
-			<text id="ADD_CUSTOM"      value="إضافة"   />
+			<text id="REMOVE_CUSTOM" value="إزالة" />
+			<text id="ADD_CUSTOM" value="إضافة" />
 			<text id="TITLE" value="إعداد ترجمات مخصّصة" />
 			<text id="AVAILABLE" value="الترجمات متاحة" />
 			<text id="CURRENT" value="الترجمات حالية" />
@@ -267,14 +285,37 @@
 			<text id="PLEASE_WAIT" value="إنتظر من فضلك" />
 			<text id="INDEXING" value="فهرسة" /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="هذه العملية ستأخذ بعض الوقت وذلك تبعاً لحجم المستتند المستخدم" />
+			<text id="CHECKING" value="Cheking For Updates" />
+			<text id="ZEKR_IS_CHECKING" value="Zekr is now checking for updates" />
+		</form>
+		<form id="ABOUT">
+			<text id="TITLE" value="About Zekr" />
+			<text id="VIEW_LOG" value="View Log File" />
+		</form>
+		<form id="UPDATE">
+			<text id="TITLE" value="Update Info" />
+			<text id="VERSION_INFO" value="Version info" />
+			<text id="BUILD_NUM" value="Build number" />
+			<text id="VERSION" value="Version" />
+			<text id="RELEASE_NAME" value="Release name" />
+			<text id="RELEASE_STATE" value="Build state" />
+			<text id="RELEASE_DATE" value="Release date" />
+			<text id="RELEASE_NOTES" value="Release notes" />
+			<text id="DOWNLOAD" value="Download" />
+			<text id="MORE_INFO" value="More info" />
+			<text id="NO_UPDATE" value="You are already using the newest version." />
+			<text id="NEW_DEV_AVAILABLE" value="A newer development version (unstable) is available for download" />
+			<text id="NEW_BETA_AVAILABLE" value="A newer beta version (unstable) is available for download" />
+			<text id="NEW_FINAL_AVAILABLE" value="A newer release (final) is available for download" />
 		</form>
 		<form id="PAGING_MODE">
-			<text id="TITLE" value="نظام الصفحة"   />
-      <text id="SURA" value="سورة"   />
-      <text id="CONST_AYA" value="عدد آيات"   />
-      <text id="HIZB_QUARTER" value="ربع حزب"   />
-      <text id="JUZ" value="جزء"   />
-      <text id="CUSTOM" value="تفصيل" />
+			<text id="TITLE" value="نظام الصفحة" />
+			<text id="SURA" value="سورة" />
+			<text id="HIZB_QUARTER" value="ربع حزب" />
+			<text id="JUZ" value="جزء" />
+			<text id="CONST_AYA" value="عدد آيات" />
+			<text id="CUSTOM" value="تفصيل" />
+			<text id="AYA_PER_SURA" value="How many ayas should appear in each page?"   />
 		</form>
 	</forms>
 </language>
