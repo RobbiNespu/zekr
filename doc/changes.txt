@@ -570,6 +570,8 @@ Features/Enhancements:
 Bug fixes:
 	language pack ID and Quran metadata for Hebrew updated to have hw ISO code instead of deprecated he ISO code.
 	quran-properties-ba => quran-properties-bs
+	Added translation and themes are filtered with *.zip in Mac, since it's open file dialog doesn't support double extension filtering (*.trans.zip).
+	Bookmark is saved to the disk as soon as it's quick bookmarked (Ctrl+D).
 _____________________________________________________
 	TODO: Export search results
 
