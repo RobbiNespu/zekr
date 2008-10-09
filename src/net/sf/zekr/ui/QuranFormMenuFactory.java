@@ -1013,8 +1013,9 @@ public class QuranFormMenuFactory {
 		List transFileList = new ArrayList(); // prevent NPE
 		List addedList = new ArrayList();
 		try {
-			transFileList = MessageBoxUtils.importFileDialog(shell, new String[] { "*.trans.zip Translation Files" },
-					new String[] { "*.trans.zip" });
+			String transExt = GlobalConfig.isMac ? "*.zip" : "*.trans.zip";
+			transFileList = MessageBoxUtils.importFileDialog(shell, new String[] { "All Files (*.*)",
+					"Translation Files (" + transExt + ")" }, new String[] { "*.*", transExt });
 			if (transFileList.size() <= 0)
 				return;
 
@@ -1081,8 +1082,8 @@ public class QuranFormMenuFactory {
 	private void importTheme() {
 		String destDir = ApplicationPath.THEME_DIR;
 		try {
-			List list = MessageBoxUtils.importFileDialog(shell, new String[] { "*.zip Theme Files", "*.ZIP Theme Files" },
-					new String[] { "*.zip", "*.ZIP" });
+			List list = MessageBoxUtils.importFileDialog(shell, new String[] { "*.zip Theme Files" },
+					new String[] { "*.zip" });
 			if (list.size() <= 0)
 				return;
 
