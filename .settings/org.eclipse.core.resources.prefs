@@ -1,4 +1,4 @@
-#Thu Aug 28 10:38:34 GMT+03:30 2008
+#Thu Oct 16 10:08:21 GMT+03:30 2008
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
 encoding//doc/license/nanohttpd-license.txt=ISO-8859-1
@@ -9,8 +9,8 @@ encoding//misc/zekr-launch4j.xml=ISO-8859-1
 encoding//misc/zekrc-launch4j-jre.xml=ISO-8859-1
 encoding//misc/zekrc-launch4j.xml=ISO-8859-1
 encoding//res/audio/abdulbasit-online.properties=UTF-8
-encoding//res/audio/afasi-offline.properties=UTF-8
-encoding//res/audio/afasi-online.properties=UTF-8
+encoding//res/audio/afasy-offline.properties=UTF-8
+encoding//res/audio/afasy-online.properties=UTF-8
 encoding//res/audio/ajmy-online.properties=UTF-8
 encoding//res/audio/ayyub-online.properties=UTF-8
 encoding//res/audio/basfar-online.properties=UTF-8

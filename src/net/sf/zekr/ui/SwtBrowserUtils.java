@@ -38,4 +38,20 @@ public class SwtBrowserUtils {
 		deferThread.setDaemon(true);
 		deferThread.start();
 	}
+	
+	/*
+ // a better work around
+browser.addStatusTextListener(new StatusTextListener(){
+    public void changed(StatusTextEvent event) {
+        browser.getDisplay().asyncExec(new Runnable() {
+            public void run() {
+                if (browser.isDisposed()) return;
+                browser.execute(script);
+            }
+        });
+    }
+});
+
+ 
+	 */
 }
