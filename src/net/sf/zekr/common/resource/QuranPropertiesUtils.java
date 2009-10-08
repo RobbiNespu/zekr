@@ -372,6 +372,9 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
+	 * Returns aggregative sum of aya count from sura 1 to sura i<br>
+	 * (for sura: 1 to suraNum parameter) &#8721;(<i>aya count</i>)
+	 * 
 	 * @param suraNum sura number (counted from 1)
 	 * @return the sum of aya count from sura 1 to suraNum - 1.
 	 */
@@ -502,5 +505,4 @@ public class QuranPropertiesUtils {
 	public static final int diff(IQuranLocation loc1, IQuranLocation loc2) {
 		return getAbsoluteLocation(loc1) - getAbsoluteLocation(loc2);
 	}
-
 }

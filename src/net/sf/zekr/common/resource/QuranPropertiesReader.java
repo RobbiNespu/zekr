@@ -22,8 +22,8 @@ import net.sf.zekr.engine.xml.XmlReader;
 import org.w3c.dom.Element;
 
 /**
- * A class used to read properties of the Quran suras from respective XML file. All operations on this class
- * are acted as zero-relative. This class is for internal use only.
+ * A class used to read properties of the Quran suras from respective XML file. All integer parameters passed
+ * to methods of this class zero-relative. This class is for internal use only.
  * 
  * @author Mohsen Saboorian
  */
