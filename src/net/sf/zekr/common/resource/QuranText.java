@@ -17,6 +17,8 @@ import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.translation.TranslationData;
 
+import org.apache.commons.collections.MapUtils;
+
 // TODO: All singleton classes of this kind should be gradually moved as a non-singleton class under
 // ApplicationConfig. Once ApplicationConfig is initialized, a single instance of these class will be stored
 // under it.
@@ -46,16 +48,18 @@ public class QuranText extends AbstractQuranText {
 	private int mode = SIMPLE_MODE;
 
 	/**
-	 * The private constructor, which loads the whole Quran text from file into memory (<code>quranText</code>).
+	 * The private constructor, which loads the whole Quran text from file into memory (<code>quranText</code>
+	 * ).
 	 * 
 	 * @param textType can be either UTHMANI_MODE or SIMPLE_MODE
 	 * @throws IOException
 	 */
 	protected QuranText(int textType) throws IOException {
-		this.mode = textType;
+		mode = textType;
 		String qFile = ApplicationPath.SIMPLE_QURAN_TEXT_FILE;
-		if (textType == UTHMANI_MODE)
+		if (textType == UTHMANI_MODE) {
 			qFile = ApplicationPath.UTHMANI_QURAN_TEXT_FILE;
+		}
 
 		RandomAccessFile raf = new RandomAccessFile(qFile, "r");
 		byte[] buf = new byte[(int) raf.length()];
@@ -70,8 +74,7 @@ public class QuranText extends AbstractQuranText {
 	 * @throws IOException
 	 */
 	public static QuranText getInstance() throws IOException {
-		boolean uthmani = Boolean.valueOf(config.getTheme().getCurrent().props.get("quran_uthmaniTextFile").toString())
-				.booleanValue();
+		boolean uthmani = MapUtils.getBooleanValue(config.getTheme().getCurrent().props, "quran_uthmaniTextFile");
 		return getInstance(uthmani ? UTHMANI_MODE : SIMPLE_MODE);
 	}
 
@@ -81,10 +84,11 @@ public class QuranText extends AbstractQuranText {
 	 * @throws IOException
 	 */
 	public static QuranText getInstance(int mode) throws IOException {
-		if (mode == UTHMANI_MODE)
+		if (mode == UTHMANI_MODE) {
 			return getUthmaniTextInstance();
-		else
+		} else {
 			return getSimpleTextInstance();
+		}
 	}
 
 	/**
@@ -92,8 +96,9 @@ public class QuranText extends AbstractQuranText {
 	 * @throws IOException
 	 */
 	public static QuranText getSimpleTextInstance() throws IOException {
-		if (simpleInstance == null)
+		if (simpleInstance == null) {
 			simpleInstance = new QuranText(SIMPLE_MODE);
+		}
 		return simpleInstance;
 	}
 
@@ -102,8 +107,9 @@ public class QuranText extends AbstractQuranText {
 	 * @throws IOException
 	 */
 	public static QuranText getUthmaniTextInstance() throws IOException {
-		if (uthmaniInstance == null)
+		if (uthmaniInstance == null) {
 			uthmaniInstance = new QuranText(UTHMANI_MODE);
+		}
 		return uthmaniInstance;
 	}
 
@@ -135,61 +141,31 @@ public class QuranText extends AbstractQuranText {
 		return mode;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.util.IQuranText#get(int, int)
-	 */
 	public String get(int suraNum, int ayaNum) {
 		return quranText[suraNum - 1][ayaNum - 1];
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.resource.IQuranText#get(int)
-	 */
 	public String get(int absoluteAyaNum) {
 		return fullQuran[absoluteAyaNum - 1];
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.util.IQuranText#getSura(int)
-	 */
 	public String[] getSura(int suraNum) {
 		return quranText[suraNum - 1];
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.util.IQuranText#getFullText()
-	 */
 	public String[][] getFullText() {
 		return quranText;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.resource.IQuranText#getTranslationData()
-	 */
 	public TranslationData getTranslationData() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.resource.IQuranText#getBismillah(int)
-	 */
 	public String getBismillah(int suraNum) {
 		return get(1, 1);
 	}
-	
+
 	public String toString() {
 		return (mode == SIMPLE_MODE ? "Simple" : "Uthmani") + " Quran";
 	}
