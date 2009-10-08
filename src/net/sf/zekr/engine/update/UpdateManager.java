@@ -169,10 +169,10 @@ public class UpdateManager {
 	private Thread checkThread = new Thread() {
 		public void run() {
 			try {
-				String url = GlobalConfig.UPDATE_SITE + "/update-info.xml";
-				logger.info("Checking for any update on the remote site: " + url);
+				String uri = GlobalConfig.UPDATE_SITE + "/update-info.xml";
+				logger.info("Checking for any update on the remote site: " + uri);
 				InputStream is;
-				is = FileUtils.getContent(new URI(url).toURL());
+				is = FileUtils.getContent(uri);
 
 				logger.debug("Parse update info XML.");
 				XmlReader xr = new XmlReader(is);
@@ -202,8 +202,8 @@ public class UpdateManager {
 			} catch (Exception e) {
 				updateCheckFailed = true;
 				failureCause = e;
-				logger.implicitLog(e);
 				logger.error("Zekr failed to check for updates.");
+				logger.implicitLog(e);
 			}
 		}
 	};
