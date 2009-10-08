@@ -20,6 +20,7 @@ import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.ConfigUtils;
 
 import org.apache.commons.configuration.MapConfiguration;
+import org.apache.commons.io.IOUtils;
 
 /**
  * This file holds all the theme data loaded at the startup. Themes are specific directories (now in
@@ -28,7 +29,6 @@ import org.apache.commons.configuration.MapConfiguration;
  * copy of theme.properties is copied to user's zekr home.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class Theme {
 	private ThemeData current;
@@ -71,6 +71,7 @@ public class Theme {
 		map.put("version", td.version);
 		map.putAll(td.props);
 		ConfigUtils.write(new MapConfiguration(map), osw);
-		osw.close();
+		// ConfigurationUtils.dump(new MapConfiguration(map), new PrintWriter(osw));
+		IOUtils.closeQuietly(osw);
 	}
 }

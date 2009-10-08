@@ -16,12 +16,12 @@ import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
@@ -50,7 +50,7 @@ public class XmlReader {
 	 */
 	public XmlReader(File file) throws XmlReadException {
 		try {
-			xmlDocument = parseXml(file.toURI().toURL().openStream());
+			xmlDocument = parseXml(file);
 			parentNode = xmlDocument.getFirstChild();
 			if (parentNode.getNodeType() == Node.COMMENT_NODE)
 				parentNode = parentNode.getNextSibling();
@@ -76,19 +76,19 @@ public class XmlReader {
 		}
 	}
 
-	/**
-	 * @param xmlStream
-	 * @throws FactoryConfigurationError
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws IOException
-	 */
-	private Document parseXml(InputStream xmlStream) throws FactoryConfigurationError, ParserConfigurationException,
-			SAXException, IOException {
+	private Document parseXml(InputStream xmlStream) throws ParserConfigurationException, SAXException, IOException {
+		return parseXml(new InputSource(xmlStream));
+	}
+
+	private Document parseXml(InputSource source) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder parser;
 		parser = documentBuilderFactory.newDocumentBuilder();
-		return parser.parse(xmlStream);
+		return parser.parse(source);
+	}
+
+	private Document parseXml(File file) throws ParserConfigurationException, SAXException, IOException {
+		return parseXml(new InputSource(file.toURI().toASCIIString()));
 	}
 
 	public Element getDocumentElement() {
@@ -98,10 +98,9 @@ public class XmlReader {
 	/**
 	 * @param nodeHierarchy A dot separated node hierarchy for specifying a node inside other nodes. For
 	 *           example <code>"body.div"</code> means <code>div</code> which is inside <code>body</code>.
-	 *           <code>nodeHierarchy</code> should not contain the parent node (<code>parentNode</code>),
-	 *           and the hierarchy is started from parent children.
-	 * @return the node with <code>nodeHierarchy</code> hierarchy, or <code>null</code> if it can not be
-	 *         found.
+	 *           <code>nodeHierarchy</code> should not contain the parent node (<code>parentNode</code>), and
+	 *           the hierarchy is started from parent children.
+	 * @return the node with <code>nodeHierarchy</code> hierarchy, or <code>null</code> if it can not be found.
 	 */
 	public NodeList getNodes(String nodeHierarchy) {
 		NodeList list = new NodeList();
