@@ -29,7 +29,7 @@ public class FilteredQuranText extends AbstractQuranText {
 	 * @throws IOException
 	 */
 	public FilteredQuranText() throws IOException {
-		this(QuranText.getSimpleTextInstance(), IQuranFilter.HIGHLIGHT_WAQF_SIGN);
+		this(QuranText.getInstance(), IQuranFilter.HIGHLIGHT_WAQF_SIGN);
 	}
 
 	public FilteredQuranText(IQuranText quranText) throws IOException {
