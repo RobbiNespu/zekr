@@ -12,6 +12,9 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class Audio {
 	private AudioData current;
 	private Map audioList = new LinkedHashMap();
