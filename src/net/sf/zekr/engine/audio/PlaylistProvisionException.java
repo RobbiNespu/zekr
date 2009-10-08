@@ -19,7 +19,7 @@ import net.sf.zekr.common.ZekrBaseException;
  * @author Mohsen Saboorian
  */
 public class PlaylistProvisionException extends ZekrBaseException {
-	private static final long serialVersionUID = -7460005415860849985L;
+	private static final long serialVersionUID = 7785842186957678833L;
 
 	public PlaylistProvisionException() {
 		super();
@@ -28,5 +28,4 @@ public class PlaylistProvisionException extends ZekrBaseException {
 	public PlaylistProvisionException(Throwable cause) {
 		super(cause);
 	}
-
 }
