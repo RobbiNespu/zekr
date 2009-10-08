@@ -165,7 +165,7 @@ public class QuranLocation implements IQuranLocation {
 			return obj.equals(this);
 	}
 
-	public int compareTo(Object location) {
+	public int compareTo(IQuranLocation location) {
 		IQuranLocation l = (IQuranLocation) location;
 		if (sura > l.getSura() || (sura == l.getSura() && aya > l.getAya()))
 			return 1;

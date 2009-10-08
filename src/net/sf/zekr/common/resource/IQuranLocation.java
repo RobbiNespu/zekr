@@ -13,7 +13,7 @@ package net.sf.zekr.common.resource;
  * 
  * @author Mohsen Saboorian
  */
-public interface IQuranLocation extends Comparable {
+public interface IQuranLocation extends Comparable<IQuranLocation> {
 	public int getAya();
 
 	public int getSura();
