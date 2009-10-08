@@ -25,8 +25,8 @@ import org.apache.velocity.app.Velocity;
 
 /**
  * An adapter class for velocity template engine.<br>
- * This class is not singleton due to thread-safety issues. A call to {@link #getInstance()} simply returns a new
- * instance.
+ * This class is not singleton due to thread-safety issues. A call to {@link #getInstance()} simply returns a
+ * new instance.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -55,8 +55,7 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * @param name
-	 *           The file name of the desired template
+	 * @param name The file name of the desired template
 	 * @return The associated <code>Template</code> object
 	 * @throws Exception
 	 */
@@ -85,19 +84,20 @@ public class TemplateEngine {
 	}
 
 	/**
-	 * Add a collection of key-value pairs to the template engine context. Keys should be of type <code>String</code>.
+	 * Add a collection of key-value pairs to the template engine context. Keys should be of type
+	 * <code>String</code>.
 	 */
-	public void putAll(Map map) {
-		for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
-			Entry entry = (Entry) iter.next();
+	public void putAll(Map<String, Object> map) {
+		for (Iterator<Entry<String, Object>> iter = map.entrySet().iterator(); iter.hasNext();) {
+			Entry<String, Object> entry = iter.next();
 			context.put((String) entry.getKey(), entry.getValue());
 		}
 	}
 
 	/**
-	 * @param name
-	 *           the file name of the desired template
-	 * @return the result <code>String</code> after the context map is merged (applied) into the source template file.
+	 * @param name the file name of the desired template
+	 * @return the result <code>String</code> after the context map is merged (applied) into the source
+	 *         template file.
 	 * @throws Exception
 	 */
 	public String getUpdated(String name) throws Exception {

@@ -27,7 +27,7 @@ import org.apache.commons.io.FileUtils;
  * @author Mohsen Saboorian
  */
 public class ApplicationRuntime {
-	private ArrayList dirList = new ArrayList();
+	private ArrayList<String> dirList = new ArrayList<String>();
 	private final Logger logger = Logger.getLogger(ApplicationRuntime.class);
 
 	public ApplicationRuntime() {
@@ -53,8 +53,8 @@ public class ApplicationRuntime {
 	public void configureDirectories() throws IOException {
 		logger.info("Making application required directories (if not exist)...");
 
-		for (Iterator iter = dirList.iterator(); iter.hasNext();) {
-			File file = new File((String) iter.next());
+		for (Iterator<String> iter = dirList.iterator(); iter.hasNext();) {
+			File file = new File(iter.next());
 			if (!file.exists() && !file.mkdirs())
 				throw new IOException("Can not create \'" + file.getAbsoluteFile() + "\'.");
 		}
