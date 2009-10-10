@@ -11,7 +11,10 @@ package net.sf.zekr.engine.server;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 import java.util.Properties;
 
 import net.sf.zekr.common.config.ResourceManager;
@@ -39,9 +42,10 @@ public class DefaultHttpServer extends HttpServer {
 	public void run() {
 		try {
 			logger.info("Starting HTTP server...");
-			httpFacade = new NanoHttpd(getServerPort()) {
+			final boolean denyRemoteAccess = props.getBoolean("server.http.denyRemoteAccess", true);
+			httpFacade = new NanoHttpd(getServerPort(), denyRemoteAccess) {
 				public Response serve(String uri, String method, Properties header, Properties parms) {
-					if (!fromThisMachine(header) || !isAllowedUri(uri)) {
+					if (!hasAccessPermission(uri)) {
 						return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "Access denied.");
 					}
 					if (Boolean.valueOf(props.getString("server.http.log")).booleanValue())
@@ -54,23 +58,16 @@ public class DefaultHttpServer extends HttpServer {
 					return serveFile(fileName, header, new File(baseDir), false);
 				}
 
-				private boolean isAllowedUri(String uri) {
-					return (uri.indexOf("..") == -1) && (uri.indexOf(":/") == -1) && (uri.indexOf(":\\") == -1);
+				private boolean hasAccessPermission(String uri) {
+					if (denyRemoteAccess) {
+						return true;
+					} else {
+						return isAllowedUri(uri);
+					}
 				}
 
-				private boolean fromThisMachine(Properties header) {
-					String deny = props.getString("server.http.denyRemoteAccess");
-					if (!new Boolean(deny).booleanValue())
-						return true;
-					String remoteAddress = (String) header.get(HEADER_REQUEST_ADDRESS);
-					String localAddr = "", localName = "";
-					localAddr = getServerAddress();
-					localName = getServerName();
-					if (!localAddr.equals(remoteAddress) && !localName.equals(remoteAddress)) {
-						logger.info("Unauthorized request to server from " + remoteAddress);
-						return false;
-					}
-					return true;
+				private boolean isAllowedUri(String uri) {
+					return (uri.indexOf("..") == -1) && (uri.indexOf(":/") == -1) && (uri.indexOf(":\\") == -1);
 				}
 			};
 			logger.info("HTTP server is listening on: " + getUrl());
@@ -102,6 +99,7 @@ public class DefaultHttpServer extends HttpServer {
 	}
 
 	private String getServerAddress() throws HttpServerRuntimeException {
+		// return InetAddress.getLocalHost().getHostAddress();
 		return props.getString("server.http.address", "127.0.0.1");
 	}
 
