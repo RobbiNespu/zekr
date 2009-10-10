@@ -69,4 +69,9 @@ public class UserViewController implements IUserView {
 	public void setViewMode(int viewMode) {
 		this.viewMode = viewMode;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s:%s-%s", location.getSura(), location.getAya(), page);
+	}
 }
