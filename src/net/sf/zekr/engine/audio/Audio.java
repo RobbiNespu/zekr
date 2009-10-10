@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class Audio {
 	private AudioData current;
-	private Map audioList = new LinkedHashMap();
+	private Map<String, AudioData> audioList = new LinkedHashMap<String, AudioData>();
 
 	public void add(AudioData ad) {
 		audioList.put(ad.getId(), ad);
@@ -27,7 +27,7 @@ public class Audio {
 		return (AudioData) audioList.get(audioId);
 	}
 
-	public Collection getAllAudio() {
+	public Collection<AudioData> getAllAudio() {
 		return audioList.values();
 	}
 
