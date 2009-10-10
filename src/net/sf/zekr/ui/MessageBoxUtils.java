@@ -404,7 +404,7 @@ public class MessageBoxUtils {
 		item.setImage(new Image(shell.getDisplay(), res.getString("icon.toolbar.fullScreen")));
 		floatShell.pack();
 		floatShell.open();
-		
+
 		quranForm.getShell().forceFocus();
 		return floatShell;
 	}
@@ -418,7 +418,7 @@ public class MessageBoxUtils {
 	 *         extension criteria. Otherwise, returns a list of selected files (of type <tt>java.io.File</tt>).
 	 * @throws IOException if any exception occurred during importing.
 	 */
-	public static List importFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards)
+	public static List<File> importFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards)
 			throws IOException {
 		FileDialog fd = new FileDialog(parentShall, SWT.OPEN | SWT.MULTI);
 		fd.setFilterPath(GlobalConfig.getDefaultStartFolder());
@@ -427,7 +427,7 @@ public class MessageBoxUtils {
 		fd.setText(lang.getMeaning("OPEN"));
 
 		FileFilter fileFilter = new WildcardFileFilter(filterWildcards);
-		List fileList = new ArrayList();
+		List<File> fileList = new ArrayList<File>();
 
 		String res = fd.open();
 		if (res == null)
@@ -440,7 +440,7 @@ public class MessageBoxUtils {
 				if (!srcFile.exists()) {
 					logger.warn("File not found: " + srcFile);
 					MessageBoxUtils.showError(lang.getMeaning("FNF") + ":\n" + srcFile);
-					return new ArrayList();
+					return new ArrayList<File>();
 				}
 				fileList.add(srcFile);
 			}

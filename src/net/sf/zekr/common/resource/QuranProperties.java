@@ -27,15 +27,15 @@ public class QuranProperties implements IQuranProperties {
 		return thisInstance;
 	}
 
-	public final List getSuraList() {
+	public final List<SuraProperties> getSuraList() {
 		return quranPropsReader.suraProp;
 	}
 
-	public final List getJuzList() {
+	public final List<JuzProperties> getJuzList() {
 		return quranPropsReader.juzProp;
 	}
 
-	public final List getSajdaList() {
+	public final List<SajdaProperties> getSajdaList() {
 		return quranPropsReader.sajdaProp;
 	}
 

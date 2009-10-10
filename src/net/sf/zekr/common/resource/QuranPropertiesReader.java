@@ -11,6 +11,7 @@ package net.sf.zekr.common.resource;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.language.LanguageEngine;
@@ -33,9 +34,9 @@ class QuranPropertiesReader extends BaseQuranProperties {
 	private NodeList suraNodeListL10N;
 	private NodeList pageNodeList;
 
-	ArrayList suraProp = new ArrayList();
-	ArrayList juzProp = new ArrayList();
-	ArrayList sajdaProp = new ArrayList();
+	List<SuraProperties> suraProp = new ArrayList<SuraProperties>();
+	List<JuzProperties> juzProp = new ArrayList<JuzProperties>();
+	List<SajdaProperties> sajdaProp = new ArrayList<SajdaProperties>();
 
 	private static final Logger logger = Logger.getLogger(QuranPropertiesReader.class);
 
@@ -43,7 +44,7 @@ class QuranPropertiesReader extends BaseQuranProperties {
 		try {
 			if (loadLocalizedProps()) {
 				for (int i = 0; i < suraProp.size(); i++) {
-					updateSuraLocalizedProps((SuraProperties) suraProp.get(i));
+					updateSuraLocalizedProps(suraProp.get(i));
 				}
 			}
 		} catch (XmlReadException e) {

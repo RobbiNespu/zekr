@@ -63,6 +63,7 @@ public class VelocityUtils {
 		return new Integer((int) Math.rint(n.doubleValue()));
 	}
 
+	@SuppressWarnings("unchecked")
 	public int arraySize(Object arr) {
 		if (arr instanceof Collection) {
 			return ((Collection) arr).size();
@@ -98,6 +99,7 @@ public class VelocityUtils {
 		return buf.toString();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object getItem(Object arr, int index) {
 		if (arr instanceof List) {
 			return ((List) arr).get(index);

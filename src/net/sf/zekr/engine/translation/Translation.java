@@ -11,7 +11,7 @@ package net.sf.zekr.engine.translation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +19,8 @@ import net.sf.zekr.engine.log.Logger;
 
 /**
  * A collection of all available translations as <code>{@link TranslationData}</code> objects.<br>
- * If this class had at least a single <code>TranslationData</code>, it should be set as default
- * translation as well. No default translation means, there is no translation at all.
+ * If this class had at least a single <code>TranslationData</code>, it should be set as default translation
+ * as well. No default translation means, there is no translation at all.
  * 
  * @author Mohsen Saboorian
  */
@@ -29,13 +29,11 @@ public class Translation {
 
 	TranslationData defaultTrans;
 
-	private Map translations = new HashMap();
-	private List customGroup = new ArrayList();
+	private Map<String, TranslationData> translations = new LinkedHashMap<String, TranslationData>();
+	private List<TranslationData> customGroup = new ArrayList<TranslationData>();
 
-	private Comparator localeComparator = new Comparator() {
-		public int compare(Object o1, Object o2) {
-			TranslationData td1 = (TranslationData) o1;
-			TranslationData td2 = (TranslationData) o2;
+	private Comparator<TranslationData> localeComparator = new Comparator<TranslationData>() {
+		public int compare(TranslationData td1, TranslationData td2) {
 			int res = td1.locale.toString().compareTo(td2.locale.toString());
 			return res > 0 ? 1 : -1;
 		}
@@ -53,7 +51,7 @@ public class Translation {
 	}
 
 	public TranslationData get(String transId) {
-		return (TranslationData) translations.get(transId);
+		return translations.get(transId);
 	}
 
 	public void add(TranslationData td) {
@@ -65,8 +63,8 @@ public class Translation {
 	 *         underling translation list. Returned list is not empty (size = 0, not <code>null</code>) if
 	 *         there is no translation data item.
 	 */
-	public List getAllTranslation() {
-		ArrayList ret = new ArrayList(translations.values());
+	public List<TranslationData> getAllTranslation() {
+		ArrayList<TranslationData> ret = new ArrayList<TranslationData>(translations.values());
 		Collections.sort(ret, localeComparator);
 		return ret;
 	}
@@ -75,11 +73,11 @@ public class Translation {
 	 * @return a List of custom translations currently being used. Custom translations are a set of
 	 *         translations all displayed side by side.
 	 */
-	public List getCustomGroup() {
+	public List<TranslationData> getCustomGroup() {
 		return customGroup;
 	}
 
-	public void setCustomGroup(List customGroup) {
+	public void setCustomGroup(List<TranslationData> customGroup) {
 		this.customGroup = customGroup;
 	}
 }

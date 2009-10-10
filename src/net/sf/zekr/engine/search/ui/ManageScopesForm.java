@@ -8,7 +8,6 @@
  */
 package net.sf.zekr.engine.search.ui;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.zekr.engine.search.SearchScope;
@@ -38,7 +37,7 @@ import org.eclipse.swt.widgets.Shell;
 public class ManageScopesForm extends BaseForm {
 	private static final String FORM_ID = "MANAGE_SCOPES_FORM";
 	private Composite body;
-	private List searchScopeList;
+	private List<SearchScope> searchScopeList;
 	private org.eclipse.swt.widgets.List listWidget;
 	private Button editBut;
 	private Button removeBut;
@@ -46,7 +45,7 @@ public class ManageScopesForm extends BaseForm {
 	private boolean canceled = true;
 	protected int selectedIndex = -1;
 
-	public ManageScopesForm(Shell parent, List searchScopes) {
+	public ManageScopesForm(Shell parent, List<SearchScope> searchScopes) {
 		this.parent = parent;
 		display = parent.getDisplay();
 		this.searchScopeList = searchScopes;
@@ -67,13 +66,11 @@ public class ManageScopesForm extends BaseForm {
 		body.setLayout(new GridLayout(1, false));
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
-		listWidget = new org.eclipse.swt.widgets.List(body, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL);
+		listWidget = new org.eclipse.swt.widgets.List(body, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 
 		String[] items = new String[searchScopeList.size()];
 		int i = 0;
-		for (Iterator iter = searchScopeList.iterator(); iter.hasNext(); i++) {
-			SearchScope ss = (SearchScope) iter.next();
+		for (SearchScope ss : searchScopeList) {
 			items[i] = ss.toString();
 		}
 
@@ -189,10 +186,10 @@ public class ManageScopesForm extends BaseForm {
 		Composite butComposite = new Composite(body, SWT.NONE);
 		butComposite.setLayout(rl);
 		butComposite.setLayoutData(gd);
-;
+
 		Button okBut = new Button(butComposite, SWT.PUSH);
 		Button cancelBut = new Button(butComposite, SWT.PUSH);
-		okBut.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
+		okBut.setText(FormUtils.addAmpersand(lang.getMeaning("OK")));
 		okBut.pack();
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -207,7 +204,7 @@ public class ManageScopesForm extends BaseForm {
 		});
 		shell.setDefaultButton(okBut);
 
-		cancelBut.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
+		cancelBut.setText(FormUtils.addAmpersand(lang.getMeaning("CANCEL")));
 		cancelBut.pack();
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -224,7 +221,7 @@ public class ManageScopesForm extends BaseForm {
 		// set the OK and CANCEL buttons to the same length		
 		int buttonLength = FormUtils.buttonLength(80, okBut, cancelBut);
 		rdOk.width = buttonLength;
-        rdCancel.width = buttonLength;
+		rdCancel.width = buttonLength;
 		okBut.setLayoutData(rdOk);
 		cancelBut.setLayoutData(rdCancel);
 
@@ -259,7 +256,7 @@ public class ManageScopesForm extends BaseForm {
 		}
 	}
 
-	public List getSearchScopeList() {
+	public List<SearchScope> getSearchScopeList() {
 		return searchScopeList;
 	}
 

@@ -13,8 +13,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class I18N {
-	private final static Map baseMap;
+	private final static Map<String, Integer> baseMap;
 	private Locale locale;
 
 	/** Left to right mark */
@@ -32,7 +35,7 @@ public class I18N {
 
 	private static I18N thisInstance;
 	static {
-		baseMap = new HashMap();
+		baseMap = new HashMap<String, Integer>();
 		baseMap.put("fa", new Integer(0x6f0)); // Farsi (Persian)
 		baseMap.put("ur", new Integer(0x6f0)); // Urdu (numbers are the same as Persian)
 		baseMap.put("ar", new Integer(0x660)); // Indo-Arabic: SA, Syria, Egypt, UAE, Iraq, ...
@@ -72,7 +75,7 @@ public class I18N {
 		String s = number.toString();
 		int base;
 		if (baseMap.get(langCode) != null)
-			base = ((Integer) baseMap.get(langCode)).intValue();
+			base = baseMap.get(langCode).intValue();
 		else
 			return number.toString();
 
@@ -101,7 +104,7 @@ public class I18N {
 		StringBuffer buf = new StringBuffer(str);
 		int base = 0;
 		if (baseMap.get(langCode) != null)
-			base = ((Integer) baseMap.get(langCode)).intValue();
+			base = baseMap.get(langCode).intValue();
 		else
 			return str;
 		for (int i = 0; i < buf.length(); i++) {

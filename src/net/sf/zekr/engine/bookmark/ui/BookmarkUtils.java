@@ -46,8 +46,8 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
 /**
- * This class handles a number of functions related to bookmarks as static methods. There functions include making
- * bookmark menu, making bookmark tree, bookmark location selector pop-up, and more.
+ * This class handles a number of functions related to bookmarks as static methods. There functions include
+ * making bookmark menu, making bookmark tree, bookmark location selector pop-up, and more.
  * 
  * @author Mohsen Saboorian
  * @since Zekr 1.0
@@ -88,9 +88,8 @@ public class BookmarkUtils {
 				}
 			});
 			 */
-			List bmChildren = bookmarkItem.getChildren();
-			for (int i = 0; i < bmChildren.size(); i++) {
-				BookmarkItem newBookmarkItem = (BookmarkItem) bmChildren.get(i);
+			List<BookmarkItem> bmChildren = bookmarkItem.getChildren();
+			for (BookmarkItem newBookmarkItem : bmChildren) {
 				BookmarkUtils.addBookmarkItemToMenu(menu, newBookmarkItem);
 			}
 		} else {
@@ -112,9 +111,8 @@ public class BookmarkUtils {
 			treeItem.setText(new String[] { bookmarkItem.getName(), "", bookmarkItem.getDescription() });
 			treeItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.bookmark.closeFolder")));
 
-			List bmChildren = bookmarkItem.getChildren();
-			for (int i = 0; i < bmChildren.size(); i++) {
-				BookmarkItem newBookmarkItem = (BookmarkItem) bmChildren.get(i);
+			List<BookmarkItem> bmChildren = bookmarkItem.getChildren();
+			for (BookmarkItem newBookmarkItem : bmChildren) {
 				TreeItem childItem = new TreeItem(treeItem, SWT.FULL_SELECTION);
 				BookmarkUtils.addBookmarkItemToTree(childItem, newBookmarkItem);
 			}
@@ -190,16 +188,16 @@ public class BookmarkUtils {
 	}
 
 	public static void gotoBookmarkLocations(Shell parent, BookmarkItem bookmarkItem) {
-		List locs = bookmarkItem.getLocations();
+		List<IQuranLocation> locs = bookmarkItem.getLocations();
 		if (locs.size() == 0) {
 			return;
 		} else if (locs.size() == 1) {
-			IQuranLocation location = (IQuranLocation) locs.get(0);
+			IQuranLocation location = locs.get(0);
 			EventUtils.sendEvent(EventProtocol.GOTO_LOCATION + ":" + location);
 		} else {
 			int i = chooseBookmarkItem(parent, bookmarkItem);
 			if (i != -1) {
-				IQuranLocation location = (IQuranLocation) locs.get(i);
+				IQuranLocation location = locs.get(i);
 				EventUtils.sendEvent(EventProtocol.GOTO_LOCATION + ":" + location);
 			}
 		}
@@ -267,24 +265,23 @@ public class BookmarkUtils {
 		return _listIndex;
 	}
 
-	public static List findReferences(BookmarkSet bms, IQuranLocation loc) {
-		List bmItems = bms.getBookmarksItems();
-		List foundItems = new ArrayList();
-		for (int i = 0; i < bmItems.size(); i++) {
-			BookmarkItem item = (BookmarkItem) bmItems.get(i);
-			foundItems.addAll(_findReferences(new ArrayList(), item, loc));
+	public static List<Object[]> findReferences(BookmarkSet bms, IQuranLocation loc) {
+		List<BookmarkItem> bmItems = bms.getBookmarksItems();
+		List<Object[]> foundItems = new ArrayList<Object[]>();
+		for (BookmarkItem item : bmItems) {
+			foundItems.addAll(_findReferences(new ArrayList<String>(), item, loc));
 		}
 		return foundItems;
 	}
 
-	private static List _findReferences(List path, BookmarkItem bmItem, IQuranLocation loc) {
-		List childItems = bmItem.getChildren();
-		List foundItems = new ArrayList();
-		List l = new ArrayList(path);
+	private static List<Object[]> _findReferences(List<String> path, BookmarkItem bmItem, IQuranLocation loc) {
+		List<BookmarkItem> childItems = bmItem.getChildren();
+		List<Object[]> foundItems = new ArrayList<Object[]>();
+		List<String> l = new ArrayList<String>(path);
 		l.add(bmItem.getName());
 		if (!bmItem.isFolder()) {
 			if (bmItem.getLocations().contains(loc)) {
-				foundItems.add(new Object[]{l, bmItem});
+				foundItems.add(new Object[] { l, bmItem });
 			}
 		} else {
 			for (int i = 0; i < childItems.size(); i++) {
@@ -297,9 +294,9 @@ public class BookmarkUtils {
 
 	public static void main(String[] args) {
 		BookmarkSet bms = config.getBookmark();
-		List l = findReferences(bms, new QuranLocation(12, 13));
+		List<Object[]> l = findReferences(bms, new QuranLocation(12, 13));
 		for (int i = 0; i < l.size(); i++) {
-			Object[] entry = (Object[]) l.get(i);
+			Object[] entry = l.get(i);
 			System.out.println(entry[0] + ": " + entry[1]);
 		}
 	}
