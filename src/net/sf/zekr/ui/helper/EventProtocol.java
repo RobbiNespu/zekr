@@ -32,6 +32,7 @@ public interface EventProtocol {
 	 * Tells the shell to update bookmarks menu (as bookmark tree changed).
 	 */
 	String UPDATE_BOOKMARKS_MENU = "UPDATE_BOOKMARKS_MENU";
+	
 	String GOTO_LOCATION = "GOTO_LOCATION";
 
 	/**

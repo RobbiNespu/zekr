@@ -22,7 +22,7 @@ import net.sf.zekr.common.config.ApplicationPath;
 public class Language {
 	private static Language thisInstance;
 	private LanguagePack currentLangPack;
-	private Map languageMap = new HashMap();
+	private Map<String, LanguagePack> languageMap = new HashMap<String, LanguagePack>();
 	private String defaultPackId;
 
 	private Language() {
@@ -51,14 +51,14 @@ public class Language {
 	}
 
 	public void setActiveLanguagePack(String langId) {
-		setActiveLanguagePack((LanguagePack) languageMap.get(langId));
+		setActiveLanguagePack(languageMap.get(langId));
 	}
 
 	public LanguagePack get(String id) {
-		return (LanguagePack) languageMap.get(id);
+		return languageMap.get(id);
 	}
 
-	public Map getLanguageMap() {
+	public Map<String, LanguagePack> getLanguageMap() {
 		return languageMap;
 	}
 

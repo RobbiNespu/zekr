@@ -57,7 +57,7 @@ public class Logger {
 		dumpSysInfo(org.apache.log4j.Logger.getLogger(Logger.class));
 	}
 
-	private Logger(Class clazz) {
+	private Logger(Class<?> clazz) {
 		logger = org.apache.log4j.Logger.getLogger(clazz);
 	}
 
@@ -83,7 +83,7 @@ public class Logger {
 	 * @param theClass logging source class
 	 * @return corresponding logger
 	 */
-	synchronized final public static Logger getLogger(Class theClass) {
+	synchronized final public static Logger getLogger(Class<?> theClass) {
 		return new Logger(theClass);
 	}
 

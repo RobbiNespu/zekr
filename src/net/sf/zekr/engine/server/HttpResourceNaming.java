@@ -8,10 +8,13 @@
  */
 package net.sf.zekr.engine.server;
 
-
+/**
+ * @author Mohsen Saboorian
+ */
 interface HttpResourceNaming {
 	public static final String CACHED_RESOURCE = "[cache]";
 	public static final String WORKSPACE_RESOURCE = "[workspace]";
 	public static final String BASE_RESOURCE = "[base]";
 	public static final String WORKSPACE_OR_BASE_RESOURCE = "[w_b]";
+	public static final String ABSOLUTE_RESOURCE = "[absolute]";
 }

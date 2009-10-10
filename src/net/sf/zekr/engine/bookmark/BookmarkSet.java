@@ -14,7 +14,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -56,10 +55,10 @@ public class BookmarkSet {
 	private BookmarkItem parentItem;
 
 	/**
-	 * Although items are stored as a tree DS in <code>parentItem</code>, a reference to each item is stored in a map
-	 * of id-items.
+	 * Although items are stored as a tree DS in <code>parentItem</code>, a reference to each item is stored in
+	 * a map of id-items.
 	 */
-	private Map itemMap = new HashMap();
+	private Map<String, BookmarkItem> itemMap = new HashMap<String, BookmarkItem>();
 
 	private Document xmlDocument;
 
@@ -68,8 +67,8 @@ public class BookmarkSet {
 	private String id;
 
 	/**
-	 * This constructor will not load all the bookmark set file. A call to <code>load()</code> is needed first. Hence,
-	 * this class is in fact lazy-load.
+	 * This constructor will not load all the bookmark set file. A call to <code>load()</code> is needed first.
+	 * Hence, this class is in fact lazy-load.
 	 * 
 	 * @param filePath
 	 */
@@ -79,17 +78,16 @@ public class BookmarkSet {
 	}
 
 	/**
-	 * This constructor is used for creating new bookmark sets. ID of the bookmark in addition to a boolean value is
-	 * provided in order to differ it from the other c'tor. However, <code>isNew</code> parameter is ignored.<br>
-	 * This method will load blank bookmark, and the bookmark will not be saved until a call to <code>save()</code> be
-	 * performed.<br>
-	 * Note that after a call to this, bookmark would be loaded as well as initialized, hence there is no need more to
-	 * call <code>load()</code>.
+	 * This constructor is used for creating new bookmark sets. ID of the bookmark in addition to a boolean
+	 * value is provided in order to differ it from the other c'tor. However, <code>isNew</code> parameter is
+	 * ignored.<br>
+	 * This method will load blank bookmark, and the bookmark will not be saved until a call to
+	 * <code>save()</code> be performed.<br>
+	 * Note that after a call to this, bookmark would be loaded as well as initialized, hence there is no need
+	 * more to call <code>load()</code>.
 	 * 
-	 * @param id
-	 *           bookmark id
-	 * @param isNew
-	 *           a dummy parameter
+	 * @param id bookmark id
+	 * @param isNew a dummy parameter
 	 */
 	public BookmarkSet(String id, boolean isNew) {
 		ResourceManager res = ResourceManager.getInstance();
@@ -189,9 +187,8 @@ public class BookmarkSet {
 	}
 
 	private void _updateXml(BookmarkItem item, Node node) {
-		List list = item.getChildren();
-		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			BookmarkItem childItem = (BookmarkItem) iter.next();
+		List<BookmarkItem> list = item.getChildren();
+		for (BookmarkItem childItem : list) {
 			if (childItem.isFolder()) {
 				Element fe = xmlDocument.createElement("folder");
 				fe.setAttribute("name", childItem.getName());
@@ -244,6 +241,7 @@ public class BookmarkSet {
 		_loadXml(item, node);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void _loadXml(BookmarkItem item, Node node) {
 		NodeList nodeList = node.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
@@ -296,7 +294,7 @@ public class BookmarkSet {
 		return sdf.format(date);
 	}
 
-	public List getBookmarksItems() {
+	public List<BookmarkItem> getBookmarksItems() {
 		return parentItem.getChildren();
 	}
 

@@ -44,14 +44,14 @@ public class LanguageEngine extends LanguageEngineNaming {
 
 	private XmlReader reader = null;
 
-	private Map commonWords = null; // word.common
-	private Map specialWords = null; // word.special
-	private Map informMessages = null; // message.inform
-	private Map confirmMessages = null; // message.confirm
-	private Map errorMessages = null; // message.error
-	private Map hintMessages = null; // message.tooltip
-	private Map forms = null; // forms.frame
-	private Map globals = null; // forms.global
+	private Map<String, String> commonWords = null; // word.common
+	private Map<String, String> specialWords = null; // word.special
+	private Map<String, String> informMessages = null; // message.inform
+	private Map<String, String> confirmMessages = null; // message.confirm
+	private Map<String, String> errorMessages = null; // message.error
+	private Map<String, String> hintMessages = null; // message.tooltip
+	private Map<String, Map<String, String>> forms = null; // forms.frame
+	private Map<String, String> globals = null; // forms.global
 
 	private final Logger logger = Logger.getLogger(LanguageEngine.class);
 
@@ -107,15 +107,15 @@ public class LanguageEngine extends LanguageEngineNaming {
 
 	/**
 	 * This method is used to generate a <b>2D dictionary </b>. A map with <code>key</code>s equal to
-	 * <code>ID_ATTR</code> of each node of <code>nodeList</code>. Each <code>key</code> is mapped then
-	 * to a second map. This second map is returned from <code>makeDictionary()</code> using
+	 * <code>ID_ATTR</code> of each node of <code>nodeList</code>. Each <code>key</code> is mapped then to a
+	 * second map. This second map is returned from <code>makeDictionary()</code> using
 	 * <code>nodeList.item(i).getChildNodes()</code> as it's parameter.
 	 * 
 	 * @param nodeList
 	 * @return
 	 */
-	private Map makeMultipleDictionaries(NodeList nodeList) {
-		Map retMap = new HashMap();
+	private Map<String, Map<String, String>> makeMultipleDictionaries(NodeList nodeList) {
+		Map<String, Map<String, String>> retMap = new HashMap<String, Map<String, String>>();
 		Node node = null;
 		String mapName;
 		for (int i = 0; i < nodeList.size(); i++) {
@@ -132,8 +132,8 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 * @param list a list of <code>&lttext&gt</code> nodes
 	 * @return dictionary map
 	 */
-	private Map makeDictionary(org.w3c.dom.NodeList list) {
-		Map resultMap = new HashMap();
+	private Map<String, String> makeDictionary(org.w3c.dom.NodeList list) {
+		Map<String, String> resultMap = new HashMap<String, String>();
 		Node node = null;
 		for (int i = 0; i < list.getLength(); i++) {
 			node = list.item(i);
@@ -147,17 +147,17 @@ public class LanguageEngine extends LanguageEngineNaming {
 	public String getMeaning(String scope, String word) {
 		String meaning;
 		if (scope.equalsIgnoreCase(COMMON_WORDS))
-			meaning = (String) commonWords.get(word);
+			meaning = commonWords.get(word);
 		else if (scope.equalsIgnoreCase(SPECIAL_WORDS))
-			meaning = (String) specialWords.get(word);
+			meaning = specialWords.get(word);
 		else if (scope.equalsIgnoreCase(INFORM_MSG))
-			meaning = (String) informMessages.get(word);
+			meaning = informMessages.get(word);
 		else if (scope.equalsIgnoreCase(CONFIRM_MSG))
-			meaning = (String) confirmMessages.get(word);
+			meaning = confirmMessages.get(word);
 		else if (scope.equalsIgnoreCase(ERROR_MSG))
-			meaning = (String) errorMessages.get(word);
+			meaning = errorMessages.get(word);
 		else if (scope.equalsIgnoreCase(HINT_MSG))
-			meaning = (String) hintMessages.get(word);
+			meaning = hintMessages.get(word);
 		else
 			meaning = word; // return the original word
 		return meaning;
@@ -165,21 +165,21 @@ public class LanguageEngine extends LanguageEngineNaming {
 
 	public String getMeaning(String word) {
 		String meaning;
-		if ((meaning = (String) commonWords.get(word)) != null)
+		if ((meaning = commonWords.get(word)) != null)
 			;
-		else if ((meaning = (String) specialWords.get(word)) != null)
+		else if ((meaning = specialWords.get(word)) != null)
 			;
-		else if ((meaning = (String) informMessages.get(word)) != null)
+		else if ((meaning = informMessages.get(word)) != null)
 			;
-		else if ((meaning = (String) confirmMessages.get(word)) != null)
+		else if ((meaning = confirmMessages.get(word)) != null)
 			;
-		else if ((meaning = (String) errorMessages.get(word)) != null)
+		else if ((meaning = errorMessages.get(word)) != null)
 			;
-		else if ((meaning = (String) errorMessages.get(word)) != null)
+		else if ((meaning = errorMessages.get(word)) != null)
 			;
-		else if ((meaning = (String) hintMessages.get(word)) != null)
+		else if ((meaning = hintMessages.get(word)) != null)
 			;
-		else if ((meaning = (String) globals.get(word)) != null)
+		else if ((meaning = globals.get(word)) != null)
 			;
 		else
 			meaning = word; // preventing null value
@@ -211,7 +211,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	public String getMeaningById(String id, String word) {
 		if (!forms.containsKey(id))
 			return word; // prevent null value
-		Map formMap = (Map) forms.get(id);
+		Map<String, String> formMap = forms.get(id);
 		if (!formMap.containsKey(word))
 			return word; // prevent null value
 		return (String) formMap.get(word);
@@ -228,7 +228,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	public String getDynamicMeaningById(String id, String word, String[] strArray) {
 		if (!forms.containsKey(id))
 			return "";
-		String meaning = (String) ((Map) forms.get(id)).get(word);
+		String meaning = (String) forms.get(id).get(word);
 		for (int i = 0; i < strArray.length; i++) {
 			meaning = meaning.replaceAll("\\{" + (i + 1) + "\\}", escape(strArray[i]));
 		}
@@ -269,8 +269,12 @@ public class LanguageEngine extends LanguageEngineNaming {
 		init();
 	}
 
+	public boolean isLtr() {
+		return !RIGHT_TO_LEFT.equals(getDirection());
+	}
+
 	public int getSWTDirection() {
-		return RIGHT_TO_LEFT.equals(getDirection()) ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT;
+		return isLtr() ? SWT.LEFT_TO_RIGHT : SWT.RIGHT_TO_LEFT;
 	}
 
 	public static int getSWTDirection(String dir) {
@@ -280,11 +284,11 @@ public class LanguageEngine extends LanguageEngineNaming {
 	/**
 	 * @return An ascending sorted <code>List</code> of available <code>LanguagePack</code>s.
 	 */
-	public List getLangPacks() {
-		List list = new ArrayList(language.getLanguageMap().values());
-		Collections.sort(list, new Comparator() {
-			public int compare(Object o1, Object o2) {
-				return ((LanguagePack) o1).name.compareTo(((LanguagePack) o2).name);
+	public List<LanguagePack> getLangPacks() {
+		List<LanguagePack> list = new ArrayList<LanguagePack>(language.getLanguageMap().values());
+		Collections.sort(list, new Comparator<LanguagePack>() {
+			public int compare(LanguagePack lang1, LanguagePack lang2) {
+				return lang1.name.compareTo(lang2.name);
 			}
 		});
 		return list;

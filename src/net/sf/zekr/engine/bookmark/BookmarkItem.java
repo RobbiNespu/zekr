@@ -12,11 +12,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.zekr.common.resource.IQuranLocation;
+
 public class BookmarkItem implements Cloneable {
 	private String name;
 	private String description;
-	private List locations;
-	private List children = new ArrayList();
+	private List<IQuranLocation> locations;
+	private List<BookmarkItem> children = new ArrayList<BookmarkItem>();
 	private boolean folder;
 
 	/** A unique identifier (among other bookmark items in a single tree) for looking up this bookmark item. */
@@ -38,11 +40,11 @@ public class BookmarkItem implements Cloneable {
 		this.description = description;
 	}
 
-	public List getLocations() {
+	public List<IQuranLocation> getLocations() {
 		return locations;
 	}
 
-	public void setLocations(List locations) {
+	public void setLocations(List<IQuranLocation> locations) {
 		this.locations = locations;
 	}
 
@@ -54,7 +56,7 @@ public class BookmarkItem implements Cloneable {
 		this.folder = folder;
 	}
 
-	public List getChildren() {
+	public List<BookmarkItem> getChildren() {
 		return children;
 	}
 
@@ -74,15 +76,15 @@ public class BookmarkItem implements Cloneable {
 		bi.setName(getName());
 		bi.setDescription(getDescription());
 		if (locations != null)
-			bi.setLocations(new ArrayList(locations));
+			bi.setLocations(new ArrayList<IQuranLocation>(locations));
 		bi.setFolder(isFolder());
 		bi.id = this.id; // TODO: ID should be removed from this class. No need more!
-//		List newList = new ArrayList(bi.children.size());
-//		for (int i = 0; i < bi.children.size(); i++) {
-//			BookmarkItem childItem = (BookmarkItem) bi.children.get(i);
-//			newList.add(childItem);
-//		}
-		bi.children = new ArrayList(bi.children);
+		//		List newList = new ArrayList(bi.children.size());
+		//		for (int i = 0; i < bi.children.size(); i++) {
+		//			BookmarkItem childItem = (BookmarkItem) bi.children.get(i);
+		//			newList.add(childItem);
+		//		}
+		bi.children = new ArrayList<BookmarkItem>(bi.children);
 		return bi;
 	}
 
@@ -112,8 +114,8 @@ public class BookmarkItem implements Cloneable {
 		if (i != -1)
 			return true;
 
-		for (Iterator iterator = children.iterator(); iterator.hasNext();) {
-			BookmarkItem child = (BookmarkItem) iterator.next();
+		for (Iterator<BookmarkItem> iterator = children.iterator(); iterator.hasNext();) {
+			BookmarkItem child = iterator.next();
 			if (child.hasDescendant(bookmarkItem))
 				return true;
 		}
@@ -125,9 +127,9 @@ public class BookmarkItem implements Cloneable {
 	 * If <code>obj</code> is of type <code>BookmarkItem</code>, just checks if its ID is the same with
 	 * <code>this.id</code>. Returns <code>obj.equals(this)</code> otherwise.
 	 */
-//	public boolean equals(Object obj) {
-//		if (obj instanceof BookmarkItem)
-//			return ((BookmarkItem) obj).id == id;
-//		return obj.equals(this);
-//	}
+	//	public boolean equals(Object obj) {
+	//		if (obj instanceof BookmarkItem)
+	//			return ((BookmarkItem) obj).id == id;
+	//		return obj.equals(this);
+	//	}
 }
