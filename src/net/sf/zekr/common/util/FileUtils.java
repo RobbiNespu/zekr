@@ -12,7 +12,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.URISyntaxException;
+
+import net.sf.zekr.common.config.ApplicationConfig;
 
 /**
  * @author Mohsen Saboorian
@@ -103,11 +105,15 @@ public class FileUtils {
 	/**
 	 * Open a connection to a remote/local URL.
 	 * 
-	 * @param url
+	 * @param uri
 	 * @return an open stream to the URL
 	 * @throws IOException
 	 */
-	public static InputStream getContent(URL url) throws IOException {
-		return url.openStream();
+	public static InputStream getContent(String uri) throws IOException {
+		try {
+			return ApplicationConfig.getInstance().getNetworkController().openSteam(uri);
+		} catch (URISyntaxException e) {
+			throw new IOException(e);
+		}
 	}
 }
