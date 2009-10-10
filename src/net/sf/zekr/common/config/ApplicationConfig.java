@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -36,7 +37,11 @@ import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.audio.Audio;
+import net.sf.zekr.engine.audio.AudioCacheManager;
+import net.sf.zekr.engine.audio.AudioCacheManagerTimerTask;
 import net.sf.zekr.engine.audio.AudioData;
+import net.sf.zekr.engine.audio.DefaultPlayerController;
+import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.engine.bookmark.BookmarkException;
 import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.bookmark.BookmarkSetGroup;
@@ -44,6 +49,7 @@ import net.sf.zekr.engine.language.Language;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.network.NetworkController;
 import net.sf.zekr.engine.page.CustomPagingData;
 import net.sf.zekr.engine.page.FixedAyaPagingData;
 import net.sf.zekr.engine.page.HizbQuarterPagingData;
@@ -105,6 +111,9 @@ public class ApplicationConfig implements ConfigNaming {
 	private LuceneIndexManager luceneIndexManager;
 	private SearchInfo searchInfo;
 	private QuranRoot quranRoot;
+	private AudioCacheManager audioCacheManager;
+	private PlayerController playerController;
+	private NetworkController networkController;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -133,6 +142,7 @@ public class ApplicationConfig implements ConfigNaming {
 		// EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Initializing Audio Data");
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Audio packs");
 		extractAudioProps();
+		setupAudioManager();
 
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Revelation orders");
 		extractRevelOrderInfo();
@@ -140,6 +150,7 @@ public class ApplicationConfig implements ConfigNaming {
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Paging data");
 		extractPagingDataProps();
 
+		initNetworkController();
 		if (isHttpServerEnabled()) {
 			EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Start HTTP server");
 		}
@@ -162,16 +173,17 @@ public class ApplicationConfig implements ConfigNaming {
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Application UI");
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initSearchInfo() {
 		logger.info("Load search info...");
 		searchInfo = new SearchInfo();
 		Configuration stopWordConf = props.subset("search.stopword");
-		List defaultStopWord = props.getList("search.stopword");
+		List<String> defaultStopWord = props.getList("search.stopword");
 		Configuration replacePatternConf = props.subset("search.pattern.replace");
-		List defaultReplacePattern = props.getList("search.pattern.replace");
+		List<String> defaultReplacePattern = props.getList("search.pattern.replace");
 
 		searchInfo.setDefaultStopWord(defaultStopWord);
-		for (Iterator iterator = stopWordConf.getKeys(); iterator.hasNext();) {
+		for (Iterator<String> iterator = stopWordConf.getKeys(); iterator.hasNext();) {
 			String langCode = (String) iterator.next();
 			if (langCode.length() <= 0) // default value
 				continue;
@@ -205,9 +217,15 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	private void initViewController() {
+		logger.debug("Initialize view controller.");
 		userViewController = new UserViewController(quranPaging);
 		userViewController.setLocation(getQuranLocation());
 		userViewController.synchPage();
+	}
+
+	private void initNetworkController() {
+		logger.debug("Initialize network controller.");
+		networkController = new NetworkController(props);
 	}
 
 	private void startHttpServer() {
@@ -227,6 +245,7 @@ public class ApplicationConfig implements ConfigNaming {
 		return thisInstance;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void loadConfig() {
 		logger.info("Load Zekr configuration file.");
 		File uc = new File(ApplicationPath.USER_CONFIG);
@@ -275,8 +294,8 @@ public class ApplicationConfig implements ConfigNaming {
 					reader.close();
 					fis.close();
 
-					for (Iterator iter = oldProps.getKeys(); iter.hasNext();) {
-						String key = (String) iter.next();
+					for (Iterator<String> iter = oldProps.getKeys(); iter.hasNext();) {
+						String key = iter.next();
 						if (key.equals("version"))
 							continue;
 						props.setProperty(key, oldProps.getProperty(key));
@@ -428,6 +447,7 @@ public class ApplicationConfig implements ConfigNaming {
 	 * Will first look inside global translations, and then user-specific ones, overwriting global translations
 	 * with user-defined ones if duplicates found.
 	 */
+	@SuppressWarnings("unchecked")
 	private void extractTransProps() {
 		String def = props.getString("trans.default");
 		logger.info("Default translation is: " + def);
@@ -494,9 +514,9 @@ public class ApplicationConfig implements ConfigNaming {
 			if (translation.getDefault() == null) {
 				logger.warn("No default translation found! Will start without any translation. "
 						+ "As a result some features will be disabled.");
-				Iterator iter = translation.getAllTranslation().iterator();
+				Iterator<TranslationData> iter = translation.getAllTranslation().iterator();
 				if (iter.hasNext()) {
-					TranslationData td = (TranslationData) iter.next();
+					TranslationData td = iter.next();
 					try {
 						td.load();
 						translation.setDefault(td);
@@ -512,10 +532,10 @@ public class ApplicationConfig implements ConfigNaming {
 		if (translation.getDefault() != null) {
 			// load custom translation list
 			logger.info("Load custom translation list.");
-			List customList = translation.getCustomGroup();
-			List customs = props.getList("trans.custom");
+			List<TranslationData> customList = translation.getCustomGroup();
+			List<String> customs = props.getList("trans.custom");
 			for (int i = 0; i < customs.size(); i++) {
-				String tid = (String) customs.get(i);
+				String tid = customs.get(i);
 				if (tid == null || "".equals(tid.trim())) {
 					logger.info("No custom translation list to load.");
 					continue;
@@ -574,6 +594,7 @@ public class ApplicationConfig implements ConfigNaming {
 		return td;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void extractViewProps() {
 		ThemeData td;
 		Reader reader;
@@ -614,7 +635,7 @@ public class ApplicationConfig implements ConfigNaming {
 					fis.close();
 
 					td = new ThemeData();
-					td.props = new LinkedHashMap(); // order is important for options table!
+					td.props = new LinkedHashMap<String, String>(); // order is important for options table!
 					for (Iterator iter = pc.getKeys(); iter.hasNext();) {
 						String key = (String) iter.next();
 						td.props.put(key, CollectionUtils.toString(pc.getList(key), ", "));
@@ -651,6 +672,7 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void extractAudioProps() {
 		Reader reader;
 		String def = props.getString("audio.default");
@@ -691,17 +713,18 @@ public class ApplicationConfig implements ConfigNaming {
 					audioData.setLocale(new Locale(pc.getString("audio.language"), pc.getString("audio.country")));
 					audioData.setReciter(pc.getString("audio.reciter"));
 
-					audioData.setPlaylistMode(pc.getString("audio.playlist.mode"));
-					audioData.setPlaylistBaseUrl(pc.getString("audio.playlist.baseUrl"));
-					audioData.setPlaylistFileName(pc.getString("audio.playlist.fileName"));
-					audioData.setPlaylistSuraPad(pc.getString("audio.playlist.fileName.suraPad"));
-					audioData.setPlaylistProvider(pc.getString("audio.playlist.provider"));
+					Iterator<String> keys = pc.getKeys("audio.reciter");
+					while (keys.hasNext()) {
+						String key = keys.next();
+						if (key.equals("audio.reciter")) {
+							continue;
+						}
+						String lang = key.substring("audio.reciter".length() + 1);
+						audioData.getReciterLocalizedName().put(lang, pc.getString(key));
+					}
 
-					audioData.setAudioBaseUrl(pc.getString("audio.baseUrl"));
-					audioData.setAudioServerUrl(pc.getString("audio.serverUrl"));
-					audioData.setAudioFileName(pc.getString("audio.fileName"));
-					audioData.setAudioFileSuraPad(pc.getString("audio.fileName.suraPad"));
-					audioData.setAudioFileAyaPad(pc.getString("audio.fileName.ayaPad"));
+					audioData.setOfflineUrl(pc.getString("audio.onlineUrl"));
+					audioData.setOnlineUrl(pc.getString("audio.offlineUrl"));
 
 					audioData.setPrestartFileName(pc.getString("audio.prestartFileName"));
 					audioData.setStartFileName(pc.getString("audio.startFileName"));
@@ -730,6 +753,17 @@ public class ApplicationConfig implements ConfigNaming {
 				logger.warn("No other recitation found. Audio will be disabled.");
 			}
 		}
+	}
+
+	private void setupAudioManager() {
+		audioCacheManager = new AudioCacheManager(props);
+		long period = props.getLong("audio.cache.timerPeriod", 3600000);
+		// start after one minute, run every audio.cache.timerPeriod milliseconds
+		logger.debug("Setup audio cache timer task.");
+		new Timer("Audio Cache Task", true).schedule(new AudioCacheManagerTimerTask(audioCacheManager), 60000, period);
+
+		logger.debug("Initialize player controller.");
+		playerController = new DefaultPlayerController();
 	}
 
 	private void extractRevelOrderInfo() {
@@ -773,6 +807,7 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public RevelationData loadRevelationData(File revelZipFile) throws IOException, ConfigurationException {
 		ZipFile zipFile = new ZipFile(revelZipFile);
 		InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.REVELATION_DESC));
@@ -810,9 +845,9 @@ public class ApplicationConfig implements ConfigNaming {
 		byte[] sigBytes = sig.getBytes("US-ASCII");
 		rd.signature = sig == null ? null : Base64.decodeBase64(sigBytes);
 
-		Iterator nameIter = pc.getKeys("name");
-		for (Iterator iterator = nameIter; iterator.hasNext();) {
-			String key = (String) iterator.next();
+		Iterator<String> nameIter = pc.getKeys("name");
+		for (Iterator<String> iterator = nameIter; iterator.hasNext();) {
+			String key = iterator.next();
 			rd.getNames().put(new String(key.substring(4)), pc.getString(key));
 		}
 
@@ -914,8 +949,8 @@ public class ApplicationConfig implements ConfigNaming {
 
 		logger.info("Change default translation: " + defId + " => " + transId);
 
-		for (Iterator iterator = translation.getCustomGroup().iterator(); iterator.hasNext();) {
-			TranslationData td = (TranslationData) iterator.next();
+		for (Iterator<TranslationData> iterator = translation.getCustomGroup().iterator(); iterator.hasNext();) {
+			TranslationData td = iterator.next();
 			if (td.id.equals(defId)) {
 				unloadPrevTrans = false;
 				break;
@@ -1128,7 +1163,7 @@ public class ApplicationConfig implements ConfigNaming {
 	/**
 	 * @return A list of <code>TranslationData</code>
 	 */
-	public List getCustomTranslationList() {
+	public List<TranslationData> getCustomTranslationList() {
 		return translation.getCustomGroup();
 	}
 
@@ -1136,12 +1171,12 @@ public class ApplicationConfig implements ConfigNaming {
 	 * @param newIdList a list of new translation data IDs (list contains Strings).
 	 * @throws TranslationException
 	 */
-	public void setCustomTranslationList(List newIdList) throws TranslationException {
-		List newList = new ArrayList();
+	public void setCustomTranslationList(List<String> newIdList) throws TranslationException {
+		List<TranslationData> newList = new ArrayList<TranslationData>();
 
 		// load new translation packs
 		for (int i = 0; i < newIdList.size(); i++) {
-			String id = (String) newIdList.get(i);
+			String id = newIdList.get(i);
 			TranslationData td = translation.get(id);
 			td.load();
 			newList.add(td);
@@ -1150,9 +1185,9 @@ public class ApplicationConfig implements ConfigNaming {
 		String defaultId = translation.getDefault().id;
 
 		// unload old translation packs (which are not included in the new list)
-		List oldCustomList = translation.getCustomGroup();
+		List<TranslationData> oldCustomList = translation.getCustomGroup();
 		for (int i = 0; i < oldCustomList.size(); i++) {
-			TranslationData oldTd = (TranslationData) oldCustomList.get(i);
+			TranslationData oldTd = oldCustomList.get(i);
 			if (!newIdList.contains(oldTd.id) && !oldTd.id.equals(defaultId)) {
 				logger.info("Unload previous selected translation which is not used anymore: " + oldTd);
 				oldTd.unload();
@@ -1195,5 +1230,17 @@ public class ApplicationConfig implements ConfigNaming {
 		} catch (Exception e) {
 			throw new ZekrMessageException("TRANSLATION_LOAD_FAILED", new String[] { transFile.getName(), e.toString() });
 		}
+	}
+
+	public AudioCacheManager getAudioCacheManager() {
+		return audioCacheManager;
+	}
+
+	public PlayerController getPlayerController() {
+		return playerController;
+	}
+
+	public NetworkController getNetworkController() {
+		return networkController;
 	}
 }
