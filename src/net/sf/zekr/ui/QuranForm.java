@@ -34,6 +34,11 @@ import net.sf.zekr.common.resource.filter.IQuranFilter;
 import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
+import net.sf.zekr.engine.audio.AudioData;
+import net.sf.zekr.engine.audio.AudioUtils;
+import net.sf.zekr.engine.audio.PlayerController;
+import net.sf.zekr.engine.audio.PlayerException;
+import net.sf.zekr.engine.audio.ui.AudioControllerForm;
 import net.sf.zekr.engine.bookmark.ui.BookmarkSetForm;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.page.HizbQuarterPagingData;
@@ -62,10 +67,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.search.Sort;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.browser.ProgressAdapter;
 import org.eclipse.swt.browser.ProgressEvent;
-import org.eclipse.swt.browser.StatusTextEvent;
-import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
@@ -117,6 +121,53 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Mohsen Saboorian
  */
 public class QuranForm extends BaseForm {
+	private static Map<String, String> tooltipMap = new HashMap<String, String>();
+	{
+		tooltipMap.put(HizbQuarterPagingData.ID, "HIZBQ");
+		tooltipMap.put(JuzPagingData.ID, "JUZ");
+		tooltipMap.put(SuraPagingData.ID, "SURA");
+	}
+
+	private Listener globalKeyListener = new Listener() {
+		public void handleEvent(Event event) {
+			if (event.stateMask == SWT.CTRL) {
+				if (event.keyCode == 'f') { // find
+					focusOnSearchBox();
+				} else if (event.keyCode == 'd') { // bookmark
+					bookmarkThisAya();
+				}
+			} else if (NAV_BUTTON.equals(event.widget.getData())) {
+				boolean isRTL = lang.getSWTDirection() == SWT.RIGHT_TO_LEFT && GlobalConfig.hasBidiSupport;
+				int d = event.keyCode ^ SWT.KEYCODE_BIT;
+				if (d == 1) {
+					gotoPrevPage();
+				} else if (d == 2) {
+					gotoNextPage();
+				} else if (d == 3) {
+					if (isRTL) {
+						gotoNextAya();
+					} else {
+						gotoPrevAya();
+					}
+				} else if (d == 4) {
+					if (isRTL) {
+						gotoPrevAya();
+					} else {
+						gotoNextAya();
+					}
+				}
+			}
+		}
+	};
+
+	public KeyAdapter textSelectAll = new KeyAdapter() {
+		public void keyPressed(KeyEvent e) {
+			if (e.stateMask == SWT.CTRL && (e.keyCode == 'a' || e.keyCode == 'A')) {
+				((Text) e.widget).selectAll();
+			}
+		}
+	};
+
 	private Composite body;
 	Browser quranBrowser;
 	Browser transBrowser;
@@ -137,7 +188,7 @@ public class QuranForm extends BaseForm {
 	private Button matchCaseCheckBox;
 	private Button toggleMultiLine, advancedToggleMultiLine;
 	private Table suraTable;
-	private Map suraMap;
+	private Map<String, Object> suraMap;
 	private Composite bgroup, workPane;
 	private Group navigationGroup;
 	private Group searchGroup;
@@ -205,7 +256,7 @@ public class QuranForm extends BaseForm {
 	private QuranFormMenuFactory qmf;
 	private boolean clearOnExit = false;
 	SearchScope searchScope;
-	private List searchScopeList;
+	private List<SearchScope> searchScopeList;
 	private TabFolder searchTabFolder;
 	private Composite searchTabBody, advancedSearchTabBody;
 	Menu searchScopeMenu;
@@ -215,8 +266,6 @@ public class QuranForm extends BaseForm {
 
 	private Button prevPage, nextPage, prevAya, nextAya;
 
-	/** a state specifying if this is the first aya user focuses on */
-	private boolean firstTimePlaying;
 	/** specifies if audio player automatically brings user to the next sura */
 	boolean playerAutoNextSura = false;
 
@@ -226,50 +275,11 @@ public class QuranForm extends BaseForm {
 	private SearchResultNavigator searchNav, advSearchNav, rootNav;
 
 	IUserView uvc;
+	private PlayerController playerController;
 
-	private static Map tooltipMap = new HashMap();
-	{
-		tooltipMap.put(HizbQuarterPagingData.ID, "HIZBQ");
-		tooltipMap.put(JuzPagingData.ID, "JUZ");
-		tooltipMap.put(SuraPagingData.ID, "SURA");
-	}
+	protected AudioPlayerUiController playerUiController;
 
-	private Listener globalKeyListener = new Listener() {
-		public void handleEvent(Event event) {
-			if (event.stateMask == SWT.CTRL) {
-				if (event.keyCode == 'f') { // find
-					focusOnSearchBox();
-				} else if (event.keyCode == 'd') { // bookmark
-					bookmarkThisAya();
-				}
-			} else if (NAV_BUTTON.equals(event.widget.getData())) {
-				boolean isRTL = ((lang.getSWTDirection() == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
-				int d = event.keyCode ^ SWT.KEYCODE_BIT;
-				if (d == 1) {
-					gotoPrevPage();
-				} else if (d == 2) {
-					gotoNextPage();
-				} else if (d == 3) {
-					if (isRTL)
-						gotoNextAya();
-					else
-						gotoPrevAya();
-				} else if (d == 4) {
-					if (isRTL)
-						gotoPrevAya();
-					else
-						gotoNextAya();
-				}
-			}
-		}
-	};
-
-	public KeyAdapter textSelectAll = new KeyAdapter() {
-		public void keyPressed(KeyEvent e) {
-			if (e.stateMask == SWT.CTRL && (e.keyCode == 'a' || e.keyCode == 'A'))
-				((Text) e.widget).selectAll();
-		}
-	};
+	protected AudioControllerForm audioControllerForm;
 
 	/**
 	 * Initialize the QuranForm.
@@ -281,6 +291,20 @@ public class QuranForm extends BaseForm {
 		config = ApplicationConfig.getInstance();
 		quranProp = QuranProperties.getInstance();
 		init();
+	}
+
+	public void toggleAudioControllerForm(boolean open) {
+		if (open) {
+			audioControllerForm = new AudioControllerForm(this, shell);
+			audioControllerForm.getShell().addDisposeListener(new DisposeListener() {
+				public void widgetDisposed(DisposeEvent e) {
+					qmf.toggleAudioPanelState(false);
+				}
+			});
+			audioControllerForm.show();
+		} else if (audioControllerForm != null) {
+			audioControllerForm.close();
+		}
 	}
 
 	protected void init() {
@@ -296,17 +320,34 @@ public class QuranForm extends BaseForm {
 				new Image(display, resource.getString("icon.form128")),
 				new Image(display, resource.getString("icon.form256")) });
 		shell.setMenuBar((qmf = new QuranFormMenuFactory(this, shell)).getQuranFormMenu());
-
 		pageChanged = false;
 
-		logger.info("Loading last visited Quran location: " + quranLoc + ".");
+		playerUiController = new AudioPlayerUiController(this, qmf);
 
+		logger.info("Loading last visited Quran location: " + quranLoc + ".");
 		tree = config.getProps().getString("view.sura.mode", "combo").equals("tree");
 
 		// reset search scope list
-		searchScopeList = new ArrayList();
+		searchScopeList = new ArrayList<SearchScope>();
 		makeFrame();
 		updateSuraNames();
+
+		new BrowserFunction(quranBrowser, "javaFunction") {
+			public Object function(Object[] arguments) {
+				Object ret = bch.newCallbackHandler(arguments);
+				return ret;
+			}
+		};
+
+		new BrowserFunction(transBrowser, "javaFunction") {
+			public Object function(Object[] arguments) {
+				Object ret = bch.newCallbackHandler(arguments);
+				return ret;
+			}
+		};
+
+		playerController = config.getPlayerController();
+		playerController.addBasicPlayerListener(new ZekrPlayerListener(playerController, this));
 
 		// set the layout
 		if (config.getTranslation().getDefault() == null) { // no translation found
@@ -320,8 +361,9 @@ public class QuranForm extends BaseForm {
 		dl = new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				close();
-				if (!shell.isDisposed())
+				if (!shell.isDisposed()) {
 					shell.removeDisposeListener(dl);
+				}
 			}
 		};
 		shell.addDisposeListener(dl);
@@ -362,8 +404,22 @@ public class QuranForm extends BaseForm {
 			}
 		});
 
+		//		if (viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
+		//			playerController = new FlashPlayerController(quranBrowser, uvc);
+		//		} else {
+		//			playerController = new FlashPlayerController(transBrowser, uvc);
+		//		}
+
 		display.removeFilter(SWT.KeyDown, globalKeyListener);
 		display.addFilter(SWT.KeyDown, globalKeyListener);
+	}
+
+	public void playerContinue() {
+		playerTogglePlayPause(false);
+		gotoNextAya();
+		// playerController.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
+		playerTogglePlayPause(true);
+		// playerController.play();
 	}
 
 	private void updateSuraNames() {
@@ -407,6 +463,7 @@ public class QuranForm extends BaseForm {
 	/**
 	 * This method allocates and adds proper widgets to the <b>QuranForm</b>.
 	 */
+	@SuppressWarnings("unchecked")
 	private void makeFrame() {
 		GridData gd;
 		GridLayout gl;
@@ -447,7 +504,7 @@ public class QuranForm extends BaseForm {
 
 		if (isSashed) {
 			if (config.getProps().getProperty("view.quranForm.paneSashWeight") != null) {
-				List weights = config.getProps().getList("view.quranForm.paneSashWeight");
+				List<String> weights = config.getProps().getList("view.quranForm.paneSashWeight");
 				navSashForm.setWeights(new int[] { Integer.parseInt(weights.get(0).toString()),
 						Integer.parseInt(weights.get(1).toString()) });
 			} else {
@@ -468,22 +525,9 @@ public class QuranForm extends BaseForm {
 		fl.marginHeight = 2;
 		quranBrowser.setLayout(fl);
 
-		StatusTextListener stl = new StatusTextListener() {
-			public void changed(StatusTextEvent event) {
-				if (StringUtils.isNotEmpty(event.text)) {
-					// IE changes status text a lot.
-					// logger.debug("Browser status message changed: " + event.text);
-					bch.doBrowserCallback(event.text);
-				}
-			}
-		};
-
 		transBrowser = new Browser(sashForm, getBrowserStyle());
 		fl = new FillLayout(SWT.VERTICAL);
 		transBrowser.setLayout(fl);
-
-		quranBrowser.addStatusTextListener(stl);
-		transBrowser.addStatusTextListener(stl);
 
 		gl = new GridLayout(3, false);
 		navGroup = new Group(workPane, SWT.NONE);
@@ -625,7 +669,7 @@ public class QuranForm extends BaseForm {
 		int l = lang.getSWTDirection();
 
 		// isRTL is only applicable for Windows
-		boolean isRTL = ((l == SWT.RIGHT_TO_LEFT) && GlobalConfig.hasBidiSupport);
+		boolean isRTL = l == SWT.RIGHT_TO_LEFT && GlobalConfig.hasBidiSupport;
 
 		Image prevPageImg = new Image(display, isRTL ? resource.getString("icon.nextNext") : resource
 				.getString("icon.prevPrev"));
@@ -744,9 +788,10 @@ public class QuranForm extends BaseForm {
 	}
 
 	void updateNavPageKeysTooltip() {
-		String key = (String) tooltipMap.get(config.getPagingMode());
-		if (key == null)
+		String key = tooltipMap.get(config.getPagingMode());
+		if (key == null) {
 			key = "PAGE";
+		}
 
 		nextPage.setToolTipText(lang.getMeaning("MENU_NEXT_" + key));
 		prevPage.setToolTipText(lang.getMeaning("MENU_PREV_" + key));
@@ -756,33 +801,84 @@ public class QuranForm extends BaseForm {
 		return config.useMozilla() ? SWT.MOZILLA : SWT.NONE;
 	}
 
-	void playerStop() {
-		qmf.playerStop(false);
+	public void playerStop() {
+		playerController.stop();
+		if (audioControllerForm != null && !audioControllerForm.isDisposed()) {
+			audioControllerForm.stop();
+		}
+		qmf.playerStop();
 	}
 
-	void playerTogglePlayPause() {
-		qmf.playerTogglePlayPause(false);
+	public void playerTogglePlayPause(boolean play) {
+		int status = playerController.getStatus();
+		if (status != PlayerController.PLAYING && status != PlayerController.PAUSED) {
+			playerController.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
+		}
+		if (play) {
+			if (status == PlayerController.PAUSED) {
+				playerController.resume();
+			} else {
+				playerController.play();
+			}
+		} else {
+			playerController.pause();
+		}
+		if (audioControllerForm != null && !audioControllerForm.isDisposed()) {
+			audioControllerForm.playerTogglePlayPause(play);
+		}
+		qmf.playerTogglePlayPause(play);
 	}
 
-	protected void sendPlayerStop() {
-		logger.debug("Stop player.");
-		if (/*viewLayout == SEPARATE || */viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
-			quranBrowser.execute("swtStopPlayer();");
-		}
-		if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
-			transBrowser.execute("swtStopPlayer();");
-		}
+	//	protected void playerStop() {
+	//		logger.debug("Stop player.");
+	// player.stop();
+	/*
+	if (viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
+		quranBrowser.execute("swtStopPlayer();");
 	}
+	if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
+		transBrowser.execute("swtStopPlayer();");
+	}
+	*/
+	//	}
 
-	protected void sendPlayerTogglePlayPause() {
-		logger.debug("Toggle play/pause state.");
-		if (/*viewLayout == SEPARATE || */viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
-			quranBrowser.execute("swtTogglePlayPause();");
-		}
-		if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
-			transBrowser.execute("swtTogglePlayPause();");
-		}
-	}
+	//	protected boolean playerPlayPause() {
+	//		logger.debug("Toggle play/pause state.");
+	//		if (player.getStatus() == PlayerController.PAUSED) {
+	//			try {
+	//				player.resume();
+	//				return true;
+	//			} catch (PlayerException e) {
+	//				e.printStackTrace();
+	//				return false;
+	//			}
+	//		} else if (player.getStatus() == PlayerController.PLAYING) {
+	//			try {
+	//				player.pause();
+	//				return false;
+	//			} catch (PlayerException e) {
+	//				e.printStackTrace();
+	//				return true;
+	//			}
+	//		} else {
+	//			try {
+	//				player.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
+	//				player.play();
+	//				return true;
+	//			} catch (PlayerException e) {
+	//				e.printStackTrace();
+	//				return false;
+	//			}
+	//		}
+	//		/*
+	//		if (viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
+	//			quranBrowser.execute("swtTogglePlayPause();");
+	//		}
+	//		if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
+	//			transBrowser.execute("swtTogglePlayPause();");
+	//		}
+	//		*/
+	//	}
 
 	/**
 	 * Bring up bookmark item form.
@@ -821,8 +917,9 @@ public class QuranForm extends BaseForm {
 		} catch (Exception e) {
 			logger.implicitLog(e);
 		} finally {
-			if (text != null)
+			if (text != null) {
 				text.setFocus();
+			}
 		}
 	}
 
@@ -923,8 +1020,9 @@ public class QuranForm extends BaseForm {
 			public void widgetSelected(SelectionEvent e) {
 				if (advancedToggleMultiLine.getSelection() == true) {
 					advancedSearchStackLayout.topControl = advancedSearchBox;
-					if (!advancedSearchBox.getText().replaceAll("\\r\\n|\\n|\\r", " ").equals(advancedSearchCombo.getText()))
+					if (!advancedSearchBox.getText().replaceAll("\\r\\n|\\n|\\r", " ").equals(advancedSearchCombo.getText())) {
 						advancedSearchBox.setText(advancedSearchCombo.getText());
+					}
 				} else {
 					advancedSearchStackLayout.topControl = advancedSearchComboComp;
 					advancedSearchCombo.setText(advancedSearchBox.getText().replaceAll("\\r\\n|\\n|\\r", " "));
@@ -1107,8 +1205,9 @@ public class QuranForm extends BaseForm {
 			public void widgetSelected(SelectionEvent e) {
 				if (toggleMultiLine.getSelection() == true) {
 					searchStackLayout.topControl = searchBox;
-					if (!searchBox.getText().replaceAll("\\r\\n|\\n|\\r", " ").equals(searchCombo.getText()))
+					if (!searchBox.getText().replaceAll("\\r\\n|\\n|\\r", " ").equals(searchCombo.getText())) {
 						searchBox.setText(searchCombo.getText());
+					}
 				} else {
 					searchStackLayout.topControl = searchComboComp;
 					searchCombo.setText(searchBox.getText().replaceAll("\\r\\n|\\n|\\r", " "));
@@ -1246,14 +1345,16 @@ public class QuranForm extends BaseForm {
 
 	protected void gotoNextAya() {
 		IQuranLocation nextLoc = uvc.getLocation().getNext();
-		if (nextLoc != null)
+		if (nextLoc != null) {
 			navTo(nextLoc);
+		}
 	}
 
 	protected void gotoPrevAya() {
 		IQuranLocation prevLoc = uvc.getLocation().getPrev();
-		if (prevLoc != null)
+		if (prevLoc != null) {
 			navTo(prevLoc);
+		}
 	}
 
 	protected void gotoNextSura() {
@@ -1297,11 +1398,11 @@ public class QuranForm extends BaseForm {
 	}
 
 	protected void gotoPrevSajda() {
-		List sajdaList = QuranPropertiesUtils.getSajdaList();
+		List<SajdaProperties> sajdaList = QuranPropertiesUtils.getSajdaList();
 		IQuranLocation prevSajda = null;
 		int i = sajdaList.size() - 1;
 		for (; i >= 0; i--) {
-			SajdaProperties sp = (SajdaProperties) sajdaList.get(i);
+			SajdaProperties sp = sajdaList.get(i);
 			prevSajda = new QuranLocation(sp.getSuraNumber(), sp.getAyaNumber());
 			if (prevSajda.compareTo(uvc.getLocation()) < 0) {
 				break;
@@ -1313,11 +1414,11 @@ public class QuranForm extends BaseForm {
 	}
 
 	protected void gotoNextSajda() {
-		List sajdaList = QuranPropertiesUtils.getSajdaList();
+		List<SajdaProperties> sajdaList = QuranPropertiesUtils.getSajdaList();
 		IQuranLocation nextSajda = null;
 		int i = 0;
 		for (; i < sajdaList.size(); i++) {
-			SajdaProperties sp = (SajdaProperties) sajdaList.get(i);
+			SajdaProperties sp = sajdaList.get(i);
 			nextSajda = new QuranLocation(sp.getSuraNumber(), sp.getAyaNumber());
 			if (nextSajda.compareTo(uvc.getLocation()) > 0) {
 				break;
@@ -1362,8 +1463,9 @@ public class QuranForm extends BaseForm {
 	void browserGoto(int sura, int aya, int page) {
 		IQuranLocation newLoc;
 		if (uvc.getPage() != page && page > 0) {
-			if (page > config.getQuranPaging().getDefault().size())
+			if (page > config.getQuranPaging().getDefault().size()) {
 				return; // page out of range
+			}
 			newLoc = config.getQuranPaging().getDefault().getQuranPage(page).getFrom();
 			navTo(newLoc);
 		} else {
@@ -1378,8 +1480,9 @@ public class QuranForm extends BaseForm {
 	void browserGoto(int sura, int aya, int page, boolean changePage) {
 		IQuranLocation newLoc;
 		if (uvc.getPage() != page && page > 0) {
-			if (page > config.getQuranPaging().getDefault().size())
+			if (page > config.getQuranPaging().getDefault().size()) {
 				return; // page out of range
+			}
 			newLoc = config.getQuranPaging().getDefault().getQuranPage(page).getFrom();
 			navTo(newLoc, changePage);
 		} else {
@@ -1490,10 +1593,12 @@ public class QuranForm extends BaseForm {
 				transBrowser.removeProgressListener(this);
 			}
 		};
-		if (updateQuran)
+		if (updateQuran) {
 			updateQuranView();
-		if (updateTrans)
+		}
+		if (updateTrans) {
 			updateTransView();
+		}
 	}
 
 	private int getSelectedAya() {
@@ -1504,10 +1609,11 @@ public class QuranForm extends BaseForm {
 		if (tree) {
 			TreeItem[] tis = sst.getSelection();
 			int sura = 0;
-			if (tis.length == 0 || tis[0].getData() == null)
+			if (tis.length == 0 || tis[0].getData() == null) {
 				sura = uvc.getLocation().getSura();
-			else
+			} else {
 				sura = Integer.parseInt((String) tis[0].getData());
+			}
 			selectSura(sura);
 			return sura;
 		} else {
@@ -1559,9 +1665,11 @@ public class QuranForm extends BaseForm {
 		PropertiesConfiguration p = config.getProps();
 		String ret = null;
 		if (config.isAudioEnabled()) {
+			AudioData audioData = config.getAudio().getCurrent();
 			ret = "{volume:" + p.getProperty("audio.volume") + ",contAya:" + p.getProperty("audio.continuousAya")
-					+ ",firstTime:" + firstTimePlaying + ",autoPlay:" + playerAutoNextSura + "}";
-			firstTimePlaying = false;
+					+ ",fileUrl:'" + AudioUtils.getAudioFileUrl(audioData, uvc.getLocation()) + "'" + ",nextFileUrl:'"
+					+ AudioUtils.getAudioFileUrl(audioData, uvc.getLocation().getNext()) + "'" + ",autoPlay:"
+					+ playerAutoNextSura + "}";
 			playerAutoNextSura = false;
 		}
 		return ret;
@@ -1603,33 +1711,39 @@ public class QuranForm extends BaseForm {
 
 	private void advancedFind() {
 		String str;
-		if (advancedToggleMultiLine.getSelection())
+		if (advancedToggleMultiLine.getSelection()) {
 			str = advancedSearchBox.getText();
-		else
+		} else {
 			str = advancedSearchCombo.getText();
-		if ("".equals(str.trim()))
+		}
+		if ("".equals(str.trim())) {
 			return; // do nothing
+		}
 
 		LuceneIndexManager lim = config.getLuceneIndexManager();
 		try {
-			if (advancedQuranTargetBut.getSelection())
+			if (advancedQuranTargetBut.getSelection()) {
 				qts = new QuranTextSearcher(lim, searchScope);
-			else
+			} else {
 				qts = new QuranTextSearcher(lim, searchScope, config.getTranslation().getDefault());
+			}
 		} catch (IndexingException e) {
 			logger.implicitLog(e);
 			MessageBoxUtils.showError("Indexing Error: " + e);
 			return; // search failed
 		}
-		if (!qts.isIndexReaderOpen())
+		if (!qts.isIndexReaderOpen()) {
 			return; // indexing probably interrupted
+		}
 
 		str = str.trim();
 		if (!"".equals(str)) {
-			if (advancedSearchCombo.getItemCount() <= 0 || !str.equals(advancedSearchCombo.getItem(0)))
+			if (advancedSearchCombo.getItemCount() <= 0 || !str.equals(advancedSearchCombo.getItem(0))) {
 				advancedSearchCombo.add(str, 0);
-			if (advancedSearchCombo.getItemCount() > 40)
+			}
+			if (advancedSearchCombo.getItemCount() > 40) {
 				advancedSearchCombo.remove(40, advancedSearchCombo.getItemCount() - 1);
+			}
 
 			logger.info("Search started: " + str);
 			Date date1 = new Date();
@@ -1666,31 +1780,36 @@ public class QuranForm extends BaseForm {
 
 	private void find() {
 		String str;
-		if (toggleMultiLine.getSelection())
+		if (toggleMultiLine.getSelection()) {
 			str = searchBox.getText();
-		else
+		} else {
 			str = searchCombo.getText();
-		if ("".equals(str.trim()))
+		}
+		if ("".equals(str.trim())) {
 			return; // do nothing
+		}
 
 		str = str.trim();
 		if (!"".equals(str)) {
-			if (searchCombo.getItemCount() <= 0 || !str.equals(searchCombo.getItem(0)))
+			if (searchCombo.getItemCount() <= 0 || !str.equals(searchCombo.getItem(0))) {
 				searchCombo.add(str, 0);
-			if (searchCombo.getItemCount() > 40)
+			}
+			if (searchCombo.getItemCount() > 40) {
 				searchCombo.remove(40, searchCombo.getItemCount() - 1);
+			}
 
 			logger.info("Search started: " + str);
 			Date date1 = new Date();
 
 			int sortBy = searchOrderCombo.getSelectionIndex();
 			try {
-				if (quranTargetBut.getSelection())
+				if (quranTargetBut.getSelection()) {
 					ats = new AdvancedQuranTextSearch(QuranText.getSimpleTextInstance(),
 							new SimpleSearchResultHighlighter(), new DefaultSearchScorer());
-				else
+				} else {
 					ats = new AdvancedQuranTextSearch(config.getTranslation().getDefault(),
 							new SimpleSearchResultHighlighter(), new DefaultSearchScorer());
+				}
 			} catch (Exception e) {
 				logger.implicitLog(e);
 				MessageBoxUtils.showError("Basic searcher failed to initialize:\n\t" + e);
@@ -1816,15 +1935,14 @@ public class QuranForm extends BaseForm {
 	 * Shows Quran shell. The size and location are based on the property <tt>view.shell.maximized</tt> and
 	 * <tt>view.shell.location</tt>
 	 */
+	@SuppressWarnings("unchecked")
 	public void show() {
-		if (config.getProps().getBoolean("view.shell.maximized"))
+		if (config.getProps().getBoolean("view.shell.maximized")) {
 			shell.setMaximized(true);
-		else {
-			List l = config.getProps().getList("view.shell.location");
-			shell.setLocation(new Integer(l.get(0).toString()).intValue(), new Integer((String) l.get(1).toString())
-					.intValue());
-			shell.setSize(new Integer((String) l.get(2).toString()).intValue(), new Integer((String) l.get(3).toString())
-					.intValue());
+		} else {
+			List<Object> l = config.getProps().getList("view.shell.location");
+			shell.setLocation(Integer.valueOf(l.get(0).toString()), Integer.valueOf(l.get(1).toString()));
+			shell.setSize(Integer.valueOf(l.get(2).toString()), Integer.valueOf(l.get(3).toString()));
 		}
 		shell.open();
 	}
@@ -1851,8 +1969,9 @@ public class QuranForm extends BaseForm {
 		logger.info("Toggle panel " + panel + " visibility state to " + toggleState);
 		((GridData) detailGroup.getLayoutData()).exclude = !toggleState;
 		detailGroup.setVisible(toggleState);
-		if (toggleState)
+		if (toggleState) {
 			detailGroup.pack();
+		}
 		int minh = workPaneScroller.getMinHeight();
 		if (!toggleState) {
 			workPaneScroller.setMinHeight(minh - detailGroup.getSize().y);
@@ -1876,12 +1995,14 @@ public class QuranForm extends BaseForm {
 	}
 
 	public String getCurrentUri() {
-		if (viewLayout == TRANS_ONLY)
+		if (viewLayout == TRANS_ONLY) {
 			return transUri;
-		else
+		} else {
 			return quranUri;
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void setLayout(String layout) {
 		logger.info("Set layout to " + layout);
 		if (layout.equals(ApplicationConfig.TRANS_ONLY_LAYOUT)) {
@@ -1890,10 +2011,11 @@ public class QuranForm extends BaseForm {
 			updateQuran = false;
 			updateTrans = true;
 		} else if (layout.equals(ApplicationConfig.SEPARATE_LAYOUT)) {
-			if (viewLayout == SEPARATE) // if already is separate, reset sizing
+			if (viewLayout == SEPARATE) {
 				sashForm.setWeights(new int[] { 1, 1 });
+			}
 			if (viewLayout == 0) { // Application just started up
-				List weights = config.getProps().getList("view.quranForm.layoutSashWeight");
+				List<String> weights = config.getProps().getList("view.quranForm.layoutSashWeight");
 				if (weights.size() != 0) {
 					sashForm.setWeights(new int[] { Integer.parseInt(weights.get(0).toString()),
 							Integer.parseInt(weights.get(1).toString()) });
@@ -1969,7 +2091,7 @@ public class QuranForm extends BaseForm {
 
 	private void saveLocationAndSize() {
 		// add form size and location
-		List list = new ArrayList();
+		List<Integer> list = new ArrayList<Integer>();
 		Rectangle r = shell.getBounds();
 		list.add(new Integer(r.x));
 		list.add(new Integer(r.y));
@@ -1984,12 +2106,21 @@ public class QuranForm extends BaseForm {
 	public void close() {
 		saveConfigProps();
 		config.updateFile();
+		stopAudioSilently();
 		if (clearOnExit) {
 			logger.info("Clear cache directory.");
 			config.getRuntime().clearCache();
 			clearOnExit = false;
 		}
 		logger.info("Disposing all resources...");
+	}
+
+	private void stopAudioSilently() {
+		try {
+			playerStop();
+		} catch (PlayerException e) {
+			// damp exception
+		}
 	}
 
 	private Menu createSearchScopeMenu() {
@@ -2026,7 +2157,7 @@ public class QuranForm extends BaseForm {
 		editItem.setText(lang.getMeaning("EDIT") + "...");
 		editItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				ManageScopesForm msl = new ManageScopesForm(shell, new ArrayList(searchScopeList));
+				ManageScopesForm msl = new ManageScopesForm(shell, new ArrayList<SearchScope>(searchScopeList));
 				if (msl.open()) {
 					searchScopeList = msl.getSearchScopeList();
 					int selectedIndex = msl.getSelectedIndex();
@@ -2040,8 +2171,8 @@ public class QuranForm extends BaseForm {
 					}
 
 					MenuItem item = null;
-					for (Iterator iter = searchScopeList.iterator(); iter.hasNext();) {
-						SearchScope ss = (SearchScope) iter.next();
+					for (Iterator<SearchScope> iter = searchScopeList.iterator(); iter.hasNext();) {
+						SearchScope ss = iter.next();
 						item = addNewScopeMenuItem(scopeMenu, ss);
 					}
 
@@ -2065,8 +2196,9 @@ public class QuranForm extends BaseForm {
 		wholeQuranItem.setSelection(true);
 		wholeQuranItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (wholeQuranItem.getSelection())
+				if (wholeQuranItem.getSelection()) {
 					searchScope = null;
+				}
 			}
 		});
 
