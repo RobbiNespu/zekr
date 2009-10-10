@@ -18,14 +18,18 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
@@ -59,6 +63,7 @@ public class NanoHttpd {
 	 * @parm header Header entries, percent decoded
 	 * @return HTTP response, see class Response for details
 	 */
+	@SuppressWarnings("unchecked")
 	public Response serve(String uri, String method, Properties header, Properties parms) {
 		System.out.println(method + " '" + uri + "' ");
 
@@ -162,17 +167,30 @@ public class NanoHttpd {
 
 	/**
 	 * Starts a HTTP server to given port.
-	 * <p>
-	 * Throws an IOException if the socket is already in use
+	 * 
+	 * @param port the port to bind and listen on
+	 * @param acceptRemote if true, accepts connection from remote machines. Otherwise only accept connections
+	 *           from the local machine.
+	 * @throws IOException throws an IOException if the socket is already in use
 	 */
-	public NanoHttpd(int port) throws IOException {
+	public NanoHttpd(int port, boolean denyRemote) throws IOException {
 		gmtFrmt = new SimpleDateFormat("E, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
 		gmtFrmt.setTimeZone(TimeZone.getTimeZone("GMT"));
 
 		myTcpPort = port;
 
 		logger.debug("Instantiate a ServerSocet on port: " + myTcpPort);
-		final ServerSocket ss = new ServerSocket(myTcpPort);
+
+		final ServerSocket ss = new ServerSocket();
+		SocketAddress socketAddress;
+		if (denyRemote) {
+			// bind to loopback
+			socketAddress = new InetSocketAddress(InetAddress.getByName(null), port);
+		} else {
+			// accept all
+			socketAddress = new InetSocketAddress((InetAddress) null, port);
+		}
+		ss.bind(socketAddress);
 
 		Thread t = new Thread(new Runnable() {
 			public void run() {
@@ -291,7 +309,8 @@ public class NanoHttpd {
 		}
 
 		/**
-		 * Decodes the percent encoding scheme. <br/> For example: "an+example%20string" -> "an example string"
+		 * Decodes the percent encoding scheme. <br/>
+		 * For example: "an+example%20string" -> "an example string"
 		 */
 		private String decodePercent(String str) throws InterruptedException {
 			try {
@@ -347,6 +366,7 @@ public class NanoHttpd {
 		/**
 		 * Sends given response to the socket.
 		 */
+		@SuppressWarnings("unchecked")
 		private void sendResponse(String status, String mime, Properties header, InputStream data) {
 			try {
 				if (status == null)
@@ -520,7 +540,7 @@ public class NanoHttpd {
 			String mime = null;
 			int dot = f.getCanonicalPath().lastIndexOf('.');
 			if (dot >= 0)
-				mime = (String) MIME_TYPES.get(f.getCanonicalPath().substring(dot + 1).toLowerCase());
+				mime = MIME_TYPES.get(f.getCanonicalPath().substring(dot + 1).toLowerCase());
 			if (mime == null)
 				mime = MIME_DEFAULT_BINARY;
 
@@ -559,9 +579,9 @@ public class NanoHttpd {
 	}
 
 	/**
-	 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
+	 * Mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 	 */
-	protected static Hashtable MIME_TYPES = new Hashtable();
+	protected static Map<String, String> MIME_TYPES = new HashMap<String, String>();
 	static {
 		StringTokenizer st = new StringTokenizer("htm		text/html " + "html		text/html " + "xml		text/xml "
 				+ "css		text/css " + "js		text/javascript " + "txt		text/plain " + "asc		text/plain " + "gif		image/gif "
@@ -579,10 +599,10 @@ public class NanoHttpd {
 	public static void main(String[] args) {
 		try {
 			System.out.println("salam");
-			new NanoHttpd(1) {
+			new NanoHttpd(1, false) {
 				public Response serve(String uri, String method, Properties header, Properties parms) {
 					System.out.println("serving uir: " + uri);
-					Response resp = new Response(HTTP_OK, (String) MIME_TYPES.get("html"), "salam!");
+					Response resp = new Response(HTTP_OK, MIME_TYPES.get("html"), "salam!");
 					return resp;
 				}
 			};
