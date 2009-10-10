@@ -13,7 +13,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
@@ -21,8 +20,8 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IQuranLocation;
-import net.sf.zekr.common.util.CollectionUtils;
-import net.sf.zekr.engine.audio.PlaylistProvider;
+import net.sf.zekr.engine.audio.AudioData;
+import net.sf.zekr.engine.audio.AudioUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.server.HttpServer;
@@ -36,7 +35,7 @@ import net.sf.zekr.engine.template.TranslationViewTemplate;
 import net.sf.zekr.engine.translation.TranslationData;
 
 /**
- * HTML Creator object.
+ * HTML creator object.
  * 
  * @author Mohsen Saboorian
  */
@@ -75,9 +74,8 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				// ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), sura, aya);
 				ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), uvc);
-				addPlaylistProvider(uvc.getPage(), transformer);
+				addPlaylistProvider(uvc, transformer);
 				osw.write(transformer.transform());
 				osw.close();
 			}
@@ -109,9 +107,8 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				// ITransformer transformer = new TranslationViewTemplate(td, sura, aya);
 				ITransformer transformer = new TranslationViewTemplate(td, uvc);
-				addPlaylistProvider(uvc.getPage(), transformer);
+				addPlaylistProvider(uvc, transformer);
 				osw.write(transformer.transform());
 				osw.close();
 			}
@@ -139,9 +136,8 @@ public class HtmlRepository {
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
 
-				// ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, sura, aya);
 				ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, uvc);
-				addPlaylistProvider(uvc.getPage(), transformer);
+				addPlaylistProvider(uvc, transformer);
 
 				osw.write(transformer.transform());
 				osw.close();
@@ -174,7 +170,7 @@ public class HtmlRepository {
 
 				// ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, sura, aya);
 				ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, uvc);
-				addPlaylistProvider(uvc.getPage(), tx);
+				addPlaylistProvider(uvc, tx);
 
 				osw.write(tx.transform());
 				osw.close();
@@ -209,29 +205,29 @@ public class HtmlRepository {
 		}
 	}
 
-//	public static String getSearchTransUri(String keyword, boolean matchDiac, boolean matchCase, SearchScope searchScope)
-//			throws HtmlGenerationException {
-//		try {
-//			TranslationData td = config.getTranslation().getDefault();
-//			AbstractRangedQuranText eqt = new RangedQuranText(td, searchScope);
-//
-//			String fileName = keyword.hashCode() + "_" + td.id + "_" + matchCase + ".html";
-//			File file = new File(Naming.getSearchCacheDir() + File.separator + fileName);
-//
-//			// if (!file.exists() || file.length() == 0) {
-//			logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
-//			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
-//					GlobalConfig.OUT_HTML_ENCODING);
-//
-//			ITransformer tx = new TransSearchResultTemplate(eqt, keyword, matchCase);
-//			osw.write(tx.transform());
-//			osw.close();
-//			// }
-//			return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
-//		} catch (Exception e) {
-//			throw new HtmlGenerationException(e);
-//		}
-//	}
+	//	public static String getSearchTransUri(String keyword, boolean matchDiac, boolean matchCase, SearchScope searchScope)
+	//			throws HtmlGenerationException {
+	//		try {
+	//			TranslationData td = config.getTranslation().getDefault();
+	//			AbstractRangedQuranText eqt = new RangedQuranText(td, searchScope);
+	//
+	//			String fileName = keyword.hashCode() + "_" + td.id + "_" + matchCase + ".html";
+	//			File file = new File(Naming.getSearchCacheDir() + File.separator + fileName);
+	//
+	//			// if (!file.exists() || file.length() == 0) {
+	//			logger.info("Create search file: " + file + " for keyword: \"" + keyword + "\".");
+	//			OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
+	//					GlobalConfig.OUT_HTML_ENCODING);
+	//
+	//			ITransformer tx = new TransSearchResultTemplate(eqt, keyword, matchCase);
+	//			osw.write(tx.transform());
+	//			osw.close();
+	//			// }
+	//			return HttpServerUtils.getUrl(Naming.getSearchCacheDir(getBase()) + "/" + fileName);
+	//		} catch (Exception e) {
+	//			throw new HtmlGenerationException(e);
+	//		}
+	//	}
 
 	/**
 	 * @param sura
@@ -255,26 +251,17 @@ public class HtmlRepository {
 		return config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE : Naming.getViewCacheDir();
 	}
 
-	private static void addPlaylistProvider(int page, ITransformer transformer) throws Exception {
-		if (config.getAudio().getCurrent() == null) {
+	private static void addPlaylistProvider(IUserView uvc, ITransformer transformer) throws Exception {
+		AudioData audioData = config.getAudio().getCurrent();
+		if (audioData == null) {
 			transformer.setProperty("AUDIO_DISABLED", Boolean.TRUE);
 		} else {
 			transformer.setProperty("AUDIO_DISABLED", Boolean.valueOf(!config.isAudioEnabled()));
-			PlaylistProvider playlistProvider = config.getAudio().getCurrent().newPlaylistProvider(page);
-			String playlistPath = playlistProvider.providePlaylist();
-
-			List list = new ArrayList();
-			list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_PRESTART)));
-			list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_START)));
-			list.add(new Integer(playlistProvider.getSpecialItem(PlaylistProvider.SPECIAL_END)));
-			transformer.setProperty("SPECIAL_INDEX_LIST", CollectionUtils.toSimpleJson(list));
-
 			transformer.setProperty("VOLUME", config.getProps().getInteger("audio.volume", new Integer(50)));
 			transformer.setProperty("AUD_REPEAT_TIME", config.getProps().getInteger("audio.repeatTime", new Integer(1)));
-			transformer.setProperty("AUD_CONT_SURA", config.getProps().getString("audio.continuousSura", "true"));
 			transformer.setProperty("AUD_CONT_AYA", config.getProps().getString("audio.continuousAya", "true"));
-			transformer.setProperty("PLAYLIST_PROVIDER", playlistProvider);
-			transformer.setProperty("PLAYLIST_URL", config.getHttpServer().toUrl(playlistPath));
+			transformer.setProperty("CURRENT_AUDIO_URL", AudioUtils.getAudioFileUrl(audioData, uvc.getLocation()));
+			transformer.setProperty("NEXT_AUDIO_URL", AudioUtils.getAudioFileUrl(audioData, uvc.getLocation().getNext()));
 		}
 	}
 
@@ -293,5 +280,4 @@ public class HtmlRepository {
 	public static String getQuranUri(IQuranLocation loc) throws HtmlGenerationException {
 		return getQuranUri(loc.getSura(), loc.getAya());
 	}
-
 }
