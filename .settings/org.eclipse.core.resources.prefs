@@ -1,4 +1,4 @@
-#Thu Oct 16 10:08:21 GMT+03:30 2008
+#Thu Oct 08 12:30:05 GMT+03:30 2009
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
 encoding//doc/license/nanohttpd-license.txt=ISO-8859-1
@@ -19,6 +19,7 @@ encoding//res/audio/ghamdi-online.properties=UTF-8
 encoding//res/audio/husary-online.properties=UTF-8
 encoding//res/audio/huzaifi-offline.properties=UTF-8
 encoding//res/audio/huzaifi-online.properties=UTF-8
+encoding//res/audio/mansouri-offline.properties=UTF-8
 encoding//res/audio/minshawi-offline.properties=UTF-8
 encoding//res/audio/minshawi-online.properties=UTF-8
 encoding//res/audio/shatri-online.properties=UTF-8
