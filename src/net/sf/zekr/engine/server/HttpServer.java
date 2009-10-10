@@ -9,11 +9,13 @@
 package net.sf.zekr.engine.server;
 
 import java.io.File;
+import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.runtime.Naming;
@@ -30,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public abstract class HttpServer implements Runnable, HttpResourceNaming {
 	/** a map of some constant names (defined in {@link HttpResourceNaming}) to their original normalized path */
-	public Map pathLookup = Collections.synchronizedMap(new LinkedHashMap());
+	public Map<String, String> pathLookup = new ConcurrentHashMap<String, String>();
 
 	protected HttpServer() {
 		pathLookup.put(CACHED_RESOURCE, FilenameUtils.normalize(Naming.getViewCacheDir()));
@@ -46,6 +48,7 @@ public abstract class HttpServer implements Runnable, HttpResourceNaming {
 	/**
 	 * @return HTTP server address. Examples are <tt>"192.168.0.1"</tt> and <tt>"127.0.0.1"</tt>.
 	 * @throws HttpServerRuntimeException
+	 * @throws UnknownHostException 
 	 */
 	abstract public String getAddress() throws HttpServerRuntimeException;
 
@@ -64,9 +67,8 @@ public abstract class HttpServer implements Runnable, HttpResourceNaming {
 
 	public String toUrl(String localPath) {
 		String normPath = FilenameUtils.normalize(localPath);
-		for (Iterator iter = pathLookup.entrySet().iterator(); iter.hasNext();) {
-			Entry entry = (Entry) iter.next();
-			String value = entry.getValue().toString();
+		for (Entry<String, String> entry: pathLookup.entrySet()) {
+			String value = entry.getValue();
 			if (normPath.startsWith(value))
 				return getUrl() + entry.getKey() + "/"
 						+ FilenameUtils.separatorsToUnix(normPath.substring(value.length() + 1));
@@ -90,6 +92,8 @@ public abstract class HttpServer implements Runnable, HttpResourceNaming {
 			path = toRealPath(StringUtils.replace(url, WORKSPACE_OR_BASE_RESOURCE, WORKSPACE_RESOURCE));
 			if (!new File(path).exists())
 				path = toRealPath(StringUtils.replace(url, WORKSPACE_OR_BASE_RESOURCE, BASE_RESOURCE));
+		} else if (url.startsWith(ABSOLUTE_RESOURCE)) {
+			path = url.substring(ABSOLUTE_RESOURCE.length());
 		} else {
 			path = url;
 		}
