@@ -8,7 +8,10 @@
  */
 package net.sf.zekr.engine.audio.ui;
 
+import java.util.List;
+
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.PlayStatus;
@@ -16,6 +19,7 @@ import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.QuranForm;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -24,7 +28,10 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -58,9 +65,8 @@ public class AudioControllerForm extends BaseForm {
 	private Image volumeImage2;
 	private Image volumeImage3;
 
-	private boolean isLtr = true;
-	private int volume = 50;
-	private boolean multiAya = true;
+	private boolean isLtr;
+	private int volume;
 
 	private Canvas volumeCanvas;
 	private ProgressBar volumeProgressBar;
@@ -76,26 +82,48 @@ public class AudioControllerForm extends BaseForm {
 	private Image prevAyaImage;
 	private Image nextAyaImage;
 	private Image stopImage;
-	private IQuranLocation quranLocation;
 	private AudioData audioData;
 	private Label playerLabel;
+	private Canvas playerCanvas;
+	private IUserView uvc;
+	private Point shellLocation;
+	private Combo lapseCombo;
+	private Combo repeatCombo;
+	private PropertiesConfiguration props;
 
 	public AudioControllerForm(QuranForm quranForm, Shell parent) {
 		this.isLtr = config.getLanguageEngine().isLtr();
 		this.audioData = config.getAudio().getCurrent();
 		this.playerController = config.getPlayerController();
 		this.volume = playerController.getVolume();
-		this.multiAya = playerController.isMultiAya();
-		this.quranLocation = config.getUserViewController().getLocation();
+		this.uvc = config.getUserViewController();
 
 		this.quranForm = quranForm;
 		this.parent = parent;
 		this.display = parent.getDisplay();
+		this.props = config.getProps();
+
 		init();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void init() {
-		shell = new Shell(display, SWT.CLOSE | SWT.ON_TOP | SWT.TOOL | (isLtr ? SWT.LEFT_TO_RIGHT : SWT.RIGHT_TO_LEFT));
+		shell = new Shell(parent, SWT.CLOSE /*| SWT.ON_TOP */| SWT.TOOL
+				| (isLtr ? SWT.LEFT_TO_RIGHT : SWT.RIGHT_TO_LEFT));
+		List shellLocationList = config.getProps().getList("audio.controller.location");
+		if (shellLocationList.size() > 1) {
+			shellLocation = new Point(Integer.parseInt(shellLocationList.get(0).toString()), Integer
+					.parseInt(shellLocationList.get(1).toString()));
+		}
+		shell.addShellListener(new ShellAdapter() {
+			@Override
+			public void shellClosed(ShellEvent e) {
+				Point location = shell.getLocation();
+				config.getProps().setProperty("audio.controller.location", new Object[] { location.x, location.y });
+				config.getProps().setProperty("audio.controller.show", "false");
+			}
+		});
+		config.getProps().setProperty("audio.controller.show", "true");
 
 		FillLayout fl = new FillLayout();
 		shell.setLayout(fl);
@@ -128,6 +156,9 @@ public class AudioControllerForm extends BaseForm {
 		createBottomRow();
 
 		shell.pack();
+		if (shellLocation != null) {
+			shell.setLocation(shellLocation);
+		}
 	}
 
 	private void cacheImages() {
@@ -151,16 +182,34 @@ public class AudioControllerForm extends BaseForm {
 		GridLayout gl = new GridLayout(1, false);
 		gl.marginHeight = 2;
 		topRow.setLayout(gl);
+		GridData gd = new GridData(SWT.FILL, SWT.BEGINNING, true, true);
 		playerLabel = new Label(topRow, SWT.NONE);
+		playerLabel.setLayoutData(gd);
 		updatePlayerLabel();
 	}
 
 	public void updatePlayerLabel() {
-		playerLabel.setText("Al-Zumar(1):2 - Reciter: Al-Husary - Playing");
+		if (shell.isDisposed()) {
+			return;
+		}
+		String status = getPlayerStatus();
+		IQuranLocation l = uvc.getLocation();
+		String s = String.format("%s (%s):%s | %s: %s | %s", l.getSuraName(), l.getSura(), l.getAya(),
+				meaning("RECITER"), audioData.getReciter(config.getLanguageEngine().getLanguage()), status);
+		playerLabel.setText(s);
 	}
 
-	protected String getPlayStatus() {
-		return "Playing";
+	public String getPlayerStatus() {
+		String playStatus;
+		int code = playerController.getStatus();
+		if (code == PlayerController.PAUSED) {
+			playStatus = meaning("PAUSED");
+		} else if (code == PlayerController.PLAYING) {
+			playStatus = meaning("PLAYING");
+		} else /*if (code == BasicPlayerEvent.STOPPED)*/{
+			playStatus = meaning("STOPPED");
+		}
+		return playStatus;
 	}
 
 	private void createBottomRow() {
@@ -179,19 +228,46 @@ public class AudioControllerForm extends BaseForm {
 		Label repeatLabel = new Label(bottomComposite, SWT.NONE);
 		repeatLabel.setText("Repeat:");
 
-		Combo selection = new Combo(bottomComposite, SWT.READ_ONLY);
-		selection.setItems(new String[] { "No repeat", "2", "2" });
-		selection.select(0);
+		repeatCombo = new Combo(bottomComposite, SWT.READ_ONLY);
+		int max = props.getInt("audio.maxRepeatTime", 10);
+		String[] items;
+		if (max > 1) {
+			items = new String[max];
+			items[0] = "No repeat";
+			for (int i = 1; i < max; i++) {
+				items[i] = String.valueOf(i + 1);
+			}
+		} else {
+			items = new String[] { "No repeat", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+		}
+		repeatCombo.setItems(items);
+		repeatCombo.select(playerController.getRepeatTime() - 1);
+		repeatCombo.setVisibleItemCount(10);
+		repeatCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				playerController.setRepeatTime(repeatCombo.getSelectionIndex() + 1);
+			}
+		});
 
 		gd = new GridData();
 		gd.horizontalIndent = 10;
 		Label waitLabel = new Label(bottomComposite, SWT.NONE);
 		waitLabel.setLayoutData(gd);
-		waitLabel.setText("Wait:");
+		waitLabel.setText("Lapse:");
 
-		Combo waitCombo = new Combo(bottomComposite, SWT.READ_ONLY);
-		waitCombo.setItems(new String[] { "0", "0.5", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0" });
-		waitCombo.select(0);
+		lapseCombo = new Combo(bottomComposite, SWT.READ_ONLY);
+		lapseCombo.setItems(new String[] { "No lapse", "0.5", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5", "4.0", "4.5",
+				"5.0" });
+		lapseCombo.select(playerController.getLapse() / 500);
+		lapseCombo.setEnabled(playerController.isMultiAya());
+		lapseCombo.setVisibleItemCount(10);
+		lapseCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				playerController.setLapse(lapseCombo.getSelectionIndex() * 500);
+			}
+		});
 
 		Label secondsLabel = new Label(bottomComposite, SWT.NONE);
 		secondsLabel.setText("s");
@@ -201,18 +277,19 @@ public class AudioControllerForm extends BaseForm {
 		contButton = new Button(bottomComposite, SWT.PUSH);
 		contButton.setToolTipText("Continuous");
 		contButton.setLayoutData(gd);
-		setContinuityImage(multiAya);
+		setContinuityImage(playerController.isMultiAya());
 		contButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				multiAya = !multiAya;
-				setContinuityImage(multiAya);
+				playerController.setMultiAya(!playerController.isMultiAya());
+				setContinuityImage(playerController.isMultiAya());
 			}
 		});
 
 	}
 
 	protected void setContinuityImage(boolean continious) {
+		lapseCombo.setEnabled(continious);
 		if (continious) {
 			contButton.setImage(multiAyaImage);
 		} else {
