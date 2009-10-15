@@ -105,9 +105,9 @@ public class ApplicationConfig implements ConfigNaming {
 	private PropertiesConfiguration props;
 	private BookmarkSet bookmarkSet;
 	private BookmarkSetGroup bookmarkSetGroup = new BookmarkSetGroup();
-	private Thread httpServerThread;
+	// private Thread httpServerThread;
 	private IUserView userViewController;
-	private HttpServer httpServer;
+	// private HttpServer httpServer;
 	private LuceneIndexManager luceneIndexManager;
 	private SearchInfo searchInfo;
 	private QuranRoot quranRoot;
@@ -151,10 +151,12 @@ public class ApplicationConfig implements ConfigNaming {
 		extractPagingDataProps();
 
 		initNetworkController();
+		/*
 		if (isHttpServerEnabled()) {
 			EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Start HTTP server");
 		}
 		startHttpServer();
+		 */
 
 		// #extractPagingDataProps() should be called before this method
 		initViewController();
@@ -228,16 +230,15 @@ public class ApplicationConfig implements ConfigNaming {
 		networkController = new NetworkController(props);
 	}
 
+	/*
 	private void startHttpServer() {
 		logger.info("Start HTTP server daemon on port: " + getHttpServerPort());
 		httpServer = HttpServerFactory.createHttpServer(props);
 		if (isHttpServerEnabled()) {
 			httpServer.run();
 		}
-		// httpServerThread = new Thread(httpServer);
-		// httpServerThread.setDaemon(true);
-		// httpServerThread.start();
 	}
+	*/
 
 	public static ApplicationConfig getInstance() {
 		if (thisInstance == null)
@@ -726,9 +727,9 @@ public class ApplicationConfig implements ConfigNaming {
 					audioData.setOfflineUrl(pc.getString("audio.onlineUrl"));
 					audioData.setOnlineUrl(pc.getString("audio.offlineUrl"));
 
-					audioData.setPrestartFileName(pc.getString("audio.prestartFileName"));
-					audioData.setStartFileName(pc.getString("audio.startFileName"));
-					audioData.setEndFileName(pc.getString("audio.endFileName"));
+					audioData.setAudhubillah(pc.getString("audio.prestartFileName"));
+					audioData.setBismillah(pc.getString("audio.startFileName"));
+					audioData.setSadaghallah(pc.getString("audio.endFileName"));
 
 					audio.add(audioData);
 					if (audioData.getId().equals(def)) {
@@ -763,7 +764,7 @@ public class ApplicationConfig implements ConfigNaming {
 		new Timer("Audio Cache Task", true).schedule(new AudioCacheManagerTimerTask(audioCacheManager), 60000, period);
 
 		logger.debug("Initialize player controller.");
-		playerController = new DefaultPlayerController();
+		playerController = new DefaultPlayerController(props);
 	}
 
 	private void extractRevelOrderInfo() {
@@ -1055,7 +1056,8 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	public boolean isHttpServerEnabled() {
-		return props.getBoolean("server.http.enable");
+		// return props.getBoolean("server.http.enable");
+		return false;
 	}
 
 	public boolean isRootDatabaseEnabled() {
@@ -1112,7 +1114,8 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	public HttpServer getHttpServer() {
-		return httpServer;
+		// return httpServer;
+		return null;
 	}
 
 	public ApplicationRuntime getRuntime() {
