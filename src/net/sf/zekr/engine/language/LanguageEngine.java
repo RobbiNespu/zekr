@@ -262,6 +262,11 @@ public class LanguageEngine extends LanguageEngineNaming {
 		return new Locale(l[0], l[1]);
 	}
 
+	public String getLanguage() {
+		String[] l = languagePack.id.split("_");
+		return l[0];
+	}
+
 	/**
 	 * Call it when the active language is changed
 	 */
