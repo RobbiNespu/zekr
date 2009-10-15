@@ -26,9 +26,9 @@ public class AudioData {
 	private String license;
 	private Locale locale;
 
-	private String prestartFileName;
-	private String startFileName;
-	private String endFileName;
+	private String audhubillah;
+	private String bismillah;
+	private String sadaghallah;
 
 	private String onlineUrl;
 	private String offlineUrl;
@@ -60,6 +60,10 @@ public class AudioData {
 		this.reciter = reciter;
 	}
 
+	public String getReciter(String langCode) {
+		return reciterLocalizedName.get(langCode) == null ? reciter : reciterLocalizedName.get(langCode);
+	}
+
 	public String getLicense() {
 		return license;
 	}
@@ -76,28 +80,28 @@ public class AudioData {
 		this.locale = locale;
 	}
 
-	public String getPrestartFileName() {
-		return prestartFileName;
+	public String getAudhubillah() {
+		return audhubillah;
 	}
 
-	public void setPrestartFileName(String prestartFileName) {
-		this.prestartFileName = prestartFileName;
+	public void setAudhubillah(String audhubillah) {
+		this.audhubillah = audhubillah;
 	}
 
-	public String getStartFileName() {
-		return startFileName;
+	public String getBismillah() {
+		return bismillah;
 	}
 
-	public void setStartFileName(String startFileName) {
-		this.startFileName = startFileName;
+	public void setBismillah(String bismillah) {
+		this.bismillah = bismillah;
 	}
 
-	public String getEndFileName() {
-		return endFileName;
+	public String getSadaghallah() {
+		return sadaghallah;
 	}
 
-	public void setEndFileName(String endFileName) {
-		this.endFileName = endFileName;
+	public void setSadaghallah(String sadaghallah) {
+		this.sadaghallah = sadaghallah;
 	}
 
 	public String getOnlineUrl() {
