@@ -26,10 +26,6 @@ import javazoom.jlgui.basicplayer.BasicPlayerListener;
  * @author Mohsen Saboorian
  */
 public interface PlayerController {
-	public enum PlayMode {
-		SINGLE, CONTINUOUS,
-	}
-
 	// playing status
 	public static final int UNKNOWN = -1;
 	public static final int PLAYING = 0;
@@ -37,10 +33,6 @@ public interface PlayerController {
 	public static final int STOPPED = 2;
 	public static final int OPENED = 3;
 	public static final int SEEKING = 4;
-
-	public PlayMode getPlayMode();
-
-	public void setPlayMode(PlayMode playMode);
 
 	/**
 	 * Open {@link PlayableObject} to play.
@@ -144,7 +136,34 @@ public interface PlayerController {
 	 */
 	public void setVolume(int volume);
 
+	/**
+	 * @return true if player should continue to the next aya after playing one aya
+	 */
 	public boolean isMultiAya();
 
+	/**
+	 * @param multiAya specifies the continuity of playing, that is, whether to play next aya after finishing
+	 *           one or not.
+	 */
 	public void setMultiAya(boolean multiAya);
+
+	/**
+	 * @return number of milliseconds to wait between playing two ayas
+	 */
+	public int getLapse();
+
+	/**
+	 * @param wait number of milliseconds to wait between playing two ayas
+	 */
+	public void setLapse(int lapse);
+
+	/**
+	 * @return how many times play each aya
+	 */
+	public int getRepeatTime();
+
+	/**
+	 * @param repeatTime how many times play each aya
+	 */
+	public void setRepeatTime(int repeatTime);
 }
