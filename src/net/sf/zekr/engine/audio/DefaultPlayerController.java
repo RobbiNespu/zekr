@@ -9,11 +9,12 @@
 package net.sf.zekr.engine.audio;
 
 import java.util.Collection;
-import java.util.Map;
 
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
+
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * Default Zekr audio player which utilizes {@link BasicPlayer} for playing audio. This player is capable of
@@ -27,13 +28,19 @@ import javazoom.jlgui.basicplayer.BasicPlayerListener;
  */
 public class DefaultPlayerController implements PlayerController {
 	BasicPlayer player;
-	private PlayMode playMode = PlayMode.CONTINUOUS;
-	private Map<String, Object> props;
-	private int volume = 50;
-	private boolean multiAya = true;
+	private int volume;
+	private boolean multiAya;
+	private int lapse; // wait between two ayas (in milliseconds)
+	private int repeatTime;
+	private PropertiesConfiguration props;
 
-	public DefaultPlayerController() {
+	public DefaultPlayerController(PropertiesConfiguration props) {
+		this.props = props;
 		player = new BasicPlayer();
+		volume = props.getInt("audio.volume", 50);
+		repeatTime = props.getInt("audio.repeatTime", 1);
+		lapse = props.getInt("audio.lapse", 0);
+		multiAya = props.getBoolean("audio.continuousAya", true);
 	}
 
 	public void open(PlayableObject po) throws PlayerException {
@@ -128,14 +135,6 @@ public class DefaultPlayerController implements PlayerController {
 		player.removeBasicPlayerListener(bpl);
 	}
 
-	public PlayMode getPlayMode() {
-		return playMode;
-	}
-
-	public void setPlayMode(PlayMode playMode) {
-		this.playMode = playMode;
-	}
-
 	/**
 	 * Sets volume. It is applied to the player thread only if player status is
 	 * {@link PlayerController#PLAYING} or {@link PlayerController#PAUSED}
@@ -144,6 +143,8 @@ public class DefaultPlayerController implements PlayerController {
 	 */
 	public void setVolume(int volume) {
 		this.volume = volume;
+		props.setProperty("audio.volume", volume);
+
 		int stat = getStatus();
 		if (stat == PLAYING || stat == PAUSED) {
 			setGain(volume / 100.0);
@@ -163,5 +164,25 @@ public class DefaultPlayerController implements PlayerController {
 
 	public void setMultiAya(boolean multiAya) {
 		this.multiAya = multiAya;
+		props.setProperty("audio.continuousAya", multiAya);
+
+	}
+
+	public int getLapse() {
+		return lapse;
+	}
+
+	public void setLapse(int lapse) {
+		this.lapse = lapse;
+		props.setProperty("audio.lapse", lapse);
+	}
+
+	public int getRepeatTime() {
+		return repeatTime;
+	}
+
+	public void setRepeatTime(int repeatTime) {
+		this.repeatTime = repeatTime;
+		props.setProperty("audio.repeatTime", repeatTime);
 	}
 }
