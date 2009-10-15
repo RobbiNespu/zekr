@@ -37,7 +37,7 @@ public abstract class BaseViewTemplate implements ITransformer {
 	protected static ResourceManager resource = ResourceManager.getInstance();
 	protected LanguageEngine langEngine = config.getLanguageEngine();
 
-	private Map props = new HashMap();
+	private Map<String, Object> props = new HashMap<String, Object>();
 
 	/**
 	 * This method will generate the result string of a view.
@@ -77,14 +77,16 @@ public abstract class BaseViewTemplate implements ITransformer {
 			engine.put("TRANS_LANG", config.getTranslation().getDefault().locale.getLanguage());
 		}
 
-		String serverUrl;
+		String serverUrl = UriUtils.toUri(GlobalConfig.RUNTIME_DIR);
 		try {
-			serverUrl = config.getHttpServer().getUrl();
+			if (config.isHttpServerEnabled()) {
+				serverUrl = config.getHttpServer().getUrl();
+			}
 		} catch (HttpServerRuntimeException e) {
 			logger.error(e);
 			serverUrl = "http://127.0.0.1:" + config.getProps().getInt("server.http.port") + "/";
 		}
-		String appPath = config.isHttpServerEnabled() ? serverUrl : UriUtils.toUri(GlobalConfig.RUNTIME_DIR);
+		String appPath = serverUrl;
 		String cssDir = config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE + "/" : UriUtils
 				.toUri(Naming.getViewCacheDir());
 

@@ -20,8 +20,6 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IQuranLocation;
-import net.sf.zekr.engine.audio.AudioData;
-import net.sf.zekr.engine.audio.AudioUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.server.HttpServer;
@@ -75,7 +73,6 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 
 				ITransformer transformer = new QuranViewTemplate(new FilteredQuranText(), uvc);
-				addPlaylistProvider(uvc, transformer);
 				osw.write(transformer.transform());
 				osw.close();
 			}
@@ -108,7 +105,6 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 
 				ITransformer transformer = new TranslationViewTemplate(td, uvc);
-				addPlaylistProvider(uvc, transformer);
 				osw.write(transformer.transform());
 				osw.close();
 			}
@@ -137,7 +133,6 @@ public class HtmlRepository {
 						GlobalConfig.OUT_HTML_ENCODING);
 
 				ITransformer transformer = new MixedViewTemplate(new FilteredQuranText(), td, uvc);
-				addPlaylistProvider(uvc, transformer);
 
 				osw.write(transformer.transform());
 				osw.close();
@@ -170,7 +165,6 @@ public class HtmlRepository {
 
 				// ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, sura, aya);
 				ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, uvc);
-				addPlaylistProvider(uvc, tx);
 
 				osw.write(tx.transform());
 				osw.close();
@@ -249,20 +243,6 @@ public class HtmlRepository {
 
 	private static String getBase() {
 		return config.isHttpServerEnabled() ? HttpServer.CACHED_RESOURCE : Naming.getViewCacheDir();
-	}
-
-	private static void addPlaylistProvider(IUserView uvc, ITransformer transformer) throws Exception {
-		AudioData audioData = config.getAudio().getCurrent();
-		if (audioData == null) {
-			transformer.setProperty("AUDIO_DISABLED", Boolean.TRUE);
-		} else {
-			transformer.setProperty("AUDIO_DISABLED", Boolean.valueOf(!config.isAudioEnabled()));
-			transformer.setProperty("VOLUME", config.getProps().getInteger("audio.volume", new Integer(50)));
-			transformer.setProperty("AUD_REPEAT_TIME", config.getProps().getInteger("audio.repeatTime", new Integer(1)));
-			transformer.setProperty("AUD_CONT_AYA", config.getProps().getString("audio.continuousAya", "true"));
-			transformer.setProperty("CURRENT_AUDIO_URL", AudioUtils.getAudioFileUrl(audioData, uvc.getLocation()));
-			transformer.setProperty("NEXT_AUDIO_URL", AudioUtils.getAudioFileUrl(audioData, uvc.getLocation().getNext()));
-		}
 	}
 
 	public static String getTransUri(IQuranLocation location) throws HtmlGenerationException {
