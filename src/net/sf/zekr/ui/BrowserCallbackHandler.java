@@ -107,22 +107,6 @@ public class BrowserCallbackHandler {
 				String command = message.substring("ZEKR::PLAYER::".length());
 				// playerController.handleCallback(command);
 			}
-			//			} else if (message.startsWith("ZEKR::PLAYER_VOLUME")) {
-			//				Integer volume = new Integer(message.substring(message.indexOf(' '), message.indexOf(';')).trim());
-			//				config.getProps().setProperty("audio.volume", volume);
-			//			} else if (message.startsWith("ZEKR::PLAYER_PLAYPAUSE")) {
-			//				form.playerPlayPause();
-			//			} else if (message.startsWith("ZEKR::PLAYER_STOP")) {
-			//				form.playerStop();
-			//			} else if (message.startsWith("ZEKR::PLAYER_NEXT_SURA")) {
-			//				form.playerAutoNextSura = true;
-			//			} else if (message.startsWith("ZEKR::PLAYER_CONT")) {
-			//				String contAya = message.substring(message.indexOf(' ') + 1, message.indexOf(';')).trim();
-			//				config.getProps().setProperty("audio.continuousAya", contAya);
-			//			} else if (message.startsWith("ZEKR::PLAYER_REPEAT")) {
-			//				Integer repeatTime = new Integer(message.substring(message.indexOf(' ') + 1, message.indexOf(';')).trim());
-			//				config.getProps().setProperty("audio.repeatTime", repeatTime);
-			//			}
 		}
 	}
 
