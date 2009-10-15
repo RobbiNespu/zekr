@@ -17,10 +17,6 @@ import net.sf.zekr.engine.search.SearchResultItem;
  * 
  * @author Mohsen Saboorian
  */
-public abstract class AbstractSearchResultComparator implements Comparator {
+public abstract class AbstractSearchResultComparator implements Comparator<SearchResultItem> {
 	abstract public int compare(SearchResultItem sri1, SearchResultItem sri2);
-
-	public int compare(Object o1, Object o2) {
-		return compare((SearchResultItem) o1, (SearchResultItem) o2);
-	}
 }
