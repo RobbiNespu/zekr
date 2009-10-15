@@ -607,7 +607,7 @@ public class QuranFormMenuFactory {
 
 		new MenuItem(audioMenu, SWT.SEPARATOR);
 
-		audioPanelItem = createMenuItem(SWT.CHECK, audioMenu, lang.getMeaning("AUDIO_PANEL"), SWT.CTRL | SWT.SHIFT | 'A',
+		audioPanelItem = createMenuItem(SWT.CHECK, audioMenu, lang.getMeaning("AUDIO_PANEL"), SWT.F4,
 				null);
 		audioPanelItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -737,7 +737,7 @@ public class QuranFormMenuFactory {
 				check4Update();
 			}
 		});
-		check4UpdateItem.setEnabled(props.getBoolean("update.enable"));
+		check4UpdateItem.setEnabled(props.getBoolean("update.enableMenu", true));
 
 		new MenuItem(helpMenu, SWT.SEPARATOR);
 		MenuItem aboutItem = createMenuItem(0, helpMenu, lang.getMeaning("ABOUT"), 0, "icon.menu.about");
