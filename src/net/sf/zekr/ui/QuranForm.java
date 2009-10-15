@@ -34,10 +34,10 @@ import net.sf.zekr.common.resource.filter.IQuranFilter;
 import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
-import net.sf.zekr.engine.audio.AudioData;
-import net.sf.zekr.engine.audio.AudioUtils;
+import net.sf.zekr.engine.audio.DefaultPlayerController;
 import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.engine.audio.PlayerException;
+import net.sf.zekr.engine.audio.ZekrPlayerListener;
 import net.sf.zekr.engine.audio.ui.AudioControllerForm;
 import net.sf.zekr.engine.bookmark.ui.BookmarkSetForm;
 import net.sf.zekr.engine.log.Logger;
@@ -62,7 +62,6 @@ import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.search.Sort;
 import org.eclipse.swt.SWT;
@@ -276,6 +275,7 @@ public class QuranForm extends BaseForm {
 
 	IUserView uvc;
 	private PlayerController playerController;
+	private PlayerController specialPlayerController;
 
 	protected AudioPlayerUiController playerUiController;
 
@@ -298,7 +298,9 @@ public class QuranForm extends BaseForm {
 			audioControllerForm = new AudioControllerForm(this, shell);
 			audioControllerForm.getShell().addDisposeListener(new DisposeListener() {
 				public void widgetDisposed(DisposeEvent e) {
-					qmf.toggleAudioPanelState(false);
+					if (!shell.isDisposed()) {
+						qmf.toggleAudioPanelState(false);
+					}
 				}
 			});
 			audioControllerForm.show();
@@ -347,6 +349,7 @@ public class QuranForm extends BaseForm {
 		};
 
 		playerController = config.getPlayerController();
+		specialPlayerController = new DefaultPlayerController(config.getProps());
 		playerController.addBasicPlayerListener(new ZekrPlayerListener(playerController, this));
 
 		// set the layout
@@ -371,7 +374,7 @@ public class QuranForm extends BaseForm {
 		updateManager = new UpdateManager(shell);
 		shell.addShellListener(new ShellAdapter() {
 			public void shellActivated(ShellEvent e) {
-				if (config.getProps().getBoolean("update.enable")) {
+				if (config.getProps().getBoolean("update.enable", false)) {
 					if (updateManager.isCheckNeeded()) {
 						logger.debug("Time for check for update!");
 						updateManager.check(false);
@@ -398,28 +401,18 @@ public class QuranForm extends BaseForm {
 						s = s.substring(GOTO_LOCATION.length() + 1);
 						IQuranLocation loc = new QuranLocation(s);
 						navTo(loc.getSura(), loc.getAya());
+					} else if (PLAY_SPECIAL_AUDIO.equals(e.data)) {
+						playerPlaySpecialItemTrigger(true);
+					} else if (PLAY_SPECIAL_AUDIO_DONE.equals(e.data)) {
+						playerPlaySpecialItemTrigger(false);
 					}
 					e.doit = false;
 				}
 			}
 		});
 
-		//		if (viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
-		//			playerController = new FlashPlayerController(quranBrowser, uvc);
-		//		} else {
-		//			playerController = new FlashPlayerController(transBrowser, uvc);
-		//		}
-
 		display.removeFilter(SWT.KeyDown, globalKeyListener);
 		display.addFilter(SWT.KeyDown, globalKeyListener);
-	}
-
-	public void playerContinue() {
-		playerTogglePlayPause(false);
-		gotoNextAya();
-		// playerController.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
-		playerTogglePlayPause(true);
-		// playerController.play();
 	}
 
 	private void updateSuraNames() {
@@ -802,6 +795,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	public void playerStop() {
+		logger.debug("Player stop status.");
 		playerController.stop();
 		if (audioControllerForm != null && !audioControllerForm.isDisposed()) {
 			audioControllerForm.stop();
@@ -809,12 +803,62 @@ public class QuranForm extends BaseForm {
 		qmf.playerStop();
 	}
 
+	public void playerContinue(boolean gotoNext) {
+		playerTogglePlayPause(false);
+		// playerStop();
+		if (gotoNext) {
+			gotoNextAya();
+		}
+		playerTogglePlayPause(true);
+//		internalPlayerContinue(gotoNext, false);
+	}
+
+	private void internalPlayerContinue(boolean gotoNext, boolean calledForSpeciallItem) {
+		if (calledForSpeciallItem) {
+
+		} else {
+			playerTogglePlayPause(false);
+			// playerStop();
+			if (gotoNext) {
+				gotoNextAya();
+			}
+			playerTogglePlayPause(true);
+		}
+	}
+
+	private void playerPlaySpecialItemTrigger(boolean start) {
+		int aya = uvc.getLocation().getAya();
+		int sura = uvc.getLocation().getSura();
+		if (aya == 1 && sura != 1 && sura != 9) {
+			String bismillah = config.getAudio().getCurrent().getBismillah();
+			if (bismillah != null) {
+			}
+		}
+
+		if (start) {
+			specialPlayerController.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
+			specialPlayerController.play();
+		} else {
+			specialPlayerController.stop();
+		}
+	}
+
+	private void playerPlaySpecialItem() {
+		specialPlayerController.play();
+	}
+
+	public void playerUpdateAudioFormStatus(int code) {
+		audioControllerForm.updatePlayerLabel();
+	}
+
 	public void playerTogglePlayPause(boolean play) {
 		int status = playerController.getStatus();
-		if (status != PlayerController.PLAYING && status != PlayerController.PAUSED) {
-			playerController.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
-		}
+		logger.debug(String.format("Play/pause status changed to %s for %s. Current status is %s", play, uvc
+				.getLocation(), status));
 		if (play) {
+			if (status != PlayerController.PLAYING && status != PlayerController.PAUSED) {
+				openAyaAudio();
+			}
 			if (status == PlayerController.PAUSED) {
 				playerController.resume();
 			} else {
@@ -827,6 +871,11 @@ public class QuranForm extends BaseForm {
 			audioControllerForm.playerTogglePlayPause(play);
 		}
 		qmf.playerTogglePlayPause(play);
+	}
+
+	private void openAyaAudio() {
+		logger.debug(String.format("Open aya audio: %s.", uvc.getLocation()));
+		playerController.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
 	}
 
 	//	protected void playerStop() {
@@ -1530,6 +1579,13 @@ public class QuranForm extends BaseForm {
 			updateView();
 		}
 		uvc.setViewMode(IUserView.VM_QURAN_TRANS);
+		onNavigationDone();
+	}
+
+	private void onNavigationDone() {
+		if (audioControllerForm != null && !audioControllerForm.isDisposed()) {
+			audioControllerForm.updatePlayerLabel();
+		}
 	}
 
 	protected void gotoSuraAya(IQuranLocation loc) {
@@ -1662,6 +1718,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	private String getMiscOptions() {
+		/*
 		PropertiesConfiguration p = config.getProps();
 		String ret = null;
 		if (config.isAudioEnabled()) {
@@ -1671,8 +1728,8 @@ public class QuranForm extends BaseForm {
 					+ AudioUtils.getAudioFileUrl(audioData, uvc.getLocation().getNext()) + "'" + ",autoPlay:"
 					+ playerAutoNextSura + "}";
 			playerAutoNextSura = false;
-		}
-		return ret;
+		}*/
+		return "{}";
 	}
 
 	private void updateQuranView() {
@@ -1945,6 +2002,11 @@ public class QuranForm extends BaseForm {
 			shell.setSize(Integer.valueOf(l.get(2).toString()), Integer.valueOf(l.get(3).toString()));
 		}
 		shell.open();
+		onAfterShellOpen();
+	}
+
+	private void onAfterShellOpen() {
+		toggleAudioControllerForm(config.getProps().getBoolean("audio.controller.show", true));
 	}
 
 	protected void setFullScreen(boolean full, boolean fromMenu) {
@@ -2218,11 +2280,11 @@ public class QuranForm extends BaseForm {
 		return item;
 	}
 
-	protected Shell getShell() {
+	public Shell getShell() {
 		return shell;
 	}
 
-	protected Display getDisplay() {
+	public Display getDisplay() {
 		return display;
 	}
 

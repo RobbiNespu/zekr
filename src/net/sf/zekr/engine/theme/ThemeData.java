@@ -15,7 +15,6 @@ import java.util.Map.Entry;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ThemeData {
 	/**

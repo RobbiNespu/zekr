@@ -32,7 +32,17 @@ public interface EventProtocol {
 	 * Tells the shell to update bookmarks menu (as bookmark tree changed).
 	 */
 	String UPDATE_BOOKMARKS_MENU = "UPDATE_BOOKMARKS_MENU";
-	
+
+	/**
+	 * Play a special audio.
+	 */
+	String PLAY_SPECIAL_AUDIO = "PLAY_SPECIAL_AUDIO";
+
+	/**
+	 * Play special audio finished.
+	 */
+	String PLAY_SPECIAL_AUDIO_DONE = "PLAY_SPECIAL_AUDIO_DONE";
+
 	String GOTO_LOCATION = "GOTO_LOCATION";
 
 	/**
