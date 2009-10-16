@@ -12,6 +12,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,6 +26,7 @@ import net.sf.zekr.engine.log.Logger;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.AbstractFileFilter;
@@ -41,7 +43,8 @@ public class AudioCacheManager {
 	private File userPath;
 	private long flushSize;
 
-	private static final String AUDIO_CACHE_ITEM = "%s_%1$03d%2$03d";
+	private static final String AUDIO_CACHE_ITEM_AYA = "%1$03d%2$03d";
+	private static final String AUDIO_CACHE_ITEM = "%s_%s";
 
 	public AudioCacheManager(PropertiesConfiguration props) {
 		capacitySize = props.getLong("audio.cache.capacitySize", 200);
@@ -72,7 +75,11 @@ public class AudioCacheManager {
 	}
 
 	private String getCacheItemName(AudioData audioData, int sura, int aya) {
-		return String.format(AUDIO_CACHE_ITEM, audioData.getId(), sura, aya);
+		return getCacheItemName(audioData, String.format(AUDIO_CACHE_ITEM_AYA, sura, aya));
+	}
+
+	private String getCacheItemName(AudioData audioData, String fileName) {
+		return String.format(AUDIO_CACHE_ITEM, audioData.getId(), fileName);
 	}
 
 	private File getCacheItem(String cacheItemName) {
@@ -83,7 +90,7 @@ public class AudioCacheManager {
 		return null;
 	}
 
-	public PlayableObject getPlayableObject(AudioData audioData, int sura, int aya) throws PlayerException {
+	public PlayableObject getPlayableObject(AudioData audioData, int sura, int aya) {
 		try {
 			ApplicationConfig config = ApplicationConfig.getInstance();
 			String filePath = AudioUtils.getAudioFileUrl(audioData, sura, aya);
@@ -91,7 +98,8 @@ public class AudioCacheManager {
 				return null;
 			}
 			if (PathUtils.isOnlineContent(filePath)) {
-				File cached = getCacheItem(getCacheItemName(audioData, sura, aya));
+				String cacheItemName = getCacheItemName(audioData, sura, aya);
+				File cached = getCacheItem(cacheItemName);
 				if (cached == null || cached.length() == 0) {
 					return new PlayableObject(cached);
 				} else {
@@ -101,7 +109,33 @@ public class AudioCacheManager {
 				return new PlayableObject(PathUtils.resolve(filePath));
 			}
 		} catch (Exception e) {
-			throw new PlayerException(e);
+			logger.error(e);
+			return null;
+		}
+	}
+
+	public PlayableObject getPlayableObject(AudioData audioData, String offlineUrl, String onlineUrl) {
+		try {
+			ApplicationConfig config = ApplicationConfig.getInstance();
+			String filePath = AudioUtils.getAudioFileUrl(audioData, offlineUrl, onlineUrl);
+			if (filePath == null) {
+				return null;
+			}
+			if (PathUtils.isOnlineContent(filePath)) {
+				String fileName = FilenameUtils.getName(new URI(filePath).getPath());
+				String cacheItemName = getCacheItemName(audioData, fileName);
+				File cached = getCacheItem(cacheItemName);
+				if (cached == null || cached.length() == 0) {
+					return new PlayableObject(cached);
+				} else {
+					return new PlayableObject(config.getNetworkController().openSteam(filePath));
+				}
+			} else {
+				return new PlayableObject(PathUtils.resolve(filePath));
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
 		}
 	}
 
