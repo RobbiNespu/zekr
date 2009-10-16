@@ -26,9 +26,13 @@ public class AudioData {
 	private String license;
 	private Locale locale;
 
-	private String audhubillah;
-	private String bismillah;
-	private String sadaghallah;
+	private String onlineAudhubillah;
+	private String onlineBismillah;
+	private String onlineSadaghallah;
+
+	private String offlineAudhubillah;
+	private String offlineBismillah;
+	private String offlineSadaghallah;
 
 	private String onlineUrl;
 	private String offlineUrl;
@@ -80,28 +84,52 @@ public class AudioData {
 		this.locale = locale;
 	}
 
-	public String getAudhubillah() {
-		return audhubillah;
+	public String getOnlineAudhubillah() {
+		return onlineAudhubillah;
 	}
 
-	public void setAudhubillah(String audhubillah) {
-		this.audhubillah = audhubillah;
+	public void setOnlineAudhubillah(String onlineAudhubillah) {
+		this.onlineAudhubillah = onlineAudhubillah;
 	}
 
-	public String getBismillah() {
-		return bismillah;
+	public String getOnlineBismillah() {
+		return onlineBismillah;
 	}
 
-	public void setBismillah(String bismillah) {
-		this.bismillah = bismillah;
+	public void setOnlineBismillah(String onlineBismillah) {
+		this.onlineBismillah = onlineBismillah;
 	}
 
-	public String getSadaghallah() {
-		return sadaghallah;
+	public String getOnlineSadaghallah() {
+		return onlineSadaghallah;
 	}
 
-	public void setSadaghallah(String sadaghallah) {
-		this.sadaghallah = sadaghallah;
+	public void setOnlineSadaghallah(String onlineSadaghallah) {
+		this.onlineSadaghallah = onlineSadaghallah;
+	}
+
+	public String getOfflineAudhubillah() {
+		return offlineAudhubillah;
+	}
+
+	public void setOfflineAudhubillah(String offlineAudhubillah) {
+		this.offlineAudhubillah = offlineAudhubillah;
+	}
+
+	public String getOfflineBismillah() {
+		return offlineBismillah;
+	}
+
+	public void setOfflineBismillah(String offlineBismillah) {
+		this.offlineBismillah = offlineBismillah;
+	}
+
+	public String getOfflineSadaghallah() {
+		return offlineSadaghallah;
+	}
+
+	public void setOfflineSadaghallah(String offlineSadaghallah) {
+		this.offlineSadaghallah = offlineSadaghallah;
 	}
 
 	public String getOnlineUrl() {
