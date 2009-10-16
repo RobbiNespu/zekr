@@ -51,6 +51,27 @@ public class AudioUtils {
 		}
 	}
 
+	public static String getAudioFileUrl(AudioData audioData, String offlineUrl, String onlineUrl) {
+		try {
+			ApplicationConfig config = ApplicationConfig.getInstance();
+			String lookupMode = config.getProps().getString("audio.lookupMode", "offline-online");
+			if ("online-only".equals(lookupMode)) {
+				return onlineUrl;
+			} else if ("offline-only".equals(lookupMode)) {
+				return offlineUrl;
+			} else {
+				if (PathUtils.resolve(offlineUrl).exists()) {
+					return offlineUrl;
+				} else {
+					return onlineUrl;
+				}
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
+	}
+
 	public static File getAudioFolder(String baseFolder, AudioData audioData) {
 		return new File(baseFolder, audioData.getId());
 	}
