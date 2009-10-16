@@ -727,9 +727,13 @@ public class ApplicationConfig implements ConfigNaming {
 					audioData.setOfflineUrl(pc.getString("audio.onlineUrl"));
 					audioData.setOnlineUrl(pc.getString("audio.offlineUrl"));
 
-					audioData.setAudhubillah(pc.getString("audio.prestartFileName"));
-					audioData.setBismillah(pc.getString("audio.startFileName"));
-					audioData.setSadaghallah(pc.getString("audio.endFileName"));
+					audioData.setOnlineAudhubillah(pc.getString("audio.onlineAudhubillah"));
+					audioData.setOnlineBismillah(pc.getString("audio.onlineBismillam"));
+					audioData.setOnlineSadaghallah(pc.getString("audio.onlineSaghaghallah"));
+
+					audioData.setOfflineAudhubillah(pc.getString("audio.offlineAudhubillah"));
+					audioData.setOfflineBismillah(pc.getString("audio.offlineBismillam"));
+					audioData.setOfflineSadaghallah(pc.getString("audio.offlineSaghaghallah"));
 
 					audio.add(audioData);
 					if (audioData.getId().equals(def)) {
