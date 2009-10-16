@@ -45,4 +45,9 @@ public class PlayableObject {
 	public InputStream getInputStream() {
 		return inputStream;
 	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(file != null ? file.toString() : url != null ? url : inputStream);
+	}
 }
