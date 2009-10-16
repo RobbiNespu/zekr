@@ -33,6 +33,8 @@ public class DefaultPlayerController implements PlayerController {
 	private int lapse; // wait between two ayas (in milliseconds)
 	private int repeatTime;
 	private PropertiesConfiguration props;
+	private PlayingItem playingItem = PlayingItem.AYA;
+	private PlayableObject currentPlayableObject;
 
 	public DefaultPlayerController(PropertiesConfiguration props) {
 		this.props = props;
@@ -43,14 +45,15 @@ public class DefaultPlayerController implements PlayerController {
 		multiAya = props.getBoolean("audio.continuousAya", true);
 	}
 
-	public void open(PlayableObject po) throws PlayerException {
+	public void open(PlayableObject playableObject) throws PlayerException {
+		this.currentPlayableObject = playableObject;
 		try {
-			if (po.getUrl() != null) {
-				player.open(po.getUrl());
-			} else if (po.getFile() != null) {
-				player.open(po.getFile());
+			if (playableObject.getUrl() != null) {
+				player.open(playableObject.getUrl());
+			} else if (playableObject.getFile() != null) {
+				player.open(playableObject.getFile());
 			} else {
-				player.open(po.getInputStream());
+				player.open(playableObject.getInputStream());
 			}
 		} catch (BasicPlayerException e) {
 			throw new PlayerException(e);
@@ -184,5 +187,17 @@ public class DefaultPlayerController implements PlayerController {
 	public void setRepeatTime(int repeatTime) {
 		this.repeatTime = repeatTime;
 		props.setProperty("audio.repeatTime", repeatTime);
+	}
+
+	public PlayingItem getPlayingItem() {
+		return this.playingItem;
+	}
+
+	public void setPlayingItem(PlayingItem playingItem) {
+		this.playingItem = playingItem;
+	}
+	
+	public PlayableObject getCurrentPlayableObject() {
+		return currentPlayableObject;
 	}
 }
