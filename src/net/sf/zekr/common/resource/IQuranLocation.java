@@ -67,4 +67,8 @@ public interface IQuranLocation extends Comparable<IQuranLocation> {
 	 * @return a string representation of the Quran location in the format <tt>sura#-aya#</tt>.
 	 */
 	public String toString();
+
+	public boolean isLastAya();
+
+	public boolean isLastSura();
 }

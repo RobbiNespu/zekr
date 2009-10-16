@@ -108,8 +108,17 @@ public class QuranLocation implements IQuranLocation {
 	}
 
 	public String getSuraName(boolean localize) {
-		SuraProperties sura = QuranPropertiesUtils.getSura(getSura());
-		return localize ? sura.toText() : sura.getName();
+		SuraProperties suraProps = QuranPropertiesUtils.getSura(sura);
+		return localize ? suraProps.toText() : suraProps.getName();
+	}
+
+	public boolean isLastAya() {
+		SuraProperties suraProps = QuranPropertiesUtils.getSura(sura);
+		return aya >= suraProps.getAyaCount();
+	}
+
+	public boolean isLastSura() {
+		return sura >= 114;
 	}
 
 	public IQuranLocation getNext() {
