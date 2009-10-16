@@ -243,6 +243,7 @@ public class AudioControllerForm extends BaseForm {
 		repeatCombo.setItems(items);
 		repeatCombo.select(playerController.getRepeatTime() - 1);
 		repeatCombo.setVisibleItemCount(10);
+		repeatCombo.setEnabled(playerController.isMultiAya());
 		repeatCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -290,6 +291,7 @@ public class AudioControllerForm extends BaseForm {
 
 	protected void setContinuityImage(boolean continious) {
 		lapseCombo.setEnabled(continious);
+		repeatCombo.setEnabled(continious);
 		if (continious) {
 			contButton.setImage(multiAyaImage);
 		} else {
@@ -316,7 +318,7 @@ public class AudioControllerForm extends BaseForm {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PlayStatus ps = (PlayStatus) ((Widget) e.getSource()).getData();
-				quranForm.playerTogglePlayPause(ps == PlayStatus.PAUSE);
+				quranForm.playerTogglePlayPause(ps == PlayStatus.PAUSE, true);
 			}
 		});
 
@@ -450,11 +452,9 @@ public class AudioControllerForm extends BaseForm {
 		if (play) {
 			playPauseItem.setImage(pauseImage);
 			playPauseItem.setData(PlayStatus.PLAY);
-			playPauseItem.setSelection(true);
 		} else {
 			playPauseItem.setImage(playImage);
 			playPauseItem.setData(PlayStatus.PAUSE);
-			playPauseItem.setSelection(false);
 		}
 	}
 
