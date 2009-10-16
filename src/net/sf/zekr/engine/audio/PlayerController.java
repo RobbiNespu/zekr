@@ -26,6 +26,10 @@ import javazoom.jlgui.basicplayer.BasicPlayerListener;
  * @author Mohsen Saboorian
  */
 public interface PlayerController {
+	public enum PlayingItem {
+		AYA, AUDHUBILLAH, BISMILLAH, SADAGHALLAH
+	}
+
 	// playing status
 	public static final int UNKNOWN = -1;
 	public static final int PLAYING = 0;
@@ -166,4 +170,10 @@ public interface PlayerController {
 	 * @param repeatTime how many times play each aya
 	 */
 	public void setRepeatTime(int repeatTime);
+
+	public void setPlayingItem(PlayingItem playingItem);
+
+	public PlayingItem getPlayingItem();
+
+	public PlayableObject getCurrentPlayableObject();
 }
