@@ -11,11 +11,9 @@ package net.sf.zekr.engine.server;
 import java.io.File;
 import java.net.UnknownHostException;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.runtime.Naming;
@@ -31,8 +29,11 @@ import org.apache.commons.lang.StringUtils;
  * @author Mohsen Saboorian
  */
 public abstract class HttpServer implements Runnable, HttpResourceNaming {
-	/** a map of some constant names (defined in {@link HttpResourceNaming}) to their original normalized path */
-	public Map<String, String> pathLookup = new ConcurrentHashMap<String, String>();
+	/**
+	 * a map of some constant names (defined in {@link HttpResourceNaming}) to their original normalized path.
+	 * Note that it's very important that this is an ordered map, since cache should come before workspace.
+	 */
+	public Map<String, String> pathLookup = Collections.synchronizedMap(new LinkedHashMap<String, String>());
 
 	protected HttpServer() {
 		pathLookup.put(CACHED_RESOURCE, FilenameUtils.normalize(Naming.getViewCacheDir()));
@@ -48,7 +49,7 @@ public abstract class HttpServer implements Runnable, HttpResourceNaming {
 	/**
 	 * @return HTTP server address. Examples are <tt>"192.168.0.1"</tt> and <tt>"127.0.0.1"</tt>.
 	 * @throws HttpServerRuntimeException
-	 * @throws UnknownHostException 
+	 * @throws UnknownHostException
 	 */
 	abstract public String getAddress() throws HttpServerRuntimeException;
 
@@ -67,7 +68,7 @@ public abstract class HttpServer implements Runnable, HttpResourceNaming {
 
 	public String toUrl(String localPath) {
 		String normPath = FilenameUtils.normalize(localPath);
-		for (Entry<String, String> entry: pathLookup.entrySet()) {
+		for (Entry<String, String> entry : pathLookup.entrySet()) {
 			String value = entry.getValue();
 			if (normPath.startsWith(value))
 				return getUrl() + entry.getKey() + "/"
