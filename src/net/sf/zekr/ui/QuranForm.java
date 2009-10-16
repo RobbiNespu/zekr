@@ -34,10 +34,14 @@ import net.sf.zekr.common.resource.filter.IQuranFilter;
 import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
+import net.sf.zekr.engine.audio.AudioCacheManager;
+import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.DefaultPlayerController;
+import net.sf.zekr.engine.audio.PlayableObject;
 import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.engine.audio.PlayerException;
 import net.sf.zekr.engine.audio.ZekrPlayerListener;
+import net.sf.zekr.engine.audio.PlayerController.PlayingItem;
 import net.sf.zekr.engine.audio.ui.AudioControllerForm;
 import net.sf.zekr.engine.bookmark.ui.BookmarkSetForm;
 import net.sf.zekr.engine.log.Logger;
@@ -281,6 +285,10 @@ public class QuranForm extends BaseForm {
 
 	protected AudioControllerForm audioControllerForm;
 
+	private boolean firstTimeInThisLaunch = true;
+
+	private ZekrPlayerListener zekrPlayerListener;
+
 	/**
 	 * Initialize the QuranForm.
 	 * 
@@ -350,7 +358,8 @@ public class QuranForm extends BaseForm {
 
 		playerController = config.getPlayerController();
 		specialPlayerController = new DefaultPlayerController(config.getProps());
-		playerController.addBasicPlayerListener(new ZekrPlayerListener(playerController, this));
+		zekrPlayerListener = new ZekrPlayerListener(playerController, this);
+		playerController.addBasicPlayerListener(zekrPlayerListener);
 
 		// set the layout
 		if (config.getTranslation().getDefault() == null) { // no translation found
@@ -401,10 +410,6 @@ public class QuranForm extends BaseForm {
 						s = s.substring(GOTO_LOCATION.length() + 1);
 						IQuranLocation loc = new QuranLocation(s);
 						navTo(loc.getSura(), loc.getAya());
-					} else if (PLAY_SPECIAL_AUDIO.equals(e.data)) {
-						playerPlaySpecialItemTrigger(true);
-					} else if (PLAY_SPECIAL_AUDIO_DONE.equals(e.data)) {
-						playerPlaySpecialItemTrigger(false);
 					}
 					e.doit = false;
 				}
@@ -804,60 +809,91 @@ public class QuranForm extends BaseForm {
 	}
 
 	public void playerContinue(boolean gotoNext) {
-		playerTogglePlayPause(false);
-		// playerStop();
+		// playerTogglePlayPause(false);
+		playerStop();
+
+		IQuranLocation location = uvc.getLocation();
+		if (location.isLastSura() && location.isLastAya()) {
+			logger.info("Last location reached.");
+			playerStop();
+			return;
+		}
+
 		if (gotoNext) {
-			gotoNextAya();
-		}
-		playerTogglePlayPause(true);
-//		internalPlayerContinue(gotoNext, false);
-	}
-
-	private void internalPlayerContinue(boolean gotoNext, boolean calledForSpeciallItem) {
-		if (calledForSpeciallItem) {
-
-		} else {
-			playerTogglePlayPause(false);
-			// playerStop();
-			if (gotoNext) {
-				gotoNextAya();
-			}
-			playerTogglePlayPause(true);
-		}
-	}
-
-	private void playerPlaySpecialItemTrigger(boolean start) {
-		int aya = uvc.getLocation().getAya();
-		int sura = uvc.getLocation().getSura();
-		if (aya == 1 && sura != 1 && sura != 9) {
-			String bismillah = config.getAudio().getCurrent().getBismillah();
-			if (bismillah != null) {
+			if (playerController.getPlayingItem() == PlayingItem.AUDHUBILLAH) {
+				playerController.setPlayingItem(PlayingItem.AYA);
+			} else {
+				boolean hasSpecial = playerPlaySpecialItemIfNeeded();
+				if (hasSpecial) {
+					if (playerController.getPlayingItem() == PlayingItem.BISMILLAH) {
+						gotoNextAya();
+					}
+				} else {
+					if (playerController.getPlayingItem() == PlayingItem.AYA) {
+						gotoNextAya();
+					}
+					playerController.setPlayingItem(PlayingItem.AYA);
+				}
 			}
 		}
-
-		if (start) {
-			specialPlayerController.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
-			specialPlayerController.play();
-		} else {
-			specialPlayerController.stop();
-		}
+		playerTogglePlayPause(true, false);
 	}
 
-	private void playerPlaySpecialItem() {
-		specialPlayerController.play();
+	private boolean playerPlaySpecialItemIfNeeded() {
+		AudioData audioData = config.getAudio().getCurrent();
+		AudioCacheManager audioCacheManager = config.getAudioCacheManager();
+		IQuranLocation loc = uvc.getLocation();
+		PlayingItem playingItem = playerController.getPlayingItem();
+		if (firstTimeInThisLaunch && playingItem != PlayingItem.AUDHUBILLAH) {
+			firstTimeInThisLaunch = false;
+			String ona = audioData.getOnlineAudhubillah();
+			String ofa = audioData.getOfflineAudhubillah();
+			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofa, ona);
+			if (po != null) {
+				playerController.setPlayingItem(PlayingItem.AUDHUBILLAH);
+				playerOpenAyaAudio(po);
+				return true;
+			}
+		} else if (loc.isLastAya() && !loc.isLastSura() && playingItem != PlayingItem.BISMILLAH) {
+			String onb = audioData.getOnlineBismillah();
+			String ofb = audioData.getOfflineBismillah();
+			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofb, onb);
+			if (po != null) {
+				playerController.setPlayingItem(PlayingItem.BISMILLAH);
+				playerOpenAyaAudio(po);
+				return true;
+			}
+		} else if (loc.isLastAya() && loc.isLastSura() && playingItem != PlayingItem.SADAGHALLAH) {
+			String ons = audioData.getOnlineSadaghallah();
+			String ofs = audioData.getOfflineSadaghallah();
+			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofs, ons);
+			if (po != null) {
+				playerController.setPlayingItem(PlayingItem.SADAGHALLAH);
+				playerOpenAyaAudio(po);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void playerUpdateAudioFormStatus(int code) {
 		audioControllerForm.updatePlayerLabel();
 	}
 
-	public void playerTogglePlayPause(boolean play) {
+	public void playerTogglePlayPause(boolean play, boolean fromUser) {
 		int status = playerController.getStatus();
-		logger.debug(String.format("Play/pause status changed to %s for %s. Current status is %s", play, uvc
-				.getLocation(), status));
+		firstTimeInThisLaunch = false;
+		logger.debug(String.format("Play/pause status changed to %s for %s. Current status is %s", play, playerController
+				.getCurrentPlayableObject(), status));
+		if (fromUser) {
+			zekrPlayerListener.userPressedPlayButton();
+		}
 		if (play) {
-			if (status != PlayerController.PLAYING && status != PlayerController.PAUSED) {
-				openAyaAudio();
+			if (playerController.isMultiAya() && firstTimeInThisLaunch) {
+				playerPlaySpecialItemIfNeeded();
+			} else if (playerController.getPlayingItem() == PlayingItem.AYA && status != PlayerController.PLAYING
+					&& status != PlayerController.PAUSED) {
+				playerOpenAyaAudio();
 			}
 			if (status == PlayerController.PAUSED) {
 				playerController.resume();
@@ -873,61 +909,14 @@ public class QuranForm extends BaseForm {
 		qmf.playerTogglePlayPause(play);
 	}
 
-	private void openAyaAudio() {
-		logger.debug(String.format("Open aya audio: %s.", uvc.getLocation()));
-		playerController.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
+	private void playerOpenAyaAudio() {
+		playerOpenAyaAudio(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
 	}
 
-	//	protected void playerStop() {
-	//		logger.debug("Stop player.");
-	// player.stop();
-	/*
-	if (viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
-		quranBrowser.execute("swtStopPlayer();");
+	private void playerOpenAyaAudio(PlayableObject playableObject) {
+		logger.debug(String.format("Open playable object: %s.", playableObject));
+		playerController.open(playableObject);
 	}
-	if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
-		transBrowser.execute("swtStopPlayer();");
-	}
-	*/
-	//	}
-
-	//	protected boolean playerPlayPause() {
-	//		logger.debug("Toggle play/pause state.");
-	//		if (player.getStatus() == PlayerController.PAUSED) {
-	//			try {
-	//				player.resume();
-	//				return true;
-	//			} catch (PlayerException e) {
-	//				e.printStackTrace();
-	//				return false;
-	//			}
-	//		} else if (player.getStatus() == PlayerController.PLAYING) {
-	//			try {
-	//				player.pause();
-	//				return false;
-	//			} catch (PlayerException e) {
-	//				e.printStackTrace();
-	//				return true;
-	//			}
-	//		} else {
-	//			try {
-	//				player.open(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
-	//				player.play();
-	//				return true;
-	//			} catch (PlayerException e) {
-	//				e.printStackTrace();
-	//				return false;
-	//			}
-	//		}
-	//		/*
-	//		if (viewLayout == MIXED || viewLayout == MULTI_TRANS || viewLayout == QURAN_ONLY) {
-	//			quranBrowser.execute("swtTogglePlayPause();");
-	//		}
-	//		if (viewLayout == SEPARATE || viewLayout == TRANS_ONLY) {
-	//			transBrowser.execute("swtTogglePlayPause();");
-	//		}
-	//		*/
-	//	}
 
 	/**
 	 * Bring up bookmark item form.
