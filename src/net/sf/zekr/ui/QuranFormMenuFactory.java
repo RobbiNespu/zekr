@@ -578,7 +578,7 @@ public class QuranFormMenuFactory {
 		playItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				PlayStatus ps = (PlayStatus) playItem.getData();
-				quranForm.playerTogglePlayPause(ps == PlayStatus.PAUSE);
+				quranForm.playerTogglePlayPause(ps == PlayStatus.PAUSE, true);
 			}
 		});
 
