@@ -13,6 +13,7 @@ import java.util.Map;
 import javazoom.jlgui.basicplayer.BasicController;
 import javazoom.jlgui.basicplayer.BasicPlayerEvent;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
+import net.sf.zekr.common.util.CommonUtils;
 import net.sf.zekr.engine.audio.PlayerController.PlayingItem;
 import net.sf.zekr.ui.QuranForm;
 
@@ -28,6 +29,7 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 	private int repeatTimer;
 	private Display display;
 	private int origRepeatTimer;
+	private boolean userActionPerformed = false;
 
 	public ZekrPlayerListener(PlayerController playerController, QuranForm quranForm) {
 		this.playerController = playerController;
@@ -49,11 +51,12 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 		final int code = event.getCode();
 		display.syncExec(new Runnable() {
 			public void run() {
-				quranForm.playerUpdateAudioFormStatus(code);
+				quranForm.playerUiController.playerUpdateAudioFormStatus();
 			}
 		});
 		if (code == BasicPlayerEvent.OPENING || code == BasicPlayerEvent.STOPPED) {
 			origRepeatTimer = playerController.getRepeatTime();
+			userActionPerformed = false;	
 		}
 		if (code == BasicPlayerEvent.EOM) {
 			repeatTimer--;
@@ -78,7 +81,7 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 				if (!quranForm.isDisposed()) {
 					display.asyncExec(new Runnable() {
 						public void run() {
-							quranForm.playerStop();
+							quranForm.playerUiController.playerStop(false);
 						}
 					});
 				}
@@ -87,31 +90,32 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 	}
 
 	private Runnable getAyaPlayerRunnable(final boolean gotoNext, final int wait) {
-		if (wait <= 0 || playerController.getPlayingItem() != PlayingItem.AYA) {
-			return new Runnable() {
-				public void run() {
-					quranForm.playerContinue(gotoNext);
+		if (wait > 0 && playerController.getPlayingItem() == PlayingItem.AYA) {
+			try {
+				Thread.sleep(wait);
+				if (userActionPerformed) {
+					userActionPerformed = false;
+					return CommonUtils.EMPTY_RUNNABLE;
 				}
-			};
-		} else {
-			Thread t = new Thread() {
-				public void run() {
-					try {
-						sleep(wait);
-					} catch (InterruptedException e) {
-					}
-					quranForm.playerContinue(gotoNext);
-				}
-			};
-			t.setDaemon(true);
-			return t;
+			} catch (InterruptedException e) {
+			}
 		}
+		return new Runnable() {
+			public void run() {
+				quranForm.playerUiController.playerContinue(gotoNext);
+			}
+		};
 	}
 
 	public void userPressedPlayButton() {
+		userPressedSomeButton();
 		if (playerController.getRepeatTime() != origRepeatTimer) {
 			origRepeatTimer = playerController.getRepeatTime();
 			repeatTimer = origRepeatTimer;
 		}
+	}
+
+	public void userPressedSomeButton() {
+		userActionPerformed = true;
 	}
 }
