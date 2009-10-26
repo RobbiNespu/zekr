@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.engine.audio;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -15,156 +17,40 @@ import java.util.Map;
 /**
  * @author Mohsen Saboorian
  */
-public class AudioData {
-	public String OFFILINE = "offline";
-	
-	private String id;
-	private String name;
-	private String reciter;
-	private String type;
+public class AudioData implements Comparable<AudioData> {
+	private final static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd-MM-yyyy", new Locale("en", "US"));
 	/**
-	 * A map of language ISO code to localized name of reciter in that language
+	 * Smallest version which is still valid for this build. For example It may be Zekr 0.8.0, but if this
+	 * constant is 0.7.5, then 0.7.5 is also an acceptable recitation pack.
 	 */
-	private Map<String, String> reciterLocalizedName = new HashMap<String, String>();
-	private String license;
-	private Locale locale;
+	public static final String BASE_VALID_VERSION = "0.7.5";
+	public String id;
+	/** Recitation file format version */
+	public String version;
+	public String lastUpdate;
 
-	private String onlineAudhubillah;
-	private String onlineBismillah;
-	private String onlineSadaghallah;
+	public String name;
+	public String license;
+	public String reciter;
+	public String type;
+	/*** A map of language ISO code to localized name of reciter in that language */
+	public Map<String, String> reciterLocalizedName = new HashMap<String, String>();
 
-	private String offlineAudhubillah;
-	private String offlineBismillah;
-	private String offlineSadaghallah;
+	public Locale locale;
 
-	private String onlineUrl;
-	private String offlineUrl;
+	public String onlineAudhubillah;
+	public String onlineBismillah;
+	public String onlineSadaghallah;
 
-	public AudioData() {
-	}
+	public String offlineAudhubillah;
+	public String offlineBismillah;
+	public String offlineSadaghallah;
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getReciter() {
-		return reciter;
-	}
-
-	public void setReciter(String reciter) {
-		this.reciter = reciter;
-	}
+	public String onlineUrl;
+	public String offlineUrl;
 
 	public String getReciter(String langCode) {
 		return reciterLocalizedName.get(langCode) == null ? reciter : reciterLocalizedName.get(langCode);
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getLicense() {
-		return license;
-	}
-
-	public void setLicense(String license) {
-		this.license = license;
-	}
-
-	public Locale getLocale() {
-		return locale;
-	}
-
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
-
-	public String getOnlineAudhubillah() {
-		return onlineAudhubillah;
-	}
-
-	public void setOnlineAudhubillah(String onlineAudhubillah) {
-		this.onlineAudhubillah = onlineAudhubillah;
-	}
-
-	public String getOnlineBismillah() {
-		return onlineBismillah;
-	}
-
-	public void setOnlineBismillah(String onlineBismillah) {
-		this.onlineBismillah = onlineBismillah;
-	}
-
-	public String getOnlineSadaghallah() {
-		return onlineSadaghallah;
-	}
-
-	public void setOnlineSadaghallah(String onlineSadaghallah) {
-		this.onlineSadaghallah = onlineSadaghallah;
-	}
-
-	public String getOfflineAudhubillah() {
-		return offlineAudhubillah;
-	}
-
-	public void setOfflineAudhubillah(String offlineAudhubillah) {
-		this.offlineAudhubillah = offlineAudhubillah;
-	}
-
-	public String getOfflineBismillah() {
-		return offlineBismillah;
-	}
-
-	public void setOfflineBismillah(String offlineBismillah) {
-		this.offlineBismillah = offlineBismillah;
-	}
-
-	public String getOfflineSadaghallah() {
-		return offlineSadaghallah;
-	}
-
-	public void setOfflineSadaghallah(String offlineSadaghallah) {
-		this.offlineSadaghallah = offlineSadaghallah;
-	}
-
-	public String getOnlineUrl() {
-		return onlineUrl;
-	}
-
-	public void setOnlineUrl(String onlineUrl) {
-		this.onlineUrl = onlineUrl;
-	}
-
-	public String getOfflineUrl() {
-		return offlineUrl;
-	}
-
-	public void setOfflineUrl(String offlineUrl) {
-		this.offlineUrl = offlineUrl;
-	}
-
-	public Map<String, String> getReciterLocalizedName() {
-		return reciterLocalizedName;
-	}
-
-	public void setReciterLocalizedName(Map<String, String> reciterLocalizedName) {
-		this.reciterLocalizedName = reciterLocalizedName;
 	}
 
 	public String getOnlineUrl(int sura, int aya) {
@@ -176,6 +62,14 @@ public class AudioData {
 	}
 
 	public String toString() {
-		return String.format("%s - %s", getName(), getReciter());
+		return String.format("%s - %s", name, reciter);
+	}
+
+	public int compareTo(AudioData o) {
+		try {
+			return DATE_FORMATTER.parse(this.lastUpdate).compareTo(DATE_FORMATTER.parse(o.lastUpdate));
+		} catch (ParseException e) {
+			return 0;
+		}
 	}
 }
