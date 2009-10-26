@@ -21,30 +21,28 @@ import org.apache.commons.configuration.Configuration;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ConfigUtils {
 	public static void write(Properties p, Writer w) {
 	}
 
 	public static void write(Configuration configuration, Writer w) throws IOException {
-        Iterator keys = configuration.getKeys();
-        while (keys.hasNext())
-        {
-            String key = (String) keys.next();
-            Object value = configuration.getProperty(key);
-            w.write(key);
-            w.write(" = ");
-            if (value instanceof Collection)
-            	w.write(CollectionUtils.toString((List) value, ", "));
-            else
-            	w.write(value.toString());
+		Iterator keys = configuration.getKeys();
+		while (keys.hasNext()) {
+			String key = (String) keys.next();
+			Object value = configuration.getProperty(key);
+			w.write(key);
+			w.write(" = ");
+			if (value instanceof Collection) {
+				w.write(CollectionUtils.toString((List) value, ", "));
+			} else {
+				w.write(value.toString());
+			}
 
-            if (keys.hasNext())
-            {
-                w.write(GlobalConfig.LINE_SEPARATOR);
-            }
-        }
+			if (keys.hasNext()) {
+				w.write(GlobalConfig.LINE_SEPARATOR);
+			}
+		}
 	}
 
 }
