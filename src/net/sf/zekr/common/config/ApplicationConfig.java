@@ -713,6 +713,7 @@ public class ApplicationConfig implements ConfigNaming {
 					audioData.setLicense(pc.getString("audio.license"));
 					audioData.setLocale(new Locale(pc.getString("audio.language"), pc.getString("audio.country")));
 					audioData.setReciter(pc.getString("audio.reciter"));
+					audioData.setType(pc.getString("audio.type", "online"));
 
 					Iterator<String> keys = pc.getKeys("audio.reciter");
 					while (keys.hasNext()) {
@@ -724,8 +725,8 @@ public class ApplicationConfig implements ConfigNaming {
 						audioData.getReciterLocalizedName().put(lang, pc.getString(key));
 					}
 
-					audioData.setOfflineUrl(pc.getString("audio.onlineUrl"));
-					audioData.setOnlineUrl(pc.getString("audio.offlineUrl"));
+					audioData.setOfflineUrl(pc.getString("audio.offlineUrl"));
+					audioData.setOnlineUrl(pc.getString("audio.onlineUrl"));
 
 					audioData.setOnlineAudhubillah(pc.getString("audio.onlineAudhubillah"));
 					audioData.setOnlineBismillah(pc.getString("audio.onlineBismillam"));
