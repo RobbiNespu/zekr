@@ -318,7 +318,7 @@ public class AudioControllerForm extends BaseForm {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PlayStatus ps = (PlayStatus) ((Widget) e.getSource()).getData();
-				quranForm.playerTogglePlayPause(ps == PlayStatus.PAUSE, true);
+				quranForm.playerUiController.playerTogglePlayPause(ps == PlayStatus.PAUSE, true);
 			}
 		});
 
@@ -339,7 +339,7 @@ public class AudioControllerForm extends BaseForm {
 		stopItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				quranForm.playerStop();
+				quranForm.playerUiController.playerStop(true);
 			}
 		});
 
@@ -473,5 +473,4 @@ public class AudioControllerForm extends BaseForm {
 	public Shell getShell() {
 		return shell;
 	}
-
 }
