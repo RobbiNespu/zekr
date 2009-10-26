@@ -39,7 +39,6 @@ import org.apache.commons.io.filefilter.AbstractFileFilter;
 public class AudioCacheManager {
 	private Logger logger = Logger.getLogger(this.getClass());
 	private long capacitySize;
-	private File globalPath;
 	private File userPath;
 	private long flushSize;
 
@@ -49,7 +48,6 @@ public class AudioCacheManager {
 	public AudioCacheManager(PropertiesConfiguration props) {
 		capacitySize = props.getLong("audio.cache.capacitySize", 200);
 		flushSize = props.getLong("audio.cache.flushSize", 20);
-		globalPath = PathUtils.resolve(props.getString("audio.cache.globalPath", "<base>/res/audio/cache"));
 		userPath = PathUtils.resolve(props.getString("audio.cache.userPath", "<workspace>/audio/cache"));
 	}
 
