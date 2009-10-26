@@ -20,7 +20,7 @@ public class Audio {
 	private Map<String, AudioData> audioList = new LinkedHashMap<String, AudioData>();
 
 	public void add(AudioData ad) {
-		audioList.put(ad.getId(), ad);
+		audioList.put(ad.id, ad);
 	}
 
 	public AudioData get(String audioId) {

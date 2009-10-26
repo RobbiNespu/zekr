@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.PropertyResourceBundle;
 
 import org.eclipse.swt.SWT;
@@ -101,7 +102,7 @@ public class GlobalConfig {
 	 */
 	public static final String UPDATE_SITE;
 
-	private static SimpleDateFormat zekrDateFormatter = new SimpleDateFormat("yyyyMMddHH");
+	private static SimpleDateFormat zekrDateFormatter = new SimpleDateFormat("yyyyMMddHH", new Locale("en", "US"));
 
 	static {
 		PropertyResourceBundle prb = null;
