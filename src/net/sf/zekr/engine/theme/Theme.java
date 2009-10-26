@@ -32,7 +32,7 @@ import org.apache.commons.io.IOUtils;
  */
 public class Theme {
 	private ThemeData current;
-	private Map themes = new HashMap();
+	private Map<String, ThemeData> themes = new HashMap<String, ThemeData>();
 
 	public Map commonProps = new LinkedHashMap();
 
@@ -41,10 +41,10 @@ public class Theme {
 	}
 
 	public ThemeData get(String themeId) {
-		return (ThemeData) themes.get(themeId);
+		return themes.get(themeId);
 	}
 
-	public Collection getAllThemes() {
+	public Collection<ThemeData> getAllThemes() {
 		return themes.values();
 	}
 
@@ -65,7 +65,7 @@ public class Theme {
 	public static void save(ThemeData td) throws IOException {
 		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(Naming.getThemePropsDir() + "/"
 				+ td.fileName));
-		LinkedHashMap map = new LinkedHashMap();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("name", td.name);
 		map.put("author", td.author);
 		map.put("version", td.version);
