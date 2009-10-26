@@ -29,7 +29,6 @@ import org.apache.velocity.app.Velocity;
  * new instance.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class TemplateEngine {
 	VelocityContext context;
