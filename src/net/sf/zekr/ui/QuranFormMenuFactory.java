@@ -578,14 +578,14 @@ public class QuranFormMenuFactory {
 		playItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				PlayStatus ps = (PlayStatus) playItem.getData();
-				quranForm.playerTogglePlayPause(ps == PlayStatus.PAUSE, true);
+				quranForm.playerUiController.playerTogglePlayPause(ps == PlayStatus.PAUSE, true);
 			}
 		});
 
 		stopItem = createMenuItem(0, audioMenu, lang.getMeaning("STOP"), SWT.CTRL | SWT.SHIFT | 'S', "icon.menu.stop");
 		stopItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				quranForm.playerStop();
+				quranForm.playerUiController.playerStop(true);
 			}
 		});
 
@@ -607,11 +607,10 @@ public class QuranFormMenuFactory {
 
 		new MenuItem(audioMenu, SWT.SEPARATOR);
 
-		audioPanelItem = createMenuItem(SWT.CHECK, audioMenu, lang.getMeaning("AUDIO_PANEL"), SWT.F4,
-				null);
+		audioPanelItem = createMenuItem(SWT.CHECK, audioMenu, lang.getMeaning("AUDIO_PANEL"), SWT.F4, null);
 		audioPanelItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				quranForm.toggleAudioControllerForm(audioPanelItem.getSelection());
+				quranForm.playerUiController.toggleAudioControllerForm(audioPanelItem.getSelection());
 			}
 		});
 
@@ -1291,7 +1290,7 @@ public class QuranFormMenuFactory {
 	public void toggleFullScreenItem(boolean selected) {
 		fullScreenItem.setSelection(selected);
 	}
-	
+
 	public void toggleAudioPanelState(boolean selected) {
 		audioPanelItem.setSelection(selected);
 	}
