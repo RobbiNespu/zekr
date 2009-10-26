@@ -10,7 +10,6 @@ package net.sf.zekr.engine.audio;
 
 import java.io.File;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.runtime.Naming;
@@ -31,19 +30,17 @@ public class AudioUtils {
 	 */
 	public static String getAudioFileUrl(AudioData audioData, int sura, int aya) {
 		try {
-			ApplicationConfig config = ApplicationConfig.getInstance();
-			String lookupMode = config.getProps().getString("audio.lookupMode", "offline-online");
-			if ("online-only".equals(lookupMode)) {
-				return String.format(audioData.getOnlineUrl(), sura, aya);
-			} else if ("offline-only".equals(lookupMode)) {
+			if ("offline".equals(audioData.getType())) {
 				return String.format(audioData.getOfflineUrl(), sura, aya);
-			} else {
+			} else if ("offline-online".equals(audioData.getType())) {
 				String offlineUrl = String.format(audioData.getOfflineUrl(), sura, aya);
 				if (PathUtils.resolve(offlineUrl).exists()) {
 					return offlineUrl;
 				} else {
 					return String.format(audioData.getOnlineUrl(), sura, aya);
 				}
+			} else { // online
+				return String.format(audioData.getOnlineUrl(), sura, aya);
 			}
 		} catch (Exception e) {
 			logger.error(e);
@@ -53,18 +50,16 @@ public class AudioUtils {
 
 	public static String getAudioFileUrl(AudioData audioData, String offlineUrl, String onlineUrl) {
 		try {
-			ApplicationConfig config = ApplicationConfig.getInstance();
-			String lookupMode = config.getProps().getString("audio.lookupMode", "offline-online");
-			if ("online-only".equals(lookupMode)) {
-				return onlineUrl;
-			} else if ("offline-only".equals(lookupMode)) {
+			if ("offline".equals(audioData.getType())) {
 				return offlineUrl;
-			} else {
+			} else if ("offline-online".equals(audioData.getType())) {
 				if (PathUtils.resolve(offlineUrl).exists()) {
 					return offlineUrl;
 				} else {
 					return onlineUrl;
 				}
+			} else { // online
+				return onlineUrl;
 			}
 		} catch (Exception e) {
 			logger.error(e);

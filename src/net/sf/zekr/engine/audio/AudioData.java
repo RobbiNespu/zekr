@@ -16,9 +16,12 @@ import java.util.Map;
  * @author Mohsen Saboorian
  */
 public class AudioData {
+	public String OFFILINE = "offline";
+	
 	private String id;
 	private String name;
 	private String reciter;
+	private String type;
 	/**
 	 * A map of language ISO code to localized name of reciter in that language
 	 */
@@ -66,6 +69,14 @@ public class AudioData {
 
 	public String getReciter(String langCode) {
 		return reciterLocalizedName.get(langCode) == null ? reciter : reciterLocalizedName.get(langCode);
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getLicense() {
