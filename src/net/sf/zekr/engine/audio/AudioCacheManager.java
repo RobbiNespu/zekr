@@ -77,7 +77,7 @@ public class AudioCacheManager {
 	}
 
 	private String getCacheItemName(AudioData audioData, String fileName) {
-		return String.format(AUDIO_CACHE_ITEM, audioData.getId(), fileName);
+		return String.format(AUDIO_CACHE_ITEM, audioData.id, fileName);
 	}
 
 	private File getCacheItem(String cacheItemName) {
@@ -99,9 +99,9 @@ public class AudioCacheManager {
 				String cacheItemName = getCacheItemName(audioData, sura, aya);
 				File cached = getCacheItem(cacheItemName);
 				if (cached == null || cached.length() == 0) {
-					return new PlayableObject(cached);
-				} else {
 					return new PlayableObject(config.getNetworkController().openSteam(filePath));
+				} else {
+					return new PlayableObject(cached);
 				}
 			} else {
 				return new PlayableObject(PathUtils.resolve(filePath));
@@ -124,9 +124,9 @@ public class AudioCacheManager {
 				String cacheItemName = getCacheItemName(audioData, fileName);
 				File cached = getCacheItem(cacheItemName);
 				if (cached == null || cached.length() == 0) {
-					return new PlayableObject(cached);
-				} else {
 					return new PlayableObject(config.getNetworkController().openSteam(filePath));
+				} else {
+					return new PlayableObject(cached);
 				}
 			} else {
 				return new PlayableObject(PathUtils.resolve(filePath));
