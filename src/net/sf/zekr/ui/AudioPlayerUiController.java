@@ -18,7 +18,7 @@ import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.engine.audio.PlayerException;
 import net.sf.zekr.engine.audio.ZekrPlayerListener;
 import net.sf.zekr.engine.audio.PlayerController.PlayingItem;
-import net.sf.zekr.engine.audio.ui.AudioControllerForm;
+import net.sf.zekr.engine.audio.ui.AudioPlayerForm;
 import net.sf.zekr.engine.log.Logger;
 
 import org.eclipse.swt.events.DisposeEvent;
@@ -34,7 +34,7 @@ public class AudioPlayerUiController {
 	private QuranForm quranForm;
 	private PlayerController playerController;
 	private boolean firstTimeInThisLaunch = true;
-	AudioControllerForm audioControllerForm;
+	AudioPlayerForm audioControllerForm;
 	private ZekrPlayerListener zekrPlayerListener;
 	private IUserView uvc;
 
@@ -101,30 +101,30 @@ public class AudioPlayerUiController {
 		PlayingItem playingItem = playerController.getPlayingItem();
 		if (firstTimeInThisLaunch && playingItem != PlayingItem.AUDHUBILLAH) {
 			firstTimeInThisLaunch = false;
-			String ona = audioData.getOnlineAudhubillah();
-			String ofa = audioData.getOfflineAudhubillah();
+			String ona = audioData.onlineAudhubillah;
+			String ofa = audioData.offlineAudhubillah;
 			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofa, ona);
 			if (po != null) {
 				playerController.setPlayingItem(PlayingItem.AUDHUBILLAH);
-				playerOpenAyaAudio(quranForm, po);
+				playerOpenAyaAudio(po);
 				return true;
 			}
 		} else if (loc.isLastAya() && !loc.isLastSura() && playingItem != PlayingItem.BISMILLAH) {
-			String onb = audioData.getOnlineBismillah();
-			String ofb = audioData.getOfflineBismillah();
+			String onb = audioData.onlineBismillah;
+			String ofb = audioData.offlineBismillah;
 			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofb, onb);
 			if (po != null) {
 				playerController.setPlayingItem(PlayingItem.BISMILLAH);
-				playerOpenAyaAudio(quranForm, po);
+				playerOpenAyaAudio(po);
 				return true;
 			}
 		} else if (loc.isLastAya() && loc.isLastSura() && playingItem != PlayingItem.SADAGHALLAH) {
-			String ons = audioData.getOnlineSadaghallah();
-			String ofs = audioData.getOfflineSadaghallah();
+			String ons = audioData.onlineSadaghallah;
+			String ofs = audioData.offlineSadaghallah;
 			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofs, ons);
 			if (po != null) {
 				playerController.setPlayingItem(PlayingItem.SADAGHALLAH);
-				playerOpenAyaAudio(quranForm, po);
+				playerOpenAyaAudio(po);
 				return true;
 			}
 		}
@@ -138,8 +138,8 @@ public class AudioPlayerUiController {
 	public void playerTogglePlayPause(boolean play, boolean fromUser) {
 		try {
 			int status = playerController.getStatus();
-			logger.debug(String.format("Play/pause status changed to %s for %s. Current status is %s", play, playerController
-					.getCurrentPlayableObject(), status));
+			logger.debug(String.format("Play/pause status changed to %s for %s. Current status is %s", play,
+					playerController.getCurrentPlayableObject(), status));
 			if (fromUser) {
 				zekrPlayerListener.userPressedPlayButton();
 			}
@@ -148,7 +148,7 @@ public class AudioPlayerUiController {
 					playerPlaySpecialItemIfNeeded();
 				} else if (playerController.getPlayingItem() == PlayingItem.AYA && status != PlayerController.PLAYING
 						&& status != PlayerController.PAUSED) {
-					playerOpenAyaAudio(quranForm);
+					playerOpenAyaAudio();
 				}
 				if (status == PlayerController.PAUSED) {
 					playerController.resume();
@@ -168,11 +168,11 @@ public class AudioPlayerUiController {
 		}
 	}
 
-	void playerOpenAyaAudio(QuranForm quranForm) {
-		playerOpenAyaAudio(quranForm, config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
+	void playerOpenAyaAudio() {
+		playerOpenAyaAudio(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
 	}
 
-	void playerOpenAyaAudio(QuranForm quranForm, PlayableObject playableObject) {
+	void playerOpenAyaAudio(PlayableObject playableObject) {
 		logger.debug(String.format("Open playable object: %s.", playableObject));
 		playerController.open(playableObject);
 	}
@@ -197,7 +197,7 @@ public class AudioPlayerUiController {
 
 	public void toggleAudioControllerForm(boolean open) {
 		if (open) {
-			audioControllerForm = new AudioControllerForm(quranForm, quranForm.getShell());
+			audioControllerForm = new AudioPlayerForm(quranForm, quranForm.getShell());
 			audioControllerForm.getShell().addDisposeListener(new DisposeListener() {
 				public void widgetDisposed(DisposeEvent e) {
 					if (!quranForm.isDisposed()) {

@@ -30,17 +30,17 @@ public class AudioUtils {
 	 */
 	public static String getAudioFileUrl(AudioData audioData, int sura, int aya) {
 		try {
-			if ("offline".equals(audioData.getType())) {
-				return String.format(audioData.getOfflineUrl(), sura, aya);
-			} else if ("offline-online".equals(audioData.getType())) {
-				String offlineUrl = String.format(audioData.getOfflineUrl(), sura, aya);
+			if ("offline".equals(audioData.type)) {
+				return String.format(audioData.offlineUrl, sura, aya);
+			} else if ("offline-online".equals(audioData.type)) {
+				String offlineUrl = String.format(audioData.offlineUrl, sura, aya);
 				if (PathUtils.resolve(offlineUrl).exists()) {
 					return offlineUrl;
 				} else {
-					return String.format(audioData.getOnlineUrl(), sura, aya);
+					return String.format(audioData.onlineUrl, sura, aya);
 				}
 			} else { // online
-				return String.format(audioData.getOnlineUrl(), sura, aya);
+				return String.format(audioData.onlineUrl, sura, aya);
 			}
 		} catch (Exception e) {
 			logger.error(e);
@@ -50,9 +50,9 @@ public class AudioUtils {
 
 	public static String getAudioFileUrl(AudioData audioData, String offlineUrl, String onlineUrl) {
 		try {
-			if ("offline".equals(audioData.getType())) {
+			if ("offline".equals(audioData.type)) {
 				return offlineUrl;
-			} else if ("offline-online".equals(audioData.getType())) {
+			} else if ("offline-online".equals(audioData.type)) {
 				if (PathUtils.resolve(offlineUrl).exists()) {
 					return offlineUrl;
 				} else {
@@ -68,7 +68,7 @@ public class AudioUtils {
 	}
 
 	public static File getAudioFolder(String baseFolder, AudioData audioData) {
-		return new File(baseFolder, audioData.getId());
+		return new File(baseFolder, audioData.id);
 	}
 
 	public static File getUserOfflineAudioPath(AudioData audioData, String fileName) {

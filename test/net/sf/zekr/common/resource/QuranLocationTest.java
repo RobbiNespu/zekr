@@ -35,6 +35,19 @@ public class QuranLocationTest extends ZekrBaseTest {
 		assertEquals(ql1.getNext().getNext().getNext(), ql2);
 	}
 
+	public void testIsLast() throws Exception {
+		IQuranLocation ql1 = new QuranLocation(1, 1);
+		IQuranLocation ql2 = new QuranLocation(110, 3);
+		IQuranLocation ql3 = new QuranLocation(114, 1);
+		assertFalse(ql1.isLastAya());
+		assertFalse(ql1.isLastSura());
+
+		assertTrue(ql2.isLastAya());
+		assertFalse(ql1.isLastSura());
+
+		assertTrue(ql3.isLastSura());
+	}
+
 	public void testGetPrev() {
 		IQuranLocation ql1 = new QuranLocation(1, 7);
 		IQuranLocation ql2 = new QuranLocation(2, 1);

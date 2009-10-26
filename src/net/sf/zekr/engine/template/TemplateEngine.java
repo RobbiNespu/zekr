@@ -89,7 +89,7 @@ public class TemplateEngine {
 	public void putAll(Map<String, Object> map) {
 		for (Iterator<Entry<String, Object>> iter = map.entrySet().iterator(); iter.hasNext();) {
 			Entry<String, Object> entry = iter.next();
-			context.put((String) entry.getKey(), entry.getValue());
+			context.put(entry.getKey(), entry.getValue());
 		}
 	}
 

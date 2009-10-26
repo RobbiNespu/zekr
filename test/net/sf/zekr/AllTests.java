@@ -14,6 +14,7 @@ import junit.framework.TestSuite;
 import net.sf.zekr.common.resource.QuranLocationTest;
 import net.sf.zekr.common.resource.QuranPropertiesUtilsTest;
 import net.sf.zekr.common.resource.RangedQuranTextTest;
+import net.sf.zekr.common.util.CommonUtilsTest;
 import net.sf.zekr.engine.page.CustomPagingDataTest;
 import net.sf.zekr.engine.page.FixedAyaPagingDataTest;
 import net.sf.zekr.engine.page.HizbQuarterPagingDataTest;
@@ -41,7 +42,6 @@ public class AllTests extends TestCase {
 
 		suite.addTest(new TestSuite(MiscJavaApiTest.class));
 		suite.addTest(new TestSuite(FormUtilsTest.class));
-		suite.addTest(new TestSuite(DefaultHttpServerTest.class));
 		suite.addTest(new TestSuite(QuranPropertiesUtilsTest.class));
 		suite.addTest(new TestSuite(QuranLocationTest.class));
 
@@ -54,6 +54,8 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(HizbQuarterPagingDataTest.class));
 		suite.addTest(new TestSuite(SuraPagingDataTest.class));
 		suite.addTest(new TestSuite(CustomPagingDataTest.class));
+
+		suite.addTest(new TestSuite(CommonUtilsTest.class));
 
 		return suite;
 	}

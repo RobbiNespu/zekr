@@ -34,7 +34,6 @@ import net.sf.zekr.common.resource.filter.IQuranFilter;
 import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
-import net.sf.zekr.engine.audio.DefaultPlayerController;
 import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.engine.audio.PlayerException;
 import net.sf.zekr.engine.audio.ZekrPlayerListener;
@@ -1233,14 +1232,14 @@ public class QuranForm extends BaseForm {
 		find();
 	}
 
-	protected void gotoNextAya() {
+	public void gotoNextAya() {
 		IQuranLocation nextLoc = uvc.getLocation().getNext();
 		if (nextLoc != null) {
 			navTo(nextLoc);
 		}
 	}
 
-	protected void gotoPrevAya() {
+	public void gotoPrevAya() {
 		IQuranLocation prevLoc = uvc.getLocation().getPrev();
 		if (prevLoc != null) {
 			navTo(prevLoc);

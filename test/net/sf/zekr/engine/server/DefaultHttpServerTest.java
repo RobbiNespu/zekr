@@ -43,6 +43,10 @@ public class DefaultHttpServerTest extends ZekrBaseTest {
 		path = (String) server.pathLookup.get(HttpServer.CACHED_RESOURCE);
 		path = FilenameUtils.normalize(path + "/path/to/somewhere");
 		assertEquals(path, server.toRealPath(url));
+
+		url = "[absolute]c:/path/to/somewhere";
+		path = FilenameUtils.normalize("c:/path/to/somewhere");
+		assertEquals(path, server.toRealPath(url));
 	}
 
 	public void testToUrl() throws Exception {
