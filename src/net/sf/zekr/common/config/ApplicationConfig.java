@@ -12,11 +12,13 @@ package net.sf.zekr.common.config;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -36,6 +38,7 @@ import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.CollectionUtils;
+import net.sf.zekr.common.util.CommonUtils;
 import net.sf.zekr.engine.audio.Audio;
 import net.sf.zekr.engine.audio.AudioCacheManager;
 import net.sf.zekr.engine.audio.AudioCacheManagerTimerTask;
@@ -63,7 +66,6 @@ import net.sf.zekr.engine.root.QuranRoot;
 import net.sf.zekr.engine.search.SearchInfo;
 import net.sf.zekr.engine.search.lucene.LuceneIndexManager;
 import net.sf.zekr.engine.server.HttpServer;
-import net.sf.zekr.engine.server.HttpServerFactory;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.Translation;
@@ -559,7 +561,7 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 	}
 
-	public TranslationData loadTranslationData(File transZipFile) throws IOException, ConfigurationException {
+	private TranslationData loadTranslationData(File transZipFile) throws IOException, ConfigurationException {
 		ZipFile zipFile = new ZipFile(transZipFile);
 		InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.TRANSLATION_DESC));
 		if (is == null) {
@@ -673,9 +675,7 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void extractAudioProps() {
-		Reader reader;
 		String def = props.getString("audio.default");
 		logger.info("Loading audio .properties files.");
 
@@ -695,49 +695,15 @@ public class ApplicationConfig implements ConfigNaming {
 			};
 			File[] audioPropFiles = audioDir.listFiles(filter);
 
-			AudioData audioData;
-
-			FileInputStream fis;
 			for (int audioIndex = 0; audioIndex < audioPropFiles.length; audioIndex++) {
 				try {
-					fis = new FileInputStream(audioPropFiles[audioIndex]);
-					reader = new InputStreamReader(fis, "UTF-8");
-					PropertiesConfiguration pc = new PropertiesConfiguration();
-					pc.load(reader);
-					reader.close();
-					fis.close();
-
-					audioData = new AudioData();
-					audioData.setId(pc.getString("audio.id"));
-					audioData.setName(pc.getString("audio.name"));
-					audioData.setLicense(pc.getString("audio.license"));
-					audioData.setLocale(new Locale(pc.getString("audio.language"), pc.getString("audio.country")));
-					audioData.setReciter(pc.getString("audio.reciter"));
-					audioData.setType(pc.getString("audio.type", "online"));
-
-					Iterator<String> keys = pc.getKeys("audio.reciter");
-					while (keys.hasNext()) {
-						String key = keys.next();
-						if (key.equals("audio.reciter")) {
-							continue;
-						}
-						String lang = key.substring("audio.reciter".length() + 1);
-						audioData.getReciterLocalizedName().put(lang, pc.getString(key));
+					AudioData audioData = loadAudioData(audioPropFiles[audioIndex]);
+					if (audioData == null) {
+						continue;
 					}
 
-					audioData.setOfflineUrl(pc.getString("audio.offlineUrl"));
-					audioData.setOnlineUrl(pc.getString("audio.onlineUrl"));
-
-					audioData.setOnlineAudhubillah(pc.getString("audio.onlineAudhubillah"));
-					audioData.setOnlineBismillah(pc.getString("audio.onlineBismillam"));
-					audioData.setOnlineSadaghallah(pc.getString("audio.onlineSaghaghallah"));
-
-					audioData.setOfflineAudhubillah(pc.getString("audio.offlineAudhubillah"));
-					audioData.setOfflineBismillah(pc.getString("audio.offlineBismillam"));
-					audioData.setOfflineSadaghallah(pc.getString("audio.offlineSaghaghallah"));
-
 					audio.add(audioData);
-					if (audioData.getId().equals(def)) {
+					if (audioData.id.equals(def)) {
 						logger.info("Default recitation is: " + audioData);
 						audio.setCurrent(audioData);
 					}
@@ -753,12 +719,68 @@ public class ApplicationConfig implements ConfigNaming {
 			logger.error("No default recitation found: " + def);
 			if (audio.getAllAudio().size() > 0) {
 				audio.setCurrent((AudioData) audio.getAllAudio().iterator().next());
-				props.setProperty("audio.default", audio.getCurrent().getId());
+				props.setProperty("audio.default", audio.getCurrent().id);
 				logger.warn("Setting another recitation as default: " + audio.getCurrent());
 			} else {
 				logger.warn("No other recitation found. Audio will be disabled.");
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private AudioData loadAudioData(File audioFile) throws FileNotFoundException, UnsupportedEncodingException,
+			ConfigurationException, IOException {
+		Reader reader;
+		AudioData audioData;
+		FileInputStream fis;
+		fis = new FileInputStream(audioFile);
+		reader = new InputStreamReader(fis, "UTF-8");
+		PropertiesConfiguration pc = new PropertiesConfiguration();
+		pc.load(reader);
+		reader.close();
+		fis.close();
+
+		audioData = new AudioData();
+		audioData.id = pc.getString("audio.id");
+		audioData.version = pc.getString("audio.version");
+		if (StringUtils.isBlank(audioData.version)) {
+			logger.warn("Not a valid recitation file. No version specified: " + audioFile);
+			return null;
+		} else if (CommonUtils.compareVersions(audioData.version, AudioData.BASE_VALID_VERSION) < 0) {
+			logger.warn(String.format(
+					"Version is not supported anymore: %s. Zekr supports a recitation file of version %s or newer.",
+					audioData.version, AudioData.BASE_VALID_VERSION));
+			return null;
+		}
+		audioData.lastUpdate = pc.getString("audio.lastUpdate");
+
+		audioData.name = pc.getString("audio.name");
+		audioData.license = pc.getString("audio.license");
+		audioData.locale = new Locale(pc.getString("audio.language"), pc.getString("audio.country"));
+		audioData.reciter = pc.getString("audio.reciter");
+		audioData.type = pc.getString("audio.type", "online");
+
+		Iterator<String> keys = pc.getKeys("audio.reciter");
+		while (keys.hasNext()) {
+			String key = keys.next();
+			if (key.equals("audio.reciter")) {
+				continue;
+			}
+			String lang = key.substring("audio.reciter".length() + 1);
+			audioData.reciterLocalizedName.put(lang, pc.getString(key));
+		}
+
+		audioData.offlineUrl = pc.getString("audio.offlineUrl");
+		audioData.onlineUrl = pc.getString("audio.onlineUrl");
+
+		audioData.onlineAudhubillah = pc.getString("audio.onlineAudhubillah");
+		audioData.onlineBismillah = pc.getString("audio.onlineBismillam");
+		audioData.onlineSadaghallah = pc.getString("audio.onlineSaghaghallah");
+
+		audioData.offlineAudhubillah = pc.getString("audio.offlineAudhubillah");
+		audioData.offlineBismillah = pc.getString("audio.offlineBismillam");
+		audioData.offlineSadaghallah = pc.getString("audio.offlineSaghaghallah");
+		return audioData;
 	}
 
 	private void setupAudioManager() {
@@ -1237,6 +1259,29 @@ public class ApplicationConfig implements ConfigNaming {
 			throw zme;
 		} catch (Exception e) {
 			throw new ZekrMessageException("TRANSLATION_LOAD_FAILED", new String[] { transFile.getName(), e.toString() });
+		}
+	}
+
+	public boolean addNewRecitation(File recitFile) throws ZekrMessageException {
+		logger.debug("Add new recitation: " + recitFile);
+		try {
+			AudioData newAudioData = loadAudioData(recitFile);
+			if (newAudioData == null) {
+				throw new ZekrMessageException("INVALID_RECITATION_FORMAT", new String[] { recitFile.getName() });
+			}
+			AudioData installedAudioData = audio.get(newAudioData.id);
+			if (installedAudioData != null) {
+				if (newAudioData.compareTo(installedAudioData) < 0) {
+					throw new ZekrMessageException("NEWER_VERSION_INSTALLED", 
+							new String[] { recitFile.toString(), newAudioData.lastUpdate, installedAudioData.lastUpdate });
+				}
+			}
+			audio.add(newAudioData);
+			return true;
+		} catch (ZekrMessageException zme) {
+			throw zme;
+		} catch (Exception e) {
+			throw new ZekrMessageException("RECITATION_LOAD_FAILED", new String[] { recitFile.getName(), e.toString() });
 		}
 	}
 
