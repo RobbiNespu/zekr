@@ -16,6 +16,7 @@ import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.PlayStatus;
 import net.sf.zekr.engine.audio.PlayerController;
+import net.sf.zekr.engine.audio.PlayerController.PlayingItem;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.QuranForm;
 
@@ -28,6 +29,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
@@ -49,9 +51,9 @@ import org.eclipse.swt.widgets.Widget;
 /**
  * @author Mohsen Saboorian
  */
-public class AudioControllerForm extends BaseForm {
+public class AudioPlayerForm extends BaseForm {
 	final ApplicationConfig config = ApplicationConfig.getInstance();
-	public static final String FORM_ID = "AUDIO_CONTOLLER_FORM";
+	public static final String FORM_ID = "AUDIO_PLAYER_FORM";
 
 	private PlayerController playerController;
 	private Button playPauseItem;
@@ -82,7 +84,6 @@ public class AudioControllerForm extends BaseForm {
 	private Image prevAyaImage;
 	private Image nextAyaImage;
 	private Image stopImage;
-	private AudioData audioData;
 	private Label playerLabel;
 	private Canvas playerCanvas;
 	private IUserView uvc;
@@ -91,9 +92,8 @@ public class AudioControllerForm extends BaseForm {
 	private Combo repeatCombo;
 	private PropertiesConfiguration props;
 
-	public AudioControllerForm(QuranForm quranForm, Shell parent) {
+	public AudioPlayerForm(QuranForm quranForm, Shell parent) {
 		this.isLtr = config.getLanguageEngine().isLtr();
-		this.audioData = config.getAudio().getCurrent();
 		this.playerController = config.getPlayerController();
 		this.volume = playerController.getVolume();
 		this.uvc = config.getUserViewController();
@@ -189,9 +189,10 @@ public class AudioControllerForm extends BaseForm {
 	}
 
 	public void updatePlayerLabel() {
-		if (shell.isDisposed()) {
+		if (shell.isDisposed() || config.getAudio().getCurrent() == null) {
 			return;
 		}
+		AudioData audioData = config.getAudio().getCurrent();
 		String status = getPlayerStatus();
 		IQuranLocation l = uvc.getLocation();
 		String s = String.format("%s (%s):%s | %s: %s | %s", l.getSuraName(), l.getSura(), l.getAya(),
@@ -259,7 +260,7 @@ public class AudioControllerForm extends BaseForm {
 
 		lapseCombo = new Combo(bottomComposite, SWT.READ_ONLY);
 		lapseCombo.setItems(new String[] { "No lapse", "0.5", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5", "4.0", "4.5",
-				"5.0" });
+				"5.0", "5.5", "6.0", "6.5", "7.0", "7.5", "8.0", "8.5", "9.0", "9.5", "10.0" });
 		lapseCombo.select(playerController.getLapse() / 500);
 		lapseCombo.setEnabled(playerController.isMultiAya());
 		lapseCombo.setVisibleItemCount(10);
@@ -332,6 +333,7 @@ public class AudioControllerForm extends BaseForm {
 		nextPrevComposite.setLayout(rl);
 
 		prevItem = new Button(nextPrevComposite, SWT.PUSH);
+		prevItem.setData("prev");
 		prevItem.setImage(isLtr ? prevAyaImage : nextAyaImage);
 
 		stopItem = new Button(nextPrevComposite, SWT.PUSH);
@@ -343,8 +345,29 @@ public class AudioControllerForm extends BaseForm {
 			}
 		});
 
+		SelectionListener navSelectionListener = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int st = playerController.getStatus();
+				playerController.setPlayingItem(PlayingItem.AYA);
+				quranForm.playerUiController.playerStop(true);
+				if ("prev".equals(((Widget) e.getSource()).getData())) {
+					quranForm.gotoPrevAya();
+				} else {
+					quranForm.gotoNextAya();
+				}
+				if (st == PlayerController.PLAYING) {
+					quranForm.playerUiController.playerTogglePlayPause(true, true);
+				}
+			}
+		};
+
 		nextItem = new Button(nextPrevComposite, SWT.PUSH);
+		nextItem.setData("next");
 		nextItem.setImage(isLtr ? nextAyaImage : prevAyaImage);
+
+		nextItem.addSelectionListener(navSelectionListener);
+		prevItem.addSelectionListener(navSelectionListener);
 
 		gl = new GridLayout(2, false);
 		Composite volumeComposite = new Composite(middleRow, SWT.NONE);
