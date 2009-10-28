@@ -30,7 +30,7 @@ public class DefaultPlayerController implements PlayerController {
 	BasicPlayer player;
 	private int volume;
 	private boolean multiAya;
-	private int lapse; // wait between two ayas (in milliseconds)
+	private int interval; // wait between two ayas (in milliseconds)
 	private int repeatTime;
 	private PropertiesConfiguration props;
 	private PlayingItem playingItem = PlayingItem.AYA;
@@ -41,7 +41,7 @@ public class DefaultPlayerController implements PlayerController {
 		player = new BasicPlayer();
 		volume = props.getInt("audio.volume", 50);
 		repeatTime = props.getInt("audio.repeatTime", 1);
-		lapse = props.getInt("audio.lapse", 0);
+		interval = props.getInt("audio.interval", 0);
 		multiAya = props.getBoolean("audio.continuousAya", true);
 	}
 
@@ -51,6 +51,9 @@ public class DefaultPlayerController implements PlayerController {
 			if (playableObject.getUrl() != null) {
 				player.open(playableObject.getUrl());
 			} else if (playableObject.getFile() != null) {
+				if (!playableObject.getFile().exists()) {
+					throw new PlayerException("File not found: " + playableObject.getFile());
+				}
 				player.open(playableObject.getFile());
 			} else {
 				player.open(playableObject.getInputStream());
@@ -68,10 +71,17 @@ public class DefaultPlayerController implements PlayerController {
 		}
 	}
 
+	private void updateVolumeSilently() {
+		try {
+			setGain(volume / 100.0);
+		} catch (PlayerException e) {
+		}
+	}
+
 	public void play() throws PlayerException {
 		try {
 			player.play();
-			setGain(volume / 100.0);
+			updateVolumeSilently();
 		} catch (BasicPlayerException e) {
 			throw new PlayerException(e);
 		}
@@ -80,7 +90,7 @@ public class DefaultPlayerController implements PlayerController {
 	public void resume() throws PlayerException {
 		try {
 			player.resume();
-			setGain(volume / 100.0);
+			updateVolumeSilently();
 		} catch (BasicPlayerException e) {
 			throw new PlayerException(e);
 		}
@@ -171,13 +181,13 @@ public class DefaultPlayerController implements PlayerController {
 
 	}
 
-	public int getLapse() {
-		return lapse;
+	public int getInterval() {
+		return interval;
 	}
 
-	public void setLapse(int lapse) {
-		this.lapse = lapse;
-		props.setProperty("audio.lapse", lapse);
+	public void setInterval(int interval) {
+		this.interval = interval;
+		props.setProperty("audio.interval", interval);
 	}
 
 	public int getRepeatTime() {
@@ -196,7 +206,7 @@ public class DefaultPlayerController implements PlayerController {
 	public void setPlayingItem(PlayingItem playingItem) {
 		this.playingItem = playingItem;
 	}
-	
+
 	public PlayableObject getCurrentPlayableObject() {
 		return currentPlayableObject;
 	}

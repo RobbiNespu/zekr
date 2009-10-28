@@ -154,12 +154,12 @@ public interface PlayerController {
 	/**
 	 * @return number of milliseconds to wait between playing two ayas
 	 */
-	public int getLapse();
+	public int getInterval();
 
 	/**
 	 * @param wait number of milliseconds to wait between playing two ayas
 	 */
-	public void setLapse(int lapse);
+	public void setInterval(int interval);
 
 	/**
 	 * @return how many times play each aya
