@@ -414,14 +414,14 @@ public class MessageBoxUtils {
 	 * 
 	 * @param filterNames names of the filters
 	 * @param filterWildcards wildcard filters (e.g. *.zip)
-	 * @return a 0-item list if action cancelled, no item was selected or selected items did not fit the
+	 * @return a 0-item list if action canceled, no item was selected or selected items did not fit the
 	 *         extension criteria. Otherwise, returns a list of selected files (of type <tt>java.io.File</tt>).
 	 * @throws IOException if any exception occurred during importing.
 	 */
 	public static List<File> importFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards)
 			throws IOException {
 		FileDialog fd = new FileDialog(parentShall, SWT.OPEN | SWT.MULTI);
-		fd.setFilterPath(GlobalConfig.getDefaultStartFolder());
+		// fd.setFilterPath(GlobalConfig.getDefaultStartFolder()); // this code is a real pain!
 		fd.setFilterNames(filterNames);
 		fd.setFilterExtensions(filterWildcards); // Windows wild card
 		fd.setText(lang.getMeaning("OPEN"));
