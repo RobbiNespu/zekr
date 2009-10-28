@@ -51,9 +51,9 @@ function navtoSuraAya() {
 	var origSuraNum = $("input#hiddenSuraNum").val();
 	if (!isNaN(parseInt(sura.trim())) && !isNaN(parseInt(aya.trim())))
 		if (origSuraNum != sura)
-			gotoSuraAya(sura + "-" + aya + "-" + page);
+			gotoSuraAya(sura, aya, page);
 		else
-			gotoSuraAya(sura + "-" + aya + "-" + page);
+			gotoSuraAya(sura, aya, page);
 }
 
 function getObjectHeight(obj) { return obj.offsetHeight; }
@@ -85,10 +85,11 @@ function focusOnAya(suraNum, ayaNum) {
 
 	var oh = getObjectHeight(aya);
 	var bh = getBrowserHeight();
-	if (ayaNum != 1)
+	if (ayaNum != 1) {
 		$(aya).ScrollTo(400, 'original', bh > (oh + bh/5) ? bh/5 : 45);
-	else
+	} else {
 		$(aya).ScrollTo(400, 'original', 200);
+	}
 	oldAyaId = ayaId;
 
 	// fire post-focus hooks
