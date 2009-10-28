@@ -51,17 +51,28 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 		final int code = event.getCode();
 		display.syncExec(new Runnable() {
 			public void run() {
-				quranForm.playerUiController.playerUpdateAudioFormStatus();
+				if (!quranForm.isDisposed()) {
+					if (code == BasicPlayerEvent.PLAYING) {
+						if (quranForm.playerUiController.isAudioControllerFormOpen()) {
+							quranForm.playerUiController.getAudioControllerForm().playerTogglePlayPause(true);
+						}
+					} else if (code == BasicPlayerEvent.PAUSED || code == BasicPlayerEvent.STOPPED) {
+						if (quranForm.playerUiController.isAudioControllerFormOpen()) {
+							quranForm.playerUiController.getAudioControllerForm().playerTogglePlayPause(false);
+						}
+					}
+					quranForm.playerUiController.playerUpdateAudioFormStatus();
+				}
 			}
 		});
 		if (code == BasicPlayerEvent.OPENING || code == BasicPlayerEvent.STOPPED) {
 			origRepeatTimer = playerController.getRepeatTime();
-			userActionPerformed = false;	
+			userActionPerformed = false;
 		}
 		if (code == BasicPlayerEvent.EOM) {
 			repeatTimer--;
 			if (playerController.isMultiAya()) {
-				int wait = playerController.getLapse();
+				int wait = playerController.getInterval();
 				if (playerController.getRepeatTime() != origRepeatTimer) {
 					repeatTimer += playerController.getRepeatTime() - origRepeatTimer;
 					origRepeatTimer = playerController.getRepeatTime();
