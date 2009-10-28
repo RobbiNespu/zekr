@@ -139,6 +139,11 @@
 			<text id="ROOT" value="Root"   /> <!-- word root -->
 			<text id="ADDRESS" value="Address"   />
 			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
+			<text id="AUDIO_PLAYER" value="Audio Player"   />
+			<text id="PLAYING" value="Playing"   />
+			<text id="PAUSED" value="Paused"   />
+			<text id="STOPPED" value="Stopped"   />
+			<text id="RECITER" value="Reciter"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />
@@ -161,14 +166,15 @@
 
 	<message>
 		<inform>
-			<text id="SEARCH_RESULT_TITLE" value="Search result for: &quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_TITLE" value="Search result for: '{1}'" />
 			<text id="SEARCH_RESULT_COUNT" value="{1} results found in {2} ayas." />
 			<text id="SEARCH_PAGE" value="Page {1} of {2}" />
 			<text id="TOO_MANY_RESULT" value="Search result is more than {1} ayas" />
-			<text id="FILE_ALREADY_EXISTS" value="A file with the name &quot;{1}&quot; already exists. Do you want to replace it?" />
+			<text id="FILE_ALREADY_EXISTS" value="A file with the name '{1}' already exists. Do you want to replace it?" />
 			<text id="RESTART_APP" value="You need to restart the application for the changes to take effect." />
 			<text id="ACTION_PERFORMED" value="Action performed successfully."   />
-			<text id="TRANSLATION_ADDED" value="The following translation added under {1} menu"   />
+			<text id="TRANSLATION_ADDED" value="The following translations added under {1} menu"   />
+			<text id="RECITATION_ADDED" value="The following recitations added under {1} menu"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Are you sure?" />
@@ -179,8 +185,11 @@
 			<text id="FNF" value="File not found" />
 			<text id="ACTION_FAILED" value="Action failed!" />
 			<text id="INVALID_TRANSLATION_FORMAT" value="Invalid tranalation format: {1}"   />
+			<text id="INVALID_RECITATION_FORMAT" value="Invalid recitation format: {1}"   />
+			<text id="NEWER_VERSION_INSTALLED" value="Resource '{1}' is out of date (updated on: {2}). A newer version ({3}) is already installed." />
 			<text id="INVALID_TRANSLATION_SIGNATURE" value="Invalid translation signature: {1}"   />
-			<text id="TRANSLATION_LOAD_FAILED" value="Loading translation &quot;{1}&quot; failed because of the following error: {2}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="Loading translation '{1}' failed because of the following error: {2}"   />
+			<text id="RECITATION_LOAD_FAILED" value="Loading recitation '{1}' failed because of the following error: {2}"   />
 			<text id="ENTER_VALID_NUMBER" value="Please enter a valid number."   />
 			<text id="NUMBER_LIMIT" value="Please enter a number between '{1}' and '{2}'."   />
 		</error>
@@ -216,7 +225,7 @@
 			<text id="SHOW_SPLASH" value="Display logo at startup" />
 			<text id="NEW_KEY" value="Enter a new key" />
 			<text id="THEME_SETTING" value="Theme settings" />
-			<text id="PRESS_OK_TO_APPLY" value="Press &quot;OK&quot; button for changes to be applied." />
+			<text id="PRESS_OK_TO_APPLY" value="Press 'OK' button for changes to be applied." />
 			<text id="MAX_SEARCH_RESULT" value="Maximum search result count" />
 			<text id="RESIZEABLE_TASK_PANE" value="Resizeable task pane" />
 			<text id="SURA_NAMES" value="Show sura names in"   />
@@ -252,7 +261,7 @@
 		<form id="BOOKMARK_SET_MANAGE_FORM">
 			<text id="TITLE" value="Manage Bookmark Sets" />
 			<text id="DBL_CLICK" value="Double click on items to load and/or edit them." />
-			<text id="SET_AS_DEFAULT" value="Do you want to set &quot;{1}&quot; as your default bookmark set?" />
+			<text id="SET_AS_DEFAULT" value="Do you want to set '{1}' as your default bookmark set?" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="Cannot remove default bookmark." />
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="Cannot overwrite on the default bookmark set. Select another bookmark set as default, and try to import." />
 			<text id="ENTER_ID" value="Enter the bookmark ID" />
@@ -316,6 +325,15 @@
 			<text id="CONST_AYA" value="Constant Aya Count"   />
 			<text id="CUSTOM" value="Custom"   />
 			<text id="AYA_PER_SURA" value="How many ayas should appear in each page?"   />
+		</form>
+		<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="Audio Player"   />
+			<text id="SECOND_ABBR" value="s"   /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECONDS" value="Seconds"   /> <!--  tooltip for 's' (SECOND_ABBR) -->
+			<text id="INTERVAL" value="Interval"   />
+			<text id="REPEAT" value="Repeat"   />
+			<text id="NO_INTERVAL" value="No Interval"   />
+			<text id="NO_REPEAT" value="No Repeat"   />
 		</form>
 	</forms>
 </language>

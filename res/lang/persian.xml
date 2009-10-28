@@ -139,6 +139,11 @@
 			<text id="ROOT" value="ریشه" /> <!-- word root -->
 			<text id="ADDRESS" value="آدرس" />
 			<text id="BOOKMARK_THIS_AYA" value="نشان‌گذاری این آیه" />
+			<text id="AUDIO_PLAYER" value="پخش صوت"   />
+			<text id="PLAYING" value="درحال قرائت"   />
+			<text id="PAUSED" value="درنگ"   />
+			<text id="STOPPED" value="توقف"   />
+			<text id="RECITER" value="قاری"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -165,10 +170,11 @@
 			<text id="SEARCH_RESULT_COUNT" value="{1} مورد در {2} آیه یافت شد." />
 			<text id="SEARCH_PAGE" value="صفحهٔ {1} از {2}" />
 			<text id="TOO_MANY_RESULT" value="نتیجهٔ جستجو بیش از {1} آیه است." />
-			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام &quot;{1}&quot; از پیش موجود است. آیا می‌خواهید آن‌را جایگزین کنید؟" />
+			<text id="FILE_ALREADY_EXISTS" value="فایلی با نام '{1}' از پیش موجود است. آیا می‌خواهید آن‌را جایگزین کنید؟" />
 			<text id="RESTART_APP" value="برای اعمال تغییرات، برنامه را بسته و مجدداً اجرا کنید." />
 			<text id="ACTION_PERFORMED" value="عملیات با موفقیت انجام شد." />
-			<text id="TRANSLATION_ADDED" value="این ترجمه‌ها زیرِ منوی {1} اضافه شدند" />
+			<text id="TRANSLATION_ADDED" value="این ترجمه‌ها به منوی {1} اضافه شدند" />
+			<text id="RECITATION_ADDED" value="این قرائت‌ها به منوی {1} اضافه شدند"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="آیا مطمئن هستید؟" />
@@ -179,8 +185,11 @@
 			<text id="FNF" value="فایل پیدا نشد" />
 			<text id="ACTION_FAILED" value="انجام عملیات ناموفق بود!" />
 			<text id="INVALID_TRANSLATION_FORMAT" value="قالب ترجمه نامعتبر است: {1}" />
+			<text id="INVALID_RECITATION_FORMAT" value="قالب قرائت نامعتبر است: {1}"   />
+			<text id="NEWER_VERSION_INSTALLED" value="افزونهٔ '{1}' قدیمی است (آخرین تغییر در: {2}). نسخهٔ جدیدتری ({3}) قبلاً نصب شده است." />
 			<text id="INVALID_TRANSLATION_SIGNATURE" value="امضای ترجمه نامعتبر است: {1}" />
-			<text id="TRANSLATION_LOAD_FAILED" value="بارگزاری ناموفق ترجمهٔ &quot;{1}&quot; به دلیل این خطا: {2}" />
+			<text id="TRANSLATION_LOAD_FAILED" value="بارگزاری ناموفق ترجمهٔ '{1}' به دلیل این خطا: {2}" />
+			<text id="RECITATION_LOAD_FAILED" value="بارگزاری ناموفق قرائت '{1}' به دلیل این خطا: {2}"   />
 			<text id="ENTER_VALID_NUMBER" value="لطفاً عدد معتبری وارد کنید." />
 			<text id="NUMBER_LIMIT" value="لطفاً عددی بین '{1}' و '{2}' وارد کنید." />
 		</error>
@@ -216,7 +225,7 @@
 			<text id="SHOW_SPLASH" value="نمایش تصویر ابتدای برنامه" />
 			<text id="NEW_KEY" value="یک کلید جدید وارد کنید" />
 			<text id="THEME_SETTING" value="تنطیمات مضمون" />
-			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید &quot;قبول&quot; را فشار دهید." />
+			<text id="PRESS_OK_TO_APPLY" value="برای اعمال تغییرات کلید 'قبول' را فشار دهید." />
 			<text id="MAX_SEARCH_RESULT" value="حداکثر تعداد نتایج جستجو" />
 			<text id="RESIZEABLE_TASK_PANE" value="قابلیت تغییر اندازه برای قاب وظایف" />
 			<text id="SURA_NAMES" value="نمایش نام سوره‌ها به" />
@@ -252,7 +261,7 @@
 		<form id="BOOKMARK_SET_MANAGE_FORM">
 			<text id="TITLE" value="مدیریت گروه نشان‌ها" />
 			<text id="DBL_CLICK" value="برای ویرایش و/یا بارگذاری هر فقره روی آن دوبار کلیک کنید." />
-			<text id="SET_AS_DEFAULT" value="آیا می‌خواهید &quot;{1}&quot; را به عنوان مجموعه نشان پیش‌فرض خود انتخاب کنید؟" />
+			<text id="SET_AS_DEFAULT" value="آیا می‌خواهید '{1}' را به عنوان مجموعه نشان پیش‌فرض خود انتخاب کنید؟" />
 			<text id="CANNOT_REMOVE_DEFAULT" value="مجموعه نشان پیش‌فرض را نمی‌توان حذف کرد." />
 			<text id="CANNOT_OVERWRITE_DEFAULT" value="مجموعه نشان پیش‌فرض را نمی‌توان جایگزیم کرد. ابتدا مجموعه نشان دیگری را به عنوان پیشفرض انتخاب نمایید و سپس اقدام به وارد کردن کنید." />
 			<text id="ENTER_ID" value="شناسهٔ مجموعه نشان را وارد کنید" />
@@ -316,6 +325,15 @@
 			<text id="CONST_AYA" value="تعداد ثابت آیه" />
 			<text id="CUSTOM" value="سفارشی" />
 			<text id="AYA_PER_SURA" value="چند آیه در هر صفحه نمایش داده شود؟" />
+		</form>
+		<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="پخش صوت"   />
+			<text id="SECOND_ABBR" value="ث"   />
+			<text id="SECONDS" value="ثانیه"   />
+			<text id="INTERVAL" value="وقفه"   />
+			<text id="REPEAT" value="تکرار"   />
+			<text id="NO_INTERVAL" value="بدون وقفه"   />
+			<text id="NO_REPEAT" value="بدون تکرار"   />
 		</form>
 	</forms>
 </language>
