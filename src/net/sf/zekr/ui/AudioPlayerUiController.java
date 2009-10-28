@@ -34,7 +34,7 @@ public class AudioPlayerUiController {
 	private QuranForm quranForm;
 	private PlayerController playerController;
 	private boolean firstTimeInThisLaunch = true;
-	AudioPlayerForm audioControllerForm;
+	private AudioPlayerForm audioControllerForm;
 	private ZekrPlayerListener zekrPlayerListener;
 	private IUserView uvc;
 
@@ -52,7 +52,7 @@ public class AudioPlayerUiController {
 		}
 
 		playerController.stop();
-		if (audioControllerForm != null && !audioControllerForm.isDisposed()) {
+		if (isAudioControllerFormOpen()) {
 			audioControllerForm.stop();
 		}
 		quranForm.qmf.playerStop();
@@ -109,7 +109,7 @@ public class AudioPlayerUiController {
 				playerOpenAyaAudio(po);
 				return true;
 			}
-		} else if (loc.isLastAya() && !loc.isLastSura() && playingItem != PlayingItem.BISMILLAH) {
+		} else if (loc.isLastAya() && !loc.isLastSura() && loc.getSura() != 8 && playingItem != PlayingItem.BISMILLAH) {
 			String onb = audioData.onlineBismillah;
 			String ofb = audioData.offlineBismillah;
 			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofb, onb);
@@ -132,7 +132,9 @@ public class AudioPlayerUiController {
 	}
 
 	public void playerUpdateAudioFormStatus() {
-		audioControllerForm.updatePlayerLabel();
+		if (isAudioControllerFormOpen()) {
+			audioControllerForm.updatePlayerLabel();
+		}
 	}
 
 	public void playerTogglePlayPause(boolean play, boolean fromUser) {
@@ -145,9 +147,13 @@ public class AudioPlayerUiController {
 			}
 			if (play) {
 				if (playerController.isMultiAya() && firstTimeInThisLaunch) {
-					playerPlaySpecialItemIfNeeded();
+					if (!playerPlaySpecialItemIfNeeded()) {
+						playerOpenAyaAudio();
+					}
 				} else if (playerController.getPlayingItem() == PlayingItem.AYA && status != PlayerController.PLAYING
 						&& status != PlayerController.PAUSED) {
+					playerOpenAyaAudio();
+				} else if (status == PlayerController.UNKNOWN) {
 					playerOpenAyaAudio();
 				}
 				if (status == PlayerController.PAUSED) {
@@ -155,21 +161,24 @@ public class AudioPlayerUiController {
 				} else {
 					playerController.play();
 				}
-				firstTimeInThisLaunch = false;
 			} else {
 				playerController.pause();
-			}
-			if (audioControllerForm != null && !audioControllerForm.isDisposed()) {
-				audioControllerForm.playerTogglePlayPause(play);
 			}
 			quranForm.qmf.playerTogglePlayPause(play);
 		} catch (PlayerException e) {
 			logger.error("Error occured in play-pause method.", e);
+			playerSlightlyStop();
+		} finally {
+			firstTimeInThisLaunch = false;
 		}
 	}
 
 	void playerOpenAyaAudio() {
-		playerOpenAyaAudio(config.getAudioCacheManager().getPlayableObject(uvc.getLocation()));
+		PlayableObject playableObject = config.getAudioCacheManager().getPlayableObject(uvc.getLocation());
+		if (playableObject == null) {
+			throw new PlayerException("Audio for this location cannot be loaded: " + uvc.getLocation());
+		}
+		playerOpenAyaAudio(playableObject);
 	}
 
 	void playerOpenAyaAudio(PlayableObject playableObject) {
@@ -198,6 +207,7 @@ public class AudioPlayerUiController {
 	public void toggleAudioControllerForm(boolean open) {
 		if (open) {
 			audioControllerForm = new AudioPlayerForm(quranForm, quranForm.getShell());
+			config.getProps().setProperty("audio.controller.show", open);
 			audioControllerForm.getShell().addDisposeListener(new DisposeListener() {
 				public void widgetDisposed(DisposeEvent e) {
 					if (!quranForm.isDisposed()) {
@@ -209,5 +219,24 @@ public class AudioPlayerUiController {
 		} else if (audioControllerForm != null) {
 			audioControllerForm.close();
 		}
+	}
+
+	public void changeRecitation(String audioId) {
+		playerSlightlyStop();
+		config.setCurrentAudio(audioId);
+		if (audioControllerForm != null)
+			playerUpdateAudioFormStatus();
+		if (isAudioControllerFormOpen()) {
+			audioControllerForm.getShell().pack();
+		}
+	}
+
+	public AudioPlayerForm getAudioControllerForm() {
+		return audioControllerForm;
+	}
+
+	public boolean isAudioControllerFormOpen() {
+		return audioControllerForm != null && audioControllerForm.getShell() != null
+				&& !audioControllerForm.getShell().isDisposed();
 	}
 }
