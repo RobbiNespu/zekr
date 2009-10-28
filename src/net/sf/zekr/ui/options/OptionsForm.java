@@ -106,11 +106,11 @@ public class OptionsForm {
 	private Button addBut;
 	private Button delBut;
 	private Button resizeablePane;
-	private Button enableAudio;
+	// private Button enableAudio;
 	private boolean rtl;
 
-	private static final List packs = new ArrayList(lang.getLangPacks());
-	private static final List themes = new ArrayList(config.getTheme().getAllThemes());
+	private static final List<LanguagePack> packs = new ArrayList<LanguagePack>(lang.getLangPacks());
+	private static final List<ThemeData> themes = new ArrayList<ThemeData>(config.getTheme().getAllThemes());
 
 	private String[] suraNameType = new String[] { "arabic", "t9n", "t13n", "en-t9n", "en-t13n" };
 	private Combo suraNameMode;
@@ -254,7 +254,7 @@ public class OptionsForm {
 			} catch (IOException e) {
 				logger.log(e);
 			}
-			EventUtils.sendEvent(EventProtocol.RECREATE_VIEW);
+			EventUtils.sendEvent(parent, EventProtocol.RECREATE_VIEW);
 		}
 	}
 
@@ -284,16 +284,16 @@ public class OptionsForm {
 	}
 
 	private void updateGeneralModel(boolean fromOk) {
-		selectedLangPack = (LanguagePack) packs.get(langSelect.getSelectionIndex());
-		selectedTheme = (ThemeData) themes.get(themeSelect.getSelectionIndex());
+		selectedLangPack = packs.get(langSelect.getSelectionIndex());
+		selectedTheme = themes.get(themeSelect.getSelectionIndex());
 		boolean isPaneResizeable = resizeablePane.getSelection();
-		boolean audioEnabledProp = props.getBoolean("server.http.enable") && props.getBoolean("audio.enable");
-		String audioEnabled = Boolean.toString(enableAudio.getSelection());
+		// boolean audioEnabledProp = props.getBoolean("server.http.enable") && props.getBoolean("audio.enable");
+		//String audioEnabled = Boolean.toString(enableAudio.getSelection());
 		boolean suraAsTree = suraTree.getSelection();
 		if (!config.getLanguage().getActiveLanguagePack().id.equals(selectedLangPack.id)
 				|| !td.id.equals(selectedTheme.id)
 				|| props.getBoolean("options.general.resizeableTaskPane") != isPaneResizeable
-				|| audioEnabledProp != enableAudio.getSelection()
+				//|| audioEnabledProp != enableAudio.getSelection()
 				|| suraAsTree != ("tree".equals(props.getString("view.sura.mode")))) {
 			pressOkToApply = true;
 		}
@@ -312,8 +312,8 @@ public class OptionsForm {
 			props.setProperty("lang.default", selectedLangPack.id);
 			props.setProperty("theme.default", selectedTheme.id);
 			props.setProperty("options.general.resizeableTaskPane", new Boolean(isPaneResizeable));
-			props.setProperty("server.http.enable", audioEnabled);
-			props.setProperty("audio.enable", audioEnabled);
+			//props.setProperty("server.http.enable", audioEnabled);
+			//props.setProperty("audio.enable", audioEnabled);
 			props.setProperty("view.sura.mode", suraAsTree ? "tree" : "combo");
 		}
 	}
@@ -354,7 +354,7 @@ public class OptionsForm {
 		int s = 0;
 		LanguagePack activeLang = config.getLanguage().getActiveLanguagePack();
 		for (int i = 0; i < packs.size(); i++) {
-			LanguagePack lp = (LanguagePack) packs.get(i);
+			LanguagePack lp = packs.get(i);
 			if (activeLang.id.equals(lp.id)) {
 				s = i;
 			}
@@ -375,8 +375,7 @@ public class OptionsForm {
 
 		langSelect.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				image = new Image(shell.getDisplay(), ((LanguagePack) packs.get(langSelect.getSelectionIndex()))
-						.getIconPath());
+				image = new Image(shell.getDisplay(), packs.get(langSelect.getSelectionIndex()).getIconPath());
 				flag.redraw();
 			}
 		});
@@ -390,11 +389,11 @@ public class OptionsForm {
 		ct.setText(meaning("THEME_OPTIONS") + ":");
 		// theme names should be in Roman characters
 		themeSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
-		Map themeMap = new LinkedHashMap();
+		Map<String, String> themeMap = new LinkedHashMap<String, String>();
 		int selectedNum = 0;
 		for (int i = 0; i < themes.size(); i++) {
-			themeMap.put(((ThemeData) themes.get(i)).id, ((ThemeData) themes.get(i)).name + (rtl ? I18N.LRM + "" : ""));
-			if (((ThemeData) themes.get(i)).id.equals(td.id))
+			themeMap.put(themes.get(i).id, themes.get(i).name + (rtl ? I18N.LRM + "" : ""));
+			if (themes.get(i).id.equals(td.id))
 				selectedNum = i;
 		}
 		themeSelect.setItems((String[]) themeMap.values().toArray(new String[0]));
@@ -440,10 +439,10 @@ public class OptionsForm {
 		resizeablePane.setText(meaning("RESIZEABLE_TASK_PANE"));
 		resizeablePane.setSelection(config.getProps().getBoolean("options.general.resizeableTaskPane", false));
 
-		enableAudio = new Button(generalTab, SWT.CHECK);
-		enableAudio.setText(meaning("ENABLE_AUDIO"));
-		enableAudio.setSelection(config.getProps().getBoolean("server.http.enable", true)
-				&& config.getProps().getBoolean("audio.enable", true));
+		// enableAudio = new Button(generalTab, SWT.CHECK);
+		// enableAudio.setText(meaning("ENABLE_AUDIO"));
+		// enableAudio.setSelection(config.getProps().getBoolean("server.http.enable", true)
+		//&& config.getProps().getBoolean("audio.enable", true));
 
 	}
 
