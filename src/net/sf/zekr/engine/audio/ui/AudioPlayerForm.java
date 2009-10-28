@@ -88,7 +88,7 @@ public class AudioPlayerForm extends BaseForm {
 	private Canvas playerCanvas;
 	private IUserView uvc;
 	private Point shellLocation;
-	private Combo lapseCombo;
+	private Combo intervalCombo;
 	private Combo repeatCombo;
 	private PropertiesConfiguration props;
 
@@ -227,19 +227,19 @@ public class AudioPlayerForm extends BaseForm {
 		bottomComposite.setLayout(gl);
 
 		Label repeatLabel = new Label(bottomComposite, SWT.NONE);
-		repeatLabel.setText("Repeat:");
+		repeatLabel.setText(meaning("REPEAT") + ":");
 
 		repeatCombo = new Combo(bottomComposite, SWT.READ_ONLY);
 		int max = props.getInt("audio.maxRepeatTime", 10);
 		String[] items;
 		if (max > 1) {
 			items = new String[max];
-			items[0] = "No repeat";
+			items[0] = meaning("NO_REPEAT");
 			for (int i = 1; i < max; i++) {
 				items[i] = String.valueOf(i + 1);
 			}
 		} else {
-			items = new String[] { "No repeat", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+			items = new String[] { meaning("NO_REPEAT"), "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 		}
 		repeatCombo.setItems(items);
 		repeatCombo.select(playerController.getRepeatTime() - 1);
@@ -256,28 +256,30 @@ public class AudioPlayerForm extends BaseForm {
 		gd.horizontalIndent = 10;
 		Label waitLabel = new Label(bottomComposite, SWT.NONE);
 		waitLabel.setLayoutData(gd);
-		waitLabel.setText("Lapse:");
+		waitLabel.setText(meaning("INTERVAL") + ":");
 
-		lapseCombo = new Combo(bottomComposite, SWT.READ_ONLY);
-		lapseCombo.setItems(new String[] { "No lapse", "0.5", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5", "4.0", "4.5",
-				"5.0", "5.5", "6.0", "6.5", "7.0", "7.5", "8.0", "8.5", "9.0", "9.5", "10.0" });
-		lapseCombo.select(playerController.getLapse() / 500);
-		lapseCombo.setEnabled(playerController.isMultiAya());
-		lapseCombo.setVisibleItemCount(10);
-		lapseCombo.addSelectionListener(new SelectionAdapter() {
+		intervalCombo = new Combo(bottomComposite, SWT.READ_ONLY);
+		intervalCombo.setItems(new String[] { meaning("NO_INTERVAL"), "0.5", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5",
+				"4.0", "4.5", "5.0", "5.5", "6.0", "6.5", "7.0", "7.5", "8.0", "8.5", "9.0", "9.5", "10.0" });
+		intervalCombo.select(playerController.getInterval() / 500);
+		intervalCombo.setEnabled(playerController.isMultiAya());
+		intervalCombo.setVisibleItemCount(10);
+		intervalCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				playerController.setLapse(lapseCombo.getSelectionIndex() * 500);
+				playerController.setInterval(intervalCombo.getSelectionIndex() * 500);
 			}
 		});
 
+		gd = new GridData(SWT.BEGINNING, SWT.CENTER, true, true);
+		gd.widthHint = 20;
 		Label secondsLabel = new Label(bottomComposite, SWT.NONE);
-		secondsLabel.setText("s");
-		secondsLabel.setToolTipText("Seconds");
+		secondsLabel.setLayoutData(gd);
+		secondsLabel.setText(meaning("SECOND_ABBR"));
+		secondsLabel.setToolTipText(meaning("SECONDS"));
 
 		gd = new GridData(SWT.END, SWT.FILL, true, true);
 		contButton = new Button(bottomComposite, SWT.PUSH);
-		contButton.setToolTipText("Continuous");
 		contButton.setLayoutData(gd);
 		setContinuityImage(playerController.isMultiAya());
 		contButton.addSelectionListener(new SelectionAdapter() {
@@ -291,11 +293,13 @@ public class AudioPlayerForm extends BaseForm {
 	}
 
 	protected void setContinuityImage(boolean continious) {
-		lapseCombo.setEnabled(continious);
+		intervalCombo.setEnabled(continious);
 		repeatCombo.setEnabled(continious);
 		if (continious) {
+			contButton.setToolTipText(meaning("CONTINUOUS"));
 			contButton.setImage(multiAyaImage);
 		} else {
+			contButton.setToolTipText(meaning("DISCRETE"));
 			contButton.setImage(singleAyaImage);
 		}
 	}
@@ -335,9 +339,11 @@ public class AudioPlayerForm extends BaseForm {
 		prevItem = new Button(nextPrevComposite, SWT.PUSH);
 		prevItem.setData("prev");
 		prevItem.setImage(isLtr ? prevAyaImage : nextAyaImage);
+		prevItem.setToolTipText(meaning("PREV_AYA"));
 
 		stopItem = new Button(nextPrevComposite, SWT.PUSH);
 		stopItem.setImage(stopImage);
+		stopItem.setToolTipText(meaning("STOP"));
 		stopItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -365,6 +371,7 @@ public class AudioPlayerForm extends BaseForm {
 		nextItem = new Button(nextPrevComposite, SWT.PUSH);
 		nextItem.setData("next");
 		nextItem.setImage(isLtr ? nextAyaImage : prevAyaImage);
+		nextItem.setToolTipText(meaning("NEXT_AYA"));
 
 		nextItem.addSelectionListener(navSelectionListener);
 		prevItem.addSelectionListener(navSelectionListener);
@@ -475,9 +482,11 @@ public class AudioPlayerForm extends BaseForm {
 		if (play) {
 			playPauseItem.setImage(pauseImage);
 			playPauseItem.setData(PlayStatus.PLAY);
+			playPauseItem.setToolTipText(meaning("PAUSE"));
 		} else {
 			playPauseItem.setImage(playImage);
 			playPauseItem.setData(PlayStatus.PAUSE);
+			playPauseItem.setToolTipText(meaning("PLAY"));
 		}
 	}
 
