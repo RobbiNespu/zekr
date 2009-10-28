@@ -263,8 +263,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	public String getLanguage() {
-		String[] l = languagePack.id.split("_");
-		return l[0];
+		return languagePack.id.split("_")[0];
 	}
 
 	/**
