@@ -32,7 +32,7 @@ res = new SearchResult();
 		</td><td align="$TRAIL" width="40%">
 		<input title="$DICT.getMeaning('SURA')" dir="ltr" id="suraNum" type="text" style="width: 3em" readonly="true" /> |
 		<input title="$DICT.getMeaning('AYA')" dir="ltr" id="ayaNum" type="text" style="width: 3em" readonly="true" />
-		<input type="button" value=" $DICT.getMeaning('GO') " onclick="if ($('#suraNum').val() != '' && $('#ayaNum').val() != '') gotoSuraAya($('#suraNum').val() + '-' + $('#ayaNum').val())" />
+		<input type="button" value=" $DICT.getMeaning('GO') " onclick="if ($('#suraNum').val() != '' && $('#ayaNum').val() != '') redirect($('#suraNum').val(), $('#ayaNum').val())" />
 		</td></tr>
 	</table>
 </div>

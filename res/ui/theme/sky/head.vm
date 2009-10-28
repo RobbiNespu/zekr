@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Cache-Control" content="no-cache" />
@@ -12,10 +13,11 @@
 	<script src="$UI_DIR/js/ifxscrollto.js" language="javascript" type="text/javascript"></script>
 
 	<script src="$UI_DIR/js/common.js" language="javascript" type="text/javascript"></script>
-#if(!$THISISSEARCH && !$AUDIO_DISABLED && (!($VIEW_LAYOUT == "separate") || $TRANSLATION == "true"))
+#*#if(!$THISISSEARCH && !$AUDIO_DISABLED && (!($VIEW_LAYOUT == "separate") || $TRANSLATION == "true"))
 	<script src="$UI_DIR/js/ufo.js" language="javascript" type="text/javascript"></script>
+	<script src="$UI_DIR/js/swfobject.js" language="javascript" type="text/javascript"></script>
 	<script src="$UI_DIR/js/player.js" language="javascript" type="text/javascript"></script>
-#end
+#end*#
 	<script src="$UI_DIR/js/search.js" language="javascript" type="text/javascript"></script>
 	<script src="$UI_DIR/js/nav.js" language="javascript" type="text/javascript"></script>
 

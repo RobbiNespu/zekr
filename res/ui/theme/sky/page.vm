@@ -56,9 +56,9 @@ window.res = null;
 	</table>
 </div>
 
-#if(!$AUDIO_DISABLED && (!($VIEW_LAYOUT == "separate") || $TRANSLATION == "true"))
-#parse("$THEME_DIR/player.vm")
-#end
+##if(!$AUDIO_DISABLED && (!($VIEW_LAYOUT == "separate") || $TRANSLATION == "true"))
+##parse("$THEME_DIR/player.vm")
+##end
 
 <script>
 $("input#suraNav,input#ayaNav,input#pageNav").bind("keyup", function(e) {

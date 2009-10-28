@@ -38,9 +38,9 @@
 	    		<span title="${ITEM.Location}" class="searchItemNum" id="itemNum_$velocityCount">($I18N.localize($ITEM_NUM))</span>
 	    		$ITEM.Text
 		    	<span title="${ITEM.Location.Sura}:${ITEM.Location.Aya}" dir="$DIR" class="ayaSign">
-					<a onclick="redirect('${ITEM.Location}')" href="javascript:void(0)">$RPAREN${ITEM.Location.getSuraName($LOCALIZE)}:
+					<a onclick="redirect('${ITEM.Location.Sura}', '${ITEM.Location.Aya}')" href="javascript:void(0)">$RPAREN${ITEM.Location.getSuraName($LOCALIZE)}:
 						$I18N.localize(${ITEM.Location.Aya},"${_DL}")$LPAREN</a>
-					<span title="$TRANSLATE" class="handCursor" onclick="translate('${ITEM.Location}')"><img src="${ICON_TRANSLATE}"></span>
+					<span title="$TRANSLATE" class="handCursor" onclick="translate('${ITEM.Location.Sura}', '${ITEM.Location.Aya}')"><img src="${ICON_TRANSLATE}"></span>
 				</span>
 			#else
 	    		<span title="${ITEM.Key}" class="searchItemNum" id="itemNum_$AYA_NUM">($I18N.localize($AYA_NUM))</span>
@@ -54,7 +54,7 @@
 		    	<span title="${ITEM.Key.Sura}:${ITEM.Key.Aya}" dir="$DIR">
 					<a onclick="redirect('${ITEM.Key}')" href="javascript:void(0)">$RPAREN${ITEM.Key.getSuraName($LOCALIZE)}:
 						$I18N.localize(${ITEM.Key.Aya},"${_DL}")$LPAREN</a>
-					<span title="$TRANSLATE" class="handCursor" onclick="translate('${ITEM.Key}')"><img src="${ICON_TRANSLATE}"></span>
+					<span title="$TRANSLATE" class="handCursor" onclick="translate('${ITEM.Sura}', '${ITEM.Key.Aya}')"><img src="${ICON_TRANSLATE}"></span>
 				</span>
 			#end
 			</div>
