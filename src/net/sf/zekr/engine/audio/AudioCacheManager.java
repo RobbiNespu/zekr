@@ -11,6 +11,7 @@ package net.sf.zekr.engine.audio;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.AbstractFileFilter;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * This is immutable, hence thread-safe.
@@ -99,7 +101,8 @@ public class AudioCacheManager {
 				String cacheItemName = getCacheItemName(audioData, sura, aya);
 				File cached = getCacheItem(cacheItemName);
 				if (cached == null || cached.length() == 0) {
-					return new PlayableObject(config.getNetworkController().openSteam(filePath));
+					InputStream stream = config.getNetworkController().openSteam(filePath, 4000);
+					return new PlayableObject(new NamedBufferedInputStream(filePath, stream, 4 * 1024));
 				} else {
 					return new PlayableObject(cached);
 				}
@@ -124,11 +127,15 @@ public class AudioCacheManager {
 				String cacheItemName = getCacheItemName(audioData, fileName);
 				File cached = getCacheItem(cacheItemName);
 				if (cached == null || cached.length() == 0) {
-					return new PlayableObject(config.getNetworkController().openSteam(filePath));
+					InputStream stream = config.getNetworkController().openSteam(filePath, 4000);
+					return new PlayableObject(new NamedBufferedInputStream(filePath, stream, 4 * 1024));
 				} else {
 					return new PlayableObject(cached);
 				}
 			} else {
+				if (StringUtils.isBlank(filePath)) {
+					return null;
+				}
 				return new PlayableObject(PathUtils.resolve(filePath));
 			}
 		} catch (Exception e) {
