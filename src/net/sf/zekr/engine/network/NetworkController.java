@@ -84,4 +84,12 @@ public class NetworkController {
 		URLConnection conn = url.openConnection(getProxy(uri));
 		return conn.getInputStream();
 	}
+
+	public InputStream openSteam(String uri, int timeout) throws URISyntaxException, IOException {
+		URL url = new URL(uri);
+		URLConnection conn = url.openConnection(getProxy(uri));
+		conn.setReadTimeout(timeout);
+		conn.setUseCaches(true);
+		return conn.getInputStream();
+	}
 }
