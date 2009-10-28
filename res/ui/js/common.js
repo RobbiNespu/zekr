@@ -13,11 +13,10 @@ String.prototype.trim = function() {
 var ayaFocusHooks = [];
 
 // Browser <-> SWT communication
-function gotoSuraAya(suraAya) { setMessage('ZEKR::GOTO ' + suraAya + ';'); } // use it when sura changed
-function redirect(suraAya) { setMessage('ZEKR::REDIRECT ' + suraAya + ';'); } // used for search results
-function gotoAya(suraAya) { setMessage('ZEKR::NAVTO ' + suraAya + ';'); } // only use it when sura is not changed
-function translate(location) { setMessage('ZEKR::TRANS ' + location + ';'); }
-function setMessage(msg) { window.status = msg; }
+function gotoSuraAya(sura, aya, page) { javaFunction('ZEKR::GOTO', sura, aya, page); } // use it when sura changed
+function redirect(sura, aya) { javaFunction('ZEKR::REDIRECT', sura, aya); } // used for search results
+function translate(sura, aya) { javaFunction('ZEKR::TRANS', sura, aya); }
+// function setMessage(msg) { window.title = msg; }
 
 function error(e) {
 	alert("An unexpected error occurred:\n" + "[" + e.name + ":" + e.number + "] " + e.message + "\n");
