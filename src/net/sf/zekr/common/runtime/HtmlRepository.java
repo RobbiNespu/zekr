@@ -66,7 +66,7 @@ public class HtmlRepository {
 			File file = new File(Naming.getQuranCacheDir() + File.separator + fileName);
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
-			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
+			// update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
 			if (!file.exists() || file.length() == 0 || update) {
 				logger.info("Create simple Quran HTML file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
@@ -98,7 +98,7 @@ public class HtmlRepository {
 			String fileName = uvc.getPage() + "_" + td.id + ".html";
 			File file = new File(Naming.getTransCacheDir() + "/" + fileName);
 			// if the file doesn't exist, or a zero-byte file exists
-			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
+			// update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
 			if (!file.exists() || file.length() == 0) {
 				logger.info("Create simple translation HTML file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
@@ -126,7 +126,7 @@ public class HtmlRepository {
 			File file = new File(Naming.getMixedCacheDir() + File.separator + fileName);
 			// if the file doesn't exist, or a zero-byte file exists, or if the
 			// update flag (which signals to recreate the html file) is set
-			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
+			// update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
 			if (!file.exists() || file.length() == 0 || update) {
 				logger.info("Create Quran mixed HTML file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
@@ -156,7 +156,7 @@ public class HtmlRepository {
 			IUserView uvc = config.getUserViewController();
 			String fileName = uvc.getPage() + "_" + tidList + ".html";
 			File file = new File(Naming.getMixedCacheDir() + File.separator + fileName);
-			update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
+			// update |= config.isAudioEnabled(); // if audio is enabled do not use precached html, always generate new one
 			if (!file.exists() || file.length() == 0 || update) {
 				logger.info("Create Quran file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
