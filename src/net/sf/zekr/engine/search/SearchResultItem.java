@@ -13,6 +13,9 @@ import java.util.List;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class SearchResultItem {
 	public String text;
 	public IQuranLocation location;
@@ -22,7 +25,7 @@ public class SearchResultItem {
 	 * <code>null</code> matchedParts means that this item was matched because of an exclude term in the search
 	 * query.
 	 */
-	public List matchedParts = new ArrayList();
+	public List<String> matchedParts = new ArrayList<String>();
 
 	/**
 	 * @param ayaText

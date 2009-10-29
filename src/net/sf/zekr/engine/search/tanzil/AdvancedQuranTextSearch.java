@@ -57,7 +57,7 @@ public class AdvancedQuranTextSearch {
 	private IQuranText quranText;
 	private ISearchScorer searchScorer;
 
-	private List locations;
+	private List<IQuranLocation> locations;
 	private AbstractSearchResultComparator searchResultComparator;
 	private boolean ascending = true;
 
@@ -67,12 +67,13 @@ public class AdvancedQuranTextSearch {
 
 	public void setSearchScope(SearchScope searchScope) {
 		this.searchScope = searchScope;
-		this.locations = CollectionUtils.toArrayList(QuranPropertiesUtils.getLocations());
+		locations = CollectionUtils.toArrayList(QuranPropertiesUtils.getLocations());
 		if (searchScope != null) {
 			logger.debug("Initializing searchable locations.");
 			for (int i = locations.size() - 1; i >= 0; i--) {
-				if (!searchScope.includes((IQuranLocation) locations.get(i)))
+				if (!searchScope.includes(locations.get(i))) {
 					locations.remove(i);
+				}
 			}
 			logger.debug("Searching through '" + locations.size() + "' ayas.");
 		}
@@ -87,14 +88,16 @@ public class AdvancedQuranTextSearch {
 	}
 
 	public AdvancedQuranTextSearch(IQuranText quranText, ISearchResultHighlighter highlighter, ISearchScorer searchScorer) {
-		if (highlighter == null)
+		if (highlighter == null) {
 			this.highlighter = new ZeroHighlighter();
-		else
+		} else {
 			this.highlighter = highlighter;
-		if (searchScorer == null)
+		}
+		if (searchScorer == null) {
 			this.searchScorer = new ZeroScorer();
-		else
+		} else {
 			this.searchScorer = searchScorer;
+		}
 		this.quranText = quranText;
 		setSearchScope(null);
 	}
@@ -108,62 +111,70 @@ public class AdvancedQuranTextSearch {
 	}
 
 	public SearchResultModel search(String rawQuery) throws SearchException {
-		logger.debug("Searching for query: " + rawQuery);
-		rawQuery = rawQuery.replaceAll("\\-", "!");
+		try {
+			logger.debug("Searching for query: " + rawQuery);
+			rawQuery = rawQuery.replaceAll("\\-", "!");
 
-		PatternEnricher enricher;
-		if (quranText instanceof TranslationData) { // it's translation
-			enricher = PatternEnricherFactory.getEnricher(((TranslationData) quranText).getLocale().getLanguage());
-		} else { // it's Quran
-			enricher = PatternEnricherFactory.getEnricher("ar");
-			enricher.setParameter(ArabicPatternEnricher.IGNORE_HARAKA, Boolean.FALSE);
-		}
-		String pattern = enricher.enrich(rawQuery);
+			PatternEnricher enricher;
+			if (quranText instanceof TranslationData) { // it's translation
+				enricher = PatternEnricherFactory.getEnricher(((TranslationData) quranText).getLocale().getLanguage());
+			} else { // it's Quran
+				enricher = PatternEnricherFactory.getEnricher("ar");
+				enricher.setParameter(ArabicPatternEnricher.IGNORE_HARAKA, Boolean.FALSE);
+			}
+			String pattern = enricher.enrich(rawQuery);
 
-		String highlightPattern = pattern.replaceAll("[+!]", "|");
-		highlightPattern.replaceAll("^[|]+", "").replaceAll("!", "");// remove leading '|'s
-		logger.debug("Rewritten query: " + pattern);
+			String highlightPattern = pattern.replaceAll("[+!]", "|");
+			highlightPattern.replaceAll("^[|]+", "").replaceAll("!", "");// remove leading '|'s
+			logger.debug("Rewritten query: " + pattern);
 
-		pattern = StringUtils.replace(pattern, "!", "+!");
-		if (pattern.startsWith("+")) {
-			pattern = pattern.substring(1);
-		}
-		String[] patterns = pattern.split("\\+");
-		Set clauses = new LinkedHashSet();
-		List intermediateResult = locations;
-		for (int i = 0; i < patterns.length; i++) {
-			// TODO: for queries with patterns.length > 1, first search for larger (more filtering) patterns[i]
-			String p = patterns[i];
-			boolean exclude;
-			if (exclude = (p.charAt(0) == '!'))
-				p = p.substring(1);
-			intermediateResult = filterBucket(intermediateResult, p, exclude, i == 0);
-		}
+			pattern = StringUtils.replace(pattern, "!", "+!");
+			if (pattern.startsWith("+")) {
+				pattern = pattern.substring(1);
+			}
+			String[] patterns = pattern.split("\\+");
+			Set clauses = new LinkedHashSet();
+			List intermediateResult = locations;
+			for (int i = 0; i < patterns.length; i++) {
+				// TODO: for queries with patterns.length > 1, first search for larger (more filtering) patterns[i]
+				String p = patterns[i];
+				boolean exclude;
+				if (exclude = p.charAt(0) == '!') {
+					p = p.substring(1);
+				}
+				intermediateResult = filterBucket(intermediateResult, p, exclude, i == 0);
+			}
 
-		// extract matched parts and clauses
-		int total = 0;
-		List resultItems = intermediateResult;
-		for (int i = 0; i < patterns.length; i++) {
-			if (patterns[i].charAt(0) == '!') // ignore exclude patterns
-				continue;
-			Pattern regex = Pattern.compile(patterns[i], Pattern.CASE_INSENSITIVE);
-			for (int j = 0; j < resultItems.size(); j++) {
-				SearchResultItem sri = (SearchResultItem) resultItems.get(j);
-				Matcher matcher = regex.matcher(sri.text);
-				while (matcher.find()) {
-					total++;
-					sri.matchedParts.add(new String(matcher.group()));
-					clauses.add(getClause(sri.text, matcher));
+			// extract matched parts and clauses
+			int total = 0;
+			List resultItems = intermediateResult;
+			for (int i = 0; i < patterns.length; i++) {
+				if (patterns[i].charAt(0) == '!') {
+					continue;
+				}
+				Pattern regex = Pattern.compile(patterns[i], Pattern.CASE_INSENSITIVE);
+				for (int j = 0; j < resultItems.size(); j++) {
+					SearchResultItem sri = (SearchResultItem) resultItems.get(j);
+					Matcher matcher = regex.matcher(sri.text);
+					while (matcher.find()) {
+						total++;
+						sri.matchedParts.add(new String(matcher.group()));
+						clauses.add(getClause(sri.text, matcher));
+					}
 				}
 			}
+
+			// score and highlight results
+			logger.debug("Score and highlight search results.");
+			scoreSearchResult(resultItems, highlightPattern, patterns.length);
+
+			return new SearchResultModel(quranText, resultItems, CollectionUtils.toString(clauses, " "), rawQuery, total,
+					searchResultComparator, ascending);
+		} catch (SearchException se) {
+			throw se;
+		} catch (Exception e) {
+			throw new SearchException(e);
 		}
-
-		// score and highlight results
-		logger.debug("Score and highlight search results.");
-		scoreSearchResult(resultItems, highlightPattern, patterns.length);
-
-		return new SearchResultModel(quranText, resultItems, CollectionUtils.toString(clauses, " "), rawQuery, total,
-				searchResultComparator, ascending);
 	}
 
 	/**
@@ -177,7 +188,7 @@ public class AdvancedQuranTextSearch {
 		for (int i = 0; i < resultItems.size(); i++) {
 			SearchResultItem sri = (SearchResultItem) resultItems.get(i);
 			sri.score = searchScorer.score(sri);
-			sri.score /= (double) patternCount;
+			sri.score /= patternCount;
 			sri.text = highlighter.highlight(sri.text, highlightPattern);
 		}
 	}
@@ -200,11 +211,12 @@ public class AdvancedQuranTextSearch {
 					line = sri.text;
 				}
 				matcher = regex.matcher(line);
-				if ((matcher.find() ^ exclude)) {
-					if (firstTime)
+				if (matcher.find() ^ exclude) {
+					if (firstTime) {
 						res.add(new SearchResultItem(line, loc));
-					else
-						res.add((SearchResultItem) intermediateResult.get(i));
+					} else {
+						res.add(intermediateResult.get(i));
+					}
 				}
 			}
 			return res;
