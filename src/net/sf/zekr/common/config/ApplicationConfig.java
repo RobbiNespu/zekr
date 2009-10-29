@@ -262,22 +262,19 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 		try {
 			InputStream fis = new FileInputStream(confFile);
-			// Reader reader = new InputStreamReader(fis, "UTF-8");
 			props = new PropertiesConfiguration();
 			props.setBasePath(ApplicationPath.CONFIG_DIR);
 			props.setEncoding("UTF-8");
 			props.load(fis, "UTF-8");
-			// reader.close();
 			fis.close();
 
-			if (!GlobalConfig.ZEKR_VERSION.equals(props.getString("version"))) {
-				logger.info("User config version (" + props.getString("version") + ") does not match with "
-						+ GlobalConfig.ZEKR_VERSION);
+			String version = props.getString("version");
+			if (!GlobalConfig.ZEKR_VERSION.equals(version)) {
+				logger.info("User config version (" + version + ") does not match with " + GlobalConfig.ZEKR_VERSION);
 
-				String ver = props.getString("version");
 				InputStreamReader reader;
-				if (!ver.startsWith("0.7")) { // config file is too old
-					logger.info("Previous version was too old: " + ver);
+				if (StringUtils.isBlank(version) || !version.startsWith("0.7")) { // config file is too old
+					logger.info("Previous version was too old: " + version);
 					logger.info("Cannot migrate old settings. Will reset settings.");
 
 					fis = new FileInputStream(ApplicationPath.MAIN_CONFIG);
@@ -1272,8 +1269,8 @@ public class ApplicationConfig implements ConfigNaming {
 			AudioData installedAudioData = audio.get(newAudioData.id);
 			if (installedAudioData != null) {
 				if (newAudioData.compareTo(installedAudioData) < 0) {
-					throw new ZekrMessageException("NEWER_VERSION_INSTALLED", 
-							new String[] { recitFile.toString(), newAudioData.lastUpdate, installedAudioData.lastUpdate });
+					throw new ZekrMessageException("NEWER_VERSION_INSTALLED", new String[] { recitFile.toString(),
+							newAudioData.lastUpdate, installedAudioData.lastUpdate });
 				}
 			}
 			audio.add(newAudioData);
