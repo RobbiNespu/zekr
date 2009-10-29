@@ -102,7 +102,7 @@ VIAddVersionKey /lang=${LANG_ENGLISH} ProductName "Zekr"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "${RELEASE_VERSION}"
-VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Quranic Project (Bosnian Ed.)"
+VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Quranic Project"
 VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2008 zekr.org"
 InstallDirRegKey HKLM "${REGKEY}" Path
 UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
