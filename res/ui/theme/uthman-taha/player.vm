@@ -4,6 +4,9 @@
  * license terms.
  * @author Mohsen Saboorian
  *#
+<input type="hidden" id="serverUrl" value="$APP_PATH" />
+<input type="hidden" id="currentFileUrl" value="$CURRENT_AUDIO_URL" />
+<input type="hidden" id="nextFileUrl" value="$NEXT_AUDIO_URL" />
 <input type="hidden" id="hiddenVolume" value="$VOLUME" />
 <input type="hidden" id="hiddenPlaylistUrl" value="$PLAYLIST_URL" />
 <input type="hidden" id="hiddenContinuousAyaPlay" value="$AUD_CONT_AYA" />
@@ -32,8 +35,9 @@
 #set($CONT_AYA_TEXT = $DICT.getMeaning('CONTINUOUS'))
 #set($DISC_AYA_TEXT= $DICT.getMeaning('DISCRETE'))
 #if($AUD_CONT_AYA=='true') #set($SURA_BUT_STAT = '') #else #set($SURA_BUT_STAT = 'disabled="true"') #end
-	<td><div class="reciterBar" id="reciterBar"> </div>
-		<div id="bufferBar" style="width: 0; height: 0"> </div>
+	<td>
+		<div class="reciterBar" id="reciterBar"></div>
+		<div id="bufferBar" style="display: none"></div>
 	</td>
 	<td width="25"><button id="contAyaButton" title="#if($AUD_CONT_AYA=='true')$CONT_AYA_TEXT#else$DISC_AYA_TEXT#end"
 		style="width: 25px; padding: 0px 0px" onclick="toggleAyaButton(this)" zekrstate="$AUD_CONT_AYA"
