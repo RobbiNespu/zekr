@@ -48,9 +48,9 @@ public class CollectionUtils {
 		return ret;
 	}
 
-	public static String toString(Collection collection, String delim) {
+	public static String toString(Collection<?> collection, String delim) {
 		StringBuffer buf = new StringBuffer();
-		Iterator i = collection.iterator();
+		Iterator<?> i = collection.iterator();
 		if (i.hasNext())
 			buf.append(String.valueOf(i.next()));
 		while (i.hasNext()) {
@@ -64,10 +64,10 @@ public class CollectionUtils {
 	 * @param col collection parameter to be returned as array
 	 * @return an array of <code>collection.eachElement.toString()</code>.
 	 */
-	public static String[] toStringArray(Collection col) {
+	public static String[] toStringArray(Collection<?> col) {
 		String[] s = new String[col.size()];
 		int i = 0;
-		for (Iterator iter = col.iterator(); iter.hasNext(); i++) {
+		for (Iterator<?> iter = col.iterator(); iter.hasNext(); i++) {
 			Object element = iter.next();
 			s[i] = element.toString();
 		}
@@ -83,17 +83,18 @@ public class CollectionUtils {
 	 * @throws NoSuchMethodException
 	 * @throws IllegalAccessException
 	 */
-	public static String[] toStringArray(Collection col, String methodName) throws InvocationTargetException,
+	public static String[] toStringArray(Collection<?> col, String methodName) throws InvocationTargetException,
 			NoSuchMethodException, IllegalAccessException {
 		String[] s = new String[col.size()];
 		int i = 0;
-		for (Iterator iter = col.iterator(); iter.hasNext(); i++) {
+		for (Iterator<?> iter = col.iterator(); iter.hasNext(); i++) {
 			Object element = iter.next();
 			s[i] = (String) element.getClass().getMethod(methodName, new Class[] {}).invoke(element, new Object[] {});
 		}
 		return s;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List fromString(String strList, String delim, Class clazz) throws InstantiationException,
 			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		if (clazz == null)
@@ -109,9 +110,9 @@ public class CollectionUtils {
 		return list;
 	}
 
-	public static Object indexOf(Collection collection, String method, Object value) throws IllegalArgumentException,
+	public static Object indexOf(Collection<?> collection, String method, Object value) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		for (Iterator iter = collection.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = collection.iterator(); iter.hasNext();) {
 			Object elem = iter.next();
 			Object res = elem.getClass().getMethod(method, new Class[] {}).invoke(elem, new Object[] {});
 			if (res.equals(value))
@@ -120,7 +121,7 @@ public class CollectionUtils {
 		return null;
 	}
 
-	public static String toSimpleJson(List list) {
+	public static String toSimpleJson(List<?> list) {
 		return "[" + toString(list, ",") + "]";
 	}
 
@@ -128,7 +129,7 @@ public class CollectionUtils {
 	 * @param list a list of Integer objects
 	 * @return an array of int
 	 */
-	public static int[] toIntArray(List list) {
+	public static int[] toIntArray(List<Integer> list) {
 		int[] ret = new int[list.size()];
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = ((Integer) list.get(i)).intValue();
@@ -136,8 +137,8 @@ public class CollectionUtils {
 		return ret;
 	}
 
-	public static List toArrayList(Object[] objectArray) {
-		List list = new ArrayList();
+	public static <T> List<T> toArrayList(T[] objectArray) {
+		List<T> list = new ArrayList<T>();
 		for (int i = 0; i < objectArray.length; i++) {
 			list.add(objectArray[i]);
 		}
