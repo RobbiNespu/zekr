@@ -71,6 +71,7 @@ public class CustomPagingDataTest extends ZekrBaseTest {
 		assertEquals(cpd.getContainerPage(new QuranLocation(5, 96)), cpd.getQuranPage(124));
 		assertEquals(cpd.getContainerPage(new QuranLocation(14, 2)), cpd.getQuranPage(255));
 		assertEquals(cpd.getContainerPage(new QuranLocation(36, 70)), cpd.getQuranPage(444));
+		assertEquals(cpd.getContainerPage(new QuranLocation(114, 6)), cpd.getQuranPage(604));
 	}
 
 }

@@ -576,6 +576,7 @@ Features/Enhancements:
 		- There is no need anymore to an embedde HTTP server. It's removed with the new player scheme.
 		- Playlists are removed. There is no need to such pains with the new player scheme.
 		- Recitation files (.properties files) are totally changed. It's not backward compatible, so users have to download and install newer versions of recitation files (just .properties file, not the whole offline package of mp3s).
+		- Supports playing special items (audhubillah, bismillah, sadaghallah) if recitation pack has anything.
 	Added support for proxy (as a result, Zekr requires Java 1.5.0+ from this version). All network accesses are now done through NetworkController class.
 	Added update.enableMenu property. This makes update menu disabled/enabled. Old update.enable is kept only for enabling or disabling auto check for update.
 	Supporting new audio formats is a matter of adding required service provider interface (SPI) to the classpath. In Zekr base package the following types are supported by default (plus types with built-in supported by user's JRE):
@@ -583,6 +584,9 @@ Features/Enhancements:
 		- OGG: using these libraries: tritonus-share, jorbis and vorbisspi.
 		- SPEEX: using this library: jspeex.
 	Shows localized recitater name (if available in recitation properties file).
+	Search info properties are not stored in main config file. There is a search-info.config near main config file which stores search info properties.
+	Added Bulgarian language pack (submitted by Hamdi Sevitin).
+	Added indonesian quran-properties-id.xml (submitted by abu0hasan).
 Bug fixes:
 	language pack ID and Quran metadata for Hebrew updated to have hw ISO code instead of deprecated he ISO code.
 	quran-properties-ba => quran-properties-bs
@@ -591,6 +595,7 @@ Bug fixes:
 	Auto-check for update is now disabled by default.
 	A blocker bug with Velocity 1.6.x+ fixed.
 	Bug 2631242: Uthmani text could not be enabled by setting quran_uthmaniTextFile to true.
+	A bug fixed with uthmani.page.xml, which caused last sura (114) to have 5 ayas instead of 6 ayas.
 _____________________________________________________
 	TODO: Export search results
 
