@@ -64,13 +64,13 @@ public class AudioPlayerUiController {
 			playerStop(false);
 
 			IQuranLocation location = uvc.getLocation();
-			if (location.isLastSura() && location.isLastAya()) {
-				logger.info("Last location reached.");
-				playerSlightlyStop();
-				return;
-			}
-
-			if (gotoNext) {
+			if (gotoNext && location.isLastSura() && location.isLastAya()) {
+				if (!playerPlaySpecialItemIfNeeded()) {
+					logger.info("Last location reached.");
+					playerSlightlyStop();
+					return;
+				}
+			} else if (gotoNext) {
 				if (playerController.getPlayingItem() == PlayingItem.AUDHUBILLAH) {
 					playerController.setPlayingItem(PlayingItem.AYA);
 				} else {
