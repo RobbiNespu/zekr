@@ -6,11 +6,11 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.7.1" />
+	<property name="component_version" value="0.7.5beta1" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.1/final" />
+	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.5/beta1" />
 	<property name="distdir" value="${dest_dir}/develdist" />
 
 	<property name="srcdir" value="src" />
@@ -61,7 +61,7 @@
 
 	<!-- JAR file dependencies -->
 	<property name="swt.jar" value="${libdir}/swt.jar" />
-	<property name="velocity.jar" value="${libdir}/velocity-1.4.jar" />
+	<property name="velocity.jar" value="${libdir}/velocity-1.6.2.jar" />
 	<property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
 	<property name="lucene-core.jar" value="${libdir}/lucene-core-2.3.2.jar" />
 	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.3.2.jar" />
@@ -73,11 +73,18 @@
 	<property name="commons-codec.jar" value="${libdir}/commons-codec-1.3.jar" />
 	<property name="commons-configuration.jar" value="${libdir}/commons-configuration-1.5.jar" />
 
+	<property name="jlayer.jar" value="${libdir}/jlayer-1.0.1.jar" />
+	<property name="basicplayer.jar" value="${libdir}/basicplayer-3.0.jar" />
+	<property name="tritonus-share.jar" value="${libdir}/tritonus-share-0.3.6.jar" />
+	<property name="jorbis.jar" value="${libdir}/jorbis-0.0.17.jar" />
+	<property name="jspeex.jar" value="${libdir}/jspeex-0.9.7.jar" />
+	<property name="mp3spi.jar" value="${libdir}/mp3spi-1.9.4.jar" />
+	<property name="voirbisspi.jar" value="${libdir}/vorbisspi-1.0.3.jar" />
+
 	<!-- 3rd Party Dependencies  -->
 	<property name="junit.jar" value="${ext_libdir}/junit.jar" />
 
 	<path id="buildlibs">
-		<pathelement location="${junit.jar}" />
 		<pathelement location="${log4j.jar}" />
 		<pathelement location="${swt.jar}" />
 		<pathelement location="${lucene-core.jar}" />
@@ -90,7 +97,14 @@
 		<pathelement location="${commons-codec.jar}" />
 		<pathelement location="${commons-configuration.jar}" />
 		<pathelement location="${velocity.jar}" />
-		<pathelement location="${testfiles}" />
+
+		<pathelement location="${jlayer.jar}" />
+		<pathelement location="${basicplayer.jar}" />
+		<pathelement location="${tritonus-share.jar}" />
+		<pathelement location="${jorbis.jar}" />
+		<pathelement location="${jspeex.jar}" />
+		<pathelement location="${mp3spi.jar}" />
+		<pathelement location="${voirbisspi.jar}" />
 	</path>
 
 	<path id="test.build.classpath">
@@ -110,7 +124,7 @@
 	</path>
 
 	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />
-	
+
 	<target name="createExeFile">
 		<launch4j configfile="misc/zekr-launch4j.xml" outfile="${dest_dir}/win32/zekr.exe" />
 		<launch4j configfile="misc/zekrc-launch4j.xml" outfile="${dest_dir}/win32/zekrc.exe" />
@@ -118,7 +132,9 @@
 
 	<target name="compile">
 		<mkdir dir="${build_classdir}" />
-		<javac encoding="UTF-8" srcdir="${javamain}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
+		<javac encoding="UTF-8" srcdir="${javamain}" source="1.5" target="1.5" destdir="${build_classdir}"
+			includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
+			<compilerarg value="-Xlint:deprecation"/>
 			<classpath refid="buildlibs" />
 		</javac>
 		<copy todir="${build_classdir}">
@@ -131,12 +147,12 @@
 	<target name="compile_targets">
 		<mkdir dir="${build_targetclassdir}" />
 		<mkdir dir="${javatests}" />
-		<javac encoding="UTF-8" srcdir="${javamain}" destdir="${build_targetclassdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}" target="1.4" extdirs="">
+		<javac encoding="UTF-8" srcdir="${javamain}" destdir="${build_targetclassdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}" target="1.5" extdirs="">
 			<classpath refid="buildlibs" />
 		</javac>
 
 		<!-- compile test cases -->
-		<javac encoding="UTF-8" srcdir="${javatests}" destdir="${build_targetclassdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}" target="1.4" extdirs="">
+		<javac encoding="UTF-8" srcdir="${javatests}" destdir="${build_targetclassdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}" target="1.5" extdirs="">
 			<classpath refid="buildlibs" />
 		</javac>
 		<delete dir="${build_targetclassdir}" />
@@ -202,7 +218,7 @@
 				<include name="doc/changes.txt" />
 				<include name="doc/license/*.txt" />
 				<include name="doc/readme.txt" />
-                <exclude name="res/text/trans/yusufali.trans.zip" />
+				<exclude name="res/text/trans/yusufali.trans.zip" />
 			</fileset>
 			<fileset dir=".">
 				<exclude name="**/text/trans/*" />
