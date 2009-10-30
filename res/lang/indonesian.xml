@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Ari R. Fikri" version="0.6">
-	<locale localizedName="Indonesian" name="Indonesian" id="id_ID" direction="ltr" />
+<language author="Ari R. Fikri, abu0hasan" version="0.7.1">
+	<locale localizedName="Basasa Indonesia" name="Indonesian" id="id_ID" direction="ltr" />
 	<word>
 		<common>
 			<text id="OK"       value="OK" />
@@ -78,8 +78,8 @@
 			<text id="DESCRIPTION" value="Deskripsi" />
 			<text id="BOOKMARKS" value="Bookmark" />
 			<text id="CONFIGURE" value="Konfigurasi" />
-			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark Set" />
-			<text id="MANAGE_BOOKMARK_SETS" value="Manage Bookmark Sets" />
+			<text id="EDIT_BOOKMARK_SET" value="Edit Bookmark" />
+			<text id="MANAGE_BOOKMARK_SETS" value="Kelola Bookmark" />
 			<text id="DIRECTION" value="Arah" />
 			<text id="LANG_DIRECTION" value="Arah Bahasa" />
 			<text id="RTL"      value="Kanan ke kiri" />
@@ -105,25 +105,40 @@
 			<text id="QUERY_DETAIL" value="Detail Query" />
 			<text id="PAGE" value="Halaman" />
 			<text id="MULTILINE" value="Multi-baris" />
-			<text id="TOGGLE" value="Toggle" />
+			<text id="TOGGLE" value="Toggak" />
 			<text id="AUDIO" value="Audio"   />
-			<text id="CONTINUOUS" value="Continuous"   />
-			<text id="DISCRETE" value="Discrete"   />
-			<text id="PLAY" value="Play"   />
-			<text id="PAUSE" value="Pause"   />
-			<text id="STOP" value="Stop"   />
-			<text id="RECITATION" value="Recitation"   />
-			<text id="MENU_NEXT_AYA" value="Next Aya"   />
-			<text id="MENU_NEXT_SURA" value="Next Sura"   />
-			<text id="MENU_PREV_AYA" value="Previous Aya"   />
-			<text id="MENU_PREV_SURA" value="Previous Sura"   />
-			<text id="MENU_NEXT_JUZ" value="Next Juz"   />
-			<text id="MENU_PREV_JUZ" value="Previous Juz"   />
-			<text id="MENU_NEXT_HIZBQ" value="Next Hizb Quarter"   />
-			<text id="MENU_PREV_HIZBQ" value="Previous Hizb Quarter"   />
-			<text id="MENU_NEXT_SAJDA" value="Next Sajda"   />
-			<text id="MENU_PREV_SAJDA" value="Previous Sajda"   />
-			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
+			<text id="CONTINUOUS" value="Bersambung"   />
+			<text id="DISCRETE" value="Terpisah"   />
+			<text id="PLAY" value="Mainkan"   />
+			<text id="PAUSE" value="Istirahat"   />
+			<text id="STOP" value="Berhenti"   />
+			<text id="RECITATION" value="Bacaan"   />
+			<text id="MENU_NEXT_AYA" value="Ayat Selanjutnya"   />
+			<text id="MENU_NEXT_SURA" value="Surat Selanjutnya "   />
+			<text id="MENU_PREV_AYA" value="Ayat Sebelumnya"   />
+			<text id="MENU_PREV_SURA" value="Ayat Sebelumnya"   />
+			<text id="MENU_NEXT_JUZ" value="Juz Selanjutnya"   />
+			<text id="MENU_PREV_JUZ" value="Juz Sebelumnya"   />
+			<text id="MENU_NEXT_HIZBQ" value="1/4 Bagian Selanjutnya"   />
+			<text id="MENU_PREV_HIZBQ" value="1/4 Bagian Sebelumnya"   />
+			<text id="MENU_NEXT_SAJDA" value="Ayat Sajadah Selanjutnya"   />
+			<text id="MENU_PREV_SAJDA" value="Ayat Sajadah Sebelumnya"   />
+			<text id="MENU_NEXT_PAGE" value="Halaman Selanjutnya"   />
+			<text id="MENU_PREV_PAGE" value="Halaman Sebelumnya"   />
+			<text id="CHECK4UPDATE" value="Cek update"   />
+			<text id="ASCENDING" value="Urut A-Z"   />
+			<text id="DESCENDING" value="Urut Z-A"   />
+			<text id="REVEL_ORDER" value="Urut turunnya"   />
+			<text id="FULL_SCREEN" value="Sepenuh Layar"   />
+			<text id="WARNING" value="Peringatan"   />
+			<text id="ONLINE_HELP" value="Pertolongan Daring"   />
+			<text id="PAGING_MODE" value="Bentuk Tampilan"   />
+			<text id="PANEL" value="Panel"   />
+			<text id="DETAIL_PANEL" value="Detail Panel"   />
+			<text id="REPEAT" value="Ulangi"   />
+			<text id="ROOT" value="Induk"   /> <!-- word root -->
+			<text id="ADDRESS" value="Alamat"   />
+			<text id="BOOKMARK_THIS_AYA" value="Bookmark-kan Ayat Ini"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -152,6 +167,8 @@
 			<text id="TOO_MANY_RESULT" value="Pencarian menghasilkan lebih dari {1} ayat" />
 			<text id="FILE_ALREADY_EXISTS" value="File dengan nama &quot;{1}&quot; sudah ada. Anda ingin menggantinya?" />
 			<text id="RESTART_APP" value="Untuk melihat efek perubahan yang telah dilakukan, Anda harus me-restart aplikasi ini." />
+			<text id="ACTION_PERFORMED" value="Perubahan Berhasil"   />
+			<text id="TRANSLATION_ADDED" value="Terjemahan ini telah ditambahkan pada menu {1}"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Anda Yakin?" />
@@ -161,16 +178,22 @@
 			<text id="GENERAL_ERROR" value="Kesalahan yang tidak diharapkan telah terjadi" />
 			<text id="FNF" value="File tidak ditemukan" />
 			<text id="ACTION_FAILED" value="Gagal!" />
-		</error>
+			<text id="INVALID_TRANSLATION_FORMAT" value="Terjadi kesalahan terjemahan : {1}"   />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Terjadi kesalahan kenandaan pada kerjemahan: {1}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="Tak bisa memuat terjemahan &quot;{1}&quot; karena terjadi kesalahan pada: {2}"   />
+			<text id="ENTER_VALID_NUMBER" value="Masukkan nomor yang benar"   />
+			<text id="NUMBER_LIMIT" value="Masukkan nomor antara '{1}' sampai '{2}'."   />
+			</error>
 		<hint></hint>
 	</message>
 
 	<forms>
 		<global>
 			<text id="APP_NAME" value="Zekr" />
-			<text id="APP_FULL_NAME" value="Proyek Qur'an Dzikir" />
+			<text id="APP_FULL_NAME" value="Proyek Qur'an Zekr" />
 			<text id="FORM_TITLE" value="Zekr" />
 			<text id="COPYRIGHT_DISCLAIMER" value="Program ini didistribusikan secara bebas dengan harapan dapat bermanfaat, namun tanpa jaminan/garansi." />
+		
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
@@ -181,8 +204,10 @@
 			<text id="QURAN_SCOPE"    value="Quran"   />
 			<text id="TRANSLATION_SCOPE" value="Terjemahan"   />
 			<text id="NATURAL_ORDER" value="Urut Natural" />
-			<text id="RELEVANCE" value="Kterkaitan" />
+			<text id="RELEVANCE" value="Keterkaitan" />
+			<text id="AYA_LENGTH" value="Panjang Ayat"   />
 			<text id="SORT_BY" value="Urut Hasil berdasar" />
+			<text id="TOGGLE_FULL_SCREEN" value="Tonggak Menampilkan Sepenuh Layar"   />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS" value="Tema"   />
@@ -194,7 +219,17 @@
 			<text id="THEME_SETTING" value="Setting Tema" />
 			<text id="PRESS_OK_TO_APPLY" value="Tekan tombol &quot;OK&quot; untuk menerapkan perubahan." />
 			<text id="MAX_SEARCH_RESULT" value="Jumlah hasil pencarian maksimal" />
-			<text id="RESIZEABLE_TASK_PANE" value="task pane bisa diatur ulang" />
+			<text id="RESIZEABLE_TASK_PANE" value="Task pane bisa diatur" />
+
+			<text id="SURA_NAMES" value="Nama Surat" />
+			<text id="ARABIC" value="Bahasa Arab saja" />
+			<text id="T9N" value="Terjemahan (jika tersedia)" />
+			<text id="T13N" value="Transliterasi (jika tersedia)" />
+			<text id="EN_T9N" value="Terjemah dalam bahasa Inggris" />
+			<text id="EN_T13N" value="Transliterasi dalam bahasa Inggris" />
+			<text id="ENABLE_AUDIO" value="Aktifkan fungsi suara" />
+			<text id="SURA_NAME_TREE" value="Tampilkan daftar surat secara bercabang" />
+			
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Konfigurasi lingkup pencarian" />
@@ -240,6 +275,7 @@
 			<text id="IMPORT_FOR" value="Impor user-user berikut ini:" />
 			<text id="ME_ONLY" value="Hanya untuk Saya" />
 			<text id="ALL_USERS" value="Semua user (membutuhkan hak akses untuk menulis ke direktori instalasi)" />
+			
 			<text id="FOLLOWING_USERS" value="Indekskan untuk user-user berikut " />
 		</form>
 		<form id="CONFIG_CUSTOM_TRANS">
@@ -253,6 +289,38 @@
 			<text id="PLEASE_WAIT" value="Silakan Tunggu" />
 			<text id="INDEXING" value="Sedang mengindeks" /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value=" Proses ini akan berlangsung beberapa menit, tergantung pada ukuran file yg sedang di indeks." />
+			<text id="CHECKING" value="Cek Update" />
+			<text id="ZEKR_IS_CHECKING" value="Zekr sedang mengecek update" />
+		</form>
+		<form id="ABOUT">
+			<text id="TITLE" value="Tentang Zekr" />
+			<text id="VIEW_LOG" value="Lihat File Log" />
+		</form>
+		<form id="UPDATE">
+			<text id="TITLE" value="Info Update" />
+			<text id="VERSION_INFO" value="Info Versi" />
+			<text id="BUILD_NUM" value="Nomor Build" />
+			<text id="VERSION" value="Versi" />
+			<text id="RELEASE_NAME" value="Nama Rilis" />
+			<text id="RELEASE_STATE" value="Status Build" />
+			<text id="RELEASE_DATE" value="Tanggal Rilis" />
+			<text id="RELEASE_NOTES" value="Catatan Rilis" />
+			<text id="DOWNLOAD" value="Download" />
+			<text id="MORE_INFO" value="Info lainnya" />
+			<text id="NO_UPDATE" value="Anda sudah mengunakan versi terbaru." />
+			<text id="NEW_DEV_AVAILABLE" value="Versi pengembangan (tak stabil) terbaru tersedia untuk diunduh" />
+			<text id="NEW_BETA_AVAILABLE" value="Versi beta (tak stabil) terbaru tersedia untuk diunduh" />
+			<text id="NEW_FINAL_AVAILABLE" value="Versi rilis (stabil) terbaru tersedia untuk diunduh" />
+		</form>
+		<form id="PAGING_MODE">
+			<text id="TITLE" value="Bentuk Tampilan"   />
+			<text id="SURA" value="Surat"   />
+			<text id="HIZB_QUARTER" value="1/4 Bagian"   />
+			<text id="JUZ" value="Juz"   />
+			<text id="CONST_AYA" value="Jumlah Ayat Tetap"   />
+			<text id="CUSTOM" value="Custom"   />
+			<text id="AYA_PER_SURA" value="Berapa ayat per halaman ?"   />
+			
 		</form>
 	</forms>
 </language>

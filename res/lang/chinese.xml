@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<language author="ding yuqi" version="0.7">
+<language author="Mahmud Ding Yuqi" version="0.7">
 	<locale localizedName="china" name="中文" id="zh_CN" direction="ltr" />
 	<word>
 		<common>
@@ -57,8 +57,8 @@
 			<text id="ADD" value="新增" />
 			<text id="DELETE" value="删除" />
 			<text id="REMOVE" value="移除" />
-			<text id="TRANSLATION" value="翻译" />
-			<text id="TRANSLATION_VIEWTYPE" value="翻译布局" />
+			<text id="TRANSLATION" value="译文" />
+			<text id="TRANSLATION_VIEWTYPE" value="译文布局" />
 			<text id="OPEN" value="打开" />
 			<text id="IMPORT" value="导入" />
 			<text id="COPY" value="复制" />
@@ -97,8 +97,8 @@
 			<text id="SHOW_REFS" value="显示参考信息" />
 			<text id="MOVE_UP" value="上移" />
 			<text id="MOVE_DOWN" value="下移" />
-			<text id="MULTI_TRANS" value="多重翻译" />
-			<text id="CONFIG_CUSTOM_TRANS" value="配置自定义翻译" />
+			<text id="MULTI_TRANS" value="多重译文" />
+			<text id="CONFIG_CUSTOM_TRANS" value="配置自定义译文" />
 			<text id="GO" value="开始" />
 			<text id="CAUTION" value="警告" />
 			<text id="ADVANCED" value="高级" />
@@ -221,10 +221,10 @@
 			<text id="RESIZEABLE_TASK_PANE" value="重新定义任务窗格大小" />
 			<text id="SURA_NAMES" value="显示苏勒名"   />
 			<text id="ARABIC" value="阿拉伯语"   />
-			<text id="EN_T9N" value="英文翻译"   />
+			<text id="EN_T9N" value="英文译文"   />
 			<text id="EN_T13N" value="英文译音"   />
-			<text id="T9N" value="翻译 (如果可见)"   />
-			<text id="T13N" value="译音 (如果可见)"   />
+			<text id="T9N" value="译文(如果可见)"   />
+			<text id="T13N" value="译音(如果可见)"   />
 			<text id="ENABLE_AUDIO" value="启动音频支持"   />
 			<text id="SURA_NAME_TREE" value="在树形菜单上显示苏勒名"   />
 		</form>
@@ -277,9 +277,9 @@
 		<form id="CONFIG_CUSTOM_TRANS">
 			<text id="REMOVE_CUSTOM" value="不要用" />
 			<text id="ADD_CUSTOM" value="用" />
-			<text id="TITLE" value="配置自定义翻译" />
-			<text id="AVAILABLE" value="可见的翻译" />
-			<text id="CURRENT" value="当前使用的翻译" />
+			<text id="TITLE" value="配置自定义译文" />
+			<text id="AVAILABLE" value="可见的译文" />
+			<text id="CURRENT" value="当前使用的译文" />
 		</form>
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="请等待" />
