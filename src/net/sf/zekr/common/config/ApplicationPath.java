@@ -61,9 +61,11 @@ public class ApplicationPath {
 	/** Original configuration file */
 	public static final String CONFIG_DIR = rm.getString("config.baseDir");
 	public static final String MAIN_CONFIG = rm.getString("config.original"); // original config
+	public static final String MAIN_SEARCH_INFO = rm.getString("config.searchInfo.original"); // original search info
 
 	/** User-customized configuration file */
 	public static final String USER_CONFIG = rm.getString("config.user", new String[] { Naming.getConfigDir() });
+	public static final String USER_SEARCH_INFO = rm.getString("config.searchInfo.user", new String[] { Naming.getConfigDir() });
 
 	/** Log4J property file */
 	public static final String DEFAULT_LOGGER = rm.getString("config.logger");
