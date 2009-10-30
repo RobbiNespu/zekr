@@ -358,8 +358,14 @@ public class AudioPlayerForm extends BaseForm {
 				playerController.setPlayingItem(PlayingItem.AYA);
 				quranForm.playerUiController.playerStop(true);
 				if ("prev".equals(((Widget) e.getSource()).getData())) {
+					if (uvc.getLocation().getPrev() == null) {
+						return;
+					}
 					quranForm.gotoPrevAya();
 				} else {
+					if (uvc.getLocation().getNext() == null) {
+						return;
+					}
 					quranForm.gotoNextAya();
 				}
 				if (st == PlayerController.PLAYING) {
