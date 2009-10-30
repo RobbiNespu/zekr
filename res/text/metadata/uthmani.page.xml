@@ -604,5 +604,5 @@
 	<page index="602" sura="106" aya="1" />
 	<page index="603" sura="109" aya="1" />
 	<page index="604" sura="112" aya="1" />
-	<page index="605" sura="114" aya="6" /><!-- fake element for specifying the end of the last page -->
+	<page index="605" sura="114" aya="7" /><!-- fake element for specifying the end of the last page -->
 </page-data>
