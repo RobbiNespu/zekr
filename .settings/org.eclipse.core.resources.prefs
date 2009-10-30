@@ -1,4 +1,4 @@
-#Wed Oct 28 14:02:08 GMT+03:30 2009
+#Fri Oct 30 19:09:12 GMT+03:30 2009
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
 encoding//doc/license/nanohttpd-license.txt=ISO-8859-1
@@ -8,6 +8,7 @@ encoding//misc/zekr-launch4j-jre.xml=ISO-8859-1
 encoding//misc/zekr-launch4j.xml=ISO-8859-1
 encoding//misc/zekrc-launch4j-jre.xml=ISO-8859-1
 encoding//misc/zekrc-launch4j.xml=ISO-8859-1
+encoding//res/audio/abdulbasit-128-online.properties=UTF-8
 encoding//res/audio/abdulbasit-online.properties=UTF-8
 encoding//res/audio/afasy-offline.properties=UTF-8
 encoding//res/audio/afasy-online.properties=UTF-8
@@ -26,6 +27,7 @@ encoding//res/audio/minshawi-online.properties=UTF-8
 encoding//res/audio/muaiqly-offline.properties=UTF-8
 encoding//res/audio/shatri-online.properties=UTF-8
 encoding//res/audio/shuraim-online.properties=UTF-8
+encoding//res/audio/sudais-online.properties=UTF-8
 encoding//res/config/config.properties=UTF-8
 encoding//res/config/search-info.properties=UTF-8
 encoding//res/lang/french.xml=UTF-8
