@@ -104,7 +104,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private QuranPaging quranPaging = new QuranPaging();
 	private ApplicationRuntime runtime;
 	private IQuranLocation quranLocation;
-	private PropertiesConfiguration props;
+	private PropertiesConfiguration props, searchProps;
 	private BookmarkSet bookmarkSet;
 	private BookmarkSetGroup bookmarkSetGroup = new BookmarkSetGroup();
 	// private Thread httpServerThread;
@@ -180,11 +180,39 @@ public class ApplicationConfig implements ConfigNaming {
 	@SuppressWarnings("unchecked")
 	private void initSearchInfo() {
 		logger.info("Load search info...");
+
+		File usi = new File(ApplicationPath.USER_SEARCH_INFO);
+		String searchInfoFile = ApplicationPath.USER_SEARCH_INFO;
+		if (!usi.exists()) {
+			logger.info("User search info does not exist at " + ApplicationPath.USER_SEARCH_INFO);
+			logger.info("Will make user search info with default values at " + ApplicationPath.MAIN_SEARCH_INFO);
+			searchInfoFile = ApplicationPath.MAIN_SEARCH_INFO;
+			try {
+				logger.info("Save user search info file to " + ApplicationPath.USER_CONFIG);
+				FileUtils.copyFile(new File(searchInfoFile), usi);
+			} catch (IOException e) {
+				logger.implicitLog(e);
+			}
+		}
+
+		try {
+			logger.debug("Load " + searchInfoFile);
+			FileInputStream fis = new FileInputStream(searchInfoFile);
+			searchProps = new PropertiesConfiguration();
+			searchProps.setBasePath(ApplicationPath.CONFIG_DIR);
+			searchProps.setEncoding("UTF-8");
+			searchProps.load(fis, "UTF-8");
+			fis.close();
+		} catch (Exception e) {
+			logger.error("Error loading search info file " + searchInfoFile);
+			logger.implicitLog(e);
+		}
+
 		searchInfo = new SearchInfo();
-		Configuration stopWordConf = props.subset("search.stopword");
-		List<String> defaultStopWord = props.getList("search.stopword");
-		Configuration replacePatternConf = props.subset("search.pattern.replace");
-		List<String> defaultReplacePattern = props.getList("search.pattern.replace");
+		Configuration stopWordConf = searchProps.subset("search.stopword");
+		List<String> defaultStopWord = searchProps.getList("search.stopword");
+		Configuration replacePatternConf = searchProps.subset("search.pattern.replace");
+		List<String> defaultReplacePattern = searchProps.getList("search.pattern.replace");
 
 		searchInfo.setDefaultStopWord(defaultStopWord);
 		for (Iterator<String> iterator = stopWordConf.getKeys(); iterator.hasNext();) {
@@ -260,7 +288,9 @@ public class ApplicationConfig implements ConfigNaming {
 			confFile = ApplicationPath.MAIN_CONFIG;
 			createConfig = true;
 		}
+
 		try {
+			logger.debug("Load " + confFile);
 			InputStream fis = new FileInputStream(confFile);
 			props = new PropertiesConfiguration();
 			props.setBasePath(ApplicationPath.CONFIG_DIR);
@@ -273,7 +303,7 @@ public class ApplicationConfig implements ConfigNaming {
 				logger.info("User config version (" + version + ") does not match with " + GlobalConfig.ZEKR_VERSION);
 
 				InputStreamReader reader;
-				if (StringUtils.isBlank(version) || !version.startsWith("0.7")) { // config file is too old
+				if (StringUtils.isBlank(version) || !version.startsWith("0.7.5")) { // config file is too old
 					logger.info("Previous version was too old: " + version);
 					logger.info("Cannot migrate old settings. Will reset settings.");
 
