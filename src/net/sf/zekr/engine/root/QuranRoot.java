@@ -24,9 +24,9 @@ import org.apache.commons.lang.StringUtils;
  * @author Mohsen Saboorian
  */
 public class QuranRoot {
-	private static final int ROOT_LIST_SIZE = 1919;
-	List rootList = new ArrayList(ROOT_LIST_SIZE);
-	Map rootAddr = new HashMap(ROOT_LIST_SIZE);
+	private static final int ROOT_LIST_SIZE = 1918;
+	List<String> rootList = new ArrayList<String>(ROOT_LIST_SIZE);
+	Map<String, List<RootAddress>> rootAddr = new HashMap<String, List<RootAddress>>(ROOT_LIST_SIZE);
 
 	/*
 	 * An array of all ayas of the Quran. Each entry is a {@link List} of root of each word in that aya,
@@ -53,7 +53,7 @@ public class QuranRoot {
 			rootAddrStr = rootBody[2];
 			rootList.add(rootStr);
 			String[] addrList = StringUtils.split(rootAddrStr, ";"); // aya separator
-			List rootAddrList = new ArrayList();
+			List<RootAddress> rootAddrList = new ArrayList<RootAddress>();
 			RootAddress ra = null;
 			for (int j = 0; j < addrList.length; j++) {
 				String[] locStr = StringUtils.split(addrList[j], ':');
@@ -78,11 +78,11 @@ public class QuranRoot {
 	//		return reverseIndex[QuranPropertiesUtils.getAbsoluteLocation(loc)];
 	//	}
 
-	public List getRootList() {
+	public List<String> getRootList() {
 		return rootList;
 	}
 
-	public List getRootAddress(String rootStr) {
-		return (List) rootAddr.get(rootStr);
+	public List<RootAddress> getRootAddress(String rootStr) {
+		return rootAddr.get(rootStr);
 	}
 }
