@@ -1,11 +1,11 @@
 * OVERVIEW
 
-Zekr is an Open Source Quran study tool. This project is planned to be a
-universal, Open Source, and cross-platform application to perform most of
-the usual refers to the holy Quran. The main idea is to build an as generic
-as possible platform to accept different Quranic resources.
+Zekr is an Open Source Qur'an study project. This project is planned to be a
+universal, Open Source, and cross-platform application to ease most of
+the usual refers to the holy Qur'an. The main idea is to build an as generic
+as possible platform to accept different Qur'anic resources.
 
-Copyright (c) 2004-2008 zekr.org, and other contributors.
+Copyright (c) 2004-2009 zekr.org, and other contributors.
 
 Website: http://zekr.org.
 Translations, recitations and other resources: http://zekr.org/resources.html.
@@ -37,12 +37,17 @@ creativecommons by-nc-nd 3.0 (non-free) license.
 For other libraries and dependencies come with standard Zekr releases see
 their corresponding licenses under doc directory:
 - Apache commons (including parts of commons-io-1.4, commons-lang-2.4,
-	commons-logging-1.0.4, commons-collections-3.2.1, commons-codec-1.3,
-	and commons-configuration-1.5):
-	Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
+    commons-logging-1.0.4, commons-collections-3.2.1, commons-codec-1.3,
+    and commons-configuration-1.5):
+    Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - lucene-core-2.3.2.jar: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - lucene-highlighter-2.3.2.jar: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - lucene-snowball-2.3.2.jar: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - log4j-1.2.8: Apache Software License version 1.1, [zekr]/doc/apache-software-license-1.1.txt
-- velocity-1.4: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
+- velocity-1.6.2: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - swt.jar: Eclipse Public License 1.0, [zekr]/doc/epl-1.0.txt
+- JavaZoom libraries (jlayer-1.0.1.jar, mp3spi-1.9.4.jar, and vorbisspi-1.0.3.jar): Lesser
+    General Public License 2.1, [zekr]/doc/lgpl-2.1.txt
+- jorbis-0.0.17.jar: Lesser General Public License 2.1, [zekr]/doc/lgpl-2.1.txt
+- jspeex-0.9.7.jar: Modified BSD license, [zekr]/doc/jspeex-license.txt
+- tritonus-share-0.3.6.jar: General Public License 2.1, [zekr]/doc/gpl-2.0.txt
