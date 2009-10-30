@@ -1,119 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quran>
 	<sura-detail>
-		<sura index="1" name="The Opening" tname="فاتحه" />
-		<sura index="2" name="The Cow" tname="بقره" />
-		<sura index="3" name="The Family of Imraan" tname="آل‌عمران" />
-		<sura index="4" name="The Women" tname="نساء" />
-		<sura index="5" name="The Table" tname="مائده" />
-		<sura index="6" name="The Cattle" tname="انعام" />
-		<sura index="7" name="The Heights" tname="اعراف" />
-		<sura index="8" name="The Spoils of War" tname="انفال" />
-		<sura index="9" name="The Repentance" tname="توبه" />
-		<sura index="10" name="Jonas" tname="یونس" />
-		<sura index="11" name="Hud" tname="هود" />
-		<sura index="12" name="Joseph" tname="یوسف" />
-		<sura index="13" name="The Thunder" tname="رعد" />
-		<sura index="14" name="Abraham" tname="ابراهیم" />
-		<sura index="15" name="The Rock" tname="حجر" />
-		<sura index="16" name="The Bee" tname="نحل" />
-		<sura index="17" name="The Night Journey" tname="اسراء" />
-		<sura index="18" name="The Cave" tname="کهف" />
-		<sura index="19" name="Mary" tname="مریم" />
-		<sura index="20" name="Taa-Haa" tname="طه" />
-		<sura index="21" name="The Prophets" tname="انبیاء" />
-		<sura index="22" name="The Pilgrimage" tname="حج" />
-		<sura index="23" name="The Believers" tname="مؤمنون" />
-		<sura index="24" name="The Light" tname="نور" />
-		<sura index="25" name="The Criterion" tname="فرقان" />
-		<sura index="26" name="The Poets" tname="شعراء" />
-		<sura index="27" name="The Ant" tname="نمل" />
-		<sura index="28" name="The Stories" tname="قصص" />
-		<sura index="29" name="The Spider" tname="عنکبوت" />
-		<sura index="30" name="The Romans" tname="روم" />
-		<sura index="31" name="Luqman" tname="لقمان" />
-		<sura index="32" name="The Prostration" tname="سجده" />
-		<sura index="33" name="The Clans" tname="احزاب" />
-		<sura index="34" name="Sheba" tname="سبأ" />
-		<sura index="35" name="The Originator" tname="فاطر" />
-		<sura index="36" name="Yaseen" tname="یس" />
-		<sura index="37" name="Those drawn up in Ranks" tname="صافات" />
-		<sura index="38" name="The letter Saad" tname="ص" />
-		<sura index="39" name="The Groups" tname="زمر" />
-		<sura index="40" name="The Forgiver" tname="غافر" />
-		<sura index="41" name="Explained in detail" tname="فصلت" />
-		<sura index="42" name="Consultation" tname="شوری" />
-		<sura index="43" name="Ornaments of gold" tname="زخرف" />
-		<sura index="44" name="The Smoke" tname="دخان" />
-		<sura index="45" name="Crouching" tname="جاثیه" />
-		<sura index="46" name="The Dunes" tname="احقاف" />
-		<sura index="47" name="Muhammad" tname="محمد" />
-		<sura index="48" name="The Victory" tname="فتح" />
-		<sura index="49" name="The Inner Apartments" tname="حجرات" />
-		<sura index="50" name="The letter Qaaf" tname="ق" />
-		<sura index="51" name="The Winnowing Winds" tname="ذاریات" />
-		<sura index="52" name="The Mount" tname="طور" />
-		<sura index="53" name="The Star" tname="نجم" />
-		<sura index="54" name="The Moon" tname="قمر" />
-		<sura index="55" name="The Beneficent" tname="رحمن" />
-		<sura index="56" name="The Inevitable" tname="واقعه" />
-		<sura index="57" name="The Iron" tname="حدید" />
-		<sura index="58" name="The Pleading Woman" tname="مجادله" />
-		<sura index="59" name="The Exile" tname="حشر" />
-		<sura index="60" name="She that is to be examined" tname="ممتحنه" />
-		<sura index="61" name="The Ranks" tname="صف" />
-		<sura index="62" name="Friday" tname="جمعه" />
-		<sura index="63" name="The Hypocrites" tname="منافقون" />
-		<sura index="64" name="Mutual Disillusion" tname="تغابن" />
-		<sura index="65" name="Divorce" tname="طلاق" />
-		<sura index="66" name="The Prohibition" tname="تحریم" />
-		<sura index="67" name="The Sovereignty" tname="ملک" />
-		<sura index="68" name="The Pen" tname="قلم" />
-		<sura index="69" name="The Reality" tname="حاقه" />
-		<sura index="70" name="The Ascending Stairways" tname="معارج" />
-		<sura index="71" name="Nooh" tname="نوح" />
-		<sura index="72" name="the Jinn" tname="جن" />
-		<sura index="73" name="The Enshrouded One" tname="مزمل" />
-		<sura index="74" name="The Cloaked One" tname="مدثر" />
-		<sura index="75" name="The Resurrection" tname="قیامت" />
-		<sura index="76" name="Man" tname="انسان" />
-		<sura index="77" name="The Emissaries" tname="مرسلات" />
-		<sura index="78" name="The Announcement" tname="نبأ" />
-		<sura index="79" name="Those who drag forth" tname="نازعات" />
-		<sura index="80" name="He frowned" tname="عبس" />
-		<sura index="81" name="The Overthrowing" tname="تکویر" />
-		<sura index="82" name="The Cleaving" tname="انفطار" />
-		<sura index="83" name="Defrauding" tname="مطففین" />
-		<sura index="84" name="The Splitting Open" tname="انشقاق" />
-		<sura index="85" name="The Constellations" tname="بروج" />
-		<sura index="86" name="The Morning Star" tname="طارق" />
-		<sura index="87" name="The Most High" tname="اعلی" />
-		<sura index="88" name="The Overwhelming" tname="غاشیه" />
-		<sura index="89" name="The Dawn" tname="فجر" />
-		<sura index="90" name="The City" tname="بلد" />
-		<sura index="91" name="The Sun" tname="شمس" />
-		<sura index="92" name="The Night" tname="لیل" />
-		<sura index="93" name="The Morning Hours" tname="ضحی" />
-		<sura index="94" name="The Consolation" tname="انشراح" />
-		<sura index="95" name="The Fig" tname="طین" />
-		<sura index="96" name="The Clot" tname="علق" />
-		<sura index="97" name="The Power, Fate" tname="قدر" />
-		<sura index="98" name="The Evidence" tname="بینه" />
-		<sura index="99" name="The Earthquake" tname="زلزال" />
-		<sura index="100" name="The Chargers" tname="عادیات" />
-		<sura index="101" name="The Calamity" tname="قارعه" />
-		<sura index="102" name="Competition" tname="تکاثر" />
-		<sura index="103" name="The Declining Day, Epoch" tname="عصر" />
-		<sura index="104" name="The Traducer" tname="همزه" />
-		<sura index="105" name="The Elephant" tname="فیل" />
-		<sura index="106" name="Quraysh" tname="قریش" />
-		<sura index="107" name="Almsgiving" tname="ماعون" />
-		<sura index="108" name="Abundance" tname="کوثر" />
-		<sura index="109" name="The Disbelievers" tname="کافرون" />
-		<sura index="110" name="Divine Support" tname="نصر" />
-		<sura index="111" name="The Palm Fibre" tname="مصد" />
-		<sura index="112" name="Sincerity" tname="اخلاص" />
-		<sura index="113" name="The Dawn" tname="فلق" />
-		<sura index="114" name="Mankind" tname="ناس" />
+		<sura index="1" name="گشاینده" tname="فاتحه" />
+		<sura index="2" name="گاو" tname="بقره" />
+		<sura index="3" name="خاندان عمران" tname="آل‌عمران" />
+		<sura index="4" name="زنان" tname="نساء" />
+		<sura index="5" name="سفرهٔ غذا" tname="مائده" />
+		<sura index="6" name="چهارپایان" tname="انعام" />
+		<sura index="7" name="اعراف" tname="اعراف" />
+		<sura index="8" name="انفال" tname="انفال" />
+		<sura index="9" name="توبه" tname="توبه" />
+		<sura index="10" name="یونس" tname="یونس" />
+		<sura index="11" name="هود" tname="هود" />
+		<sura index="12" name="یوسف" tname="یوسف" />
+		<sura index="13" name="رعد" tname="رعد" />
+		<sura index="14" name="ابراهیم" tname="ابراهیم" />
+		<sura index="15" name="سرزمین حجر" tname="حجر" />
+		<sura index="16" name="زنبور عسل" tname="نحل" />
+		<sura index="17" name="سفر در شب" tname="اسراء" />
+		<sura index="18" name="غار" tname="کهف" />
+		<sura index="19" name="مریم" tname="مریم" />
+		<sura index="20" name="طه" tname="طه" />
+		<sura index="21" name="پیامبران" tname="انبیاء" />
+		<sura index="22" name="حج" tname="حج" />
+		<sura index="23" name="مؤمنان" tname="مؤمنون" />
+		<sura index="24" name="نور" tname="نور" />
+		<sura index="25" name="فرقان" tname="فرقان" />
+		<sura index="26" name="شعرا" tname="شعراء" />
+		<sura index="27" name="مورچه" tname="نمل" />
+		<sura index="28" name="داستان‌ها" tname="قصص" />
+		<sura index="29" name="عنکبوت" tname="عنکبوت" />
+		<sura index="30" name="روم" tname="روم" />
+		<sura index="31" name="لقمان" tname="لقمان" />
+		<sura index="32" name="سجده" tname="سجده" />
+		<sura index="33" name="احزاب" tname="احزاب" />
+		<sura index="34" name="سبأ" tname="سبأ" />
+		<sura index="35" name="فاطر" tname="فاطر" />
+		<sura index="36" name="یس" tname="یس" />
+		<sura index="37" name="صف‌بستگان" tname="صافات" />
+		<sura index="38" name="ص" tname="ص" />
+		<sura index="39" name="گروه‌ها" tname="زمر" />
+		<sura index="40" name="آمرزنده" tname="غافر" />
+		<sura index="41" name="فصل‌فصل‌شده" tname="فصلت" />
+		<sura index="42" name="شورا" tname="شوری" />
+		<sura index="43" name="زینت" tname="زخرف" />
+		<sura index="44" name="دود" tname="دخان" />
+		<sura index="45" name="به‌زانو درآمده" tname="جاثیه" />
+		<sura index="46" name="سرزمین احقاف" tname="احقاف" />
+		<sura index="47" name="محمد" tname="محمد" />
+		<sura index="48" name="پیروزی" tname="فتح" />
+		<sura index="49" name="حجره‌ها" tname="حجرات" />
+		<sura index="50" name="ق" tname="ق" />
+		<sura index="51" name="بادهای ذره‌افشان" tname="ذاریات" />
+		<sura index="52" name="کوه طور" tname="طور" />
+		<sura index="53" name="ستاره" tname="نجم" />
+		<sura index="54" name="ماه" tname="قمر" />
+		<sura index="55" name="بخشاینده" tname="رحمن" />
+		<sura index="56" name="پیشامد" tname="واقعه" />
+		<sura index="57" name="آهن" tname="حدید" />
+		<sura index="58" name="مجادله" tname="مجادله" />
+		<sura index="59" name="گردآمدن" tname="حشر" />
+		<sura index="60" name="زن امتحان‌شده" tname="ممتحنه" />
+		<sura index="61" name="صف" tname="صف" />
+		<sura index="62" name="جمعه" tname="جمعه" />
+		<sura index="63" name="منافقان" tname="منافقون" />
+		<sura index="64" name="حسرت" tname="تغابن" />
+		<sura index="65" name="طلاق" tname="طلاق" />
+		<sura index="66" name="تحریم" tname="تحریم" />
+		<sura index="67" name="پادشاهی" tname="ملک" />
+		<sura index="68" name="قلم" tname="قلم" />
+		<sura index="69" name="حتمی" tname="حاقه" />
+		<sura index="70" name="درجات" tname="معارج" />
+		<sura index="71" name="نوح" tname="نوح" />
+		<sura index="72" name="جن" tname="جن" />
+		<sura index="73" name="جامه به‌خود پیچیده" tname="مزمل" />
+		<sura index="74" name="جامهٔ خواب به‌خود پیچیده" tname="مدثر" />
+		<sura index="75" name="قیامت" tname="قیامت" />
+		<sura index="76" name="انسان" tname="انسان" />
+		<sura index="77" name="فرستادگان" tname="مرسلات" />
+		<sura index="78" name="خبر" tname="نبأ" />
+		<sura index="79" name="به‌قدرت کِشندگان" tname="نازعات" />
+		<sura index="80" name="چهره درهم کشید" tname="عبس" />
+		<sura index="81" name="درهم پیچیده‌شدن" tname="تکویر" />
+		<sura index="82" name="شکافته‌شدن" tname="انفطار" />
+		<sura index="83" name="کم‌فروشان" tname="مطففین" />
+		<sura index="84" name="شکافتن" tname="انشقاق" />
+		<sura index="85" name="برج‌ها" tname="بروج" />
+		<sura index="86" name="ستاره" tname="طارق" />
+		<sura index="87" name="والاترین" tname="اعلی" />
+		<sura index="88" name="غاشیه" tname="غاشیه" />
+		<sura index="89" name="فجر" tname="فجر" />
+		<sura index="90" name="شهر" tname="بلد" />
+		<sura index="91" name="خورشید" tname="شمس" />
+		<sura index="92" name="شب" tname="لیل" />
+		<sura index="93" name="روشنایی روز" tname="ضحی" />
+		<sura index="94" name="گشایش" tname="انشراح" />
+		<sura index="95" name="انجیر" tname="طین" />
+		<sura index="96" name="خون بسته" tname="علق" />
+		<sura index="97" name="اندازه" tname="قدر" />
+		<sura index="98" name="دلیل روشن" tname="بینه" />
+		<sura index="99" name="زلزله" tname="زلزال" />
+		<sura index="100" name="دوندگان" tname="عادیات" />
+		<sura index="101" name="کوبنده" tname="قارعه" />
+		<sura index="102" name="افتخار به زیادی ثروت" tname="تکاثر" />
+		<sura index="103" name="روزگار" tname="عصر" />
+		<sura index="104" name="عیب‌جو" tname="همزه" />
+		<sura index="105" name="فیل" tname="فیل" />
+		<sura index="106" name="قریش" tname="قریش" />
+		<sura index="107" name="ظرف غذا" tname="ماعون" />
+		<sura index="108" name="خیر فراوان" tname="کوثر" />
+		<sura index="109" name="کافران" tname="کافرون" />
+		<sura index="110" name="یاری" tname="نصر" />
+		<sura index="111" name="لیف خرما" tname="مسد" />
+		<sura index="112" name="خالص کردن" tname="اخلاص" />
+		<sura index="113" name="سپیدهٔ صبح" tname="فلق" />
+		<sura index="114" name="مردم" tname="ناس" />
 	</sura-detail>
 </quran>
