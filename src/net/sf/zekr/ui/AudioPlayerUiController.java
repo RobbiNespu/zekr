@@ -23,6 +23,7 @@ import net.sf.zekr.engine.log.Logger;
 
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.graphics.Point;
 
 /**
  * @author Mohsen Saboorian
@@ -211,6 +212,8 @@ public class AudioPlayerUiController {
 			audioControllerForm.getShell().addDisposeListener(new DisposeListener() {
 				public void widgetDisposed(DisposeEvent e) {
 					if (!quranForm.isDisposed()) {
+						Point location = audioControllerForm.getShell().getLocation();
+						config.getProps().setProperty("audio.controller.location", new Object[] { location.x, location.y });
 						quranForm.qmf.toggleAudioPanelState(false);
 					}
 				}
