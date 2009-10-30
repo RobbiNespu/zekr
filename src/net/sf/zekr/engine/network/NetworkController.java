@@ -21,6 +21,7 @@ import java.net.URLConnection;
 import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * All Internet accesses should be through this class, in order to apply proxy settings to all accesses.
@@ -49,7 +50,12 @@ public class NetworkController {
 		defaultProxy = props.getString("network.proxy", "system");
 		proxyType = props.getString("network.proxy.type", "HTTP");
 		proxyServer = props.getString("network.proxy.server", "127.0.0.1");
-		proxyPort = props.getInt("network.proxy.port", 80);
+		String port = props.getString("network.proxy.port");
+		if (StringUtils.isNotBlank(port)) {
+			proxyPort = Integer.parseInt(port);
+		} else {
+			proxyPort = 80;
+		}
 	}
 
 	public Proxy getProxy(String uri) throws URISyntaxException {
