@@ -15,7 +15,6 @@ import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.filter.IQuranFilter;
-import net.sf.zekr.engine.audio.FlashPlayerController;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.helper.FormUtils;
@@ -31,7 +30,6 @@ public class BrowserCallbackHandler {
 	private Logger logger = Logger.getLogger(this.getClass());
 	private ApplicationConfig config = ApplicationConfig.getInstance();
 	private QuranForm form;
-	private FlashPlayerController playerController;
 
 	public BrowserCallbackHandler(QuranForm form) {
 		this.form = form;
@@ -163,8 +161,6 @@ public class BrowserCallbackHandler {
 			pe.open(new Point(x, 100), new Point(p.x - x / 2, p.y));
 		} else if ("ZEKR::NEXT".equals(method)) {
 			form.gotoNextAya();
-		} else if ("ZEKR::PLAYER".equals(method)) {
-			return playerController.handleCallback(args);
 		}
 		return null;
 	}
