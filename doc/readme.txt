@@ -46,8 +46,8 @@ their corresponding licenses under doc directory:
 - log4j-1.2.8: Apache Software License version 1.1, [zekr]/doc/apache-software-license-1.1.txt
 - velocity-1.6.2: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - swt.jar: Eclipse Public License 1.0, [zekr]/doc/epl-1.0.txt
-- JavaZoom libraries (jlayer-1.0.1.jar, mp3spi-1.9.4.jar, and vorbisspi-1.0.3.jar): Lesser
-    General Public License 2.1, [zekr]/doc/lgpl-2.1.txt
+- JavaZoom libraries (jlayer-1.0.1.jar, mp3spi-1.9.4.jar, basicplayer-3.0.jar, and
+    vorbisspi-1.0.3.jar): Lesser General Public License 2.1, [zekr]/doc/lgpl-2.1.txt
 - jorbis-0.0.17.jar: Lesser General Public License 2.1, [zekr]/doc/lgpl-2.1.txt
 - jspeex-0.9.7.jar: Modified BSD license, [zekr]/doc/jspeex-license.txt
 - tritonus-share-0.3.6.jar: General Public License 2.1, [zekr]/doc/gpl-2.0.txt
