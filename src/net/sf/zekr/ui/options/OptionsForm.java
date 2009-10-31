@@ -120,7 +120,7 @@ public class OptionsForm {
 		this.parent = parent;
 		display = parent.getDisplay();
 
-		rtl = (lang.getSWTDirection() == SWT.RIGHT_TO_LEFT);
+		rtl = lang.getSWTDirection() == SWT.RIGHT_TO_LEFT;
 
 		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
 		shell.setLayout(new FillLayout());
@@ -279,8 +279,9 @@ public class OptionsForm {
 			// config.saveConfig();
 			// createEvent(EventProtocol.CLEAR_CACHE_ON_EXIT);
 		}
-		if (refreshView)
+		if (refreshView) {
 			EventUtils.sendEvent(EventProtocol.REFRESH_VIEW);
+		}
 	}
 
 	private void updateGeneralModel(boolean fromOk) {
@@ -294,7 +295,7 @@ public class OptionsForm {
 				|| !td.id.equals(selectedTheme.id)
 				|| props.getBoolean("options.general.resizeableTaskPane") != isPaneResizeable
 				//|| audioEnabledProp != enableAudio.getSelection()
-				|| suraAsTree != ("tree".equals(props.getString("view.sura.mode")))) {
+				|| suraAsTree != "tree".equals(props.getString("view.sura.mode"))) {
 			pressOkToApply = true;
 		}
 
@@ -303,8 +304,9 @@ public class OptionsForm {
 
 		if (!suraNameType[suraNameMode.getSelectionIndex()].equals(props.getProperty("view.sura.name"))) {
 			props.setProperty("view.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
-			if (!pressOkToApply) // it's refreshed upon form creation
+			if (!pressOkToApply) { // it's refreshed upon form creation
 				EventUtils.sendEvent(EventProtocol.UPDATE_SURA_NAMES);
+			}
 			refreshView = true;
 		}
 
@@ -393,10 +395,11 @@ public class OptionsForm {
 		int selectedNum = 0;
 		for (int i = 0; i < themes.size(); i++) {
 			themeMap.put(themes.get(i).id, themes.get(i).name + (rtl ? I18N.LRM + "" : ""));
-			if (themes.get(i).id.equals(td.id))
+			if (themes.get(i).id.equals(td.id)) {
 				selectedNum = i;
+			}
 		}
-		themeSelect.setItems((String[]) themeMap.values().toArray(new String[0]));
+		themeSelect.setItems(themeMap.values().toArray(new String[0]));
 		themeSelect.select(selectedNum);
 
 		rl = new RowLayout(SWT.HORIZONTAL);
@@ -479,8 +482,9 @@ public class OptionsForm {
 		addBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				String key = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"), meaning("NEW_KEY"));
-				if (key == null || "".equals(key.trim()))
+				if (key == null || "".equals(key.trim())) {
 					return;
+				}
 				logger.info("Add a table row");
 				FormUtils.addRow(table, key, "");
 				refreshView = true;
@@ -497,22 +501,25 @@ public class OptionsForm {
 		table.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				int c = table.getSelectionCount();
-				if (c >= 1)
+				if (c >= 1) {
 					delBut.setEnabled(true);
-				else
+				} else {
 					delBut.setEnabled(false);
+				}
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// Clean up any previous editor control
 				Control oldEditor = editor.getEditor();
-				if (oldEditor != null)
+				if (oldEditor != null) {
 					oldEditor.dispose();
+				}
 
 				// Identify the selected row
 				TableItem item = (TableItem) e.item;
-				if (item == null)
+				if (item == null) {
 					return;
+				}
 
 				// The control that will be the editor must be a child of the Table
 				Text newEditor = new Text(table, SWT.NONE);
@@ -527,8 +534,9 @@ public class OptionsForm {
 					public void focusLost(FocusEvent e) {
 						refreshView = true;
 						Control oldEditor = editor.getEditor();
-						if (oldEditor != null)
+						if (oldEditor != null) {
 							oldEditor.dispose();
+						}
 					}
 				});
 				newEditor.selectAll();
@@ -542,18 +550,21 @@ public class OptionsForm {
 		delBut.setImage(new Image(display, resource.getString("icon.remove")));
 		delBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (table.getSelectionCount() > 0)
+				if (table.getSelectionCount() > 0) {
 					if (MessageBoxUtils.showYesNoConfirmation(lang.getMeaning("YES_NO"), lang.getMeaning("REMOVE"))) {
 						shell.forceActive();
 						logger.info("Remove table row: " + table.getSelectionIndex());
 						refreshView = true;
 						Control oldEditor = editor.getEditor();
-						if (oldEditor != null)
+						if (oldEditor != null) {
 							oldEditor.dispose();
+						}
 						table.remove(table.getSelectionIndex());
-						if (table.getSelectionCount() <= 0)
+						if (table.getSelectionCount() <= 0) {
 							delBut.setEnabled(false);
+						}
 					}
+				}
 			}
 		});
 		delBut.setEnabled(false);
