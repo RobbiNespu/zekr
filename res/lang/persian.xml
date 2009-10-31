@@ -144,6 +144,8 @@
 			<text id="PAUSED" value="درنگ"   />
 			<text id="STOPPED" value="توقف"   />
 			<text id="RECITER" value="قاری"   />
+			<text id="ONLINE" value="برخط"   />
+			<text id="OFFLINE" value="برون‌خط"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />

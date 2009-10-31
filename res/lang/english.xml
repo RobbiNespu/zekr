@@ -144,6 +144,8 @@
 			<text id="PAUSED" value="Paused"   />
 			<text id="STOPPED" value="Stopped"   />
 			<text id="RECITER" value="Reciter"   />
+            <text id="ONLINE" value="Online"   />
+            <text id="OFFLINE" value="Offline"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />
