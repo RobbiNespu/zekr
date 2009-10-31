@@ -2,7 +2,7 @@
   <dontWrapJar>true</dontWrapJar>
   <headerType>console</headerType>
   <jar></jar>
-  <outfile>D:\Java\Programs\Zekr\dist\0.7.0\beta2\win32-special\zekr.exe</outfile>
+  <outfile>D:\Java\Programs\Zekr\dist\0.7.5\beta1\win32\zekrc.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -25,27 +25,34 @@
     <cp>lib/lucene-snowball-2.3.2.jar</cp>
     <cp>lib/lucene-highlighter-2.3.2.jar</cp>
     <cp>lib/swt.jar</cp>
-    <cp>lib/velocity-1.4.jar</cp>
+    <cp>lib/velocity-1.6.2.jar</cp>
+    <cp>lib/jlayer-1.0.1.jar</cp>
+    <cp>lib/jorbis-0.0.17.jar</cp>
+    <cp>lib/jspeex-0.9.7.jar</cp>
+    <cp>lib/tritonus-share-0.3.6.jar</cp>
+    <cp>lib/mp3spi-1.9.4.jar</cp>
+    <cp>lib/vorbisspi-1.0.3.jar</cp>
+    <cp>lib/basicplayer-3.0.jar</cp>
     <cp>dist/zekr.jar</cp>
   </classPath>
   <jre>
     <path>jre</path>
-    <minVersion>1.4.2</minVersion>
+    <minVersion>1.5.0</minVersion>
     <maxVersion></maxVersion>
     <dontUsePrivateJres>true</dontUsePrivateJres>
     <initialHeapSize>0</initialHeapSize>
     <maxHeapSize>0</maxHeapSize>
   </jre>
   <versionInfo>
-    <fileVersion>0.7.0.0</fileVersion>
-    <txtFileVersion>0.7.0.0</txtFileVersion>
-    <fileDescription>Zekr - Open Quranic Project</fileDescription>
-    <copyright>© 2004-2008 zekr.org</copyright>
-    <productVersion>0.7.0.0</productVersion>
-    <txtProductVersion>0.7.0.0</txtProductVersion>
+    <fileVersion>0.7.5.0</fileVersion>
+    <txtFileVersion>0.7.5.0</txtFileVersion>
+    <fileDescription>Zekr - Open Qur'anic Project</fileDescription>
+    <copyright>© 2004-2009 zekr.org</copyright>
+    <productVersion>0.7.5.0</productVersion>
+    <txtProductVersion>0.7.5.0</txtProductVersion>
     <productName>Zekr</productName>
     <companyName>zekr.org</companyName>
     <internalName>Zekr</internalName>
-    <originalFilename>zekr.exe</originalFilename>
+    <originalFilename>zekrc.exe</originalFilename>
   </versionInfo>
 </launch4jConfig>
