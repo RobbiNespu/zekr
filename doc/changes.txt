@@ -590,6 +590,7 @@ Features/Enhancements:
 	Added Bulgarian language pack (submitted by Hamdi Sevitin).
 	Added indonesian quran-properties-id.xml (submitted by abu0hasan).
 	Updated to Velocity 1.6.2.
+	A new font UthmanTN1_Ver07.otf (KFGQPC Uthman Taha Naskh) added to Zekr default package.
 Bug fixes:
 	language pack ID and Quran metadata for Hebrew updated to have hw ISO code instead of deprecated he ISO code.
 	quran-properties-ba => quran-properties-bs
