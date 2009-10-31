@@ -7,38 +7,47 @@ SetCompressor /SOLID lzma
 # Defines
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_NAME "zekr"
-!define VERSION 0.7.1.0
-!define RELEASE_VERSION "0.7.1"
+!define VERSION 0.7.5.0
+!define RELEASE_VERSION "0.7.5beta1"
 !define COMPANY zekr.org
 !define URL http://zekr.org
 
 # MUI defines
 !define MUI_ABORTWARNING
-!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
+!define MUI_UNABORTWARNING
+!define MUI_ICON ${EXT_FILES}\zekr-installer-icon.ico
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_NODISABLE
-!define MUI_STARTMENUPAGE_REGISTRY_KEY Software\Zekr
+!define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
-!define MUI_STARTMENUPAGE_DEFAULT_FOLDER Zekr
-!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER Zekr
+!define MUI_UNICON ${EXT_FILES}\zekr-uninstaller-icon.ico
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 !define MUI_LANGDLL_REGISTRY_ROOT HKLM
 !define MUI_LANGDLL_REGISTRY_KEY ${REGKEY}
 !define MUI_LANGDLL_REGISTRY_VALUENAME InstallerLanguage
-
-!define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP ${EXT_FILES}\zekr-installer-image.bmp
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP ${EXT_FILES}\zekr-uninstaller-image.bmp
+!define MUI_LANGDLL_ALWAYSSHOW
 
 !define INSTDIR_REG_ROOT "HKLM"
 !define INSTDIR_REG_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
+
+!define MULTIUSER_EXECUTIONLEVEL Highest
+!define MULTIUSER_MUI ; force user selection installation type: all users or me only
+!define MULTIUSER_INSTALLMODE_COMMANDLINE ; enables /AllUsers or /CurrentUser parameters
+!define MULTIUSER_INSTALLMODE_INSTDIR Zekr
+!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "${REGKEY}"
+!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUE "Path"
  
 # Included files
+!include MultiUser.nsh
 !include Sections.nsh
-!include MUI.nsh
-;include the Uninstall log header
+!include MUI2.nsh
 !include AdvUninstLog.nsh
 
+; AdvUninstLog doesn't work if not set
 !insertmacro UNATTENDED_UNINSTALL
 
 # Reserved Files
@@ -46,7 +55,8 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.1\final\win32"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.5\beta1\win32"
+!define EXT_FILES "D:\Java\Programs\Zekr\dist\installer-files"
 Var StartMenuGroup
 Var JAVA_VER
 Var JRE_HOME
@@ -55,14 +65,21 @@ Var JDK_HOME
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "${BASE_APP}\doc\license\zekr-license.txt"
+!insertmacro MUI_PAGE_LICENSE ${EXT_FILES}\zekr-license.txt
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
-#Page instfiles
+
+# These indented statements modify settings for MUI_PAGE_FINISH
+!define MUI_FINISHPAGE_RUN
+;!define MUI_FINISHPAGE_RUN_NOTCHECKED
+!define MUI_FINISHPAGE_RUN_TEXT "Launch Zekr"
+!define MUI_FINISHPAGE_RUN_FUNCTION "launchZekr"
+!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+!define MUI_FINISHPAGE_SHOWREADME $INSTDIR\readme.txt
 
 # Installer languages
 !insertmacro MUI_LANGUAGE English
@@ -91,21 +108,21 @@ Var JDK_HOME
 
 # Installer attributes
 BrandingText "The Zekr Project"
-OutFile ${APP_NAME}-${RELEASE_VERSION}-setup.exe
+OutFile "${APP_NAME}-${RELEASE_VERSION}-setup.exe"
 InstallDir $PROGRAMFILES\Zekr
 CRCCheck on
 XPStyle on
 ShowInstDetails show
-Icon "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
-VIProductVersion ${VERSION}
+;Icon "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
+VIProductVersion "${VERSION}"
 VIAddVersionKey /lang=${LANG_ENGLISH} ProductName "Zekr"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "${RELEASE_VERSION}"
-VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Quranic Project"
-VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2008 zekr.org"
+VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Qur'anic Project"
+VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2009 zekr.org"
 InstallDirRegKey HKLM "${REGKEY}" Path
-UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
+;UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 ShowUninstDetails show
 
 # Installer sections
@@ -117,7 +134,10 @@ Section -Main SEC0000
 
 	; Arabic font copy
 	SetOverwrite try
-	File "/oname=$WINDIR\Fonts\me_quran_volt_newmet.ttf" "${BASE_APP}\..\..\me_quran_volt_newmet.ttf"
+	; File "/oname=$WINDIR\Fonts\me_quran_volt_newmet.ttf" "${BASE_APP}\..\..\me_quran_volt_newmet.ttf"
+    File "/oname=$FONTS\ScheherazadeRegOT.ttf" ${EXT_FILES}\ScheherazadeRegOT.ttf
+    File "/oname=$FONTS\me_quran_volt_newmet.ttf" ${EXT_FILES}\me_quran_volt_newmet.ttf
+    File "/oname=$FONTS\UthmanTN1_Ver07.otf" ${EXT_FILES}\UthmanTN1_Ver07.otf
 
 	WriteRegStr HKLM "${REGKEY}\Components" Main 1
 	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
@@ -151,7 +171,7 @@ SectionEnd
     ReadRegStr $R0 HKLM "${REGKEY}\Components" "${SECTION_NAME}"
     StrCmp $R0 1 0 next${UNSECTION_ID}
     !insertmacro SelectSection "${UNSECTION_ID}"
-    Goto done${UNSECTION_ID}
+    GoTo done${UNSECTION_ID}
 next${UNSECTION_ID}:
     !insertmacro UnselectSection "${UNSECTION_ID}"
 done${UNSECTION_ID}:
@@ -204,7 +224,7 @@ Function .onInit
     MessageBox MB_OK|MB_ICONEXCLAMATION "The installer is already running."
     Abort
 
-    ;Detect JRE Version (should be 1.4.1+)
+    ;Detect JRE Version (should be 1.5.0+)
     call GetJavaVersion
     pop $0 ; major version
     pop $1 ; minor version
@@ -212,13 +232,13 @@ Function .onInit
 
     strcmp $0 "no" JavaNotInstalled
         StrCpy $JAVA_VER "$0.$1"
-        IntCmp 141 "$0$1$2" FoundCorrectJavaVer FoundCorrectJavaVer JavaVerNotCorrect
+        IntCmp 150 "$0$1$2" FoundCorrectJavaVer FoundCorrectJavaVer JavaVerNotCorrect
         FoundCorrectJavaVer:
             ReadRegStr $JRE_HOME HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$JAVA_VER" "JavaHome"
             ReadRegStr $JDK_HOME HKLM "SOFTWARE\JavaSoft\Java Development Kit\$JAVA_VER" "JavaHome"
             Goto Done
         JavaVerNotCorrect:
-            StrCpy $JAVA_INSTALLATION_MSG "The version of Java Runtime Environment (JRE) installed on your computer is $0.$1.$2$\n.Version 1.4.1 or newer is required to run this program properly.$\nDo you want to browse Java download site to get it now?"
+            StrCpy $JAVA_INSTALLATION_MSG "The version of Java Runtime Environment (JRE) installed on your computer is $0.$1.$2$\n.Version 1.5.0 or newer is required to run this program properly.$\nDo you want to browse Java download site to get it now?"
             MessageBox MB_YESNO|MB_ICONSTOP $JAVA_INSTALLATION_MSG IDNO DL_NO
             GoTo DL_YES
 
@@ -235,7 +255,7 @@ Function .onInit
     InitPluginsDir
     StrCpy $StartMenuGroup Zekr
     Push $R1
-    File /oname=$PLUGINSDIR\spltmp.bmp "${BASE_APP}\..\..\zekr-install-splash.bmp"
+    File /oname=$PLUGINSDIR\spltmp.bmp ${EXT_FILES}\zekr-installer-splash.bmp
     ; Delay - FadeIn - FadeOut - Keycolor - FileName
     advsplash::show 1000 700 600 -1 $PLUGINSDIR\spltmp
     Pop $R1
@@ -263,6 +283,10 @@ Function un.onInit
     !insertmacro MUI_UNGETLANGUAGE
     !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
 FunctionEnd
+
+;Function launchZekr
+;    ExecShell "" "$INSTDIR\zekr.exe"
+;FunctionEnd
 
 Function GetJavaVersion
   push $R0
