@@ -10,7 +10,6 @@ package net.sf.zekr.ui.helper;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public interface EventProtocol {
 	/**

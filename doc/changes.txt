@@ -585,8 +585,11 @@ Features/Enhancements:
 		- SPEEX: using this library: jspeex.
 	Shows localized recitater name (if available in recitation properties file).
 	Search info properties are not stored in main config file. There is a search-info.config near main config file which stores search info properties.
+	Added quality field to audios. In audio menu, quality as well as type (online or offline) is shown to distinguish between same-name recitations.
+	Recitations are sorted based on ID.
 	Added Bulgarian language pack (submitted by Hamdi Sevitin).
 	Added indonesian quran-properties-id.xml (submitted by abu0hasan).
+	Updated to Velocity 1.6.2.
 Bug fixes:
 	language pack ID and Quran metadata for Hebrew updated to have hw ISO code instead of deprecated he ISO code.
 	quran-properties-ba => quran-properties-bs
