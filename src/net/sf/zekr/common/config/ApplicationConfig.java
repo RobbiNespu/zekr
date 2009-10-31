@@ -780,6 +780,7 @@ public class ApplicationConfig implements ConfigNaming {
 			return null;
 		}
 		audioData.lastUpdate = pc.getString("audio.lastUpdate");
+		audioData.quality = pc.getString("audio.quality", "?");
 
 		audioData.name = pc.getString("audio.name");
 		audioData.license = pc.getString("audio.license");

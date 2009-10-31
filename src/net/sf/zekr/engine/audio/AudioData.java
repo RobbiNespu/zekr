@@ -28,6 +28,7 @@ public class AudioData implements Comparable<AudioData> {
 	/** Recitation file format version */
 	public String version;
 	public String lastUpdate;
+	public String quality;
 
 	public String name;
 	public String license;
