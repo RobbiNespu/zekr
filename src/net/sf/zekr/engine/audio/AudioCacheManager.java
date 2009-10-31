@@ -101,7 +101,7 @@ public class AudioCacheManager {
 				String cacheItemName = getCacheItemName(audioData, sura, aya);
 				File cached = getCacheItem(cacheItemName);
 				if (cached == null || cached.length() == 0) {
-					InputStream stream = config.getNetworkController().openSteam(filePath, 4000);
+					InputStream stream = config.getNetworkController().openSteam(filePath, 5000);
 					return new PlayableObject(new NamedBufferedInputStream(filePath, stream, 4 * 1024));
 				} else {
 					return new PlayableObject(cached);
@@ -127,7 +127,7 @@ public class AudioCacheManager {
 				String cacheItemName = getCacheItemName(audioData, fileName);
 				File cached = getCacheItem(cacheItemName);
 				if (cached == null || cached.length() == 0) {
-					InputStream stream = config.getNetworkController().openSteam(filePath, 4000);
+					InputStream stream = config.getNetworkController().openSteam(filePath, 5000);
 					return new PlayableObject(new NamedBufferedInputStream(filePath, stream, 4 * 1024));
 				} else {
 					return new PlayableObject(cached);
