@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -576,7 +578,8 @@ public class QuranFormMenuFactory {
 		audioMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		audioItem.setMenu(audioMenu);
 
-		playItem = createMenuItem(0, audioMenu, lang.getMeaning("PLAY"), SWT.CTRL | SWT.SHIFT | 'P', isRTL ? "icon.menu.playRtl" : "icon.menu.play");
+		playItem = createMenuItem(0, audioMenu, lang.getMeaning("PLAY"), SWT.CTRL | SWT.SHIFT | 'P',
+				isRTL ? "icon.menu.playRtl" : "icon.menu.play");
 		playItem.setData(PlayStatus.PAUSE); // state
 		playItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -917,6 +920,14 @@ public class QuranFormMenuFactory {
 
 		if (config.getAudio().getCurrent() != null) {
 			Collection<AudioData> recitationList = config.getAudio().getAllAudio();
+
+			List<AudioData> ret = new ArrayList<AudioData>(recitationList);
+			Collections.sort(ret, new Comparator<AudioData>() {
+				public int compare(AudioData o1, AudioData o2) {
+					return o1.id.compareTo(o2.id);
+				}
+			});
+
 			for (AudioData audioData : recitationList) {
 				final MenuItem audioItem = new MenuItem(recitationListMenu, SWT.RADIO);
 				if (SHOW_MENU_IMAGE) {
@@ -926,7 +937,9 @@ public class QuranFormMenuFactory {
 				if (StringUtils.isBlank(name)) {
 					name = audioData.name;
 				}
-				audioItem.setText(StringUtils.abbreviate(name, GlobalConfig.MAX_MENU_STRING_LENGTH)
+				audioItem.setText(StringUtils.abbreviate(name, GlobalConfig.MAX_MENU_STRING_LENGTH) + "\t"
+						+ audioData.quality + " ("
+						+ lang.getMeaning("ONLINE".equalsIgnoreCase(audioData.type) ? "ONLINE" : "OFFLINE") + ")"
 						+ (rtl ? I18N.LRM + "" : ""));
 				audioItem.setData(audioData.id);
 				if (config.getAudio().getCurrent().id.equals(audioItem.getData())) {
@@ -1363,7 +1376,8 @@ public class QuranFormMenuFactory {
 	}
 
 	public void pausePlayer() {
-		changePlayerMenuState(PlayStatus.PAUSE, lang.getMeaning("PLAY"), resource.getString(isRTL ? "icon.menu.playRtl" : "icon.menu.play"));
+		changePlayerMenuState(PlayStatus.PAUSE, lang.getMeaning("PLAY"), resource.getString(isRTL ? "icon.menu.playRtl"
+				: "icon.menu.play"));
 	}
 
 	public void resumePlayer() {
