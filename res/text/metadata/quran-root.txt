@@ -1921,7 +1921,7 @@
 # PLEASE DO NOT REMOVE THIS COPYRIGHT BLOCK
 #===================================================================
 #
-#  Quran Roots/Stems List (version 0.9.0)
+#  Quran Roots/Stems List (version 0.9.1)
 #  Initially Produced and Copyrighted by:
 #    Computer Research Center of Islamic Sciences (noorsoft.org)
 #  Recompiled by:
