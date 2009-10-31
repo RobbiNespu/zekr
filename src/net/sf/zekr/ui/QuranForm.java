@@ -407,6 +407,7 @@ public class QuranForm extends BaseForm {
 		updateSuraSelector();
 		suraMap = QuranPropertiesUtils.getSuraPropsMap(getSelectedSura());
 		FormUtils.updateTable(suraTable, suraMap);
+		playerUiController.playerUpdateAudioFormStatus();
 	}
 
 	private void updateSuraSelector() {
