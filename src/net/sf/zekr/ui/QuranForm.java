@@ -259,7 +259,6 @@ public class QuranForm extends BaseForm {
 	private boolean isSashed;
 
 	private DisposeListener dl;
-	private IQuranLocation quranLoc;
 
 	protected boolean updateTrans = true;
 	protected boolean updateQuran = true;
@@ -321,7 +320,7 @@ public class QuranForm extends BaseForm {
 		shell.setMenuBar((qmf = new QuranFormMenuFactory(this, shell)).getQuranFormMenu());
 		pageChanged = false;
 
-		logger.info("Loading last visited Quran location: " + quranLoc + ".");
+		logger.info("Loading last visited Quran location: " + uvc.getLocation() + ".");
 		tree = config.getProps().getString("view.sura.mode", "combo").equals("tree");
 
 		// reset search scope list
