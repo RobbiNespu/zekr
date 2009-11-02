@@ -9,6 +9,7 @@
 package net.sf.zekr.common.config;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.swt.SWT;
 
 /**
@@ -121,6 +123,32 @@ public class GlobalConfig {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	/**
+	 * Path of installer directory (path from where Zekr is installed). This path is useful for DVD or CD
+	 * distributions of Zekr in which we want to refer to installer path for audio files (play recitations from
+	 * DVD or CD). If no <code>install.properties</code> was found in {@link ApplicationPath#USER_CONFIG}, its
+	 * value will be equal to {@link ApplicationPath#MAIN_CONFIG}
+	 */
+	public static String ZEKR_INSTALL_DIR;
+
+	static {
+		try {
+			File file = new File(RUNTIME_DIR, "res/config/install.properties");
+			if (file.exists()) {
+				InputStream fis = new FileInputStream(file);
+				PropertiesConfiguration props = new PropertiesConfiguration();
+				props.setEncoding("UTF-8");
+				props.load(fis);
+				fis.close();
+				ZEKR_INSTALL_DIR = props.getString("zekr.install.dir", RUNTIME_DIR);
+			} else {
+				ZEKR_INSTALL_DIR = RUNTIME_DIR;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
