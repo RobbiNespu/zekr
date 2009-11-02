@@ -591,6 +591,7 @@ Features/Enhancements:
 	Added indonesian quran-properties-id.xml (submitted by abu0hasan).
 	Updated to Velocity 1.6.2.
 	A new font UthmanTN1_Ver07.otf (KFGQPC Uthman Taha Naskh) added to Zekr default package.
+	New images and icons designed for Windows installer.
 Bug fixes:
 	language pack ID and Quran metadata for Hebrew updated to have hw ISO code instead of deprecated he ISO code.
 	quran-properties-ba => quran-properties-bs
@@ -600,6 +601,11 @@ Bug fixes:
 	A blocker bug with Velocity 1.6.x+ fixed.
 	Bug 2631242: Uthmani text could not be enabled by setting quran_uthmaniTextFile to true.
 	A bug fixed with uthmani.page.xml, which caused last sura (114) to have 5 ayas instead of 6 ayas.
+
+Version 0.7.5 beta 2 - [15-11-09]
+Features/Enhancements:
+	A file is added to <zekr installation>/res/config/install.properties which holds installer path. This can be accessed through GlobalConfig.ZEKR_INSTALL_DIR, which is used to replace <installdir> variable in recitation files.
+Bug fixes:
 _____________________________________________________
 	TODO: Export search results
 
@@ -624,3 +630,5 @@ _____________________________________________________
 	TODO: Pluggable (plug-in based) search.
 	TODO: A simple help page for advanced search
 	TODO: Quranic Ruku locations.
+
+	TODO: Remove dependency to common collections (too large library)

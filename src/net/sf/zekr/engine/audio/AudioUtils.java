@@ -26,7 +26,7 @@ public class AudioUtils {
 	 * @param audioData
 	 * @param sura sura number counted from 1
 	 * @param aya aya number counted from 1
-	 * @return audio file url
+	 * @return audio file URL
 	 */
 	public static String getAudioFileUrl(AudioData audioData, int sura, int aya) {
 		try {
