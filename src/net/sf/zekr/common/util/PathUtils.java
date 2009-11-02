@@ -15,7 +15,6 @@ import java.util.Map;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.runtime.Naming;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 /**
@@ -23,6 +22,7 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class PathUtils {
 	public static final String WORKSPACE_RESOURCE = "<workspace>";
+	public static final String INSTALLDIR_RESOURCE = "<installdir>";
 	public static final String BASE_RESOURCE = "<base>";
 	public static final String ABSOLUTE_RESOURCE = "<absolute>";
 
@@ -52,6 +52,12 @@ public class PathUtils {
 			resolvedFile = new File(baseDir, unresolvedPath.substring(BASE_RESOURCE.length()));
 		} else if (unresolvedPath.startsWith(ABSOLUTE_RESOURCE)) {
 			resolvedFile = new File(unresolvedPath.substring(ABSOLUTE_RESOURCE.length()));
+		} else if (unresolvedPath.startsWith(INSTALLDIR_RESOURCE)) {
+			if (unresolvedPath.length() > INSTALLDIR_RESOURCE.length()) {
+				resolvedFile = new File(GlobalConfig.ZEKR_INSTALL_DIR, unresolvedPath.substring(INSTALLDIR_RESOURCE.length() + 1));
+			} else {
+				resolvedFile = new File(GlobalConfig.ZEKR_INSTALL_DIR, unresolvedPath.substring(INSTALLDIR_RESOURCE.length()));
+			}
 		} else {
 			resolvedFile = new File(unresolvedPath);
 		}
@@ -59,7 +65,7 @@ public class PathUtils {
 	}
 
 	public static boolean isOnlineContent(String fileName) {
-		return fileName.startsWith("http://") || fileName.startsWith("https://");
+		return fileName.startsWith("http://") || fileName.startsWith("https://") || fileName.startsWith("ftp://");
 	}
 
 }
