@@ -8,24 +8,25 @@
  */
 package net.sf.zekr.common.util;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
 import net.sf.zekr.common.config.GlobalConfig;
 
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * @author Mohsen Saboorian
  */
 public class ConfigUtils {
-	public static void write(Properties p, Writer w) {
-	}
-
+	@SuppressWarnings("unchecked")
 	public static void write(Configuration configuration, Writer w) throws IOException {
 		Iterator keys = configuration.getKeys();
 		while (keys.hasNext()) {
@@ -45,4 +46,22 @@ public class ConfigUtils {
 		}
 	}
 
+	public static PropertiesConfiguration loadConfig(File configFile, String encoding) throws ConfigurationException,
+			IOException {
+		return loadConfig(configFile, null, encoding);
+	}
+
+	public static PropertiesConfiguration loadConfig(File configFile, String basePath, String encoding)
+			throws ConfigurationException, IOException {
+		FileInputStream fis;
+		fis = new FileInputStream(configFile);
+		PropertiesConfiguration pc = new PropertiesConfiguration();
+		pc.setEncoding("UTF-8");
+		if (basePath != null) {
+			pc.setBasePath(basePath);
+		}
+		pc.load(fis);
+		fis.close();
+		return pc;
+	}
 }
