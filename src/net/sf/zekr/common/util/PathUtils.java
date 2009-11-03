@@ -21,10 +21,10 @@ import org.apache.commons.io.FilenameUtils;
  * @author Mohsen Saboorian
  */
 public class PathUtils {
+	public static final String WORKSPACE_OR_BASE_RESOURCE = "<workspace_base>";
 	public static final String WORKSPACE_RESOURCE = "<workspace>";
 	public static final String INSTALLDIR_RESOURCE = "<installdir>";
 	public static final String BASE_RESOURCE = "<base>";
-	public static final String ABSOLUTE_RESOURCE = "<absolute>";
 
 	public static Map<String, String> pathLookup = new HashMap<String, String>();
 	static {
@@ -34,30 +34,41 @@ public class PathUtils {
 
 	/**
 	 * Resolves a dynamic path denoted by either of variables {@link #WORKSPACE_RESOURCE},
-	 * {@link #BASE_RESOURCE}, or {@link #ABSOLUTE_RESOURCE} in the beginning of the parameter. If the
-	 * parameter doesn't contain any of the variables, simply a <code>new File(unresolvedPath)</code> is
-	 * returned.
+	 * {@link #BASE_RESOURCE}, {@link #WORKSPACE_OR_BASE_RESOURCE}, or {@link #INSTALLDIR_RESOURCE} in the
+	 * beginning of the parameter. If the parameter doesn't contain any of the variables, simply a
+	 * <code>new File(unresolvedPath)</code> is returned.
+	 * <p/>
+	 * A slash (or backslash) character should always be followed by either of variable resources mentioned.
+	 * For example <code>&lt;base&gt;/path/to/file</code> is correct while
+	 * <code>&lt;base&gt;path/to/file</code> is incorrect.
 	 * 
 	 * @param unresolvedPath
-	 * @return a file refers to the resolved path of the input parameter
+	 * @return a file refers to the resolved path of the input parameter or null if unresolvedPath is
+	 *         <code>null</code> or empty.
 	 */
 	public static File resolve(String unresolvedPath) {
 		String baseDir;
 		File resolvedFile;
+		if (org.apache.commons.lang.StringUtils.isBlank(unresolvedPath)) {
+			return null;
+		}
 		if (unresolvedPath.startsWith(WORKSPACE_RESOURCE)) {
-			baseDir = Naming.getWorkspace();
-			resolvedFile = new File(baseDir, unresolvedPath.substring(WORKSPACE_RESOURCE.length()));
+			baseDir = pathLookup.get(WORKSPACE_RESOURCE);
+			resolvedFile = new File(baseDir, unresolvedPath.substring(WORKSPACE_RESOURCE.length() + 1));
 		} else if (unresolvedPath.startsWith(BASE_RESOURCE)) {
 			baseDir = (String) pathLookup.get(BASE_RESOURCE);
-			resolvedFile = new File(baseDir, unresolvedPath.substring(BASE_RESOURCE.length()));
-		} else if (unresolvedPath.startsWith(ABSOLUTE_RESOURCE)) {
-			resolvedFile = new File(unresolvedPath.substring(ABSOLUTE_RESOURCE.length()));
-		} else if (unresolvedPath.startsWith(INSTALLDIR_RESOURCE)) {
-			if (unresolvedPath.length() > INSTALLDIR_RESOURCE.length()) {
-				resolvedFile = new File(GlobalConfig.ZEKR_INSTALL_DIR, unresolvedPath.substring(INSTALLDIR_RESOURCE.length() + 1));
-			} else {
-				resolvedFile = new File(GlobalConfig.ZEKR_INSTALL_DIR, unresolvedPath.substring(INSTALLDIR_RESOURCE.length()));
+			resolvedFile = new File(baseDir, unresolvedPath.substring(BASE_RESOURCE.length() + 1));
+		} else if (unresolvedPath.startsWith(WORKSPACE_OR_BASE_RESOURCE)) {
+			baseDir = Naming.getWorkspace();
+			String substring = unresolvedPath.substring(WORKSPACE_OR_BASE_RESOURCE.length() + 1);
+			resolvedFile = new File(baseDir, substring);
+			if (!resolvedFile.exists()) {
+				baseDir = pathLookup.get(WORKSPACE_RESOURCE);
+				resolvedFile = new File(baseDir, substring);
 			}
+		} else if (unresolvedPath.startsWith(INSTALLDIR_RESOURCE)) {
+			resolvedFile = new File(GlobalConfig.ZEKR_INSTALL_DIR, unresolvedPath
+					.substring(INSTALLDIR_RESOURCE.length() + 1));
 		} else {
 			resolvedFile = new File(unresolvedPath);
 		}
