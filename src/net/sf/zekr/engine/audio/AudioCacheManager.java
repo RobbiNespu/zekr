@@ -31,7 +31,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.AbstractFileFilter;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * This is immutable, hence thread-safe.
@@ -107,7 +106,13 @@ public class AudioCacheManager {
 					return new PlayableObject(cached);
 				}
 			} else {
-				return new PlayableObject(PathUtils.resolve(filePath));
+				File resolvedFile = PathUtils.resolve(filePath);
+				if (resolvedFile != null && resolvedFile.exists()) {
+					return new PlayableObject(resolvedFile);
+				} else {
+					logger.warn("File not found: " + resolvedFile);
+					return null;
+				}
 			}
 		} catch (Exception e) {
 			logger.error(e);
@@ -133,10 +138,13 @@ public class AudioCacheManager {
 					return new PlayableObject(cached);
 				}
 			} else {
-				if (StringUtils.isBlank(filePath)) {
+				File resolvedFile = PathUtils.resolve(filePath);
+				if (resolvedFile != null && resolvedFile.exists()) {
+					return new PlayableObject(resolvedFile);
+				} else {
+					logger.warn("File not found: " + resolvedFile);
 					return null;
 				}
-				return new PlayableObject(PathUtils.resolve(filePath));
 			}
 		} catch (Exception e) {
 			logger.error(e);
