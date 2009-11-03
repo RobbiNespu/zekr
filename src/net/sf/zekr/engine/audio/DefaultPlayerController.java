@@ -59,7 +59,7 @@ public class DefaultPlayerController implements PlayerController {
 				player.open(playableObject.getInputStream());
 			}
 		} catch (BasicPlayerException e) {
-			throw new PlayerException(e);
+			throw new PlayerException("Error opening playable object: " + playableObject, e);
 		}
 	}
 
