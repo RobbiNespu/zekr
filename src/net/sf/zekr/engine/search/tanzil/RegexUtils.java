@@ -23,7 +23,7 @@ public class RegexUtils extends LetterConstants {
 	private static Pattern REGTRANS_PATTERN = Pattern.compile("\\$([A-Z_]+)");
 
 	// matching rules
-	static Map matchingRules = new LinkedHashMap();
+	static Map<String, String> matchingRules = new LinkedHashMap<String, String>();
 	static {
 		matchingRules.put("$HAMZA_SHAPE", "$HAMZA_SHAPE");
 		matchingRules.put("$ALEF_MAKSURA", "YY");
@@ -38,7 +38,7 @@ public class RegexUtils extends LetterConstants {
 	}
 
 	// wildcards
-	static Map arabicWildcardRegs = new LinkedHashMap();
+	static Map<String, String> arabicWildcardRegs = new LinkedHashMap<String, String>();
 	static {
 		arabicWildcardRegs.put("\\.", "P");
 		arabicWildcardRegs.put("\\*", "S");
@@ -47,7 +47,7 @@ public class RegexUtils extends LetterConstants {
 		arabicWildcardRegs.put("^\\s*[QS]*", "");
 	}
 
-	static Map genericWildcardRegs = new LinkedHashMap();
+	static Map<String, String> genericWildcardRegs = new LinkedHashMap<String, String>();
 	static {
 		genericWildcardRegs.put("\\.", "__PP__");
 		genericWildcardRegs.put("\\*", "__SS__");
@@ -57,7 +57,7 @@ public class RegexUtils extends LetterConstants {
 	}
 
 	// wildcards
-	static Map arabicWildcards = new LinkedHashMap();
+	static Map<String, String> arabicWildcards = new LinkedHashMap<String, String>();
 	static {
 		arabicWildcards.put("S", "$LETTER_HARAKA*");
 		// wildcards.put("S", "($LETTER|$HARAKA)*");
@@ -65,23 +65,22 @@ public class RegexUtils extends LetterConstants {
 		arabicWildcards.put("P", "$LETTER");
 	}
 
-	static Map genericWildcards = new LinkedHashMap();
+	static Map<String, String> genericWildcards = new LinkedHashMap<String, String>();
 	static {
 		genericWildcards.put("__SS__", "\\\\p{L}*");
 		genericWildcards.put("__QQ__", "\\\\p{L}?");
 		genericWildcards.put("__PP__", "\\\\p{L}");
 	}
 
-	static Map preProcess = new LinkedHashMap();
+	static Map<String, String> preProcess = new LinkedHashMap<String, String>();
 	static {
 		preProcess.put("[$FARSI_YEH$YEH_BARREE]", "$YEH");
 		preProcess.put("[$FARSI_KEHEH$SWASH_KAF]", "$KAF");
 	}
 
 	static {
-		for (Iterator iterator = GROUPS.entrySet().iterator(); iterator.hasNext();) {
-			Entry entry = (Entry) iterator.next();
-			entry.setValue(RegexUtils.regTrans((String) entry.getValue()));
+		for (Entry<String, String> entry : GROUPS.entrySet()) {
+			entry.setValue(RegexUtils.regTrans(entry.getValue()));
 		}
 	}
 
@@ -126,9 +125,8 @@ public class RegexUtils extends LetterConstants {
 		return fromExp.matcher(str).replaceAll(toExp);
 	}
 
-	static final String applyRules(String str, Map rule) {
-		for (Iterator iterator = rule.entrySet().iterator(); iterator.hasNext();) {
-			Entry entry = (Entry) iterator.next();
+	static final String applyRules(String str, Map<String, String> rule) {
+		for (Entry<String, String> entry : rule.entrySet()) {
 			str = pregReplace(str, entry.getKey().toString(), entry.getValue().toString());
 		}
 		return str;
