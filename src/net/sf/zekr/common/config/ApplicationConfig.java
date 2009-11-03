@@ -14,11 +14,14 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -45,6 +48,7 @@ import net.sf.zekr.engine.audio.AudioCacheManagerTimerTask;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.DefaultPlayerController;
 import net.sf.zekr.engine.audio.PlayerController;
+import net.sf.zekr.engine.audio.RecitationPackConverter;
 import net.sf.zekr.engine.bookmark.BookmarkException;
 import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.bookmark.BookmarkSetGroup;
@@ -80,6 +84,8 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Element;
 
@@ -772,7 +778,22 @@ public class ApplicationConfig implements ConfigNaming {
 		audioData.version = pc.getString("audio.version");
 		if (StringUtils.isBlank(audioData.version)) {
 			logger.warn("Not a valid recitation file. No version specified: " + audioFile);
-			return null;
+			logger.info("Will try to convert recitation file: " + audioFile);
+			audioData = RecitationPackConverter.convert(audioFile);
+			if (audioData == null) {
+				logger.info("Conversion failed for " + audioFile);
+				return null;
+			}
+			File destDir = new File(FilenameUtils.getFullPath(audioFile.getAbsolutePath()) + "old-recitatio-files");
+			logger.info(String.format("Move %s to %s.", audioFile, destDir));
+			FileUtils.moveFileToDirectory(audioFile, destDir, true);
+
+			Writer w = new FileWriter(audioFile);
+			StringWriter sw = new StringWriter();
+			audioData.save(sw);
+			w.write(sw.toString());
+			IOUtils.closeQuietly(w);
+			return audioData;
 		} else if (CommonUtils.compareVersions(audioData.version, AudioData.BASE_VALID_VERSION) < 0) {
 			logger.warn(String.format(
 					"Version is not supported anymore: %s. Zekr supports a recitation file of version %s or newer.",
