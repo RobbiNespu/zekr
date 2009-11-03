@@ -141,8 +141,7 @@ public class AudioPlayerUiController {
 	public void playerTogglePlayPause(boolean play, boolean fromUser) {
 		try {
 			int status = playerController.getStatus();
-			logger.debug(String.format("Play/pause status changed to %s for %s. Current status is %s", play,
-					playerController.getCurrentPlayableObject(), status));
+			logger.debug(String.format("Play/pause status changed to %s. Current status is %s.", play, status));
 			if (fromUser) {
 				zekrPlayerListener.userPressedPlayButton();
 			}
