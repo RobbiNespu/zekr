@@ -784,7 +784,7 @@ public class ApplicationConfig implements ConfigNaming {
 				logger.info("Conversion failed for " + audioFile);
 				return null;
 			}
-			File destDir = new File(FilenameUtils.getFullPath(audioFile.getAbsolutePath()) + "old-recitatio-files");
+			File destDir = new File(FilenameUtils.getFullPath(audioFile.getAbsolutePath()) + "old-recitation-files");
 			logger.info(String.format("Move %s to %s.", audioFile, destDir));
 			FileUtils.moveFileToDirectory(audioFile, destDir, true);
 
