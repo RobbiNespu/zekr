@@ -92,15 +92,13 @@ public class FilteredQuranText extends AbstractQuranText {
 
 	private String filter(int suraNum, int ayaNum) {
 		QuranFilterContext qfc = new QuranFilterContext(quranText.get(suraNum, ayaNum), suraNum, ayaNum);
-		// qfc.params = quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0;
-		qfc.params = filterParams;
+		qfc.params = filterParams | (quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0);
 		return filter.filter(qfc);
 	}
 
 	private String filter(String str) {
 		QuranFilterContext qfc = new QuranFilterContext(str, -1, -1);
-		// qfc.params = quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0;
-		qfc.params = filterParams;
+		qfc.params = filterParams | (quranText.getMode() == UTHMANI_MODE ? IQuranFilter.UTHMANI_TEXT : 0);
 		return filter.filter(qfc);
 	}
 
