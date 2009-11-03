@@ -605,6 +605,9 @@ Bug fixes:
 Version 0.7.5 beta 2 - [15-11-09]
 Features/Enhancements:
 	A file is added to <zekr installation>/res/config/install.properties which holds installer path. This can be accessed through GlobalConfig.ZEKR_INSTALL_DIR, which is used to replace <installdir> variable in recitation files.
+	Added recitation converter. Old recitations are converted to new format on startup. Old files are then moved to old-recitation-files folder.
+	QuranWriterFilter now put some special characters in filtered Uthmani text for better rendering. A tatweel or a zwnj is put before small superscript alef according to the context.
+	Added a new property text.filter.noSpaceBeforeWaqf to specify whether or not insert a space before waqf marks or not.
 Bug fixes:
 _____________________________________________________
 	TODO: Export search results
