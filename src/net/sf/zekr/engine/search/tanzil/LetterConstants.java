@@ -18,7 +18,7 @@ import java.util.Map;
  * @author Mohsen Saboorian
  */
 public class LetterConstants {
-	public static Map CHARS = new LinkedHashMap();
+	public static Map<String, Character> CHARS = new LinkedHashMap<String, Character>();
 	static {
 		// letters used in Quran text
 		CHARS.put("HAMZA", new Character('\u0621'));
@@ -92,6 +92,12 @@ public class LetterConstants {
 		CHARS.put("HIGH_STOP", new Character('\u06EB'));
 		CHARS.put("HIGH_STOP_FILLED", new Character('\u06EC'));
 		CHARS.put("LOW_MEEM", new Character('\u06ED'));
+		CHARS.put("HAMZA_ABOVE_ALEF", new Character('\u0675'));
+		CHARS.put("DOTLESS_BEH", new Character('\u066E'));
+		CHARS.put("HIGH_YEH", new Character('\u06E7'));
+		CHARS.put("ZWNJ", new Character('\u200C'));
+		CHARS.put("NBSP", new Character('\u00A0'));
+		CHARS.put("NNBSP", new Character('\u202F'));
 
 		// other letters
 		CHARS.put("ARABIC_COMMA", new Character('\u060C'));
@@ -105,7 +111,7 @@ public class LetterConstants {
 	}
 
 	// letter groups
-	public static Map GROUPS = new LinkedHashMap();
+	public static Map<String, String> GROUPS = new LinkedHashMap<String, String>();
 	static {
 		GROUPS.put("LETTER", "[$HAMZA-$YEH]");
 		GROUPS.put("HARAKA", "[$FATHATAN-$MADDA$SUPERSCRIPT_ALEF]");
