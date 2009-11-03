@@ -8,11 +8,14 @@
  */
 package net.sf.zekr.engine.audio;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author Mohsen Saboorian
@@ -72,5 +75,50 @@ public class AudioData implements Comparable<AudioData> {
 		} catch (ParseException e) {
 			return 0;
 		}
+	}
+
+	/**
+	 * Writes properties to writer parameter. It doesn't close writer.
+	 * 
+	 * @param writer
+	 * @throws IOException
+	 */
+	public void save(Writer writer) throws IOException {
+		write(writer, "audio.id", id);
+		write(writer, "audio.version", version);
+		write(writer, "audio.lastUpdate", lastUpdate);
+		write(writer, "audio.quality", quality);
+		writer.write("\r\n");
+
+		write(writer, "audio.name", name);
+		write(writer, "audio.license", license);
+		write(writer, "audio.language", locale.getLanguage());
+		write(writer, "audio.country", locale.getCountry());
+		write(writer, "audio.type", type);
+		writer.write("\r\n");
+
+		write(writer, "audio.reciter", reciter);
+		for (Entry<String, String> entry : reciterLocalizedName.entrySet()) {
+			write(writer, "audio.reciter" + entry.getKey(), entry.getValue());
+		}
+		writer.write("\r\n");
+
+		write(writer, "audio.onlineUrl", onlineUrl);
+		write(writer, "audio.offlineUrl", offlineUrl);
+		writer.write("\r\n");
+
+		write(writer, "audio.onlineAudhubillah", onlineAudhubillah);
+		write(writer, "audio.onlineBismillah", onlineBismillah);
+		write(writer, "audio.onlineSadaghallah", onlineSadaghallah);
+		writer.write("\r\n");
+
+		write(writer, "audio.offlineAudhubillah", offlineAudhubillah);
+		write(writer, "audio.offlineBismillah", offlineBismillah);
+		write(writer, "audio.offlineSadaghallah", offlineSadaghallah);
+		writer.write("\r\n");
+	}
+
+	private void write(Writer writer, String key, String value) throws IOException {
+		writer.write(String.format("%s = %s\r\n", key, value == null ? "" : value));
 	}
 }
