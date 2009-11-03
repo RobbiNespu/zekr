@@ -21,13 +21,13 @@ import org.apache.log4j.Priority;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.swt.widgets.Display;
 
+// TODO: this class should be removed in future. Logger should be obtained through normal common logger interface.
 /**
  * Zekr default logger wrapper class for Log4J library. This is not a singleton class. It creates a new
  * instance of itself per each call to <code>getInstance()</code>, because different classes should have
  * different Log4J loggers associated with.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class Logger {
 	public static final Level INFO = Level.INFO;
