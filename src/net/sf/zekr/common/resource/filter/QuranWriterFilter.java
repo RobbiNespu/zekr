@@ -10,12 +10,14 @@ package net.sf.zekr.common.resource.filter;
 
 import java.util.regex.Pattern;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.search.ArabicCharacters;
 import net.sf.zekr.engine.search.tanzil.RegexUtils;
 
 import org.apache.commons.lang.StringUtils;
 
 public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
+	private static final String REPLACE_HIGHLIGHT_NOSPACE = "<span class=\"waqfSign\">$1</span>";
 	private static final String REPLACE_HIGHLIGHT = "<span class=\"waqfSign\">&nbsp;$1</span>";
 	private static final String WAQF_REGEX = RegexUtils.regTrans(" ([$HIGH_SALA-$HIGH_SEEN])");
 
@@ -40,21 +42,25 @@ public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
 
 		// Good for Uthmani text
 		if ((qfc.params & UTHMANI_TEXT) == UTHMANI_TEXT) {
-			str = RegexUtils.pregReplace(str, "$FATHA$SUPERSCRIPT_ALEF", "$FATHA$SMALL_ALEF");
-			str = RegexUtils.pregReplace(str, "($FATHA)($SUPERSCRIPT_ALEF)", "$1$TATWEEL$2");
-			str = RegexUtils.pregReplace(str, "([$HAMZA$DAL-$ZAIN$WAW]$FATHA)$TATWEEL($SUPERSCRIPT_ALEF)", "$1$2");
+			str = RegexUtils.pregReplace(str, "($SHADDA|$FATHA)($SUPERSCRIPT_ALEF)", "$1$TATWEEL$2");
+			str = RegexUtils.pregReplace(str, "([$HAMZA$DAL-$ZAIN$WAW][$SHADDA$FATHA]*)$TATWEEL($SUPERSCRIPT_ALEF)",
+					"$1$ZWNJ$2");
 		}
 
 		str = StringUtils.replace(str, String.valueOf(ALEF) + MADDA, String.valueOf(ALEF_MADDA));
 
 		if ((qfc.params & SHOW_WAQF_SIGN) != SHOW_WAQF_SIGN) {
 			// remove all waqf signs
-			str = str.replaceAll(WAQF_REGEX, "");
+			str = highlightRegex.matcher(str).replaceAll("");
 		}
 
 		if ((qfc.params & HIGHLIGHT_WAQF_SIGN) == HIGHLIGHT_WAQF_SIGN)
 			// highlight waqf sign
-			str = highlightRegex.matcher(str).replaceAll(REPLACE_HIGHLIGHT);
+			if (ApplicationConfig.getInstance().getProps().getBoolean("text.filter.noSpaceBeforeWaqf", false)) {
+				str = highlightRegex.matcher(str).replaceAll(REPLACE_HIGHLIGHT_NOSPACE);
+			} else {
+				str = highlightRegex.matcher(str).replaceAll(REPLACE_HIGHLIGHT);
+			}
 		return str;
 	}
 }
