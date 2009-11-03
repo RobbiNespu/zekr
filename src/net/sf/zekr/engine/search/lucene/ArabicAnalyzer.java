@@ -29,8 +29,8 @@ import org.apache.lucene.analysis.standard.StandardTokenizer;
  */
 public class ArabicAnalyzer extends Analyzer {
 	private static final String[] ARABIC_STOP_WORDS = {
-		(String) LetterConstants.CHARS.get("ARABIC_COMMA"),
-		(String) LetterConstants.CHARS.get("ARABIC_SEMICOLON"),
+		LetterConstants.CHARS.get("ARABIC_COMMA").toString(),
+		LetterConstants.CHARS.get("ARABIC_SEMICOLON").toString(),
 		".", ",", "?", "!", "(", ")"};
 
 	private Set stopSet;

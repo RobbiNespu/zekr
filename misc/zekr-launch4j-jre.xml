@@ -2,7 +2,7 @@
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
   <jar></jar>
-  <outfile>D:\Java\Programs\Zekr\dist\0.7.5\beta1\win32-special\zekr.exe</outfile>
+  <outfile>D:\Java\Programs\Zekr\dist\0.7.5\beta1\special\win32\zekr.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -11,7 +11,7 @@
   <supportUrl>http://zekr.org/contact.html</supportUrl>
   <customProcName>true</customProcName>
   <stayAlive>false</stayAlive>
-  <icon>D:\Java\Programs\Zekr\dist\0.7.5\beta1\win32\res\image\icon\zekr.ico</icon>
+  <icon>D:\Java\Programs\Zekr\dist\installer-files\zekr-exe.ico</icon>
   <classPath>
     <mainClass>net.sf.zekr.ZekrMain</mainClass>
     <cp>lib/log4j-1.2.8.jar</cp>
