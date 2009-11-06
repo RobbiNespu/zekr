@@ -56,8 +56,8 @@ public class CustomTranslationListForm extends BaseForm {
 	private Button upBut;
 	private Button downBut;
 
-	private java.util.List sourceData = new ArrayList();
-	private java.util.List targetData = new ArrayList();
+	private java.util.List<String> sourceData = new ArrayList<String>();
+	private java.util.List<String> targetData = new ArrayList<String>();
 	private boolean okayed = false;
 
 	public CustomTranslationListForm(Shell parent) {
@@ -117,14 +117,14 @@ public class CustomTranslationListForm extends BaseForm {
 			}
 		});
 
-		Collection transCollection = config.getTranslation().getAllTranslation();
-		java.util.List customList = config.getCustomTranslationList();
+		Collection<TranslationData> transCollection = config.getTranslation().getAllTranslation();
+		java.util.List<TranslationData> customList = config.getCustomTranslationList();
 		transCollection.removeAll(customList);
 		String[] sourceItems = new String[transCollection.size()];
 
 		int i = 0;
-		for (Iterator iter = transCollection.iterator(); iter.hasNext(); i++) {
-			TranslationData td = (TranslationData) iter.next();
+		for (Iterator<TranslationData> iter = transCollection.iterator(); iter.hasNext(); i++) {
+			TranslationData td = iter.next();
 			sourceItems[i] = td.localizedName + " - " + td.locale;
 			sourceData.add(td.id);
 		}
@@ -204,8 +204,7 @@ public class CustomTranslationListForm extends BaseForm {
 
 		i = 0;
 		String[] targetItems = new String[customList.size()];
-		for (Iterator iter = customList.iterator(); iter.hasNext(); i++) {
-			TranslationData td = (TranslationData) iter.next();
+		for (TranslationData td : customList) {
 			targetItems[i] = td.localizedName + " - " + td.locale;
 			targetData.add(td.id);
 		}
@@ -238,7 +237,7 @@ public class CustomTranslationListForm extends BaseForm {
 						targetList.add(item, index - 1);
 						targetList.select(index - 1);
 
-						String id = (String) targetData.remove(index);
+						String id = targetData.remove(index);
 						targetData.add(index - 1, id);
 					}
 				} else {
@@ -248,7 +247,7 @@ public class CustomTranslationListForm extends BaseForm {
 						targetList.add(item, index + 1);
 						targetList.select(index + 1);
 
-						String id = (String) targetData.remove(index);
+						String id = targetData.remove(index);
 						targetData.add(index + 1, id);
 					}
 				}
