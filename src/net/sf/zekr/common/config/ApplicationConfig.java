@@ -25,10 +25,12 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -42,6 +44,7 @@ import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.CommonUtils;
+import net.sf.zekr.common.util.ConfigUtils;
 import net.sf.zekr.engine.audio.Audio;
 import net.sf.zekr.engine.audio.AudioCacheManager;
 import net.sf.zekr.engine.audio.AudioCacheManagerTimerTask;
@@ -75,7 +78,9 @@ import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.Translation;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.engine.translation.TranslationException;
+import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
+import net.sf.zekr.engine.xml.XmlUtils;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 
@@ -87,7 +92,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * This singleton class reads the config files by the first invocation of <code>getInstance()</code>. You can
@@ -122,6 +129,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private AudioCacheManager audioCacheManager;
 	private PlayerController playerController;
 	private NetworkController networkController;
+	private KeyboardShortcut shortcut;
 
 	private ApplicationConfig() {
 		logger.info("Initializing application configurations...");
@@ -297,38 +305,22 @@ public class ApplicationConfig implements ConfigNaming {
 
 		try {
 			logger.debug("Load " + confFile);
-			InputStream fis = new FileInputStream(confFile);
-			props = new PropertiesConfiguration();
-			props.setBasePath(ApplicationPath.CONFIG_DIR);
-			props.setEncoding("UTF-8");
-			props.load(fis, "UTF-8");
-			fis.close();
+			props = ConfigUtils.loadConfig(new File(confFile), ApplicationPath.CONFIG_DIR, "UTF-8");
 
 			String version = props.getString("version");
 			if (!GlobalConfig.ZEKR_VERSION.equals(version)) {
 				logger.info("User config version (" + version + ") does not match with " + GlobalConfig.ZEKR_VERSION);
 
-				InputStreamReader reader;
 				if (StringUtils.isBlank(version) || !version.startsWith("0.7.5")) { // config file is too old
 					logger.info("Previous version was too old: " + version);
 					logger.info("Cannot migrate old settings. Will reset settings.");
 
-					fis = new FileInputStream(ApplicationPath.MAIN_CONFIG);
-					reader = new InputStreamReader(fis, "UTF-8");
-					props = new PropertiesConfiguration();
-					props.load(reader);
-					reader.close();
-					fis.close();
+					props = ConfigUtils.loadConfig(new File(ApplicationPath.MAIN_CONFIG), "UTF-8");
 				} else {
 					logger.info("Will initialize user config with default values, overriding with old config.");
 
 					PropertiesConfiguration oldProps = props;
-					fis = new FileInputStream(ApplicationPath.MAIN_CONFIG);
-					reader = new InputStreamReader(fis, "UTF-8");
-					props = new PropertiesConfiguration();
-					props.load(reader);
-					reader.close();
-					fis.close();
+					props = ConfigUtils.loadConfig(new File(ApplicationPath.MAIN_CONFIG), "UTF-8");
 
 					for (Iterator<String> iter = oldProps.getKeys(); iter.hasNext();) {
 						String key = iter.next();
@@ -348,6 +340,69 @@ public class ApplicationConfig implements ConfigNaming {
 			// create config dir
 			new File(Naming.getConfigDir()).mkdirs();
 			saveConfig();
+		}
+
+		// load shortcuts
+		logger.info("Loading keyboard shortcuts.");
+		File userShortcut = new File(ApplicationPath.USER_SHORTCUT);
+		Document doc = null;
+		if (userShortcut.exists()) {
+			try {
+				logger.info("Loading user keyboard shortcuts: " + ApplicationPath.USER_SHORTCUT);
+				Document userDoc = new XmlReader(userShortcut).getDocument();
+				String version = userDoc.getDocumentElement().getAttribute("version");
+				if (GlobalConfig.ZEKR_VERSION.equals(version)) {
+					doc = userDoc;
+				} else {
+					logger.info("User shortcut file version (" + version + ") does not match with "
+							+ GlobalConfig.ZEKR_VERSION);
+
+					List<String> userList = new ArrayList<String>();
+					Element userRoot = userDoc.getDocumentElement();
+					NodeList userMappings = userRoot.getElementsByTagName("mapping");
+					for (int i = 0; i < userMappings.getLength(); i++) {
+						Element mapping = (Element) userMappings.item(i);
+						String action = mapping.getAttribute("action");
+						userList.add(action);
+					}
+
+					File mainShortcut = new File(ApplicationPath.MAIN_SHORTCUT);
+					Element mainRoot = new XmlReader(mainShortcut).getDocument().getDocumentElement();
+					NodeList mainMappings = mainRoot.getElementsByTagName("mapping");
+					for (int i = 0; i < mainMappings.getLength(); i++) {
+						Element mapping = (Element) mainMappings.item(i);
+						String action = mapping.getAttribute("action");
+						if (!userList.contains(action)) {
+							logger.debug("Adding new shortcut mapping for action: " + action);
+							Element newMapping = userDoc.createElement("mapping");
+							newMapping.setAttribute("action", mapping.getAttribute("action"));
+							newMapping.setAttribute("key", mapping.getAttribute("key"));
+							newMapping.setAttribute("rtlKey", mapping.getAttribute("rtlKey"));
+							userRoot.appendChild(newMapping);
+						}
+					}
+					userRoot.setAttribute("version", GlobalConfig.ZEKR_VERSION);
+					doc = userDoc;
+					XmlUtils.writeXml(userDoc, userShortcut);
+				}
+			} catch (Exception e) {
+				logger.warn("Error loading user shortcuts: " + ApplicationPath.USER_SHORTCUT);
+				logger.log(e);
+			}
+		} else {
+			try {
+				logger.info("Loading keyboard shortcuts from original location: " + ApplicationPath.MAIN_SHORTCUT);
+				File mainShortcut = new File(ApplicationPath.MAIN_SHORTCUT);
+				doc = new XmlReader(mainShortcut).getDocument();
+				FileUtils.copyFile(mainShortcut, new File(ApplicationPath.USER_SHORTCUT));
+			} catch (Exception e) {
+				logger.log(e);
+			}
+		}
+		if (doc != null) {
+			logger.info("Initialize keyboard shortcuts and mappings.");
+			shortcut = new KeyboardShortcut(doc);
+			shortcut.init();
 		}
 	}
 
@@ -751,9 +806,19 @@ public class ApplicationConfig implements ConfigNaming {
 		if (audio.getCurrent() == null) {
 			logger.error("No default recitation found: " + def);
 			if (audio.getAllAudio().size() > 0) {
-				audio.setCurrent((AudioData) audio.getAllAudio().iterator().next());
-				props.setProperty("audio.default", audio.getCurrent().id);
-				logger.warn("Setting another recitation as default: " + audio.getCurrent());
+				for (AudioData ad : audio.getAllAudio()) {
+					if ("offline".equals(ad.type)) {
+						audio.setCurrent(ad);
+						props.setProperty("audio.default", ad.id);
+						logger.warn("Setting another recitation as default: " + audio.getCurrent());
+						break;
+					}
+				}
+				if (audio.getCurrent() == null) {
+					audio.setCurrent(audio.getAllAudio().iterator().next());
+					props.setProperty("audio.default", audio.getCurrent().id);
+					logger.warn("Setting another recitation as default: " + audio.getCurrent());
+				}
 			} else {
 				logger.warn("No other recitation found. Audio will be disabled.");
 			}
@@ -1344,5 +1409,9 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public NetworkController getNetworkController() {
 		return networkController;
+	}
+
+	public KeyboardShortcut getShortcut() {
+		return shortcut;
 	}
 }
