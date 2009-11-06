@@ -16,7 +16,6 @@ import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.PlayStatus;
 import net.sf.zekr.engine.audio.PlayerController;
-import net.sf.zekr.engine.audio.PlayerController.PlayingItem;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.QuranForm;
 
@@ -354,23 +353,7 @@ public class AudioPlayerForm extends BaseForm {
 		SelectionListener navSelectionListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				int st = playerController.getStatus();
-				playerController.setPlayingItem(PlayingItem.AYA);
-				quranForm.playerUiController.playerStop(true);
-				if ("prev".equals(((Widget) e.getSource()).getData())) {
-					if (uvc.getLocation().getPrev() == null) {
-						return;
-					}
-					quranForm.gotoPrevAya();
-				} else {
-					if (uvc.getLocation().getNext() == null) {
-						return;
-					}
-					quranForm.gotoNextAya();
-				}
-				if (st == PlayerController.PLAYING) {
-					quranForm.playerUiController.playerTogglePlayPause(true, true);
-				}
+				quranForm.playerUiController.navigate((String) ((Widget) e.getSource()).getData());
 			}
 		};
 
@@ -497,7 +480,7 @@ public class AudioPlayerForm extends BaseForm {
 	}
 
 	public void stop() {
-		playerTogglePlayPause(false);
+		quranForm.playerUiController.toggleAudioControllerForm(false);
 	}
 
 	public void close() {
