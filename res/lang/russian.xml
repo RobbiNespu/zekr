@@ -31,7 +31,7 @@
             <text id="NUMBER"   value="Номер" />
             <text id="OPTION"   value="Опция" />
             <text id="FILE"     value="Файл" />
-            <text id="RELOAD"   value="Освежить" />
+            <text id="RELOAD"   value="Перезагрузить" />
             <text id="TYPE"     value="Тип" />
             <text id="MESSAGE"  value="Сообщение" />
             <text id="BLOCK"    value="Блок" />
@@ -53,7 +53,7 @@
             <text id="PREV_SURA" value="Предыдущая сура" />
             <text id="THEME"    value="Тема" />
             <text id="LAYOUT"   value="Макет" />
-            <text id="TOOLS"    value="Инструменты" />
+            <text id="TOOLS"    value="Сервис" />
             <text id="ADD"      value="Добавить" />
             <text id="DELETE"   value="Удалить" />
             <text id="REMOVE"   value="Удалить" />
@@ -64,7 +64,7 @@
             <text id="COPY"     value="Копировать" />
             <text id="SEPARATE" value="Раздельно" />
             <text id="MIXED"    value="Вместе" />
-            <text id="OPTIONS"  value="Опции" />
+            <text id="OPTIONS"  value="Настройки" />
             <text id="QUESTION" value="Вопрос" />
             <text id="FONT"     value="Шрифт" />
             <text id="GENERAL"  value="Общие" />
@@ -86,7 +86,7 @@
             <text id="LTR"      value="Слева направо" />
             <text id="AUTHOR"   value="Автор" />
             <text id="VERSION"  value="Версия" />
-            <text id="RANDOM_AYA" value="Произвольный аят" />
+            <text id="RANDOM_AYA" value="Случайный аят" />
             <text id="UNTITLED" value="Безымянный" />
             <text id="SET_DEFAULT" value="По умолчанию" />
             <text id="NOT_LOADED" value="Не загружен" />
@@ -107,8 +107,8 @@
             <text id="MULTILINE" value="Несколько строк" />
             <text id="TOGGLE" value="Развернуть" />
             <text id="AUDIO" value="Аудио"   />
-            <text id="CONTINUOUS" value="Прочитать всю страницу"   />
-            <text id="DISCRETE" value="Прочитать только аят"   />
+            <text id="CONTINUOUS" value="Непрерывно"   />
+            <text id="DISCRETE" value="По отдельности"   />
             <text id="PLAY" value="Воспроизвести"   />
             <text id="PAUSE" value="Пауза"   />
             <text id="STOP" value="Стоп"   />
@@ -139,6 +139,13 @@
             <text id="ROOT" value="Корень слова"   /> <!-- корень слова -->
             <text id="ADDRESS" value="Адрес"   />
             <text id="BOOKMARK_THIS_AYA" value="Добавить этот аят в закладки"   />
+			<text id="AUDIO_PLAYER" value="Аудиоплеер"   />
+			<text id="PLAYING" value="Воспроизводится"   />
+			<text id="PAUSED" value="Нажато на паузу"   />
+			<text id="STOPPED" value="Остановлено"   />
+			<text id="RECITER" value="Чтец Корана"   />
+            <text id="ONLINE" value="Он-лайн"   />
+            <text id="OFFLINE" value="Офф-лайн"   />
         </common>
         <special>
             <text id="QURAN"    value="Коран" />
@@ -169,6 +176,7 @@
             <text id="RESTART_APP" value="Требуется перезапуск приложения, чтобы изменения вступили в силу." />
             <text id="ACTION_PERFORMED" value="Действие успешно выполнено."   />
             <text id="TRANSLATION_ADDED" value="Следующий перевод добавлен в меню {1}"   />
+			<text id="RECITATION_ADDED" value="Следующие чтецы Корана добавлены в {1} меню"   />
         </inform>
         <confirm>
             <text id="YES_NO" value="Вы уверены?" />
@@ -179,6 +187,9 @@
             <text id="FNF" value="Файл не найден" />
             <text id="ACTION_FAILED" value="Действие не удалось!" />
             <text id="INVALID_TRANSLATION_FORMAT" value="Неверный формат перевода: {1}"   />
+			<text id="INVALID_RECITATION_FORMAT" value="Неверный формат чтеца Корана: {1}"   />
+			<text id="NEWER_VERSION_INSTALLED" value="Ресурс '{1}' устарел (обновление от: {2}). Более новая версия ({3}) уже установлена." />
+
             <text id="INVALID_TRANSLATION_SIGNATURE" value="Неверная подпись перевода: {1}"   />
             <text id="TRANSLATION_LOAD_FAILED" value="Загрузка перевода &quot;{1}&quot; не удалась из-за следующей ошибки: {2}"   />
             <text id="ENTER_VALID_NUMBER" value="Пожалуйста, введите правильное число."   />
@@ -212,12 +223,12 @@
             <text id="THEME_OPTIONS"    value="Тема"   />
             <text id="GENERAL_OPTIONS"  value="Общие"   />
             <text id="VIEW_OPTIONS"     value="Вид"   />
-            <text id="TITLE" value="Опции программы" />
+            <text id="TITLE" value="Настройки программы" />
             <text id="SHOW_SPLASH" value="Показывать логотип при запуске" />
             <text id="NEW_KEY" value="Введите новый ключ" />
             <text id="THEME_SETTING" value="Установки темы" />
             <text id="PRESS_OK_TO_APPLY" value="Нажмите клавишу &quot;OK&quot;, чтобы изменения вступили в силу." />
-            <text id="MAX_SEARCH_RESULT" value="Максимальное число аятов, участвующих в поиске" />
+            <text id="MAX_SEARCH_RESULT" value="Максимальное число аятов для поиска" />
             <text id="RESIZEABLE_TASK_PANE" value="Разрешить изменение размера панелей" />
             <text id="SURA_NAMES" value="Названия сур"   />
             <text id="ARABIC" value="Арабские"   />
@@ -290,7 +301,7 @@
         </form>
         <form id="ABOUT">
             <text id="TITLE" value="О программе Зикр" />
-            <text id="VIEW_LOG" value="Просмотреть файл отчетов" />
+            <text id="VIEW_LOG" value="Просмотреть журнал отчетов" />
         </form>
         <form id="UPDATE">
             <text id="TITLE" value="Информация об обновлении" />
@@ -317,5 +328,14 @@
             <text id="CUSTOM" value="Другая"   />
             <text id="AYA_PER_SURA" value="Сколько аятов следует отображать на каждой странице?"   />
         </form>
-    </forms>
+			<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="Аудиоплеер"   />
+			<text id="SECOND_ABBR" value="с"   /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECONDS" value="Секунды"   /> <!--  tooltip for 's' (SECOND_ABBR) -->
+			<text id="INTERVAL" value="Интервал"   />
+			<text id="REPEAT" value="Повторы"   />
+			<text id="NO_INTERVAL" value="Без интервала"   />
+			<text id="NO_REPEAT" value="Без повторов"   />
+		</form>
+	</forms>
 </language>
