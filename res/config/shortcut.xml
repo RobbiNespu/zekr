@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shortcut version="0.7.5beta2">
+<![CDATA[
+- if shortcut for right-to-left mode is different, specify rtlKey for mapping element.
+- use 'Alt', 'Ctrl', and 'Shift' modifiers only. Ctrl is treated as Command on Mac systems.
+- function keys from F1 to F20 are supported.
+- You original key code should placed after the last + sign.
+- 'Up', 'Down', 'Left', 'Right', 'PageUp', 'PageDown', 'Home', 'End', 'Insert', 'Delete', 'Enter', 
+    'Space', 'BackSpace', 'Esc' and 'Tab' are recognized controlling keys. For example you can specify
+    Ctrl+Alt+Enter for an action.
+]]>
+    <!-- file -->
+    <mapping action="print" key="Ctrl+Shift+P" />
+    <mapping action="savePageAs" key="Ctrl+Shift+S" />
+    <mapping action="quit" key="Ctrl+Q" />
+
+    <!-- view -->
+    <mapping action="reload" key="Ctrl+R" />
+    <mapping action="configureMultiTrans" key="Ctrl+Shift+T" />
+    <mapping action="toggleFullScreen" key="F11" />
+
+    <!-- goto -->
+    <mapping action="gotoRandomAya" key="Ctrl+Shift+R" />
+    <mapping action="gotoNextSura" key="Ctrl+Alt+Down" />
+    <mapping action="gotoPrevSura" key="Ctrl+Alt+Up" />
+    <mapping action="gotoNextAya" key="Alt+Right" rtlKey="Alt+Left" />
+    <mapping action="gotoPrevAya" key="Alt+Left" rtlKey="Alt+Right" />
+    <mapping action="gotoNextPage" key="Alt+Down" />
+    <mapping action="gotoPrevPage" key="Alt+Up" />
+    <mapping action="gotoNextHizbQuarter" key="Ctrl+Alt+Right" rtlKey="Ctrl+Alt+Left" />
+    <mapping action="gotoPrevHizbQuarter" key="Ctrl+Alt+Left" rtlKey="Ctrl+Alt+Right" />
+    <mapping action="gotoNextJuz" key="Ctrl+." rtlKey="Ctrl+," />
+    <mapping action="gotoPrevJuz" key="Ctrl+," rtlKey="Ctrl+." />
+    <mapping action="gotoNextSajda" key="" />
+    <mapping action="gotoPrevSajda" key="" />
+
+    <!-- audio -->
+    <mapping action="playerTogglePlayPause" key="Ctrl+P" />
+    <mapping action="playerStop" key="Ctrl+S" />
+    <mapping action="toggleAudioPanel" key="F4" />
+    <mapping action="playerNext" key="Ctrl+Alt+=" />
+    <mapping action="playerPrev" key="Ctrl+Alt+-" />
+
+    <!-- bookmark set -->
+    <mapping action="manageBookmarks" key="Ctrl+B" />
+    <mapping action="manageBookmarkSets" key="" />
+    <mapping action="bookmarkThis" key="Ctrl+D" />
+    <mapping action="findBookmarkReferences" key="Ctrl+Shift+F" />
+</shortcut>
