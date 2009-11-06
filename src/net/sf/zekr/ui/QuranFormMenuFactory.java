@@ -11,38 +11,32 @@ package net.sf.zekr.ui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.config.KeyboardShortcut;
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.HyperlinkUtils;
 import net.sf.zekr.common.util.I18N;
-import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.common.util.ZipUtils;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.PlayStatus;
 import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
 import net.sf.zekr.engine.bookmark.BookmarkSet;
-import net.sf.zekr.engine.bookmark.ui.BookmarkReferenceForm;
 import net.sf.zekr.engine.bookmark.ui.BookmarkSetForm;
 import net.sf.zekr.engine.bookmark.ui.BookmarkUtils;
-import net.sf.zekr.engine.bookmark.ui.ManageBookmarkSetsForm;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.page.FixedAyaPagingData;
@@ -50,10 +44,7 @@ import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
 import net.sf.zekr.engine.page.SuraPagingData;
-import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.translation.TranslationData;
-import net.sf.zekr.engine.translation.ui.CustomTranslationListForm;
-import net.sf.zekr.engine.update.UpdateManager;
 import net.sf.zekr.ui.helper.FormUtils;
 import net.sf.zekr.ui.options.OptionsForm;
 
@@ -96,7 +87,7 @@ public class QuranFormMenuFactory {
 	private MenuItem transViewType;
 	private Menu menu;
 	private MenuItem file;
-	private MenuItem exportItem;
+	private MenuItem saveAsItem;
 	private MenuItem printItem;
 	private MenuItem exitItem;
 	private MenuItem view;
@@ -112,7 +103,7 @@ public class QuranFormMenuFactory {
 	private int direction;
 	private MenuItem randomAyaItem;
 	private Menu transMenu, viewModeMenu;
-	private MenuItem customTransList, _def;
+	private MenuItem _def;
 	private Menu audioMenu;
 	private MenuItem audioItem;
 	private MenuItem playItem;
@@ -129,7 +120,6 @@ public class QuranFormMenuFactory {
 	private PropertiesConfiguration props;
 	private PlayerController playerController;
 	private Menu recitationListMenu;
-	private boolean isRTL;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		this.quranForm = form;
@@ -155,30 +145,16 @@ public class QuranFormMenuFactory {
 		file.setMenu(fileMenu);
 
 		// save as...
-		exportItem = createMenuItem(0, fileMenu, lang.getMeaning("SAVE_AS") + "...", SWT.CTRL | 'S', "icon.menu.export");
-		exportItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				export();
-			}
-		});
+		saveAsItem = createMenuItem(SWT.PUSH, fileMenu, lang.getMeaning("SAVE_AS") + "...", "savePageAs",
+				"icon.menu.export");
 		// disabled exporting if HTTP server is enabled
-		exportItem.setEnabled(!config.isHttpServerEnabled());
+		saveAsItem.setEnabled(!config.isHttpServerEnabled());
 
 		// print
-		printItem = createMenuItem(0, fileMenu, lang.getMeaning("PRINT") + "...", SWT.CTRL | 'P', "icon.menu.print");
-		printItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				print();
-			}
-		});
+		printItem = createMenuItem(SWT.PUSH, fileMenu, lang.getMeaning("PRINT") + "...", "print", "icon.menu.print");
 
 		// add exit item
-		exitItem = createMenuItem(0, fileMenu, lang.getMeaning("EXIT"), SWT.CTRL | 'Q', "icon.menu.exit");
-		exitItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				close();
-			}
-		});
+		exitItem = createMenuItem(SWT.PUSH, fileMenu, lang.getMeaning("EXIT"), "quit", "icon.menu.exit");
 
 		// ---- View -----
 		view = new MenuItem(menu, SWT.CASCADE | direction);
@@ -188,16 +164,11 @@ public class QuranFormMenuFactory {
 		viewMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		view.setMenu(viewMenu);
 
-		suraReloadItem = createMenuItem(0, viewMenu, lang.getMeaning("RELOAD"), SWT.CTRL | 'R', "icon.menu.reload");
-		suraReloadItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				quranForm.reload();
-			}
-		});
+		suraReloadItem = createMenuItem(SWT.PUSH, viewMenu, lang.getMeaning("RELOAD"), "reload", "icon.menu.reload");
 
 		// separator
 		new MenuItem(viewMenu, SWT.SEPARATOR);
-		transName = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("TRANSLATION"), 0,
+		transName = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("TRANSLATION"),
 				"icon.menu.translation");
 		transMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		transName.setMenu(transMenu);
@@ -205,19 +176,18 @@ public class QuranFormMenuFactory {
 
 		// view mode: sura, aya, juz, hizb or custom
 		new MenuItem(viewMenu, SWT.SEPARATOR);
-		viewMode = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("PAGING_MODE"), 0, null);
+		viewMode = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("PAGING_MODE"), null);
 		viewModeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		viewMode.setMenu(viewModeMenu);
-		MenuItem suraViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "SURA"), 0,
-				null);
+		MenuItem suraViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "SURA"), null);
 		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE",
 				"CONST_AYA")
-				+ "...", 0, null);
+				+ "...", null);
 		MenuItem hizbViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang
-				.getMeaningById("PAGING_MODE", "HIZB_QUARTER"), 0, null);
-		MenuItem juzViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "JUZ"), 0, null);
+				.getMeaningById("PAGING_MODE", "HIZB_QUARTER"), null);
+		MenuItem juzViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "JUZ"), null);
 		MenuItem customViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "CUSTOM")
-				+ "...", 0, null);
+				+ "...", null);
 
 		suraViewMode.setData(SuraPagingData.ID);
 		fixedAyaViewMode.setData(FixedAyaPagingData.ID);
@@ -287,25 +257,25 @@ public class QuranFormMenuFactory {
 		customViewMode.addSelectionListener(viewModeSelection);
 
 		// cascading menu for view type
-		MenuItem layoutType = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("LAYOUT"), 0,
+		MenuItem layoutType = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("LAYOUT"),
 				"icon.menu.layout");
 
 		Menu layoutTypeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		layoutType.setMenu(layoutTypeMenu);
 
-		quranOnly = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("QURAN"), 0, "icon.menu.quranOnly");
+		quranOnly = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("QURAN"), "icon.menu.quranOnly");
 		quranOnly.setData("quranOnly");
 
-		transOnly = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("TRANSLATION"), 0, "icon.menu.transOnly");
+		transOnly = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("TRANSLATION"), "icon.menu.transOnly");
 		transOnly.setData("transOnly");
 
-		separate = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("SEPARATE"), 0, "icon.menu.separate");
+		separate = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("SEPARATE"), "icon.menu.separate");
 		separate.setData("separate");
 
-		mixed = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("MIXED"), 0, "icon.menu.mixed");
+		mixed = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("MIXED"), "icon.menu.mixed");
 		mixed.setData("mixed");
 
-		multiTrans = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("MULTI_TRANS"), 0, "icon.menu.mixed");
+		multiTrans = createMenuItem(SWT.RADIO, layoutTypeMenu, lang.getMeaning("MULTI_TRANS"), "icon.menu.mixed");
 		multiTrans.setData("customMixed");
 
 		new MenuItem(layoutTypeMenu, SWT.SEPARATOR | direction);
@@ -328,7 +298,7 @@ public class QuranFormMenuFactory {
 						transViewType.setEnabled(true);
 					} else if (data.equals("customMixed") && multiTrans.getSelection()) {
 						if (config.getTranslation().getCustomGroup().size() == 0) {
-							customizeMultiTrans();
+							quranForm.quranFormController.configureMultiTrans();
 						}
 						config.setViewLayout(ApplicationConfig.MULTI_TRANS_LAYOUT);
 						quranViewType.setEnabled(false);
@@ -401,13 +371,11 @@ public class QuranFormMenuFactory {
 			}
 		};
 
-		quranBlockLayoutItem = createMenuItem(SWT.RADIO, quranViewMenu, lang.getMeaning("BLOCK"), 0,
-				"icon.menu.text_block");
+		quranBlockLayoutItem = createMenuItem(SWT.RADIO, quranViewMenu, lang.getMeaning("BLOCK"), "icon.menu.text_block");
 		quranBlockLayoutItem.addListener(SWT.Selection, blockListener);
 		quranBlockLayoutItem.setData("quran");
 
-		transBlockLayoutItem = createMenuItem(SWT.RADIO, transViewMenu, lang.getMeaning("BLOCK"), 0,
-				"icon.menu.text_block");
+		transBlockLayoutItem = createMenuItem(SWT.RADIO, transViewMenu, lang.getMeaning("BLOCK"), "icon.menu.text_block");
 		transBlockLayoutItem.addListener(SWT.Selection, blockListener);
 		transBlockLayoutItem.setData("trans");
 
@@ -434,106 +402,51 @@ public class QuranFormMenuFactory {
 			}
 		};
 
-		quranLineLayoutItem = createMenuItem(SWT.RADIO, quranViewMenu, lang.getMeaning("LINE_BY_LINE"), 0,
+		quranLineLayoutItem = createMenuItem(SWT.RADIO, quranViewMenu, lang.getMeaning("LINE_BY_LINE"),
 				"icon.menu.text_linebyline");
 		quranLineLayoutItem.addListener(SWT.Selection, inlineListener);
 		quranLineLayoutItem.setData("quran");
 
-		transLineLayoutItem = createMenuItem(SWT.RADIO, transViewMenu, lang.getMeaning("LINE_BY_LINE"), 0,
+		transLineLayoutItem = createMenuItem(SWT.RADIO, transViewMenu, lang.getMeaning("LINE_BY_LINE"),
 				"icon.menu.text_linebyline");
 		transLineLayoutItem.addListener(SWT.Selection, inlineListener);
 		transLineLayoutItem.setData("trans");
 
-		SelectionListener navListener = new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				String data = (String) e.widget.getData();
-				if (data.equals("next_sura")) {
-					quranForm.gotoNextSura();
-				} else if (data.equals("prev_sura")) {
-					quranForm.gotoPrevSura();
-				} else if (data.equals("next_aya")) {
-					quranForm.gotoNextAya();
-				} else if (data.equals("prev_aya")) {
-					quranForm.gotoPrevAya();
-				} else if (data.equals("next_juz")) {
-					quranForm.gotoNextJuz();
-				} else if (data.equals("prev_juz")) {
-					quranForm.gotoPrevJuz();
-				} else if (data.equals("next_hizb")) {
-					quranForm.gotoNextHizb();
-				} else if (data.equals("prev_hizb")) {
-					quranForm.gotoPrevHizb();
-				} else if (data.equals("next_sajda")) {
-					quranForm.gotoNextSajda();
-				} else if (data.equals("prev_sajda")) {
-					quranForm.gotoPrevSajda();
-				} else if (data.equals("next_page")) {
-					quranForm.gotoNextPage();
-				} else if (data.equals("prev_page")) {
-					quranForm.gotoPrevPage();
-				}
-			}
-		};
-
-		MenuItem gotoMenuItem = createMenuItem(SWT.CASCADE, menu, lang.getMeaning("GOTO"), 0, null);
+		MenuItem gotoMenuItem = createMenuItem(SWT.CASCADE, menu, lang.getMeaning("GOTO"), null);
 		Menu gotoMenu = new Menu(shell, SWT.DROP_DOWN);
 		gotoMenuItem.setMenu(gotoMenu);
 
-		randomAyaItem = createMenuItem(0, gotoMenu, lang.getMeaning("RANDOM_AYA"), SWT.CTRL | SWT.SHIFT | 'R',
+		randomAyaItem = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("RANDOM_AYA"), "gotoRandomAya",
 				"icon.menu.randomAya");
-		randomAyaItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				gotoRandomAya();
-			}
-		});
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		isRTL = direction == SWT.RIGHT_TO_LEFT && GlobalConfig.hasBidiSupport;
+		nextSura = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_SURA"), "gotoNextSura", null);
+		prevSura = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_SURA"), "gotoPrevSura", null);
 
-		char keyNextJuz = isRTL ? ',' : '.';
-		char keyPrevJuz = isRTL ? '.' : ',';
-		int keyNext = isRTL ? SWT.ARROW_LEFT : SWT.ARROW_RIGHT;
-		int keyPrev = isRTL ? SWT.ARROW_RIGHT : SWT.ARROW_LEFT;
-
-		nextSura = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_SURA"), SWT.CTRL | SWT.ALT
-				| SWT.ARROW_DOWN, null, "next_sura", navListener);
-		prevSura = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_SURA"), SWT.CTRL | SWT.ALT
-				| SWT.ARROW_UP, null, "prev_sura", navListener);
-
-		nextAya = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_AYA"), SWT.ALT | keyNext, null,
-				"next_aya", navListener);
-		prevAya = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_AYA"), SWT.ALT | keyPrev, null,
-				"prev_aya", navListener);
+		nextAya = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_AYA"), "gotoNextAya", null);
+		prevAya = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_AYA"), "gotoPrevAya", null);
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		nextPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_PAGE"), SWT.ALT | SWT.ARROW_DOWN, null,
-				"next_page", navListener);
+		nextPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_PAGE"), "gotoNextPage", null);
 
-		prevPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_PAGE"), SWT.ALT | SWT.ARROW_UP, null,
-				"prev_page", navListener);
+		prevPage = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_PAGE"), "gotoPrevPage", null);
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		nextHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_HIZBQ"), SWT.CTRL | SWT.ALT | keyNext,
-				null, "next_hizb", navListener);
-		prevHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_HIZBQ"), SWT.CTRL | SWT.ALT | keyPrev,
-				null, "prev_hizb", navListener);
+		nextHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_HIZBQ"), "gotoNextHizbQuarter", null);
+		prevHizbQ = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_HIZBQ"), "gotoPrevHizbQuarter", null);
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		nextJuz = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_JUZ"), SWT.CTRL | keyNextJuz, null,
-				"next_juz", navListener, "\tCtrl+" + keyNextJuz + (rtl ? I18N.LRM + "" : ""));
-		prevJuz = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_JUZ"), SWT.CTRL | keyPrevJuz, null,
-				"prev_juz", navListener, "\tCtrl+" + keyPrevJuz + (rtl ? I18N.LRM + "" : ""));
+		nextJuz = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_JUZ"), "gotoNextJuz", null);
+		prevJuz = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_JUZ"), "gotoPrevJuz", null);
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
-		nextSajda = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_SAJDA"), 0, null, "next_sajda",
-				navListener);
-		prevSajda = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_SAJDA"), 0, null, "prev_sajda",
-				navListener);
+		nextSajda = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_SAJDA"), "gotoNextSajda", null);
+		prevSajda = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_SAJDA"), "gotoPrevSajda", null);
 
 		// Set default selection
 		String quranLayout = config.getQuranLayout();
@@ -550,26 +463,27 @@ public class QuranFormMenuFactory {
 		}
 
 		// show view parts
-		MenuItem showView = createMenuItem(SWT.CASCADE, viewMenu, lang.getMeaning("PANEL"), 0, null);
+		MenuItem showView = createMenuItem(SWT.CASCADE, viewMenu, lang.getMeaning("PANEL"), null);
 		Menu showViewMenu = new Menu(shell, SWT.DROP_DOWN);
 		showView.setMenu(showViewMenu);
-		detailPanelItem = createMenuItem(SWT.CHECK, showViewMenu, lang.getMeaning("DETAIL_PANEL"), "detail",
-				new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent e) {
-						quranForm.togglePanel((String) e.widget.getData(), detailPanelItem.getSelection());
-					}
-				});
+		detailPanelItem = createMenuItem(SWT.CHECK, showViewMenu, lang.getMeaning("DETAIL_PANEL"), "toggleDetailPanel",
+				null);
+		//				new SelectionAdapter() {
+		//					public void widgetSelected(SelectionEvent e) {
+		//						quranForm.togglePanel((String) e.widget.getData(), detailPanelItem.getSelection());
+		//					}
+		//				});
 		detailPanelItem.setSelection(props.getBoolean("view.panel.detail", true));
 
 		// fullscreen menu item
 		new MenuItem(viewMenu, SWT.SEPARATOR);
-		fullScreenItem = createMenuItem(SWT.CHECK, viewMenu, lang.getMeaning("FULL_SCREEN"), SWT.F11,
+		fullScreenItem = createMenuItem(SWT.CHECK, viewMenu, lang.getMeaning("FULL_SCREEN"), "toggleFullScreen",
 				"icon.menu.fullScreen");
-		fullScreenItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				quranForm.setFullScreen(!quranForm.shell.getFullScreen(), true);
-			}
-		});
+		//		fullScreenItem.addSelectionListener(new SelectionAdapter() {
+		//			public void widgetSelected(SelectionEvent e) {
+		//				quranForm.setFullScreen(!quranForm.shell.getFullScreen(), true);
+		//			}
+		//		});
 
 		// ---- Audio ------
 		audioItem = new MenuItem(menu, SWT.CASCADE | direction);
@@ -578,40 +492,20 @@ public class QuranFormMenuFactory {
 		audioMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		audioItem.setMenu(audioMenu);
 
-		playItem = createMenuItem(0, audioMenu, lang.getMeaning("PLAY"), SWT.CTRL | SWT.SHIFT | 'P',
-				isRTL ? "icon.menu.playRtl" : "icon.menu.play");
+		playItem = createMenuItem(SWT.PUSH, audioMenu, lang.getMeaning("PLAY"), "playerTogglePlayPause",
+				rtl ? "icon.menu.playRtl" : "icon.menu.play");
 		playItem.setData(PlayStatus.PAUSE); // state
-		playItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				PlayStatus ps = (PlayStatus) playItem.getData();
-				quranForm.playerUiController.playerTogglePlayPause(ps == PlayStatus.PAUSE, true);
-			}
-		});
 
-		stopItem = createMenuItem(0, audioMenu, lang.getMeaning("STOP"), SWT.CTRL | SWT.SHIFT | 'S', "icon.menu.stop");
-		stopItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				quranForm.playerUiController.playerStop(true);
-			}
-		});
+		stopItem = createMenuItem(SWT.PUSH, audioMenu, lang.getMeaning("STOP"), "playerStop", "icon.menu.stop");
 
-		// resetAudioMenuEnableState();
-		// MenuItem nextPlayItem = new MenuItem(audioMenu, SWT.PUSH);
-		// nextPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("NEXT")));
-		// nextPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerPrev")));
-
-		// MenuItem prevPlayItem = new MenuItem(audioMenu, SWT.PUSH);
-		// prevPlayItem.setText(FormUtils.addAmpersand(lang.getMeaning("PREV")));
-		// prevPlayItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playerNext")));
+		createMenuItem(SWT.PUSH, audioMenu, lang.getMeaning("NEXT_AYA"), "playerNext", rtl ? "icon.menu.playerPrev"
+				: "icon.menu.playerNext");
+		createMenuItem(SWT.PUSH, audioMenu, lang.getMeaning("PREV_AYA"), "playerPrev", rtl ? "icon.menu.playerNext"
+				: "icon.menu.playerPrev");
 
 		new MenuItem(audioMenu, SWT.SEPARATOR);
 
-		audioPanelItem = createMenuItem(SWT.CHECK, audioMenu, lang.getMeaning("AUDIO_PLAYER"), SWT.F4, null);
-		audioPanelItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				quranForm.playerUiController.toggleAudioControllerForm(audioPanelItem.getSelection());
-			}
-		});
+		audioPanelItem = createMenuItem(SWT.CHECK, audioMenu, lang.getMeaning("AUDIO_PLAYER"), "toggleAudioPanel", null);
 		audioPanelItem.setSelection(config.getProps().getBoolean("audio.controller.show", true));
 
 		if (config.getAudio().getCurrent() == null) {
@@ -626,7 +520,7 @@ public class QuranFormMenuFactory {
 		new MenuItem(audioMenu, SWT.SEPARATOR);
 
 		// cascading menu for audio pack selection
-		MenuItem recitationName = createMenuItem(SWT.CASCADE, audioMenu, lang.getMeaning("RECITATION"), 0,
+		MenuItem recitationName = createMenuItem(SWT.CASCADE, audioMenu, lang.getMeaning("RECITATION"),
 				"icon.menu.playlist");
 		recitationListMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		recitationName.setMenu(recitationListMenu);
@@ -644,11 +538,11 @@ public class QuranFormMenuFactory {
 		tools.setMenu(toolsMenu);
 
 		Menu addMenu = new Menu(shell, SWT.DROP_DOWN | direction);
-		MenuItem addItem = createMenuItem(SWT.CASCADE, toolsMenu, lang.getMeaning("ADD"), 0, "icon.menu.add");
+		MenuItem addItem = createMenuItem(SWT.CASCADE, toolsMenu, lang.getMeaning("ADD"), "icon.menu.add");
 		addItem.setMenu(addMenu);
 
 		// cascading menu for add...
-		MenuItem transAddItem = createMenuItem(0, addMenu, lang.getMeaning("TRANSLATION") + "...", 0,
+		MenuItem transAddItem = createMenuItem(SWT.PUSH, addMenu, lang.getMeaning("TRANSLATION") + "...",
 				"icon.menu.translation");
 		transAddItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
@@ -656,14 +550,14 @@ public class QuranFormMenuFactory {
 			}
 		});
 
-		MenuItem themeAddItem = createMenuItem(0, addMenu, lang.getMeaning("THEME") + "...", 0, "icon.menu.theme");
+		MenuItem themeAddItem = createMenuItem(SWT.PUSH, addMenu, lang.getMeaning("THEME") + "...", "icon.menu.theme");
 		themeAddItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				importTheme();
 			}
 		});
 
-		MenuItem recitationAddItem = createMenuItem(0, addMenu, lang.getMeaning("RECITATION") + "...", 0,
+		MenuItem recitationAddItem = createMenuItem(SWT.PUSH, addMenu, lang.getMeaning("RECITATION") + "...",
 				"icon.menu.addPlaylist");
 		recitationAddItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
@@ -673,7 +567,7 @@ public class QuranFormMenuFactory {
 
 		// separator
 		new MenuItem(toolsMenu, SWT.SEPARATOR);
-		MenuItem options = createMenuItem(0, toolsMenu, lang.getMeaning("OPTIONS") + "...", 0, "icon.menu.options");
+		MenuItem options = createMenuItem(SWT.PUSH, toolsMenu, lang.getMeaning("OPTIONS") + "...", "icon.menu.options");
 		options.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				new OptionsForm(shell).open();
@@ -688,11 +582,12 @@ public class QuranFormMenuFactory {
 		Menu helpMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		help.setMenu(helpMenu);
 
-		MenuItem homePage = createMenuItem(0, helpMenu, lang.getMeaning("HOMEPAGE"), 0, "icon.menu.homepage");
+		MenuItem homePage = createMenuItem(SWT.PUSH, helpMenu, lang.getMeaning("HOMEPAGE"), "icon.menu.homepage");
 		homePage.setData(FormUtils.URL_DATA, GlobalConfig.HOME_PAGE);
 		FormUtils.addLinkListener(homePage);
 
-		MenuItem onlineHelpItem = createMenuItem(0, helpMenu, lang.getMeaning("ONLINE_HELP"), 0, "icon.menu.onlineHelp");
+		MenuItem onlineHelpItem = createMenuItem(SWT.PUSH, helpMenu, lang.getMeaning("ONLINE_HELP"),
+				"icon.menu.onlineHelp");
 		onlineHelpItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				HyperlinkUtils.openBrowser(GlobalConfig.HELP_PAGE);
@@ -702,114 +597,49 @@ public class QuranFormMenuFactory {
 		// separator
 		new MenuItem(helpMenu, SWT.SEPARATOR);
 
-		MenuItem check4UpdateItem = createMenuItem(0, helpMenu, lang.getMeaning("CHECK4UPDATE") + "...", 0,
-				"icon.menu.check4Update");
-		check4UpdateItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				check4Update();
-			}
-		});
+		MenuItem check4UpdateItem = createMenuItem(SWT.PUSH, helpMenu, lang.getMeaning("CHECK4UPDATE") + "...",
+				"check4Update", "icon.menu.check4Update");
 		check4UpdateItem.setEnabled(props.getBoolean("update.enableMenu", true));
 
 		new MenuItem(helpMenu, SWT.SEPARATOR);
-		MenuItem aboutItem = createMenuItem(0, helpMenu, lang.getMeaning("ABOUT"), 0, "icon.menu.about");
-		aboutItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				about();
-			}
-		});
+		createMenuItem(SWT.PUSH, helpMenu, lang.getMeaning("ABOUT"), "about", "icon.menu.about");
 
 		return menu;
 	}
 
-	private CustomTranslationListForm customizeMultiTrans() {
-		CustomTranslationListForm crlf = new CustomTranslationListForm(shell);
-		crlf.show();
-		crlf.loopEver();
-		return crlf;
+	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, String imageKey) {
+		return createMenuItem(swtStyle, parentMenu, text, null, 0, imageKey, null, null);
 	}
 
-	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey) {
-		return createMenuItem(swtStyle, parentMenu, text, accelerator, imageKey, null, null);
+	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, String methodName, String imageKey) {
+		return createMenuItem(swtStyle, parentMenu, text, methodName, 0, imageKey, null, null);
 	}
 
-	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, String data, SelectionListener sl) {
-		return createMenuItem(swtStyle, parentMenu, text, 0, null, data, sl);
-	}
-
-	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey,
-			String data) {
-		return createMenuItem(swtStyle, parentMenu, text, accelerator, imageKey, data, null);
-	}
-
-	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey,
-			String data, SelectionListener sl) {
-		return createMenuItem(swtStyle, parentMenu, text, accelerator, imageKey, data, sl, null);
-	}
-
-	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, int accelerator, String imageKey,
-			String data, SelectionListener sl, String acceleratorStr) {
+	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, String action, int accelerator,
+			String imageKey, String data, String acceleratorStr) {
 		MenuItem item = new MenuItem(parentMenu, swtStyle == 0 ? SWT.PUSH : swtStyle);
-		String accelStr = "";
-		if (accelerator != 0) {
-			int accKey = accelerator;
-			String combKey = "\t";
-			boolean ctrl = false, alt = false;
-			if ((accelerator & SWT.CONTROL) == SWT.CONTROL) {
-				accKey ^= SWT.CONTROL;
-				if (GlobalConfig.isMac) {
-					accelerator ^= SWT.CONTROL;
-					accelerator |= SWT.COMMAND;
-					combKey += "Command";
-				} else {
-					combKey += "Ctrl";
-				}
-				ctrl = true;
-			}
-			if ((accelerator & SWT.ALT) == SWT.ALT) {
-				accKey ^= SWT.ALT;
-				combKey += (ctrl ? "+" : "") + "Alt";
-				alt = true;
-			}
-			if ((accelerator & SWT.SHIFT) == SWT.SHIFT) {
-				accKey ^= SWT.SHIFT;
-				combKey += (alt || ctrl ? "+" : "") + "Shift";
-			}
-			item.setAccelerator(accelerator);
-			accelStr = combKey + "+";
-			if (accKey >= 'A' && accKey <= 'Z') {
-				accelStr = accelStr + (char) accKey;
-			} else if (accKey >= SWT.ARROW_UP && accKey <= SWT.ARROW_RIGHT) {
-				String s = "";
-				switch (accKey) {
-				case SWT.ARROW_UP:
-					s = "Up";
-					break;
-				case SWT.ARROW_DOWN:
-					s = "Down";
-					break;
-				case SWT.ARROW_LEFT:
-					s = "Left";
-					break;
-				case SWT.ARROW_RIGHT:
-					s = "Right";
-					break;
-				}
-				accelStr = accelStr + s;
-			} else { // try function keys
-				int f = accKey - SWT.F1 + 1;
-				accelStr = combKey + "F" + f;
+		boolean rtl = !lang.isLtr();
+
+		KeyboardShortcut shortcut = config.getShortcut();
+		if (action != null && shortcut != null) {
+			Integer accel = shortcut.getKeyForAction(action, rtl);
+			if (accel != null) {
+				item.setAccelerator(accel);
+				String keyCodeToString = KeyboardShortcut.keyCodeToString(accel);
+				String accelStr = "\t" + keyCodeToString + (rtl ? I18N.LRM + "" : "");
+				text = FormUtils.addAmpersand(text) + accelStr;
 			}
 		}
-		item.setText(FormUtils.addAmpersand(text) + (acceleratorStr != null ? acceleratorStr : accelStr));
+		item.setText(FormUtils.addAmpersand(text));
+
 		if (imageKey != null && SHOW_MENU_IMAGE) {
 			item.setImage(new Image(shell.getDisplay(), resource.getString(imageKey)));
 		}
 		if (data != null) {
 			item.setData(data);
 		}
-		if (sl != null) {
-			item.addSelectionListener(sl);
+		if (action != null) {
+			item.addListener(SWT.Selection, quranForm.quranFormController.registerAction(action).toListener());
 		}
 		return item;
 	}
@@ -841,15 +671,6 @@ public class QuranFormMenuFactory {
 		return false;
 	}
 
-	protected void gotoRandomAya() {
-		Random rnd = new Random(new Date().getTime());
-		int juz = rnd.nextInt(30) + 1;
-		Range r = QuranPropertiesUtils.getSuraInsideJuz(juz);
-		int sura = rnd.nextInt(r.to - r.from + 1) + r.from;
-		int aya = rnd.nextInt(QuranPropertiesUtils.getSura(sura).getAyaCount()) + 1;
-		quranForm.navTo(sura, aya);
-	}
-
 	private MenuItem getBookmarksMenu() {
 		for (int i = 0; i < menu.getItemCount(); i++) {
 			if ("bookmarks".equals(menu.getItem(i).getData())) {
@@ -872,7 +693,7 @@ public class QuranFormMenuFactory {
 					: "")
 					+ "[" + td.locale + "]" + " " + (rtl ? I18N.RLM + "" : "") + td.localizedName,
 					GlobalConfig.MAX_MENU_STRING_LENGTH)
-					+ (rtl ? I18N.LRM + "" : ""), 0, img);
+					+ (rtl ? I18N.LRM + "" : ""), img);
 
 			transItem.setData(td.id);
 			if (config.getTranslation().getDefault().id.equals(transItem.getData())) {
@@ -891,13 +712,13 @@ public class QuranFormMenuFactory {
 		}
 
 		new MenuItem(transMenu, SWT.SEPARATOR);
-		customTransList = createMenuItem(0, transMenu, lang.getMeaning("CONFIG_CUSTOM_TRANS") + "...", 0,
+		createMenuItem(SWT.PUSH, transMenu, lang.getMeaning("CONFIG_CUSTOM_TRANS") + "...", "configureMultiTrans",
 				"icon.menu.configTransList");
-		customTransList.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				customizeMultiTrans();
-			}
-		});
+		//		configureMultiTransList.addSelectionListener(new SelectionAdapter() {
+		//			public void widgetSelected(SelectionEvent e) {
+		//				customizeMultiTrans();
+		//			}
+		//		});
 
 		if (config.getTranslation().getAllTranslation().size() > 0) {
 			new MenuItem(transMenu, SWT.SEPARATOR);
@@ -998,39 +819,19 @@ public class QuranFormMenuFactory {
 		bookmarksMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		bookmarks.setMenu(bookmarksMenu);
 
-		MenuItem bmManagerItem = createMenuItem(0, bookmarksMenu, lang.getMeaning("EDIT_BOOKMARK_SET") + "...",
-				SWT.CTRL | 'B', "icon.menu.bookmark.edit");
-		bmManagerItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				manageBookmarks();
-			}
-		});
+		createMenuItem(SWT.PUSH, bookmarksMenu, lang.getMeaning("EDIT_BOOKMARK_SET") + "...", "manageBookmarks",
+				"icon.menu.bookmark.edit");
 
-		MenuItem bookmarkSetConfigItem = createMenuItem(0, bookmarksMenu,
-				lang.getMeaning("MANAGE_BOOKMARK_SETS") + "...", 0, "icon.menu.bookmark.manage");
-		bookmarkSetConfigItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				manageBookmarkSets();
-			}
-		});
+		createMenuItem(SWT.PUSH, bookmarksMenu, lang.getMeaning("MANAGE_BOOKMARK_SETS") + "...", "manageBookmarkSets",
+				"icon.menu.bookmark.manage");
 
 		new MenuItem(bookmarksMenu, SWT.SEPARATOR);
 
-		MenuItem bookmarkThis = createMenuItem(0, bookmarksMenu, lang.getMeaning("BOOKMARK_THIS_AYA") + "...",
-				SWT.CTRL | 'D', "icon.menu.bookmark.add");
-		bookmarkThis.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				quranForm.bookmarkThisAya();
-			}
-		});
+		createMenuItem(SWT.PUSH, bookmarksMenu, lang.getMeaning("BOOKMARK_THIS_AYA") + "...", "bookmarkThis",
+				"icon.menu.bookmark.add");
 
-		MenuItem findRefItem = createMenuItem(0, bookmarksMenu, lang.getMeaning("SHOW_REFS") + "...", SWT.CTRL
-				| SWT.SHIFT | 'F', "icon.menu.bookmark.findRef");
-		findRefItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				findReferences();
-			}
-		});
+		createMenuItem(SWT.PUSH, bookmarksMenu, lang.getMeaning("SHOW_REFS") + "...", "findBookmarkReferences",
+				"icon.menu.bookmark.findRef");
 
 		new MenuItem(bookmarksMenu, SWT.SEPARATOR);
 
@@ -1039,29 +840,6 @@ public class QuranFormMenuFactory {
 		for (BookmarkItem item : bmItems) {
 			BookmarkUtils.addBookmarkItemToMenu(bookmarksMenu, item);
 		}
-	}
-
-	private void findReferences() {
-		IQuranLocation loc = quranForm.uvc.getLocation();
-		logger.info("Find bookmark references to: " + loc);
-		List<Object[]> resultList = BookmarkUtils.findReferences(config.getBookmark(), loc);
-		logger.debug("Show references in form.");
-		new BookmarkReferenceForm(shell, resultList, loc).open();
-	}
-
-	private void manageBookmarks() {
-		if (bsf != null && Arrays.asList(shell.getShells()).contains(bsf.getShell())) { // shell is already
-			// open
-			bsf.getShell().forceActive();
-			return;
-		}
-
-		bsf = new BookmarkSetForm(shell);
-		bsf.open();
-	}
-
-	private void manageBookmarkSets() {
-		new ManageBookmarkSetsForm(shell).open();
 	}
 
 	private void importTrans() {
@@ -1243,42 +1021,6 @@ public class QuranFormMenuFactory {
 		}
 	}
 
-	private void export() {
-		try {
-			File f = MessageBoxUtils.exportFileDialog(shell, new String[] { "HTML Files", "All Files (*.*)" },
-					new String[] { "*.html;*.htm", "*.*" });
-			if (f == null || f.isDirectory()) {
-				return;
-			}
-			if (!f.getName().toUpperCase().endsWith(".HTM") && !f.getName().toUpperCase().endsWith(".HTML")) {
-				f = new File(f.getParent(), f.getName() + ".html");
-			}
-			logger.info("Save current view to file: " + f);
-			FileUtils.copyFile(UriUtils.toFile(quranForm.getCurrentUri()), f);
-		} catch (Exception e) {
-			MessageBoxUtils.showActionFailureError(e);
-		}
-	}
-
-	protected void about() {
-		AboutForm af = new AboutForm(shell);
-		af.getShell().setLocation(FormUtils.getCenter(shell, af.getShell()));
-		af.show();
-	}
-
-	private void check4Update() {
-		UpdateManager manager = new UpdateManager(quranForm);
-		manager.check(true);
-	}
-
-	private void print() {
-		quranForm.getQuranBrowser().execute("window.print()");
-	}
-
-	private void close() {
-		quranForm.quit();
-	}
-
 	private void reconfigureViewLayout() {
 		quranForm.setLayout(config.getViewProp("view.viewLayout"));
 		reloadView();
@@ -1358,29 +1100,20 @@ public class QuranFormMenuFactory {
 		audioPanelItem.setSelection(selected);
 	}
 
-	private void recreateForm() {
-		quranForm.recreate();
-	}
-
-	protected void playerStop() {
-		playerTogglePlayPause(false);
-	}
-
 	protected void playerTogglePlayPause(boolean play) {
-		int stat = playerController.getStatus();
-		if (stat == PlayerController.PLAYING) {
+		if (play) {
 			resumePlayer();
 		} else {
 			pausePlayer();
 		}
 	}
 
-	public void pausePlayer() {
-		changePlayerMenuState(PlayStatus.PAUSE, lang.getMeaning("PLAY"), resource.getString(isRTL ? "icon.menu.playRtl"
+	private void pausePlayer() {
+		changePlayerMenuState(PlayStatus.PAUSE, lang.getMeaning("PLAY"), resource.getString(rtl ? "icon.menu.playRtl"
 				: "icon.menu.play"));
 	}
 
-	public void resumePlayer() {
+	private void resumePlayer() {
 		changePlayerMenuState(PlayStatus.PLAY, lang.getMeaning("PAUSE"), resource.getString("icon.menu.pause"));
 	}
 
@@ -1405,8 +1138,4 @@ public class QuranFormMenuFactory {
 	public void setAudioMenuEnabled(boolean state) {
 		audioItem.setEnabled(state);
 	}
-
-	//	public void resetAudioMenuEnableState() {
-	//		audioItem.setEnabled(config.isAudioEnabled());
-	//	}
 }
