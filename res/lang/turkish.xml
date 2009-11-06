@@ -28,7 +28,7 @@
             <text id="SHOW" value="Göster" />
             <text id="NAME" value="Ad" />
             <text id="VALUE" value="Değer" />
-            <text id="NUMBER" value="Sure" />
+            <text id="NUMBER" value="Sûre" />
             <text id="OPTION" value="Seçenek" />
             <text id="FILE" value="Dosya" />
             <text id="RELOAD" value="Tekrar Yükle" />
@@ -47,10 +47,10 @@
             <text id="WHOLE_QURAN" value="Kur'an'ın Tamamı" />
             <text id="MATCH_DIACRITIC" value="Hareke Eşleştir" />
             <text id="MATCH_CASE" value="BÜYÜK/küçük Harf Eşleştir" />
-            <text id="NEXT_AYA" value="Sonraki Ayet" />
-            <text id="NEXT_SURA" value="Sonraki Sure" />
-            <text id="PREV_AYA" value="Önceki Ayet" />
-            <text id="PREV_SURA" value="Önceki Sure" />
+            <text id="NEXT_AYA" value="Sonraki Âyet" />
+            <text id="NEXT_SURA" value="Sonraki Sûre" />
+            <text id="PREV_AYA" value="Önceki Âyet" />
+            <text id="PREV_SURA" value="Önceki Sûre" />
             <text id="THEME" value="Tema" />
             <text id="LAYOUT" value="Yerleşim Düzeni" />
             <text id="TOOLS" value="Araçlar" />
@@ -86,7 +86,7 @@
             <text id="LTR" value="Soldan Sağa" />
             <text id="AUTHOR" value="Yazar" />
             <text id="VERSION" value="Sürüm" />
-            <text id="RANDOM_AYA" value="Herhangi Bir Ayet" />
+            <text id="RANDOM_AYA" value="Herhangi Bir Âyet" />
             <text id="UNTITLED" value="İsimsiz" />
             <text id="SET_DEFAULT" value="Varsayılan Olarak Ata" />
             <text id="NOT_LOADED" value="Yüklenmemiş" />
@@ -113,16 +113,16 @@
             <text id="PAUSE" value="Duraklat"   />
             <text id="STOP" value="Durdur"   />
             <text id="RECITATION" value="Tilavet"   />
-            <text id="MENU_NEXT_AYA" value="Sonraki Ayet"   />
-            <text id="MENU_NEXT_SURA" value="Sonraki Sure"   />
-            <text id="MENU_PREV_AYA" value="Önceki Ayet"   />
-            <text id="MENU_PREV_SURA" value="Önceki Sure"   />
+            <text id="MENU_NEXT_AYA" value="Sonraki Âyet"   />
+            <text id="MENU_NEXT_SURA" value="Sonraki Sûre"   />
+            <text id="MENU_PREV_AYA" value="Önceki Âyet"   />
+            <text id="MENU_PREV_SURA" value="Önceki Sûre"   />
             <text id="MENU_NEXT_JUZ" value="Sonraki Cüz"   />
             <text id="MENU_PREV_JUZ" value="Önceki Cüz"   />
             <text id="MENU_NEXT_HIZBQ" value="Sonraki Hizib"   />
             <text id="MENU_PREV_HIZBQ" value="Önceki Hizib"   />
-            <text id="MENU_NEXT_SAJDA" value="Sonraki Secde Ayeti"   />
-            <text id="MENU_PREV_SAJDA" value="Önceki Secde Ayeti"   />
+            <text id="MENU_NEXT_SAJDA" value="Sonraki Secde Âyeti"   />
+            <text id="MENU_PREV_SAJDA" value="Önceki Secde Âyeti"   />
             <text id="MENU_NEXT_PAGE" value="Sonraki Sayfa"   />
             <text id="MENU_PREV_PAGE" value="Önceki Sayfa"   />
             <text id="CHECK4UPDATE" value="Güncelleştirmeleri Denetle"   />
@@ -138,21 +138,21 @@
             <text id="REPEAT" value="Tekrarla"   />
             <text id="ROOT" value="Kök"   /> <!-- word root -->
             <text id="ADDRESS" value="Adres"   />
-			<text id="BOOKMARK_THIS_AYA" value="Bookmark This Aya"   />
+            <text id="BOOKMARK_THIS_AYA" value="Bu Âyete Yer İmi Koy"   />
         </common>
         <special>
             <text id="QURAN" value="Kur'an" />
             <text id="QURAN_VIEWTYPE"    value="Kuran-ı Kerim"   />
-            <text id="SURA" value="Sure" />
-            <text id="AYA" value="Ayet" />
-            <text id="SAJDA" value="Secde Ayeti" />
+            <text id="SURA" value="Sûre" />
+            <text id="AYA" value="Âyet" />
+            <text id="SAJDA" value="Secde Âyeti" />
             <text id="JUZ" value="Cüz" />
             <text id="HIZB" value="Hizip" />
             <text id="QUARTER" value="Rubu'" />
             <text id="MAKKI" value="Mekkî" />
             <text id="MADANI" value="Medenî" />
             <text id="DESCENT" value="Nüzulü" />
-            <text id="AYA_COUNT" value="Ayet Sayısı" />
+            <text id="AYA_COUNT" value="Âyet Sayısı" />
             <text id="MINOR_SAJDA" value="Müstehap Secde" />
             <text id="MAJOR_SAJDA" value="Vacip Secde" />
             <text id="LOCATION" value="Konum" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
@@ -162,9 +162,9 @@
     <message>
         <inform>
             <text id="SEARCH_RESULT_TITLE" value="&quot;{1}&quot; için arama sonuçları:" />
-            <text id="SEARCH_RESULT_COUNT" value="{2} ayette {1} sonuç sulundu." />
+            <text id="SEARCH_RESULT_COUNT" value="{2} âyette {1} sonuç sulundu." />
             <text id="SEARCH_PAGE" value="Toplam {2} sayfanın {1}. sayfası" />
-            <text id="TOO_MANY_RESULT" value="Arama sonucu {1} ayetten fazla" />
+            <text id="TOO_MANY_RESULT" value="Arama sonucu {1} âyetten fazla" />
             <text id="FILE_ALREADY_EXISTS" value=" &quot;{1}&quot; adında bir dosya zaten var. Değiştirmek ister misiniz?" />
             <text id="RESTART_APP" value="Değişiklilerin geçerli olması için programı yeniden başlatmanız gerekiyor." />
             <text id="ACTION_PERFORMED" value="Görev başarıyla tamamlandı."   />
@@ -204,7 +204,7 @@
             <text id="TRANSLATION_SCOPE" value="Meal"   />
             <text id="NATURAL_ORDER" value="Mushaf Sırası" />
             <text id="RELEVANCE" value="İlişkisel Sıra" />
-            <text id="AYA_LENGTH" value="Ayet Uzunluğu"   />
+            <text id="AYA_LENGTH" value="Âyet Uzunluğu"   />
             <text id="SORT_BY" value="Sonuç sıralaması" />
             <text id="TOGGLE_FULL_SCREEN" value="Tam ekranı aç/kapat"   />
         </form>
@@ -219,22 +219,22 @@
             <text id="PRESS_OK_TO_APPLY" value="Değişikliklerin geçerli olabilmesi için &quot;Tamam&quot; düğmesine tıklayınız." />
             <text id="MAX_SEARCH_RESULT" value="En fazla arama sonucu sayısı" />
             <text id="RESIZEABLE_TASK_PANE" value="Boyutlandırılabilir görev bölmesi" />
-            <text id="SURA_NAMES" value="Sure isimlerini gösterme biçimi"   />
+            <text id="SURA_NAMES" value="Sûre isimlerini gösterme biçimi"   />
             <text id="ARABIC" value="Arapça"   />
             <text id="EN_T9N" value="İngilizce Anlam"   />
             <text id="EN_T13N" value="İngilizce Yazım"   />
             <text id="T9N" value="Anlam (Var ise)"   />
             <text id="T13N" value="Yazım (Var ise)"   />
             <text id="ENABLE_AUDIO" value="Ses desteğini aç"   />
-            <text id="SURA_NAME_TREE" value="Sure adlarını liste olarak göster"   />
+            <text id="SURA_NAME_TREE" value="Sûre adlarını liste olarak göster"   />
         </form>
         <form id="SEARCH_SCOPE_FORM">
             <text id="TITLE" value="Arama Kapsamını Yapılandır" />
             <text id="SEARCH_SCOPE" value="Arama Kapsamı" />
-            <text id="FROM_SURA" value="Sureden" />
-            <text id="FROM_AYA" value="Ayetten" />
-            <text id="TO_SURA" value="Sureye" />
-            <text id="TO_AYA" value="Ayete" />
+            <text id="FROM_SURA" value="Sûreden" />
+            <text id="FROM_AYA" value="Âyetten" />
+            <text id="TO_SURA" value="Sûreye" />
+            <text id="TO_AYA" value="Âyete" />
             <text id="ILLEGAL_SEARCH_SCOPE" value="Geçersiz Arama Kapsamı Ögeleri" />
         </form>
         <form id="MANAGE_SCOPES_FORM">
@@ -308,5 +308,23 @@
             <text id="NEW_BETA_AVAILABLE" value="Yeni bir beta sürümü (kararsız) indirilebilir durumda." />
             <text id="NEW_FINAL_AVAILABLE" value="Yeni bir arz sürümü (final) indirilebilir durumda." />
         </form>
+		<form id="PAGING_MODE">
+			<text id="TITLE" value="Sayfalandırma Tarzı"   />
+			<text id="SURA" value="Sûre"   />
+			<text id="HIZB_QUARTER" value="Hizip"   />
+			<text id="JUZ" value="Cüz"   />
+			<text id="CONST_AYA" value="Sabit Âyet Sayısı"   />
+			<text id="CUSTOM" value="Özel"   />
+			<text id="AYA_PER_SURA" value="Tek sayfada kaç âyet görünsün?"   />
+		</form>
+		<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="Ses Çalar"   />
+			<text id="SECOND_ABBR" value="s"   /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECONDS" value="Saniye"   /> <!--  tooltip for 's' (SECOND_ABBR) -->
+			<text id="INTERVAL" value="Süre"   />
+			<text id="REPEAT" value="Tekrar"   />
+			<text id="NO_INTERVAL" value="Süresiz"   />
+			<text id="NO_REPEAT" value="Tekrar Etme"   />
+		</form>
     </forms>
 </language>
