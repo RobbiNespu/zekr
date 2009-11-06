@@ -53,10 +53,11 @@ public class AudioPlayerUiController {
 		}
 
 		playerController.stop();
-		if (isAudioControllerFormOpen()) {
-			audioControllerForm.stop();
-		}
-		quranForm.qmf.playerStop();
+		togglePlayPauseState(false);
+		//		if (isAudioControllerFormOpen()) {
+		//			audioControllerForm.stop();
+		//		}
+		//		quranForm.qmf.playerStop();
 	}
 
 	public void playerContinue(boolean gotoNext) {
@@ -78,11 +79,11 @@ public class AudioPlayerUiController {
 					boolean hasSpecial = playerPlaySpecialItemIfNeeded();
 					if (hasSpecial) {
 						if (playerController.getPlayingItem() == PlayingItem.BISMILLAH) {
-							quranForm.gotoNextAya();
+							quranForm.quranFormController.gotoNextAya();
 						}
 					} else {
 						if (playerController.getPlayingItem() == PlayingItem.AYA) {
-							quranForm.gotoNextAya();
+							quranForm.quranFormController.gotoNextAya();
 						}
 						playerController.setPlayingItem(PlayingItem.AYA);
 					}
@@ -164,7 +165,7 @@ public class AudioPlayerUiController {
 			} else {
 				playerController.pause();
 			}
-			quranForm.qmf.playerTogglePlayPause(play);
+			togglePlayPauseState(play);
 		} catch (PlayerException e) {
 			logger.error("Error occured in play-pause method.", e);
 			playerSlightlyStop();
@@ -196,10 +197,11 @@ public class AudioPlayerUiController {
 		} catch (Exception ex) {
 		}
 		try {
-			if (audioControllerForm != null && !audioControllerForm.isDisposed()) {
-				audioControllerForm.stop();
-			}
-			quranForm.qmf.playerStop();
+			togglePlayPauseState(false);
+			//			if (audioControllerForm != null && !audioControllerForm.isDisposed()) {
+			//				audioControllerForm.stop();
+			//			}
+			//			quranForm.qmf.playerStop();
 		} catch (Exception e) {
 		}
 	}
@@ -240,5 +242,38 @@ public class AudioPlayerUiController {
 	public boolean isAudioControllerFormOpen() {
 		return audioControllerForm != null && audioControllerForm.getShell() != null
 				&& !audioControllerForm.getShell().isDisposed();
+	}
+
+	/**
+	 * Navigates to next of previous aya if possible. This method keeps playing state, if it's paused or
+	 * stopped remain pause or stopped and if playing, remain playing.
+	 * 
+	 * @param action either "prev" or "next"
+	 */
+	public void navigate(String action) {
+		int st = playerController.getStatus();
+		playerController.setPlayingItem(PlayingItem.AYA);
+		playerStop(true);
+		if ("prev".equals(action)) {
+			if (uvc.getLocation().getPrev() == null) {
+				return;
+			}
+			quranForm.quranFormController.gotoPrevAya();
+		} else {
+			if (uvc.getLocation().getNext() == null) {
+				return;
+			}
+			quranForm.quranFormController.gotoNextAya();
+		}
+		if (st == PlayerController.PLAYING) {
+			playerTogglePlayPause(true, true);
+		}
+	}
+
+	public void togglePlayPauseState(boolean play) {
+		if (isAudioControllerFormOpen()) {
+			audioControllerForm.playerTogglePlayPause(play);
+		}
+		quranForm.qmf.playerTogglePlayPause(play);
 	}
 }
