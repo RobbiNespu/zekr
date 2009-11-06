@@ -54,11 +54,11 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 				if (!quranForm.isDisposed()) {
 					if (code == BasicPlayerEvent.PLAYING) {
 						if (quranForm.playerUiController.isAudioControllerFormOpen()) {
-							quranForm.playerUiController.getAudioControllerForm().playerTogglePlayPause(true);
+							quranForm.playerUiController.togglePlayPauseState(true);
 						}
 					} else if (code == BasicPlayerEvent.PAUSED || code == BasicPlayerEvent.STOPPED) {
 						if (quranForm.playerUiController.isAudioControllerFormOpen()) {
-							quranForm.playerUiController.getAudioControllerForm().playerTogglePlayPause(false);
+							quranForm.playerUiController.togglePlayPauseState(false);
 						}
 					}
 					quranForm.playerUiController.playerUpdateAudioFormStatus();
