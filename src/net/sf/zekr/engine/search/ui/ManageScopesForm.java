@@ -30,7 +30,6 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
@@ -277,14 +276,6 @@ public class ManageScopesForm extends BaseForm {
 		super.show();
 		loopEver();
 		return !canceled;
-	}
-
-	protected Shell getShell() {
-		return shell;
-	}
-
-	protected Display getDisplay() {
-		return display;
 	}
 
 	private String meaning(String key) {

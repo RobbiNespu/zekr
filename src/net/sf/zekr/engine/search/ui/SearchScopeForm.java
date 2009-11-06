@@ -37,7 +37,6 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
@@ -176,7 +175,7 @@ public class SearchScopeForm extends BaseForm {
 
 		Button okBut = new Button(butComposite, SWT.PUSH);
 		Button cancelBut = new Button(butComposite, SWT.PUSH);
-		okBut.setText(FormUtils.addAmpersand( lang.getMeaning("OK")) );
+		okBut.setText(FormUtils.addAmpersand(lang.getMeaning("OK")));
 		okBut.pack();
 		okBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -197,7 +196,7 @@ public class SearchScopeForm extends BaseForm {
 		});
 		shell.setDefaultButton(okBut);
 
-		cancelBut.setText(FormUtils.addAmpersand( lang.getMeaning("CANCEL")) );
+		cancelBut.setText(FormUtils.addAmpersand(lang.getMeaning("CANCEL")));
 		cancelBut.pack();
 		cancelBut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -209,11 +208,11 @@ public class SearchScopeForm extends BaseForm {
 		RowData rdCancel = new RowData();
 		// set the OK and CANCEL buttons to the same length
 		int buttonLength = FormUtils.buttonLength(80, okBut, cancelBut);
-        rdOk.width = buttonLength;
+		rdOk.width = buttonLength;
 		rdCancel.width = buttonLength;
 		okBut.setLayoutData(rdOk);
 		cancelBut.setLayoutData(rdCancel);
-		
+
 		TableColumn fromSuraCol = new TableColumn(table, SWT.NONE);
 		fromSuraCol.setText(meaning("FROM_SURA"));
 		fromSuraCol.setWidth(100);
@@ -256,20 +255,17 @@ public class SearchScopeForm extends BaseForm {
 							itemEditor.addSelectionListener(new SelectionAdapter() {
 								public void widgetSelected(SelectionEvent e) {
 									CCombo c = (CCombo) e.widget;
-									item.setData(String.valueOf(column), new Integer(
-											c.getSelectionIndex() + 1));
+									item.setData(String.valueOf(column), new Integer(c.getSelectionIndex() + 1));
 								}
 							});
 							itemEditor.setVisibleItemCount(10);
 							if (column == 4) {
-								itemEditor.setItems(new String[] { lang.getMeaning("NO"),
-										lang.getMeaning("YES") });
+								itemEditor.setItems(new String[] { lang.getMeaning("NO"), lang.getMeaning("YES") });
 							} else {
 								if (column % 2 == 0) {
 									itemEditor.setItems(QuranPropertiesUtils.getIndexedSuraNames());
 								} else {
-									int suraNum = ((Integer) item.getData(String.valueOf(column - 1)))
-											.intValue();
+									int suraNum = ((Integer) item.getData(String.valueOf(column - 1))).intValue();
 									itemEditor.setItems(QuranPropertiesUtils.getSuraAyas(suraNum));
 								}
 							}
@@ -281,9 +277,8 @@ public class SearchScopeForm extends BaseForm {
 										itemEditor.dispose();
 										if (column % 2 == 0 && column != 4) {
 											// reset aya number to 1 if aya is not in range of selected sura's aya count
-											if (!QuranLocation.isValidLocation(((Integer) item.getData(String
-													.valueOf(column))).intValue(), ((Integer) item.getData(String
-													.valueOf(column + 1))).intValue())) {
+											if (!QuranLocation.isValidLocation(((Integer) item.getData(String.valueOf(column)))
+													.intValue(), ((Integer) item.getData(String.valueOf(column + 1))).intValue())) {
 												item.setText(column + 1, "1");
 												item.setData(String.valueOf(column + 1), new Integer(1));
 											}
@@ -295,14 +290,13 @@ public class SearchScopeForm extends BaseForm {
 											item.setText(column, itemEditor.getText());
 											if (column % 2 == 0 && column != 4) {
 												// reset aya number to 1 if aya is not in range of selected sura's aya count
-												if (!QuranLocation.isValidLocation(((Integer) item.getData(String
-														.valueOf(column))).intValue(), ((Integer) item.getData(String
-														.valueOf(column + 1))).intValue())) {
+												if (!QuranLocation.isValidLocation(((Integer) item.getData(String.valueOf(column)))
+														.intValue(), ((Integer) item.getData(String.valueOf(column + 1))).intValue())) {
 													item.setText(column + 1, "1");
 													item.setData(String.valueOf(column + 1), new Integer(1));
 												}
 											}
-										// FALL THROUGH
+											// FALL THROUGH
 										case SWT.TRAVERSE_ESCAPE:
 											itemEditor.dispose();
 											e.doit = false;
@@ -379,14 +373,6 @@ public class SearchScopeForm extends BaseForm {
 		super.show();
 		loopEver();
 		return !canceled;
-	}
-
-	protected Shell getShell() {
-		return shell;
-	}
-
-	protected Display getDisplay() {
-		return display;
 	}
 
 	private String meaning(String key) {

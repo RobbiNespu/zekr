@@ -28,7 +28,6 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
@@ -187,14 +186,6 @@ public class AboutForm extends BaseForm {
 		String used = df.format((total - free) / 1024);
 		String max = df.format(total / 1024);
 		return used + " / " + max;
-	}
-
-	protected Shell getShell() {
-		return shell;
-	}
-
-	protected Display getDisplay() {
-		return display;
 	}
 
 	private void updateMemText() {

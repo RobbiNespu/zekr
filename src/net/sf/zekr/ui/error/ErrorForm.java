@@ -143,13 +143,4 @@ public class ErrorForm extends BaseForm {
 		shell.open();
 		loopEver();
 	}
-
-	protected Shell getShell() {
-		return shell;
-	}
-
-	protected Display getDisplay() {
-		return display;
-	}
-
 }

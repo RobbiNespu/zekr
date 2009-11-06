@@ -38,4 +38,12 @@ public abstract class BaseForm implements EventProtocol {
 			}
 		}
 	}
+
+	public Shell getShell() {
+		return shell;
+	}
+
+	public Display getDisplay() {
+		return display;
+	}
 }
