@@ -1,6 +1,7 @@
-<zekr-update fullName="Zekr 0.7.1" version="0.7.1"
-	status="FINAL" build="2008090600" date="06-09-2008" downloadUrl="http://zekr.org/download.html"
-	noteUrl="http://zekr.org/wiki/Zekr_0.7.1">
-	<info><![CDATA[Happy Ramadan! Zekr 0.7.1 is available for download.
-This is a bug-fix release over 0.7.0. It supports a buffering scheme to avoid lags between playing ayas when playing online recitations.]]></info>
+<zekr-update fullName="Zekr 0.7.5 beta 2" version="0.7.5beta2" status="BETA"
+    build="2009110700" date="07-11-2008" downloadUrl="http://zekr.org/download.html"
+    noteUrl="http://zekr.org/wiki/Zekr_0.7.5_beta_2">
+    <info><![CDATA[Zekr 0.7.5 beta 2 is available.
+Custom shortcuts are supported in this version.
+Old audio recitation formats are also converted to the new format on startup.]]></info>
 </zekr-update>

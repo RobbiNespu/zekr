@@ -6,11 +6,11 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.7.5beta1" />
+	<property name="component_version" value="0.7.5beta2" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.5/beta1" />
+	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.5/beta2" />
 	<property name="distdir" value="${dest_dir}/develdist" />
 
 	<property name="srcdir" value="src" />
@@ -119,8 +119,8 @@
 	</path>
 
 	<path id="launch4j.classpath">
-		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-win32/lib/xstream.jar" />
-		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.0-win32/launch4j.jar" />
+		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.1-win32/lib/xstream.jar" />
+		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.1-win32/launch4j.jar" />
 	</path>
 
 	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />
@@ -128,6 +128,11 @@
 	<target name="createExeFile">
 		<launch4j configfile="misc/zekr-launch4j.xml" outfile="${dest_dir}/win32/zekr.exe" />
 		<launch4j configfile="misc/zekrc-launch4j.xml" outfile="${dest_dir}/win32/zekrc.exe" />
+	</target>
+
+	<target name="createJreExeFile">
+		<launch4j configfile="misc/zekr-launch4j-jre.xml" outfile="${dest_dir}/win32/zekr.exe" />
+		<launch4j configfile="misc/zekrc-launch4j-jre.xml" outfile="${dest_dir}/win32/zekrc.exe" />
 	</target>
 
 	<target name="compile">

@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <project name="Zekr source build file" default="dist" basedir=".">
 
 	<!-- Component parameters -->
@@ -7,7 +6,6 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="0.7.5beta1" />
 
 	<property name="main_class" value="${package}.ZekrMain" />
 
