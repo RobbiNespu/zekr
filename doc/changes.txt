@@ -608,6 +608,14 @@ Features/Enhancements:
 	Added recitation converter. Old recitations are converted to new format on startup. Old files are then moved to old-recitation-files folder.
 	QuranWriterFilter now put some special characters in filtered Uthmani text for better rendering. A tatweel or a zwnj is put before small superscript alef according to the context.
 	Added a new property text.filter.noSpaceBeforeWaqf to specify whether or not insert a space before waqf marks or not.
+	Custom shortcuts are supported for certain menu items.
+		- Class QuranFormController added with a method registerAction(methodName) to ease this process.
+		- If the menu selection action is registered (registeration is done by default for all menu items to which key accelerators were bound),
+			it is possible to bind accelerator through file res/config/shortcut.xml. This file contains a set of keyboard shortcuts for menu actions
+			which can be customized based on UI direction (RTL or LTR). Almost all key combinations can be used.
+		- File shortcut.xml is copied to user workspace if not available there. If Zekr version of shortcut.xml doesn't match with user's shortcut.xml, Zekr loads users file and adds new entries added to main shortcut.xml.
+	Added two menu items under Audio menu: next aya, previous aya. These commands reserve playing state.
+	Updated to SWT 3.6.0M3.
 Bug fixes:
 _____________________________________________________
 	TODO: Export search results
