@@ -67,8 +67,8 @@
 			<text id="OPTIONS" value="خيارات" />
 			<text id="QUESTION" value="سؤال" />
 			<text id="FONT" value="خط" />
-			<text id="EXIT" value="خروج" />
 			<text id="GENERAL" value="عام" />
+			<text id="EXIT" value="خروج" />
 			<text id="EXCLUDE" value="إستثناء" />
 			<text id="TRUE" value="محقق" />
 			<text id="FALSE" value="غير محقق" />
@@ -126,19 +126,26 @@
 			<text id="MENU_NEXT_PAGE" value="الصفحة التالية" />
 			<text id="MENU_PREV_PAGE" value="الصفحة السابقة" />
 			<text id="CHECK4UPDATE" value="تحديث" />
-			<text id="ASCENDING" value="Ascending" />
-			<text id="DESCENDING" value="Descending" />
+			<text id="ASCENDING" value="تصاعديا" />
+			<text id="DESCENDING" value="تنازليا" />
 			<text id="REVEL_ORDER" value="ترتيب النزول" />
 			<text id="FULL_SCREEN" value="شاشة كاملة" />
-			<text id="WARNING" value="Warning" />
+			<text id="WARNING" value="تحذير" />
 			<text id="ONLINE_HELP" value="مساعدة" />
 			<text id="PAGING_MODE" value="نظام الصفحة" />
 			<text id="PANEL" value="لوحة" />
 			<text id="DETAIL_PANEL" value="لوحة التفاصيل" />
 			<text id="REPEAT" value="Repeat" />
 			<text id="ROOT" value="جذر" />
-			<text id="ADDRESS" value="Address" />
+			<text id="ADDRESS" value="عنوان" />
 			<text id="BOOKMARK_THIS_AYA" value="أضف الآية للإشارات المرجعية" />
+			<text id="AUDIO_PLAYER" value="قارئ التلاوة"   />
+			<text id="PLAYING" value="قراءة"   />
+			<text id="PAUSED" value="توقف مؤقت"   />
+			<text id="STOPPED" value="ايقاف"   />
+			<text id="RECITER" value="القارئ"   />
+            <text id="ONLINE" value="متصل"   />
+            <text id="OFFLINE" value="غير متصل"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -153,8 +160,8 @@
 			<text id="MADANI" value="مدني" />
 			<text id="DESCENT" value="نزول" />
 			<text id="AYA_COUNT" value="عدد الآيات" />
-			<text id="MINOR_SAJDA" value="سجدة صغيرة" /> <!-- Mustahab Sajda -->
-			<text id="MAJOR_SAJDA" value="سجدة كبيرة" /> <!-- Wajib Sajda -->
+			<text id="MINOR_SAJDA" value="سجدة مستحبة" /> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="سجدة واجبة" /> <!-- Wajib Sajda -->
 			<text id="LOCATION" value="مسار" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
 	</word>
@@ -167,8 +174,9 @@
 			<text id="TOO_MANY_RESULT" value="حصلت نتائج في أكثر من {1} آية" />
 			<text id="FILE_ALREADY_EXISTS" value="ملف يحمل الإسم &quot;{1}&quot; يوجد حاليا. هل تريد استبداله ؟" />
 			<text id="RESTART_APP" value="يجب إعادة تشغيل البرنامج لكي يتم تطبيق التغييرات." />
-			<text id="ACTION_PERFORMED" value="Action performed successfully." />
-			<text id="TRANSLATION_ADDED" value="The following translation added under {1} menu" />
+			<text id="ACTION_PERFORMED" value="تم انجاز المهمة بنجاح." />
+			<text id="TRANSLATION_ADDED" value="الترجمة التالية تم اضافتها للقائمة {1}" />
+			<text id="RECITATION_ADDED" value="التلاوات التالية تمت اضافتها للقائمة {1}"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="هل أنت متأكد؟" />
@@ -178,11 +186,14 @@
 			<text id="GENERAL_ERROR" value="خطأ غير متوقع" />
 			<text id="FNF" value="الملف غير موجود" />
 			<text id="ACTION_FAILED" value="لم تنجح العملية!" />
-			<text id="INVALID_TRANSLATION_FORMAT" value="Invalid tranalation format: {1}" />
-			<text id="INVALID_TRANSLATION_SIGNATURE" value="Invalid translation signature: {1}" />
-			<text id="TRANSLATION_LOAD_FAILED" value="Loading translation &quot;{1}&quot; failed because of the following error: {2}" />
-			<text id="ENTER_VALID_NUMBER" value="Please enter a valid number." />
-			<text id="NUMBER_LIMIT" value="Please enter a number between '{1}' and '{2}'." />
+			<text id="INVALID_TRANSLATION_FORMAT" value="صيغة ترجمة غير صالحة: {1}" />
+			<text id="INVALID_RECITATION_FORMAT" value="صيغة تلاوة غير صالحة: {1}"   />
+			<text id="NEWER_VERSION_INSTALLED" value="هنالك اصدار جديد من {1} (تم تحديثه في {2}) . اصدار جديد {3} تم تنصيبه بالفعل" />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="توقيع ترجمة غير صالح: {1}" />
+			<text id="TRANSLATION_LOAD_FAILED" value="تحميل الترجمة &quot;{1}&quot; فشل بسبب الخطأ التاليr2}" />
+			<text id="RECITATION_LOAD_FAILED" value="Loading recitation '{1}' failed because of the following error: {2}"   />
+			<text id="ENTER_VALID_NUMBER" value="قم بادخال رقم صالح." />
+			<text id="NUMBER_LIMIT" value="قم بادخال رقم بين '{1}' و '{2}'." />
 		</error>
 		<hint></hint>
 	</message>
@@ -220,11 +231,11 @@
 			<text id="MAX_SEARCH_RESULT" value="أكبر قيمة لنتائج البحث." />
 			<text id="RESIZEABLE_TASK_PANE" value="الشريط الجانبي قابل للتمديد" />
 			<text id="SURA_NAMES" value="أسماء السور" />
-			<text id="ARABIC" value="Arabic" />
-			<text id="EN_T9N" value="English Translation" />
-			<text id="EN_T13N" value="English Transliteration" />
-			<text id="T9N" value="Translation (if available)" />
-			<text id="T13N" value="Transliteration (if available)" />
+			<text id="ARABIC" value="عربي" />
+			<text id="EN_T9N" value="ترجمة انكليزية" />
+			<text id="EN_T13N" value="بأحرف انكليزية" />
+			<text id="T9N" value="ترجمة انكليزية في حال التوفر" />
+			<text id="T13N" value="بأحرف انكليزية في حال التوفر" />
 			<text id="ENABLE_AUDIO" value="تشغيل الصوت" />
 			<text id="SURA_NAME_TREE" value="شجرة أسماء السور" />
 		</form>
@@ -285,28 +296,28 @@
 			<text id="PLEASE_WAIT" value="إنتظر من فضلك" />
 			<text id="INDEXING" value="فهرسة" /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="هذه العملية ستأخذ بعض الوقت وذلك تبعاً لحجم المستتند المستخدم" />
-			<text id="CHECKING" value="Cheking For Updates" />
-			<text id="ZEKR_IS_CHECKING" value="Zekr is now checking for updates" />
+			<text id="CHECKING" value="بحث عن تحديث" />
+			<text id="ZEKR_IS_CHECKING" value="يقوم ذكر الآن بالبحث عن تحديثات جديدة" />
 		</form>
 		<form id="ABOUT">
-			<text id="TITLE" value="About Zekr" />
-			<text id="VIEW_LOG" value="View Log File" />
+			<text id="TITLE" value="حول ذكر" />
+			<text id="VIEW_LOG" value="عرض السجل" />
 		</form>
 		<form id="UPDATE">
-			<text id="TITLE" value="Update Info" />
-			<text id="VERSION_INFO" value="Version info" />
-			<text id="BUILD_NUM" value="Build number" />
-			<text id="VERSION" value="Version" />
-			<text id="RELEASE_NAME" value="Release name" />
-			<text id="RELEASE_STATE" value="Build state" />
-			<text id="RELEASE_DATE" value="Release date" />
-			<text id="RELEASE_NOTES" value="Release notes" />
-			<text id="DOWNLOAD" value="Download" />
-			<text id="MORE_INFO" value="More info" />
-			<text id="NO_UPDATE" value="You are already using the newest version." />
-			<text id="NEW_DEV_AVAILABLE" value="A newer development version (unstable) is available for download" />
-			<text id="NEW_BETA_AVAILABLE" value="A newer beta version (unstable) is available for download" />
-			<text id="NEW_FINAL_AVAILABLE" value="A newer release (final) is available for download" />
+			<text id="TITLE" value="معلومات التحديث" />
+			<text id="VERSION_INFO" value="معلومات الاصدار" />
+			<text id="BUILD_NUM" value="رقم البناء" />
+			<text id="VERSION" value="الاصدار" />
+			<text id="RELEASE_NAME" value="اسم الاصدار" />
+			<text id="RELEASE_STATE" value="حالة البناء" />
+			<text id="RELEASE_DATE" value="تاريخ الاصدار" />
+			<text id="RELEASE_NOTES" value="ملاحظات الاصدار" />
+			<text id="DOWNLOAD" value="تحميل" />
+			<text id="MORE_INFO" value="معلومات أكثر" />
+			<text id="NO_UPDATE" value="أنت تستعمل آخر اصدار." />
+			<text id="NEW_DEV_AVAILABLE" value="اصدار جديد قيد التطوير (غير مستقر) متوفر للتحميل" />
+			<text id="NEW_BETA_AVAILABLE" value="اصدار بيتا (غير مستقر) متوفر للتحميل" />
+			<text id="NEW_FINAL_AVAILABLE" value="اصدار جديد (نهائي) متوفر للتحميل" />
 		</form>
 		<form id="PAGING_MODE">
 			<text id="TITLE" value="نظام الصفحة" />
@@ -316,6 +327,15 @@
 			<text id="CONST_AYA" value="عدد آيات" />
 			<text id="CUSTOM" value="تفصيل" />
 			<text id="AYA_PER_SURA" value="How many ayas should appear in each page?"   />
+		</form>
+		<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="قارئ التلاوة"   />
+			<text id="SECOND_ABBR" value="ثا"   /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECONDS" value="ثانية"   /> <!--  tooltip for 's' (SECOND_ABBR) -->
+			<text id="INTERVAL" value="فاصل زمني"   />
+			<text id="REPEAT" value="تكرار"   />
+			<text id="NO_INTERVAL" value="بدون فاصل زمني"   />
+			<text id="NO_REPEAT" value="بدون تكرار"   />
 		</form>
 	</forms>
 </language>
