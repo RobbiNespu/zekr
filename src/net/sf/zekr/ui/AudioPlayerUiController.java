@@ -228,8 +228,9 @@ public class AudioPlayerUiController {
 	public void changeRecitation(String audioId) {
 		playerSlightlyStop();
 		config.setCurrentAudio(audioId);
-		if (audioControllerForm != null)
+		if (audioControllerForm != null) {
 			playerUpdateAudioFormStatus();
+		}
 		if (isAudioControllerFormOpen()) {
 			audioControllerForm.getShell().pack();
 		}
