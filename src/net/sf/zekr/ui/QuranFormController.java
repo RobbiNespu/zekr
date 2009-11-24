@@ -106,7 +106,8 @@ public class QuranFormController {
 					Method method = QuranFormController.this.getClass().getMethod(name, parameterType);
 					method.invoke(QuranFormController.this, methodParam);
 				} catch (Exception e) {
-					logger.error(e);
+					MessageBoxUtils.showError("Error running action: " + name);
+					logger.error("Error calling action: " + name, e);
 				}
 			}
 		};
@@ -120,7 +121,8 @@ public class QuranFormController {
 					Method method = QuranFormController.this.getClass().getMethod(name, new Class<?>[0]);
 					method.invoke(QuranFormController.this, new Object[0]);
 				} catch (Exception e) {
-					logger.error(e);
+					MessageBoxUtils.showError("Error running action: " + name);
+					logger.error("Error calling action: " + name, e);
 				}
 			}
 		};
