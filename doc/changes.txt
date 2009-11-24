@@ -602,7 +602,7 @@ Bug fixes:
 	Bug 2631242: Uthmani text could not be enabled by setting quran_uthmaniTextFile to true.
 	A bug fixed with uthmani.page.xml, which caused last sura (114) to have 5 ayas instead of 6 ayas.
 
-Version 0.7.5 beta 2 - [15-11-09]
+Version 0.7.5 beta 2 - [07-11-09]
 Features/Enhancements:
 	A file is added to <zekr installation>/res/config/install.properties which holds installer path. This can be accessed through GlobalConfig.ZEKR_INSTALL_DIR, which is used to replace <installdir> variable in recitation files.
 	Added recitation converter. Old recitations are converted to new format on startup. Old files are then moved to old-recitation-files folder.
@@ -617,6 +617,11 @@ Features/Enhancements:
 	Added two menu items under Audio menu: next aya, previous aya. These commands reserve playing state.
 	Updated to SWT 3.6.0M3.
 Bug fixes:
+
+Version 0.7.5 - [30-11-09]
+Features/Enhancements:
+Bug fixes:
+	A bug with opening customize multi translation fixed.
 _____________________________________________________
 	TODO: Export search results
 
