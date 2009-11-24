@@ -197,6 +197,7 @@ public class AudioPlayerForm extends BaseForm {
 		String s = String.format("%s (%s):%s | %s: %s | %s", l.getSuraName(), l.getSura(), l.getAya(),
 				meaning("RECITER"), audioData.getReciter(config.getLanguageEngine().getLanguage()), status);
 		playerLabel.setText(s);
+		playerLabel.setToolTipText(s);
 	}
 
 	public String getPlayerStatus() {
@@ -373,7 +374,7 @@ public class AudioPlayerForm extends BaseForm {
 		gd = new GridData(SWT.CENTER, SWT.CENTER, true, true);
 		gd.heightHint = 16;
 		gd.widthHint = 20;
-		gd.horizontalIndent = 20;
+		gd.horizontalIndent = 30;
 		volumeCanvas = new Canvas(volumeComposite, SWT.NONE);
 		volumeCanvas.setLayoutData(gd);
 
