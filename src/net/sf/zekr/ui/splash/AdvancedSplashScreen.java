@@ -44,7 +44,7 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 	public AdvancedSplashScreen(Display disp) {
 		super(disp);
 		shell = new Shell(display, SWT.NO_TRIM | SWT.DOUBLE_BUFFERED);
-		shell.setText("Zekr " + GlobalConfig.ZEKR_VERSION);
+		shell.setText("Starting Zekr...");
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
 				new Image(display, resource.getString("icon.form32")),
 				new Image(display, resource.getString("icon.form48")),
