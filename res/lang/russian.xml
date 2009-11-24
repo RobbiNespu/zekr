@@ -132,7 +132,7 @@
             <text id="FULL_SCREEN" value="Полноэкранный режим"   />
             <text id="WARNING" value="Предупреждение"   />
             <text id="ONLINE_HELP" value="Справка онлайн"   />
-            <text id="PAGING_MODE" value="Нумерация страниц"   />
+            <text id="PAGING_MODE" value="Разбивка страниц"   />
             <text id="PANEL" value="Панель"   />
             <text id="DETAIL_PANEL" value="Показать детали"   />
             <text id="REPEAT" value="Повторить"   />
