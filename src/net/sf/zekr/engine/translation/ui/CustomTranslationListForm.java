@@ -202,9 +202,9 @@ public class CustomTranslationListForm extends BaseForm {
 			}
 		});
 
-		i = 0;
 		String[] targetItems = new String[customList.size()];
-		for (TranslationData td : customList) {
+		for (i = 0; i < customList.size(); i++) {
+			TranslationData td = customList.get(i);
 			targetItems[i] = td.localizedName + " - " + td.locale;
 			targetData.add(td.id);
 		}
