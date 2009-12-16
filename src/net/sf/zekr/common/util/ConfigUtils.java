@@ -21,6 +21,7 @@ import net.sf.zekr.common.config.GlobalConfig;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.ObjectUtils;
 
 /**
  * @author Mohsen Saboorian
@@ -37,7 +38,7 @@ public class ConfigUtils {
 			if (value instanceof Collection) {
 				w.write(CollectionUtils.toString((List) value, ", "));
 			} else {
-				w.write(value.toString());
+				w.write(ObjectUtils.toString(value));
 			}
 
 			if (keys.hasNext()) {
