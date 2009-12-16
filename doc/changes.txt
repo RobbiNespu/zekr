@@ -620,6 +620,8 @@ Bug fixes:
 
 Version 0.7.5 - [30-11-09]
 Features/Enhancements:
+	Changed startup text. Do not show version on startup splash screen anymore.
+	Show tooptip on audio player panel (useful when text exceeds the normal panel size).
 Bug fixes:
 	A bug with opening customize multi translation fixed.
 _____________________________________________________
