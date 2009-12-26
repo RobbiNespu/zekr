@@ -26,12 +26,13 @@
     <cp>lib/lucene-highlighter-2.3.2.jar</cp>
     <cp>lib/swt.jar</cp>
     <cp>lib/velocity-1.6.2.jar</cp>
+    <cp>lib/mp3spi-1.9.4.jar</cp>
+    <cp>lib/vorbisspi-1.0.3.jar</cp>
     <cp>lib/jlayer-1.0.1.jar</cp>
     <cp>lib/jorbis-0.0.17.jar</cp>
     <cp>lib/jspeex-0.9.7.jar</cp>
     <cp>lib/tritonus-share-0.3.6.jar</cp>
-    <cp>lib/mp3spi-1.9.4.jar</cp>
-    <cp>lib/vorbisspi-1.0.3.jar</cp>
+    <cp>lib/tritonus-jorbis-0.3.6.jar</cp>
     <cp>lib/basicplayer-3.0.jar</cp>
     <cp>dist/zekr.jar</cp>
   </classPath>
