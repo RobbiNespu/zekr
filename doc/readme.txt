@@ -51,6 +51,7 @@ their corresponding licenses under doc directory:
 - jorbis-0.0.17.jar: Lesser General Public License 2.1, [zekr]/doc/lgpl-2.1.txt
 - jspeex-0.9.7.jar: Modified BSD license, [zekr]/doc/jspeex-license.txt
 - tritonus-share-0.3.6.jar: General Public License 2.1, [zekr]/doc/gpl-2.0.txt
+- tritonus-jorbis-0.3.6.jar: General Public License 2.1, [zekr]/doc/gpl-2.0.txt
 
 The following fonts are bundled in Zekr packages, but are not required:
 - Scheherazade font (ScheherazadeRegOT.ttf) is under SIL.org Open Font License 1.1,
