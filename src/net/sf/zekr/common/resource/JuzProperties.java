@@ -76,6 +76,6 @@ public class JuzProperties {
 	}
 
 	public IQuranLocation getLocation() {
-		return new QuranLocation(suraNumber, ayaNumber);
+		return QuranPropertiesUtils.getLocation(suraNumber, ayaNumber);
 	}
 }
