@@ -39,7 +39,7 @@ public class CleanCommandHandler extends CommandHandler {
 					+ " `all' (for cleaning all the targets), or a combination of cleaning targets separated with comma.");
 		String targets = options[0];
 		StringTokenizer st = new StringTokenizer(targets, ",");
-		List delList = new ArrayList();
+		List<String> delList = new ArrayList<String>();
 		while (st.hasMoreTokens()) {
 			String target = st.nextToken();
 			if (target.trim().equals("view-cache")) {
@@ -63,8 +63,8 @@ public class CleanCommandHandler extends CommandHandler {
 			}
 		}
 
-		for (Iterator iter = delList.iterator(); iter.hasNext();) {
-			String path = (String) iter.next();
+		for (Iterator<String> iter = delList.iterator(); iter.hasNext();) {
+			String path = iter.next();
 			try {
 				File f = new File(path);
 				stdout.print("-> Deleting \"" + path + "\"");

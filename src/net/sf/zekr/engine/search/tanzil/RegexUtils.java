@@ -8,7 +8,6 @@
  */
 package net.sf.zekr.engine.search.tanzil;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -195,9 +194,8 @@ public class RegexUtils extends LetterConstants {
 	 * @param src original string to apply replace all on.
 	 * @return the resulting string after replacing patterns
 	 */
-	public static String replaceAll(Map replacePatternMap, String src) {
-		for (Iterator iterator = replacePatternMap.entrySet().iterator(); iterator.hasNext();) {
-			Entry entry = (Entry) iterator.next();
+	public static String replaceAll(Map<Pattern, String> replacePatternMap, String src) {
+		for (Entry<Pattern, String> entry : replacePatternMap.entrySet()) {
 			Matcher m = ((Pattern) entry.getKey()).matcher(src);
 			src = m.replaceAll((String) entry.getValue());
 		}

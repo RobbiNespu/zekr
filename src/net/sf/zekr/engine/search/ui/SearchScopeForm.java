@@ -8,8 +8,6 @@
  */
 package net.sf.zekr.engine.search.ui;
 
-import java.util.Iterator;
-
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.log.Logger;
@@ -233,8 +231,7 @@ public class SearchScopeForm extends BaseForm {
 		excludeCol.setText(lang.getMeaning("EXCLUDE"));
 		excludeCol.pack();
 
-		for (Iterator iter = searchScope.getScopeItems().iterator(); iter.hasNext();) {
-			SearchScopeItem ssi = (SearchScopeItem) iter.next();
+		for (SearchScopeItem ssi : searchScope.getScopeItems()) {
 			addNewItem(ssi);
 		}
 

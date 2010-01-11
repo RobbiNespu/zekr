@@ -45,8 +45,9 @@ public class QuranLocation implements IQuranLocation {
 	 */
 	public QuranLocation(String location) {
 		int i = location.indexOf('-');
-		if (i == -1)
+		if (i == -1) {
 			throw new IllegalArgumentException(location);
+		}
 		setSura(Integer.parseInt(location.substring(0, i)));
 		setAya(Integer.parseInt(location.substring(i + 1)));
 	}
@@ -124,12 +125,13 @@ public class QuranLocation implements IQuranLocation {
 	public IQuranLocation getNext() {
 		IQuranLocation newLoc;
 		SuraProperties sp = QuranPropertiesUtils.getSura(sura);
-		if (aya < sp.getAyaCount())
+		if (aya < sp.getAyaCount()) {
 			newLoc = new QuranLocation(sura, aya + 1);
-		else if (sura < 114)
+		} else if (sura < 114) {
 			newLoc = new QuranLocation(sura + 1, 1);
-		else
+		} else {
 			newLoc = null;
+		}
 		return newLoc;
 	}
 
@@ -170,16 +172,19 @@ public class QuranLocation implements IQuranLocation {
 		if (obj instanceof QuranLocation) {
 			QuranLocation loc = (QuranLocation) obj;
 			return loc.aya == aya && loc.sura == sura;
-		} else
+		} else {
 			return obj.equals(this);
+		}
 	}
 
 	public int compareTo(IQuranLocation location) {
-		IQuranLocation l = (IQuranLocation) location;
-		if (sura > l.getSura() || (sura == l.getSura() && aya > l.getAya()))
+		IQuranLocation l = location;
+		if (sura > l.getSura() || sura == l.getSura() && aya > l.getAya()) {
 			return 1;
-		if (sura < l.getSura() || (sura == l.getSura() && aya < l.getAya()))
+		}
+		if (sura < l.getSura() || sura == l.getSura() && aya < l.getAya()) {
 			return -1;
+		}
 		return 0;
 	}
 
