@@ -33,19 +33,19 @@ public class SearchResultModel {
 	/**
 	 * A list of matched <code>SearchResultItem</code>s.
 	 */
-	protected List results;
+	protected List<SearchResultItem> results;
 
 	/**
 	 * Current search page.
 	 */
 	protected int pageNum;
 
-	public class Iter implements Iterator {
+	public class Iter implements Iterator<List<SearchResultItem>> {
 		public boolean hasNext() {
 			return (pageNum * resultPerPage <= results.size());
 		}
 
-		public Object next() {
+		public List<SearchResultItem> next() {
 			return getPage(pageNum++);
 		}
 
@@ -65,7 +65,7 @@ public class SearchResultModel {
 	 * @param ayaComparator the {@link AbstractSearchResultComparator} to be used for sorting results
 	 * @param ascending
 	 */
-	public SearchResultModel(IQuranText quranText, List results, String clause, String rawQuery, int totalMatch,
+	public SearchResultModel(IQuranText quranText, List<SearchResultItem> results, String clause, String rawQuery, int totalMatch,
 			AbstractSearchResultComparator ayaComparator, boolean ascending) {
 		this.quranText = quranText;
 		this.results = results;
@@ -90,7 +90,7 @@ public class SearchResultModel {
 	 * @return requested page
 	 * @throws NoSuchElementException if no such page exists
 	 */
-	public List getPage(int page) {
+	public List<SearchResultItem> getPage(int page) {
 		if (page * resultPerPage > results.size())
 			throw new NoSuchElementException("No such page: " + page);
 
@@ -100,7 +100,7 @@ public class SearchResultModel {
 		return results.subList(page * resultPerPage, results.size());
 	}
 
-	public List getResults() {
+	public List<SearchResultItem> getResults() {
 		return results;
 	}
 
@@ -125,7 +125,7 @@ public class SearchResultModel {
 	 * 
 	 * @return
 	 */
-	public Iterator iterator() {
+	public Iterator<List<SearchResultItem>> iterator() {
 		return new Iter();
 	}
 

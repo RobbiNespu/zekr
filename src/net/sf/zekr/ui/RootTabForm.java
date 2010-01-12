@@ -205,8 +205,8 @@ public class RootTabForm {
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		gd.heightHint = 90;
 		rootList.setLayoutData(gd);
-		final List stringRootList = config.getQuranRoot().getRootList();
-		rootList.setItems((String[]) stringRootList.toArray(new String[0]));
+		final List<String> stringRootList = config.getQuranRoot().getRootList();
+		rootList.setItems(stringRootList.toArray(new String[0]));
 		rootList.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				doFind();
@@ -366,13 +366,13 @@ public class RootTabForm {
 	private String filterList(String filter) {
 		filter = filter.trim();
 		filter = simplifyText(filter);
-		List list = config.getQuranRoot().getRootList();
-		List newList = new ArrayList();
+		List<String> list = config.getQuranRoot().getRootList();
+		List<String> newList = new ArrayList<String>();
 		if (StringUtils.isBlank(filter)) {
 			newList = list;
 		} else {
 			for (int i = 0; i < list.size(); i++) {
-				String item = (String) list.get(i);
+				String item = list.get(i);
 				if (simplifyText(item).indexOf(filter) > -1) {
 					newList.add(item);
 				}
@@ -381,7 +381,7 @@ public class RootTabForm {
 				// }
 			}
 		}
-		rootList.setItems((String[]) newList.toArray(new String[0]));
+		rootList.setItems(newList.toArray(new String[0]));
 		return filter;
 	}
 

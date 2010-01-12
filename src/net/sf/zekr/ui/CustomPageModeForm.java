@@ -11,7 +11,6 @@ package net.sf.zekr.ui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
@@ -46,7 +45,7 @@ public class CustomPageModeForm extends BaseForm {
 	private Button editBut;
 	private org.eclipse.swt.widgets.List listWidget;
 	private String[] listItems;
-	private List listModel = new ArrayList();
+	private List<String> listModel = new ArrayList<String>();
 	private int selectedMode = -1;
 
 	public CustomPageModeForm(Shell parent) {
@@ -72,19 +71,14 @@ public class CustomPageModeForm extends BaseForm {
 		listWidget.setLayoutData(gd);
 
 		QuranPaging qp = conf.getQuranPaging();
-		Collection pagings = conf.getQuranPaging().getAllPagings();
+		Collection<IPagingData> pagings = conf.getQuranPaging().getAllPagings();
 		listItems = new String[pagings.size()];
-		IPagingData[] builtinPagings = new IPagingData[] {
-				(IPagingData) qp.get(FixedAyaPagingData.ID),
-				(IPagingData) qp.get(SuraPagingData.ID),
-				(IPagingData) qp.get(JuzPagingData.ID),
-				(IPagingData) qp.get(HizbQuarterPagingData.ID)
-		};
+		IPagingData[] builtinPagings = new IPagingData[] { qp.get(FixedAyaPagingData.ID), qp.get(SuraPagingData.ID),
+				qp.get(JuzPagingData.ID), qp.get(HizbQuarterPagingData.ID) };
 
-		List pagingList = Arrays.asList(builtinPagings);
-		List itemList = new ArrayList();
-		for (Iterator iterator = pagings.iterator(); iterator.hasNext();) {
-			IPagingData paging = (IPagingData) iterator.next();
+		List<IPagingData> pagingList = Arrays.asList(builtinPagings);
+		List<String> itemList = new ArrayList<String>();
+		for (IPagingData paging : pagings) {
 			if (!pagingList.contains(paging)) {
 				try {
 					logger.debug("Try to load paging data which are not yet loaded.");
@@ -97,7 +91,7 @@ public class CustomPageModeForm extends BaseForm {
 			}
 		}
 
-		listWidget.setItems((String[]) itemList.toArray(new String[0]));
+		listWidget.setItems(itemList.toArray(new String[0]));
 		listWidget.addMouseListener(new MouseAdapter() {
 			public void mouseDoubleClick(MouseEvent e) {
 				if (listWidget.getSelectionCount() > 0) {
@@ -107,8 +101,9 @@ public class CustomPageModeForm extends BaseForm {
 		});
 
 		int def = listModel.indexOf(conf.getQuranPaging().getDefault().getId());
-		if (def > -1)
+		if (def > -1) {
 			listWidget.select(def);
+		}
 
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.LEAD;
@@ -175,9 +170,10 @@ public class CustomPageModeForm extends BaseForm {
 	}
 
 	public String getPagingMode() {
-		if (selectedMode == -1)
+		if (selectedMode == -1) {
 			return null;
-		return (String) listModel.get(selectedMode);
+		}
+		return listModel.get(selectedMode);
 	}
 
 	private void doOk() {

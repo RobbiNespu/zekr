@@ -10,7 +10,6 @@ package net.sf.zekr.engine.bookmark.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
@@ -167,11 +166,10 @@ public class BookmarkSetForm {
 		descCol.setText(lang.getMeaning("DESCRIPTION"));
 		descCol.setWidth(160);
 
-		List bookmarks = bookmarkSet.getBookmarksItems();
-		for (Iterator iter = bookmarks.iterator(); iter.hasNext();) {
-			BookmarkItem bmItem = (BookmarkItem) iter.next();
+		List<BookmarkItem> bookmarks = bookmarkSet.getBookmarksItems();
+		for (BookmarkItem bookmarkItem : bookmarks) {
 			TreeItem item = new TreeItem(tree, SWT.FULL_SELECTION);
-			BookmarkUtils.addBookmarkItemToTree(item, bmItem);
+			BookmarkUtils.addBookmarkItemToTree(item, bookmarkItem);
 		}
 
 		tree.addSelectionListener(new SelectionAdapter() {

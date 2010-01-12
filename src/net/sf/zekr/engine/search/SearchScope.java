@@ -15,7 +15,7 @@ import java.util.List;
 import net.sf.zekr.common.resource.IQuranLocation;
 
 public class SearchScope {
-	List list = new ArrayList();
+	List<SearchScopeItem> list = new ArrayList<SearchScopeItem>();
 
 	public void add(SearchScopeItem item) {
 		int i = list.indexOf(item);
@@ -31,7 +31,7 @@ public class SearchScope {
 		return list.contains(item);
 	}
 
-	public List getScopeItems() {
+	public List<SearchScopeItem> getScopeItems() {
 		return list;
 	}
 
@@ -72,13 +72,13 @@ public class SearchScope {
 	public boolean includes(int sura, int aya) {
 		if (list.size() == 0)
 			return false;
-		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			SearchScopeItem ssi = (SearchScopeItem) iter.next();
+		for (Iterator<SearchScopeItem> iter = list.iterator(); iter.hasNext();) {
+			SearchScopeItem ssi = iter.next();
 			if (ssi.excludes(sura, aya))
 				return false;
 		}
-		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			SearchScopeItem ssi = (SearchScopeItem) iter.next();
+		for (Iterator<SearchScopeItem> iter = list.iterator(); iter.hasNext();) {
+			SearchScopeItem ssi = iter.next();
 			if (ssi.includes(sura, aya))
 				return true;
 		}
