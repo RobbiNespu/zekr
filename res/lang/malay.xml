@@ -132,13 +132,20 @@
 			<text id="FULL_SCREEN" value="Skrin Penuh"   />
 			<text id="WARNING" value="Amaran"   />
 			<text id="ONLINE_HELP" value="Bantuan Online"   />
-			<text id="PAGING_MODE" value="Mod Halaman"   />
+			<text id="PAGING_MODE" value="Mode Halaman"   />
 			<text id="PANEL" value="Panel"   />
 			<text id="DETAIL_PANEL" value="Detail Panel"   />
 			<text id="REPEAT" value="Ulang"   />
 			<text id="ROOT" value="Root"   /> <!-- word root -->
 			<text id="ADDRESS" value="Alamat"   />
 			<text id="BOOKMARK_THIS_AYA" value="Tanda Ayat ini"   />
+<text id="AUDIO_PLAYER" value="Pemain Audio"   />
+			<text id="PLAYING" value="Sedang Dimainkan"   />
+			<text id="PAUSED" value="Berhenti"   />
+			<text id="STOPPED" value="Berhenti"   />
+			<text id="RECITER" value="Qari"   />
+            <text id="ONLINE" value="Online"   />
+            <text id="OFFLINE" value="Offline"   />
 		</common>
 		<special>
 			<text id="QURAN"    value="Quran" />
@@ -289,8 +296,8 @@
 			<text id="ZEKR_IS_CHECKING" value="Zekr sedang memeriksa kemaskini" />
 		</form>
 		<form id="ABOUT">
-			<text id="TITLE" value="About Zekr" />
-			<text id="VIEW_LOG" value="View Log File" />
+			<text id="TITLE" value="Mengenai Zekr" />
+			<text id="VIEW_LOG" value="Papar Log Fail" />
 		</form>
 			<form id="UPDATE">
 			<text id="TITLE" value="Update Info" />
@@ -316,6 +323,15 @@
 			<text id="CONST_AYA" value="Constant Aya Count"   />
 			<text id="CUSTOM" value="Custom"   />
 			<text id="AYA_PER_SURA" value="Berapa banyak ayat sepatutnya muncul dalam setiap muka surat?"   />
+		</form>
+<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="Pemain Audio"   />
+			<text id="SECOND_ABBR" value="s"   /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECONDS" value="Seconds"   /> <!--  tooltip for 's' (SECOND_ABBR) -->
+			<text id="INTERVAL" value="Jeda"   />
+			<text id="REPEAT" value="Ulangi"   />
+			<text id="NO_INTERVAL" value="Tidak Jeda"   />
+			<text id="NO_REPEAT" value="Tidak Ulangi"   />
 		</form>
 	</forms>
 </language>
