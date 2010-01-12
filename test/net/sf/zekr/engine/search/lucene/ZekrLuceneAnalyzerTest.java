@@ -48,14 +48,14 @@ public class ZekrLuceneAnalyzerTest extends ZekrBaseTest {
 		TokenStream ts2 = new WhitespaceTokenizer(new StringReader(ARABIC_STR1));
 		boolean hasMore = ts1.incrementToken();
 		ts2.incrementToken();
-		TermAttribute t1 = ts1.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
-		TermAttribute t2 = ts2.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
+		TermAttribute t1 = (TermAttribute) ts1.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
+		TermAttribute t2 = (TermAttribute) ts2.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
 		while (hasMore) {
 			assertEquals(new String(t1.termBuffer(), 0, t1.termLength()), new String(t2.termBuffer(), 0, t2.termLength()));
 			hasMore = ts1.incrementToken();
 			ts2.incrementToken();
-			t1 = ts1.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
-			t2 = ts2.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
+			t1 = (TermAttribute) ts1.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
+			t2 = (TermAttribute) ts2.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
 		}
 	}
 
@@ -65,14 +65,14 @@ public class ZekrLuceneAnalyzerTest extends ZekrBaseTest {
 		TokenStream ts2 = new WhitespaceTokenizer(new StringReader(ARABIC_STR2));
 		boolean hasMore = ts1.incrementToken();
 		ts2.incrementToken();
-		TermAttribute t1 = ts1.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
-		TermAttribute t2 = ts2.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
+		TermAttribute t1 = (TermAttribute) ts1.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
+		TermAttribute t2 = (TermAttribute) ts2.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
 		while (hasMore) {
 			assertEquals(new String(t1.termBuffer(), 0, t1.termLength()), new String(t2.termBuffer(), 0, t2.termLength()));
 			hasMore = ts1.incrementToken();
 			ts2.incrementToken();
-			t1 = ts1.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
-			t2 = ts2.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
+			t1 = (TermAttribute) ts1.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
+			t2 = (TermAttribute) ts2.getAttribute(org.apache.lucene.analysis.tokenattributes.TermAttribute.class);
 		}
 	}
 }

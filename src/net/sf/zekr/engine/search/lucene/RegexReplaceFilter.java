@@ -24,7 +24,7 @@ public final class RegexReplaceFilter extends TokenFilter {
 	 */
 	public RegexReplaceFilter(TokenStream ts, Map<Pattern, String> patternReplaceMap) {
 		super(ts);
-		termAtt = addAttribute(TermAttribute.class);
+		termAtt = (TermAttribute) addAttribute(TermAttribute.class);
 		patternReplace = patternReplaceMap;
 	}
 
