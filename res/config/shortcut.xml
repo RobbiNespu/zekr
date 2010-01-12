@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<shortcut version="0.7.5beta2">
+<shortcut version="0.7.5beta3">
 <![CDATA[
 - if shortcut for right-to-left mode is different, specify rtlKey for mapping element.
 - use 'Alt', 'Ctrl', and 'Shift' modifiers only. Ctrl is treated as Command on Mac systems.
@@ -20,6 +20,7 @@
     <mapping action="toggleFullScreen" key="F11" />
 
     <!-- goto -->
+    <mapping action="gotoForm" key="Ctrl+G" />
     <mapping action="gotoRandomAya" key="Ctrl+Shift+R" />
     <mapping action="gotoNextSura" key="Ctrl+Alt+Down" />
     <mapping action="gotoPrevSura" key="Ctrl+Alt+Up" />
@@ -46,4 +47,8 @@
     <mapping action="manageBookmarkSets" key="" />
     <mapping action="bookmarkThis" key="Ctrl+D" />
     <mapping action="findBookmarkReferences" key="Ctrl+Shift+F" />
+    
+    <!--  help  -->
+    <mapping action="onlineHelp" key="F1" />
+
 </shortcut>
