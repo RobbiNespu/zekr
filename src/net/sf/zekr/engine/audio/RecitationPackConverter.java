@@ -48,7 +48,6 @@ public class RecitationPackConverter {
 
 		ad.license = props.getString("audio.license");
 		ad.locale = new Locale(props.getString("audio.language"), props.getString("audio.country"));
-		ad.reciter = ad.name;
 
 		String fileName = props.getString("audio.fileName");
 		fileName = StringUtils.replace(fileName, "{SURA}", "%1$03d");
