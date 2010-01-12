@@ -11,7 +11,6 @@ package net.sf.zekr.engine.search.tanzil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -110,6 +109,7 @@ public class AdvancedQuranTextSearch {
 		return ascending;
 	}
 
+	@SuppressWarnings("unchecked")
 	public SearchResultModel search(String rawQuery) throws SearchException {
 		try {
 			logger.debug("Searching for query: " + rawQuery);
@@ -133,7 +133,7 @@ public class AdvancedQuranTextSearch {
 				pattern = pattern.substring(1);
 			}
 			String[] patterns = pattern.split("\\+");
-			Set clauses = new LinkedHashSet();
+			Set<String> clauses = new LinkedHashSet<String>();
 			List intermediateResult = locations;
 			for (int i = 0; i < patterns.length; i++) {
 				// TODO: for queries with patterns.length > 1, first search for larger (more filtering) patterns[i]
@@ -168,7 +168,7 @@ public class AdvancedQuranTextSearch {
 			logger.debug("Score and highlight search results.");
 			scoreSearchResult(resultItems, highlightPattern, patterns.length);
 
-			return new SearchResultModel(quranText, resultItems, CollectionUtils.toString(clauses, " "), rawQuery, total,
+			return new SearchResultModel(quranText, resultItems, StringUtils.join(clauses, " "), rawQuery, total,
 					searchResultComparator, ascending);
 		} catch (SearchException se) {
 			throw se;
@@ -253,8 +253,7 @@ public class AdvancedQuranTextSearch {
 		SearchResultModel res = ats.search(s);
 		System.out.println("After search: " + new Date());
 		System.out.println(res.getTotalMatch() + " - " + res.getResults().size() + ":");
-		for (Iterator iterator = res.getResults().iterator(); iterator.hasNext();) {
-			SearchResultItem sri = (SearchResultItem) iterator.next();
+		for (SearchResultItem sri : res.getResults()) {
 			System.out.println(sri);
 		}
 	}

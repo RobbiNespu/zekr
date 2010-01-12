@@ -198,10 +198,6 @@ public class AudioPlayerUiController {
 		}
 		try {
 			togglePlayPauseState(false);
-			//			if (audioControllerForm != null && !audioControllerForm.isDisposed()) {
-			//				audioControllerForm.stop();
-			//			}
-			//			quranForm.qmf.playerStop();
 		} catch (Exception e) {
 		}
 	}
