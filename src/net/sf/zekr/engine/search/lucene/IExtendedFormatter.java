@@ -8,8 +8,10 @@
  */
 package net.sf.zekr.engine.search.lucene;
 
+import net.sf.zekr.engine.search.IZekrHighlighter;
+
 import org.apache.lucene.search.highlight.Formatter;
 
-public interface IExtendedFormatter extends Formatter {
+public interface IExtendedFormatter extends Formatter, IZekrHighlighter {
 	int getHighlightCount();
 }
