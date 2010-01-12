@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javazoom.jlgui.basicplayer.BasicPlayerEvent;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.IUserView;
@@ -28,7 +29,9 @@ import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.runtime.HtmlGenerationException;
 import net.sf.zekr.common.runtime.HtmlRepository;
+import net.sf.zekr.engine.audio.BasicPlayerAdapter;
 import net.sf.zekr.engine.audio.PlayerController;
+import net.sf.zekr.engine.audio.PlayerException;
 import net.sf.zekr.engine.audio.ZekrPlayerListener;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.page.HizbQuarterPagingData;
@@ -238,20 +241,40 @@ public class QuranForm extends BaseForm {
 
 	public QuranFormController quranFormController;
 
+	PlayerController searchPlayerController;
+
 	/**
 	 * Initialize the QuranForm.
 	 * 
 	 * @param display
 	 */
-	public QuranForm(Display display) {
-		this.display = display;
+	public QuranForm(Display disp) {
+		this.display = disp;
 		config = ApplicationConfig.getInstance();
 		quranProp = QuranProperties.getInstance();
 		uvc = config.getUserViewController();
 
 		PlayerController playerController = config.getPlayerController();
+		searchPlayerController = config.getSearchPlayerController();
 		ZekrPlayerListener zekrPlayerListener = new ZekrPlayerListener(playerController, this);
+
 		playerController.addBasicPlayerListener(zekrPlayerListener);
+		searchPlayerController.addBasicPlayerListener(new BasicPlayerAdapter() {
+			public void stateUpdated(BasicPlayerEvent event) {
+				final int code = event.getCode();
+				if (code == BasicPlayerEvent.OPENED) {
+				} else if (code == BasicPlayerEvent.EOM) {
+					display.syncExec(new Runnable() {
+						public void run() {
+							if (!isDisposed()) {
+								quranBrowser.execute("stopPlayingItem()");
+							}
+						}
+					});
+				}
+			}
+		});
+
 		playerUiController = new AudioPlayerUiController(this, zekrPlayerListener, playerController);
 		quranFormController = new QuranFormController(this);
 
@@ -1225,7 +1248,7 @@ public class QuranForm extends BaseForm {
 	}
 
 	void navTo(int sura, int aya, boolean changePage) {
-		navTo(new QuranLocation(sura, aya), changePage);
+		navTo(QuranPropertiesUtils.getLocation(sura, aya), changePage);
 	}
 
 	void navTo(IQuranLocation loc) {
@@ -1861,15 +1884,16 @@ public class QuranForm extends BaseForm {
 		logger.info("Disposing all resources...");
 	}
 
-	private void closeAudioSilently() {
+	void closeAudioSilently() {
 		try {
-			playerUiController.playerStop(false);
+			playerUiController.playerSlightlyStop();
+			searchPlayerController.stop();
 		} catch (Exception e) {
 			// damp exception
 		} finally {
-			//			if (playerUiController.isAudioControllerFormOpen()) {
-			//				playerUiController.getAudioControllerForm().close();
-			//			}
+			try {
+			} catch (PlayerException e) {
+			}
 		}
 	}
 
