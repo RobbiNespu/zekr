@@ -19,7 +19,7 @@ import net.sf.zekr.common.resource.QuranText;
 
 public class Page {
 	private int index;
-	private List ayaList;
+	private List<Aya> ayaList;
 	private IQuranPage quranPage;
 
 	public Page(IQuranPage quranPage) throws IOException {
@@ -28,7 +28,7 @@ public class Page {
 
 	public Page(IQuranText quranText, IQuranPage quranPage) {
 		this.quranPage = quranPage;
-		ayaList = new ArrayList();
+		ayaList = new ArrayList<Aya>();
 		IQuranLocation from = quranPage.getFrom();
 		IQuranLocation to = quranPage.getTo();
 		while (from != null && to.compareTo(from) >= 0) {
@@ -38,10 +38,10 @@ public class Page {
 	}
 
 	public Aya getAya(int aya) {
-		return (Aya) ayaList.get(aya);
+		return ayaList.get(aya);
 	}
 
-	public List getAyaList() {
+	public List<Aya> getAyaList() {
 		return ayaList;
 	}
 
