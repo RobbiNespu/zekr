@@ -22,8 +22,9 @@ public class RevelationOrderComparator extends AbstractSearchResultComparator {
 	RevelationData rd = ApplicationConfig.getInstance().getRevelation().getDefault();
 
 	public int compare(SearchResultItem sri1, SearchResultItem sri2) {
-		if (rd == null)
+		if (rd == null) {
 			return sri1.location.compareTo(sri2.location);
+		}
 		return rd.compare(sri1.location, sri2.location);
 	}
 }

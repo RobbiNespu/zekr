@@ -19,17 +19,17 @@ import java.util.Map;
  */
 public class Revelation {
 	private RevelationData defaultRevelationData;
-	private Map revelList = new LinkedHashMap();
+	private Map<String, RevelationData> revelList = new LinkedHashMap<String, RevelationData>();
 
 	public void add(RevelationData rd) {
 		revelList.put(rd.getId(), rd);
 	}
 
 	public RevelationData get(String revelId) {
-		return (RevelationData) revelList.get(revelId);
+		return revelList.get(revelId);
 	}
 
-	public Collection getAllRevels() {
+	public Collection<RevelationData> getAllRevels() {
 		return revelList.values();
 	}
 

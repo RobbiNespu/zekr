@@ -92,15 +92,15 @@ public class AudioPlayerForm extends BaseForm {
 	private PropertiesConfiguration props;
 
 	public AudioPlayerForm(QuranForm quranForm, Shell parent) {
-		this.isLtr = config.getLanguageEngine().isLtr();
-		this.playerController = config.getPlayerController();
-		this.volume = playerController.getVolume();
-		this.uvc = config.getUserViewController();
+		isLtr = config.getLanguageEngine().isLtr();
+		playerController = config.getPlayerController();
+		volume = playerController.getVolume();
+		uvc = config.getUserViewController();
 
 		this.quranForm = quranForm;
 		this.parent = parent;
-		this.display = parent.getDisplay();
-		this.props = config.getProps();
+		display = parent.getDisplay();
+		props = config.getProps();
 
 		init();
 	}
@@ -195,7 +195,7 @@ public class AudioPlayerForm extends BaseForm {
 		String status = getPlayerStatus();
 		IQuranLocation l = uvc.getLocation();
 		String s = String.format("%s (%s):%s | %s: %s | %s", l.getSuraName(), l.getSura(), l.getAya(),
-				meaning("RECITER"), audioData.getReciter(config.getLanguageEngine().getLanguage()), status);
+				meaning("RECITER"), audioData.getLocalizedName(), status);
 		playerLabel.setText(s);
 		playerLabel.setToolTipText(s);
 	}
