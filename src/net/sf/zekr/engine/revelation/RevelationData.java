@@ -27,11 +27,12 @@ import net.sf.zekr.engine.common.LocalizedResource;
 import net.sf.zekr.engine.common.Signable;
 import net.sf.zekr.engine.log.Logger;
 
-public class RevelationData extends LocalizedResource implements Comparator, Signable {
+public class RevelationData extends LocalizedResource implements Comparator<IQuranLocation>, Signable {
 	private final Logger logger = Logger.getLogger(this.getClass());
 	public static final int SURA_MODE = 1;
 	public static final int AYA_MODE = 2;
 
+	public int[] suraOrders;
 	public int[] orders;
 	public int[] years;
 	public int mode;
@@ -60,28 +61,29 @@ public class RevelationData extends LocalizedResource implements Comparator, Sig
 		return mode;
 	}
 
+	public int[] getSuraOrders() {
+		return suraOrders;
+	}
+
 	public int[] getOrders() {
 		return orders;
 	}
 
-	public void setOrders(int[] orders) {
-		this.orders = orders;
+	public int getSuraOfOrder(int revelOrder) {
+		return orders[revelOrder - 1];
 	}
 
 	/**
 	 * @param suraNum 1-based sura number
-	 * @return order (?-based)
+	 * @return sura revelation order (1-based)
 	 */
 	public int getOrder(int suraNum) {
-		return mode == SURA_MODE ? orders[suraNum - 1] : orders[QuranPropertiesUtils.getAggregateAyaCount(suraNum) + 1];
+		return mode == SURA_MODE ? suraOrders[suraNum - 1] : suraOrders[QuranPropertiesUtils
+				.getAggregateAyaCount(suraNum) + 1];
 	}
 
 	public int[] getYears() {
 		return years;
-	}
-
-	public void setYears(int[] years) {
-		this.years = years;
 	}
 
 	public void load() throws IOException {
@@ -131,11 +133,16 @@ public class RevelationData extends LocalizedResource implements Comparator, Sig
 				logger.warn("Unauthorized revelation data pack: " + this);
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(textBuf)));
-			for (int i = 0; i < orders.length; i++) {
+			for (int i = 0; i < suraOrders.length; i++) {
 				String order = br.readLine();
-				orders[i] = Integer.parseInt(order.trim());
+				suraOrders[i] = Integer.parseInt(order.trim());
 			}
 			br.close();
+
+			for (int i = 1; i <= 114; i++) {
+				orders[getOrder(i) - 1] = i;
+			}
+
 			logger.log("Revelation data pack loaded successfully: " + this);
 		} finally {
 			try {
@@ -147,21 +154,7 @@ public class RevelationData extends LocalizedResource implements Comparator, Sig
 	}
 
 	public String toString() {
-		return id + ":(" + archiveFile.getName() + ")";
-	}
-
-	public int compare(Object o1, Object o2) {
-		IQuranLocation loc1 = (IQuranLocation) o1;
-		IQuranLocation loc2 = (IQuranLocation) o2;
-		int i1, i2;
-		if (mode == SURA_MODE) {
-			i1 = loc1.getSura() - 1;
-			i2 = loc2.getSura() - 1;
-		} else {
-			i1 = loc1.getAbsoluteAya() - 1;
-			i2 = loc2.getAbsoluteAya() - 1;
-		}
-		return orders[i1] < orders[i2] ? -1 : (orders[i1] == orders[i2] ? 0 : 1);
+		return String.format("%s:(%s)", name, archiveFile.getName());
 	}
 
 	public byte[] getSignature() {
@@ -170,5 +163,17 @@ public class RevelationData extends LocalizedResource implements Comparator, Sig
 
 	public int getVerificationResult() {
 		return verificationResult;
+	}
+
+	public int compare(IQuranLocation loc1, IQuranLocation loc2) {
+		int i1, i2;
+		if (mode == SURA_MODE) {
+			i1 = loc1.getSura() - 1;
+			i2 = loc2.getSura() - 1;
+		} else {
+			i1 = loc1.getAbsoluteAya() - 1;
+			i2 = loc2.getAbsoluteAya() - 1;
+		}
+		return suraOrders[i1] < suraOrders[i2] ? -1 : (suraOrders[i1] == suraOrders[i2] ? 0 : 1);
 	}
 }
