@@ -294,3 +294,38 @@ CurrentPageSearchResult = function() {
 		$(item).ScrollTo(500, 'original', bh > h  ? bh/5 : 0).attr("className", "jsHighlightFocused");
 	};
 };
+
+var lastPlayingSearchItem = false;
+function searchResultRecite(but, intrnl) {
+	var b = $(but);
+	if (!intrnl && lastPlayingSearchItem && b.attr('id') != $(lastPlayingSearchItem).attr('id') && $(lastPlayingSearchItem).attr('playing')) {
+		searchResultRecite(lastPlayingSearchItem, true);
+	}
+
+	lastPlayingSearchItem = but;
+
+	var isPlay = !b.attr('playing');
+	togglePlayControl(b.attr('loc'), isPlay);
+	play(b.attr('loc'), '' + isPlay);
+}
+
+function togglePlayControl(loc, isPlay) {
+	b = $('#item_' + loc);
+	b.attr('playing', isPlay);
+	var img = b.find('img');
+	var i = img.attr('zekricon');
+	var t = b.attr('zekrtitle');
+	img.attr('zekricon', img.attr('src'));
+	b.attr('zekrtitle', b.attr('title'));
+	img.attr('src', i);
+	b.attr('title', t);
+}
+
+function stopPlayingItem() {
+	togglePlayControl($(lastPlayingSearchItem).attr('loc'), false);
+	/*
+	$('.searchResultPlay[playing]').each(function() {
+		b = $(this);
+		togglePlayControl(b.att('loc'), false);
+	});*/
+}
