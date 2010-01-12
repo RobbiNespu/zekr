@@ -15,24 +15,21 @@ import java.util.Iterator;
 import org.w3c.dom.Node;
 
 /**
- * This class is an implementation of NodeList using an <code>ArrayList</code>
- * as the low level container.
+ * This class is an implementation of NodeList using an <code>ArrayList</code> as the low level container.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
- * @version 0.1
  */
 public class NodeList implements org.w3c.dom.NodeList {
-	ArrayList list = null;
+	ArrayList<Node> list = null;
 
 	public NodeList(org.w3c.dom.NodeList nodeList) {
-		list = new ArrayList();
+		list = new ArrayList<Node>();
 		for (int i = 0; i < nodeList.getLength(); i++)
 			list.add(nodeList.item(i));
 	}
 
 	public NodeList() {
-		list = new ArrayList();
+		list = new ArrayList<Node>();
 	}
 
 	/*
@@ -46,23 +43,21 @@ public class NodeList implements org.w3c.dom.NodeList {
 	 * @see org.w3c.dom.NodeList#item(int)
 	 */
 	public Node item(int index) {
-		return (Node) list.get(index);
+		return list.get(index);
 	}
 
 	/**
-	 * Returns a string representation of this <code>NodeList</code>. Here is
-	 * an example: <br>
-	 * if <code>NodeList</code> contains 3 objects o1, o2, and o3, the
-	 * <code>toString()</code> result should be something like this: <br>
-	 * <blockquote>[{o3}, {o2}, {o3}] </blockquote> where {x} means
-	 * <code>String.valueOf(x)</code>.
+	 * Returns a string representation of this <code>NodeList</code>. Here is an example: <br>
+	 * if <code>NodeList</code> contains 3 objects o1, o2, and o3, the <code>toString()</code> result should be
+	 * something like this: <br>
+	 * <blockquote>[{o3}, {o2}, {o3}] </blockquote> where {x} means <code>String.valueOf(x)</code>.
 	 * 
 	 * @return a string representation of this collection.
 	 */
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("[");
-		Iterator i = iterator();
+		Iterator<Node> i = iterator();
 		boolean hasNext = i.hasNext();
 		while (hasNext) {
 			Object o = i.next();
@@ -90,17 +85,17 @@ public class NodeList implements org.w3c.dom.NodeList {
 		return getLength();
 	}
 
-	public Iterator iterator() {
+	public Iterator<Node> iterator() {
 		return list.iterator();
 	}
 
 	public void add(NodeList nodes) {
-		for (Iterator iter = nodes.iterator(); iter.hasNext();)
+		for (Iterator<Node> iter = nodes.iterator(); iter.hasNext();)
 			list.add(iter.next());
 	}
 
 	public void deleteAll() {
-		list = new ArrayList();
+		list = new ArrayList<Node>();
 	}
 
 }

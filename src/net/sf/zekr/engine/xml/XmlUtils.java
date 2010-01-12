@@ -29,8 +29,6 @@ import org.w3c.dom.Node;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
- * @version 0.1
  */
 public class XmlUtils {
 
@@ -44,11 +42,10 @@ public class XmlUtils {
 	}
 
 	/**
-	 * @param node
-	 *           single <code>Node</code>.
+	 * @param node single <code>Node</code>.
 	 * @param tagName
-	 * @return all the nodes (tags) with the name of <code>tagName</code> which are present in <code>node</code>
-	 *         children (depth = 1). <br>
+	 * @return all the nodes (tags) with the name of <code>tagName</code> which are present in
+	 *         <code>node</code> children (depth = 1). <br>
 	 *         Note that the return value is of type <code>NodeList</code>.
 	 */
 	public static NodeList getNodes(Node node, String tagName) {
@@ -73,8 +70,8 @@ public class XmlUtils {
 		Node node = null;
 		NodeList retList = new NodeList();
 		NodeList tempList = null;
-		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			node = (Node) iter.next();
+		for (Iterator<Node> iter = list.iterator(); iter.hasNext();) {
+			node = iter.next();
 			tempList = new NodeList(node.getChildNodes());
 			for (int i = 0; i < tempList.getLength(); i++) {
 				node = tempList.item(i);
@@ -89,12 +86,9 @@ public class XmlUtils {
 	 * This methods looks into <code>nodeList</code> for any node matches <code>&lttagName&gt</code> with an
 	 * attribute <code>attrNode</code>.
 	 * 
-	 * @param nodeList
-	 *           a list of <code>Node</code> s
-	 * @param tagName
-	 *           tag name
-	 * @param attrName
-	 *           tag attribute name
+	 * @param nodeList a list of <code>Node</code> s
+	 * @param tagName tag name
+	 * @param attrName tag attribute name
 	 * @return the node with <code>attrName</code> equal to <code>attrValue</code>
 	 */
 	public static Element getElementByNamedAttr(org.w3c.dom.NodeList nodeList, String tagName, String attrName,
@@ -143,10 +137,8 @@ public class XmlUtils {
 	/**
 	 * Writes a <code>org.w3c.Node</code> object into an output file.
 	 * 
-	 * @param node
-	 *           a {@link Node} object to be written to file
-	 * @param outputFile
-	 *           ouput file
+	 * @param node a {@link Node} object to be written to file
+	 * @param outputFile ouput file
 	 * @throws TransformerException
 	 */
 	public static void writeXml(Node node, File outputFile) throws TransformerException {
@@ -156,12 +148,9 @@ public class XmlUtils {
 	/**
 	 * Writes a <code>org.w3c.Node</code> object into an output file, specifying output file encoding.
 	 * 
-	 * @param node
-	 *           a {@link Node} object to be written to file
-	 * @param outputFile
-	 *           ouput file
-	 * @param encoding
-	 *           encoding of the output file
+	 * @param node a {@link Node} object to be written to file
+	 * @param outputFile ouput file
+	 * @param encoding encoding of the output file
 	 * @throws TransformerException
 	 */
 	public static void writeXml(Node node, File outputFile, String encoding) throws TransformerException {
@@ -175,10 +164,8 @@ public class XmlUtils {
 	/**
 	 * Writes a <code>org.w3c.Node</code> object into an output <code>Writer</code>, omitting XML declaration.
 	 * 
-	 * @param node
-	 *           node object to be written to file
-	 * @param outputWriter
-	 *           ouput writer object
+	 * @param node node object to be written to file
+	 * @param outputWriter ouput writer object
 	 * @throws TransformerException
 	 */
 	public static void writeXml(Node node, Writer outputWriter) throws TransformerException {
@@ -188,12 +175,9 @@ public class XmlUtils {
 	/**
 	 * Writes a <code>org.w3c.Node</code> object into an output <code>Writer</code>.
 	 * 
-	 * @param node
-	 *           node object to be written to file
-	 * @param outputWriter
-	 *           ouput writer object
-	 * @param omitXmlDecl
-	 *           omits XML declaration if <code>true</code>
+	 * @param node node object to be written to file
+	 * @param outputWriter ouput writer object
+	 * @param omitXmlDecl omits XML declaration if <code>true</code>
 	 * @throws TransformerException
 	 */
 	public static void writeXml(Node node, Writer outputWriter, boolean omitXmlDecl) throws TransformerException {

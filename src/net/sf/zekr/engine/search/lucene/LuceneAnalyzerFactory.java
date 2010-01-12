@@ -23,7 +23,7 @@ public class LuceneAnalyzerFactory {
 	/**
 	 * This map contains ISO code for those stemmers available in snowball package.
 	 */
-	private final static Map snowballLangMap = new HashMap();
+	private final static Map<String, String> snowballLangMap = new HashMap<String, String>();
 	static {
 		snowballLangMap.put("da", "Danish");
 		snowballLangMap.put("nl", "Dutch");
@@ -40,13 +40,13 @@ public class LuceneAnalyzerFactory {
 	}
 
 	/**
-	 * @param langCode can be either two-char language ISO code, {@link ZekrLuceneAnalyzer#QURAN_LANG_CODE},
-	 *           or either of the available snowball analyzers such as <tt>Lovins</tt>, <tt>Porter</tt> or
+	 * @param langCode can be either two-char language ISO code, {@link ZekrLuceneAnalyzer#QURAN_LANG_CODE}, or
+	 *           either of the available snowball analyzers such as <tt>Lovins</tt>, <tt>Porter</tt> or
 	 *           <tt>Kp</tt>.
 	 * @return a new instance of ZekrLuceneAnalyzer
 	 */
 	public static Analyzer getAnalyzer(String langCode) {
-		String langName = (String) snowballLangMap.get(langCode);
+		String langName = snowballLangMap.get(langCode);
 		return new ZekrLuceneAnalyzer(langCode, langName);
 	}
 

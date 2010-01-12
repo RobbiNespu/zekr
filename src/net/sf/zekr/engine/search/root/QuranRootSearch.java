@@ -38,7 +38,7 @@ public class QuranRootSearch {
 	private IQuranText quranText;
 	private ISearchScorer searchScorer;
 
-	private List locations;
+	private List<IQuranLocation> locations;
 	private AbstractSearchResultComparator searchResultComparator;
 	private boolean ascending = true;
 
@@ -52,7 +52,7 @@ public class QuranRootSearch {
 		if (searchScope != null) {
 			logger.debug("Initializing searchable locations.");
 			for (int i = locations.size() - 1; i >= 0; i--) {
-				if (!searchScope.includes((IQuranLocation) locations.get(i)))
+				if (!searchScope.includes(locations.get(i)))
 					locations.remove(i);
 			}
 			logger.debug("Searching through '" + locations.size() + "' ayas.");
@@ -87,13 +87,13 @@ public class QuranRootSearch {
 
 	public SearchResultModel search(String rootStr) throws SearchException {
 		logger.debug("Searching for root: " + rootStr);
-		List resultItems = new ArrayList();
-		Set clauses = new LinkedHashSet();
-		List addrList = config.getQuranRoot().getRootAddress(rootStr);
+		List<SearchResultItem> resultItems = new ArrayList<SearchResultItem>();
+		Set<String> clauses = new LinkedHashSet<String>();
+		List<RootAddress> addrList = config.getQuranRoot().getRootAddress(rootStr);
 		int totalResult = 0;
 
 		for (int i = 0; i < addrList.size(); i++) {
-			List wordIndexList = new ArrayList();
+			List<Integer> wordIndexList = new ArrayList<Integer>();
 
 			RootAddress rootAddr = (RootAddress) addrList.get(i);
 			IQuranLocation loc = rootAddr.loc;
@@ -127,7 +127,7 @@ public class QuranRootSearch {
 
 			SearchResultItem sri = new SearchResultItem(aya, loc);
 			for (int j = 0; j < wordIndexList.size(); j++) {
-				int wordIndex = ((Integer) wordIndexList.get(j)).intValue();
+				int wordIndex = wordIndexList.get(j).intValue();
 				sri.matchedParts.add(StringUtils.getNthWord(aya, wordIndex, ' '));
 				clauses.add(StringUtils.getNthWord(aya, wordIndex, ' '));
 			}
