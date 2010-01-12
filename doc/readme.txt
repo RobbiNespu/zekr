@@ -5,7 +5,7 @@ universal, Open Source, and cross-platform application to ease most of
 the usual refers to the holy Qur'an. The main idea is to build an as generic
 as possible platform to accept different Qur'anic resources.
 
-Copyright (c) 2004-2009 zekr.org, and other contributors.
+Copyright (c) 2004-2010 zekr.org, and other contributors.
 
 Website: http://zekr.org.
 Translations, recitations and other resources: http://zekr.org/resources.html.
@@ -40,9 +40,9 @@ their corresponding licenses under doc directory:
     commons-logging-1.0.4, commons-collections-3.2.1, commons-codec-1.3,
     and commons-configuration-1.5):
     Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
-- lucene-core-2.3.2.jar: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
-- lucene-highlighter-2.3.2.jar: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
-- lucene-snowball-2.3.2.jar: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
+- Lucene libraries (lucene-core-3.0.0.jar, lucene-highlighter-3.0.0.jar,
+    lucene-snowball-3.0.0.jar, and lucene-memory-3.0.0.jar): Apache License version 2.0,
+    [zekr]/doc/apache-license-2.0.txt
 - log4j-1.2.8: Apache Software License version 1.1, [zekr]/doc/apache-software-license-1.1.txt
 - velocity-1.6.2: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - swt.jar: Eclipse Public License 1.0, [zekr]/doc/epl-1.0.txt

@@ -618,12 +618,24 @@ Features/Enhancements:
 	Updated to SWT 3.6.0M3.
 Bug fixes:
 
-Version 0.7.5 - [30-11-09]
+Version 0.7.5 beta 3 - [12-01-10]
 Features/Enhancements:
-	Changed startup text. Do not show version on startup splash screen anymore.
+	Changed startup text. Zekr doesn't show version on startup splash screen anymore.
 	Show tooptip on audio player panel (useful when text exceeds the normal panel size).
+	Added F1 accelerator to Help > Online Help.
+	Added a play/stop button next to each search result aya so that user can play/stop search results easily. Playing model should be unified in future so that one should only use one player controller to play corrently visible item.
+	A number of changes made to Zekr Lucene search code to make it compatible with Lucene 2.9.x and 3.0.0. As a result, a new contrib dependency library lucene-memory added.
+	Highlighter format can be customized through these properties: view.search.highlightFormat (advanced search and root search) or view.search.regexHighlightFormat (simple search).
+	Added property search.maxResult as a higher limit for search result items.
+	Added name localization support to revelation packs.
+	audio.name property is no longer used in recitation packs. This was a duplication of audio.reciter.
+	Added and advanced Goto form:
+		- Supports addressin of these formats sura:aya, juz, and huzb quarter number
+		- Supports localized sura name filtering (e.g. Al-F:3 to go to Al-Faatiha:3).
+		- Supports indexed sura name in both normal order and selected revelation order.
+		- goto.focus property to save last focused box of Goto form.
 Bug fixes:
-	A bug with opening customize multi translation fixed.
+	A bug with opening multi translation customization form fixed.
 _____________________________________________________
 	TODO: Export search results
 
