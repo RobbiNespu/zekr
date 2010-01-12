@@ -11,6 +11,7 @@ package net.sf.zekr.common.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
@@ -52,17 +53,25 @@ public class ConfigUtils {
 		return loadConfig(configFile, null, encoding);
 	}
 
+	public static PropertiesConfiguration loadConfig(InputStream configStream, String encoding)
+			throws ConfigurationException, IOException {
+		return loadConfig(configStream, null, encoding);
+	}
+
 	public static PropertiesConfiguration loadConfig(File configFile, String basePath, String encoding)
 			throws ConfigurationException, IOException {
-		FileInputStream fis;
-		fis = new FileInputStream(configFile);
+		return loadConfig(new FileInputStream(configFile), basePath, encoding);
+	}
+
+	public static PropertiesConfiguration loadConfig(InputStream configStream, String basePath, String encoding)
+			throws ConfigurationException, IOException {
 		PropertiesConfiguration pc = new PropertiesConfiguration();
 		pc.setEncoding("UTF-8");
 		if (basePath != null) {
 			pc.setBasePath(basePath);
 		}
-		pc.load(fis);
-		fis.close();
+		pc.load(configStream);
+		configStream.close();
 		return pc;
 	}
 }
