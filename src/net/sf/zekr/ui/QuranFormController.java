@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.FilteredQuranText;
 import net.sf.zekr.common.resource.IQuranLocation;
@@ -28,6 +29,7 @@ import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.resource.SajdaProperties;
 import net.sf.zekr.common.resource.filter.IQuranFilter;
 import net.sf.zekr.common.resource.filter.QuranFilterUtils;
+import net.sf.zekr.common.util.HyperlinkUtils;
 import net.sf.zekr.common.util.UriUtils;
 import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.engine.audio.ui.AudioPlayerForm;
@@ -49,6 +51,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 /**
+ * This class is a controller for all commands may done through a shortkey.
+ * 
  * @author Mohsen Saboorian
  */
 public class QuranFormController {
@@ -163,6 +167,19 @@ public class QuranFormController {
 	public void check4Update() {
 		UpdateManager manager = new UpdateManager(quranForm);
 		manager.check(true);
+	}
+
+	public void gotoForm() {
+		Shell[] shells = quranForm.display.getShells();
+		boolean found = false;
+		for (int i = 0; i < shells.length; i++) {
+			if ("GOTO_FORM".equals(shells[i].getData("FORM_ID"))) {
+				found = true;
+			}
+		}
+		if (!found) {
+			new GotoForm(quranForm.getShell(), quranForm).open();
+		}
 	}
 
 	public void gotoRandomAya() {
@@ -382,4 +399,7 @@ public class QuranFormController {
 		quranForm.playerUiController.navigate("prev");
 	}
 
+	public void onlineHelp() {
+		HyperlinkUtils.openBrowser(GlobalConfig.HELP_PAGE);
+	}
 }
