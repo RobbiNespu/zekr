@@ -22,7 +22,6 @@ import net.sf.zekr.engine.page.JuzPagingDataTest;
 import net.sf.zekr.engine.page.SuraPagingDataTest;
 import net.sf.zekr.engine.search.SearchScopeItemTest;
 import net.sf.zekr.engine.search.SearchScopeTest;
-import net.sf.zekr.engine.search.lucene.ArabicFilterTest;
 import net.sf.zekr.engine.search.lucene.ZekrLuceneAnalyzerTest;
 import net.sf.zekr.engine.search.root.RootHighlighterTest;
 import net.sf.zekr.engine.server.DefaultHttpServerTest;
@@ -36,7 +35,6 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(SearchScopeItemTest.class));
 		suite.addTest(new TestSuite(SearchScopeTest.class));
 
-		suite.addTest(new TestSuite(ArabicFilterTest.class));
 		suite.addTest(new TestSuite(ZekrLuceneAnalyzerTest.class));
 		suite.addTest(new TestSuite(RootHighlighterTest.class));
 

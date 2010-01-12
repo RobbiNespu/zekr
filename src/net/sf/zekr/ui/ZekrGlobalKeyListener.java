@@ -40,27 +40,5 @@ class ZekrGlobalKeyListener implements Listener {
 				this.quranForm.playerUiController.toggleAudioControllerForm(state);
 			}
 		}
-		//			} else if (NAV_BUTTON.equals(event.widget.getData())) {
-		//				boolean isRTL = !lang.isLtr() && GlobalConfig.hasBidiSupport;
-		//				int d = event.keyCode ^ SWT.KEYCODE_BIT;
-		//				System.out.println(d + " -- " + event);
-		//				if (d == 1) {
-		//					gotoPrevPage();
-		//				} else if (d == 2) {
-		//					gotoNextPage();
-		//				} else if (d == 3) {
-		//					if (isRTL) {
-		//						gotoNextAya();
-		//					} else {
-		//						gotoPrevAya();
-		//					}
-		//				} else if (d == 4) {
-		//					if (isRTL) {
-		//						gotoPrevAya();
-		//					} else {
-		//						gotoNextAya();
-		//					}
-		//				}
-		//			}
 	}
 }

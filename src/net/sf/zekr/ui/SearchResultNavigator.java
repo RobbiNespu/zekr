@@ -27,6 +27,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class SearchResultNavigator {
 	private final ApplicationConfig config = ApplicationConfig.getInstance();
 	private final LanguageEngine lang = config.getLanguageEngine();
