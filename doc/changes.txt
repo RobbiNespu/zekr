@@ -630,7 +630,7 @@ Features/Enhancements:
 	Added name localization support to revelation packs.
 	audio.name property is no longer used in recitation packs. This was a duplication of audio.reciter.
 	Added and advanced Goto form:
-		- Supports addressin of these formats sura:aya, juz, and huzb quarter number
+		- Supports addressing of these formats sura:aya, juz, and huzb quarter number
 		- Supports localized sura name filtering (e.g. Al-F:3 to go to Al-Faatiha:3).
 		- Supports indexed sura name in both normal order and selected revelation order.
 		- goto.focus property to save last focused box of Goto form.
