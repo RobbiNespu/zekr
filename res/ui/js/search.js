@@ -303,7 +303,6 @@ function searchResultRecite(but, intrnl) {
 	}
 
 	lastPlayingSearchItem = but;
-
 	var isPlay = !b.attr('playing');
 	togglePlayControl(b.attr('loc'), isPlay);
 	play(b.attr('loc'), '' + isPlay);
@@ -323,9 +322,14 @@ function togglePlayControl(loc, isPlay) {
 
 function stopPlayingItem() {
 	togglePlayControl($(lastPlayingSearchItem).attr('loc'), false);
-	/*
-	$('.searchResultPlay[playing]').each(function() {
-		b = $(this);
-		togglePlayControl(b.att('loc'), false);
-	});*/
+}
+
+function gotoFoundItem(sura, aya) {
+	b = $(lastPlayingSearchItem);
+	isPlay = b.attr('playing');
+	if (isPlay) {
+		play(b.attr('loc'), 'false');
+		stopPlayingItem();
+	}
+	redirect(sura, aya);
 }
