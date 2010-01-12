@@ -2,7 +2,7 @@
   <dontWrapJar>true</dontWrapJar>
   <headerType>console</headerType>
   <jar></jar>
-  <outfile>D:\Java\Programs\Zekr\dist\0.7.5\beta1\win32\zekrc.exe</outfile>
+  <outfile>D:\Java\Programs\Zekr\dist\0.7.5\beta3\win32\zekrc.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -21,9 +21,10 @@
     <cp>lib/commons-collections-3.2.1.jar</cp>
     <cp>lib/commons-codec-1.3.jar</cp>
     <cp>lib/commons-configuration-1.5.jar</cp>
-    <cp>lib/lucene-core-2.3.2.jar</cp>
-    <cp>lib/lucene-snowball-2.3.2.jar</cp>
-    <cp>lib/lucene-highlighter-2.3.2.jar</cp>
+    <cp>lib/lucene-core-3.0.0.jar</cp>
+    <cp>lib/lucene-snowball-3.0.0.jar</cp>
+    <cp>lib/lucene-highlighter-3.0.0.jar</cp>
+    <cp>lib/lucene-memory-3.0.0.jar</cp>
     <cp>lib/swt.jar</cp>
     <cp>lib/velocity-1.6.2.jar</cp>
     <cp>lib/mp3spi-1.9.4.jar</cp>
@@ -48,7 +49,7 @@
     <fileVersion>0.7.5.0</fileVersion>
     <txtFileVersion>0.7.5.0</txtFileVersion>
     <fileDescription>Zekr - Open Qur'anic Project</fileDescription>
-    <copyright>© 2004-2009 zekr.org</copyright>
+    <copyright>© 2004-2010 zekr.org</copyright>
     <productVersion>0.7.5.0</productVersion>
     <txtProductVersion>0.7.5.0</txtProductVersion>
     <productName>Zekr</productName>

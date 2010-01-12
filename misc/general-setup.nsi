@@ -8,7 +8,7 @@ SetCompressor /SOLID lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_NAME "zekr"
 !define VERSION 0.7.5.0
-!define RELEASE_VERSION "0.7.5beta2"
+!define RELEASE_VERSION "0.7.5beta3"
 !define COMPANY zekr.org
 !define URL http://zekr.org
 
@@ -55,7 +55,7 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.5\beta2\win32"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.5\beta3\win32"
 !define EXT_FILES "D:\Java\Programs\Zekr\dist\installer-files"
 Var StartMenuGroup
 Var JAVA_VER
@@ -120,7 +120,7 @@ VIAddVersionKey /lang=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /lang=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileVersion "${RELEASE_VERSION}"
 VIAddVersionKey /lang=${LANG_ENGLISH} FileDescription "Zekr - Open Qur'anic Project"
-VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2009 zekr.org"
+VIAddVersionKey /lang=${LANG_ENGLISH} LegalCopyright "© 2004-2010 zekr.org"
 InstallDirRegKey HKLM "${REGKEY}" Path
 ;UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 ShowUninstDetails show
@@ -138,6 +138,7 @@ Section -Main SEC0000
     File "/oname=$FONTS\ScheherazadeRegOT.ttf" ${EXT_FILES}\ScheherazadeRegOT.ttf
     File "/oname=$FONTS\me_quran_volt_newmet.ttf" ${EXT_FILES}\me_quran_volt_newmet.ttf
     File "/oname=$FONTS\UthmanTN1_Ver07.otf" ${EXT_FILES}\UthmanTN1_Ver07.otf
+    File "/oname=$FONTS\UthmanTN1_Ver07.otf" ${EXT_FILES}\UthmanTN1B Ver07.otf
 
 	WriteRegStr HKLM "${REGKEY}\Components" Main 1
 	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL

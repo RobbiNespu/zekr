@@ -343,7 +343,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 		gd.horizontalSpan = 2;
 		gd.verticalIndent = 10;
 		Label suraLabel1 = new Label(normalBody, SWT.NONE);
-		suraLabel1.setText(meaning("SURA"));
+		suraLabel1.setText(meaning("SURA_ORDER"));
 		suraLabel1.setLayoutData(gd);
 
 		Label normalOrderLabel = new Label(normalBody, SWT.NONE);

@@ -13,16 +13,17 @@
 	<classpathentry kind="lib" path="lib/commons-lang-2.4.jar" sourcepath="lib/src/commons-lang-2.4-src.zip"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar" sourcepath="lib/src/commons-collections-3.2.1-src.zip"/>
-	<classpathentry kind="lib" path="lib/lucene-core-2.3.2.jar" sourcepath="lib/src/lucene-core-2.3.2-src.zip"/>
-	<classpathentry kind="lib" path="lib/lucene-snowball-2.3.2.jar" sourcepath="lib/src/lucene-snowball-2.3.2-src.zip"/>
-	<classpathentry kind="lib" path="lib/lucene-highlighter-2.3.2.jar"/>
-    <classpathentry kind="lib" path="lib/mp3spi-1.9.4.jar" sourcepath="lib/src/mp3spi-1.9.4-src.zip"/>
-    <classpathentry kind="lib" path="lib/vorbisspi-1.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-core-2.9.1.jar" sourcepath="lib/src/lucene-core-2.9.1-src.zip"/>
+	<classpathentry kind="lib" path="lib/lucene-snowball-2.9.1.jar" sourcepath="lib/src/lucene-snowball-2.9.1-src.zip"/>
+	<classpathentry kind="lib" path="lib/lucene-highlighter-2.9.1.jar" sourcepath="lib/src/lucene-highlighter-3.0.0-src.zip"/>
+	<classpathentry kind="lib" path="lib/lucene-memory-3.0.0.jar" sourcepath="lib/src/lucene-memory-3.0.0-src.zip"/>
+	<classpathentry kind="lib" path="lib/mp3spi-1.9.4.jar" sourcepath="lib/src/mp3spi-1.9.4-src.zip"/>
+	<classpathentry kind="lib" path="lib/vorbisspi-1.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/jlayer-1.0.1.jar" sourcepath="lib/src/jlayer-1.0.1-src.zip"/>
 	<classpathentry kind="lib" path="lib/jorbis-0.0.17.jar" sourcepath="lib/src/jorbis-0.0.17-src.jar"/>
 	<classpathentry kind="lib" path="lib/jspeex-0.9.7.jar" sourcepath="lib/src/jspeex-0.9.7-src.zip"/>
 	<classpathentry kind="lib" path="lib/basicplayer-3.0.jar" sourcepath="lib/src/basicplayer-3.0-src.zip"/>
 	<classpathentry kind="lib" path="lib/tritonus-share-0.3.6.jar"/>
-    <classpathentry kind="lib" path="lib/tritonus-jorbis-0.3.6.jar"/>
+	<classpathentry kind="lib" path="lib/tritonus-jorbis-0.3.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

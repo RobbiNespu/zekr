@@ -8,13 +8,13 @@ SetCompressor lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_NAME "zekr"
 !define VERSION 0.7.5.0
-!define RELEASE_VERSION "0.7.5beta1a"
+!define RELEASE_VERSION "0.7.5beta2a"
 !define COMPANY zekr.org
 !define URL http://zekr.org
 
 # Constants
 !define EXT_FILES "D:\Java\Programs\Zekr\dist\installer-files"
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.5\beta1\special\win32"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.5\beta2\special\win32"
 !define RECITATIONDIR "F:\recitation"
 
 !define INSTDIR_REG_ROOT "HKLM"
@@ -109,7 +109,7 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} FileVersion "${RELEASE_VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} FileDescription "Zekr - Open Qur'anic Project"
-VIAddVersionKey /LANG=${LANG_ENGLISH} LegalCopyright "(C) 2004-2009 zekr.org"
+VIAddVersionKey /LANG=${LANG_ENGLISH} LegalCopyright "(C) 2004-2010 zekr.org"
 InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails show
 
@@ -131,7 +131,7 @@ Section $(SEC1_NAME) SEC0000
 SectionEnd
 
 SectionGroup /e $(SEC2_NAME) SECGRP0000
-    Section $(SEC21_NAME) SEC0001
+    Section /o $(SEC21_NAME) SEC0001
         !insertmacro UNINSTALL.LOG_OPEN_INSTALL
         SetOutPath $INSTDIR
         SetOverwrite on
@@ -144,7 +144,7 @@ SectionGroup /e $(SEC2_NAME) SECGRP0000
         !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     SectionEnd
 
-    Section $(SEC22_NAME) SEC0002
+    Section /o $(SEC22_NAME) SEC0002
         !insertmacro UNINSTALL.LOG_OPEN_INSTALL
         SetOutPath $INSTDIR
         SetOverwrite on
@@ -172,43 +172,34 @@ SectionGroup /e $(SEC2_NAME) SECGRP0000
 SectionGroupEnd
 
 SectionGroup /e $(SEC3_NAME) SECGRP0001
-    Section /o $(SEC31_NAME) SEC0011
-        !insertmacro UNINSTALL.LOG_OPEN_INSTALL
+    Section $(SEC31_NAME) SEC0011
+        ;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
         SetOutPath $INSTDIR
         SetOverwrite on
-        ;File /nonfatal /r F:\recitation\mansouri\*
-        ;CreateDirectory $INSTDIR\res\audio
-        ;CopyFiles $EXEDIR\recitation\mansouri $INSTDIR\res\audio 1630086
         SetOutPath $INSTDIR\res\audio
         File /nonfatal F:\recitation\mansouri-dvd-offline.properties
         WriteRegStr HKLM "${REGKEY}\Components" Mansouri-dvd 1
-        !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+        ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     SectionEnd
 
-    Section /o $(SEC32_NAME) SEC0012
-        !insertmacro UNINSTALL.LOG_OPEN_INSTALL
+    Section $(SEC32_NAME) SEC0012
+        ;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
         SetOutPath $INSTDIR
         SetOverwrite on
-        ;File /nonfatal /r F:\recitation\muaiqly\*
-        ;CreateDirectory $INSTDIR\res\audio
-        ;CopyFiles $EXEDIR\recitation\muaiqly $INSTDIR\res\audio 1185657
         SetOutPath $INSTDIR\res\audio
         File /nonfatal F:\recitation\muaiqly-dvd-offline.properties
         WriteRegStr HKLM "${REGKEY}\Components" Al-Muaiqly-dvd 1
-        !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+        ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     SectionEnd
 
     Section /o $(SEC33_NAME) SEC0013
-        !insertmacro UNINSTALL.LOG_OPEN_INSTALL
+        ;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
         SetOutPath $INSTDIR
         SetOverwrite on
-        ;File /nonfatal /r F:\recitation\afasy\*
-        ;CreateDirectory $INSTDIR\res\audio
-        ;CopyFiles $EXEDIR\recitation\afasy $INSTDIR\res\audio 520681
         SetOutPath $INSTDIR\res\audio
         File /nonfatal F:\recitation\afasy-dvd-offline.properties
         WriteRegStr HKLM "${REGKEY}\Components" Al-Afasy-dvd 1
-        !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+        ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     SectionEnd
 SectionGroupEnd
 
@@ -413,6 +404,7 @@ FunctionEnd
 # TODO Update the Language Strings with the appropriate translations.
 
 LangString ^UninstallLink ${LANG_FARSI} "حذف $(^Name)"
+LangString ^UninstallLink ${LANG_ARABIC} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_ENGLISH} "Uninstall $(^Name)"
 
 LangString LAUNCH_APP ${LANG_FARSI} "اجرای برنامه‌ی ذکر"
@@ -425,9 +417,9 @@ LangString SEC21_NAME ${LANG_FARSI} "منصوری"
 LangString SEC22_NAME ${LANG_FARSI} "معیقلی"
 LangString SEC23_NAME ${LANG_FARSI} "عفاسی"
 LangString SEC3_NAME ${LANG_FARSI} "ترتیل قرآن از روی دی‌وی‌دی"
-LangString SEC31_NAME ${LANG_FARSI} "منصوری - دی‌وی‌دی"
-LangString SEC32_NAME ${LANG_FARSI} "معیقلی - دی‌وی‌دی"
-LangString SEC33_NAME ${LANG_FARSI} "عفاسی - دی‌وی‌دی"
+LangString SEC31_NAME ${LANG_FARSI} "منصوری-دی‌وی‌دی"
+LangString SEC32_NAME ${LANG_FARSI} "معیقلی-دی‌وی‌دی"
+LangString SEC33_NAME ${LANG_FARSI} "عفاسی-دی‌وی‌دی"
 
 LangString SEC1_NAME ${LANG_ENGLISH} "Main"
 LangString SEC2_NAME ${LANG_ENGLISH} "Qur'an Recitations"
