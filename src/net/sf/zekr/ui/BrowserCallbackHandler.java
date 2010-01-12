@@ -13,8 +13,11 @@ import java.io.IOException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.FilteredQuranText;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranText;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.filter.IQuranFilter;
+import net.sf.zekr.engine.audio.PlayableObject;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.helper.FormUtils;
@@ -88,6 +91,20 @@ public class BrowserCallbackHandler {
 			pe.open(new Point(x, 100), new Point(p.x - x / 2, p.y));
 		} else if ("ZEKR::NEXT".equals(method)) {
 			form.quranFormController.gotoNextAya();
+		} else if ("ZEKR::PLAY".equals(method)) {
+			IQuranLocation loc = QuranPropertiesUtils.getLocation((String) args[1]);
+			boolean play = Boolean.parseBoolean((String) args[2]);
+			if (play) {
+				PlayableObject playableObject = config.getAudioCacheManager().getPlayableObject(loc);
+				if (playableObject == null) {
+					logger.error("Search result audio for this location cannot be loaded: " + loc);
+				}
+				logger.debug(String.format("Open search result playable object: %s.", playableObject));
+				form.searchPlayerController.open(playableObject);
+				form.searchPlayerController.play();
+			} else {
+				form.searchPlayerController.stop();
+			}
 		}
 		return null;
 	}
