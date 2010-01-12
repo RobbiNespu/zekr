@@ -68,6 +68,7 @@ import org.eclipse.swt.widgets.ToolItem;
  */
 public class OptionsForm {
 	public static final String FORM_ID = "OPTIONS_FORM";
+
 	private static final LanguageEngine lang = LanguageEngine.getInstance();
 	private static final ResourceManager resource = ResourceManager.getInstance();
 	private static final Logger logger = Logger.getLogger(OptionsForm.class);
@@ -106,7 +107,6 @@ public class OptionsForm {
 	private Button addBut;
 	private Button delBut;
 	private Button resizeablePane;
-	// private Button enableAudio;
 	private boolean rtl;
 
 	private static final List<LanguagePack> packs = new ArrayList<LanguagePack>(lang.getLangPacks());
@@ -348,7 +348,7 @@ public class OptionsForm {
 		Composite comp = new Composite(generalTab, SWT.NONE);
 		comp.setLayout(rl);
 
-		new Label(comp, SWT.NONE).setText(lang.getMeaning("LANGUAGE") + " :");
+		new Label(comp, SWT.NONE).setText(lang.getMeaning("LANGUAGE") + ":");
 
 		langSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
 		langSelect.setVisibleItemCount(8);
@@ -407,7 +407,7 @@ public class OptionsForm {
 		comp = new Composite(generalTab, SWT.NONE);
 		comp.setLayout(rl);
 
-		new Label(comp, SWT.NONE).setText(meaning("MAX_SEARCH_RESULT") + " :");
+		new Label(comp, SWT.NONE).setText(meaning("MAX_SEARCH_RESULT") + ":");
 		spinner = new Spinner(comp, SWT.BORDER);
 		spinner.setMaximum(props.getInt("options.search.maxResult.maxSpinner"));
 		spinner.setSelection(props.getInt("options.search.maxResult"));
@@ -418,7 +418,7 @@ public class OptionsForm {
 		comp = new Composite(generalTab, SWT.NONE);
 		comp.setLayout(rl);
 
-		new Label(comp, SWT.NONE).setText(meaning("SURA_NAMES") + " :");
+		new Label(comp, SWT.NONE).setText(meaning("SURA_NAMES") + ":");
 
 		String[] suraNameKey = new String[] { meaning("ARABIC"), meaning("T9N"), meaning("T13N"), meaning("EN_T9N"),
 				meaning("EN_T13N") };
@@ -572,11 +572,6 @@ public class OptionsForm {
 		rd = new RowData();
 		rd.width = 40;
 		delBut.setLayoutData(rd);
-
-		// gd = new GridData(GridData.BEGINNING);
-		// gd.widthHint = 40;
-		// gd.horizontalAlignment = SWT.FILL;
-		// del.setLayoutData(gd);
 	}
 
 	private String meaning(String key) {
