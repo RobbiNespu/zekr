@@ -28,6 +28,11 @@ function translate(sura, aya) {
         javaFunction('ZEKR::TRANS', sura, aya);
     }
 }
+function play(loc, isPlay) {
+    if (javaFunction) {
+        javaFunction('ZEKR::PLAY', loc, isPlay);
+    }
+}
 
 function error(e) {
 	alert("An unexpected error occurred:\n" + "[" + e.name + ":" + e.number + "] " + e.message + "\n");
