@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -77,8 +78,9 @@ public class QuranPropertiesUtils {
 				SuraProperties sura = props.getSura(i + 1);
 				ayas = sura.getAyaCount();
 				suraAyas[i] = new String[ayas];
-				for (int j = 0; j < ayas; j++)
+				for (int j = 0; j < ayas; j++) {
 					suraAyas[i][j] = String.valueOf(j + 1);
+				}
 			}
 		}
 		return suraAyas[suraNum - 1];
@@ -130,10 +132,24 @@ public class QuranPropertiesUtils {
 		return getIndexedSuraName(sura.getIndex(), sura.toText());
 	}
 
+	public static final List<String> getLocalizedSuraNameList() {
+		QuranProperties props = QuranProperties.getInstance();
+		List<SuraProperties> suraList = props.getSuraList();
+		List<String> suraNameList = new ArrayList<String>();
+		for (int i = 0; i < suraList.size(); i++) {
+			suraNameList.add(suraList.get(i).toText());
+		}
+		return suraNameList;
+	}
+
 	public static final String getIndexedSuraName(int suraNum) {
 		return getIndexedSuraName(getSura(suraNum));
 	}
 
+	/**
+	 * @param juzNum 1-base juz number
+	 * @return juz properties object
+	 */
 	public static final JuzProperties getJuz(int juzNum) {
 		QuranProperties props = QuranProperties.getInstance();
 		return props.getJuz(juzNum);
@@ -155,8 +171,9 @@ public class QuranPropertiesUtils {
 		List sajdaList = getSajdaInsideList(location.getSura());
 		for (int i = 0; i < sajdaList.size(); i++) {
 			SajdaProperties sajda = (SajdaProperties) sajdaList.get(i);
-			if (sajda.getAyaNumber() == location.getAya())
+			if (sajda.getAyaNumber() == location.getAya()) {
 				return sajda;
+			}
 		}
 		return null;
 	}
@@ -178,8 +195,9 @@ public class QuranPropertiesUtils {
 
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					JuzProperties juz = (JuzProperties) iterator.next();
-					if (juz.getSuraNumber() == sura.getIndex())
+					if (juz.getSuraNumber() == sura.getIndex()) {
 						juzNum.add(juz);
+					}
 				}
 				juzInside[sura.getIndex() - 1] = juzNum;
 			}
@@ -216,8 +234,9 @@ public class QuranPropertiesUtils {
 		while (iter.hasNext()) {
 			JuzProperties juz2 = (JuzProperties) iter.next();
 			if (suraNum >= juz1.getSuraNumber() && suraNum <= juz2.getSuraNumber()) {
-				if (juz2.getSuraNumber() == suraNum && juz2.getAyaNumber() == 1)
+				if (juz2.getSuraNumber() == suraNum && juz2.getAyaNumber() == 1) {
 					return juz2;
+				}
 				return juz1;
 			}
 			juz1 = juz2;
@@ -234,7 +253,7 @@ public class QuranPropertiesUtils {
 		JuzProperties juz = juzList.get(0);
 		for (int i = 1; i < juzList.size(); i++) {
 			JuzProperties j = juzList.get(i);
-			if (suraNum > j.getSuraNumber() || (suraNum == j.getSuraNumber() && ayaNum >= j.getAyaNumber())) {
+			if (suraNum > j.getSuraNumber() || suraNum == j.getSuraNumber() && ayaNum >= j.getAyaNumber()) {
 				juz = j;
 			} else {
 				break;
@@ -254,7 +273,7 @@ public class QuranPropertiesUtils {
 		int quadIndex = 0;
 		for (int i = 1; i < hizbQuads.length; i++) {
 			IQuranLocation ql = hizbQuads[i];
-			if (suraNum > hizbQuads[i].getSura() || (suraNum == ql.getSura() && ayaNum >= ql.getAya())) {
+			if (suraNum > hizbQuads[i].getSura() || suraNum == ql.getSura() && ayaNum >= ql.getAya()) {
 				quadIndex = i;
 			} else {
 				break;
@@ -263,6 +282,11 @@ public class QuranPropertiesUtils {
 		return quadIndex;
 	}
 
+	/**
+	 * @see #getHizbQuadIndex(int, int)
+	 * @param quranLoc
+	 * @return
+	 */
 	public static int getHizbQuadIndex(IQuranLocation quranLoc) {
 		return getHizbQuadIndex(quranLoc.getSura(), quranLoc.getAya());
 	}
@@ -279,8 +303,9 @@ public class QuranPropertiesUtils {
 				List<SajdaProperties> list = props.getSajdaList();
 
 				for (SajdaProperties sajda : list) {
-					if (sajda.getSuraNumber() == sura.getIndex())
+					if (sajda.getSuraNumber() == sura.getIndex()) {
 						sajdaList.add(sajda);
+					}
 				}
 				sajdaInside[sura.getIndex() - 1] = sajdaList;
 			}
@@ -303,8 +328,9 @@ public class QuranPropertiesUtils {
 		map.put(dict.getMeaning("AYA_COUNT"), new Integer(sura.getAyaCount()));
 		map.put(dict.getMeaning("DESCENT"), getSuraDescent(sura.isMadani()));
 		map.put(dict.getMeaning("JUZ"), getSuraJuz(suraNum));
-		if (rd != null)
+		if (rd != null) {
 			map.put(dict.getMeaning("REVEL_ORDER"), String.valueOf(rd.getOrder(suraNum)));
+		}
 		return map;
 	}
 
@@ -361,10 +387,11 @@ public class QuranPropertiesUtils {
 			toSura = 114;
 		} else {
 			JuzProperties jp = props.getJuz(juz + 1);
-			if (jp.getAyaNumber() > 1)
+			if (jp.getAyaNumber() > 1) {
 				toSura = jp.getSuraNumber();
-			else
+			} else {
 				toSura = jp.getSuraNumber() - 1;
+			}
 		}
 		return new Range(fromSura, toSura);
 	}
@@ -458,6 +485,16 @@ public class QuranPropertiesUtils {
 		return getLocations()[absoluteAyaNum - 1];
 	}
 
+	public static final IQuranLocation getLocation(String location) {
+		int i = location.indexOf('-');
+		if (i == -1) {
+			throw new IllegalArgumentException(location);
+		}
+		int sura = Integer.parseInt(location.substring(0, i));
+		int aya = Integer.parseInt(location.substring(i + 1));
+		return getLocation(sura, aya);
+	}
+
 	public static final boolean isValid(int sura, int aya) {
 		QuranProperties qp = QuranProperties.getInstance();
 		return between(sura, 1, QuranPropertiesUtils.QURAN_SURA_COUNT) && between(aya, 1, qp.getSura(sura).getAyaCount());
@@ -472,7 +509,7 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * This method returns a Quran location, which is looked up from a cache of al Quran location. Since
+	 * This method returns a Qur'an location, which is looked up from a cache of a Qur'an location. Since
 	 * {@link IQuranLocation} is immutable, it can be shared.
 	 * 
 	 * @param sura (counted from 1)
@@ -484,13 +521,14 @@ public class QuranPropertiesUtils {
 	}
 
 	/**
-	 * @param iql Quran location to be looked up
-	 * @return Quran location absolute aya index or -1 if nothing found.
+	 * @param iql Qur'an location to be looked up
+	 * @return Qur'an location absolute aya index or -1 if nothing found.
 	 */
 	public static final int getAbsoluteLocation(IQuranLocation iql) {
 		for (int i = 0; i < absoluteLocation.length; i++) {
-			if (iql.equals(absoluteLocation[i]))
+			if (iql.equals(absoluteLocation[i])) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -502,5 +540,42 @@ public class QuranPropertiesUtils {
 	 */
 	public static final int diff(IQuranLocation loc1, IQuranLocation loc2) {
 		return getAbsoluteLocation(loc1) - getAbsoluteLocation(loc2);
+	}
+
+	public static List<SuraProperties> getSuraList() {
+		return QuranProperties.getInstance().getSuraList();
+	}
+
+	public static Locale getSuraNameModeLocale() {
+		ApplicationConfig config = ApplicationConfig.getInstance();
+		String suraNameMode = config.getProps().getString("view.sura.name");
+		if (QuranPropertiesNaming.SURA_NAME_ARABIC.equals(suraNameMode)) {
+			return new Locale("ar");
+		} else if (QuranPropertiesNaming.SURA_NAME_T13N.equals(suraNameMode)
+				|| QuranPropertiesNaming.SURA_NAME_T9N.equals(suraNameMode)) {
+			return config.getLanguageEngine().getLocale();
+		} else {
+			return new Locale("en");
+		}
+	}
+
+	/**
+	 * @return an array of localized sura names indexed and sorted based on current revelation order pack (or
+	 *         normal order if no revelation pack is available).
+	 */
+	public static String[] getIndexedRevelationOrderedSuraNames() {
+		ApplicationConfig conf = ApplicationConfig.getInstance();
+		QuranProperties props = QuranProperties.getInstance();
+		RevelationData rev = conf.getRevelation().getDefault();
+		if (rev == null) {
+			return getIndexedSuraNames();
+		}
+		String[] result = new String[114];
+		for (int i = 1; i <= 114; i++) {
+			int suraNum = rev.getSuraOfOrder(i);
+			SuraProperties sura = props.getSura(suraNum);
+			result[i - 1] = getIndexedSuraName(i, sura.toText());
+		}
+		return result;
 	}
 }
