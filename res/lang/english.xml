@@ -337,5 +337,16 @@
 			<text id="NO_INTERVAL" value="No Interval"   />
 			<text id="NO_REPEAT" value="No Repeat"   />
 		</form>
+        <form id="GOTO_FORM">
+            <text id="TITLE" value="Goto"   />
+            <text id="GOTO" value="Goto"   />
+            <text id="REVIEW" value="Review"   />
+            <text id="JUZ" value="Juz"   />
+            <text id="SURA_ORDER" value="Sura Order"   />
+            <text id="HIZB_QUARTER" value="Hizb Quarter"   />
+            <text id="SURA_AYA" value="Sura:Aya (e.g. 33:70)"   />
+            <text id="NORMAL" value="Normal"   />
+            <text id="REVELATION" value="Revelation ({1})"   />
+        </form>
 	</forms>
 </language>

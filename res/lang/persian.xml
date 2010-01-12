@@ -337,5 +337,16 @@
 			<text id="NO_INTERVAL" value="بدون وقفه"   />
 			<text id="NO_REPEAT" value="بدون تکرار"   />
 		</form>
+        <form id="GOTO_FORM">
+            <text id="TITLE" value="برو به"   />
+            <text id="GOTO" value="برو به"   />
+            <text id="REVIEW" value="مرور"   />
+            <text id="JUZ" value="جزء"   />
+            <text id="SURA_ORDER" value="ترتیب سوره"   />
+            <text id="HIZB_QUARTER" value="ربع حزب"   />
+            <text id="SURA_AYA" value="سوره:آیه (مثال 33:70)"   />
+            <text id="NORMAL" value="معمولی"   />
+            <text id="REVELATION" value="نزول ({1})"   />
+        </form>
 	</forms>
 </language>
