@@ -23,6 +23,8 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriter.MaxFieldLength;
+import org.apache.lucene.store.SimpleFSDirectory;
 
 /**
  * An abstract Quran text indexer. This class is capable of indexing subclasses of {@link IQuranText}. It's
@@ -50,18 +52,19 @@ public class QuranTextIndexer implements IIndexer {
 		try {
 			Date d1 = new Date();
 			logger.debug("Indexing started for: " + quranText);
-			IndexWriter indexWriter = new IndexWriter(indexDir, analyzer, true);
-			indexWriter.setMergeFactor(15);
-			indexWriter.setMaxBufferedDocs(2 * (config.getProps().getInt("index.speed") + 2));
+			// IndexWriter indexWriter = new IndexWriter(indexDir, analyzer, true);
+			IndexWriter indexWriter = new IndexWriter(new SimpleFSDirectory(indexDir), analyzer, true, MaxFieldLength.LIMITED);
+			indexWriter.setMergeFactor(20);
+			indexWriter.setMaxBufferedDocs(2 * (config.getProps().getInt("index.speed", 50) + 2));
 			logger.debug("A new instance of IndexWriter created.");
 			logger.debug("Adding suras...");
 			for (int sura = 1; sura <= 114; sura++) {
 				int ayaCount = quranText.getSura(sura).length;
 				for (int aya = 1; aya <= ayaCount; aya++) {
 					Document doc = new Document();
-					doc.add(new Field(CONTENTS_FIELD, quranText.get(sura, aya), Store.YES, Field.Index.TOKENIZED));
+					doc.add(new Field(CONTENTS_FIELD, quranText.get(sura, aya), Store.YES, Field.Index.ANALYZED));
 					doc.add(new Field(LOCATION_FIELD, QuranPropertiesUtils.getLocation(sura, aya).toSortableString(),
-							Store.YES, Field.Index.UN_TOKENIZED));
+							Store.YES, Field.Index.NOT_ANALYZED));
 					indexWriter.addDocument(doc);
 
 					if (Thread.interrupted()) { // test and clear interrupted status

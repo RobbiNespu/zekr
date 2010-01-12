@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 
 import net.sf.zekr.engine.search.tanzil.RegexUtils;
 
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 
 /**
  * @author Mohsen Saboorian
@@ -16,28 +16,29 @@ import org.apache.lucene.analysis.TokenStream;
 public final class RegexReplaceFilter extends TokenFilter {
 	private Pattern pattern;
 	private String replacement;
-	private Map patternReplace;
+	private Map<Pattern, String> patternReplace;
 
 	/**
 	 * @param ts token stream
 	 * @param patternReplaceMap a {@link Map} from {@link Pattern} to replace {@link String}.
 	 */
-	public RegexReplaceFilter(TokenStream ts, Map patternReplaceMap) {
+	public RegexReplaceFilter(TokenStream ts, Map<Pattern, String> patternReplaceMap) {
 		super(ts);
-		this.patternReplace = patternReplaceMap;
+		termAtt = addAttribute(TermAttribute.class);
+		patternReplace = patternReplaceMap;
 	}
 
-	public final Token next() throws IOException {
-		Token t;
-		do {
-			t = input.next();
-			if (t == null)
-				return null;
+	private TermAttribute termAtt;
 
-			String str = new String(t.termBuffer(), 0, t.termLength());
-			str = RegexUtils.replaceAll(patternReplace, str);
-			t.setTermText(str);
-		} while (t.termLength() == 0);
-		return t;
+	public final boolean incrementToken() throws IOException {
+		if (input.incrementToken()) {
+			char[] buffer = termAtt.termBuffer();
+			String s = RegexUtils.replaceAll(patternReplace, new String(buffer, 0, termAtt.termLength()));
+			// termAtt.setTermLength(s.length());
+			termAtt.setTermBuffer(s);
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
