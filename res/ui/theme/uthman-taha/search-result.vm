@@ -28,7 +28,7 @@ res = new SearchResult();
 			<img src="res/image/icon/down_arrow.gif" style="margin: 1px" alt="$DICT.getMeaning('NEXT_AYA')"/>
 			</button>
 		</td><td align="center">
-		#if($ADVANCED == "true")<font size="-1">$PAGE_NUM_MSG</font>#end
+		<font size="-1">$PAGE_NUM_MSG</font>
 		</td><td align="$TRAIL" width="40%">
 		<input title="$DICT.getMeaning('SURA')" dir="ltr" id="suraNum" type="text" style="width: 3em" readonly="true" /> |
 		<input title="$DICT.getMeaning('AYA')" dir="ltr" id="ayaNum" type="text" style="width: 3em" readonly="true" />
@@ -53,12 +53,12 @@ res = new SearchResult();
 			$COUNT
 		</td>
 	</tr>
-	#if ($ADVANCED == "true")<tr><td colspan="2" class="queryDetail">
+	<tr><td colspan="2" class="queryDetail">
 		<span class="handCursor" title="$DICT.getMeaning('TOGGLE')" onclick="$('#clauses').toggle();s=$('#clauses').css('display')=='none'?'plus.png':'minus.png';$('#searchDetailImg').attr('src','res/image/icon/'+s);">
 			<img id="searchDetailImg" alt="toggle" title="$DICT.getMeaning('TOGGLE')" border="0" src="res/image/icon/plus.png">
 			<a href="javascript:void(0)" onclick="return false">$DICT.getMeaning("QUERY_DETAIL")</a></span>
 		<div id="clauses" style="display: none; padding: 0px 20px">$CLAUSE</div></td>
-	#end</tr>
+	</tr>
 
 	<tr><td id="searchResultSection" colspan="2" class="searchResult">
 	#parse ("$THEME_DIR/aya-result.vm")

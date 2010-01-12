@@ -33,30 +33,19 @@
 			#end
 			<div id="result_$velocityCount" class="$ROW_CLASS">
 			<div class="item">
-			#if($ADVANCED == "true")
 				#set ($ITEM_NUM = $UTILS.intAdd($AYA_NUM, $PAGE_START_NUM))
 	    		<span title="${ITEM.Location}" class="searchItemNum" id="itemNum_$velocityCount">($I18N.localize($ITEM_NUM))</span>
 	    		$ITEM.Text
 		    	<span title="${ITEM.Location.Sura}:${ITEM.Location.Aya}" dir="$DIR" class="ayaSign">
 					<a onclick="redirect('${ITEM.Location.Sura}', '${ITEM.Location.Aya}')" href="javascript:void(0)">$RPAREN${ITEM.Location.getSuraName($LOCALIZE)}:
 						$I18N.localize(${ITEM.Location.Aya},"${_DL}")$LPAREN</a>
-					<span title="$TRANSLATE" class="handCursor" onclick="translate('${ITEM.Location.Sura}', '${ITEM.Location.Aya}')"><img src="${ICON_TRANSLATE}"></span>
+					<span title="$TRANSLATE" class="handCursor"
+						onclick="translate('${ITEM.Location.Sura}', '${ITEM.Location.Aya}')">
+						<img src="${ICON_TRANSLATE}" /></span>
+					<span id="item_$ITEM.Location" class="searchResultPlay handCursor" onclick="searchResultRecite(this)"
+						title="$DICT.getMeaning('PLAY')" zekrtitle="$DICT.getMeaning('PAUSE')" loc="$ITEM.Location">
+						<img src="$ICON_PLAY" zekricon="$RES.getString('theme.icon.stop')" /></span>
 				</span>
-			#else
-	    		<span title="${ITEM.Key}" class="searchItemNum" id="itemNum_$AYA_NUM">($I18N.localize($AYA_NUM))</span>
-		    	#foreach ($AYA_SEGMENT in $ITEM.Value)
-		    		#if ($velocityCount % 2 == 1)
-		    			$AYA_SEGMENT
-		    		#elseif ($AYA_SEGMENT.length() > 0)
-						<span class="highlight" title="$KEYWORD">$AYA_SEGMENT</span>
-		    		#end
-		    	#end
-		    	<span title="${ITEM.Key.Sura}:${ITEM.Key.Aya}" dir="$DIR">
-					<a onclick="redirect('${ITEM.Key}')" href="javascript:void(0)">$RPAREN${ITEM.Key.getSuraName($LOCALIZE)}:
-						$I18N.localize(${ITEM.Key.Aya},"${_DL}")$LPAREN</a>
-					<span title="$TRANSLATE" class="handCursor" onclick="translate('${ITEM.Sura}', '${ITEM.Key.Aya}')"><img src="${ICON_TRANSLATE}"></span>
-				</span>
-			#end
 			</div>
 			</div>
 	    #end
