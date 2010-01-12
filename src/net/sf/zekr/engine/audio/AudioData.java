@@ -17,10 +17,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.sf.zekr.engine.common.LocalizedResource;
+
 /**
  * @author Mohsen Saboorian
  */
-public class AudioData implements Comparable<AudioData> {
+public class AudioData extends LocalizedResource implements Comparable<AudioData> {
 	private final static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd-MM-yyyy", new Locale("en", "US"));
 	/**
 	 * Smallest version which is still valid for this build. For example It may be Zekr 0.8.0, but if this
@@ -33,12 +35,8 @@ public class AudioData implements Comparable<AudioData> {
 	public String lastUpdate;
 	public String quality;
 
-	public String name;
 	public String license;
-	public String reciter;
 	public String type;
-	/*** A map of language ISO code to localized name of reciter in that language */
-	public Map<String, String> reciterLocalizedName = new HashMap<String, String>();
 
 	public Locale locale;
 
@@ -53,10 +51,6 @@ public class AudioData implements Comparable<AudioData> {
 	public String onlineUrl;
 	public String offlineUrl;
 
-	public String getReciter(String langCode) {
-		return reciterLocalizedName.get(langCode) == null ? reciter : reciterLocalizedName.get(langCode);
-	}
-
 	public String getOnlineUrl(int sura, int aya) {
 		return String.format(onlineUrl, sura, aya);
 	}
@@ -66,7 +60,7 @@ public class AudioData implements Comparable<AudioData> {
 	}
 
 	public String toString() {
-		return String.format("%s - %s", name, reciter);
+		return String.format("%s", name);
 	}
 
 	public int compareTo(AudioData o) {
@@ -90,15 +84,15 @@ public class AudioData implements Comparable<AudioData> {
 		write(writer, "audio.quality", quality);
 		writer.write("\r\n");
 
-		write(writer, "audio.name", name);
+		// write(writer, "audio.name", name);
 		write(writer, "audio.license", license);
 		write(writer, "audio.language", locale.getLanguage());
 		write(writer, "audio.country", locale.getCountry());
 		write(writer, "audio.type", type);
 		writer.write("\r\n");
 
-		write(writer, "audio.reciter", reciter);
-		for (Entry<String, String> entry : reciterLocalizedName.entrySet()) {
+		write(writer, "audio.reciter", name);
+		for (Entry<String, String> entry : localizedNameMap.entrySet()) {
 			write(writer, "audio.reciter" + entry.getKey(), entry.getValue());
 		}
 		writer.write("\r\n");
