@@ -138,7 +138,7 @@ Section -Main SEC0000
     File "/oname=$FONTS\ScheherazadeRegOT.ttf" ${EXT_FILES}\ScheherazadeRegOT.ttf
     File "/oname=$FONTS\me_quran_volt_newmet.ttf" ${EXT_FILES}\me_quran_volt_newmet.ttf
     File "/oname=$FONTS\UthmanTN1_Ver07.otf" ${EXT_FILES}\UthmanTN1_Ver07.otf
-    File "/oname=$FONTS\UthmanTN1_Ver07.otf" ${EXT_FILES}\UthmanTN1B Ver07.otf
+    File "/oname=$FONTS\UthmanTN1B Ver07.otf" "${EXT_FILES}\UthmanTN1B Ver07.otf"
 
 	WriteRegStr HKLM "${REGKEY}\Components" Main 1
 	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL

@@ -1,7 +1,8 @@
-<zekr-update fullName="Zekr 0.7.5 beta 2" version="0.7.5beta2" status="BETA"
-    build="2009110700" date="07-11-2008" downloadUrl="http://zekr.org/download.html"
-    noteUrl="http://zekr.org/wiki/Zekr_0.7.5_beta_2">
-    <info><![CDATA[Zekr 0.7.5 beta 2 is available.
-Custom shortcuts are supported in this version.
-Old audio recitation formats are also converted to the new format on startup.]]></info>
+<zekr-update fullName="Zekr 0.7.5 beta 3" version="0.7.5beta3" status="BETA"
+    build="2010011218" date="12-01-2010" downloadUrl="http://zekr.org/download.html"
+    noteUrl="http://zekr.org/wiki/Zekr_0.7.5_beta_3">
+    <info><![CDATA[Zekr 0.7.5 beta 3 is available.
+Playing Qur'an recitation is possible for search results.
+A new advanced 'Goto' dialog added to ease navigation. Use Ctrl+G to activate it.
+The code base is made compatible with Lucene 2.9.x and 3.0.0.]]></info>
 </zekr-update>
