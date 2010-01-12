@@ -53,14 +53,7 @@ public class QuranFilterUtils {
 			+ "$SMALL_YEH$FARSI_YEH$YEH_BARREE]"));
 	private static final Pattern KAF = Pattern.compile(RegexUtils.regTrans("[$KAF$FARSI_KEHEH" + "$SWASH_KAF]"));
 
-	public static String filterSimilarArabicCharacters(String text) {
-		text = RegexUtils.pregReplace(text, TEH, "$TEH");
-		text = RegexUtils.pregReplace(text, ALEF, "$ALEF");
-		text = RegexUtils.pregReplace(text, WAW, "$WAW");
-		text = RegexUtils.pregReplace(text, YEH, "$YEH");
-		text = RegexUtils.pregReplace(text, KAF, "$KAF");
-		return text;
-	}
+	private static final Pattern SPACE = Pattern.compile("\\s+");
 
 	public static String filterSimilarArabicCharactersForRootSearch(String text) {
 		text = RegexUtils.pregReplace(text, TEH, "$TEH");
@@ -70,17 +63,6 @@ public class QuranFilterUtils {
 		text = RegexUtils.pregReplace(text, KAF, "$KAF");
 		return text;
 	}
-
-	public static String filterSimilarPersianCharacters(String text) {
-		text = RegexUtils.pregReplace(text, TEH, "$TEH");
-		text = RegexUtils.pregReplace(text, ALEF, "$ALEF");
-		text = RegexUtils.pregReplace(text, WAW, "$WAW");
-		text = RegexUtils.pregReplace(text, YEH, "$YEH");
-		text = RegexUtils.pregReplace(text, KAF, "$KAF");
-		return text;
-	}
-
-	private static final Pattern SPACE = Pattern.compile("\\s+");
 
 	public static String filterExtraWhiteSpaces(String text) {
 		return SPACE.matcher(text).replaceAll(" ");
