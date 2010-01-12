@@ -163,7 +163,7 @@ public class KeyboardShortcut {
 					break;
 				}
 				accelStr = accelStr + s;
-			} else if (accKey >= SWT.F1 && accKey <= SWT.F20) { // try function keys
+			} else if (accKey >= SWT.F1 && accKey <= SWT.F15) { // try function keys
 				int f = accKey - SWT.F1 + 1;
 				accelStr = combKey + "F" + f;
 			} else {
