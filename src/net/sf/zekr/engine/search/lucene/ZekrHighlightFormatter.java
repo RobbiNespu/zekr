@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.engine.search.lucene;
 
+import net.sf.zekr.common.config.ApplicationConfig;
+
 import org.apache.lucene.search.highlight.TokenGroup;
 
 /**
@@ -23,7 +25,13 @@ public class ZekrHighlightFormatter implements IExtendedFormatter {
 			return originalText;
 		}
 		highlightCount++; // update stats used in assertions
-		return "<span class=\"highlight\">" + originalText + "</span>";
+		String format = FORMAT_STRING;
+		try {
+			format = ApplicationConfig.getInstance().getProps().getString("view.search.highlightFormat", FORMAT_STRING);
+		} catch (Exception e) {
+			// silently ignore it.
+		}
+		return String.format(format, originalText);
 	}
 
 	public int getHighlightCount() {

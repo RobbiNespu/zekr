@@ -10,6 +10,7 @@ package net.sf.zekr.engine.search.tanzil;
 
 import java.util.regex.Pattern;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 
 /**
@@ -42,7 +43,15 @@ public class SimpleSearchResultHighlighter implements ISearchResultHighlighter {
 			text = p6.matcher(text).replaceAll("$1");
 			text = p7.matcher(text).replaceAll("$1");
 		}
-		text = p8.matcher(text).replaceAll("<span class=\"highlight\">$1</span>");
+
+		String format = FORMAT_STRING_REGEX;
+		try {
+			format = ApplicationConfig.getInstance().getProps().getString("view.search.regexHighlightFormat",
+					FORMAT_STRING_REGEX);
+		} catch (Exception e) {
+			// silently ignore it.
+		}
+		text = p8.matcher(text).replaceAll(format);
 
 		// FIXME: this is a Quran-text specific method call!
 		return QuranFilterUtils.filterSearchResult(text);
