@@ -29,9 +29,9 @@ public class CommandRunUtils {
 	 */
 	public static boolean performAll(String[] args) {
 		try {
-			List cmds = CommandHandlerFactory.getCommandHandler(args);
+			List<CommandHandler> cmds = CommandHandlerFactory.getCommandHandler(args);
 			if (cmds.size() > 0) {
-				Command cmd = (Command) cmds.get(0);
+				Command cmd = cmds.get(0);
 				cmd.execute();
 				return cmd.launchAfter();
 			}
