@@ -28,6 +28,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.store.SimpleFSDirectory;
 
 /**
  * This class manages Lucene indices for Quran and translations.
@@ -36,7 +37,7 @@ import org.apache.lucene.index.IndexReader;
  */
 public class LuceneIndexManager {
 	private static final String QURAN_INDEX = "quran";
-	private Map indexReaderMap = new HashMap();
+	private Map<String, ZekrIndexReader> indexReaderMap = new HashMap<String, ZekrIndexReader>();
 	private PropertiesConfiguration props;
 
 	public LuceneIndexManager(PropertiesConfiguration props) {
@@ -92,20 +93,22 @@ public class LuceneIndexManager {
 	 * @return cached or newly-created {@link ZekrIndexReader} instance
 	 * @throws IndexingException
 	 */
+	@SuppressWarnings("unchecked")
 	private ZekrIndexReader getIndex(String[] pathArray, IQuranText quranText, String indexId, String indexPath,
 			String indexPathKey, String indexVersionKey) throws IndexingException {
 		try {
-			ZekrIndexReader zir = (ZekrIndexReader) indexReaderMap.get(indexId);
+			ZekrIndexReader zir = indexReaderMap.get(indexId);
 			if (zir == null) {
-				if (indexPath != null && IndexReader.indexExists(indexPath)) {
+				if (indexPath != null && IndexReader.indexExists(new SimpleFSDirectory(new File(indexPath)))) {
 					return newIndexReader(quranText, indexId, indexPath);
 				} else {
 					// check if index is already created for all-users, and its modify date is newer than zekr build date
 					File indexDir = new File(pathArray[1]);
-					if (IndexReader.indexExists(indexDir)) {
-						Collection listFiles = FileUtils.listFiles(indexDir, new String[] { "cfs" }, false);
+					SimpleFSDirectory dir = new SimpleFSDirectory(indexDir);
+					if (IndexReader.indexExists(dir)) {
+						Collection<File> listFiles = FileUtils.listFiles(indexDir, new String[] { "cfs" }, false);
 						if (listFiles.size() > 0) {
-							if (FileUtils.isFileNewer((File) listFiles.iterator().next(), GlobalConfig.ZEKR_BUILD_DATE)) {
+							if (FileUtils.isFileNewer(listFiles.iterator().next(), GlobalConfig.ZEKR_BUILD_DATE)) {
 								ZekrIndexReader res;
 								res = newIndexReader(quranText, indexId, pathArray[1]);
 								props.setProperty(indexPathKey, pathArray[1]);
@@ -138,7 +141,8 @@ public class LuceneIndexManager {
 
 	private ZekrIndexReader newIndexReader(IQuranText quranText, String indexReaderKey, String indexPath)
 			throws CorruptIndexException, IOException {
-		IndexReader ir = IndexReader.open(indexPath);
+		SimpleFSDirectory directory = new SimpleFSDirectory(new File(indexPath));
+		IndexReader ir = IndexReader.open(directory, null, true);
 		ZekrIndexReader zir = new ZekrIndexReader(quranText, indexReaderKey, ir);
 		indexReaderMap.put(indexReaderKey, zir);
 		return zir;
