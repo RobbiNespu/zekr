@@ -77,8 +77,9 @@ public class LanguageEngine extends LanguageEngineNaming {
 	private void init() {
 		languagePack = language.getActiveLanguagePack();
 		packFile = new File(language.getActiveLanguagePack().getPath());
-		if (!packFile.exists())
+		if (!packFile.exists()) {
 			throw new RuntimeException("Can not find language pack " + language.getActiveLanguagePack());
+		}
 		logger.info("Parsing language pack " + language.getActiveLanguagePack());
 		try {
 			reader = new XmlReader(packFile);
@@ -100,8 +101,9 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 * @return language engine instance with default language settings.
 	 */
 	public static LanguageEngine getInstance() {
-		if (engine == null)
+		if (engine == null) {
 			engine = new LanguageEngine();
+		}
 		return engine;
 	}
 
@@ -137,8 +139,9 @@ public class LanguageEngine extends LanguageEngineNaming {
 		Node node = null;
 		for (int i = 0; i < list.getLength(); i++) {
 			node = list.item(i);
-			if (node.getNodeType() != Node.ELEMENT_NODE)
+			if (node.getNodeType() != Node.ELEMENT_NODE) {
 				continue;
+			}
 			resultMap.put(XmlUtils.getAttr(node, ID_ATTR), XmlUtils.getAttr(node, VALUE_ATTR));
 		}
 		return resultMap;
@@ -146,43 +149,45 @@ public class LanguageEngine extends LanguageEngineNaming {
 
 	public String getMeaning(String scope, String word) {
 		String meaning;
-		if (scope.equalsIgnoreCase(COMMON_WORDS))
+		if (scope.equalsIgnoreCase(COMMON_WORDS)) {
 			meaning = commonWords.get(word);
-		else if (scope.equalsIgnoreCase(SPECIAL_WORDS))
+		} else if (scope.equalsIgnoreCase(SPECIAL_WORDS)) {
 			meaning = specialWords.get(word);
-		else if (scope.equalsIgnoreCase(INFORM_MSG))
+		} else if (scope.equalsIgnoreCase(INFORM_MSG)) {
 			meaning = informMessages.get(word);
-		else if (scope.equalsIgnoreCase(CONFIRM_MSG))
+		} else if (scope.equalsIgnoreCase(CONFIRM_MSG)) {
 			meaning = confirmMessages.get(word);
-		else if (scope.equalsIgnoreCase(ERROR_MSG))
+		} else if (scope.equalsIgnoreCase(ERROR_MSG)) {
 			meaning = errorMessages.get(word);
-		else if (scope.equalsIgnoreCase(HINT_MSG))
+		} else if (scope.equalsIgnoreCase(HINT_MSG)) {
 			meaning = hintMessages.get(word);
-		else
+		} else {
 			meaning = word; // return the original word
+		}
 		return meaning;
 	}
 
 	public String getMeaning(String word) {
 		String meaning;
-		if ((meaning = commonWords.get(word)) != null)
+		if ((meaning = commonWords.get(word)) != null) {
 			;
-		else if ((meaning = specialWords.get(word)) != null)
+		} else if ((meaning = specialWords.get(word)) != null) {
 			;
-		else if ((meaning = informMessages.get(word)) != null)
+		} else if ((meaning = informMessages.get(word)) != null) {
 			;
-		else if ((meaning = confirmMessages.get(word)) != null)
+		} else if ((meaning = confirmMessages.get(word)) != null) {
 			;
-		else if ((meaning = errorMessages.get(word)) != null)
+		} else if ((meaning = errorMessages.get(word)) != null) {
 			;
-		else if ((meaning = errorMessages.get(word)) != null)
+		} else if ((meaning = errorMessages.get(word)) != null) {
 			;
-		else if ((meaning = hintMessages.get(word)) != null)
+		} else if ((meaning = hintMessages.get(word)) != null) {
 			;
-		else if ((meaning = globals.get(word)) != null)
+		} else if ((meaning = globals.get(word)) != null) {
 			;
-		else
+		} else {
 			meaning = word; // preventing null value
+		}
 		return meaning;
 	}
 
@@ -209,12 +214,14 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 *         <code>word</code> within that <code>id</code> available.
 	 */
 	public String getMeaningById(String id, String word) {
-		if (!forms.containsKey(id))
+		if (!forms.containsKey(id)) {
 			return word; // prevent null value
+		}
 		Map<String, String> formMap = forms.get(id);
-		if (!formMap.containsKey(word))
+		if (!formMap.containsKey(word)) {
 			return getMeaning(word); // prevent null value
-		return (String) formMap.get(word);
+		}
+		return formMap.get(word);
 	}
 
 	/**
@@ -226,9 +233,13 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 * @param strArray replacement array of strings
 	 */
 	public String getDynamicMeaningById(String id, String word, String[] strArray) {
-		if (!forms.containsKey(id))
+		if (!forms.containsKey(id)) {
 			return "";
-		String meaning = (String) forms.get(id).get(word);
+		}
+		String meaning = forms.get(id).get(word);
+		if (StringUtils.isEmpty(meaning)) {
+			return word;
+		}
 		for (int i = 0; i < strArray.length; i++) {
 			meaning = meaning.replaceAll("\\{" + (i + 1) + "\\}", escape(strArray[i]));
 		}
@@ -255,10 +266,11 @@ public class LanguageEngine extends LanguageEngineNaming {
 	 */
 	public Locale getLocale() {
 		String[] l = languagePack.id.split("_");
-		if (l.length != 2)
+		if (l.length != 2) {
 			throw new LanguagePackException(
 					"Illegal language pack id. ID should be of the form: xx_YY, where xx is a 2-character language ID"
 							+ " and YY is a 2-character country ID.");
+		}
 		return new Locale(l[0], l[1]);
 	}
 

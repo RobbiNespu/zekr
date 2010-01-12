@@ -19,17 +19,17 @@ import java.util.Map;
  */
 public class QuranPaging {
 	private IPagingData defaultPagingData;
-	private Map pagingList = new LinkedHashMap();
+	private Map<String, IPagingData> pagingList = new LinkedHashMap<String, IPagingData>();
 
 	public void add(IPagingData pd) {
 		pagingList.put(pd.getId(), pd);
 	}
 
 	public IPagingData get(String pagingId) {
-		return (IPagingData) pagingList.get(pagingId);
+		return pagingList.get(pagingId);
 	}
 
-	public Collection getAllPagings() {
+	public Collection<IPagingData> getAllPagings() {
 		return pagingList.values();
 	}
 
