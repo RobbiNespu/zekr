@@ -370,8 +370,8 @@ public class GotoForm extends BaseForm implements FocusListener {
 		final RevelationData ro = config.getRevelation().getDefault();
 		if (ro != null) {
 			Label revelOrderLabel = new Label(normalBody, SWT.NONE);
-			revelOrderLabel.setText(lang.getDynamicMeaningById(FORM_ID, "REVEL_ORDER", new String[] { ro
-					.getLocalizedName() })
+			revelOrderLabel.setText(lang.getDynamicMeaningById(FORM_ID, "REVELATION",
+					new String[] { ro.getLocalizedName() })
 					+ ":");
 
 			gd = new GridData(SWT.FILL, SWT.LEAD, true, false);
