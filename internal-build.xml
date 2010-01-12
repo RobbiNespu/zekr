@@ -35,9 +35,10 @@
     <property name="swt.jar" value="${libdir}/swt.jar" />
     <property name="velocity.jar" value="${libdir}/velocity-1.6.2.jar" />
     <property name="log4j.jar" value="${libdir}/log4j-1.2.8.jar" />
-    <property name="lucene-core.jar" value="${libdir}/lucene-core-2.3.2.jar" />
-    <property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-2.3.2.jar" />
-    <property name="lucene-snowball.jar" value="${libdir}/lucene-snowball-2.3.2.jar" />
+    <property name="lucene-core.jar" value="${libdir}/lucene-core-3.0.0.jar" />
+    <property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-3.0.0.jar" />
+    <property name="lucene-snowball.jar" value="${libdir}/lucene-snowball-3.0.0.jar" />
+	<property name="lucene-memory.jar" value="${libdir}/lucene-memory-3.0.0.jar" />
     <property name="commons-logging.jar" value="${libdir}/commons-logging-1.0.4.jar" />
     <property name="commons-lang.jar" value="${libdir}/commons-lang-2.4.jar" />
     <property name="commons-io.jar" value="${libdir}/commons-io-1.4.jar" />
@@ -48,6 +49,7 @@
     <property name="jlayer.jar" value="${libdir}/jlayer-1.0.1.jar" />
     <property name="basicplayer.jar" value="${libdir}/basicplayer-3.0.jar" />
     <property name="tritonus-share.jar" value="${libdir}/tritonus-share-0.3.6.jar" />
+	<property name="tritonus-jorbis.jar" value="${libdir}/tritonus-jorbis-0.3.6.jar" />
     <property name="jorbis.jar" value="${libdir}/jorbis-0.0.17.jar" />
     <property name="jspeex.jar" value="${libdir}/jspeex-0.9.7.jar" />
     <property name="mp3spi.jar" value="${libdir}/mp3spi-1.9.4.jar" />
@@ -59,6 +61,7 @@
         <pathelement location="${lucene-core.jar}" />
         <pathelement location="${lucene-highlighter.jar}" />
         <pathelement location="${lucene-snowball.jar}" />
+		<pathelement location="${lucene-memory.jar}" />
         <pathelement location="${commons-logging.jar}" />
         <pathelement location="${commons-lang.jar}" />
         <pathelement location="${commons-io.jar}" />
@@ -70,6 +73,7 @@
         <pathelement location="${jlayer.jar}" />
         <pathelement location="${basicplayer.jar}" />
         <pathelement location="${tritonus-share.jar}" />
+        <pathelement location="${tritonus-jorbis.jar}" />
         <pathelement location="${jorbis.jar}" />
         <pathelement location="${jspeex.jar}" />
         <pathelement location="${mp3spi.jar}" />
