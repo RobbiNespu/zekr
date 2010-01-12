@@ -122,7 +122,7 @@ public class QuranFormMenuFactory {
 	private Menu recitationListMenu;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
-		this.quranForm = form;
+		quranForm = form;
 		config = ApplicationConfig.getInstance();
 		props = config.getProps();
 		lang = config.getLanguageEngine();
@@ -421,6 +421,8 @@ public class QuranFormMenuFactory {
 
 		new MenuItem(gotoMenu, SWT.SEPARATOR | direction);
 
+		createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("GOTO") + "...", "gotoForm", "icon.menu.goto");
+
 		nextSura = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_NEXT_SURA"), "gotoNextSura", null);
 		prevSura = createMenuItem(SWT.PUSH, gotoMenu, lang.getMeaning("MENU_PREV_SURA"), "gotoPrevSura", null);
 
@@ -586,13 +588,7 @@ public class QuranFormMenuFactory {
 		homePage.setData(FormUtils.URL_DATA, GlobalConfig.HOME_PAGE);
 		FormUtils.addLinkListener(homePage);
 
-		MenuItem onlineHelpItem = createMenuItem(SWT.PUSH, helpMenu, lang.getMeaning("ONLINE_HELP"),
-				"icon.menu.onlineHelp");
-		onlineHelpItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				HyperlinkUtils.openBrowser(GlobalConfig.HELP_PAGE);
-			}
-		});
+		createMenuItem(SWT.PUSH, helpMenu, lang.getMeaning("ONLINE_HELP"), "onlineHelp", "icon.menu.onlineHelp");
 
 		// separator
 		new MenuItem(helpMenu, SWT.SEPARATOR);
@@ -754,10 +750,7 @@ public class QuranFormMenuFactory {
 				if (SHOW_MENU_IMAGE) {
 					audioItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playlistItem")));
 				}
-				String name = audioData.getReciter(lang.getLanguage());
-				if (StringUtils.isBlank(name)) {
-					name = audioData.name;
-				}
+				String name = audioData.getLocalizedName();
 				audioItem.setText(StringUtils.abbreviate(name, GlobalConfig.MAX_MENU_STRING_LENGTH) + "\t"
 						+ audioData.quality + " ("
 						+ lang.getMeaning("ONLINE".equalsIgnoreCase(audioData.type) ? "ONLINE" : "OFFLINE") + ")"
@@ -1010,7 +1003,7 @@ public class QuranFormMenuFactory {
 				MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
 			} else if (addedList.size() > 0) {
 				// stop player, if it's playing
-				quranForm.playerUiController.playerSlightlyStop();
+				quranForm.closeAudioSilently();
 				createOrUpdateRecitationMenu();
 				String str = lang.getMeaning("AUDIO") + " > " + lang.getMeaning("RECITATION");
 				String rlm = rtl ? I18N.RLM + "" : "";
