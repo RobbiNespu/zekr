@@ -25,12 +25,10 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Timer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -78,7 +76,6 @@ import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.Translation;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.engine.translation.TranslationException;
-import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 import net.sf.zekr.ui.helper.EventProtocol;
@@ -127,7 +124,7 @@ public class ApplicationConfig implements ConfigNaming {
 	private SearchInfo searchInfo;
 	private QuranRoot quranRoot;
 	private AudioCacheManager audioCacheManager;
-	private PlayerController playerController;
+	private PlayerController playerController, searchPlayerController;
 	private NetworkController networkController;
 	private KeyboardShortcut shortcut;
 
@@ -160,7 +157,7 @@ public class ApplicationConfig implements ConfigNaming {
 		extractAudioProps();
 		setupAudioManager();
 
-		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Revelation orders");
+		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Revelation suraOrders");
 		extractRevelOrderInfo();
 
 		EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS + ":" + "Loading Paging data");
@@ -231,8 +228,9 @@ public class ApplicationConfig implements ConfigNaming {
 		searchInfo.setDefaultStopWord(defaultStopWord);
 		for (Iterator<String> iterator = stopWordConf.getKeys(); iterator.hasNext();) {
 			String langCode = (String) iterator.next();
-			if (langCode.length() <= 0) // default value
+			if (langCode.length() <= 0) {
 				continue;
+			}
 			logger.debug("\tAdd stop words for: " + langCode);
 			searchInfo.addStopWord(langCode, stopWordConf.getList(langCode));
 		}
@@ -240,8 +238,9 @@ public class ApplicationConfig implements ConfigNaming {
 		searchInfo.setDefaultReplacePattern(defaultReplacePattern);
 		for (Iterator iterator = replacePatternConf.getKeys(); iterator.hasNext();) {
 			String langCode = (String) iterator.next();
-			if (langCode.length() <= 0) // default value
+			if (langCode.length() <= 0) {
 				continue;
+			}
 			logger.debug("\tAdd replace patterns for: " + langCode);
 			searchInfo.addReplacePattern(langCode, replacePatternConf.getList(langCode));
 		}
@@ -285,8 +284,9 @@ public class ApplicationConfig implements ConfigNaming {
 	*/
 
 	public static ApplicationConfig getInstance() {
-		if (thisInstance == null)
+		if (thisInstance == null) {
 			thisInstance = new ApplicationConfig();
+		}
 		return thisInstance;
 	}
 
@@ -324,8 +324,9 @@ public class ApplicationConfig implements ConfigNaming {
 
 					for (Iterator<String> iter = oldProps.getKeys(); iter.hasNext();) {
 						String key = iter.next();
-						if (key.equals("version"))
+						if (key.equals("version")) {
 							continue;
+						}
 						props.setProperty(key, oldProps.getProperty(key));
 					}
 				}
@@ -412,8 +413,9 @@ public class ApplicationConfig implements ConfigNaming {
 
 		FileFilter xmlFilter = new FileFilter() { // accept .xml files
 			public boolean accept(File pathname) {
-				if (pathname.getName().toLowerCase().endsWith(".xml"))
+				if (pathname.getName().toLowerCase().endsWith(".xml")) {
 					return true;
+				}
 				return false;
 			}
 		};
@@ -446,8 +448,9 @@ public class ApplicationConfig implements ConfigNaming {
 			// bookmarks should be lazily loaded
 			BookmarkSet bms = new BookmarkSet(Naming.getBookmarkDir() + "/" + bookmarkSets[i].getName());
 			bookmarkSetGroup.addBookmarkSet(bms);
-			if (bms.getId().equals(def))
+			if (bms.getId().equals(def)) {
 				bookmarkSetGroup.setAsDefault(bms);
+			}
 		}
 		if (bookmarkSetGroup.getDefault() == null) {
 			logger.doFatal(new BookmarkException("No default bookmark set, or cannot load the default bookmark set: "
@@ -488,8 +491,9 @@ public class ApplicationConfig implements ConfigNaming {
 		logger.info("Default language pack is " + def);
 		FileFilter filter = new FileFilter() { // accept .xml files
 			public boolean accept(File pathname) {
-				if (pathname.getName().toLowerCase().endsWith(".xml"))
+				if (pathname.getName().toLowerCase().endsWith(".xml")) {
 					return true;
+				}
 				return false;
 			}
 		};
@@ -503,9 +507,9 @@ public class ApplicationConfig implements ConfigNaming {
 			try {
 				reader = new XmlReader(langs[i]);
 			} catch (Exception e) {
-				if (langs[i].getName().endsWith("english.xml"))
+				if (langs[i].getName().endsWith("english.xml")) {
 					logger.doFatal(e);
-				else {
+				} else {
 					logger.warn("Cannot open language pack " + def + " due to the following error:");
 					logger.log(e);
 					update = true;
@@ -522,15 +526,18 @@ public class ApplicationConfig implements ConfigNaming {
 			lp.id = locale.getAttribute("id");
 			lp.direction = locale.getAttribute("direction");
 			lp.author = reader.getDocumentElement().getAttribute("creator");
-			if (lp.localizedName == null)
+			if (lp.localizedName == null) {
 				lp.localizedName = lp.name;
+			}
 			language.add(lp);
-			if (lp.id.equals(def))
+			if (lp.id.equals(def)) {
 				language.setActiveLanguagePack(def);
+			}
 		}
 
-		if (update)
+		if (update) {
 			updateFile();
+		}
 	}
 
 	/**
@@ -546,14 +553,16 @@ public class ApplicationConfig implements ConfigNaming {
 		String[] paths = { ApplicationPath.TRANSLATION_DIR, Naming.getTransDir() };
 		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
 			File transDir = new File(paths[pathIndex]);
-			if (!transDir.exists())
+			if (!transDir.exists()) {
 				continue;
+			}
 
 			logger.info("Loading translation files info from: " + transDir);
 			FileFilter filter = new FileFilter() { // accept zip files
 				public boolean accept(File pathname) {
-					if (pathname.getName().toLowerCase().endsWith(ApplicationPath.TRANS_PACK_SUFFIX))
+					if (pathname.getName().toLowerCase().endsWith(ApplicationPath.TRANS_PACK_SUFFIX)) {
 						return true;
+					}
 					return false;
 				}
 			};
@@ -565,8 +574,9 @@ public class ApplicationConfig implements ConfigNaming {
 				ZipFile zipFile = null;
 				try {
 					td = loadTranslationData(trans[transIndex]);
-					if (td == null)
+					if (td == null) {
 						continue;
+					}
 					translation.add(td);
 					if (td.id.equals(def)) {
 						try {
@@ -695,8 +705,9 @@ public class ApplicationConfig implements ConfigNaming {
 		String[] paths = { ApplicationPath.THEME_DIR, Naming.getThemeDir() };
 		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
 			File targetThemeDir = new File(paths[pathIndex]);
-			if (!targetThemeDir.exists())
+			if (!targetThemeDir.exists()) {
 				continue;
+			}
 
 			logger.info("Loading theme files info from \"" + paths[pathIndex]);
 			File[] targetThemes = targetThemeDir.listFiles();
@@ -742,15 +753,17 @@ public class ApplicationConfig implements ConfigNaming {
 					td.props.remove("version");
 
 					// extractTransProps must be called before it!
-					if (getTranslation().getDefault() != null)
+					if (getTranslation().getDefault() != null) {
 						td.process(getTranslation().getDefault().locale.getLanguage());
-					else
+					} else {
 						td.process("en");
+					}
 
 					theme.add(td);
 
-					if (td.id.equals(def))
+					if (td.id.equals(def)) {
 						theme.setCurrent(td);
+					}
 				} catch (Exception e) {
 					logger.warn("Can not load theme \"" + targetThemes[i].getName()
 							+ "\", because of the following exception:");
@@ -770,14 +783,16 @@ public class ApplicationConfig implements ConfigNaming {
 		String[] paths = { ApplicationPath.AUDIO_DIR, Naming.getAudioDir() };
 		for (int pathIndex = 0; pathIndex < paths.length; pathIndex++) {
 			File audioDir = new File(paths[pathIndex]);
-			if (!audioDir.exists())
+			if (!audioDir.exists()) {
 				continue;
+			}
 
 			logger.info("Loading audio files info from: " + audioDir);
 			FileFilter filter = new FileFilter() { // accept .properties files
 				public boolean accept(File pathname) {
-					if (pathname.getName().toLowerCase().endsWith(".properties"))
+					if (pathname.getName().toLowerCase().endsWith(".properties")) {
 						return true;
+					}
 					return false;
 				}
 			};
@@ -868,11 +883,12 @@ public class ApplicationConfig implements ConfigNaming {
 		audioData.lastUpdate = pc.getString("audio.lastUpdate");
 		audioData.quality = pc.getString("audio.quality", "?");
 
-		audioData.name = pc.getString("audio.name");
+		// audioData.name = pc.getString("audio.name");
 		audioData.license = pc.getString("audio.license");
 		audioData.locale = new Locale(pc.getString("audio.language"), pc.getString("audio.country"));
-		audioData.reciter = pc.getString("audio.reciter");
 		audioData.type = pc.getString("audio.type", "online");
+
+		audioData.loadLocalizedNames(pc, "audio.reciter");
 
 		Iterator<String> keys = pc.getKeys("audio.reciter");
 		while (keys.hasNext()) {
@@ -881,7 +897,7 @@ public class ApplicationConfig implements ConfigNaming {
 				continue;
 			}
 			String lang = key.substring("audio.reciter".length() + 1);
-			audioData.reciterLocalizedName.put(lang, pc.getString(key));
+			audioData.localizedNameMap.put(lang, pc.getString(key));
 		}
 
 		audioData.offlineUrl = pc.getString("audio.offlineUrl");
@@ -906,6 +922,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 		logger.debug("Initialize player controller.");
 		playerController = new DefaultPlayerController(props);
+		searchPlayerController = new DefaultPlayerController(props);
 	}
 
 	private void extractRevelOrderInfo() {
@@ -921,8 +938,9 @@ public class ApplicationConfig implements ConfigNaming {
 		logger.info("Loading revelation data packs from: " + revelDir);
 		FileFilter filter = new FileFilter() { // accept zip files
 			public boolean accept(File pathname) {
-				if (pathname.getName().toLowerCase().endsWith(ApplicationPath.REVEL_PACK_SUFFIX))
+				if (pathname.getName().toLowerCase().endsWith(ApplicationPath.REVEL_PACK_SUFFIX)) {
 					return true;
+				}
 				return false;
 			}
 		};
@@ -933,8 +951,9 @@ public class ApplicationConfig implements ConfigNaming {
 			ZipFile zipFile = null;
 			try {
 				rd = loadRevelationData(revelFiles[revelIndex]);
-				if (rd == null)
+				if (rd == null) {
 					continue;
+				}
 				revelation.add(rd);
 				if (rd.id.equals(def)) {
 					rd.load();
@@ -949,19 +968,14 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public RevelationData loadRevelationData(File revelZipFile) throws IOException, ConfigurationException {
+	private RevelationData loadRevelationData(File revelZipFile) throws IOException, ConfigurationException {
 		ZipFile zipFile = new ZipFile(revelZipFile);
 		InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.REVELATION_DESC));
 		if (is == null) {
 			logger.warn("Will ignore invalid revelation data archive \"" + zipFile.getName() + "\".");
 			return null;
 		}
-		Reader reader = new InputStreamReader(is, "UTF-8");
-		PropertiesConfiguration pc = new PropertiesConfiguration();
-		pc.load(reader);
-		reader.close();
-		is.close();
+		PropertiesConfiguration pc = ConfigUtils.loadConfig(is, "UTF-8");
 		zipFile.close();
 
 		RevelationData rd = new RevelationData();
@@ -974,8 +988,9 @@ public class ApplicationConfig implements ConfigNaming {
 			len = 114;
 			rd.mode = RevelationData.SURA_MODE;
 		}
+		rd.suraOrders = new int[len];
 		rd.orders = new int[len];
-		rd.years = new int[len];
+		// rd.years = new int[len]; // not used for now
 
 		rd.version = pc.getString("version");
 		String zipFileName = revelZipFile.getName();
@@ -987,13 +1002,9 @@ public class ApplicationConfig implements ConfigNaming {
 		byte[] sigBytes = sig.getBytes("US-ASCII");
 		rd.signature = sig == null ? null : Base64.decodeBase64(sigBytes);
 
-		Iterator<String> nameIter = pc.getKeys("name");
-		for (Iterator<String> iterator = nameIter; iterator.hasNext();) {
-			String key = iterator.next();
-			rd.getNames().put(new String(key.substring(4)), pc.getString(key));
-		}
+		rd.loadLocalizedNames(pc, "name");
 
-		if (StringUtils.isBlank(rd.id) || rd.getNames().size() == 0 || StringUtils.isBlank(rd.version)) {
+		if (StringUtils.isBlank(rd.id) || rd.localizedNameMap.size() == 0 || StringUtils.isBlank(rd.version)) {
 			logger.warn("Invalid revelation data package: \"" + rd + "\".");
 			return null;
 		}
@@ -1013,8 +1024,9 @@ public class ApplicationConfig implements ConfigNaming {
 		logger.info("Loading paging data from: " + pagingDir);
 		FileFilter filter = new FileFilter() {
 			public boolean accept(File pathname) {
-				if (pathname.getName().toLowerCase().endsWith(ApplicationPath.PAGING_PACK_SUFFIX))
+				if (pathname.getName().toLowerCase().endsWith(ApplicationPath.PAGING_PACK_SUFFIX)) {
 					return true;
+				}
 				return false;
 			}
 		};
@@ -1061,8 +1073,9 @@ public class ApplicationConfig implements ConfigNaming {
 	 * @see Language#getInstance()
 	 */
 	public synchronized LanguageEngine getLanguageEngine() {
-		if (langEngine == null)
+		if (langEngine == null) {
 			langEngine = LanguageEngine.getInstance();
+		}
 		return langEngine;
 	}
 
@@ -1405,6 +1418,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	public PlayerController getPlayerController() {
 		return playerController;
+	}
+
+	public PlayerController getSearchPlayerController() {
+		return searchPlayerController;
 	}
 
 	public NetworkController getNetworkController() {
