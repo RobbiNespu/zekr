@@ -38,7 +38,7 @@ import org.apache.commons.io.filefilter.AbstractFileFilter;
  * @author Mohsen Saboorian
  */
 public class AudioCacheManager {
-	private Logger logger = Logger.getLogger(this.getClass());
+	private static Logger logger = Logger.getLogger(AudioCacheManager.class);
 	private long capacitySize;
 	private File userPath;
 	private long flushSize;
