@@ -113,7 +113,7 @@ public class FileUtils {
 		try {
 			return ApplicationConfig.getInstance().getNetworkController().openSteam(uri);
 		} catch (URISyntaxException e) {
-			throw new IOException(e);
+			throw new IOException(e.toString());
 		}
 	}
 }
