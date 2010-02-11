@@ -9,6 +9,7 @@
 package net.sf.zekr.engine.search.tanzil;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 
@@ -44,7 +45,7 @@ public class PatternEnricherFactory {
 		public String enrich(String pattern) {
 			ApplicationConfig conf = ApplicationConfig.getInstance();
 
-			Map replacePatternMap = conf.getSearchInfo().getReplacePattern(langCode);
+			Map<Pattern, String> replacePatternMap = conf.getSearchInfo().getReplacePattern(langCode);
 			pattern = RegexUtils.replaceAll(replacePatternMap, pattern);
 
 			pattern = RegexUtils.applyRules(pattern, RegexUtils.genericWildcardRegs);
