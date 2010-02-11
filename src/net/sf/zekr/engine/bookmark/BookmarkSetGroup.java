@@ -13,21 +13,20 @@ import java.util.List;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class BookmarkSetGroup {
-	List list = new ArrayList();
+	List<BookmarkSet> list = new ArrayList<BookmarkSet>();
 	private BookmarkSet defaultBookmarkSet;
 
 	public BookmarkSetGroup() {
 	}
 
 	/**
-	 * Adds a bookmark set to the list of bookmark sets group. <code>bookmarkSet.getFileName()</code> should not be
-	 * null, and should be unique among other bookmark sets, since it is used as a key to store this bookmark set.
+	 * Adds a bookmark set to the list of bookmark sets group. <code>bookmarkSet.getFileName()</code> should
+	 * not be null, and should be unique among other bookmark sets, since it is used as a key to store this
+	 * bookmark set.
 	 * 
-	 * @param bookmarkSet
-	 *           the bookmark set to be added
+	 * @param bookmarkSet the bookmark set to be added
 	 */
 	public void addBookmarkSet(BookmarkSet bookmarkSet) {
 		list.add(bookmarkSet);
@@ -39,8 +38,9 @@ public class BookmarkSetGroup {
 
 	public BookmarkSet removeBookmarkSet(String bookmarkSetId) {
 		BookmarkSet bms = getBookmarkSet(bookmarkSetId);
-		if (bms != null)
+		if (bms != null) {
 			list.remove(bms);
+		}
 		return bms;
 	}
 
@@ -55,14 +55,14 @@ public class BookmarkSetGroup {
 		defaultBookmarkSet = bookmarkSet;
 	}
 
-	public List getBookmarkSets() {
+	public List<BookmarkSet> getBookmarkSets() {
 		return list;
 	}
 
 	public BookmarkSet getBookmarkSet(String bookmarkSetId) {
 		for (int i = 0; i < list.size(); i++) {
-			if (((BookmarkSet) list.get(i)).getId().equals(bookmarkSetId)) {
-				return (BookmarkSet) list.get(i);
+			if (list.get(i).getId().equals(bookmarkSetId)) {
+				return list.get(i);
 			}
 		}
 		return null;
@@ -70,8 +70,9 @@ public class BookmarkSetGroup {
 
 	public boolean containsId(String id) {
 		for (int i = 0; i < list.size(); i++) {
-			if (((BookmarkSet) list.get(i)).getId().equals(id))
+			if (list.get(i).getId().equals(id)) {
 				return true;
+			}
 		}
 		return false;
 	}
