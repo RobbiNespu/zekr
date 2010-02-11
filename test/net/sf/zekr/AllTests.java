@@ -15,6 +15,8 @@ import net.sf.zekr.common.resource.QuranLocationTest;
 import net.sf.zekr.common.resource.QuranPropertiesUtilsTest;
 import net.sf.zekr.common.resource.RangedQuranTextTest;
 import net.sf.zekr.common.util.CommonUtilsTest;
+import net.sf.zekr.engine.audio.NamedBufferedInputStreamTest;
+import net.sf.zekr.engine.audio.PlayableObjectTest;
 import net.sf.zekr.engine.page.CustomPagingDataTest;
 import net.sf.zekr.engine.page.FixedAyaPagingDataTest;
 import net.sf.zekr.engine.page.HizbQuarterPagingDataTest;
@@ -54,6 +56,9 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(CustomPagingDataTest.class));
 
 		suite.addTest(new TestSuite(CommonUtilsTest.class));
+
+		suite.addTest(new TestSuite(PlayableObjectTest.class));
+		suite.addTest(new TestSuite(NamedBufferedInputStreamTest.class));
 
 		return suite;
 	}

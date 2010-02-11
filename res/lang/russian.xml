@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <language author="Michael Kalinin" version="0.7">
     <locale localizedName="Русский" name="Russian" id="ru_RU" direction="ltr" />
     <word>
@@ -337,5 +337,16 @@
 			<text id="NO_INTERVAL" value="Без интервала"   />
 			<text id="NO_REPEAT" value="Без повторов"   />
 		</form>
+        <form id="GOTO_FORM">
+            <text id="TITLE" value="Переход"   />
+            <text id="GOTO" value="Переход"   />
+            <text id="REVIEW" value="Просмотр"   />
+            <text id="JUZ" value="Джуз"   />
+            <text id="SURA_ORDER" value="Последовательность сур"   />
+            <text id="HIZB_QUARTER" value="Четверть хизба"   />
+            <text id="SURA_AYA" value="Сура:Аят (например, 33:70)"   />
+            <text id="NORMAL" value="Обычная"   />
+            <text id="REVELATION" value="По ниспосланию ({1})"   />
+        </form>
 	</forms>
 </language>

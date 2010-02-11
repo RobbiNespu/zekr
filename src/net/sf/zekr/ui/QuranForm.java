@@ -259,6 +259,7 @@ public class QuranForm extends BaseForm {
 		ZekrPlayerListener zekrPlayerListener = new ZekrPlayerListener(playerController, this);
 
 		playerController.addBasicPlayerListener(zekrPlayerListener);
+
 		searchPlayerController.addBasicPlayerListener(new BasicPlayerAdapter() {
 			public void stateUpdated(BasicPlayerEvent event) {
 				final int code = event.getCode();

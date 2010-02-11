@@ -34,7 +34,7 @@
 			<text id="RELOAD" value="Tekrar Yükle" />
 			<text id="TYPE" value="Tür" />
 			<text id="MESSAGE" value="İleti" />
-			<text id="BLOCK" value="Peş peşe" />
+			<text id="BLOCK" value="Peş Peşe" />
 			<text id="LINE_BY_LINE" value="Satır Satır" />
 			<text id="AND" value="ve" />
 			<text id="COMMA" value="," />
@@ -66,7 +66,7 @@
 			<text id="MIXED" value="Yan Yana" />
 			<text id="OPTIONS" value="Seçenekler" />
 			<text id="QUESTION" value="Soru" />
-			<text id="FONT" value="Yazı tipi" />
+			<text id="FONT" value="Yazı Tipi" />
 			<text id="GENERAL" value="Genel" />
 			<text id="EXIT" value="Çıkış" />
 			<text id="EXCLUDE" value="Hariç" />
@@ -106,12 +106,12 @@
 			<text id="PAGE" value="Sayfa" />
 			<text id="MULTILINE" value="Birden Fazla Satır" />
 			<text id="TOGGLE" value="Değiştir" />
-			<text id="AUDIO" value="Ses" />
+			<text id="AUDIO" value="Okuma" />
 			<text id="CONTINUOUS" value="Sürekli" />
-			<text id="DISCRETE" value="Ayrı ayrı" />
-			<text id="PLAY" value="Çalıştır" />
-			<text id="PAUSE" value="Duraklat" />
-			<text id="STOP" value="Durdur" />
+			<text id="DISCRETE" value="Ayrı Ayrı" />
+			<text id="PLAY" value="Oku" />
+			<text id="PAUSE" value="Ara Ver" />
+			<text id="STOP" value="Bitir" />
 			<text id="RECITATION" value="Tilavet" />
 			<text id="MENU_NEXT_AYA" value="Sonraki Âyet" />
 			<text id="MENU_NEXT_SURA" value="Sonraki Sûre" />
@@ -144,12 +144,12 @@
 			<text id="PAUSED" value="Ara Verildi" />
 			<text id="STOPPED" value="Durduruldu" />
 			<text id="RECITER" value="Okuyan" />
-			<text id="ONLINE" value="Online (Bağlantılı)" />
-			<text id="OFFLINE" value="Offline (Bağlantısız)" />
+			<text id="ONLINE" value="Online/Bağlantılı" />
+			<text id="OFFLINE" value="Offline/Bağlantısız" />
 		</common>
 		<special>
 			<text id="QURAN" value="Kur'an" />
-			<text id="QURAN_VIEWTYPE"    value="Kur'ân-ı Kerîm" />
+			<text id="QURAN_VIEWTYPE" value="Kur'ân-ı Kerîm" />
 			<text id="SURA" value="Sûre" />
 			<text id="AYA" value="Âyet" />
 			<text id="SAJDA" value="Secde Âyeti" />
@@ -164,9 +164,9 @@
 			<text id="MAJOR_SAJDA" value="Vacip Secde" />
 			<text id="LOCATION" value="Konum" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
 		</special>
-    </word>
+	</word>
 
-    <message>
+	<message>
 		<inform>
 			<text id="SEARCH_RESULT_TITLE" value="'{1}' için arama sonuçları:" />
 			<text id="SEARCH_RESULT_COUNT" value="{2} âyette {1} sonuç sulundu." />
@@ -196,9 +196,9 @@
 			<text id="NUMBER_LIMIT" value="Lütfen '{1}' ile '{2}' arasında bir sayı girin." />
 		</error>
 		<hint></hint>
-    </message>
+	</message>
 
-    <forms>
+	<forms>
 		<global>
 			<text id="APP_NAME" value="Zekr" />
 			<text id="APP_FULL_NAME" value="Zekr Kur'an Projesi" />
@@ -211,7 +211,7 @@
 			<text id="EDIT_SCOPES" value="Kapsamları düzenle" />
 			<text id="NO_SCOPE" value="Kapsam yok" />
 			<text id="CURRENT_PAGE" value="Bu sayfa" />
-			<text id="QURAN_SCOPE"    value="Kuran-ı Kerim" />
+			<text id="QURAN_SCOPE" value="Kur'ân-ı Kerîm" />
 			<text id="TRANSLATION_SCOPE" value="Meal" />
 			<text id="NATURAL_ORDER" value="Mushaf Sırası" />
 			<text id="RELEVANCE" value="İlişkisel Sıra" />
@@ -336,6 +336,17 @@
 			<text id="REPEAT" value="Tekrar" />
 			<text id="NO_INTERVAL" value="Fasılasız" />
 			<text id="NO_REPEAT" value="Tekrar Yok" />
+		</form>
+		<form id="GOTO_FORM">
+			<text id="TITLE" value="Git" />
+			<text id="GOTO" value="Git" />
+			<text id="REVIEW" value="Gözat" />
+			<text id="JUZ" value="Cüz" />
+			<text id="SURA_ORDER" value="Sûre Sırası" />
+			<text id="HIZB_QUARTER" value="Hizip Rubu'" />
+			<text id="SURA_AYA" value="Sûre:Âyet (örn. 33:70)" />
+			<text id="NORMAL" value="Normal" />
+			<text id="REVELATION" value="Nüzûl ({1})" />
 		</form>
 	</forms>
 </language>

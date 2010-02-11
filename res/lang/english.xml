@@ -296,7 +296,7 @@
 			<text id="PLEASE_WAIT" value="Please Wait" />
 			<text id="INDEXING" value="Indexing" /><!-- The process of indexing a document for faster search -->
 			<text id="TAKE_TIME" value="This action may take several minutes, based on the size of the document being indexed." />
-			<text id="CHECKING" value="Cheking For Updates" />
+			<text id="CHECKING" value="Checking For Updates" />
 			<text id="ZEKR_IS_CHECKING" value="Zekr is now checking for updates" />
 		</form>
 		<form id="ABOUT">

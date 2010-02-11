@@ -45,10 +45,13 @@ public class MiscJavaApiTest extends TestCase {
 		// UNIX: LF: \n: 10
 		// MAC: CR: \r: 13
 	}
+	
+	public void testFOrmatter() throws Exception {
+	   assertEquals(String.format("[absolute]f:/Karim Mansouri/%1$03d/%1$03d%2$03d.mp3", 1, 14), "[absolute]f:/Karim Mansouri/001/001014.mp3");
+	}
 
 	public void testStringReplace() throws Exception {
 		final String str = "Salam; bar! to";
 		assertEquals(str.replaceAll("([;!])", "<ss>$0</ss>"), "Salam<ss>;</ss> bar<ss>!</ss> to");
-		System.out.println();
 	}
 }
