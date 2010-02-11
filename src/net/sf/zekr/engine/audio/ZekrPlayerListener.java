@@ -13,8 +13,12 @@ import java.util.Map;
 import javazoom.jlgui.basicplayer.BasicController;
 import javazoom.jlgui.basicplayer.BasicPlayerEvent;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.IUserView;
+import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.util.CommonUtils;
 import net.sf.zekr.engine.audio.PlayerController.PlayingItem;
+import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.QuranForm;
 
 import org.eclipse.swt.widgets.Display;
@@ -24,6 +28,7 @@ import org.eclipse.swt.widgets.Display;
  */
 @SuppressWarnings("unchecked")
 public class ZekrPlayerListener implements BasicPlayerListener {
+	private static Logger logger = Logger.getLogger(AudioCacheManager.class);
 	private PlayerController playerController;
 	private QuranForm quranForm;
 	private int repeatTimer;
@@ -65,18 +70,42 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 				}
 			}
 		});
-		if (code == BasicPlayerEvent.OPENING || code == BasicPlayerEvent.STOPPED) {
+
+		// pre-fetch
+		if (code == BasicPlayerEvent.PLAYING && playerController.isMultiAya()) {
+			ApplicationConfig config = ApplicationConfig.getInstance();
+			IUserView uvc = config.getUserViewController();
+			IQuranLocation loc = uvc.getLocation();
+			int prefetcher = config.getProps().getInt("audio.cache.prefetcher", 1);
+			logger.info(String.format("Pre-fetching next %s playable objects.", prefetcher));
+			for (int i = 0; i < prefetcher; i++) {
+				IQuranLocation ql = loc.getNext();
+				if (ql == null) {
+					break;
+				}
+				PlayableObject po = config.getAudioCacheManager().getPlayableObject(ql);
+				if (po == null) {
+					logger.error(String.format("Failed to pre-fetch %s.", ql));
+				} else {
+					logger.info(String.format("Pre-fetch %s.", po));
+					playerController.open(po, true);
+				}
+			}
+		} else if (code == BasicPlayerEvent.OPENING || code == BasicPlayerEvent.STOPPED) {
 			origRepeatTimer = playerController.getRepeatTime();
 			userActionPerformed = false;
 		}
 		if (code == BasicPlayerEvent.EOM) {
 			repeatTimer--;
+
 			if (playerController.isMultiAya()) {
 				int wait = playerController.getInterval();
+				// update stats
 				if (playerController.getRepeatTime() != origRepeatTimer) {
 					repeatTimer += playerController.getRepeatTime() - origRepeatTimer;
 					origRepeatTimer = playerController.getRepeatTime();
 				}
+
 				if (repeatTimer > 0 && playerController.getPlayingItem() == PlayingItem.AYA) {
 					if (!quranForm.isDisposed()) {
 						display.asyncExec(getAyaPlayerRunnable(false, wait));
