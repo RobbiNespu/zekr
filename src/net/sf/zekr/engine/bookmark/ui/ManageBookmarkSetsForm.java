@@ -11,7 +11,6 @@ package net.sf.zekr.engine.bookmark.ui;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.zekr.common.ZekrBaseException;
@@ -167,16 +166,18 @@ public class ManageBookmarkSetsForm {
 							config.saveConfig();
 							tableItem.setChecked(true);
 							EventUtils.sendEvent(EventProtocol.UPDATE_BOOKMARKS_MENU);
-						} else
+						} else {
 							return;
+						}
 					}
 					shell.forceFocus();
 
 					int index = table.indexOf(tableItem);
 					TableItem[] items = table.getItems();
 					for (int i = 0; i < items.length; i++) {
-						if (i != index)
+						if (i != index) {
 							items[i].setChecked(false);
+						}
 					}
 					e.doit = false;
 				}
@@ -184,8 +185,9 @@ public class ManageBookmarkSetsForm {
 		});
 		table.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (e.character == SWT.DEL)
+				if (e.character == SWT.DEL) {
 					remove();
+				}
 			}
 		});
 
@@ -205,8 +207,9 @@ public class ManageBookmarkSetsForm {
 				Point pt = new Point(event.x, event.y);
 				final int index = table.getSelectionIndex();
 				// no item selected
-				if (index == -1)
+				if (index == -1) {
 					return;
+				}
 
 				// boolean visible = false;
 				final TableItem item = table.getItem(index);
@@ -263,8 +266,9 @@ public class ManageBookmarkSetsForm {
 				} else {
 					rect = item.getBounds(0);
 					rect.add(item.getBounds(1));
-					if (rect.contains(pt))
+					if (rect.contains(pt)) {
 						edit();
+					}
 				}
 			}
 
@@ -272,8 +276,9 @@ public class ManageBookmarkSetsForm {
 				newId = newId.trim();
 				TableItem item = table.getItem(itemIndex);
 				String oldId = item.getText(0);
-				if (oldId.equals(newId.trim()))
+				if (oldId.equals(newId.trim())) {
 					return newId;
+				}
 				BookmarkSet bms = (BookmarkSet) item.getData();
 				bms.changeIdIfPossible(newId);
 				if (item.getChecked()) { // item is the default bookmark set
@@ -284,15 +289,15 @@ public class ManageBookmarkSetsForm {
 			}
 		});
 
-		Collection bmNames = bmsg.getBookmarkSets();
-		for (Iterator iterator = bmNames.iterator(); iterator.hasNext();) {
-			BookmarkSet bms = (BookmarkSet) iterator.next();
+		Collection<BookmarkSet> bmNames = bmsg.getBookmarkSets();
+		for (BookmarkSet bms : bmNames) {
 			final TableItem item = new TableItem(table, SWT.NONE);
 			String[] idn = bms.getIdAndName();
 			item.setData(bms);
 			item.setText(idn);
-			if (bmsg.getDefault().getId().equals(bms.getId()))
+			if (bmsg.getDefault().getId().equals(bms.getId())) {
 				item.setChecked(true);
+			}
 		}
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -425,12 +430,12 @@ public class ManageBookmarkSetsForm {
 
 	private void importBookmark() {
 		try {
-			List list = MessageBoxUtils.importFileDialog(shell, new String[] { "XML Bookmark Files" },
+			List<File> list = MessageBoxUtils.importFileDialog(shell, new String[] { "XML Bookmark Files" },
 					new String[] { "*.xml" });
-			if (list.size() <= 0)
+			if (list.size() <= 0) {
 				return;
-			for (Iterator iter = list.iterator(); iter.hasNext();) {
-				File srcFile = (File) iter.next();
+			}
+			for (File srcFile : list) {
 				File destFile = new File(Naming.getBookmarkDir() + "/" + srcFile.getName());
 				BookmarkSet newBms = new BookmarkSet(destFile.getPath());
 				if (destFile.exists()) {
@@ -474,18 +479,21 @@ public class ManageBookmarkSetsForm {
 
 	private void export4webBookmark() {
 		int i = table.getSelectionIndex();
-		if (i <= -1)
+		if (i <= -1) {
 			return;
+		}
 		TableItem item = table.getItem(i);
 		try {
-			File destFile = MessageBoxUtils.exportFileDialog(shell,
-					new String[] { "HTML Files", "All Files (*.*)" }, new String[] { "*.html;*.htm", "*.*" });
-			if (destFile == null || destFile.isDirectory()) // cancelled
+			File destFile = MessageBoxUtils.exportFileDialog(shell, new String[] { "HTML Files", "All Files (*.*)" },
+					new String[] { "*.html;*.htm", "*.*" });
+			if (destFile == null || destFile.isDirectory()) {
 				return;
+			}
 
 			String dfn = destFile.getName().toUpperCase();
-			if (!dfn.endsWith(".HTML") && !dfn.endsWith(".HTM"))
+			if (!dfn.endsWith(".HTML") && !dfn.endsWith(".HTM")) {
 				destFile = new File(destFile.getParent(), destFile.getName() + ".html");
+			}
 
 			BookmarkSet bms = (BookmarkSet) item.getData();
 			logger.info("Export (for web) bookmark " + bms.getId() + " to " + destFile);
@@ -496,20 +504,24 @@ public class ManageBookmarkSetsForm {
 			logger.implicitLog(e);
 		}
 	}
+
 	private void exportBookmark() {
 		int i = table.getSelectionIndex();
-		if (i <= -1)
+		if (i <= -1) {
 			return;
+		}
 		TableItem item = table.getItem(i);
 		try {
 			File destFile = MessageBoxUtils.exportFileDialog(shell,
 					new String[] { "XML Bookmark Files", "All Files (*.*)" }, new String[] { "*.xml", "*.*" });
-			if (destFile == null || destFile.isDirectory()) // cancelled
+			if (destFile == null || destFile.isDirectory()) {
 				return;
-			if (!destFile.getName().toUpperCase().endsWith(".XML"))
+			}
+			if (!destFile.getName().toUpperCase().endsWith(".XML")) {
 				destFile = new File(destFile.getParent(), destFile.getName() + ".xml");
+			}
 			BookmarkSet bms = (BookmarkSet) item.getData();
-			File sourceFile = (bms).getFile();
+			File sourceFile = bms.getFile();
 			logger.info("Export bookmark " + bms.getId() + " to " + destFile);
 			FileUtils.copyFile(sourceFile, destFile);
 		} catch (IOException e) {
@@ -533,9 +545,10 @@ public class ManageBookmarkSetsForm {
 					MessageBoxUtils.showActionFailureError(bse);
 					logger.error("Adding new bookmark set failed: " + id);
 				}
-			} else
+			} else {
 				MessageBoxUtils.show("Choose another ID.\nA bookmark with this ID already exists", "Duplicate ID",
 						SWT.ICON_WARNING);
+			}
 		}
 	}
 
@@ -548,12 +561,14 @@ public class ManageBookmarkSetsForm {
 	private void remove() {
 		boolean defSelected = false;
 		int[] indices = table.getSelectionIndices();
-		if (indices.length <= 0)
+		if (indices.length <= 0) {
 			return;
+		}
 
 		for (int i = 0; i < indices.length; i++) {
-			if (table.getItem(indices[i]).getChecked())
+			if (table.getItem(indices[i]).getChecked()) {
 				defSelected = true;
+			}
 		}
 
 		if (defSelected == true) {
@@ -584,8 +599,9 @@ public class ManageBookmarkSetsForm {
 
 	private void edit() {
 		final int i = table.getSelectionIndex();
-		if (i <= -1)
+		if (i <= -1) {
 			return;
+		}
 		TableItem item = table.getItem(i);
 		final BookmarkSet bms = (BookmarkSet) item.getData();
 		bms.load();

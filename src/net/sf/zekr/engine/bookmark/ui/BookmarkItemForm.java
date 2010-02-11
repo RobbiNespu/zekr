@@ -9,7 +9,6 @@
 package net.sf.zekr.engine.bookmark.ui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.zekr.common.config.ApplicationConfig;
@@ -58,7 +57,6 @@ import org.eclipse.swt.widgets.Text;
 public class BookmarkItemForm extends BaseForm {
 	private Table table;
 	private TableEditor editor;
-	private List excList = new ArrayList();
 	private Composite body;
 	private boolean canceled = true;
 	private BookmarkItem bookmarkItem;
@@ -96,7 +94,7 @@ public class BookmarkItemForm extends BaseForm {
 		this.bookmarkSetDirection = bookmarkSetDirection;
 		bookmarkItem = new BookmarkItem();
 		bookmarkItem.setFolder(isFolder);
-		bookmarkItem.setLocations(new ArrayList());
+		bookmarkItem.setLocations(new ArrayList<IQuranLocation>());
 		bookmarkItem.setDescription("");
 		bookmarkItem.setName(meaning(isFolder ? "NEW_FOLDER" : "NEW_BOOKMARK"));
 		_init();
@@ -115,7 +113,8 @@ public class BookmarkItemForm extends BaseForm {
 	 *           NEW_BOOKMARK is used.
 	 * @param bookmarkSetDirection
 	 */
-	public BookmarkItemForm(Shell parent, List locationList, String bookmarkName, int bookmarkSetDirection) {
+	public BookmarkItemForm(Shell parent, List<IQuranLocation> locationList, String bookmarkName,
+			int bookmarkSetDirection) {
 		this.parent = parent;
 		this.bookmarkSetDirection = bookmarkSetDirection;
 		bookmarkItem = new BookmarkItem();
@@ -152,6 +151,7 @@ public class BookmarkItemForm extends BaseForm {
 		init();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void init() {
 		body = new Composite(shell, lang.getSWTDirection());
 		body.setLayout(new GridLayout(1, false));
@@ -212,10 +212,11 @@ public class BookmarkItemForm extends BaseForm {
 			table.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
 					if (!readOnly) {
-						if (table.getSelectionCount() == 0)
+						if (table.getSelectionCount() == 0) {
 							remBut.setEnabled(false);
-						else
+						} else {
 							remBut.setEnabled(true);
+						}
 					}
 				}
 			});
@@ -317,8 +318,7 @@ public class BookmarkItemForm extends BaseForm {
 			locationCol.setText(lang.getMeaning("LOCATION"));
 			locationCol.setWidth(100);
 
-			for (Iterator iter = bookmarkItem.getLocations().iterator(); iter.hasNext();) {
-				IQuranLocation loc = (IQuranLocation) iter.next();
+			for (IQuranLocation loc : bookmarkItem.getLocations()) {
 				addNewItem(loc);
 			}
 			table.addListener(SWT.MouseDoubleClick, new Listener() {
@@ -443,10 +443,11 @@ public class BookmarkItemForm extends BaseForm {
 								editor.grabHorizontal = true;
 								editor.setEditor(itemEditor, item, i);
 
-								if (column == 2)
+								if (column == 2) {
 									((Text) itemEditor).setText(item.getText(i));
-								else
+								} else {
 									((CCombo) itemEditor).setText(item.getText(i));
+								}
 								itemEditor.setFocus();
 								return;
 							}
@@ -454,8 +455,9 @@ public class BookmarkItemForm extends BaseForm {
 								visible = true;
 							}
 						}
-						if (!visible)
+						if (!visible) {
 							return;
+						}
 						index++;
 					}
 				}
@@ -487,7 +489,7 @@ public class BookmarkItemForm extends BaseForm {
 		String id = bookmarkItem.getId();
 		if (!bookmarkItem.isFolder()) {
 			bookmarkItem = new BookmarkItem();
-			List locations = new ArrayList();
+			List<IQuranLocation> locations = new ArrayList<IQuranLocation>();
 			TableItem[] ti = table.getItems();
 			for (int i = 0; i < ti.length; i++) {
 				int sura = ((Integer) ti[i].getData("0")).intValue();
@@ -513,6 +515,7 @@ public class BookmarkItemForm extends BaseForm {
 	 * @param readOnly disables OK button if <code>true</code>.
 	 * @return <code>true</code> if ok pressed, <code>false</code> otherwise.
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean open(boolean readOnly) {
 		List b = config.getProps().getList("view.bookmark.bookarkItemForm.location");
 		if (b.size() != 0 && !bookmarkItem.isFolder()) {
@@ -549,8 +552,9 @@ public class BookmarkItemForm extends BaseForm {
 
 	private void remove() {
 		int[] rows = table.getSelectionIndices();
-		if (rows.length <= 0)
+		if (rows.length <= 0) {
 			return;
+		}
 		for (int i = rows.length - 1; i >= 0; i--) {
 			table.remove(rows[i]);
 			remBut.setEnabled(false);
