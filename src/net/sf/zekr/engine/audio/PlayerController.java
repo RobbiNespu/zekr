@@ -41,10 +41,20 @@ public interface PlayerController {
 	/**
 	 * Open {@link PlayableObject} to play.
 	 * 
-	 * @param po
+	 * @param playableObject playable object to open
+	 * @param openForCaching specifies whether this playable object is opened for now-playing or should be
+	 *           cached for later use.
 	 * @throws PlayerException
 	 */
-	public void open(PlayableObject po) throws PlayerException;
+	public void open(PlayableObject playableObject, boolean openForCaching) throws PlayerException;
+
+	/**
+	 * Open a {@link PlayableObject} for now-playing. Equal to <code>open(playableObject, false)</code>.
+	 * 
+	 * @param playableObject
+	 * @throws PlayerException
+	 */
+	public void open(PlayableObject playableObject) throws PlayerException;
 
 	/**
 	 * Skip bytes.
