@@ -32,21 +32,19 @@ public class ZipUtils {
 	/**
 	 * Extracts zip file <code>zipFile</code> info <code>destDir</code>
 	 * 
-	 * @param zipFile
-	 *           source zip file to be unzipped
-	 * @param destDir
-	 *           destination directory to extract content of the zip file into it. Will be created first, if does not
-	 *           exist.
+	 * @param zipFile source zip file to be unzipped
+	 * @param destDir destination directory to extract content of the zip file into it. Will be created first,
+	 *           if does not exist.
 	 * @throws IOException
 	 */
 	public static void extract(File zipFile, String destDir) throws IOException {
 		ZipFile zf = new ZipFile(zipFile);
-		Enumeration e = zf.entries();
+		Enumeration<? extends ZipEntry> e = zf.entries();
 		byte buffer[] = new byte[4096];
 		int readSize = -1;
 
 		while (e.hasMoreElements()) {
-			ZipEntry ze = (ZipEntry) e.nextElement();
+			ZipEntry ze = e.nextElement();
 			if (ze.isDirectory()) {
 				File entry = new File(destDir + File.separator + ze.getName());
 				entry.mkdirs();

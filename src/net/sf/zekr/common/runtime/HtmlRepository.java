@@ -145,13 +145,14 @@ public class HtmlRepository {
 
 	public static String getCustomMixedUri(int sura, int aya, boolean update) throws HtmlGenerationException {
 		try {
-			List tdList = config.getCustomTranslationList();
+			List<TranslationData> tdList = config.getCustomTranslationList();
 			StringBuffer tidList = new StringBuffer();
 			for (int i = 0; i < tdList.size(); i++) {
-				String tid = ((TranslationData) tdList.get(i)).id;
+				String tid = (tdList.get(i)).id;
 				tidList.append(tid);
-				if (i + 1 < tdList.size())
+				if (i + 1 < tdList.size()) {
 					tidList.append("-");
+				}
 			}
 			IUserView uvc = config.getUserViewController();
 			String fileName = uvc.getPage() + "_" + tidList + ".html";
@@ -161,7 +162,7 @@ public class HtmlRepository {
 				logger.info("Create Quran file: " + file);
 				OutputStreamWriter osw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
 						GlobalConfig.OUT_HTML_ENCODING);
-				TranslationData[] transData = (TranslationData[]) tdList.toArray(new TranslationData[] {});
+				TranslationData[] transData = tdList.toArray(new TranslationData[] {});
 
 				// ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, sura, aya);
 				ITransformer tx = new MultiTranslationViewTemplate(new FilteredQuranText(), transData, uvc);
