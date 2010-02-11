@@ -8,11 +8,16 @@
  */
 package net.sf.zekr.engine.audio;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
+import net.sf.zekr.engine.log.Logger;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -27,7 +32,9 @@ import org.apache.commons.configuration.PropertiesConfiguration;
  * @author Mohsen Saboorian
  */
 public class DefaultPlayerController implements PlayerController {
-	BasicPlayer player;
+	private static Logger logger = Logger.getLogger(DefaultPlayerController.class);
+
+	private BasicPlayer player;
 	private int volume;
 	private boolean multiAya;
 	private int interval; // wait between two ayas (in milliseconds)
@@ -35,32 +42,80 @@ public class DefaultPlayerController implements PlayerController {
 	private PropertiesConfiguration props;
 	private PlayingItem playingItem = PlayingItem.AYA;
 	private PlayableObject currentPlayableObject;
+	private List<BasicPlayerListener> playerListenerList = new ArrayList<BasicPlayerListener>();
+
+	/**
+	 * A fixed size cache for {@link BasicPlayer} objects whom <code>open</code> method is already called.
+	 */
+	private Map<PlayableObject, BasicPlayer> playerCache;
 
 	public DefaultPlayerController(PropertiesConfiguration props) {
 		this.props = props;
-		player = new BasicPlayer();
 		volume = props.getInt("audio.volume", 50);
 		repeatTime = props.getInt("audio.repeatTime", 1);
 		interval = props.getInt("audio.interval", 0);
 		multiAya = props.getBoolean("audio.continuousAya", true);
+
+		final int prefetcher = props.getInt("audio.cache.prefetcher", 1);
+		playerCache = new LinkedHashMap<PlayableObject, BasicPlayer>() {
+			private static final long serialVersionUID = -9223127035368415046L;
+
+			@Override
+			protected boolean removeEldestEntry(java.util.Map.Entry<PlayableObject, BasicPlayer> eldest) {
+				return size() > prefetcher;
+			}
+		};
 	}
 
-	public void open(PlayableObject playableObject) throws PlayerException {
-		this.currentPlayableObject = playableObject;
+	@SuppressWarnings("unchecked")
+	public void open(PlayableObject playableObject, boolean openForCaching) throws PlayerException {
+		// check if exists in the cache
+		BasicPlayer localPlayer = playerCache.get(playableObject);
+
+		if (openForCaching) {
+			if (localPlayer == null) {
+				localPlayer = new BasicPlayer();
+				playerCache.put(playableObject, localPlayer);
+			} else {
+				return; // already exists in the cache
+			}
+		} else { // hit in the cache
+			this.currentPlayableObject = playableObject;
+			boolean isAlreadyOpened = true;
+			if (localPlayer == null) {
+				isAlreadyOpened = false;
+				localPlayer = new BasicPlayer();
+			}
+			this.player = localPlayer;
+			player.getListeners().clear();
+			player.getListeners().addAll(playerListenerList);
+			if (isAlreadyOpened) {
+				return;
+			}
+		}
+
 		try {
 			if (playableObject.getUrl() != null) {
-				player.open(playableObject.getUrl());
+				localPlayer.open(playableObject.getUrl());
 			} else if (playableObject.getFile() != null) {
 				if (!playableObject.getFile().exists()) {
 					throw new PlayerException("File not found: " + playableObject.getFile());
 				}
-				player.open(playableObject.getFile());
+				localPlayer.open(playableObject.getFile());
 			} else {
-				player.open(playableObject.getInputStream());
+				localPlayer.open(playableObject.getInputStream());
 			}
 		} catch (BasicPlayerException e) {
-			throw new PlayerException("Error opening playable object: " + playableObject, e);
+			if (openForCaching) {
+				logger.error("Error occurred while openning playable object for cache.", e);
+			} else {
+				throw new PlayerException("Error opening playable object: " + playableObject, e);
+			}
 		}
+	}
+
+	public void open(PlayableObject playableObject) throws PlayerException {
+		open(playableObject, false);
 	}
 
 	public void pause() throws PlayerException {
@@ -124,28 +179,33 @@ public class DefaultPlayerController implements PlayerController {
 
 	public void stop() throws PlayerException {
 		try {
-			player.stop();
+			if (player != null) {
+				player.stop();
+			}
 		} catch (BasicPlayerException e) {
 			throw new PlayerException(e);
 		}
 	}
 
 	public int getStatus() {
+		if (player == null) {
+			return BasicPlayer.UNKNOWN;
+		}
 		return player.getStatus();
 	}
 
 	public void addBasicPlayerListener(BasicPlayerListener bpl) {
-		player.addBasicPlayerListener(bpl);
+		playerListenerList.add(bpl);
+		// player.addBasicPlayerListener(bpl);
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public Collection<BasicPlayerListener> getListeners() {
-		return player.getListeners();
+		return playerListenerList;
 	}
 
 	public void removeBasicPlayerListener(BasicPlayerListener bpl) {
-		player.removeBasicPlayerListener(bpl);
+		playerListenerList.remove(bpl);
 	}
 
 	/**
