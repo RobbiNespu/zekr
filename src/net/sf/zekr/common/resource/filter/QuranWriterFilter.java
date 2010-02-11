@@ -45,6 +45,8 @@ public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
 			str = RegexUtils.pregReplace(str, "($SHADDA|$FATHA)($SUPERSCRIPT_ALEF)", "$1$TATWEEL$2");
 			str = RegexUtils.pregReplace(str, "([$HAMZA$DAL-$ZAIN$WAW][$SHADDA$FATHA]*)$TATWEEL($SUPERSCRIPT_ALEF)",
 					"$1$ZWNJ$2");
+		} else {
+			str = RegexUtils.pregReplace(str, "($SHADDA)([$KASRA$KASRATAN])","$2$1");
 		}
 
 		str = StringUtils.replace(str, String.valueOf(ALEF) + MADDA, String.valueOf(ALEF_MADDA));
