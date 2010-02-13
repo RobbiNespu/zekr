@@ -336,6 +336,7 @@
 			<text id="REPEAT" value="تکرار"   />
 			<text id="NO_INTERVAL" value="بدون وقفه"   />
 			<text id="NO_REPEAT" value="بدون تکرار"   />
+            <text id="VOLUME" value="صدا"   />
 		</form>
         <form id="GOTO_FORM">
             <text id="TITLE" value="برو به"   />

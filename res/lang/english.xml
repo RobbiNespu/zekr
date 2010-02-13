@@ -336,6 +336,7 @@
 			<text id="REPEAT" value="Repeat"   />
 			<text id="NO_INTERVAL" value="No Interval"   />
 			<text id="NO_REPEAT" value="No Repeat"   />
+            <text id="VOLUME" value="Volume"   />
 		</form>
         <form id="GOTO_FORM">
             <text id="TITLE" value="Goto"   />
