@@ -33,7 +33,7 @@ import net.sf.zekr.engine.audio.BasicPlayerAdapter;
 import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.engine.audio.PlayerException;
 import net.sf.zekr.engine.audio.ZekrPlayerListener;
-import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.audio.ui.AudioPlayerForm;
 import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
@@ -150,7 +150,7 @@ public class QuranForm extends BaseForm {
 	private Button matchCaseCheckBox;
 	private Button toggleMultiLine, advancedToggleMultiLine;
 	private Table suraTable;
-	private Map<String, Object> suraMap;
+	private Map<String, String> suraMap;
 	private Composite bgroup, workPane;
 	private Group navigationGroup;
 	private Group searchGroup;
@@ -181,12 +181,6 @@ public class QuranForm extends BaseForm {
 	static final int MULTI_TRANS = 5;
 
 	private static final String NAV_BUTTON = "NAV_BUTTON";
-
-	/** match case behavior for search */
-	// private boolean matchCase;
-	private final String FORM_ID = "QURAN_FORM";
-
-	static final Logger logger = Logger.getLogger(QuranForm.class);
 
 	private QuranProperties quranProp;
 
@@ -286,7 +280,7 @@ public class QuranForm extends BaseForm {
 		viewLayout = 0; // no layout set yet
 
 		title = meaning("TITLE");
-		shell = new Shell(display, SWT.SHELL_TRIM | lang.getSWTDirection());
+		shell = createShell(display, SWT.SHELL_TRIM | lang.getSWTDirection());
 		shell.setText(title);
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
 				new Image(display, resource.getString("icon.form32")),
@@ -1888,6 +1882,10 @@ public class QuranForm extends BaseForm {
 	void closeAudioSilently() {
 		try {
 			playerUiController.playerSlightlyStop();
+			AudioPlayerForm form = playerUiController.getAudioControllerForm();
+			if (form != null && !form.isDisposed()) { // Mac bug fix
+				form.close();
+			}
 			searchPlayerController.stop();
 		} catch (Exception e) {
 			// damp exception
@@ -1993,15 +1991,7 @@ public class QuranForm extends BaseForm {
 		return item;
 	}
 
-	public Shell getShell() {
-		return shell;
-	}
-
-	public Display getDisplay() {
-		return display;
-	}
-
-	String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
+	public String getFormId() {
+		return "QURAN_FORM";
 	}
 }

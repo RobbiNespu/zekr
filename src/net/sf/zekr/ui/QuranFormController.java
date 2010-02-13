@@ -11,7 +11,6 @@ package net.sf.zekr.ui;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -42,6 +41,7 @@ import net.sf.zekr.engine.search.Range;
 import net.sf.zekr.engine.translation.ui.CustomTranslationListForm;
 import net.sf.zekr.engine.update.UpdateManager;
 import net.sf.zekr.ui.helper.FormUtils;
+import net.sf.zekr.ui.options.OptionsForm;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.swt.events.SelectionEvent;
@@ -94,13 +94,22 @@ public class QuranFormController {
 	private QuranForm quranForm;
 	private IUserView uvc;
 	private ApplicationConfig config;
-	private BookmarkSetForm bsf;
 	private CustomTranslationListForm crlf;
 
 	public QuranFormController(QuranForm quranForm) {
 		this.quranForm = quranForm;
 		config = ApplicationConfig.getInstance();
 		uvc = config.getUserViewController();
+	}
+
+	public void executeAction(String name) {
+		try {
+			Method method = getClass().getMethod(name, new Class<?>[0]);
+			method.invoke(this);
+		} catch (Exception e) {
+			MessageBoxUtils.showError("Error running action: " + name);
+			logger.error("Error calling action: " + name, e);
+		}
 	}
 
 	public ActionItem registerAction(final String name, final Class<?> parameterType, final Object methodParam) {
@@ -121,13 +130,14 @@ public class QuranFormController {
 	public ActionItem registerAction(final String name) {
 		Runnable runnable = new Runnable() {
 			public void run() {
-				try {
-					Method method = QuranFormController.this.getClass().getMethod(name, new Class<?>[0]);
-					method.invoke(QuranFormController.this, new Object[0]);
-				} catch (Exception e) {
-					MessageBoxUtils.showError("Error running action: " + name);
-					logger.error("Error calling action: " + name, e);
-				}
+				executeAction(name);
+				//				try {
+				//					Method method = QuranFormController.this.getClass().getMethod(name, new Class<?>[0]);
+				//					method.invoke(QuranFormController.this, new Object[0]);
+				//				} catch (Exception e) {
+				//					MessageBoxUtils.showError("Error running action: " + name);
+				//					logger.error("Error calling action: " + name, e);
+				//				}
 			}
 		};
 		return new ActionItem(runnable);
@@ -158,6 +168,15 @@ public class QuranFormController {
 		}
 	}
 
+	public void options() {
+		Shell shell = FormUtils.findShell(quranForm.display, OptionsForm.FORM_ID);
+		if (shell == null) {
+			new OptionsForm(quranForm.getShell()).open();
+		} else {
+			shell.forceActive();
+		}
+	}
+
 	public void about() {
 		AboutForm af = new AboutForm(quranForm.getShell());
 		af.getShell().setLocation(FormUtils.getCenter(quranForm.getShell(), af.getShell()));
@@ -170,15 +189,11 @@ public class QuranFormController {
 	}
 
 	public void gotoForm() {
-		Shell[] shells = quranForm.display.getShells();
-		boolean found = false;
-		for (int i = 0; i < shells.length; i++) {
-			if ("GOTO_FORM".equals(shells[i].getData("FORM_ID"))) {
-				found = true;
-			}
-		}
-		if (!found) {
+		Shell shell = FormUtils.findShell(quranForm.display, GotoForm.FORM_ID);
+		if (shell == null) {
 			new GotoForm(quranForm.getShell(), quranForm).open();
+		} else {
+			shell.forceActive();
 		}
 	}
 
@@ -312,27 +327,34 @@ public class QuranFormController {
 	}
 
 	public void findBookmarkReferences() {
-		IQuranLocation loc = uvc.getLocation();
-		logger.info("Find bookmark references to: " + loc);
-		List<Object[]> resultList = BookmarkUtils.findReferences(config.getBookmark(), loc);
-		logger.debug("Show references in form.");
-		new BookmarkReferenceForm(quranForm.getShell(), resultList, loc).open();
+		Shell shell = FormUtils.findShell(quranForm.display, BookmarkReferenceForm.FORM_ID);
+		if (shell == null) {
+			IQuranLocation loc = uvc.getLocation();
+			logger.info("Find bookmark references to: " + loc);
+			List<Object[]> resultList = BookmarkUtils.findReferences(config.getBookmark(), loc);
+			logger.debug("Show references in form.");
+			new BookmarkReferenceForm(quranForm.getShell(), resultList, loc).open();
+		} else {
+			shell.forceActive();
+		}
 	}
 
 	public void manageBookmarks() {
-		Shell shell = quranForm.getShell();
-		if (bsf != null && Arrays.asList(shell.getShells()).contains(bsf.getShell())) { // shell is already
-			// open
-			bsf.getShell().forceActive();
-			return;
+		Shell shell = FormUtils.findShell(quranForm.display, BookmarkSetForm.FORM_ID);
+		if (shell == null) {
+			new BookmarkSetForm(quranForm.getShell()).open();
+		} else {
+			shell.forceActive();
 		}
-
-		bsf = new BookmarkSetForm(shell);
-		bsf.open();
 	}
 
 	public void manageBookmarkSets() {
-		new ManageBookmarkSetsForm(quranForm.getShell()).open();
+		Shell shell = FormUtils.findShell(quranForm.display, ManageBookmarkSetsForm.FORM_ID);
+		if (shell == null) {
+			new ManageBookmarkSetsForm(quranForm.getShell()).open();
+		} else {
+			shell.forceActive();
+		}
 	}
 
 	/**
@@ -340,16 +362,22 @@ public class QuranFormController {
 	 */
 	public void bookmarkThis() {
 		try {
-			String titleMode = config.getProps().getString("bookmark.add.titleMode", "quran");
-			String title;
-			if (titleMode.equals("quran") || config.getTranslation().getDefault() == null) {
-				IQuranText qt = new FilteredQuranText(QuranText.getSimpleTextInstance(), IQuranFilter.NONE);
-				title = QuranFilterUtils.filterHarakat(qt.get(uvc.getLocation()));
-			} else { // translation mode
-				title = config.getTranslation().getDefault().get(uvc.getLocation());
+			Shell shell = FormUtils.findShell(quranForm.display, BookmarkSetForm.FORM_ID);
+			if (shell == null) {
+
+				String titleMode = config.getProps().getString("bookmark.add.titleMode", "quran");
+				String title;
+				if (titleMode.equals("quran") || config.getTranslation().getDefault() == null) {
+					IQuranText qt = new FilteredQuranText(QuranText.getSimpleTextInstance(), IQuranFilter.NONE);
+					title = QuranFilterUtils.filterHarakat(qt.get(uvc.getLocation()));
+				} else { // translation mode
+					title = config.getTranslation().getDefault().get(uvc.getLocation());
+				}
+				BookmarkSetForm.addNew(quranForm.getShell(), uvc.getLocation(), net.sf.zekr.common.util.StringUtils
+						.abbreviate(title, 20));
+			} else {
+				shell.forceActive();
 			}
-			BookmarkSetForm.addNew(quranForm.getShell(), uvc.getLocation(), net.sf.zekr.common.util.StringUtils
-					.abbreviate(title, 20));
 		} catch (IOException e) {
 			logger.error(e);
 		}
@@ -373,22 +401,26 @@ public class QuranFormController {
 		quranForm.playerUiController.playerTogglePlayPause(playerStatus != PlayerController.PLAYING, true);
 	}
 
+	public void playerVolumeUp() {
+		quranForm.playerUiController.addVolume(+10);
+	}
+
+	public void playerVolumeDown() {
+		quranForm.playerUiController.addVolume(-10);
+	}
+
 	public void toggleDetailPanel() {
 		boolean toggleState = config.getProps().getBoolean("view.panel.detail", true);
 		quranForm.togglePanel(!toggleState);
 	}
 
 	public void configureMultiTrans() {
-		Shell shell = quranForm.getShell();
-		if (crlf != null && Arrays.asList(shell.getShells()).contains(crlf.getShell())) { // shell is already
-			// open
-			crlf.getShell().forceActive();
-			return;
+		Shell shell = FormUtils.findShell(quranForm.display, CustomTranslationListForm.FORM_ID);
+		if (shell == null) {
+			new CustomTranslationListForm(quranForm.getShell()).show();
+		} else {
+			shell.forceActive();
 		}
-
-		crlf = new CustomTranslationListForm(quranForm.getShell());
-		crlf.show();
-		crlf.loopEver();
 	}
 
 	public void playerNext() {

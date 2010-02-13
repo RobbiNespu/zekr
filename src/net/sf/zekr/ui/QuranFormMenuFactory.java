@@ -45,8 +45,8 @@ import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.page.JuzPagingData;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.translation.TranslationData;
+import net.sf.zekr.ui.helper.CocoaUiEnhancer;
 import net.sf.zekr.ui.helper.FormUtils;
-import net.sf.zekr.ui.options.OptionsForm;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
@@ -127,7 +127,7 @@ public class QuranFormMenuFactory {
 		props = config.getProps();
 		lang = config.getLanguageEngine();
 		this.shell = shell;
-		direction = form.lang.getSWTDirection();
+		direction = lang.getSWTDirection();
 		rtl = direction == SWT.RIGHT_TO_LEFT;
 		playerController = config.getPlayerController();
 	}
@@ -569,12 +569,7 @@ public class QuranFormMenuFactory {
 
 		// separator
 		new MenuItem(toolsMenu, SWT.SEPARATOR);
-		MenuItem options = createMenuItem(SWT.PUSH, toolsMenu, lang.getMeaning("OPTIONS") + "...", "icon.menu.options");
-		options.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				new OptionsForm(shell).open();
-			}
-		});
+		createMenuItem(SWT.PUSH, toolsMenu, lang.getMeaning("OPTIONS") + "...", "options", "icon.menu.options");
 
 		// Help menu
 		MenuItem help = new MenuItem(menu, SWT.CASCADE | direction);
@@ -600,7 +595,31 @@ public class QuranFormMenuFactory {
 		new MenuItem(helpMenu, SWT.SEPARATOR);
 		createMenuItem(SWT.PUSH, helpMenu, lang.getMeaning("ABOUT"), "about", "icon.menu.about");
 
+		if (GlobalConfig.isCocoa) {
+			hoolSetupMacCocoaApplicationMenu();
+		}
+
 		return menu;
+	}
+
+	private void hoolSetupMacCocoaApplicationMenu() {
+		CocoaUiEnhancer cue = new CocoaUiEnhancer(lang.getMeaning("APP_NAME"));
+		Listener quitListener = new Listener() {
+			public void handleEvent(Event event) {
+				quranForm.quranFormController.quit();
+			}
+		};
+		Runnable preferencesAction = new Runnable() {
+			public void run() {
+				quranForm.quranFormController.options();
+			}
+		};
+		Runnable aboutAction = new Runnable() {
+			public void run() {
+				quranForm.quranFormController.about();
+			}
+		};
+		cue.hookApplicationMenu(quranForm.display, quitListener, aboutAction, preferencesAction);
 	}
 
 	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, String imageKey) {
@@ -614,7 +633,7 @@ public class QuranFormMenuFactory {
 	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, String action, int accelerator,
 			String imageKey, String data, String acceleratorStr) {
 		MenuItem item = new MenuItem(parentMenu, swtStyle == 0 ? SWT.PUSH : swtStyle);
-		boolean rtl = !lang.isLtr();
+		boolean rtl = !lang.isLtr() && GlobalConfig.hasBidiSupport;
 
 		KeyboardShortcut shortcut = config.getShortcut();
 		if (action != null && shortcut != null) {
@@ -1112,7 +1131,7 @@ public class QuranFormMenuFactory {
 
 	private void changePlayerMenuState(PlayStatus data, String text, String image) {
 		String itemText = playItem.getText();
-		String accelText = itemText.substring(itemText.indexOf('\t'));
+		String accelText = itemText.contains("\t") ? itemText.substring(itemText.indexOf('\t')) : "";
 		playItem.setData(data);
 		if (SHOW_MENU_IMAGE) {
 			playItem.setImage(new Image(shell.getDisplay(), image));
