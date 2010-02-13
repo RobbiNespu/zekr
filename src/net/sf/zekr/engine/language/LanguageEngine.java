@@ -100,7 +100,7 @@ public class LanguageEngine extends LanguageEngineNaming {
 	/**
 	 * @return language engine instance with default language settings.
 	 */
-	public static LanguageEngine getInstance() {
+	synchronized public static LanguageEngine getInstance() {
 		if (engine == null) {
 			engine = new LanguageEngine();
 		}
@@ -286,11 +286,15 @@ public class LanguageEngine extends LanguageEngineNaming {
 	}
 
 	public boolean isLtr() {
-		return !RIGHT_TO_LEFT.equals(getDirection());
+		return !isRtl();
+	}
+
+	public boolean isRtl() {
+		return RIGHT_TO_LEFT.equals(getDirection());
 	}
 
 	public int getSWTDirection() {
-		return isLtr() ? SWT.LEFT_TO_RIGHT : SWT.RIGHT_TO_LEFT;
+		return isRtl() ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT;
 	}
 
 	public static int getSWTDirection(String dir) {
