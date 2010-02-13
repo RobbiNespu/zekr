@@ -317,15 +317,15 @@ public class QuranPropertiesUtils {
 	 * @param suraNum sura number (counted from 1)
 	 * @return Sura properties as a <code>Map</code>
 	 */
-	public static final Map<String, Object> getSuraPropsMap(int suraNum) {
+	public static final Map<String, String> getSuraPropsMap(int suraNum) {
 		LanguageEngine dict = ApplicationConfig.getInstance().getLanguageEngine();
 		RevelationData rd = ApplicationConfig.getInstance().getRevelation().getDefault();
 		QuranPropertiesUtils.getSuraNames(); // load!
 		SuraProperties sura = QuranProperties.getInstance().getSura(suraNum);
-		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put(dict.getMeaning("NAME"), getSura(suraNum).toText());
-		map.put(dict.getMeaning("NUMBER"), new Integer(sura.getIndex()));
-		map.put(dict.getMeaning("AYA_COUNT"), new Integer(sura.getAyaCount()));
+		map.put(dict.getMeaning("NUMBER"), String.valueOf(sura.getIndex()));
+		map.put(dict.getMeaning("AYA_COUNT"), String.valueOf(sura.getAyaCount()));
 		map.put(dict.getMeaning("DESCENT"), getSuraDescent(sura.isMadani()));
 		map.put(dict.getMeaning("JUZ"), getSuraJuz(suraNum));
 		if (rd != null) {
@@ -334,9 +334,9 @@ public class QuranPropertiesUtils {
 		return map;
 	}
 
-	public static final String propsToClipboadrFormat(Map<String, Object> suraProps) {
+	public static final String propsToClipboadrFormat(Map<String, String> suraMap) {
 		StringBuffer ret = new StringBuffer();
-		for (Entry<String, Object> entry : suraProps.entrySet()) {
+		for (Entry<String, String> entry : suraMap.entrySet()) {
 			ret.append(entry.getKey() + ": " + entry.getValue() + GlobalConfig.LINE_SEPARATOR);
 		}
 		return ret.length() > 0 ? ret.substring(0, ret.length() - GlobalConfig.LINE_SEPARATOR.length()) : ret.toString();
