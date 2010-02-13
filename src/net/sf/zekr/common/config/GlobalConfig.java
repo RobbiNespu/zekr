@@ -33,8 +33,14 @@ public class GlobalConfig {
 	/** Specifies if OS is Linux */
 	public static final boolean isLinux = SWT.getPlatform().equalsIgnoreCase("gtk");
 
+	/** Specifies if OS is Carbon */
+	public static final boolean isCarbon = SWT.getPlatform().equalsIgnoreCase("carbon");
+
+	/** Specifies if OS is Cocoa */
+	public static final boolean isCocoa = SWT.getPlatform().equalsIgnoreCase("cocoa");
+
 	/** Specifies if OS is Mac */
-	public static final boolean isMac = SWT.getPlatform().equalsIgnoreCase("carbon");
+	public static final boolean isMac = isCarbon || isCocoa;
 
 	/** Specifies if OS is Solaris */
 	public static final boolean isSolaris = SWT.getPlatform().equalsIgnoreCase("motif");
