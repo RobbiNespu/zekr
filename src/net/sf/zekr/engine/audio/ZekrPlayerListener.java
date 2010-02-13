@@ -35,6 +35,8 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 	private Display display;
 	private int origRepeatTimer;
 	private boolean userActionPerformed = false;
+	private Map audioInfo;
+	boolean seeking = false;
 
 	public ZekrPlayerListener(PlayerController playerController, QuranForm quranForm) {
 		this.playerController = playerController;
@@ -44,9 +46,22 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 	}
 
 	public void opened(Object stream, Map properties) {
+		// open should be handled in DefaultPlayerController's open method, since this
+		// call back is not called for caching audio files.
 	}
 
 	public void progress(int bytesread, long microseconds, byte[] pcmdata, Map properties) {
+		final float progressPercent = computeProgress(bytesread, microseconds, playerController.getCurrentAudioInfo(),
+				properties);
+		display.asyncExec(new Runnable() {
+			public void run() {
+				if (!quranForm.isDisposed()) {
+					if (quranForm.playerUiController.isAudioControllerFormOpen()) {
+						quranForm.playerUiController.progress(progressPercent);
+					}
+				}
+			}
+		});
 	}
 
 	public void setController(BasicController controller) {
@@ -64,6 +79,9 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 					} else if (code == BasicPlayerEvent.PAUSED || code == BasicPlayerEvent.STOPPED) {
 						if (quranForm.playerUiController.isAudioControllerFormOpen()) {
 							quranForm.playerUiController.togglePlayPauseState(false);
+							if (code == BasicPlayerEvent.STOPPED) {
+								quranForm.playerUiController.progress(0);
+							}
 						}
 					}
 					quranForm.playerUiController.playerUpdateAudioFormStatus();
@@ -94,8 +112,7 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 		} else if (code == BasicPlayerEvent.OPENING || code == BasicPlayerEvent.STOPPED) {
 			origRepeatTimer = playerController.getRepeatTime();
 			userActionPerformed = false;
-		}
-		if (code == BasicPlayerEvent.EOM) {
+		} else if (code == BasicPlayerEvent.EOM) {
 			repeatTimer--;
 
 			if (playerController.isMultiAya()) {
@@ -126,6 +143,8 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 					});
 				}
 			}
+		} else if (code == BasicPlayerEvent.SEEKING) {
+		} else if (code == BasicPlayerEvent.SEEKED) {
 		}
 	}
 
@@ -157,5 +176,68 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 
 	public void userPressedSomeButton() {
 		userActionPerformed = true;
+	}
+
+	/**
+	 * Taken from <code>PlayerUI.processProgress(int, long, byte, Map)</code> of JavaZoom's jlgui.
+	 * 
+	 * @param bytesread
+	 * @param microseconds
+	 * @param audioInfo
+	 * @param properties
+	 * @return a float value between 0.0 and 100.0 or a negative value if this method is not supported
+	 */
+	public float computeProgress(int bytesread, long microseconds, Map audioInfo, Map properties) {
+		int byteslength = -1;
+		long totalMillis = -1;
+
+		// if it fails then try again with JavaSound SPI.
+		if (totalMillis <= 0) {
+			totalMillis = AudioUtils.estimateAudioTime(audioInfo);
+		}
+
+		// if it fails again then it might be stream => Total = -1
+		if (totalMillis <= 0) {
+			totalMillis = -1;
+		}
+
+		if (audioInfo.containsKey("audio.length.bytes")) {
+			byteslength = ((Integer) audioInfo.get("audio.length.bytes")).intValue();
+		}
+		long millis = 0;
+		float progress = -1.0f;
+
+		//		if (microseconds > 0) {
+		if (true) {
+			//			millis = microseconds / 1000;
+			//		} else {
+			if (bytesread > 0 && byteslength > 0) {
+				progress = bytesread * 1.0f / byteslength * 1.0f;
+			}
+			if (audioInfo.containsKey("audio.type")) {
+				String audioformat = (String) audioInfo.get("audio.type");
+				if (audioformat.equalsIgnoreCase("mp3")) {
+					if (totalMillis > 0) {
+						millis = (long) (totalMillis * progress);
+					} else {
+						millis = -1;
+					}
+				} else if (audioformat.equalsIgnoreCase("wave")) {
+					millis = (long) (totalMillis * progress);
+				} else {
+					millis = Math.round(microseconds / 1000);
+				}
+			} else {
+				millis = Math.round(microseconds / 1000);
+			}
+			if (millis < 0) {
+				millis = Math.round(microseconds / 1000);
+			}
+		}
+		if (totalMillis != 0) {
+			return millis * 100f / totalMillis;
+		} else {
+			return 0;
+		}
 	}
 }
