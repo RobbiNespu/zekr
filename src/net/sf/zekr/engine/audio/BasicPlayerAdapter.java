@@ -18,6 +18,14 @@ import javazoom.jlgui.basicplayer.BasicPlayerListener;
  * @author Mohsen Saboorian
  */
 public class BasicPlayerAdapter implements BasicPlayerListener {
+	protected ZekrBasicPlayer zekrBasicPlayer;
+
+	public BasicPlayerAdapter(ZekrBasicPlayer zekrBasicPlayer) {
+		this.zekrBasicPlayer = zekrBasicPlayer;
+	}
+
+	public BasicPlayerAdapter() {
+	}
 
 	@SuppressWarnings("unchecked")
 	public void opened(Object stream, Map properties) {
