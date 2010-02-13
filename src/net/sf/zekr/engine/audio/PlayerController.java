@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Map;
 
 import javazoom.jlgui.basicplayer.BasicController;
 import javazoom.jlgui.basicplayer.BasicPlayer;
@@ -186,4 +187,7 @@ public interface PlayerController {
 	public PlayingItem getPlayingItem();
 
 	public PlayableObject getCurrentPlayableObject();
+
+	@SuppressWarnings("unchecked")
+	public Map getCurrentAudioInfo();
 }
