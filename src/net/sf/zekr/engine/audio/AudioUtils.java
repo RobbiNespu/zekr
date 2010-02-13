@@ -9,6 +9,7 @@
 package net.sf.zekr.engine.audio;
 
 import java.io.File;
+import java.util.Map;
 
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.resource.IQuranLocation;
@@ -81,5 +82,50 @@ public class AudioUtils {
 
 	public static String getAudioFileUrl(AudioData audioData, IQuranLocation location) {
 		return getAudioFileUrl(audioData, location.getSura(), location.getAya());
+	}
+
+	/**
+	 * Try to compute time length in milliseconds. This method is taken from JavaZoom's jlgui.
+	 * 
+	 * @author JavaZoom
+	 * @param properties
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static long estimateAudioTime(Map properties) {
+		long milliseconds = -1;
+		int byteslength = -1;
+		if (properties != null) {
+			if (properties.containsKey("audio.length.bytes")) {
+				byteslength = ((Integer) properties.get("audio.length.bytes")).intValue();
+			}
+			if (properties.containsKey("duration")) {
+				milliseconds = (int) ((Long) properties.get("duration")).longValue() / 1000;
+			} else {
+				// Try to compute duration
+				int bitspersample = -1;
+				int channels = -1;
+				float samplerate = -1.0f;
+				int framesize = -1;
+				if (properties.containsKey("audio.samplesize.bits")) {
+					bitspersample = ((Integer) properties.get("audio.samplesize.bits")).intValue();
+				}
+				if (properties.containsKey("audio.channels")) {
+					channels = ((Integer) properties.get("audio.channels")).intValue();
+				}
+				if (properties.containsKey("audio.samplerate.hz")) {
+					samplerate = ((Float) properties.get("audio.samplerate.hz")).floatValue();
+				}
+				if (properties.containsKey("audio.framesize.bytes")) {
+					framesize = ((Integer) properties.get("audio.framesize.bytes")).intValue();
+				}
+				if (bitspersample > 0) {
+					milliseconds = (int) (1000.0f * byteslength / (samplerate * channels * (bitspersample / 8)));
+				} else {
+					milliseconds = (int) (1000.0f * byteslength / (samplerate * framesize));
+				}
+			}
+		}
+		return milliseconds;
 	}
 }
