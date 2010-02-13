@@ -46,7 +46,6 @@ public class PopupBox {
 				shell.close();
 			}
 		});
-
 	}
 
 	public Shell getShell() {

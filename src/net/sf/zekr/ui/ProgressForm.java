@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Shell;
  * A simple modal form, to show an SWT.INDETERMINATE progress bar.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ProgressForm extends BaseForm {
 	public static final int CALCELED = 0;
@@ -56,7 +55,7 @@ public class ProgressForm extends BaseForm {
 		GridLayout gl;
 		GridData gd;
 
-		shell = new Shell(display, SWT.TITLE | SWT.BORDER | SWT.SYSTEM_MODAL);
+		shell = createShell(display, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
 		shell.setData(ProgressForm.class.getName());
 		shell.setImages(parent.getImages());
 		shell.setText(title);
@@ -139,5 +138,9 @@ public class ProgressForm extends BaseForm {
 	public void close() {
 		state = CALCELED;
 		shell.close();
+	}
+
+	public String getFormId() {
+		return "MODAL_PROGRESS_FORM";
 	}
 }
