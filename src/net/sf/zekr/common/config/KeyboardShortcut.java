@@ -8,8 +8,12 @@
  */
 package net.sf.zekr.common.config;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import net.sf.zekr.engine.language.LanguageEngine;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -22,18 +26,15 @@ import org.w3c.dom.NodeList;
  * @author Mohsen Saboorian
  */
 public class KeyboardShortcut {
-	public class Key {
-		int stateMask;
-		int keyCode;
-	}
+	private Map<Integer, List<KeyboardAction>> keytoAction = new HashMap<Integer, List<KeyboardAction>>();
+	private Map<Integer, List<KeyboardAction>> keyToActionRtl = new HashMap<Integer, List<KeyboardAction>>();
 
-	private Map<Integer, String> keyToAction = new HashMap<Integer, String>();
-	private Map<Integer, String> rtlKeyToAction = new HashMap<Integer, String>();
 	private Map<String, Integer> actionToKey = new HashMap<String, Integer>();
-	private Map<String, Integer> rtlActionToKey = new HashMap<String, Integer>();
+	private Map<String, Integer> actionToKeyRtl = new HashMap<String, Integer>();
 	private Document doc;
 
 	Map<String, Integer> controlMap = new HashMap<String, Integer>();
+
 	{
 		controlMap.put("up", SWT.ARROW_UP);
 		controlMap.put("down", SWT.ARROW_DOWN);
@@ -53,7 +54,7 @@ public class KeyboardShortcut {
 	}
 
 	public KeyboardShortcut(Document shortcut) {
-		this.doc = shortcut;
+		doc = shortcut;
 	}
 
 	public void init() {
@@ -63,43 +64,74 @@ public class KeyboardShortcut {
 			Element mapping = (Element) mappings.item(i);
 			String action = mapping.getAttribute("action");
 			String key = mapping.getAttribute("key");
+			boolean isGlobal = Boolean.parseBoolean(mapping.getAttribute("global"));
+			boolean suppressOnModal = Boolean.parseBoolean(mapping.getAttribute("suppressOnModal"));
+			String window = isGlobal ? null : mapping.getAttribute("window");
 			String rtlKey = mapping.getAttribute("rtlKey");
-			for (int ii = 0; ii < 2; ii++) {
-				if (ii == 1) {
-					key = rtlKey;
-				}
-				if (StringUtils.isNotBlank(action) && StringUtils.isNotBlank(key)) {
-					key = key.toLowerCase();
-					String[] keyParts = StringUtils.split(key, '+');
-					int accel = 0;
-					for (int j = 0; j < keyParts.length; j++) {
-						String part = keyParts[j].trim();
-						if ("ctrl".equals(part)) {
-							accel |= SWT.CTRL;
-						} else if ("alt".equals(part)) {
-							accel |= SWT.ALT;
-						} else if ("shift".equals(part)) {
-							accel |= SWT.SHIFT;
-						} else if (controlMap.containsKey(part)) {
-							accel |= controlMap.get(part);
-						} else if (part.length() >= 2 && part.charAt(0) == 'f' && NumberUtils.isDigits(part.substring(1))) {
-							int f = Integer.parseInt(part.substring(1));
-							accel |= SWT.F1 - 1 + f;
-						} else if (part.length() == 1) {
-							accel |= part.toUpperCase().charAt(0);
-						}
-					}
 
-					if (ii == 0) { // key
-						keyToAction.put(accel, action);
-						actionToKey.put(action, accel);
-					} else { // rtlKey
-						rtlKeyToAction.put(accel, action);
-						rtlActionToKey.put(action, accel);
+			int keyCode = 0, keyCodeRtl = 0;
+			if (StringUtils.isNotBlank(action)) {
+				if (StringUtils.isNotBlank(key)) {
+					keyCode = extractKeyCode(key);
+				} else {
+					continue;
+				}
+				if (StringUtils.isNotBlank(rtlKey)) {
+					keyCodeRtl = extractKeyCode(rtlKey);
+				}
+
+				KeyboardAction command = new KeyboardAction(keyCode, keyCodeRtl, isGlobal, suppressOnModal, window, action);
+
+				if (keyCode > 0) {
+					List<KeyboardAction> actionList = keytoAction.get(keyCode);
+					if (actionList == null) {
+						actionList = new ArrayList<KeyboardAction>();
+						keytoAction.put(keyCode, actionList);
 					}
+					actionList.add(command);
+
+					actionToKey.put(action, keyCode);
+				}
+
+				if (keyCodeRtl > 0) {
+					List<KeyboardAction> actionListRtl = keyToActionRtl.get(keyCodeRtl);
+					if (actionListRtl == null) {
+						actionListRtl = new ArrayList<KeyboardAction>();
+						keyToActionRtl.put(keyCodeRtl, actionListRtl);
+					}
+					actionListRtl.add(command);
+
+					actionToKeyRtl.put(action, keyCodeRtl);
 				}
 			}
 		}
+	}
+
+	private int extractKeyCode(String key) {
+		key = key.toLowerCase();
+		key = StringUtils.replace(key, "\\+", "plus");
+		String[] keyParts = StringUtils.split(key, '+');
+		int accel = 0;
+		for (int j = 0; j < keyParts.length; j++) {
+			String part = keyParts[j].trim();
+			if ("ctrl".equals(part)) {
+				accel |= GlobalConfig.isMac ? SWT.COMMAND : SWT.CTRL;
+			} else if ("alt".equals(part)) {
+				accel |= SWT.ALT;
+			} else if ("shift".equals(part)) {
+				accel |= SWT.SHIFT;
+			} else if ("plus".equals(part)) {
+				accel |= '+';
+			} else if (controlMap.containsKey(part)) {
+				accel |= controlMap.get(part);
+			} else if (part.length() >= 2 && part.charAt(0) == 'f' && NumberUtils.isDigits(part.substring(1))) {
+				int f = Integer.parseInt(part.substring(1));
+				accel |= SWT.F1 - 1 + f;
+			} else if (part.length() == 1) {
+				accel |= part.toUpperCase().charAt(0);
+			}
+		}
+		return accel;
 	}
 
 	public static String keyCodeToString(int accelerator) {
@@ -110,13 +142,17 @@ public class KeyboardShortcut {
 			boolean ctrl = false, alt = false;
 			if ((accelerator & SWT.CONTROL) == SWT.CONTROL) {
 				accKey ^= SWT.CONTROL;
-				if (GlobalConfig.isMac) {
-					accelerator ^= SWT.CONTROL;
-					accelerator |= SWT.COMMAND;
-					combKey += "Command";
-				} else {
-					combKey += "Ctrl";
-				}
+				//if (GlobalConfig.isMac) {
+				// accelerator ^= SWT.CONTROL;
+				// accelerator |= SWT.COMMAND;
+				//combKey += "Command";
+				// } else {
+				combKey += "Ctrl";
+				//}
+				ctrl = true;
+			} else if ((accelerator & SWT.COMMAND) == SWT.COMMAND) {
+				accKey ^= SWT.COMMAND;
+				combKey += "Command";
 				ctrl = true;
 			}
 			if ((accelerator & SWT.ALT) == SWT.ALT) {
@@ -194,38 +230,29 @@ public class KeyboardShortcut {
 		return accelStr;
 	}
 
-	public String getActionForKey(Integer key, boolean isRtl) {
-		if (isRtl && rtlKeyToAction.get(key) != null) {
-			return rtlKeyToAction.get(key);
+	public List<KeyboardAction> getKeyActionList(Integer key) {
+		LanguageEngine lang = LanguageEngine.getInstance();
+		boolean rtl = GlobalConfig.hasBidiSupport && lang.isRtl();
+		if (rtl && keyToActionRtl.containsKey(key)) {
+			return keyToActionRtl.get(key);
+		} else {
+			return keytoAction.get(key);
 		}
-		return keyToAction.get(key);
 	}
 
 	public Integer getKeyForAction(String action, boolean isRtl) {
-		if (isRtl && rtlActionToKey.get(action) != null) {
-			return rtlActionToKey.get(action);
+		if (isRtl && actionToKeyRtl.get(action) != null) {
+			return actionToKeyRtl.get(action);
 		}
 		return actionToKey.get(action);
 	}
 
-	public Map<Integer, String> getKeyToAction(boolean isRtl) {
-		return isRtl ? rtlKeyToAction : keyToAction;
-	}
-
 	public Map<String, Integer> getActionToKey(boolean isRtl) {
-		return isRtl ? rtlActionToKey : actionToKey;
+		return isRtl ? actionToKeyRtl : actionToKey;
 	}
 
 	public Map<String, Integer> getActionToKey() {
 		return actionToKey;
-	}
-
-	public Map<Integer, String> getKeyToAction() {
-		return keyToAction;
-	}
-
-	public Map<Integer, String> getRtlKeyToAction() {
-		return rtlKeyToAction;
 	}
 
 	public static void main(String[] args) {
