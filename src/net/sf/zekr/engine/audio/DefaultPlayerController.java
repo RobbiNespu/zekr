@@ -34,7 +34,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 public class DefaultPlayerController implements PlayerController {
 	private static Logger logger = Logger.getLogger(DefaultPlayerController.class);
 
-	private BasicPlayer player;
+	private ZekrBasicPlayer player;
 	private int volume;
 	private boolean multiAya;
 	private int interval; // wait between two ayas (in milliseconds)
@@ -42,12 +42,14 @@ public class DefaultPlayerController implements PlayerController {
 	private PropertiesConfiguration props;
 	private PlayingItem playingItem = PlayingItem.AYA;
 	private PlayableObject currentPlayableObject;
+	@SuppressWarnings("unchecked")
+	private Map currentAudioInfo;
 	private List<BasicPlayerListener> playerListenerList = new ArrayList<BasicPlayerListener>();
 
 	/**
-	 * A fixed size cache for {@link BasicPlayer} objects whom <code>open</code> method is already called.
+	 * A fixed size cache for {@link ZekrBasicPlayer} objects whose <code>open</code> method is already called.
 	 */
-	private Map<PlayableObject, BasicPlayer> playerCache;
+	private Map<PlayableObject, ZekrBasicPlayer> playerCache;
 
 	public DefaultPlayerController(PropertiesConfiguration props) {
 		this.props = props;
@@ -57,11 +59,11 @@ public class DefaultPlayerController implements PlayerController {
 		multiAya = props.getBoolean("audio.continuousAya", true);
 
 		final int prefetcher = props.getInt("audio.cache.prefetcher", 1);
-		playerCache = new LinkedHashMap<PlayableObject, BasicPlayer>() {
+		playerCache = new LinkedHashMap<PlayableObject, ZekrBasicPlayer>() {
 			private static final long serialVersionUID = -9223127035368415046L;
 
 			@Override
-			protected boolean removeEldestEntry(java.util.Map.Entry<PlayableObject, BasicPlayer> eldest) {
+			protected boolean removeEldestEntry(java.util.Map.Entry<PlayableObject, ZekrBasicPlayer> eldest) {
 				return size() > prefetcher;
 			}
 		};
@@ -70,24 +72,40 @@ public class DefaultPlayerController implements PlayerController {
 	@SuppressWarnings("unchecked")
 	public void open(PlayableObject playableObject, boolean openForCaching) throws PlayerException {
 		// check if exists in the cache
-		BasicPlayer localPlayer = playerCache.get(playableObject);
+		ZekrBasicPlayer localPlayer = playerCache.get(playableObject);
 
 		if (openForCaching) {
 			if (localPlayer == null) {
-				localPlayer = new BasicPlayer();
+				localPlayer = new ZekrBasicPlayer();
+				localPlayer.addBasicPlayerListener(new BasicPlayerAdapter(localPlayer) {
+					@Override
+					public void opened(Object stream, Map properties) {
+						zekrBasicPlayer.setAudioInfo(properties);
+						// trying to remove this listener from here causes ConcurrentModificationException
+					}
+				});
 				playerCache.put(playableObject, localPlayer);
 			} else {
 				return; // already exists in the cache
 			}
-		} else { // hit in the cache
+		} else {
 			this.currentPlayableObject = playableObject;
 			boolean isAlreadyOpened = true;
 			if (localPlayer == null) {
 				isAlreadyOpened = false;
-				localPlayer = new BasicPlayer();
+				localPlayer = new ZekrBasicPlayer();
+				localPlayer.addBasicPlayerListener(new BasicPlayerAdapter(localPlayer) {
+					@Override
+					public void opened(Object stream, Map properties) {
+						currentAudioInfo = properties;
+						// trying to remove this listener from here causes ConcurrentModificationException
+					}
+				});
+			} else {
+				currentAudioInfo = localPlayer.getAudioInfo();
+				localPlayer.getListeners().clear();
 			}
 			this.player = localPlayer;
-			player.getListeners().clear();
 			player.getListeners().addAll(playerListenerList);
 			if (isAlreadyOpened) {
 				return;
@@ -189,7 +207,7 @@ public class DefaultPlayerController implements PlayerController {
 
 	public int getStatus() {
 		if (player == null) {
-			return BasicPlayer.UNKNOWN;
+			return ZekrBasicPlayer.UNKNOWN;
 		}
 		return player.getStatus();
 	}
@@ -197,7 +215,6 @@ public class DefaultPlayerController implements PlayerController {
 	public void addBasicPlayerListener(BasicPlayerListener bpl) {
 		playerListenerList.add(bpl);
 		// player.addBasicPlayerListener(bpl);
-
 	}
 
 	public Collection<BasicPlayerListener> getListeners() {
@@ -269,5 +286,10 @@ public class DefaultPlayerController implements PlayerController {
 
 	public PlayableObject getCurrentPlayableObject() {
 		return currentPlayableObject;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Map getCurrentAudioInfo() {
+		return currentAudioInfo;
 	}
 }
