@@ -52,7 +52,7 @@ public class AboutForm extends BaseForm {
 		GridLayout gl;
 		GridData gd;
 
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL);
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
 				new Image(display, resource.getString("icon.form32")),
 				new Image(display, resource.getString("icon.form48")),
@@ -172,10 +172,6 @@ public class AboutForm extends BaseForm {
 		shell.setSize(480, shell.getSize().y);
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById("ABOUT", key);
-	}
-
 	/**
 	 * @return <tt>used memory / total heap memory</tt>
 	 */
@@ -190,5 +186,9 @@ public class AboutForm extends BaseForm {
 
 	private void updateMemText() {
 		mem.setText(getMemText());
+	}
+
+	public String getFormId() {
+		return "ABOUT";
 	}
 }

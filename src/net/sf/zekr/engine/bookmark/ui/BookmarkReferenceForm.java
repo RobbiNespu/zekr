@@ -10,13 +10,11 @@ package net.sf.zekr.engine.bookmark.ui;
 
 import java.util.List;
 
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
 import net.sf.zekr.engine.language.LanguageEngine;
-import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.eclipse.swt.SWT;
@@ -32,14 +30,9 @@ import org.eclipse.swt.widgets.TableItem;
 /**
  * @author Mohsen Saboorian
  */
-public class BookmarkReferenceForm {
-	private final static Logger logger = Logger.getLogger(BookmarkReferenceForm.class);
-	private final static ApplicationConfig config = ApplicationConfig.getInstance();
-	private final static LanguageEngine lang = LanguageEngine.getInstance();
-	private final static ResourceManager resource = ResourceManager.getInstance();
-	private static final String FORM_ID = "BOOKMARK_REF";
-
-	private Shell shell, parent;
+public class BookmarkReferenceForm extends BaseForm {
+	public static final String FORM_ID = "BOOKMARK_REF";
+	private Shell parent;
 	private IQuranLocation location;
 	private Table table;
 	private List referenceList;
@@ -52,7 +45,7 @@ public class BookmarkReferenceForm {
 	}
 
 	private void init() {
-		shell = new Shell(parent, lang.getSWTDirection() | SWT.TOOL | SWT.SHELL_TRIM);
+		shell = createShell(parent, lang.getSWTDirection() | SWT.TOOL | SWT.SHELL_TRIM);
 		shell.setText(meaning("TITLE", location.toString()));
 		FillLayout fl = new FillLayout();
 		fl.marginHeight = fl.marginWidth = 2;
@@ -110,12 +103,7 @@ public class BookmarkReferenceForm {
 		shell.open();
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
+	public String getFormId() {
+		return FORM_ID;
 	}
-
-	private String meaning(String key, String value) {
-		return lang.getDynamicMeaningById(FORM_ID, key, new String[] { value });
-	}
-
 }

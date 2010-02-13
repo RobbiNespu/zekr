@@ -10,7 +10,6 @@ package net.sf.zekr.engine.search.ui;
 
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
-import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.IllegalSearchScopeItemException;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.SearchScopeItem;
@@ -45,7 +44,6 @@ import org.eclipse.swt.widgets.TableItem;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class SearchScopeForm extends BaseForm {
 	private Table table;
@@ -54,9 +52,6 @@ public class SearchScopeForm extends BaseForm {
 	private boolean canceled = true;
 	private SearchScope searchScope;
 	private Button addBut, remBut;
-
-	private static final Logger logger = Logger.getLogger(SearchScopeForm.class);
-	public static final String FORM_ID = "SEARCH_SCOPE_FORM";
 
 	public SearchScopeForm(Shell parent) {
 		searchScope = new SearchScope();
@@ -74,8 +69,8 @@ public class SearchScopeForm extends BaseForm {
 
 	private void _init() {
 		display = parent.getDisplay();
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
 		FillLayout fl = new FillLayout();
 		shell.setLayout(fl);
 		shell.setText(meaning("TITLE"));
@@ -372,10 +367,6 @@ public class SearchScopeForm extends BaseForm {
 		return !canceled;
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
-	}
-
 	private void remove() {
 		int[] rows = table.getSelectionIndices();
 		if (rows.length <= 0)
@@ -384,5 +375,9 @@ public class SearchScopeForm extends BaseForm {
 			table.remove(rows[i]);
 		}
 		remBut.setEnabled(false);
+	}
+
+	public String getFormId() {
+		return "SEARCH_SCOPE_FORM";
 	}
 }

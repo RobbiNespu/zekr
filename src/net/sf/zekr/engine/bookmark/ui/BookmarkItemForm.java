@@ -11,7 +11,6 @@ package net.sf.zekr.engine.bookmark.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
@@ -38,7 +37,6 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -69,10 +67,6 @@ public class BookmarkItemForm extends BaseForm {
 	private Button remBut;
 	private boolean readOnly;
 	private SashForm sashForm;
-
-	private static final ApplicationConfig config = ApplicationConfig.getInstance();
-
-	public static final String FORM_ID = "BOOKMARK_ITEM_FORM";
 
 	public BookmarkItemForm(Shell parent, BookmarkItem bookmarkItem, int bookmarkSetDirection) {
 		this.parent = parent;
@@ -128,7 +122,7 @@ public class BookmarkItemForm extends BaseForm {
 	private void _init() {
 		display = parent.getDisplay();
 
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 		FillLayout fl = new FillLayout();
 		shell.setLayout(fl);
 		shell.setText(meaning("TITLE"));
@@ -538,18 +532,6 @@ public class BookmarkItemForm extends BaseForm {
 		return !canceled;
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
-	}
-
-	public Shell getShell() {
-		return shell;
-	}
-
-	public Display getDisplay() {
-		return display;
-	}
-
 	private void remove() {
 		int[] rows = table.getSelectionIndices();
 		if (rows.length <= 0) {
@@ -561,4 +543,7 @@ public class BookmarkItemForm extends BaseForm {
 		}
 	}
 
+	public String getFormId() {
+		return "BOOKMARK_ITEM_FORM";
+	}
 }

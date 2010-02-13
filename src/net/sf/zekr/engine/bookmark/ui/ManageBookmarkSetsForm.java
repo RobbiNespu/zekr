@@ -14,15 +14,12 @@ import java.util.Collection;
 import java.util.List;
 
 import net.sf.zekr.common.ZekrBaseException;
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.bookmark.BookmarkSaveException;
 import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.bookmark.BookmarkSetGroup;
 import net.sf.zekr.engine.bookmark.BookmarkTransformer;
-import net.sf.zekr.engine.language.LanguageEngine;
-import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.MessageBoxUtils;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
@@ -47,7 +44,6 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -62,18 +58,12 @@ import org.eclipse.swt.widgets.Text;
  * 
  * @author Mohsen Saboorian
  */
-public class ManageBookmarkSetsForm {
+public class ManageBookmarkSetsForm extends BaseForm {
 	public static final String FORM_ID = "BOOKMARK_SET_MANAGE_FORM";
-	private static final LanguageEngine lang = LanguageEngine.getInstance();
-	private static final ResourceManager resource = ResourceManager.getInstance();
-	private final static Logger logger = Logger.getLogger(ManageBookmarkSetsForm.class);
-	private static final ApplicationConfig config = ApplicationConfig.getInstance();
 
 	private BookmarkSet bookmark;
 	private BookmarkSetGroup bmsg;
 
-	private Display display;
-	private Shell shell;
 	private Shell parent;
 	private Composite body;
 	private Button editButt;
@@ -91,7 +81,7 @@ public class ManageBookmarkSetsForm {
 		bookmark = config.getBookmark();
 
 		display = parent.getDisplay();
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 
 		bmsg = config.getBookmarkSetGroup();
 
@@ -612,14 +602,6 @@ public class ManageBookmarkSetsForm {
 		});
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
-	}
-
-	private String meaning(String key, String value) {
-		return lang.getDynamicMeaningById(FORM_ID, key, new String[] { value });
-	}
-
 	public void open() {
 		shell.setSize(400, 280);
 		// ID 1783886 - to make the hint show in full 
@@ -627,4 +609,9 @@ public class ManageBookmarkSetsForm {
 		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.open();
 	}
+
+	public String getFormId() {
+		return "BOOKMARK_SET_MANAGE_FORM";
+	}
+
 }

@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.page.FixedAyaPagingData;
 import net.sf.zekr.engine.page.HizbQuarterPagingData;
 import net.sf.zekr.engine.page.IPagingData;
@@ -40,8 +39,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class CustomPageModeForm extends BaseForm {
-	private static final String FORM_ID = "PAGING_MODE";
-	private final ApplicationConfig conf = ApplicationConfig.getInstance();
 	private Button editBut;
 	private org.eclipse.swt.widgets.List listWidget;
 	private String[] listItems;
@@ -51,8 +48,7 @@ public class CustomPageModeForm extends BaseForm {
 	public CustomPageModeForm(Shell parent) {
 		this.parent = parent;
 		display = parent.getDisplay();
-
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 		shell.setLayout(new FillLayout());
 		shell.setText(meaning("TITLE"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.paging")), });
@@ -70,8 +66,8 @@ public class CustomPageModeForm extends BaseForm {
 		listWidget = new org.eclipse.swt.widgets.List(body, SWT.BORDER | SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
 		listWidget.setLayoutData(gd);
 
-		QuranPaging qp = conf.getQuranPaging();
-		Collection<IPagingData> pagings = conf.getQuranPaging().getAllPagings();
+		QuranPaging qp = config.getQuranPaging();
+		Collection<IPagingData> pagings = config.getQuranPaging().getAllPagings();
 		listItems = new String[pagings.size()];
 		IPagingData[] builtinPagings = new IPagingData[] { qp.get(FixedAyaPagingData.ID), qp.get(SuraPagingData.ID),
 				qp.get(JuzPagingData.ID), qp.get(HizbQuarterPagingData.ID) };
@@ -100,7 +96,7 @@ public class CustomPageModeForm extends BaseForm {
 			}
 		});
 
-		int def = listModel.indexOf(conf.getQuranPaging().getDefault().getId());
+		int def = listModel.indexOf(config.getQuranPaging().getDefault().getId());
 		if (def > -1) {
 			listWidget.select(def);
 		}
@@ -165,10 +161,6 @@ public class CustomPageModeForm extends BaseForm {
 		cancelBut.setLayoutData(rdCancel);
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
-	}
-
 	public String getPagingMode() {
 		if (selectedMode == -1) {
 			return null;
@@ -179,5 +171,9 @@ public class CustomPageModeForm extends BaseForm {
 	private void doOk() {
 		selectedMode = listWidget.getSelectionIndex();
 		shell.close();
+	}
+
+	public String getFormId() {
+		return "PAGING_MODE";
 	}
 }

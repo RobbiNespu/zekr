@@ -34,7 +34,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class ManageScopesForm extends BaseForm {
-	private static final String FORM_ID = "MANAGE_SCOPES_FORM";
 	private Composite body;
 	private List<SearchScope> searchScopeList;
 	private org.eclipse.swt.widgets.List listWidget;
@@ -48,7 +47,7 @@ public class ManageScopesForm extends BaseForm {
 		this.parent = parent;
 		display = parent.getDisplay();
 		this.searchScopeList = searchScopes;
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 		FillLayout fl = new FillLayout();
 		shell.setLayout(fl);
 		shell.setText(meaning("TITLE"));
@@ -278,7 +277,7 @@ public class ManageScopesForm extends BaseForm {
 		return !canceled;
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
-	}
+	public String getFormId() {
+		return "MANAGE_SCOPES_FORM";
+	};
 }

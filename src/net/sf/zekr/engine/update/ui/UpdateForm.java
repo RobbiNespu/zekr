@@ -43,7 +43,7 @@ public class UpdateForm extends BaseForm {
 	private void makeForm() {
 		FillLayout fl = new FillLayout();
 		fl.marginHeight = fl.marginWidth = 5;
-		shell = new Shell(parent, SWT.CLOSE | SWT.RESIZE | SWT.SYSTEM_MODAL | lang.getSWTDirection());
+		shell = createShell(parent, SWT.CLOSE | SWT.RESIZE | SWT.APPLICATION_MODAL | lang.getSWTDirection());
 		shell.setLayout(fl);
 		shell.setText(meaning("TITLE"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.update.check16")),
@@ -69,8 +69,8 @@ public class UpdateForm extends BaseForm {
 		newLabel(body, meaning("VERSION") + ":", new GridData(GridData.BEGINNING));
 		newText(body, updateInfo.version, new GridData(SWT.FILL, SWT.BEGINNING, true, false), false);
 
-		String dateStr = updateInfo.releaseDate != null ?
-				DateFormat.getDateInstance().format(updateInfo.releaseDate) : "";
+		String dateStr = updateInfo.releaseDate != null ? DateFormat.getDateInstance().format(updateInfo.releaseDate)
+				: "";
 		newLabel(body, meaning("RELEASE_DATE") + ":", new GridData(GridData.BEGINNING));
 		newText(body, dateStr, new GridData(SWT.FILL, SWT.BEGINNING, true, false), false);
 
@@ -139,11 +139,7 @@ public class UpdateForm extends BaseForm {
 		return link;
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById("UPDATE", key);
-	}
-
-	public Shell getShell() {
-		return shell;
+	public String getFormId() {
+		return "UPDATE";
 	}
 }

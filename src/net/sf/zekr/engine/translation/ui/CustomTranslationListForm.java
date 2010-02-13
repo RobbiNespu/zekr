@@ -47,7 +47,6 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class CustomTranslationListForm extends BaseForm {
 	public static final String FORM_ID = "CONFIG_CUSTOM_TRANS";
-	private static final ApplicationConfig config = ApplicationConfig.getInstance();
 	private Button okBut;
 	private Button cancelBut;
 	private List sourceList, targetList;
@@ -63,7 +62,7 @@ public class CustomTranslationListForm extends BaseForm {
 	public CustomTranslationListForm(Shell parent) {
 		this.parent = parent;
 		display = parent.getDisplay();
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 
 		shell.setLayout(new FillLayout());
 		shell.setText(meaning("TITLE"));
@@ -360,10 +359,6 @@ public class CustomTranslationListForm extends BaseForm {
 		downBut.setEnabled(false);
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
-	}
-
 	public boolean isOkayed() {
 		return okayed;
 	}
@@ -376,5 +371,9 @@ public class CustomTranslationListForm extends BaseForm {
 			shell.setSize(shell.getSize().x, 400);
 		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.open();
+	}
+
+	public String getFormId() {
+		return FORM_ID;
 	}
 }

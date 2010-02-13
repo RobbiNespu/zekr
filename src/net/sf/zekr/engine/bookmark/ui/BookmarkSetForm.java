@@ -12,16 +12,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.bookmark.BookmarkItem;
 import net.sf.zekr.engine.bookmark.BookmarkSaveException;
 import net.sf.zekr.engine.bookmark.BookmarkSet;
-import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.MessageBoxUtils;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
@@ -57,7 +55,6 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
@@ -72,15 +69,11 @@ import org.eclipse.swt.widgets.TreeItem;
  * 
  * @author Mohsen Saboorian
  */
-public class BookmarkSetForm {
+public class BookmarkSetForm extends BaseForm {
 	public static final String FORM_ID = "BOOKMARK_SET_FORM";
-	private static final LanguageEngine lang = LanguageEngine.getInstance();
-	private static final ResourceManager resource = ResourceManager.getInstance();
-	private final static Logger logger = Logger.getLogger(BookmarkSetForm.class);
-	private static final ApplicationConfig config = ApplicationConfig.getInstance();
-	private Display display;
+	private static final Logger logger = Logger.getLogger(BookmarkSetForm.class);
 
-	Shell parent, shell;
+	Shell parent;
 	Composite bookmarksTabBody;
 	Composite bookmarksInfoTabBody;
 	GridLayout gl;
@@ -110,7 +103,7 @@ public class BookmarkSetForm {
 		bookmarkSetDirection = getBookmarkDirection();
 
 		display = parent.getDisplay();
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.MAX | SWT.MIN | SWT.RESIZE);
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.MAX | SWT.MIN | SWT.RESIZE);
 
 		GridLayout gl = new GridLayout(1, false);
 		shell.setLayout(gl);
@@ -831,14 +824,6 @@ public class BookmarkSetForm {
 		}
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
-	}
-
-	private String meaning(String key, String value) {
-		return lang.getDynamicMeaningById(FORM_ID, key, new String[] { value });
-	}
-
 	public void open() {
 		open(null);
 	}
@@ -868,7 +853,7 @@ public class BookmarkSetForm {
 		logger.debug("Open bookmarks form");
 	}
 
-	public Shell getShell() {
-		return shell;
+	public String getFormId() {
+		return FORM_ID;
 	}
 }

@@ -14,14 +14,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.util.I18N;
-import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
-import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.Theme;
 import net.sf.zekr.engine.theme.ThemeData;
+import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.MessageBoxUtils;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
@@ -50,7 +47,6 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -66,25 +62,17 @@ import org.eclipse.swt.widgets.ToolItem;
  * 
  * @author Mohsen Saboorian
  */
-public class OptionsForm {
+public class OptionsForm extends BaseForm {
 	public static final String FORM_ID = "OPTIONS_FORM";
+	private Shell parent;
+	private Composite body;
+	private GridLayout gl;
+	private GridData gd;
+	private Composite nav, det;
 
-	private static final LanguageEngine lang = LanguageEngine.getInstance();
-	private static final ResourceManager resource = ResourceManager.getInstance();
-	private static final Logger logger = Logger.getLogger(OptionsForm.class);
-	private static final ApplicationConfig config = ApplicationConfig.getInstance();
-	private Display display;
+	private ToolItem general, view;
 
-	Shell parent, shell;
-	Composite body;
-	GridLayout gl;
-	GridData gd;
-	Composite nav, det;
-
-	ToolItem general, view;
-
-	Composite detGroup;
-	Composite navGroup;
+	private Composite detGroup, navGroup;
 
 	private StackLayout sl;
 
@@ -122,7 +110,7 @@ public class OptionsForm {
 
 		rtl = lang.getSWTDirection() == SWT.RIGHT_TO_LEFT;
 
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.SYSTEM_MODAL | SWT.RESIZE);
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 		shell.setLayout(new FillLayout());
 		shell.setText(lang.getMeaning("OPTIONS"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.options16")),
@@ -574,13 +562,13 @@ public class OptionsForm {
 		delBut.setLayoutData(rd);
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
-	}
-
 	public void open() {
 		shell.pack();
 		shell.setLocation(FormUtils.getCenter(parent, shell));
 		shell.open();
+	}
+
+	public String getFormId() {
+		return "OPTIONS_FORM";
 	}
 }

@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -44,7 +43,7 @@ public class ErrorForm extends BaseForm {
 		this.display = display;
 		this.error = error;
 
-		shell = new Shell(display, getShellOptions());
+		shell = createShell(display, SWT.SHELL_TRIM | SWT.APPLICATION_MODAL);
 		shell.setText(lang.getMeaning("ERROR"));
 		shell.setImage(display.getSystemImage(SWT.ICON_ERROR));
 
@@ -127,10 +126,6 @@ public class ErrorForm extends BaseForm {
 		shell.close();
 	}
 
-	private int getShellOptions() {
-		return SWT.SHELL_TRIM | SWT.SYSTEM_MODAL;
-	}
-
 	public void show() {
 		shell.pack();
 		Point size = shell.getSize();
@@ -142,5 +137,9 @@ public class ErrorForm extends BaseForm {
 		shell.setLocation(FormUtils.getScreenCenter(display, shell.getBounds()));
 		shell.open();
 		loopEver();
+	}
+
+	public String getFormId() {
+		return "ERROR_FORM";
 	}
 }
