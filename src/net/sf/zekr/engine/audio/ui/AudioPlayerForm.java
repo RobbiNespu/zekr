@@ -10,11 +10,12 @@ package net.sf.zekr.engine.audio.ui;
 
 import java.util.List;
 
-import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.PlayStatus;
+import net.sf.zekr.engine.audio.PlayableObject;
 import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.QuranForm;
@@ -51,8 +52,9 @@ import org.eclipse.swt.widgets.Widget;
  * @author Mohsen Saboorian
  */
 public class AudioPlayerForm extends BaseForm {
-	final ApplicationConfig config = ApplicationConfig.getInstance();
 	public static final String FORM_ID = "AUDIO_PLAYER_FORM";
+	private static final int MAX_SEEK_VALUE = 1000;
+	private static final int MAX_VOLUME_VALUE = 100;
 
 	private PlayerController playerController;
 	private Button playPauseItem;
@@ -66,11 +68,12 @@ public class AudioPlayerForm extends BaseForm {
 	private Image volumeImage2;
 	private Image volumeImage3;
 
-	private boolean isLtr;
+	private boolean isRtl;
 	private int volume;
 
 	private Canvas volumeCanvas;
 	private ProgressBar volumeProgressBar;
+	private ProgressBar seekProgressBar;
 	private Composite middleRow;
 	private Composite topRow;
 	private Composite body;
@@ -92,7 +95,9 @@ public class AudioPlayerForm extends BaseForm {
 	private PropertiesConfiguration props;
 
 	public AudioPlayerForm(QuranForm quranForm, Shell parent) {
-		isLtr = config.getLanguageEngine().isLtr();
+		int l = lang.getSWTDirection();
+		isRtl = l == SWT.RIGHT_TO_LEFT && GlobalConfig.hasBidiSupport;
+
 		playerController = config.getPlayerController();
 		volume = playerController.getVolume();
 		uvc = config.getUserViewController();
@@ -107,8 +112,8 @@ public class AudioPlayerForm extends BaseForm {
 
 	@SuppressWarnings("unchecked")
 	private void init() {
-		shell = new Shell(parent, SWT.CLOSE /*| SWT.ON_TOP */| SWT.TOOL
-				| (isLtr ? SWT.LEFT_TO_RIGHT : SWT.RIGHT_TO_LEFT));
+		shell = createShell(parent, SWT.CLOSE /*| SWT.ON_TOP */| SWT.TOOL
+				| (isRtl ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT));
 		List shellLocationList = config.getProps().getList("audio.controller.location");
 		if (shellLocationList.size() > 1) {
 			shellLocation = new Point(Integer.parseInt(shellLocationList.get(0).toString()), Integer
@@ -169,8 +174,8 @@ public class AudioPlayerForm extends BaseForm {
 		singleAyaImage = new Image(display, resource.getString("icon.player.singleAya"));
 		multiAyaImage = new Image(display, resource.getString("icon.player.multiAya"));
 
-		playImage = new Image(display, isLtr ? resource.getString("icon.player.play") : resource
-				.getString("icon.player.playRtl"));
+		playImage = new Image(display, isRtl ? resource.getString("icon.player.playRtl") : resource
+				.getString("icon.player.play"));
 		pauseImage = new Image(display, resource.getString("icon.player.pause"));
 		stopImage = new Image(display, resource.getString("icon.player.stop"));
 		prevAyaImage = new Image(display, resource.getString("icon.player.prevAya"));
@@ -310,11 +315,31 @@ public class AudioPlayerForm extends BaseForm {
 		GridData gd;
 
 		gl = new GridLayout(3, false);
+		gl.verticalSpacing = 10;
 		middleRow.setLayout(gl);
+
+		gd = new GridData(SWT.FILL, SWT.CENTER, true, true);
+		gd.horizontalSpan = 3;
+		gd.heightHint = 13;
+		gd.verticalIndent = 5;
+		seekProgressBar = new ProgressBar(middleRow, SWT.SMOOTH | SWT.HORIZONTAL);
+		seekProgressBar.setMaximum(MAX_SEEK_VALUE);
+		seekProgressBar.setSelection(0);
+		seekProgressBar.setLayoutData(gd);
+		seekProgressBar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				ProgressBar progressBar = (ProgressBar) e.getSource();
+				handleSeeker(e, progressBar);
+				seek(progressBar.getSelection());
+			}
+		});
+		checkIfSeekIsSupported();
 
 		gd = new GridData();
 		gd.widthHint = 36;
 		gd.heightHint = 36;
+		// gd.verticalIndent = 5;
 		playPauseItem = new Button(middleRow, SWT.PUSH);
 		playPauseItem.setLayoutData(gd);
 		playerTogglePlayPause(playerController.getStatus() == PlayerController.PLAYING);
@@ -338,7 +363,7 @@ public class AudioPlayerForm extends BaseForm {
 
 		prevItem = new Button(nextPrevComposite, SWT.PUSH);
 		prevItem.setData("prev");
-		prevItem.setImage(isLtr ? prevAyaImage : nextAyaImage);
+		prevItem.setImage(isRtl ? nextAyaImage : prevAyaImage);
 		prevItem.setToolTipText(meaning("PREV_AYA"));
 
 		stopItem = new Button(nextPrevComposite, SWT.PUSH);
@@ -360,7 +385,7 @@ public class AudioPlayerForm extends BaseForm {
 
 		nextItem = new Button(nextPrevComposite, SWT.PUSH);
 		nextItem.setData("next");
-		nextItem.setImage(isLtr ? nextAyaImage : prevAyaImage);
+		nextItem.setImage(isRtl ? prevAyaImage : nextAyaImage);
 		nextItem.setToolTipText(meaning("NEXT_AYA"));
 
 		nextItem.addSelectionListener(navSelectionListener);
@@ -398,7 +423,9 @@ public class AudioPlayerForm extends BaseForm {
 		gd.widthHint = 100;
 		volumeProgressBar = new ProgressBar(volumeComposite, SWT.SMOOTH | SWT.HORIZONTAL);
 		volumeProgressBar.setSelection(volume);
+		volumeProgressBar.setMaximum(MAX_VOLUME_VALUE);
 		volumeProgressBar.setLayoutData(gd);
+		volumeProgressBar.setToolTipText(meaning("VOLUME"));
 		volumeProgressBar.addMouseMoveListener(new MouseMoveListener() {
 			public void mouseMove(MouseEvent e) {
 				if ((e.stateMask & SWT.BUTTON1) != 0) {
@@ -424,6 +451,18 @@ public class AudioPlayerForm extends BaseForm {
 		});
 	}
 
+	public void checkIfSeekIsSupported() {
+		// underlying player engine only supports seeking and progress for files
+		PlayableObject cpo = playerController.getCurrentPlayableObject();
+		if (cpo != null) {
+			seekProgressBar.setEnabled(cpo.getFile() != null);
+		}
+	}
+
+	public void seek(int selection) {
+		quranForm.playerUiController.seek(((float) selection) / MAX_SEEK_VALUE);
+	}
+
 	private void repaintAudioIcon(PaintEvent e) {
 		Image img;
 		if (volume <= 0) {
@@ -441,21 +480,35 @@ public class AudioPlayerForm extends BaseForm {
 	private void muteAudio() {
 		volume = 0;
 		volumeProgressBar.setSelection(0);
+		playerController.setVolume(volume);
+		volumeCanvas.redraw();
+	}
+
+	public void updateVolume() {
+		volume = playerController.getVolume();
+		volumeProgressBar.setSelection(volume);
 		volumeCanvas.redraw();
 	}
 
 	private void handleVolume(MouseEvent e, ProgressBar progressBar) {
+		handleProgressBar(e, progressBar, 7, MAX_VOLUME_VALUE);
+	}
+
+	private void handleSeeker(MouseEvent e, ProgressBar progressBar) {
+		handleProgressBar(e, progressBar, 4, MAX_SEEK_VALUE);
+	}
+
+	private void handleProgressBar(MouseEvent e, ProgressBar progressBar, int threshold, int maxProgress) {
 		int width = progressBar.getSize().x;
 		int progress = 0;
 		int x = e.x < 0 ? 0 : e.x > width ? width : e.x;
-		int threshold = 7;
 		if (x < threshold) {
 			progress = 0;
 		} else if (width - x < threshold) {
-			progress = 100;
+			progress = maxProgress;
 		} else {
 			float f = (float) x / width;
-			progress = (int) (f * 100);
+			progress = (int) (f * maxProgress);
 		}
 		progressBar.setSelection(progress);
 	}
@@ -480,6 +533,10 @@ public class AudioPlayerForm extends BaseForm {
 		}
 	}
 
+	public void progress(float progressPercent) {
+		seekProgressBar.setSelection(Math.round(progressPercent));
+	}
+
 	public void stop() {
 		quranForm.playerUiController.toggleAudioControllerForm(false);
 	}
@@ -488,11 +545,7 @@ public class AudioPlayerForm extends BaseForm {
 		shell.close();
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
-	}
-
-	public Shell getShell() {
-		return shell;
+	public String getFormId() {
+		return FORM_ID;
 	}
 }

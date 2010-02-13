@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.ui;
 
+import java.util.Map;
+
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranLocation;
@@ -43,7 +45,7 @@ public class AudioPlayerUiController {
 		this.quranForm = quranForm;
 		this.zekrPlayerListener = zekrPlayerListener;
 		this.playerController = playerController;
-		this.uvc = config.getUserViewController();
+		uvc = config.getUserViewController();
 	}
 
 	public void playerStop(boolean fromUser) {
@@ -136,6 +138,7 @@ public class AudioPlayerUiController {
 	public void playerUpdateAudioFormStatus() {
 		if (isAudioControllerFormOpen()) {
 			audioControllerForm.updatePlayerLabel();
+			audioControllerForm.checkIfSeekIsSupported();
 		}
 	}
 
@@ -272,5 +275,69 @@ public class AudioPlayerUiController {
 			audioControllerForm.playerTogglePlayPause(play);
 		}
 		quranForm.qmf.playerTogglePlayPause(play);
+	}
+
+	public void progress(float progressPercent) {
+		audioControllerForm.progress(10 * progressPercent);
+	}
+
+	/**
+	 * Taken from <code>PlayerUI.processSeek(double)</code> of JavaZoom's jlgui.
+	 * 
+	 * @param seekPercent should be a float number between 0.0 and 1.0
+	 */
+	@SuppressWarnings("unchecked")
+	public void seek(float seekPercent) {
+		Map audioInfo = playerController.getCurrentAudioInfo();
+		// boolean posValueJump;
+		try {
+			if (audioInfo != null && audioInfo.containsKey("audio.type")) {
+				String type = (String) audioInfo.get("audio.type");
+				// Seek support for MP3.
+				Integer bytesLength = (Integer) audioInfo.get("audio.length.bytes");
+				if (type.equalsIgnoreCase("mp3") && bytesLength != null) {
+					long skipBytes = Math.round(bytesLength.intValue() * seekPercent);
+					logger.debug(String.format("Seek bytes (MP3): %s, percent: %s.", skipBytes, seekPercent));
+					//					boolean paused = false;
+					//					if (playerController.getStatus() == PlayerController.PLAYING) {
+					//						playerTogglePlayPause(false, false);
+					//						// playerController.pause();
+					//						paused = true;
+					//					}
+					playerController.seek(skipBytes);
+					playerController.setVolume(playerController.getVolume());
+					//					if (paused && playerController.getStatus() == PlayerController.PAUSED) {
+					//						// playerController.resume();
+					//						playerTogglePlayPause(true, false);
+					//					}
+				}
+				// Seek support for WAV.
+				else if (type.equalsIgnoreCase("wave") && bytesLength != null) {
+					long skipBytes = Math.round(bytesLength.intValue() * seekPercent);
+					logger.debug(String.format("Seek bytes (WAVE): %s, percent: %s.", skipBytes, seekPercent));
+					playerController.seek(skipBytes);
+					playerController.setVolume(playerController.getVolume());
+				} else {
+					// posValueJump = false;
+				}
+			} else {
+				// posValueJump = false;
+			}
+		} catch (PlayerException pe) {
+			logger.error("Cannot seek.", pe);
+			// posValueJump = false;
+		}
+	}
+
+	/**
+	 * @param inc a value between -100 to +100 to be added to the old volume value
+	 */
+	public void addVolume(int inc) {
+		int newVol = Math.min(playerController.getVolume() + inc, 100);
+		newVol = Math.max(newVol, 0);
+		playerController.setVolume(newVol);
+		if (isAudioControllerFormOpen()) {
+			audioControllerForm.updateVolume();
+		}
 	}
 }
