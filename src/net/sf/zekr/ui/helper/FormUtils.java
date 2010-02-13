@@ -9,11 +9,13 @@
 
 package net.sf.zekr.ui.helper;
 
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.zekr.common.util.HyperlinkUtils;
+import net.sf.zekr.ui.ZekrForm;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.graphics.Point;
@@ -32,7 +34,6 @@ import org.eclipse.swt.widgets.Widget;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class FormUtils {
 	public static final String URL_DATA = "URL";
@@ -59,8 +60,8 @@ public class FormUtils {
 		return new Point((p.x - widgetSize.width) / 2, (p.y - widgetSize.height) / 2);
 	}
 
-	public static Table getTableFromMap(Composite parent, Map map, String title1, String title2, int width1, int width2,
-			Object layoutData, int style) {
+	public static Table getTableFromMap(Composite parent, Map<String, String> map, String title1, String title2,
+			int width1, int width2, Object layoutData, int style) {
 		Table table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION | style);
 		table.setLayoutData(layoutData);
 		table.setLinesVisible(true);
@@ -73,36 +74,23 @@ public class FormUtils {
 		valueCol.setText(title2);
 
 		String key, value;
-		for (Iterator iter = map.keySet().iterator(); iter.hasNext();) {
-			key = (String) iter.next();
-			value = map.get(key).toString();
+		for (Entry<String, String> entry : map.entrySet()) {
+			key = entry.getKey();
+			value = entry.getValue();
 			new TableItem(table, SWT.NONE).setText(new String[] { key, value });
 		}
 
-		if (width1 != SWT.DEFAULT)
+		if (width1 != SWT.DEFAULT) {
 			nameCol.setWidth(width1);
-		else
+		} else {
 			nameCol.pack();
-		if (width2 != SWT.DEFAULT)
-			valueCol.setWidth(width2);
-		else
-			valueCol.pack();
-
-		return table;
-	}
-
-	public static Table getEditableTable(Composite parent, Map map, String title1, String title2, int width1,
-			int width2, Object layoutData, int style) {
-		Table table = getTableFromMap(parent, map, title1, title2, width1, width2, layoutData, style);
-		TableItem[] items = table.getItems();
-		Iterator it = map.values().iterator();
-		for (int i = 0; i < items.length; i++) {
-			TableEditor editor = new TableEditor(table);
-			Text text = new Text(table, SWT.NONE);
-			editor.grabHorizontal = true;
-			editor.setEditor(text, items[i], 1);
-			text.setText((String) it.next());
 		}
+		if (width2 != SWT.DEFAULT) {
+			valueCol.setWidth(width2);
+		} else {
+			valueCol.pack();
+		}
+
 		return table;
 	}
 
@@ -125,17 +113,15 @@ public class FormUtils {
 	/**
 	 * For internal use only.
 	 */
-	public static void updateTable(Table table, Map map) {
+	public static void updateTable(Table table, Map<String, String> suraMap) {
 		TableItem[] items = table.getItems();
-		String key, value;
 		int i = 0;
-		for (Iterator iter = map.keySet().iterator(); iter.hasNext(); i++) {
-			key = (String) iter.next();
-			value = map.get(key).toString();
-			items[i].setText(new String[] { key, value });
+		for (Entry<String, String> entry : suraMap.entrySet()) {
+			items[i].setText(new String[] { entry.getKey(), entry.getValue() });
 		}
-		for (i = 0; i < table.getColumnCount(); i++)
+		for (i = 0; i < table.getColumnCount(); i++) {
 			table.getColumn(i).pack();
+		}
 	}
 
 	/**
@@ -154,7 +140,7 @@ public class FormUtils {
 	public static Point getCenter(Shell parent, Shell shell) {
 		int x = parent.getLocation().x + parent.getSize().x / 2;
 		int y = parent.getLocation().y + parent.getSize().y / 2;
-		return new Point(x - (shell.getSize().x / 2), y - (shell.getSize().y / 2));
+		return new Point(x - shell.getSize().x / 2, y - shell.getSize().y / 2);
 	}
 
 	/**
@@ -251,6 +237,25 @@ public class FormUtils {
 	public static void limitSize(Shell shell, int width, int height) {
 		Point size = shell.getSize();
 		shell.setSize(size.x > width ? width : size.x, size.y > height ? height : size.y);
+	}
+
+	public static Shell findShell(Display display, String shellId) {
+		Shell[] shells = display.getShells();
+		for (int i = 0; i < shells.length; i++) {
+			if (StringUtils.equals(shellId, (String) shells[i].getData(ZekrForm.FORM_ID))) {
+				return shells[i];
+			}
+		}
+		return null;
+	}
+
+	public static Shell findShell(String shellId) {
+		return findShell(Display.getCurrent(), shellId);
+	}
+
+	public static String getCurrentFormId() {
+		Shell shell = Display.getCurrent().getActiveShell();
+		return (String) (shell != null ? shell.getData(ZekrForm.FORM_ID) : null);
 	}
 
 }
