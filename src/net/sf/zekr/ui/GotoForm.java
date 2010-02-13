@@ -11,15 +11,12 @@ package net.sf.zekr.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
-import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.JuzProperties;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.SuraProperties;
-import net.sf.zekr.engine.language.LanguageEngine;
-import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.page.IPagingData;
 import net.sf.zekr.engine.revelation.RevelationData;
 import net.sf.zekr.engine.search.SearchUtils;
 import net.sf.zekr.ui.helper.FormUtils;
@@ -62,12 +59,7 @@ import org.eclipse.swt.widgets.Widget;
  * @author Mohsen Saboorian
  */
 public class GotoForm extends BaseForm implements FocusListener {
-	private static final String FORM_ID = "GOTO_FORM";
-
-	private final ApplicationConfig config = ApplicationConfig.getInstance();
-	private final LanguageEngine lang = config.getLanguageEngine();
-	private final ResourceManager resource = ResourceManager.getInstance();
-	private final static Logger logger = Logger.getLogger(GotoForm.class);
+	public static final String FORM_ID = "GOTO_FORM";
 	private final int CUSTOM_TRAVERSE = 1 << 20;
 
 	private TabFolder tabFolder;
@@ -79,6 +71,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 	private Group normalBody;
 	private List<Control> focusList;
 	private Spinner juzSpinner;
+	private Spinner pageSpinner;
 	private Spinner hizbQuarterSpinner;
 	private Combo suraCombo, suraRevelCombo;
 	private QuranForm quranForm;
@@ -105,12 +98,11 @@ public class GotoForm extends BaseForm implements FocusListener {
 
 		focusList = new ArrayList<Control>();
 
-		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE);
+		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.RESIZE);
 		shell.setText(meaning("TITLE"));
 		shell.setImages(new Image[] { new Image(display, resource.getString("icon.goto.form16")),
 				new Image(display, resource.getString("icon.goto.form32")) });
 		shell.setLayout(new FillLayout());
-		shell.setData("FORM_ID", FORM_ID);
 		shell.addShellListener(new ShellAdapter() {
 			@Override
 			public void shellClosed(ShellEvent e) {
@@ -166,7 +158,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 		GridData gd;
 
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		searchCombo = new Combo(smartBody, SWT.DROP_DOWN | SWT.NONE);
+		searchCombo = new Combo(smartBody, SWT.DROP_DOWN | SWT.SEARCH | SWT.NONE);
 		searchCombo.setData("id", "search");
 		searchCombo.setLayoutData(gd);
 		searchCombo.setVisibleItemCount(6);
@@ -258,7 +250,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 
 		gd = new GridData(SWT.FILL, SWT.LEAD, true, false);
 		gd.widthHint = 80;
-		suraAyaBox = new Text(normalBody, SWT.BORDER);
+		suraAyaBox = new Text(normalBody, SWT.BORDER | SWT.LEFT_TO_RIGHT);
 		suraAyaBox.setLayoutData(gd);
 		suraAyaBox.setData("id", "suraAyaBox");
 		suraAyaBox.setText(loc.getSura() + ":" + loc.getAya());
@@ -339,6 +331,29 @@ public class GotoForm extends BaseForm implements FocusListener {
 			}
 		});
 
+		Label pageLabel = new Label(normalBody, SWT.NONE);
+		pageLabel.setText(meaning("PAGE") + ":");
+
+		gd = new GridData(SWT.FILL, SWT.LEAD, true, false);
+		pageSpinner = new Spinner(normalBody, SWT.BORDER);
+		pageSpinner.setLayoutData(gd);
+		pageSpinner.setData("id", "page");
+		pageSpinner.setMinimum(1);
+		pageSpinner.setMaximum(config.getQuranPaging().getDefault().size());
+		pageSpinner.setSelection(uvc.getPage());
+		focusList.add(pageSpinner);
+		pageSpinner.addFocusListener(this);
+		pageSpinner.addTraverseListener(new TraverseListener() {
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == CUSTOM_TRAVERSE) {
+					String text = pageSpinner.getText();
+					if (StringUtils.isNotBlank(text)) {
+						gotoPage(Integer.parseInt(text));
+					}
+				}
+			}
+		});
+
 		gd = new GridData(SWT.BEGINNING, SWT.END, true, false);
 		gd.horizontalSpan = 2;
 		gd.verticalIndent = 10;
@@ -370,9 +385,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 		final RevelationData ro = config.getRevelation().getDefault();
 		if (ro != null) {
 			Label revelOrderLabel = new Label(normalBody, SWT.NONE);
-			revelOrderLabel.setText(lang.getDynamicMeaningById(FORM_ID, "REVELATION",
-					new String[] { ro.getLocalizedName() })
-					+ ":");
+			revelOrderLabel.setText(meaning("REVELATION", ro.getLocalizedName()) + ":");
 
 			gd = new GridData(SWT.FILL, SWT.LEAD, true, false);
 			suraRevelCombo = new Combo(normalBody, SWT.READ_ONLY);
@@ -451,6 +464,16 @@ public class GotoForm extends BaseForm implements FocusListener {
 	private void gotoJuz(int juzNum) {
 		JuzProperties juz = QuranPropertiesUtils.getJuz(juzNum);
 		navTo(juz.getLocation());
+	}
+
+	private void gotoPage(int pageNum) {
+		IPagingData paging = config.getQuranPaging().getDefault();
+		if (pageNum > paging.size()) {
+			pageNum = paging.size();
+		} else if (pageNum < 1) {
+			pageNum = 1;
+		}
+		navTo(paging.getQuranPage(pageNum).getFrom());
 	}
 
 	private void gotoHizbQuarter(int hizbQuarter) {
@@ -606,7 +629,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 		shell.close();
 	}
 
-	private String meaning(String key) {
-		return lang.getMeaningById(FORM_ID, key);
+	public String getFormId() {
+		return "GOTO_FORM";
 	}
 }
