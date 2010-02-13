@@ -24,8 +24,8 @@ public class FixedAyaPagingData extends AbstractQuranPagingData {
 	private int ayaPerPage;
 
 	public FixedAyaPagingData(int ayaPerPage) {
-		this.name = meaning("CONST_AYA");
-		this.id = ID;
+		name = meaning("CONST_AYA");
+		id = ID;
 		init(ayaPerPage);
 	}
 
@@ -35,7 +35,7 @@ public class FixedAyaPagingData extends AbstractQuranPagingData {
 	}
 
 	private void loadPaging() {
-		pageList = new ArrayList();
+		pageList = new ArrayList<QuranPage>();
 
 		int max = QuranPropertiesUtils.QURAN_AYA_COUNT;
 		int pageCount = max / ayaPerPage;

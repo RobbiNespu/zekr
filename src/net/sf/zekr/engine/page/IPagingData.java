@@ -31,7 +31,7 @@ public interface IPagingData {
 	/**
 	 * @return a list of all {@link IQuranPage}s
 	 */
-	public List getPageList();
+	public List<? extends IQuranPage> getPageList();
 
 	public int size();
 

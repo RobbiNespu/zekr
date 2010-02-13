@@ -24,13 +24,13 @@ public class SuraPagingData extends AbstractQuranPagingData {
 	public static final String ID = "<sura>";
 
 	public SuraPagingData() {
-		this.name = meaning("SURA");
-		this.id = ID;
+		name = meaning("SURA");
+		id = ID;
 
-		pageList = new ArrayList();
-		List suraList = QuranProperties.getInstance().getSuraList();
+		pageList = new ArrayList<QuranPage>();
+		List<SuraProperties> suraList = QuranProperties.getInstance().getSuraList();
 		for (int i = 1; i <= suraList.size(); i++) {
-			SuraProperties sura = (SuraProperties) suraList.get(i - 1);
+			SuraProperties sura = suraList.get(i - 1);
 			QuranPage qp = new QuranPage();
 			qp.setIndex(i);
 			qp.setFrom(new QuranLocation(i, 1));

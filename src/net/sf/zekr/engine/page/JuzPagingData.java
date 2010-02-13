@@ -25,17 +25,17 @@ import net.sf.zekr.common.resource.SuraProperties;
  */
 public class JuzPagingData extends AbstractQuranPagingData {
 	public static final String ID = "<juz>";
-	
-	public JuzPagingData() {
-		this.name = meaning("JUZ");
-		this.id = ID;
 
-		pageList = new ArrayList();
-		List juzList = QuranProperties.getInstance().getJuzList();
+	public JuzPagingData() {
+		name = meaning("JUZ");
+		id = ID;
+
+		pageList = new ArrayList<QuranPage>();
+		List<JuzProperties> juzList = QuranProperties.getInstance().getJuzList();
 		IQuranLocation oldLoc;
 		oldLoc = new QuranLocation(1, 1);
 		for (int i = 1; i < juzList.size(); i++) {
-			JuzProperties juz = (JuzProperties) juzList.get(i);
+			JuzProperties juz = juzList.get(i);
 			IQuranLocation loc = juz.getLocation();
 			QuranPage qp = new QuranPage();
 			qp.setIndex(i);

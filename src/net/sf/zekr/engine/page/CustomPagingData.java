@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
-import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.XmlReader;
 
 import org.w3c.dom.Element;
@@ -28,13 +27,12 @@ import org.w3c.dom.NodeList;
  * @author Mohsen Saboorian
  */
 public class CustomPagingData extends AbstractQuranPagingData implements IPagingData {
-	private final Logger logger = Logger.getLogger(this.getClass());
 	public File file;
 
 	private boolean loaded;
 
 	public CustomPagingData() {
-		pageList = new ArrayList();
+		pageList = new ArrayList<QuranPage>();
 	}
 
 	public void setId(String id) {
@@ -88,13 +86,14 @@ public class CustomPagingData extends AbstractQuranPagingData implements IPaging
 	public boolean equals(Object obj) {
 		if (obj instanceof CustomPagingData) {
 			CustomPagingData pd = (CustomPagingData) obj;
-			if (pd.id != null && id != null)
-				return pd.id.equals(this.id);
+			if (pd.id != null && id != null) {
+				return pd.id.equals(id);
+			}
 		}
 		return false;
 	}
 
 	public String toString() {
-		return loaded ? (getName() + " (" + size() + ")") : (getId() + " [" + lang.getMeaning("NOT_LOADED") + "]");
+		return loaded ? getName() + " (" + size() + ")" : getId() + " [" + lang.getMeaning("NOT_LOADED") + "]";
 	}
 }

@@ -18,7 +18,6 @@ import net.sf.zekr.common.resource.IQuranPage;
  */
 public class QuranPage implements IQuranPage {
 	private int index;
-	// private int pageSize;
 	private IQuranLocation from;
 	private IQuranLocation to;
 
@@ -33,14 +32,6 @@ public class QuranPage implements IQuranPage {
 	public IQuranLocation getFrom() {
 		return from;
 	}
-
-	//	void setPageSize(int pageSize) {
-	//		this.pageSize = pageSize;
-	//	}
-	//
-	//	public int getPageSize() {
-	//		return pageSize;
-	//	}
 
 	public void setFrom(IQuranLocation from) {
 		this.from = from;

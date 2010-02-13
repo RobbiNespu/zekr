@@ -28,27 +28,28 @@ public class HizbQuarterPagingData extends AbstractQuranPagingData {
 	public static final String ID = "<hizbQuarter>";
 
 	public HizbQuarterPagingData() {
-		this.name = meaning("HIZB_QUARTER");
-		this.id = ID;
+		name = meaning("HIZB_QUARTER");
+		id = ID;
 
-		pageList = new ArrayList();
-		List juzList = QuranProperties.getInstance().getJuzList();
+		pageList = new ArrayList<QuranPage>();
+		List<JuzProperties> juzList = QuranProperties.getInstance().getJuzList();
 
 		for (int i = 0; i < juzList.size(); i++) {
-			JuzProperties juz = (JuzProperties) juzList.get(i);
+			JuzProperties juz = juzList.get(i);
 			IQuranLocation[] hizbQuads = juz.getHizbQuarters();
 			QuranPage prevPage = null;
 			for (int j = 0; j < hizbQuads.length; j++) {
 				QuranPage page = new QuranPage();
 				page.setIndex(i * 8 + j + 1);
 				page.setFrom(hizbQuads[j]);
-				if (prevPage != null)
+				if (prevPage != null) {
 					prevPage.setTo(page.getFrom().getPrev());
+				}
 				prevPage = page;
 				pageList.add(page);
 			}
 			if (i < juzList.size() - 1) {
-				prevPage.setTo(((JuzProperties) juzList.get(i + 1)).getLocation().getPrev());
+				prevPage.setTo((juzList.get(i + 1)).getLocation().getPrev());
 			} else {
 				SuraProperties lastSura = QuranPropertiesUtils.getSura(QuranPropertiesUtils.QURAN_SURA_COUNT);
 				prevPage.setTo(new QuranLocation(QuranPropertiesUtils.QURAN_SURA_COUNT, lastSura.getAyaCount()));
