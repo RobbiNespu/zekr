@@ -55,11 +55,12 @@ public class AudioPlayerUiController {
 		}
 
 		playerController.stop();
-		togglePlayPauseState(false);
-		//		if (isAudioControllerFormOpen()) {
-		//			audioControllerForm.stop();
-		//		}
-		//		quranForm.qmf.playerStop();
+
+		if (isAudioControllerFormOpen()) {
+			audioControllerForm.playerTogglePlayPause(false);
+			audioControllerForm.stop();
+		}
+		quranForm.qmf.playerTogglePlayPause(false);
 	}
 
 	public void playerContinue(boolean gotoNext) {
@@ -298,18 +299,8 @@ public class AudioPlayerUiController {
 				if (type.equalsIgnoreCase("mp3") && bytesLength != null) {
 					long skipBytes = Math.round(bytesLength.intValue() * seekPercent);
 					logger.debug(String.format("Seek bytes (MP3): %s, percent: %s.", skipBytes, seekPercent));
-					//					boolean paused = false;
-					//					if (playerController.getStatus() == PlayerController.PLAYING) {
-					//						playerTogglePlayPause(false, false);
-					//						// playerController.pause();
-					//						paused = true;
-					//					}
 					playerController.seek(skipBytes);
 					playerController.setVolume(playerController.getVolume());
-					//					if (paused && playerController.getStatus() == PlayerController.PAUSED) {
-					//						// playerController.resume();
-					//						playerTogglePlayPause(true, false);
-					//					}
 				}
 				// Seek support for WAV.
 				else if (type.equalsIgnoreCase("wave") && bytesLength != null) {
@@ -339,5 +330,24 @@ public class AudioPlayerUiController {
 		if (isAudioControllerFormOpen()) {
 			audioControllerForm.updateVolume();
 		}
+	}
+
+	/**
+	 * @param percent a value between -100 to +100 to seek to. For example if current location is 67%, a -20
+	 *           causes seeking to 47%. Overall seek location of lower than 0 or higher than 100 are truncated.
+	 */
+	public void seekForward(int percent) {
+		// if (isAudioControllerFormOpen()) {
+		int status = playerController.getStatus();
+		if (status == PlayerController.PLAYING || status == PlayerController.PAUSED) {
+			float currentProgress = ((float) audioControllerForm.getProgress()) / AudioPlayerForm.MAX_SEEK_VALUE;
+			currentProgress = Math.max(Math.min(currentProgress + percent / 100.0f, 1f), 0f);
+			seek(currentProgress);
+		}
+		// }
+	}
+
+	public void updateRecitationListMenu() {
+		audioControllerForm.updateRecitationPopupMenu();
 	}
 }
