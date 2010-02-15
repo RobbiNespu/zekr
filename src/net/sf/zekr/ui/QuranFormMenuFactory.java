@@ -29,6 +29,7 @@ import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.HyperlinkUtils;
 import net.sf.zekr.common.util.I18N;
+import net.sf.zekr.common.util.ProgressListener;
 import net.sf.zekr.common.util.ZipUtils;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.PlayStatus;
@@ -46,6 +47,8 @@ import net.sf.zekr.engine.page.JuzPagingData;
 import net.sf.zekr.engine.page.SuraPagingData;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.helper.CocoaUiEnhancer;
+import net.sf.zekr.ui.helper.EventProtocol;
+import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -57,6 +60,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -74,6 +78,7 @@ public class QuranFormMenuFactory {
 	ApplicationConfig config;
 	LanguageEngine lang;
 	QuranForm quranForm;
+	Display display;
 	private final static ResourceManager resource = ResourceManager.getInstance();
 	private static final Logger logger = Logger.getLogger(QuranFormMenuFactory.class);
 
@@ -127,6 +132,7 @@ public class QuranFormMenuFactory {
 		props = config.getProps();
 		lang = config.getLanguageEngine();
 		this.shell = shell;
+		display = shell.getDisplay();
 		direction = lang.getSWTDirection();
 		rtl = direction == SWT.RIGHT_TO_LEFT;
 		playerController = config.getPlayerController();
@@ -154,7 +160,9 @@ public class QuranFormMenuFactory {
 		printItem = createMenuItem(SWT.PUSH, fileMenu, lang.getMeaning("PRINT") + "...", "print", "icon.menu.print");
 
 		// add exit item
-		exitItem = createMenuItem(SWT.PUSH, fileMenu, lang.getMeaning("EXIT"), "quit", "icon.menu.exit");
+		if (!GlobalConfig.isCocoa) {
+			exitItem = createMenuItem(SWT.PUSH, fileMenu, lang.getMeaning("EXIT"), "quit", "icon.menu.exit");
+		}
 
 		// ---- View -----
 		view = new MenuItem(menu, SWT.CASCADE | direction);
@@ -559,11 +567,19 @@ public class QuranFormMenuFactory {
 			}
 		});
 
-		MenuItem recitationAddItem = createMenuItem(SWT.PUSH, addMenu, lang.getMeaning("RECITATION") + "...",
-				"icon.menu.addPlaylist");
+		MenuItem recitationAddItem = createMenuItem(SWT.PUSH, addMenu, lang.getMeaning("RECITATION")
+				+ " (*.properties) ...", "icon.menu.addOnlineRecitation");
 		recitationAddItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
-				importPlaylist();
+				importOnlineRecitation();
+			}
+		});
+
+		MenuItem recitationPackAddItem = createMenuItem(SWT.PUSH, addMenu, lang.getMeaning("RECITATION")
+				+ " (*.recit.zip) ...", "icon.menu.addRecitationPack");
+		recitationPackAddItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				importRecitationPack();
 			}
 		});
 
@@ -619,7 +635,7 @@ public class QuranFormMenuFactory {
 				quranForm.quranFormController.about();
 			}
 		};
-		cue.hookApplicationMenu(quranForm.display, quitListener, aboutAction, preferencesAction);
+		cue.hookApplicationMenu(display, quitListener, aboutAction, preferencesAction);
 	}
 
 	private MenuItem createMenuItem(int swtStyle, Menu parentMenu, String text, String imageKey) {
@@ -642,7 +658,11 @@ public class QuranFormMenuFactory {
 				item.setAccelerator(accel);
 				String keyCodeToString = KeyboardShortcut.keyCodeToString(accel);
 				String accelStr = "\t" + keyCodeToString + (rtl ? I18N.LRM + "" : "");
-				text = FormUtils.addAmpersand(text) + accelStr;
+				if (GlobalConfig.isMac) {
+					text = FormUtils.addAmpersand(text);
+				} else {
+					text = FormUtils.addAmpersand(text) + accelStr;
+				}
 			}
 		}
 		item.setText(FormUtils.addAmpersand(text));
@@ -764,16 +784,14 @@ public class QuranFormMenuFactory {
 				}
 			});
 
-			for (AudioData audioData : recitationList) {
-				final MenuItem audioItem = new MenuItem(recitationListMenu, SWT.RADIO);
+			for (AudioData audioData : ret) {
+				MenuItem audioItem = new MenuItem(recitationListMenu, SWT.RADIO);
 				if (SHOW_MENU_IMAGE) {
-					audioItem.setImage(new Image(shell.getDisplay(), resource.getString("icon.menu.playlistItem")));
+					audioItem.setImage(new Image(shell.getDisplay(), audioData.isOffline() ? resource
+							.getString("icon.menu.offlineRecitationPack") : resource
+							.getString("icon.menu.onlineRecitationPack")));
 				}
-				String name = audioData.getLocalizedName();
-				audioItem.setText(StringUtils.abbreviate(name, GlobalConfig.MAX_MENU_STRING_LENGTH) + "\t"
-						+ audioData.quality + " ("
-						+ lang.getMeaning("ONLINE".equalsIgnoreCase(audioData.type) ? "ONLINE" : "OFFLINE") + ")"
-						+ (rtl ? I18N.LRM + "" : ""));
+				audioItem.setText(getAudioDataText(audioData));
 				audioItem.setData(audioData.id);
 				if (config.getAudio().getCurrent().id.equals(audioItem.getData())) {
 					audioItem.setSelection(true);
@@ -782,8 +800,8 @@ public class QuranFormMenuFactory {
 					public void handleEvent(Event event) {
 						MenuItem mi = (MenuItem) event.widget;
 						if (mi.getSelection() == true) {
-							if (!config.getAudio().getCurrent().id.equals(audioItem.getData())) {
-								setAudio((String) mi.getData());
+							if (!config.getAudio().getCurrent().id.equals(mi.getData())) {
+								setAudio(mi.getParent() == recitationListMenu, (String) mi.getData());
 							}
 						}
 					}
@@ -802,6 +820,10 @@ public class QuranFormMenuFactory {
 				HyperlinkUtils.openBrowser(GlobalConfig.RESOURCE_PAGE);
 			}
 		});
+	}
+
+	public Menu getRecitationListMenu() {
+		return recitationListMenu;
 	}
 
 	private String getTranslationValidityIcon(TranslationData td) {
@@ -861,7 +883,7 @@ public class QuranFormMenuFactory {
 		List<String> addedList = new ArrayList<String>();
 		try {
 			String transExt = GlobalConfig.isMac ? "*.zip" : "*.trans.zip";
-			transFileList = MessageBoxUtils.importFileDialog(shell, new String[] { "Translation Files (" + transExt + ")",
+			transFileList = MessageBoxUtils.importFileDialog(shell, new String[] { "Translation Packs (" + transExt + ")",
 					"All Files (*.*)" }, new String[] { transExt, "*.*" });
 			if (transFileList.size() <= 0) {
 				return;
@@ -968,14 +990,144 @@ public class QuranFormMenuFactory {
 		}
 	}
 
-	private void importPlaylist() {
+	private void importRecitationPack() {
+		final List<File> recitationFileList;
+		String recitExt = GlobalConfig.isMac ? "*.zip" : "*.recit.zip";
+		try {
+			recitationFileList = MessageBoxUtils.importFileDialog(shell, new String[] { "Recitation Packs (" + recitExt
+					+ ")" }, new String[] { recitExt }, false);
+			if (recitationFileList.size() <= 0) {
+				return;
+			}
+		} catch (IOException e) {
+			MessageBoxUtils.showActionFailureError(e);
+			logger.implicitLog(e);
+			return;
+		}
+
+		if (recitationFileList.size() <= 0) {
+			return;
+		}
+		final File file2Import = recitationFileList.get(0);
+
+		QuestionPromptForm qpf = new QuestionPromptForm(shell, new String[] {
+				lang.getMeaningById("IMPORT_QUESTION", "ME_ONLY"), lang.getMeaningById("IMPORT_QUESTION", "ALL_USERS") },
+				lang.getMeaningById("IMPORT_QUESTION", "IMPORT_FOR"), lang.getMeaning("QUESTION"), true,
+				new QuestionListener() {
+					List<String> errorList = new ArrayList<String>();
+					List<String> addedList = new ArrayList<String>();
+					String destDir;
+					boolean progress = true;
+					private AudioData audioData;
+
+					@Override
+					public void start(int result) {
+						if (result < 0) {
+							return;
+						}
+						if (result == 0) {
+							destDir = Naming.getAudioDir();
+						} else {
+							destDir = ApplicationPath.AUDIO_DIR;
+						}
+						logger.info("Adding recitation pack \"" + file2Import.getName() + "\" to " + destDir);
+						if ("zip".equalsIgnoreCase(FilenameUtils.getExtension(file2Import.getName()))) {
+							Thread t = new Thread() {
+								public void run() {
+									try {
+										ProgressListener progressListener = new ProgressListener() {
+											long totalSize = 0;
+											long sizeToNow = 0;
+
+											@Override
+											public void start(long totalSize) {
+												this.totalSize = totalSize;
+											}
+
+											@Override
+											public boolean progress(long itemSize) {
+												sizeToNow += itemSize;
+												final int p = Math.min((int) (100.0 * sizeToNow / totalSize), 99);
+
+												display.asyncExec(new Runnable() {
+													@Override
+													public void run() {
+														EventUtils.sendEvent(EventProtocol.IMPORT_PROGRESS, p);
+													}
+												});
+
+												return progress;
+											}
+
+											@Override
+											public void finish(AudioData ad) {
+												audioData = ad;
+												display.asyncExec(new Runnable() {
+													@Override
+													public void run() {
+														EventUtils.sendEvent(EventProtocol.IMPORT_PROGRESS_DONE);
+													}
+												});
+											}
+										};
+
+										config.addNewRecitationPack(display, file2Import, destDir, progressListener);
+									} catch (ZekrMessageException zme) {
+										display.asyncExec(new Runnable() {
+											@Override
+											public void run() {
+												EventUtils.sendEvent(EventProtocol.IMPORT_PROGRESS_DONE);
+											}
+										});
+										logger.error("Error importing: " + file2Import, zme);
+										errorList.add(lang.getDynamicMeaning(zme.getMessage(), zme.getParams()));
+									}
+								};
+							};
+							t.setDaemon(true);
+							t.start();
+						}
+					}
+
+					public void done() {
+						addedList.add(audioData == null ? file2Import.toString() : getAudioDataText(audioData));
+						if (config.getAudio().getCurrent() == null && errorList.size() <= 0 && recitationFileList.size() > 0) {
+							MessageBoxUtils.showMessage(lang.getMeaning("RESTART_APP"));
+						} else if (addedList.size() > 0) {
+							// stop player, if it's playing
+							quranForm.closeAudioSilently();
+							createOrUpdateRecitationMenu();
+							String str = lang.getMeaning("AUDIO") + " > " + lang.getMeaning("RECITATION");
+							String rlm = rtl ? I18N.RLM + "" : "";
+							MessageBoxUtils.showMessage(rlm + lang.getMeaning("ACTION_PERFORMED") + "\n"
+									+ lang.getDynamicMeaning("RECITATION_ADDED", new String[] { str }) + ":\n    "
+									+ CollectionUtils.toString(addedList, lang.getMeaning("COMMA") + "\n    "));
+						}
+					}
+
+					@Override
+					public void cancel() {
+						progress = false;
+					}
+				});
+		qpf.show();
+	}
+
+	private String getAudioDataText(AudioData audioData) {
+		String name = audioData.getLocalizedName();
+		return StringUtils.abbreviate(name, GlobalConfig.MAX_MENU_STRING_LENGTH) + "\t" + audioData.quality + " ("
+				+ lang.getMeaning("ONLINE".equalsIgnoreCase(audioData.type) ? "ONLINE" : "OFFLINE") + ")"
+				+ (rtl ? I18N.LRM + "" : "");
+	}
+
+	private void importOnlineRecitation() {
 		String destDir = ApplicationPath.AUDIO_DIR;
 		List<String> errorList = new ArrayList<String>();
 		List<String> addedList = new ArrayList<String>();
 		List<File> recitationFileList = new ArrayList<File>();
 		try {
-			recitationFileList = MessageBoxUtils.importFileDialog(shell, new String[] { "*.properties Recitation Files" },
-					new String[] { "*.properties" });
+			recitationFileList = MessageBoxUtils.importFileDialog(shell,
+					new String[] { "Online Recitation Files (*.properties)" }, new String[] { "*.properties" });
 			if (recitationFileList.size() <= 0) {
 				return;
 			}
@@ -997,11 +1149,13 @@ public class QuranFormMenuFactory {
 				File audioFile = new File(destDir + "/" + file2Import.getName());
 				FileUtils.copyFile(file2Import, audioFile);
 				try {
-					if (!config.addNewRecitation(audioFile)) {
+					AudioData audioData = config.addNewRecitation(audioFile);
+					if (audioData == null) {
 						errorList.add(lang.getDynamicMeaning("Invalid recitation format",
 								new String[] { audioFile.getName() }));
+					} else {
+						addedList.add(getAudioDataText(audioData));
 					}
-					addedList.add(audioFile.getName());
 				} catch (ZekrMessageException zme) {
 					logger.warn(zme);
 					errorList.add(lang.getDynamicMeaning(zme.getMessage(), zme.getParams()));
@@ -1100,8 +1254,20 @@ public class QuranFormMenuFactory {
 		}
 	}
 
-	private void setAudio(String audioId) {
+	public void setAudio(boolean fromMainMenu, String audioId) {
 		quranForm.playerUiController.changeRecitation(audioId);
+		if (fromMainMenu) {
+			quranForm.playerUiController.updateRecitationListMenu();
+		} else {
+			MenuItem[] mis = recitationListMenu.getItems();
+			for (MenuItem menuItem : mis) {
+				if (config.getAudio().getCurrent().id.equals(menuItem.getData())) {
+					menuItem.setSelection(true);
+				} else {
+					menuItem.setSelection(false);
+				}
+			}
+		}
 	}
 
 	public void toggleFullScreenItem(boolean selected) {
