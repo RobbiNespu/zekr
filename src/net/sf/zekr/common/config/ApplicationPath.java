@@ -41,6 +41,7 @@ public class ApplicationPath {
 	// extensions
 	public static final String REVEL_PACK_SUFFIX = rm.getString("text.revel.suffix");
 	public static final String TRANS_PACK_SUFFIX = rm.getString("text.trans.suffix");
+	public static final String RECIT_PACK_SUFFIX = rm.getString("audio.recit.suffix");
 	public static final String PAGING_PACK_SUFFIX = rm.getString("text.paging.suffix");
 
 	/**
@@ -74,5 +75,6 @@ public class ApplicationPath {
 
 	/** Velocity property file */
 	public static final String VELOCITY_CONFIG = rm.getString("config.template");
-
+	
+	public static final String RECITATION_DESC = rm.getString("audio.recit.desc");
 }

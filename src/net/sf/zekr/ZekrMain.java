@@ -62,20 +62,23 @@ public class ZekrMain {
 				try {
 					quranForm.loopEver();
 				} catch (Throwable th) {
-					if (logger != null)
+					if (logger != null) {
 						logger.log(th);
-					else
+					} else {
 						th.printStackTrace();
+					}
 				}
 			}
 		} catch (Throwable t) {
-			if (logger != null)
+			if (logger != null) {
 				logger.log(t);
-			else
+			} else {
 				t.printStackTrace();
+			}
 		} finally {
-			if (display != null)
+			if (display != null) {
 				display.dispose();
+			}
 			if (logger != null) {
 				logger.memInfo();
 				logger.info("Zekr is now down.\n");
@@ -84,7 +87,8 @@ public class ZekrMain {
 	}
 
 	public static void main(String[] args) {
-		if (CommandRunUtils.performAll(args))
+		if (CommandRunUtils.performAll(args)) {
 			startZekr();
+		}
 	}
 }

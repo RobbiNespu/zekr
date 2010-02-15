@@ -2,7 +2,7 @@
 <shortcut version="0.7.5beta3">
 <![CDATA[
 - if shortcut for right-to-left mode is different, specify rtlKey for mapping element.
-- use 'Alt', 'Ctrl', and 'Shift' modifiers only. Ctrl is treated as Command on Mac systems.
+- use 'Alt', 'Ctrl', and 'Shift' modifiers only. Ctrl is treated as Cmd on Mac systems.
 - function keys from F1 to F20 are supported.
 - If you want to use '+' key, write either 'plus' or '\+'. For example Ctlr+Plus or Ctrl+\+.
 - You original key code should placed after the last + sign.
@@ -18,7 +18,7 @@
     <!-- view -->
     <mapping action="reload" key="Ctrl+R" global="true" />
     <mapping action="configureMultiTrans" key="Ctrl+Shift+T" />
-    <mapping action="toggleFullScreen" key="F11" global="true" suppressOnModal="true" />
+    <mapping action="toggleFullScreen" key="F11" global="true" suppressOnModal="true" /> <!-- Ctrl+Shift+F -->
 
     <!-- goto -->
     <mapping action="gotoForm" key="Ctrl+G" global="true" suppressOnModal="true" />
@@ -44,6 +44,8 @@
     <mapping action="playerPrev" key="Ctrl+Alt+-" global="true" />
     <mapping action="playerVolumeUp" key="Ctrl+=" global="true" />
     <mapping action="playerVolumeDown" key="Ctrl+-" global="true" />
+    <mapping action="playerSeekForward" key="Alt+Shift+Right" rtlKey="Alt+Shift+Left" global="true" />
+    <mapping action="playerSeekBackward" key="Alt+Shift+Left" rtlKey="Alt+Shift+Right" global="true" />
 
     <!-- bookmark set -->
     <mapping action="manageBookmarks" key="Ctrl+B" suppressOnModal="true" />
