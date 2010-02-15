@@ -8,6 +8,9 @@
  */
 package net.sf.zekr.ui.error;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import net.sf.zekr.engine.language.LanguageEngineNaming;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.helper.FormUtils;
@@ -67,13 +70,16 @@ public class ErrorForm extends BaseForm {
 		errorDetail = new Text(errorGroup, SWT.BORDER | SWT.LEFT_TO_RIGHT | SWT.H_SCROLL | SWT.V_SCROLL);
 		errorDetail.setEditable(false);
 
-		StringBuffer buf = new StringBuffer(error.toString() + "\n");
-		StackTraceElement elements[] = error.getStackTrace();
-		for (int i = 0, n = elements.length; i < n; i++) {
-			buf.append("\t" + elements[i].toString() + "\n");
-		}
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		error.printStackTrace(pw);
+		//		StringBuffer buf = new StringBuffer(error.toString() + "\n");
+		//		StackTraceElement elements[] = error.getStackTrace();
+		//		for (int i = 0, n = elements.length; i < n; i++) {
+		//			buf.append("\t" + elements[i].toString() + "\n");
+		//		}
 
-		errorDetail.setText(buf.toString());
+		errorDetail.setText(sw.toString());
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.horizontalSpan = 3;
 		errorDetail.setLayoutData(gridData);
