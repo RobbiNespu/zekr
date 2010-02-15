@@ -401,6 +401,14 @@ public class QuranFormController {
 		quranForm.playerUiController.playerTogglePlayPause(playerStatus != PlayerController.PLAYING, true);
 	}
 
+	public void playerSeekForward() {
+		quranForm.playerUiController.seekForward(+15);
+	}
+
+	public void playerSeekBackward() {
+		quranForm.playerUiController.seekForward(-15);
+	}
+
 	public void playerVolumeUp() {
 		quranForm.playerUiController.addVolume(+10);
 	}

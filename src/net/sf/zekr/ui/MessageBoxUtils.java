@@ -20,6 +20,7 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -218,7 +219,7 @@ public class MessageBoxUtils {
 	 * @param selectedOption option number to be selected by default. This field is 0-base.
 	 * @param question the string to be placed as a question on the top of the dialog
 	 * @param title the text to be displayed as a title of this dialog
-	 * @return -1 if nothing was selected, or dialog closed/cancelled, or a 0-base selected item number
+	 * @return -1 if nothing was selected, or dialog closed/canceled, or a 0-base selected item number
 	 */
 	public static int radioQuestionPrompt(String[] options, int selectedOption, String question, String title) {
 		Shell parent = getShell();
@@ -345,17 +346,24 @@ public class MessageBoxUtils {
 	 * @param options answer options
 	 * @param question the string to be placed as a question on the top of the dialog
 	 * @param title the text to be displayed as a title of this dialog
-	 * @return -1 if nothing was selected, or dialog closed/cancelled, or a 0-base selected item number
+	 * @return -1 if nothing was selected, or dialog closed/canceled, or a 0-base selected item number
 	 */
 	public static int radioQuestionPrompt(String[] options, String question, String title) {
 		return radioQuestionPrompt(options, 0, question, title);
 	}
 
 	public static Shell getShell() {
-		// This causes bug on Linux
-		// return Display.getCurrent().getActiveShell();
-		Shell shells[] = Display.getCurrent().getShells();
-		return shells.length > 0 ? shells[0] : null;
+		return getShell(Display.getCurrent());
+	}
+
+	public static Shell getShell(Display display) {
+		Shell shell = display.getActiveShell();
+		if (shell != null) {
+			return shell;
+		} else {
+			Shell shells[] = display.getShells();
+			return shells.length > 0 ? shells[0] : null;
+		}
 	}
 
 	public static Shell getFullScreenToolbar(final QuranForm quranForm) {
@@ -412,6 +420,7 @@ public class MessageBoxUtils {
 	/**
 	 * This method opens a file chooser dialog and selects file filtering with the given wildcards.
 	 * 
+	 * @param parentShall
 	 * @param filterNames names of the filters
 	 * @param filterWildcards wildcard filters (e.g. *.zip)
 	 * @return a 0-item list if action canceled, no item was selected or selected items did not fit the
@@ -420,7 +429,23 @@ public class MessageBoxUtils {
 	 */
 	public static List<File> importFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards)
 			throws IOException {
-		FileDialog fd = new FileDialog(parentShall, SWT.OPEN | SWT.MULTI);
+		return importFileDialog(parentShall, filterNames, filterWildcards, true);
+	}
+
+	/**
+	 * This method opens a file chooser dialog and selects file filtering with the given wildcards.
+	 * 
+	 * @param parentShall
+	 * @param filterNames names of the filters
+	 * @param filterWildcards wildcard filters (e.g. *.zip)
+	 * @param multi indicates whether this open dialog can select multiple or single items
+	 * @return a 0-item list if action canceled, no item was selected or selected items did not fit the
+	 *         extension criteria. Otherwise, returns a list of selected files (of type <tt>java.io.File</tt>).
+	 * @throws IOException if any exception occurred during importing.
+	 */
+	public static List<File> importFileDialog(Shell parentShall, String[] filterNames, String[] filterWildcards,
+			boolean multi) throws IOException {
+		FileDialog fd = new FileDialog(parentShall, SWT.OPEN | (multi ? SWT.MULTI : SWT.SINGLE));
 		// fd.setFilterPath(GlobalConfig.getDefaultStartFolder()); // this code is a real pain!
 		fd.setFilterNames(filterNames);
 		fd.setFilterExtensions(filterWildcards); // Windows wild card

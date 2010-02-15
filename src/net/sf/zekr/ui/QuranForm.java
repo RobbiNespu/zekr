@@ -248,6 +248,8 @@ public class QuranForm extends BaseForm {
 		quranProp = QuranProperties.getInstance();
 		uvc = config.getUserViewController();
 
+		Display.setAppName(lang.getMeaning("APP_NAME"));
+
 		PlayerController playerController = config.getPlayerController();
 		searchPlayerController = config.getSearchPlayerController();
 		ZekrPlayerListener zekrPlayerListener = new ZekrPlayerListener(playerController, this);
@@ -1989,6 +1991,10 @@ public class QuranForm extends BaseForm {
 			}
 		});
 		return item;
+	}
+
+	public QuranFormMenuFactory getMenu() {
+		return qmf;
 	}
 
 	public String getFormId() {

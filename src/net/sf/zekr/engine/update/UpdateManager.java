@@ -92,7 +92,7 @@ public class UpdateManager {
 					logger.debug("Start update checking in a separate thread.");
 
 					if (manual) {
-						display.asyncExec(new ProgressThread(checkThread));
+						display.asyncExec(new ProgressThread(display, checkThread));
 					} else {
 						try {
 							Thread.sleep(2000); // wait some seconds to ensure that application is fully started up
@@ -149,13 +149,15 @@ public class UpdateManager {
 	}
 	private class ProgressThread extends Thread {
 		private Thread updateThread;
+		private Display display;
 
-		public ProgressThread(Thread updateThread) {
+		public ProgressThread(Display display, Thread updateThread) {
+			this.display = display;
 			this.updateThread = updateThread;
 		}
 
 		public void run() {
-			ProgressForm pf = new ProgressForm(MessageBoxUtils.getShell(), meaning("PLEASE_WAIT"), meaning("CHECKING")
+			ProgressForm pf = new ProgressForm(MessageBoxUtils.getShell(display), meaning("PLEASE_WAIT"), meaning("CHECKING")
 					+ "..." + "\n\n" + meaning("ZEKR_IS_CHECKING"));
 			pf.show();
 			while (!pf.getShell().isDisposed()) {
