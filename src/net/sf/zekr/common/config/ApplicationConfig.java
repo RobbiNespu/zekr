@@ -43,6 +43,8 @@ import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.CommonUtils;
 import net.sf.zekr.common.util.ConfigUtils;
+import net.sf.zekr.common.util.ProgressListener;
+import net.sf.zekr.common.util.ZipUtils;
 import net.sf.zekr.engine.audio.Audio;
 import net.sf.zekr.engine.audio.AudioCacheManager;
 import net.sf.zekr.engine.audio.AudioCacheManagerTimerTask;
@@ -89,6 +91,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -402,7 +405,7 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 		if (doc != null) {
 			logger.info("Initialize keyboard shortcuts and mappings.");
-			shortcut = new KeyboardShortcut(doc);
+			shortcut = new KeyboardShortcut(props, doc);
 			shortcut.init();
 		}
 	}
@@ -800,7 +803,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 			for (int audioIndex = 0; audioIndex < audioPropFiles.length; audioIndex++) {
 				try {
-					AudioData audioData = loadAudioData(audioPropFiles[audioIndex]);
+					AudioData audioData = loadAudioData(audioPropFiles[audioIndex], true);
 					if (audioData == null) {
 						continue;
 					}
@@ -841,39 +844,37 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	@SuppressWarnings("unchecked")
-	private AudioData loadAudioData(File audioFile) throws FileNotFoundException, UnsupportedEncodingException,
-			ConfigurationException, IOException {
-		Reader reader;
-		AudioData audioData;
-		FileInputStream fis;
-		fis = new FileInputStream(audioFile);
-		reader = new InputStreamReader(fis, "UTF-8");
-		PropertiesConfiguration pc = new PropertiesConfiguration();
-		pc.load(reader);
-		reader.close();
-		fis.close();
+	private AudioData loadAudioData(File audioFile, boolean convertOldFormat) throws FileNotFoundException,
+			UnsupportedEncodingException, ConfigurationException, IOException {
+		PropertiesConfiguration pc = ConfigUtils.loadConfig(audioFile, "UTF-8");
 
+		AudioData audioData;
 		audioData = new AudioData();
 		audioData.id = pc.getString("audio.id");
+		audioData.file = audioFile;
 		audioData.version = pc.getString("audio.version");
-		if (StringUtils.isBlank(audioData.version)) {
+		if (StringUtils.isBlank(audioData.version)) { // old format
 			logger.warn("Not a valid recitation file. No version specified: " + audioFile);
-			logger.info("Will try to convert recitation file: " + audioFile);
-			audioData = RecitationPackConverter.convert(audioFile);
-			if (audioData == null) {
-				logger.info("Conversion failed for " + audioFile);
+			if (convertOldFormat) {
+				logger.info("Will try to convert recitation file: " + audioFile);
+				audioData = RecitationPackConverter.convert(audioFile);
+				if (audioData == null) {
+					logger.info("Conversion failed for " + audioFile);
+					return null;
+				}
+				File destDir = new File(FilenameUtils.getFullPath(audioFile.getAbsolutePath()) + "old-recitation-files");
+				logger.info(String.format("Move %s to %s.", audioFile, destDir));
+				FileUtils.moveFileToDirectory(audioFile, destDir, true);
+
+				Writer w = new FileWriter(audioFile);
+				StringWriter sw = new StringWriter();
+				audioData.save(sw);
+				w.write(sw.toString());
+				IOUtils.closeQuietly(w);
+				return audioData;
+			} else {
 				return null;
 			}
-			File destDir = new File(FilenameUtils.getFullPath(audioFile.getAbsolutePath()) + "old-recitation-files");
-			logger.info(String.format("Move %s to %s.", audioFile, destDir));
-			FileUtils.moveFileToDirectory(audioFile, destDir, true);
-
-			Writer w = new FileWriter(audioFile);
-			StringWriter sw = new StringWriter();
-			audioData.save(sw);
-			w.write(sw.toString());
-			IOUtils.closeQuietly(w);
-			return audioData;
 		} else if (CommonUtils.compareVersions(audioData.version, AudioData.BASE_VALID_VERSION) < 0) {
 			logger.warn(String.format(
 					"Version is not supported anymore: %s. Zekr supports a recitation file of version %s or newer.",
@@ -1389,10 +1390,82 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 	}
 
-	public boolean addNewRecitation(File recitFile) throws ZekrMessageException {
+	public AudioData addNewRecitationPack(final Display display, File zipFileToImport, String destDir,
+			ProgressListener progressListener) throws ZekrMessageException {
+		try {
+			ZipFile zipFile = new ZipFile(zipFileToImport);
+			InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.RECITATION_DESC));
+
+			String tempFileName = System.currentTimeMillis() + "-" + ApplicationPath.RECITATION_DESC;
+			tempFileName = System.getProperty("java.io.tmpdir") + "/" + tempFileName;
+			File recitPropsFile = new File(tempFileName);
+			FileWriter output = new FileWriter(recitPropsFile);
+			InputStreamReader input = new InputStreamReader(is, "UTF-8");
+			IOUtils.copy(input, output);
+			output.close();
+			input.close();
+			logger.debug("Add new recitation: " + recitPropsFile);
+
+			AudioData newAudioData = loadAudioData(recitPropsFile, false);
+			if (newAudioData == null) {
+				logger.debug("Could not load recitation descriptor file: " + recitPropsFile);
+				throw new ZekrMessageException("INVALID_RECITATION_FORMAT", new String[] { zipFileToImport.getName() });
+			}
+			File newRecitPropsFile = new File(destDir, newAudioData.id + ".properties");
+
+			if (newRecitPropsFile.exists()) {
+				newRecitPropsFile.delete();
+			}
+			FileUtils.moveFile(recitPropsFile, newRecitPropsFile);
+
+			/*
+			ZipEntry recFolderEntry = zipFile.getEntry(newAudioData.id);
+			if (recFolderEntry == null || !recFolderEntry.isDirectory()) {
+				logger.warn(String.format("Recitation audio folder (%s) doesn't exist in the root of archive %s.",
+						newAudioData.id, zipFileToImport));
+				throw new ZekrMessageException("INVALID_RECITATION_FORMAT", new String[] { zipFileToImport.getName() });
+			}
+			*/
+
+			AudioData installedAudioData = audio.get(newAudioData.id);
+			if (installedAudioData != null) {
+				if (newAudioData.compareTo(installedAudioData) < 0) {
+					throw new ZekrMessageException("NEWER_VERSION_INSTALLED", new String[] { recitPropsFile.toString(),
+							newAudioData.lastUpdate, installedAudioData.lastUpdate });
+				}
+			}
+
+			newAudioData.file = newRecitPropsFile;
+
+			logger.info(String.format("Start uncompressing recitation: %s with size: %s to %s.",
+					zipFileToImport.getName(), FileUtils.byteCountToDisplaySize(zipFileToImport.length()), destDir));
+
+			boolean result = ZipUtils.extract(zipFileToImport, destDir, progressListener);
+			if (result) {
+				logger.info("Uncompressing process done: " + zipFileToImport.getName());
+				audio.add(newAudioData);
+			} else {
+				logger.info("Uncompressing process intrrrupted: " + zipFileToImport.getName());
+			}
+
+			FileUtils.deleteQuietly(new File(newRecitPropsFile.getParent(), ApplicationPath.RECITATION_DESC));
+
+			progressListener.finish(newAudioData);
+
+			return result ? newAudioData : null;
+		} catch (ZekrMessageException zme) {
+			throw zme;
+		} catch (Exception e) {
+			logger.error("Error occurred while adding new recitation archive.", e);
+			throw new ZekrMessageException("RECITATION_LOAD_FAILED", new String[] { zipFileToImport.getName(),
+					e.toString() });
+		}
+	}
+
+	public AudioData addNewRecitation(File recitFile) throws ZekrMessageException {
 		logger.debug("Add new recitation: " + recitFile);
 		try {
-			AudioData newAudioData = loadAudioData(recitFile);
+			AudioData newAudioData = loadAudioData(recitFile, true);
 			if (newAudioData == null) {
 				throw new ZekrMessageException("INVALID_RECITATION_FORMAT", new String[] { recitFile.getName() });
 			}
@@ -1404,7 +1477,7 @@ public class ApplicationConfig implements ConfigNaming {
 				}
 			}
 			audio.add(newAudioData);
-			return true;
+			return newAudioData;
 		} catch (ZekrMessageException zme) {
 			throw zme;
 		} catch (Exception e) {
