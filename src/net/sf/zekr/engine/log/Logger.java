@@ -152,12 +152,13 @@ public class Logger {
 	}
 
 	private void logException(Level level, Throwable th, boolean showForm) {
-		logger.log(level, "[Exception stack trace for \"" + th.toString() + "\"]");
-		StackTraceElement elements[] = th.getStackTrace();
-		for (int i = 0, n = elements.length; i < n; i++) {
-			logger.log(Priority.ERROR, STACK_TRACE_INDENRAION + elements[i].toString());
-		}
-		logger.log(level, "[/\"" + th.toString() + "\"]");
+		logger.log(level, "[Exception stack trace for \"" + th.toString() + "\"]", th);
+		//		logger.log(level, "[Exception stack trace for \"" + th.toString() + "\"]");
+		//		StackTraceElement elements[] = th.getStackTrace();
+		//		for (int i = 0, n = elements.length; i < n; i++) {
+		//			logger.log(Priority.ERROR, STACK_TRACE_INDENRAION + elements[i].toString());
+		//		}
+		//		logger.log(level, "[/\"" + th.toString() + "\"]");
 		if (showForm && ApplicationConfig.isFullyInitialized()) {
 			ErrorForm ef = new ErrorForm(Display.getCurrent(), th);
 			ef.show();
