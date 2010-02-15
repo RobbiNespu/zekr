@@ -636,6 +636,39 @@ Features/Enhancements:
 		- goto.focus property to save last focused box of Goto form.
 Bug fixes:
 	A bug with opening multi translation customization form fixed.
+
+Version 0.7.5 beta 4 - [15-02-10]
+Features/Enhancements:
+	Kasra+Shadda order is reversed in order to handle classic font rendering issue of kasra over a word and under shadda. This is done only when simple quran text (non-uthmani) is selected.
+	Added Tamil language pack, thanks to Ahamed Saifudeen.
+	A number of audio player enhancements:
+		- Added a new pre-fetching mechanism for audio files. Based on the value of property: audio.cache.prefetcher, a few of the next Quran locations are just open()ed. This will boost playing speed for online recitations.
+		- Added progress bar to audio player form to show playing progress. This only shows progress for offline recitations because of the limitation of the underlying audio engine.
+		- Added seek support to audio player. If this is an offline recitation and seek is supported for the current playing engine, clicking on a part of the player progress bar will seek to there.
+		- Added two new shortcuts to increase/decrease player volume by 10% (Increase: Ctrl+=, Decrease: Ctrl+-).
+		- Added two new shortcuts to seek forward or backward by 15%.
+		- Added a popup menu to change current recitation pack by clicking on recitation link at the top of audio player form.
+	Added page selection to Goto form.
+	Zekr now supports Application Menu for Cocoa Mac (under which About, Preferences and Quit are rendered).
+	Added a new import for recitation packs. These are offline .recit.zip packages containing a recitation descriptor (recitation.properties) and all mp3s.
+	In Goto form, when "Review" button is pressed, other inputs are synchronized with last focused input.
+	A fully enhanced key-binding system:
+		- Added three new attributes to shortcut.xml: window, suppressOnModal, and global. If suppressOnModal is true and
+			the active form is modal, the key pressed is ignored. If current form ID exists in form IDs specified in
+			comma-separated values of window attribute, action is performed. If not, it checks if this action command
+			is global (global=true). If it is global, shortcut command takes place regardless of the active shell ID.
+			If not, action may take place if current shell is QuranForm (form id is "QURAN_FORM_ID").
+		- Actions may now take place globally regardless of the current active shell. For example one may bring up "bookmarkThis"
+			command even if the current focus is on Audio Player form (because of the global="true" specified in bookmarkThis command).
+		- Command button is treated same as Control button if property key.commandAndControlAreSame is true.
+	Some icons grouped in separate folder under img/icon folder.
+Bug fixes:
+	Command is used instead of Ctrl in Mac.
+	Removed menu icons for Cocoa (Mac). This was already removed for Carbon.
+	Bug fix in logger. It now show the full stack trace (including cause) when some unexpected exception occurs.
+	Removed Tools > Options, File > Exit and Help > About menu items for Mac Cocoa for which they are rendered under Application Menu.
+	Accelerator text is not added to menus anymore in Mac.
+
 _____________________________________________________
 	TODO: Export search results
 
