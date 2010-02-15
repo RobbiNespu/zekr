@@ -8,13 +8,12 @@
  */
 package net.sf.zekr.engine.audio;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.zekr.engine.common.LocalizedResource;
@@ -50,6 +49,8 @@ public class AudioData extends LocalizedResource implements Comparable<AudioData
 
 	public String onlineUrl;
 	public String offlineUrl;
+
+	public File file;
 
 	public String getOnlineUrl(int sura, int aya) {
 		return String.format(onlineUrl, sura, aya);
@@ -114,5 +115,9 @@ public class AudioData extends LocalizedResource implements Comparable<AudioData
 
 	private void write(Writer writer, String key, String value) throws IOException {
 		writer.write(String.format("%s = %s\r\n", key, value == null ? "" : value));
+	}
+
+	public boolean isOffline() {
+		return "offline".equals(type);
 	}
 }
