@@ -250,7 +250,7 @@ public class FormUtils {
 	}
 
 	public static Shell findShell(String shellId) {
-		return findShell(Display.getCurrent(), shellId);
+		return findShell(Display.getDefault(), shellId);
 	}
 
 	public static String getCurrentFormId() {

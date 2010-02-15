@@ -11,6 +11,7 @@ package net.sf.zekr.ui.helper;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -24,7 +25,11 @@ public class EventUtils {
 	 * @param eventName <code>Event.data</code> to be sent
 	 */
 	public static void sendEvent(String eventName) {
-		sendEvent(EventProtocol.CUSTOM_ZEKR_EVENT, eventName);
+		sendEvent(EventProtocol.CUSTOM_ZEKR_EVENT, eventName, 0);
+	}
+
+	public static void sendEvent(String eventName, int detail) {
+		sendEvent(EventProtocol.CUSTOM_ZEKR_EVENT, eventName, detail);
 	}
 
 	/**
@@ -33,16 +38,19 @@ public class EventUtils {
 	 * 
 	 * @param eventType <code>Event.type</code> to be sent
 	 * @param eventName <code>Event.data</code> to be sent
+	 * @param detail
 	 */
-	public static void sendEvent(int eventType, String eventName) {
+	public static void sendEvent(int eventType, String eventName, int detail) {
 		Display disp = Display.getCurrent();
-		if (disp == null)
+		if (disp == null) {
 			return;
+		}
 		Shell shells[] = disp.getShells();
-		Event event = createEvent(eventType, eventName);
+		Event event = createEvent(eventType, eventName, detail);
 		for (int i = 0; i < shells.length; i++) {
-			if (shells[i].isListening(eventType))
+			if (shells[i].isListening(eventType)) {
 				shells[i].notifyListeners(eventType, event);
+			}
 		}
 	}
 
@@ -55,7 +63,7 @@ public class EventUtils {
 	 * @param eventName <code>Event.data</code> to be sent
 	 */
 	public static void sendEvent(Control control, int eventType, String eventName) {
-		Event event = createEvent(eventType, eventName);
+		Event event = createEvent(eventType, eventName, 0);
 		control.notifyListeners(eventType, event);
 	}
 
@@ -70,11 +78,11 @@ public class EventUtils {
 		sendEvent(control, EventProtocol.CUSTOM_ZEKR_EVENT, eventName);
 	}
 
-	private static Event createEvent(int eventType, String eventName) {
+	private static Event createEvent(int eventType, String eventName, int detail) {
 		Event event = new Event();
 		event.data = eventName;
 		event.type = eventType;
+		event.detail = detail;
 		return event;
 	}
-
 }

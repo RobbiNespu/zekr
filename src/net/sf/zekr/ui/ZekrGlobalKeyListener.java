@@ -69,14 +69,14 @@ class ZekrGlobalKeyListener implements Listener {
 					if (StringUtils.isNotBlank(keyboardAction.window)) {
 						String[] winList = keyboardAction.window.split(",");
 						if (ArrayUtils.contains(winList, formId) || keyboardAction.global) {
-							this.quranForm.quranFormController.executeAction(keyboardAction.action);
+							quranForm.quranFormController.executeAction(keyboardAction.action);
 							break;
 						}
 					} else if (keyboardAction.global) {
-						this.quranForm.quranFormController.executeAction(keyboardAction.action);
+						quranForm.quranFormController.executeAction(keyboardAction.action);
 						break;
-					} else if (StringUtils.equals(formId, QuranForm.FORM_ID)) { // act only when QuranForm is active
-						this.quranForm.quranFormController.executeAction(keyboardAction.action);
+					} else if (StringUtils.equals(formId, ZekrForm.FORM_ID)) { // act only when QuranForm is active
+						quranForm.quranFormController.executeAction(keyboardAction.action);
 						break;
 					}
 				}
@@ -93,8 +93,9 @@ class ZekrGlobalKeyListener implements Listener {
 		int keyCode = 0;
 		if ((event.stateMask & SWT.CTRL) == SWT.CTRL) {
 			keyCode = SWT.CTRL;
-		} else if ((event.stateMask & SWT.COMMAND) == SWT.COMMAND) {
-			keyCode = SWT.CTRL;
+		}
+		if ((event.stateMask & SWT.COMMAND) == SWT.COMMAND) {
+			keyCode = SWT.COMMAND;
 		}
 		if ((event.stateMask & SWT.ALT) == SWT.ALT) {
 			keyCode |= SWT.ALT;

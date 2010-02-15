@@ -84,7 +84,7 @@ public class RootTabForm {
 
 	public RootTabForm(QuranForm quranForm, TabFolder tabFolder) {
 		this.quranForm = quranForm;
-		this.display = quranForm.display;
+		display = quranForm.display;
 		this.tabFolder = tabFolder;
 	}
 
@@ -100,7 +100,7 @@ public class RootTabForm {
 
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		gd.verticalIndent = 6;
-		searchCombo = new Combo(searchComp, SWT.DROP_DOWN | SWT.RIGHT_TO_LEFT);
+		searchCombo = new Combo(searchComp, SWT.DROP_DOWN | SWT.RIGHT_TO_LEFT | SWT.SEARCH);
 		searchCombo.setLayoutData(gd);
 		searchCombo.setVisibleItemCount(6);
 		searchCombo.addKeyListener(new KeyAdapter() {
@@ -315,13 +315,16 @@ public class RootTabForm {
 	private void find() {
 		String str;
 		str = searchCombo.getText().trim();
-		if ("".equals(str))
+		if ("".equals(str)) {
 			return; // do nothing
+		}
 
-		if (searchCombo.getItemCount() <= 0 || !str.equals(searchCombo.getItem(0)))
+		if (searchCombo.getItemCount() <= 0 || !str.equals(searchCombo.getItem(0))) {
 			searchCombo.add(str, 0);
-		if (searchCombo.getItemCount() > 40)
+		}
+		if (searchCombo.getItemCount() > 40) {
 			searchCombo.remove(40, searchCombo.getItemCount() - 1);
+		}
 
 		logger.info("Search started: " + str);
 		Date date1 = new Date();

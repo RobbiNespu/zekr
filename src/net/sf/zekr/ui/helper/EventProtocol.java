@@ -56,4 +56,20 @@ public interface EventProtocol {
 	 */
 	String UPDATE_SURA_NAMES = "UPDATE_SURA_NAMES";
 
+	/**
+	 * Event used to update of the import progress bar for recitations or other resources. In addition to this
+	 * data, event.detail also passes a number between 0 to 99 indicating the progress.
+	 */
+	String IMPORT_PROGRESS = "IMPORT_PROGRESS";
+
+	/**
+	 * Event used to update of the import progress bar for recitations or other resources to its highest point.
+	 * This event is raised when importing is finished.
+	 */
+	String IMPORT_PROGRESS_DONE = "IMPORT_PROGRESS_DONE";
+
+	/**
+	 * Event raised when importing of a recitation or other resource is canceled by user.
+	 */
+	String IMPORT_CANCELED = "IMPORT_CANCELED";
 }
