@@ -98,10 +98,11 @@ public class BrowserCallbackHandler {
 				PlayableObject playableObject = config.getAudioCacheManager().getPlayableObject(loc);
 				if (playableObject == null) {
 					logger.error("Search result audio for this location cannot be loaded: " + loc);
+				} else {
+					logger.debug(String.format("Open search result playable object: %s.", playableObject));
+					form.searchPlayerController.open(playableObject);
+					form.searchPlayerController.play();
 				}
-				logger.debug(String.format("Open search result playable object: %s.", playableObject));
-				form.searchPlayerController.open(playableObject);
-				form.searchPlayerController.play();
 			} else {
 				form.searchPlayerController.stop();
 			}
