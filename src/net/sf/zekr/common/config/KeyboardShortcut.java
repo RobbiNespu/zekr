@@ -15,6 +15,7 @@ import java.util.Map;
 
 import net.sf.zekr.engine.language.LanguageEngine;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.eclipse.swt.SWT;
@@ -31,9 +32,11 @@ public class KeyboardShortcut {
 
 	private Map<String, Integer> actionToKey = new HashMap<String, Integer>();
 	private Map<String, Integer> actionToKeyRtl = new HashMap<String, Integer>();
-	private Document doc;
 
-	Map<String, Integer> controlMap = new HashMap<String, Integer>();
+	private Map<String, Integer> controlMap = new HashMap<String, Integer>();
+
+	private Document doc;
+	private PropertiesConfiguration props;
 
 	{
 		controlMap.put("up", SWT.ARROW_UP);
@@ -53,7 +56,8 @@ public class KeyboardShortcut {
 		controlMap.put("tab", (int) SWT.TAB);
 	}
 
-	public KeyboardShortcut(Document shortcut) {
+	public KeyboardShortcut(PropertiesConfiguration props, Document shortcut) {
+		this.props = props;
 		doc = shortcut;
 	}
 
@@ -115,7 +119,13 @@ public class KeyboardShortcut {
 		for (int j = 0; j < keyParts.length; j++) {
 			String part = keyParts[j].trim();
 			if ("ctrl".equals(part)) {
-				accel |= GlobalConfig.isMac ? SWT.COMMAND : SWT.CTRL;
+				if (GlobalConfig.isMac && props.getBoolean("key.commandAndControlAreSame", true)) {
+					accel |= SWT.COMMAND;
+				} else {
+					accel |= SWT.CTRL;
+				}
+			} else if ("cmd".equals(part)) {
+				accel |= SWT.COMMAND;
 			} else if ("alt".equals(part)) {
 				accel |= SWT.ALT;
 			} else if ("shift".equals(part)) {
@@ -134,35 +144,36 @@ public class KeyboardShortcut {
 		return accel;
 	}
 
+	/**
+	 * Converts SWT bitwise key combination to its string representation.
+	 * 
+	 * @param accelerator SWT bitwise key combination
+	 * @return string representation of the accelerator
+	 */
 	public static String keyCodeToString(int accelerator) {
 		String accelStr = "";
 		if (accelerator != 0) {
 			int accKey = accelerator;
 			String combKey = "";
-			boolean ctrl = false, alt = false;
+			boolean ctrl = false, cmd = false, alt = false;
 			if ((accelerator & SWT.CONTROL) == SWT.CONTROL) {
 				accKey ^= SWT.CONTROL;
-				//if (GlobalConfig.isMac) {
-				// accelerator ^= SWT.CONTROL;
-				// accelerator |= SWT.COMMAND;
-				//combKey += "Command";
-				// } else {
 				combKey += "Ctrl";
-				//}
 				ctrl = true;
-			} else if ((accelerator & SWT.COMMAND) == SWT.COMMAND) {
+			}
+			if ((accelerator & SWT.COMMAND) == SWT.COMMAND) {
 				accKey ^= SWT.COMMAND;
-				combKey += "Command";
-				ctrl = true;
+				combKey += (ctrl ? "+" : "") + "Cmd";
+				cmd = true;
 			}
 			if ((accelerator & SWT.ALT) == SWT.ALT) {
 				accKey ^= SWT.ALT;
-				combKey += (ctrl ? "+" : "") + "Alt";
+				combKey += (ctrl || cmd ? "+" : "") + "Alt";
 				alt = true;
 			}
 			if ((accelerator & SWT.SHIFT) == SWT.SHIFT) {
 				accKey ^= SWT.SHIFT;
-				combKey += (alt || ctrl ? "+" : "") + "Shift";
+				combKey += (ctrl || cmd || alt ? "+" : "") + "Shift";
 			}
 			accelStr = combKey + "+";
 			if (accKey >= 'A' && accKey <= 'Z') {
@@ -256,6 +267,7 @@ public class KeyboardShortcut {
 	}
 
 	public static void main(String[] args) {
-		System.out.println((SWT.CONTROL | 'R') + " - " + KeyboardShortcut.keyCodeToString(SWT.CONTROL | 'R'));
+		int keyBit = SWT.COMMAND | SWT.SHIFT | SWT.ALT | SWT.INSERT;
+		System.out.println(keyBit + " - " + KeyboardShortcut.keyCodeToString(keyBit));
 	}
 }

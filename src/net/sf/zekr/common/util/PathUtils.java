@@ -43,10 +43,13 @@ public class PathUtils {
 	 * <code>&lt;base&gt;path/to/file</code> is incorrect.
 	 * 
 	 * @param unresolvedPath
+	 * @param unresolvedParentFolder this parameter will be taken as the parent folder of unresolvedPath if it
+	 *           started with none of {@link #WORKSPACE_RESOURCE}, {@link #BASE_RESOURCE},
+	 *           {@link #WORKSPACE_OR_BASE_RESOURCE}, or {@link #INSTALLDIR_RESOURCE}
 	 * @return a file refers to the resolved path of the input parameter or null if unresolvedPath is
 	 *         <code>null</code> or empty.
 	 */
-	public static File resolve(String unresolvedPath) {
+	public static File resolve(String unresolvedPath, String unresolvedParentFolder) {
 		String baseDir;
 		File resolvedFile;
 		if (org.apache.commons.lang.StringUtils.isBlank(unresolvedPath)) {
@@ -70,7 +73,7 @@ public class PathUtils {
 			resolvedFile = new File(GlobalConfig.ZEKR_INSTALL_DIR, unresolvedPath
 					.substring(INSTALLDIR_RESOURCE.length() + 1));
 		} else {
-			resolvedFile = new File(unresolvedPath);
+			resolvedFile = new File(unresolvedParentFolder, unresolvedPath);
 		}
 		return resolvedFile;
 	}
@@ -78,5 +81,4 @@ public class PathUtils {
 	public static boolean isOnlineContent(String fileName) {
 		return fileName.startsWith("http://") || fileName.startsWith("https://") || fileName.startsWith("ftp://");
 	}
-
 }

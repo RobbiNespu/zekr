@@ -49,7 +49,7 @@ public class AudioCacheManager {
 	public AudioCacheManager(PropertiesConfiguration props) {
 		capacitySize = props.getLong("audio.cache.capacitySize", 200);
 		flushSize = props.getLong("audio.cache.flushSize", 20);
-		userPath = PathUtils.resolve(props.getString("audio.cache.userPath", "<workspace>/audio/cache"));
+		userPath = PathUtils.resolve(props.getString("audio.cache.userPath", "<workspace>/audio/cache"), "");
 	}
 
 	public PlayableObject getPlayableObject(IQuranLocation location) throws PlayerException {
@@ -106,7 +106,7 @@ public class AudioCacheManager {
 					return new PlayableObject(cached);
 				}
 			} else {
-				File resolvedFile = PathUtils.resolve(filePath);
+				File resolvedFile = PathUtils.resolve(filePath, audioData.file.getParent());
 				if (resolvedFile != null && resolvedFile.exists()) {
 					return new PlayableObject(resolvedFile);
 				} else {
@@ -138,7 +138,7 @@ public class AudioCacheManager {
 					return new PlayableObject(cached);
 				}
 			} else {
-				File resolvedFile = PathUtils.resolve(filePath);
+				File resolvedFile = PathUtils.resolve(filePath, audioData.file.getParent());
 				if (resolvedFile != null && resolvedFile.exists()) {
 					return new PlayableObject(resolvedFile);
 				} else {

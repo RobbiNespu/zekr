@@ -35,7 +35,7 @@ public class AudioUtils {
 				return String.format(audioData.offlineUrl, sura, aya);
 			} else if ("offline-online".equals(audioData.type)) {
 				String offlineUrl = String.format(audioData.offlineUrl, sura, aya);
-				if (PathUtils.resolve(offlineUrl).exists()) {
+				if (PathUtils.resolve(offlineUrl, audioData.file.getParent()).exists()) {
 					return offlineUrl;
 				} else {
 					return String.format(audioData.onlineUrl, sura, aya);
@@ -54,7 +54,7 @@ public class AudioUtils {
 			if ("offline".equals(audioData.type)) {
 				return offlineUrl;
 			} else if ("offline-online".equals(audioData.type)) {
-				if (PathUtils.resolve(offlineUrl).exists()) {
+				if (PathUtils.resolve(offlineUrl, audioData.file.getParent()).exists()) {
 					return offlineUrl;
 				} else {
 					return onlineUrl;

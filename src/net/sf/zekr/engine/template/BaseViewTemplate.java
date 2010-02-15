@@ -99,7 +99,6 @@ public abstract class BaseViewTemplate implements ITransformer {
 		engine.put("UTILS", new VelocityUtils());
 		engine.put("I18N", new I18N(langEngine.getLocale()));
 		engine.put("RES", resource);
-		//engine.put("AUDIO_DISABLED", new Boolean(!config.isAudioEnabled()));
 
 		engine.putAll(td.processedProps);
 	}
