@@ -44,6 +44,10 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
@@ -53,8 +57,8 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class AudioPlayerForm extends BaseForm {
 	public static final String FORM_ID = "AUDIO_PLAYER_FORM";
-	private static final int MAX_SEEK_VALUE = 1000;
-	private static final int MAX_VOLUME_VALUE = 100;
+	public static final int MAX_SEEK_VALUE = 1000;
+	public static final int MAX_VOLUME_VALUE = 100;
 
 	private PlayerController playerController;
 	private Button playPauseItem;
@@ -86,13 +90,14 @@ public class AudioPlayerForm extends BaseForm {
 	private Image prevAyaImage;
 	private Image nextAyaImage;
 	private Image stopImage;
-	private Label playerLabel;
+	private Link playerLabel;
 	private Canvas playerCanvas;
 	private IUserView uvc;
 	private Point shellLocation;
 	private Combo intervalCombo;
 	private Combo repeatCombo;
 	private PropertiesConfiguration props;
+	private Menu recitationPopupMenu;
 
 	public AudioPlayerForm(QuranForm quranForm, Shell parent) {
 		int l = lang.getSWTDirection();
@@ -186,9 +191,63 @@ public class AudioPlayerForm extends BaseForm {
 		GridLayout gl = new GridLayout(1, false);
 		gl.marginHeight = 2;
 		topRow.setLayout(gl);
+
 		GridData gd = new GridData(SWT.FILL, SWT.BEGINNING, true, true);
-		playerLabel = new Label(topRow, SWT.NONE);
+		playerLabel = new Link(topRow, SWT.FLAT);
 		playerLabel.setLayoutData(gd);
+
+		recitationPopupMenu = new Menu(shell, SWT.POP_UP);
+		Menu origMenu = quranForm.getMenu().getRecitationListMenu();
+		MenuItem[] items = origMenu.getItems();
+		// MenuItem[] newItems = new MenuItem[items.length];
+		for (int i = 0; i < items.length; i++) {
+			MenuItem mi = new MenuItem(recitationPopupMenu, items[i].getStyle());
+			String text = items[i].getText();
+			if (text != null) {
+				mi.setText(text);
+			}
+			Object data = items[i].getData();
+			if (data != null) {
+				mi.setData(data);
+			}
+			Image img = items[i].getImage();
+			if (img != null) {
+				mi.setImage(img);
+			}
+			mi.setSelection(items[i].getSelection());
+			Listener[] listeners = items[i].getListeners(SWT.Selection);
+			for (int j = 0; j < listeners.length; j++) {
+				mi.addListener(SWT.Selection, listeners[j]);
+			}
+			// newItems[i] = mi;
+		}
+
+		// playerLabel.setMenu(recitationPopupMenu);
+		playerLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				//				Point loc = display.map(playerLabel, null, 0, 0);
+				//				Point size = playerLabel.getSize();
+				//				recitationPopupMenu.setLocation(loc.x, loc.y + size.y);
+				//				recitationPopupMenu.setVisible(true);
+			}
+		});
+		playerLabel.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
+				if ("recitation".equals(event.text)) {
+					Point loc = display.map(playerLabel, null, 0, 0);
+					Point size = playerLabel.getSize();
+					recitationPopupMenu.setLocation(loc.x, loc.y + size.y);
+					recitationPopupMenu.setVisible(true);
+				}
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				widgetDefaultSelected(event);
+			}
+		});
 		updatePlayerLabel();
 	}
 
@@ -199,10 +258,12 @@ public class AudioPlayerForm extends BaseForm {
 		AudioData audioData = config.getAudio().getCurrent();
 		String status = getPlayerStatus();
 		IQuranLocation l = uvc.getLocation();
-		String s = String.format("%s (%s):%s | %s: %s | %s", l.getSuraName(), l.getSura(), l.getAya(),
+		String text = String.format("%s (%s):%s | <a href=\"recitation\">%s: %s</a> | %s", l.getSuraName(), l.getSura(),
+				l.getAya(), meaning("RECITER"), audioData.getLocalizedName(), status);
+		String tooltip = String.format("%s (%s):%s | %s: %s | %s", l.getSuraName(), l.getSura(), l.getAya(),
 				meaning("RECITER"), audioData.getLocalizedName(), status);
-		playerLabel.setText(s);
-		playerLabel.setToolTipText(s);
+		playerLabel.setText(text);
+		playerLabel.setToolTipText(tooltip);
 	}
 
 	public String getPlayerStatus() {
@@ -284,7 +345,7 @@ public class AudioPlayerForm extends BaseForm {
 		secondsLabel.setToolTipText(meaning("SECONDS"));
 
 		gd = new GridData(SWT.END, SWT.FILL, true, true);
-		contButton = new Button(bottomComposite, SWT.PUSH);
+		contButton = new Button(bottomComposite, SWT.PUSH | SWT.FLAT);
 		contButton.setLayoutData(gd);
 		setContinuityImage(playerController.isMultiAya());
 		contButton.addSelectionListener(new SelectionAdapter() {
@@ -340,7 +401,7 @@ public class AudioPlayerForm extends BaseForm {
 		gd.widthHint = 36;
 		gd.heightHint = 36;
 		// gd.verticalIndent = 5;
-		playPauseItem = new Button(middleRow, SWT.PUSH);
+		playPauseItem = new Button(middleRow, SWT.PUSH | SWT.FLAT);
 		playPauseItem.setLayoutData(gd);
 		playerTogglePlayPause(playerController.getStatus() == PlayerController.PLAYING);
 
@@ -361,12 +422,12 @@ public class AudioPlayerForm extends BaseForm {
 		nextPrevComposite.setLayoutData(gd);
 		nextPrevComposite.setLayout(rl);
 
-		prevItem = new Button(nextPrevComposite, SWT.PUSH);
+		prevItem = new Button(nextPrevComposite, SWT.PUSH | SWT.FLAT);
 		prevItem.setData("prev");
 		prevItem.setImage(isRtl ? nextAyaImage : prevAyaImage);
 		prevItem.setToolTipText(meaning("PREV_AYA"));
 
-		stopItem = new Button(nextPrevComposite, SWT.PUSH);
+		stopItem = new Button(nextPrevComposite, SWT.PUSH | SWT.FLAT);
 		stopItem.setImage(stopImage);
 		stopItem.setToolTipText(meaning("STOP"));
 		stopItem.addSelectionListener(new SelectionAdapter() {
@@ -383,7 +444,7 @@ public class AudioPlayerForm extends BaseForm {
 			}
 		};
 
-		nextItem = new Button(nextPrevComposite, SWT.PUSH);
+		nextItem = new Button(nextPrevComposite, SWT.PUSH | SWT.FLAT);
 		nextItem.setData("next");
 		nextItem.setImage(isRtl ? prevAyaImage : nextAyaImage);
 		nextItem.setToolTipText(meaning("NEXT_AYA"));
@@ -537,8 +598,11 @@ public class AudioPlayerForm extends BaseForm {
 		seekProgressBar.setSelection(Math.round(progressPercent));
 	}
 
-	public void stop() {
-		quranForm.playerUiController.toggleAudioControllerForm(false);
+	/**
+	 * @return progress value between 0 and {@link #MAX_SEEK_VALUE}.
+	 */
+	public int getProgress() {
+		return seekProgressBar.getSelection();
 	}
 
 	public void close() {
@@ -547,5 +611,20 @@ public class AudioPlayerForm extends BaseForm {
 
 	public String getFormId() {
 		return FORM_ID;
+	}
+
+	public void updateRecitationPopupMenu() {
+		MenuItem[] mis = recitationPopupMenu.getItems();
+		for (MenuItem menuItem : mis) {
+			if (config.getAudio().getCurrent().id.equals(menuItem.getData())) {
+				menuItem.setSelection(true);
+			} else {
+				menuItem.setSelection(false);
+			}
+		}
+	}
+
+	public void stop() {
+		seekProgressBar.setSelection(0);
 	}
 }
