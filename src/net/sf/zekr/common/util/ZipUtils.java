@@ -18,16 +18,12 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.sf.zekr.engine.log.Logger;
-
 /**
  * Some utilities for working with zip files.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
 public class ZipUtils {
-	private final static Logger logger = Logger.getLogger(ZipUtils.class);
 
 	/**
 	 * Extracts zip file <code>zipFile</code> info <code>destDir</code>
@@ -35,13 +31,20 @@ public class ZipUtils {
 	 * @param zipFile source zip file to be unzipped
 	 * @param destDir destination directory to extract content of the zip file into it. Will be created first,
 	 *           if does not exist.
+	 * @param progressListener
 	 * @throws IOException
+	 * @return <code>true</code> if extraction done, and <code>false</code> otherwise
 	 */
-	public static void extract(File zipFile, String destDir) throws IOException {
+	public static boolean extract(File zipFile, String destDir, ProgressListener progressListener) throws IOException {
+		boolean interrupted = false;
 		ZipFile zf = new ZipFile(zipFile);
 		Enumeration<? extends ZipEntry> e = zf.entries();
 		byte buffer[] = new byte[4096];
 		int readSize = -1;
+
+		if (progressListener != null) {
+			progressListener.start(zipFile.length());
+		}
 
 		while (e.hasMoreElements()) {
 			ZipEntry ze = e.nextElement();
@@ -50,10 +53,23 @@ public class ZipUtils {
 				entry.mkdirs();
 				continue;
 			}
+
+			if (progressListener != null) {
+				long size = ze.getCompressedSize();
+				if (size < 0) {
+					size = ze.getSize();
+				}
+				if (!progressListener.progress(size)) {
+					interrupted = true;
+					break;
+				}
+			}
+
 			File f = new File(destDir + File.separator + ze.getName());
 			File p = new File(f.getParent());
-			if (!p.exists())
+			if (!p.exists()) {
 				p.mkdirs();
+			}
 			f.createNewFile();
 			OutputStream os = new BufferedOutputStream(new FileOutputStream(f));
 
@@ -64,5 +80,19 @@ public class ZipUtils {
 			os.close();
 		}
 		zf.close();
+		return !interrupted;
+	}
+
+	/**
+	 * Extracts zip file <code>zipFile</code> info <code>destDir</code>
+	 * 
+	 * @param zipFile source zip file to be unzipped
+	 * @param destDir destination directory to extract content of the zip file into it. Will be created first,
+	 *           if does not exist.
+	 * @throws IOException
+	 * @return <code>true</code> if extraction done, and <code>false</code> otherwise
+	 */
+	public static boolean extract(File zipFile, String destDir) throws IOException {
+		return extract(zipFile, destDir, null);
 	}
 }
