@@ -9,6 +9,7 @@
 package net.sf.zekr.ui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.sf.zekr.common.config.IUserView;
@@ -45,8 +46,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.TabFolder;
@@ -59,6 +62,7 @@ import org.eclipse.swt.widgets.Widget;
  * @author Mohsen Saboorian
  */
 public class GotoForm extends BaseForm implements FocusListener {
+	private static final String UPDATE = "UPDATE";
 	public static final String FORM_ID = "GOTO_FORM";
 	private final int CUSTOM_TRAVERSE = 1 << 20;
 
@@ -82,12 +86,15 @@ public class GotoForm extends BaseForm implements FocusListener {
 	private Button gotoBut;
 
 	private Button reviewBut;
+	private List<String> suraNameList;
 
 	public GotoForm(Shell parent, QuranForm quranForm) {
 		display = parent.getDisplay();
 		this.parent = parent;
 		this.quranForm = quranForm;
 		uvc = config.getUserViewController();
+
+		suraNameList = Collections.unmodifiableList(QuranPropertiesUtils.getLocalizedSuraNameList());
 
 		init();
 	}
@@ -158,7 +165,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 		GridData gd;
 
 		gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		searchCombo = new Combo(smartBody, SWT.DROP_DOWN | SWT.SEARCH | SWT.NONE);
+		searchCombo = new Combo(smartBody, SWT.DROP_DOWN | SWT.SEARCH);
 		searchCombo.setData("id", "search");
 		searchCombo.setLayoutData(gd);
 		searchCombo.setVisibleItemCount(6);
@@ -191,6 +198,18 @@ public class GotoForm extends BaseForm implements FocusListener {
 		});
 
 		searchCombo.addFocusListener(this);
+		searchCombo.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (UPDATE.equals(event.text)) {
+					IQuranLocation location = uvc.getLocation();
+					String str = suraNameList.get(location.getSura() - 1) + ":" + location.getAya();
+					searchCombo.setText(str);
+					addToSearchCombo(str);
+				}
+			}
+		});
+
 		focusList.add(searchCombo);
 
 		gd = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
@@ -215,7 +234,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 		suraAyaList = new org.eclipse.swt.widgets.List(smartBody, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		suraAyaList.setData("id", "suraAyaList");
 		suraAyaList.setLayoutData(gd);
-		suraAyaList.setItems(getSuraNameList().toArray(new String[0]));
+		suraAyaList.setItems(suraNameList.toArray(new String[0]));
 		suraAyaList.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				if (gotoSuraAya()) {
@@ -283,6 +302,15 @@ public class GotoForm extends BaseForm implements FocusListener {
 				}
 			}
 		});
+		suraAyaBox.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (UPDATE.equals(event.text)) {
+					IQuranLocation loc = uvc.getLocation();
+					suraAyaBox.setText(loc.getSura() + ":" + loc.getAya());
+				}
+			}
+		});
 
 		Label hizbQuarterLabel = new Label(normalBody, SWT.NONE);
 		hizbQuarterLabel.setText(meaning("HIZB_QUARTER") + ":");
@@ -304,6 +332,16 @@ public class GotoForm extends BaseForm implements FocusListener {
 					if (StringUtils.isNotBlank(text)) {
 						gotoHizbQuarter(Integer.parseInt(text));
 					}
+				}
+			}
+		});
+		hizbQuarterSpinner.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (UPDATE.equals(event.text)) {
+					IQuranLocation loc = uvc.getLocation();
+					hizbQuarterSpinner.setSelection((QuranPropertiesUtils.getJuzOf(loc).getIndex() - 1) * 8
+							+ QuranPropertiesUtils.getHizbQuadIndex(loc));
 				}
 			}
 		});
@@ -330,6 +368,15 @@ public class GotoForm extends BaseForm implements FocusListener {
 				}
 			}
 		});
+		juzSpinner.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (UPDATE.equals(event.text)) {
+					IQuranLocation loc = uvc.getLocation();
+					juzSpinner.setSelection(QuranPropertiesUtils.getJuzOf(loc).getIndex());
+				}
+			}
+		});
 
 		Label pageLabel = new Label(normalBody, SWT.NONE);
 		pageLabel.setText(meaning("PAGE") + ":");
@@ -350,6 +397,14 @@ public class GotoForm extends BaseForm implements FocusListener {
 					if (StringUtils.isNotBlank(text)) {
 						gotoPage(Integer.parseInt(text));
 					}
+				}
+			}
+		});
+		pageSpinner.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (UPDATE.equals(event.text)) {
+					pageSpinner.setSelection(uvc.getPage());
 				}
 			}
 		});
@@ -381,11 +436,19 @@ public class GotoForm extends BaseForm implements FocusListener {
 				}
 			}
 		});
+		suraCombo.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (UPDATE.equals(event.text)) {
+					suraCombo.select(uvc.getLocation().getSura() - 1);
+				}
+			}
+		});
 
-		final RevelationData ro = config.getRevelation().getDefault();
-		if (ro != null) {
+		final RevelationData revelOrder = config.getRevelation().getDefault();
+		if (revelOrder != null) {
 			Label revelOrderLabel = new Label(normalBody, SWT.NONE);
-			revelOrderLabel.setText(meaning("REVELATION", ro.getLocalizedName()) + ":");
+			revelOrderLabel.setText(meaning("REVELATION", revelOrder.getLocalizedName()) + ":");
 
 			gd = new GridData(SWT.FILL, SWT.LEAD, true, false);
 			suraRevelCombo = new Combo(normalBody, SWT.READ_ONLY);
@@ -393,19 +456,27 @@ public class GotoForm extends BaseForm implements FocusListener {
 			suraRevelCombo.setData("id", "suraRevel");
 			suraRevelCombo.setItems(QuranPropertiesUtils.getIndexedRevelationOrderedSuraNames());
 			suraRevelCombo.setVisibleItemCount(10);
-			suraRevelCombo.select(ro.getOrder(loc.getSura()) - 1);
+			suraRevelCombo.select(revelOrder.getOrder(loc.getSura()) - 1);
 			focusList.add(suraRevelCombo);
 			suraRevelCombo.addFocusListener(this);
 			suraRevelCombo.addTraverseListener(new TraverseListener() {
 				public void keyTraversed(TraverseEvent e) {
 					if (e.detail == CUSTOM_TRAVERSE) {
 						int order = suraRevelCombo.getSelectionIndex();
-						RevelationData revel = ro;
+						RevelationData revel = revelOrder;
 						if (revel != null) {
 							gotoSura(revel.getSuraOfOrder(order + 1));
 						} else {
 							gotoSura(order + 1);
 						}
+					}
+				}
+			});
+			suraRevelCombo.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					if (UPDATE.equals(event.text)) {
+						suraRevelCombo.select(revelOrder.getOrder(uvc.getLocation().getSura()) - 1);
 					}
 				}
 			});
@@ -447,6 +518,14 @@ public class GotoForm extends BaseForm implements FocusListener {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				lastFocusedControl.traverse(CUSTOM_TRAVERSE);
+				for (Control control : focusList) {
+					if ((control != lastFocusedControl)
+							&& ((lastFocusedControl == suraAyaList && control != searchCombo) || (lastFocusedControl != suraAyaList))) {
+						Event event = new Event();
+						event.text = UPDATE;
+						control.notifyListeners(CUSTOM_ZEKR_EVENT, event);
+					}
+				}
 			}
 		});
 
@@ -516,18 +595,13 @@ public class GotoForm extends BaseForm implements FocusListener {
 			return false; // do nothing
 		}
 
-		if (searchCombo.getItemCount() <= 0 || !str.equals(searchCombo.getItem(0))) {
-			searchCombo.add(str, 0);
-		}
-		if (searchCombo.getItemCount() > 40) {
-			searchCombo.remove(40, searchCombo.getItemCount() - 1);
-		}
+		addToSearchCombo(str);
 
 		String[] s = StringUtils.split(str, ":");
 		if (s.length < 2) {
 			return false;
 		}
-		int sura = getSuraNameList().indexOf(s[0]);
+		int sura = suraNameList.indexOf(s[0]);
 		if (sura < 0) {
 			return false;
 		}
@@ -542,11 +616,20 @@ public class GotoForm extends BaseForm implements FocusListener {
 		return true;
 	}
 
+	private void addToSearchCombo(String str) {
+		if (searchCombo.getItemCount() <= 0 || !str.equals(searchCombo.getItem(0))) {
+			searchCombo.add(str, 0);
+		}
+		if (searchCombo.getItemCount() > 40) {
+			searchCombo.remove(40, searchCombo.getItemCount() - 1);
+		}
+	}
+
 	private String filterList(String filter) {
 		filter = filter.trim();
 		List<String> newList = new ArrayList<String>();
 		if (StringUtils.isBlank(filter)) {
-			newList = getSuraNameList();
+			newList = suraNameList;
 		} else {
 			int idx = filter.indexOf(':');
 			String num = "";
@@ -580,10 +663,6 @@ public class GotoForm extends BaseForm implements FocusListener {
 		return filter;
 	}
 
-	private List<String> getSuraNameList() {
-		return QuranPropertiesUtils.getLocalizedSuraNameList();
-	}
-
 	private static final String simplifyText(String filter) {
 		return SearchUtils.simplifySuranameText(filter);
 	}
@@ -594,8 +673,16 @@ public class GotoForm extends BaseForm implements FocusListener {
 
 	private boolean gotoSuraAya() {
 		int[] selection = suraAyaList.getSelectionIndices();
+		if (selection.length == 0) {
+			if (suraAyaList.getItemCount() > 0) {
+				suraAyaList.select(0);
+			}
+		}
+		selection = suraAyaList.getSelectionIndices();
 		if (selection.length > 0) {
-			searchCombo.setText(suraAyaList.getItem(selection[0]));
+			String str = suraAyaList.getItem(selection[0]);
+			// addToSearchCombo(str);
+			searchCombo.setText(str);
 			return internalGotoSuraAya();
 		}
 		return false;
