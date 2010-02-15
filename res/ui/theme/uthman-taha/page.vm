@@ -28,12 +28,9 @@
 <script>
 window.res = null;
 </script>
-#set ($AUDIO_ENABLED = !($AUDIO_DISABLED == true))
 <input type="hidden" id="hiddenSuraNum" value="$SURA_NUM" />
 <input type="hidden" id="hiddenAyaNum" value="$AYA_NUM" />
 <input type="hidden" id="hiddenCurrentItem" value="$AYA_NUM_IN_PAGE" />
-<input type="hidden" id="hiddenAyaCount" value="$AYA_COUNT" />
-<input type="hidden" id="hiddenAudioEnabled" value="$AUDIO_ENABLED" />
 <div id="headerBar" class="headerBar" dir="${DIRECTION}">
 	<table width="100%" style="padding: 0px; margin: 0px" cellspacing="0" cellpadding="0">
 		<tr valign="middle"><td align="$LEAD">
@@ -55,10 +52,6 @@ window.res = null;
 		</td></tr>
 	</table>
 </div>
-
-##if(!$AUDIO_DISABLED && (!($VIEW_LAYOUT == "separate") || $TRANSLATION == "true"))
-##parse("$THEME_DIR/player.vm")
-##end
 
 <script>
 $("input#suraNav,input#ayaNav,input#pageNav").bind("keyup", function(e) {
