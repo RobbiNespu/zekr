@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
  * 
  * @author Mohsen Saboorian
  */
-class QuranPropertiesReader extends BaseQuranProperties {
+class QuranPropertiesReader implements BaseQuranProperties {
 	private NodeList suraNodeList, juzNodeList, sajdaNodeList;
 	private ResourceManager resource = ResourceManager.getInstance();
 	private NodeList suraNodeListL10N;

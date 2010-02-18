@@ -69,7 +69,13 @@ public interface EventProtocol {
 	String IMPORT_PROGRESS_DONE = "IMPORT_PROGRESS_DONE";
 
 	/**
+	 * This event is raised when importing is failed.
+	 */
+	String IMPORT_PROGRESS_FAILED = "IMPORT_PROGRESS_FAILED";
+
+	/**
 	 * Event raised when importing of a recitation or other resource is canceled by user.
 	 */
 	String IMPORT_CANCELED = "IMPORT_CANCELED";
+
 }

@@ -37,8 +37,8 @@ public class SearchInfo {
 	 */
 	private Map<String, Map<Pattern, String>> replacePatternMap = new LinkedHashMap<String, Map<Pattern, String>>();
 
-	private Set<String> defaultStopWordSet;
-	private Map<Pattern, String> defaultReplacePatternMap;
+	private Set<String> defaultStopWordSet = new LinkedHashSet<String>();
+	private Map<Pattern, String> defaultReplacePatternMap = new LinkedHashMap<Pattern, String>();
 
 	public void addReplacePattern(String langCode, List<String> replacePatternList) {
 		Map<Pattern, String> patterns = addReplacePatterns(replacePatternList);
@@ -89,6 +89,20 @@ public class SearchInfo {
 			ret = defaultReplacePatternMap;
 		}
 		return ret;
+	}
+
+	public boolean containsLanguageReplacePattern(String langCode) {
+		return replacePatternMap.containsKey(langCode);
+	}
+
+	/**
+	 * Default replace pattern will be used when no language-specific replace pattern is specified in search
+	 * info file.
+	 * 
+	 * @return
+	 */
+	public Map<Pattern, String> getDefaultReplacePattern() {
+		return defaultReplacePatternMap;
 	}
 
 	/**

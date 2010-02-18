@@ -95,13 +95,15 @@ public class QuestionPromptForm extends BaseForm {
 
 		if (hasProgress) {
 			shell.addListener(EventProtocol.CUSTOM_ZEKR_EVENT, new Listener() {
-				@Override
 				public void handleEvent(Event event) {
 					if (EventProtocol.IMPORT_PROGRESS.equals(event.data)) {
 						int p = Math.max(Math.min(event.detail, 100), 0);
 						progessBar.setSelection(p);
-					} else if (EventProtocol.IMPORT_PROGRESS_DONE.equals(event.data)) {
-						progessBar.setSelection(100);
+					} else if (EventProtocol.IMPORT_PROGRESS_DONE.equals(event.data)
+							|| EventProtocol.IMPORT_PROGRESS_FAILED.equals(event.data)) {
+						if (EventProtocol.IMPORT_PROGRESS_DONE.equals(event.data)) {
+							progessBar.setSelection(100);
+						}
 						if (questionListener != null) {
 							questionListener.done();
 						}
@@ -252,7 +254,6 @@ public class QuestionPromptForm extends BaseForm {
 		// loopEver();
 	}
 
-	@Override
 	public String getFormId() {
 		return FORM_ID;
 	}
@@ -263,15 +264,12 @@ public class QuestionPromptForm extends BaseForm {
 		shell.open();
 
 		QuestionListener listener = new QuestionListener() {
-			@Override
 			public void done() {
 			}
 
-			@Override
 			public void start(int result) {
 			}
 
-			@Override
 			public void cancel() {
 			}
 		};

@@ -267,8 +267,10 @@ public class QuranPropertiesUtils {
 	 *         quranter of Hizb 1, 4 means the first quarter of Hizb 2, and 7 means the third quarter of Hizb
 	 *         2.
 	 */
-	public static final int getHizbQuadIndex(int suraNum, int ayaNum) {
-		JuzProperties juz = getJuzOf(suraNum, ayaNum);
+	public static final int getHizbQuadIndex(JuzProperties juz, int suraNum, int ayaNum) {
+		if (juz == null) {
+			juz = getJuzOf(suraNum, ayaNum);
+		}
 		IQuranLocation hizbQuads[] = juz.getHizbQuarters();
 		int quadIndex = 0;
 		for (int i = 1; i < hizbQuads.length; i++) {
@@ -282,13 +284,26 @@ public class QuranPropertiesUtils {
 		return quadIndex;
 	}
 
+	public static final int getHizbQuadIndex(int suraNum, int ayaNum) {
+		return getHizbQuadIndex(null, suraNum, ayaNum);
+	}
+
 	/**
 	 * @see #getHizbQuadIndex(int, int)
 	 * @param quranLoc
 	 * @return
 	 */
 	public static int getHizbQuadIndex(IQuranLocation quranLoc) {
-		return getHizbQuadIndex(quranLoc.getSura(), quranLoc.getAya());
+		return getHizbQuadIndex(null, quranLoc.getSura(), quranLoc.getAya());
+	}
+
+	/**
+	 * @param juz current juz to lookup in
+	 * @param quranLoc current quran location
+	 * @return
+	 */
+	public static int getHizbQuadIndex(JuzProperties juz, IQuranLocation quranLoc) {
+		return getHizbQuadIndex(juz, quranLoc.getSura(), quranLoc.getAya());
 	}
 
 	/**

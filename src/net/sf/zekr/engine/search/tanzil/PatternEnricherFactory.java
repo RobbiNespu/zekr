@@ -13,13 +13,17 @@ import java.util.regex.Pattern;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 
+/**
+ * @author Mohsen Saboorian
+ */
 public class PatternEnricherFactory {
 	public static class ArabicPatternEnricher extends PatternEnricher {
 		public static final String IGNORE_HARAKA = "IGNORE_HARAKA";
 
 		public String enrich(String pattern) {
-			if (((Boolean) getParameter(IGNORE_HARAKA)).booleanValue())
+			if (((Boolean) getParameter(IGNORE_HARAKA)).booleanValue()) {
 				pattern = RegexUtils.pregReplace(pattern, "$HARAKA", "");
+			}
 
 			pattern = RegexUtils.regTrans(pattern); // allows using letter constants in pattern
 			pattern = RegexUtils.handleSpaces(pattern);
