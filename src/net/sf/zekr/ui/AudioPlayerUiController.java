@@ -13,6 +13,9 @@ import java.util.Map;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.IQuranPage;
+import net.sf.zekr.common.resource.JuzProperties;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.audio.AudioCacheManager;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.PlayableObject;
@@ -23,6 +26,7 @@ import net.sf.zekr.engine.audio.PlayerController.PlayingItem;
 import net.sf.zekr.engine.audio.ui.AudioPlayerForm;
 import net.sf.zekr.engine.log.Logger;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Point;
@@ -52,6 +56,7 @@ public class AudioPlayerUiController {
 		logger.debug("Player stop status.");
 		if (fromUser) {
 			zekrPlayerListener.userPressedSomeButton();
+			playerController.setPlayingItem(null);
 		}
 
 		playerController.stop();
@@ -65,31 +70,24 @@ public class AudioPlayerUiController {
 
 	public void playerContinue(boolean gotoNext) {
 		try {
-			// playerTogglePlayPause(false);
 			playerStop(false);
 
-			IQuranLocation location = uvc.getLocation();
-			if (gotoNext && location.isLastSura() && location.isLastAya()) {
-				if (!playerPlaySpecialItemIfNeeded()) {
-					logger.info("Last location reached.");
+			String playScope = playerController.getPlayScope();
+			boolean lastInMode = isLastItemInMode(playScope);
+			if (gotoNext && lastInMode) {
+				if (!playerPlaySpecialItemIfNeeded(lastInMode)) {
+					logger.info("Last location of this playing mode reached: " + playScope);
 					playerSlightlyStop();
 					return;
 				}
 			} else if (gotoNext) {
-				if (playerController.getPlayingItem() == PlayingItem.AUDHUBILLAH) {
+				PlayingItem playingItem = playerController.getPlayingItem();
+				if (playingItem == PlayingItem.AYA) {
+					quranForm.quranFormController.gotoNextAya();
+				}
+				boolean hasSpecial = playerPlaySpecialItemIfNeeded(false);
+				if (!hasSpecial) {
 					playerController.setPlayingItem(PlayingItem.AYA);
-				} else {
-					boolean hasSpecial = playerPlaySpecialItemIfNeeded();
-					if (hasSpecial) {
-						if (playerController.getPlayingItem() == PlayingItem.BISMILLAH) {
-							quranForm.quranFormController.gotoNextAya();
-						}
-					} else {
-						if (playerController.getPlayingItem() == PlayingItem.AYA) {
-							quranForm.quranFormController.gotoNextAya();
-						}
-						playerController.setPlayingItem(PlayingItem.AYA);
-					}
 				}
 			}
 			playerTogglePlayPause(true, false);
@@ -99,13 +97,53 @@ public class AudioPlayerUiController {
 		}
 	}
 
-	boolean playerPlaySpecialItemIfNeeded() {
+	private boolean isLastItemInMode(String playScope) {
+		IQuranLocation loc = uvc.getLocation();
+		if (PlayerController.PS_AYA.equals(playScope)) {
+			return true;
+		} else if (PlayerController.PS_PAGE.equals(playScope)) {
+			IQuranPage page = config.getQuranPaging().getDefault().getQuranPage(uvc.getPage());
+			return loc.equals(page.getTo());
+		} else if (PlayerController.PS_SURA.equals(playScope)) {
+			return loc.isLastAya();
+		} else if (PlayerController.PS_HIZB_QUARTER.equals(playScope)) {
+			JuzProperties juz = QuranPropertiesUtils.getJuzOf(loc);
+			int hqi = QuranPropertiesUtils.getHizbQuadIndex(juz, loc);
+			if (hqi == 7) {
+				if (juz.getIndex() < 30) {
+					return loc.getNext().equals(QuranPropertiesUtils.getJuz(juz.getIndex() + 1).getLocation());
+				} else {
+					return loc.isLastAya() && loc.isLastSura();
+				}
+			} else {
+				return loc.getNext().equals(juz.getHizbQuarters()[hqi + 1]);
+			}
+		} else if (PlayerController.PS_JUZ.equals(playScope)) {
+			JuzProperties juz = QuranPropertiesUtils.getJuzOf(loc);
+			if (juz.getIndex() < 30) {
+				return loc.getNext().equals(QuranPropertiesUtils.getJuz(juz.getIndex() + 1).getLocation());
+			} else {
+				return loc.isLastAya() && loc.isLastSura();
+			}
+		}
+		return false;
+	}
+
+	boolean playerPlaySpecialItemIfNeeded(boolean isLastInMode) {
 		AudioData audioData = config.getAudio().getCurrent();
 		AudioCacheManager audioCacheManager = config.getAudioCacheManager();
 		IQuranLocation loc = uvc.getLocation();
 		PlayingItem playingItem = playerController.getPlayingItem();
-		if (firstTimeInThisLaunch && playingItem != PlayingItem.AUDHUBILLAH) {
-			firstTimeInThisLaunch = false;
+		int aya = loc.getAya();
+		int sura = loc.getSura();
+
+		PropertiesConfiguration props = config.getProps();
+		String audhubillahMode = props.getString("audio.playAudhubillah", "smart");
+		String bismillahMode = props.getString("audio.playBismillah", "smart");
+		String sadaghallahMode = props.getString("audio.playSadaghallah", "smart");
+
+		if ((!"never".equals(audhubillahMode) && firstTimeInThisLaunch && playingItem == null)
+				|| ("always".equals(audhubillahMode) && aya == 1 && playingItem != PlayingItem.AUDHUBILLAH && playingItem != PlayingItem.BISMILLAH)) {
 			String ona = audioData.onlineAudhubillah;
 			String ofa = audioData.offlineAudhubillah;
 			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofa, ona);
@@ -114,7 +152,8 @@ public class AudioPlayerUiController {
 				playerOpenAyaAudio(po);
 				return true;
 			}
-		} else if (loc.isLastAya() && !loc.isLastSura() && loc.getSura() != 8 && playingItem != PlayingItem.BISMILLAH) {
+		} else if (("smart".equals(bismillahMode) && aya == 1 && sura != 9 && sura != 1 && (playingItem == PlayingItem.AYA || playingItem == PlayingItem.AUDHUBILLAH))
+				|| ("always".equals(bismillahMode) && aya == 1 && sura != 9 && sura != 1 && playingItem != PlayingItem.BISMILLAH)) {
 			String onb = audioData.onlineBismillah;
 			String ofb = audioData.offlineBismillah;
 			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofb, onb);
@@ -123,7 +162,9 @@ public class AudioPlayerUiController {
 				playerOpenAyaAudio(po);
 				return true;
 			}
-		} else if (loc.isLastAya() && loc.isLastSura() && playingItem != PlayingItem.SADAGHALLAH) {
+		} else if (("smart".equals(sadaghallahMode) && loc.isLastSura() && loc.isLastAya()
+				&& playingItem == PlayingItem.AYA && isLastInMode)
+				|| ("always".equals(sadaghallahMode) && isLastInMode && playingItem == PlayingItem.AYA)) {
 			String ons = audioData.onlineSadaghallah;
 			String ofs = audioData.offlineSadaghallah;
 			PlayableObject po = audioCacheManager.getPlayableObject(audioData, ofs, ons);
@@ -151,14 +192,16 @@ public class AudioPlayerUiController {
 				zekrPlayerListener.userPressedPlayButton();
 			}
 			if (play) {
-				if (playerController.isMultiAya() && firstTimeInThisLaunch) {
-					if (!playerPlaySpecialItemIfNeeded()) {
-						playerOpenAyaAudio();
-					}
-				} else if (playerController.getPlayingItem() == PlayingItem.AYA && status != PlayerController.PLAYING
+				if (playerController.getPlayingItem() == PlayingItem.AYA && status != PlayerController.PLAYING
 						&& status != PlayerController.PAUSED) {
 					playerOpenAyaAudio();
-				} else if (status == PlayerController.UNKNOWN) {
+				} else if (status != PlayerController.PAUSED && playerController.isMultiAya() && fromUser/* && firstTimeInThisLaunch*/) {
+					if (!playerPlaySpecialItemIfNeeded(isLastItemInMode(playerController.getPlayScope()))) {
+						playerController.setPlayingItem(PlayingItem.AYA);
+						playerOpenAyaAudio();
+					}
+				} else if (status == PlayerController.UNKNOWN || playerController.getPlayingItem() == null) {
+					playerController.setPlayingItem(PlayingItem.AYA);
 					playerOpenAyaAudio();
 				}
 				if (status == PlayerController.PAUSED) {
@@ -337,14 +380,12 @@ public class AudioPlayerUiController {
 	 *           causes seeking to 47%. Overall seek location of lower than 0 or higher than 100 are truncated.
 	 */
 	public void seekForward(int percent) {
-		// if (isAudioControllerFormOpen()) {
 		int status = playerController.getStatus();
 		if (status == PlayerController.PLAYING || status == PlayerController.PAUSED) {
-			float currentProgress = ((float) audioControllerForm.getProgress()) / AudioPlayerForm.MAX_SEEK_VALUE;
+			float currentProgress = (float) audioControllerForm.getProgress() / AudioPlayerForm.MAX_SEEK_VALUE;
 			currentProgress = Math.max(Math.min(currentProgress + percent / 100.0f, 1f), 0f);
 			seek(currentProgress);
 		}
-		// }
 	}
 
 	public void updateRecitationListMenu() {
