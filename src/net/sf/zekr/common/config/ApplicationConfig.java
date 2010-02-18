@@ -104,6 +104,7 @@ import org.w3c.dom.NodeList;
  */
 public class ApplicationConfig implements ConfigNaming {
 	private final static Logger logger = Logger.getLogger(ApplicationConfig.class);
+	private final static ResourceManager res = ResourceManager.getInstance();
 	private static ApplicationConfig thisInstance;
 
 	private XmlReader configReader;
@@ -196,30 +197,50 @@ public class ApplicationConfig implements ConfigNaming {
 		logger.info("Load search info...");
 
 		File usi = new File(ApplicationPath.USER_SEARCH_INFO);
-		String searchInfoFile = ApplicationPath.USER_SEARCH_INFO;
 		if (!usi.exists()) {
 			logger.info("User search info does not exist at " + ApplicationPath.USER_SEARCH_INFO);
 			logger.info("Will make user search info with default values at " + ApplicationPath.MAIN_SEARCH_INFO);
-			searchInfoFile = ApplicationPath.MAIN_SEARCH_INFO;
+			String searchInfoFile = ApplicationPath.MAIN_SEARCH_INFO;
 			try {
 				logger.info("Save user search info file to " + ApplicationPath.USER_CONFIG);
 				FileUtils.copyFile(new File(searchInfoFile), usi);
-			} catch (IOException e) {
+
+				logger.debug("Load " + searchInfoFile);
+				FileInputStream fis = new FileInputStream(searchInfoFile);
+				searchProps = ConfigUtils.loadConfig(fis, "UTF-8");
+			} catch (Exception e) {
+				logger.error("Error loading search info file " + searchInfoFile);
 				logger.implicitLog(e);
 			}
-		}
-
-		try {
-			logger.debug("Load " + searchInfoFile);
-			FileInputStream fis = new FileInputStream(searchInfoFile);
-			searchProps = new PropertiesConfiguration();
-			searchProps.setBasePath(ApplicationPath.CONFIG_DIR);
-			searchProps.setEncoding("UTF-8");
-			searchProps.load(fis, "UTF-8");
-			fis.close();
-		} catch (Exception e) {
-			logger.error("Error loading search info file " + searchInfoFile);
-			logger.implicitLog(e);
+		} else {
+			String searchInfoFile = ApplicationPath.USER_SEARCH_INFO;
+			try {
+				String ver = null;
+				boolean error = false;
+				try {
+					FileInputStream fis = new FileInputStream(searchInfoFile);
+					searchProps = ConfigUtils.loadConfig(fis, "UTF-8", ApplicationPath.CONFIG_DIR);
+					ver = searchProps.getString("search.version");
+				} catch (Exception e) {
+					logger.error(String.format("Error loading user search info file %s."
+							+ " Will replace it with original search info file %s.", searchInfoFile,
+							ApplicationPath.MAIN_SEARCH_INFO), e);
+					error = true;
+				}
+				if (!GlobalConfig.ZEKR_VERSION.equals(ver) || error) {
+					searchInfoFile = ApplicationPath.USER_CONFIG;
+					searchProps = ConfigUtils.loadConfig(new FileInputStream(searchInfoFile), "UTF-8");
+					String newName = String.format("%s_%s", res.getString("config.searchInfo.file"), String
+							.format(ver == null ? "old" : ver));
+					logger.info(String.format("Migrate search info from version %s to %s. Will rename old file to %s.", ver,
+							GlobalConfig.ZEKR_VERSION, newName));
+					FileUtils.copyFile(usi, new File(usi.getParent(), newName));
+					FileUtils.copyFile(new File(ApplicationPath.MAIN_SEARCH_INFO), usi);
+				}
+			} catch (Exception e) {
+				logger.error("Error loading search info file " + searchInfoFile);
+				logger.implicitLog(e);
+			}
 		}
 
 		searchInfo = new SearchInfo();
@@ -227,8 +248,8 @@ public class ApplicationConfig implements ConfigNaming {
 		List<String> defaultStopWord = searchProps.getList("search.stopword");
 		Configuration replacePatternConf = searchProps.subset("search.pattern.replace");
 		List<String> defaultReplacePattern = searchProps.getList("search.pattern.replace");
-
 		searchInfo.setDefaultStopWord(defaultStopWord);
+
 		for (Iterator<String> iterator = stopWordConf.getKeys(); iterator.hasNext();) {
 			String langCode = (String) iterator.next();
 			if (langCode.length() <= 0) {
@@ -252,7 +273,6 @@ public class ApplicationConfig implements ConfigNaming {
 	private void loadRootList() {
 		try {
 			logger.info("Loading Quran root word database...");
-			ResourceManager res = ResourceManager.getInstance();
 			String rootFile = res.getString("text.quran.root");
 			String rootRawStr = FileUtils.readFileToString(new File(rootFile), "UTF-8");
 			Date date1 = new Date();
@@ -412,7 +432,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 	private void loadBookmarkSetGroup() {
 		File bookmarkDir = new File(Naming.getBookmarkDir());
-		File origBookmarkDir = new File(ResourceManager.getInstance().getString("bookmark.baseDir"));
+		File origBookmarkDir = new File(res.getString("bookmark.baseDir"));
 
 		FileFilter xmlFilter = new FileFilter() { // accept .xml files
 			public boolean accept(File pathname) {
@@ -1395,6 +1415,11 @@ public class ApplicationConfig implements ConfigNaming {
 		try {
 			ZipFile zipFile = new ZipFile(zipFileToImport);
 			InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.RECITATION_DESC));
+			if (is == null) {
+				logger.debug(String.format("Could not find recitation descriptor %s in the root of the zip archive %s.",
+						zipFileToImport, ApplicationPath.RECITATION_DESC));
+				throw new ZekrMessageException("INVALID_RECITATION_FORMAT", new String[] { zipFileToImport.getName() });
+			}
 
 			String tempFileName = System.currentTimeMillis() + "-" + ApplicationPath.RECITATION_DESC;
 			tempFileName = System.getProperty("java.io.tmpdir") + "/" + tempFileName;
@@ -1408,7 +1433,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 			AudioData newAudioData = loadAudioData(recitPropsFile, false);
 			if (newAudioData == null) {
-				logger.debug("Could not load recitation descriptor file: " + recitPropsFile);
+				logger.debug("Invalid recitation descriptor: " + recitPropsFile);
 				throw new ZekrMessageException("INVALID_RECITATION_FORMAT", new String[] { zipFileToImport.getName() });
 			}
 			File newRecitPropsFile = new File(destDir, newAudioData.id + ".properties");
