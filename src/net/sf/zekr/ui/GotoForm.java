@@ -199,7 +199,6 @@ public class GotoForm extends BaseForm implements FocusListener {
 
 		searchCombo.addFocusListener(this);
 		searchCombo.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 				if (UPDATE.equals(event.text)) {
 					IQuranLocation location = uvc.getLocation();
@@ -303,7 +302,6 @@ public class GotoForm extends BaseForm implements FocusListener {
 			}
 		});
 		suraAyaBox.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 				if (UPDATE.equals(event.text)) {
 					IQuranLocation loc = uvc.getLocation();
@@ -336,7 +334,6 @@ public class GotoForm extends BaseForm implements FocusListener {
 			}
 		});
 		hizbQuarterSpinner.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 				if (UPDATE.equals(event.text)) {
 					IQuranLocation loc = uvc.getLocation();
@@ -369,7 +366,6 @@ public class GotoForm extends BaseForm implements FocusListener {
 			}
 		});
 		juzSpinner.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 				if (UPDATE.equals(event.text)) {
 					IQuranLocation loc = uvc.getLocation();
@@ -401,7 +397,6 @@ public class GotoForm extends BaseForm implements FocusListener {
 			}
 		});
 		pageSpinner.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 				if (UPDATE.equals(event.text)) {
 					pageSpinner.setSelection(uvc.getPage());
@@ -437,7 +432,6 @@ public class GotoForm extends BaseForm implements FocusListener {
 			}
 		});
 		suraCombo.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 				if (UPDATE.equals(event.text)) {
 					suraCombo.select(uvc.getLocation().getSura() - 1);
@@ -473,7 +467,6 @@ public class GotoForm extends BaseForm implements FocusListener {
 				}
 			});
 			suraRevelCombo.addListener(CUSTOM_ZEKR_EVENT, new Listener() {
-				@Override
 				public void handleEvent(Event event) {
 					if (UPDATE.equals(event.text)) {
 						suraRevelCombo.select(revelOrder.getOrder(uvc.getLocation().getSura()) - 1);
@@ -519,8 +512,8 @@ public class GotoForm extends BaseForm implements FocusListener {
 			public void widgetSelected(SelectionEvent e) {
 				lastFocusedControl.traverse(CUSTOM_TRAVERSE);
 				for (Control control : focusList) {
-					if ((control != lastFocusedControl)
-							&& ((lastFocusedControl == suraAyaList && control != searchCombo) || (lastFocusedControl != suraAyaList))) {
+					if (control != lastFocusedControl
+							&& (lastFocusedControl == suraAyaList && control != searchCombo || lastFocusedControl != suraAyaList)) {
 						Event event = new Event();
 						event.text = UPDATE;
 						control.notifyListeners(CUSTOM_ZEKR_EVENT, event);
