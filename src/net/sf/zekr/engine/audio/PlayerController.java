@@ -39,6 +39,14 @@ public interface PlayerController {
 	public static final int OPENED = 3;
 	public static final int SEEKING = 4;
 
+	// play scope
+	public static final String PS_CONTINUOUS = "continuous";
+	public static final String PS_AYA = "aya";
+	public static final String PS_PAGE = "page";
+	public static final String PS_SURA = "sura";
+	public static final String PS_HIZB_QUARTER = "hizb-quarter";
+	public static final String PS_JUZ = "juz";
+
 	/**
 	 * Open {@link PlayableObject} to play.
 	 * 
@@ -156,11 +164,11 @@ public interface PlayerController {
 	 */
 	public boolean isMultiAya();
 
-	/**
-	 * @param multiAya specifies the continuity of playing, that is, whether to play next aya after finishing
-	 *           one or not.
-	 */
-	public void setMultiAya(boolean multiAya);
+	//	/**
+	//	 * @param multiAya specifies the continuity of playing, that is, whether to play next aya after finishing
+	//	 *           one or not.
+	//	 */
+	//	public void setMultiAya(boolean multiAya);
 
 	/**
 	 * @return number of milliseconds to wait between playing two ayas
@@ -186,8 +194,13 @@ public interface PlayerController {
 
 	public PlayingItem getPlayingItem();
 
+	public String getPlayScope();
+
+	public void setPlayScope(String playScope);
+
 	public PlayableObject getCurrentPlayableObject();
 
 	@SuppressWarnings("unchecked")
 	public Map getCurrentAudioInfo();
+
 }
