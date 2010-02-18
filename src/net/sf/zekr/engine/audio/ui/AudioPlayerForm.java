@@ -82,7 +82,7 @@ public class AudioPlayerForm extends BaseForm {
 	private Composite topRow;
 	private Composite body;
 	private Composite bottomRow;
-	private Button contButton;
+	private Button contBut;
 	private Image multiAyaImage;
 	private Image singleAyaImage;
 	private Image pauseImage;
@@ -98,6 +98,8 @@ public class AudioPlayerForm extends BaseForm {
 	private Combo repeatCombo;
 	private PropertiesConfiguration props;
 	private Menu recitationPopupMenu;
+	private Menu playScopePopupMenu;
+	private String[] playScopeItems;
 
 	public AudioPlayerForm(QuranForm quranForm, Shell parent) {
 		int l = lang.getSWTDirection();
@@ -199,7 +201,6 @@ public class AudioPlayerForm extends BaseForm {
 		recitationPopupMenu = new Menu(shell, SWT.POP_UP);
 		Menu origMenu = quranForm.getMenu().getRecitationListMenu();
 		MenuItem[] items = origMenu.getItems();
-		// MenuItem[] newItems = new MenuItem[items.length];
 		for (int i = 0; i < items.length; i++) {
 			MenuItem mi = new MenuItem(recitationPopupMenu, items[i].getStyle());
 			String text = items[i].getText();
@@ -219,21 +220,9 @@ public class AudioPlayerForm extends BaseForm {
 			for (int j = 0; j < listeners.length; j++) {
 				mi.addListener(SWT.Selection, listeners[j]);
 			}
-			// newItems[i] = mi;
 		}
 
-		// playerLabel.setMenu(recitationPopupMenu);
-		playerLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseUp(MouseEvent e) {
-				//				Point loc = display.map(playerLabel, null, 0, 0);
-				//				Point size = playerLabel.getSize();
-				//				recitationPopupMenu.setLocation(loc.x, loc.y + size.y);
-				//				recitationPopupMenu.setVisible(true);
-			}
-		});
 		playerLabel.addSelectionListener(new SelectionListener() {
-			@Override
 			public void widgetDefaultSelected(SelectionEvent event) {
 				if ("recitation".equals(event.text)) {
 					Point loc = display.map(playerLabel, null, 0, 0);
@@ -243,7 +232,6 @@ public class AudioPlayerForm extends BaseForm {
 				}
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent event) {
 				widgetDefaultSelected(event);
 			}
@@ -298,14 +286,13 @@ public class AudioPlayerForm extends BaseForm {
 		repeatCombo = new Combo(bottomComposite, SWT.READ_ONLY);
 		int max = props.getInt("audio.maxRepeatTime", 10);
 		String[] items;
-		if (max > 1) {
-			items = new String[max];
-			items[0] = meaning("NO_REPEAT");
-			for (int i = 1; i < max; i++) {
-				items[i] = String.valueOf(i + 1);
-			}
-		} else {
-			items = new String[] { meaning("NO_REPEAT"), "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+		if (max <= 1) {
+			max = 10;
+		}
+		items = new String[max];
+		items[0] = meaning("NO_REPEAT");
+		for (int i = 1; i < max; i++) {
+			items[i] = meaning("TIMES", String.valueOf(i + 1));
 		}
 		repeatCombo.setItems(items);
 		repeatCombo.select(playerController.getRepeatTime() - 1);
@@ -319,7 +306,7 @@ public class AudioPlayerForm extends BaseForm {
 		});
 
 		gd = new GridData();
-		gd.horizontalIndent = 10;
+		gd.horizontalIndent = 8;
 		Label waitLabel = new Label(bottomComposite, SWT.NONE);
 		waitLabel.setLayoutData(gd);
 		waitLabel.setText(meaning("INTERVAL") + ":");
@@ -344,29 +331,63 @@ public class AudioPlayerForm extends BaseForm {
 		secondsLabel.setText(meaning("SECOND_ABBR"));
 		secondsLabel.setToolTipText(meaning("SECONDS"));
 
+		String[] playScopeKeys = new String[] { PlayerController.PS_CONTINUOUS, PlayerController.PS_JUZ,
+				PlayerController.PS_HIZB_QUARTER, PlayerController.PS_SURA, PlayerController.PS_PAGE,
+				PlayerController.PS_AYA };
+		playScopeItems = new String[] { "CONTINUOUS", "JUZ", "HIZB_QUARTER", "SURA", "PAGE", "AYA" };
+		playScopePopupMenu = new Menu(shell, SWT.POP_UP);
+		String playScope = props.getString("audio.playScope", "continuous");
+		int selection = 0;
+		for (int i = 0; i < playScopeKeys.length; i++) {
+			MenuItem mi = new MenuItem(playScopePopupMenu, SWT.RADIO);
+			if (playScopeKeys[i].equals(playScope)) {
+				mi.setSelection(true);
+				selection = i;
+			}
+			mi.setText(meaning(playScopeItems[i]));
+			mi.setData(playScopeKeys[i]);
+			mi.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					MenuItem item = (MenuItem) e.getSource();
+					if (item.getSelection()) {
+						String data = (String) item.getData();
+						playerController.setPlayScope(data);
+						setContinuityImage(playerController.isMultiAya(), item.getText());
+					}
+				}
+
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					widgetSelected(e);
+				}
+			});
+		}
+
 		gd = new GridData(SWT.END, SWT.FILL, true, true);
-		contButton = new Button(bottomComposite, SWT.PUSH | SWT.FLAT);
-		contButton.setLayoutData(gd);
-		setContinuityImage(playerController.isMultiAya());
-		contButton.addSelectionListener(new SelectionAdapter() {
+		contBut = new Button(bottomComposite, SWT.FLAT | SWT.TOGGLE);
+		contBut.setLayoutData(gd);
+		setContinuityImage(playerController.isMultiAya(), meaning(playScopeItems[selection]));
+		contBut.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				playerController.setMultiAya(!playerController.isMultiAya());
-				setContinuityImage(playerController.isMultiAya());
+				Point loc = display.map(contBut, null, 0, 0);
+				Point size = contBut.getSize();
+				playScopePopupMenu.setLocation(loc.x, loc.y + size.y);
+				contBut.setSelection(false);
+				playScopePopupMenu.setVisible(true);
 			}
 		});
-
 	}
 
-	protected void setContinuityImage(boolean continious) {
+	protected void setContinuityImage(boolean continious, String text) {
 		intervalCombo.setEnabled(continious);
 		repeatCombo.setEnabled(continious);
+		contBut.setToolTipText(String.format("%s: %s", meaning("PLAY_SCOPE"), text));
 		if (continious) {
-			contButton.setToolTipText(meaning("CONTINUOUS"));
-			contButton.setImage(multiAyaImage);
+			contBut.setImage(multiAyaImage);
 		} else {
-			contButton.setToolTipText(meaning("DISCRETE"));
-			contButton.setImage(singleAyaImage);
+			contBut.setImage(singleAyaImage);
 		}
 	}
 
