@@ -63,9 +63,20 @@ public class ConfigUtils {
 		return loadConfig(new FileInputStream(configFile), basePath, encoding);
 	}
 
+	/**
+	 * Loads a configuration properties file (configStream) and close it.
+	 * 
+	 * @param configStream
+	 * @param basePath
+	 * @param encoding
+	 * @return
+	 * @throws ConfigurationException
+	 * @throws IOException
+	 */
 	public static PropertiesConfiguration loadConfig(InputStream configStream, String basePath, String encoding)
 			throws ConfigurationException, IOException {
 		PropertiesConfiguration pc = new PropertiesConfiguration();
+		pc.setThrowExceptionOnMissing(false); // this is the default behavior. just for MOHKAM KARI!
 		pc.setEncoding("UTF-8");
 		if (basePath != null) {
 			pc.setBasePath(basePath);
