@@ -91,8 +91,13 @@ public class SearchUtils implements ArabicCharacters {
 		ApplicationConfig conf = ApplicationConfig.getInstance();
 		SearchInfo searchInfo = conf.getSearchInfo();
 		Locale locale = QuranPropertiesUtils.getSuraNameModeLocale();
-		Map<Pattern, String> patternReplace = searchInfo.getReplacePattern(locale.getLanguage());
-		String t = RegexUtils.replaceAll(patternReplace, text);
-		return t.toLowerCase(locale);
+		String langCode = locale.getLanguage();
+		text = text.toLowerCase(locale);
+		Map<Pattern, String> rep = searchInfo.getDefaultReplacePattern();
+		if (searchInfo.containsLanguageReplacePattern(langCode)) {
+			rep.putAll(searchInfo.getReplacePattern(langCode));
+		}
+		text = RegexUtils.replaceAll(rep, text);
+		return text;
 	}
 }
