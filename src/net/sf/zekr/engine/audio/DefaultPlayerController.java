@@ -40,7 +40,8 @@ public class DefaultPlayerController implements PlayerController {
 	private int interval; // wait between two ayas (in milliseconds)
 	private int repeatTime;
 	private PropertiesConfiguration props;
-	private PlayingItem playingItem = PlayingItem.AYA;
+	private PlayingItem playingItem;
+	private String playScope;
 	private PlayableObject currentPlayableObject;
 	@SuppressWarnings("unchecked")
 	private Map currentAudioInfo;
@@ -57,6 +58,7 @@ public class DefaultPlayerController implements PlayerController {
 		repeatTime = props.getInt("audio.repeatTime", 1);
 		interval = props.getInt("audio.interval", 0);
 		multiAya = props.getBoolean("audio.continuousAya", true);
+		playScope = props.getString("audio.playScope", "continuous");
 
 		final int prefetcher = props.getInt("audio.cache.prefetcher", 1);
 		playerCache = new LinkedHashMap<PlayableObject, ZekrBasicPlayer>() {
@@ -86,6 +88,7 @@ public class DefaultPlayerController implements PlayerController {
 				});
 				playerCache.put(playableObject, localPlayer);
 			} else {
+				logger.debug("Already exists in cache: " + playableObject);
 				return; // already exists in the cache
 			}
 		} else {
@@ -249,13 +252,8 @@ public class DefaultPlayerController implements PlayerController {
 	}
 
 	public boolean isMultiAya() {
-		return multiAya;
-	}
-
-	public void setMultiAya(boolean multiAya) {
-		this.multiAya = multiAya;
-		props.setProperty("audio.continuousAya", multiAya);
-
+		return !"aya".equals(playScope);
+		// return multiAya;
 	}
 
 	public int getInterval() {
@@ -286,6 +284,15 @@ public class DefaultPlayerController implements PlayerController {
 
 	public PlayableObject getCurrentPlayableObject() {
 		return currentPlayableObject;
+	}
+
+	public String getPlayScope() {
+		return playScope;
+	}
+
+	public void setPlayScope(String playScope) {
+		this.playScope = playScope;
+		props.setProperty("audio.playScope", playScope);
 	}
 
 	@SuppressWarnings("unchecked")
