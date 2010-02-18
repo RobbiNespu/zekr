@@ -637,7 +637,7 @@ Features/Enhancements:
 Bug fixes:
 	A bug with opening multi translation customization form fixed.
 
-Version 0.7.5 beta 4 - [15-02-10]
+Version 0.7.5 beta 4 - [19-02-10]
 Features/Enhancements:
 	Kasra+Shadda order is reversed in order to handle classic font rendering issue of kasra over a word and under shadda. This is done only when simple quran text (non-uthmani) is selected.
 	Added Tamil language pack, thanks to Ahamed Saifudeen.
@@ -648,6 +648,20 @@ Features/Enhancements:
 		- Added two new shortcuts to increase/decrease player volume by 10% (Increase: Ctrl+=, Decrease: Ctrl+-).
 		- Added two new shortcuts to seek forward or backward by 15%.
 		- Added a popup menu to change current recitation pack by clicking on recitation link at the top of audio player form.
+		- Added play scope popup menu to audio player form. These options are available: aya, sura, page, hizb quarter, juz and continuous. For example if aya is selected, only plays a single aya, and if page is selected, will play until last aya of this page is reached.
+		- Added three modes for playing special items (audhubillah, bismillah and sadaghallah): always, smart, never.
+			Audhubillah:
+				1) smart: will be played only once the system is up as the first playing item.
+				2) always: will be always played if current aya is 1 of any sura, or before playing the first item when system is up. If this item is selected, bismillah will act as 'always', and will be played after audhubillah in the first aya of a suras but sura 1 and 9.
+				3) never: never plays this item.
+			Bismillah:
+				1) smart: will be played only when player automatically goes from the last aya of the previous sura to the first aya of this sura.
+				2) always: will be always played if current aya is 1 of any sura but suras 1 and 9. Bismillah will be played after audhubillah (if any). Setting audhubillah to 'always' will force 'always' mode for bismillah.
+				3) never: never plays this item.
+			Sadaghallah:
+				1) smart: will be only played after 114:6 is played and it's in a multi-aya playing mode (any playing mode other than 'aya').
+				2) always: will always play sadaghallah after reaching end of this playing mode (only in multi aya playing modes).
+				3) never: never plays this item.
 	Added page selection to Goto form.
 	Zekr now supports Application Menu for Cocoa Mac (under which About, Preferences and Quit are rendered).
 	Added a new import for recitation packs. These are offline .recit.zip packages containing a recitation descriptor (recitation.properties) and all mp3s.
@@ -662,12 +676,19 @@ Features/Enhancements:
 			command even if the current focus is on Audio Player form (because of the global="true" specified in bookmarkThis command).
 		- Command button is treated same as Control button if property key.commandAndControlAreSame is true.
 	Some icons grouped in separate folder under img/icon folder.
+	Added version to search-info.properties file. This file will be overriden if updating Zekr to a newer version.
+	Updated search-info.properties to escape Al-, El- or related prefixes in searches. This is specially helpful in GoTo form sura name lookup.
+	Updated to commons-config-1.6.0. It's still compatible with 1.5.0 thought.
+	Added an option tab for audio in order to set playing mode for special items (audhubillah, ...).
+	A few icons of options form updated.
+	Added Macedonian language pack, thanks to Bojan Jankuloski.
 Bug fixes:
 	Command is used instead of Ctrl in Mac.
 	Removed menu icons for Cocoa (Mac). This was already removed for Carbon.
 	Bug fix in logger. It now show the full stack trace (including cause) when some unexpected exception occurs.
 	Removed Tools > Options, File > Exit and Help > About menu items for Mac Cocoa for which they are rendered under Application Menu.
 	Accelerator text is not added to menus anymore in Mac.
+	Failure of adding a new recitation pack is shown as error not warning. Warning should be only displayed for translation signature issues.
 
 _____________________________________________________
 	TODO: Export search results
