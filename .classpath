@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="lib" path="lib/velocity-1.6.2.jar" sourcepath="lib/src/velocity-1.6.2-src.zip"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.8.jar"/>
 	<classpathentry kind="lib" path="lib/swt-debug.jar" sourcepath="lib/src/swt-src.zip"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar" sourcepath="lib/src/commons-codec-1.3-src.zip"/>
-	<classpathentry kind="lib" path="lib/commons-configuration-1.5.jar" sourcepath="lib/src/commons-configuration-1.5-src.zip"/>
+	<classpathentry kind="lib" path="lib/commons-configuration-1.6.jar" sourcepath="lib/src/commons-configuration-1.6-src.zip"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4.jar" sourcepath="lib/src/commons-io-1.4-src.zip"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.4.jar" sourcepath="lib/src/commons-lang-2.4-src.zip"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar" sourcepath="lib/src/commons-collections-3.2.1-src.zip"/>
-	<classpathentry kind="lib" path="lib/lucene-core-2.9.1.jar" sourcepath="lib/src/lucene-core-2.9.1-src.zip"/>
-	<classpathentry kind="lib" path="lib/lucene-snowball-2.9.1.jar" sourcepath="lib/src/lucene-snowball-2.9.1-src.zip"/>
-	<classpathentry kind="lib" path="lib/lucene-highlighter-2.9.1.jar" sourcepath="lib/src/lucene-highlighter-3.0.0-src.zip"/>
+	<classpathentry kind="lib" path="lib/lucene-core-3.0.0.jar" sourcepath="lib/src/lucene-core-3.0.0-src.zip"/>
+	<classpathentry kind="lib" path="lib/lucene-snowball-3.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-highlighter-3.0.0.jar" sourcepath="lib/src/lucene-highlighter-3.0.0-src.zip"/>
 	<classpathentry kind="lib" path="lib/lucene-memory-3.0.0.jar" sourcepath="lib/src/lucene-memory-3.0.0-src.zip"/>
 	<classpathentry kind="lib" path="lib/mp3spi-1.9.4.jar" sourcepath="lib/src/mp3spi-1.9.4-src.zip"/>
 	<classpathentry kind="lib" path="lib/vorbisspi-1.0.3.jar"/>
