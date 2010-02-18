@@ -70,13 +70,11 @@ public class OptionsForm extends BaseForm {
 	private GridData gd;
 	private Composite nav, det;
 
-	private ToolItem general, view;
-
 	private Composite detGroup, navGroup;
 
 	private StackLayout sl;
 
-	Composite generalTab, viewTab;
+	Composite generalTab, viewTab, audioTab;
 	private ThemeData td = config.getTheme().getCurrent();
 	private Table table;
 
@@ -86,12 +84,12 @@ public class OptionsForm extends BaseForm {
 	private PropertiesConfiguration props = config.getProps();
 	private Button showSplash;
 	private Image image;
-	private Combo langSelect;
+	private Combo langCombo;
 	private Spinner spinner;
 	private boolean pressOkToApply;
 	private LanguagePack selectedLangPack;
 	private ThemeData selectedTheme;
-	private Combo themeSelect;
+	private Combo themeCombo;
 	private Button addBut;
 	private Button delBut;
 	private Button resizeablePane;
@@ -101,8 +99,13 @@ public class OptionsForm extends BaseForm {
 	private static final List<ThemeData> themes = new ArrayList<ThemeData>(config.getTheme().getAllThemes());
 
 	private String[] suraNameType = new String[] { "arabic", "t9n", "t13n", "en-t9n", "en-t13n" };
+	private String[] playOptionKeys = new String[] { "smart", "always", "never" };
+
 	private Combo suraNameMode;
 	private Button suraTree;
+	private Combo sadMode;
+	private Combo bismMode;
+	private Combo audMode;
 
 	public OptionsForm(Shell parent) {
 		this.parent = parent;
@@ -154,7 +157,7 @@ public class OptionsForm extends BaseForm {
 		ToolBar bar = new ToolBar(navGroup, SWT.VERTICAL | SWT.FLAT);
 
 		createGeneralTab();
-		general = new ToolItem(bar, SWT.RADIO);
+		ToolItem general = new ToolItem(bar, SWT.RADIO);
 		general.setText(meaning("GENERAL_OPTIONS"));
 		general.setImage(new Image(display, resource.getString("icon.general")));
 		general.setSelection(true);
@@ -162,11 +165,18 @@ public class OptionsForm extends BaseForm {
 		general.addSelectionListener(sa);
 
 		createViewTab();
-		view = new ToolItem(bar, SWT.RADIO);
+		ToolItem view = new ToolItem(bar, SWT.RADIO);
 		view.setImage(new Image(display, resource.getString("icon.view")));
 		view.setText(meaning("VIEW_OPTIONS"));
 		view.setData(viewTab);
 		view.addSelectionListener(sa);
+
+		createAudioTab();
+		ToolItem audio = new ToolItem(bar, SWT.RADIO);
+		audio.setImage(new Image(display, resource.getString("icon.audio")));
+		audio.setText(meaning("AUDIO_OPTIONS"));
+		audio.setData(audioTab);
+		audio.addSelectionListener(sa);
 
 		sl.topControl = generalTab;
 
@@ -273,8 +283,8 @@ public class OptionsForm extends BaseForm {
 	}
 
 	private void updateGeneralModel(boolean fromOk) {
-		selectedLangPack = packs.get(langSelect.getSelectionIndex());
-		selectedTheme = themes.get(themeSelect.getSelectionIndex());
+		selectedLangPack = packs.get(langCombo.getSelectionIndex());
+		selectedTheme = themes.get(themeCombo.getSelectionIndex());
 		boolean isPaneResizeable = resizeablePane.getSelection();
 		// boolean audioEnabledProp = props.getBoolean("server.http.enable") && props.getBoolean("audio.enable");
 		//String audioEnabled = Boolean.toString(enableAudio.getSelection());
@@ -290,6 +300,10 @@ public class OptionsForm extends BaseForm {
 		config.setShowSplash(showSplash.getSelection());
 		props.setProperty("options.search.maxResult", "" + spinner.getSelection());
 
+		props.setProperty("audio.playAudhubillah", playOptionKeys[audMode.getSelectionIndex()]);
+		props.setProperty("audio.playBismillah", playOptionKeys[bismMode.getSelectionIndex()]);
+		props.setProperty("audio.playSadaghallah", playOptionKeys[sadMode.getSelectionIndex()]);
+
 		if (!suraNameType[suraNameMode.getSelectionIndex()].equals(props.getProperty("view.sura.name"))) {
 			props.setProperty("view.sura.name", suraNameType[suraNameMode.getSelectionIndex()]);
 			if (!pressOkToApply) { // it's refreshed upon form creation
@@ -302,8 +316,6 @@ public class OptionsForm extends BaseForm {
 			props.setProperty("lang.default", selectedLangPack.id);
 			props.setProperty("theme.default", selectedTheme.id);
 			props.setProperty("options.general.resizeableTaskPane", new Boolean(isPaneResizeable));
-			//props.setProperty("server.http.enable", audioEnabled);
-			//props.setProperty("audio.enable", audioEnabled);
 			props.setProperty("view.sura.mode", suraAsTree ? "tree" : "combo");
 		}
 	}
@@ -338,8 +350,8 @@ public class OptionsForm extends BaseForm {
 
 		new Label(comp, SWT.NONE).setText(lang.getMeaning("LANGUAGE") + ":");
 
-		langSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
-		langSelect.setVisibleItemCount(8);
+		langCombo = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
+		langCombo.setVisibleItemCount(8);
 		String[] items = new String[lang.getLangPacks().size()];
 		int s = 0;
 		LanguagePack activeLang = config.getLanguage().getActiveLanguagePack();
@@ -350,8 +362,8 @@ public class OptionsForm extends BaseForm {
 			}
 			items[i] = lp.name + " - " + lp.localizedName + (rtl ? I18N.LRM + "" : "");
 		}
-		langSelect.setItems(items);
-		langSelect.select(s);
+		langCombo.setItems(items);
+		langCombo.select(s);
 
 		RowData rd = new RowData(24, 16);
 		image = new Image(shell.getDisplay(), activeLang.getIconPath());
@@ -363,9 +375,9 @@ public class OptionsForm extends BaseForm {
 			}
 		});
 
-		langSelect.addSelectionListener(new SelectionAdapter() {
+		langCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				image = new Image(shell.getDisplay(), packs.get(langSelect.getSelectionIndex()).getIconPath());
+				image = new Image(shell.getDisplay(), packs.get(langCombo.getSelectionIndex()).getIconPath());
 				flag.redraw();
 			}
 		});
@@ -378,7 +390,7 @@ public class OptionsForm extends BaseForm {
 		Label ct = new Label(comp, SWT.NONE);
 		ct.setText(meaning("THEME_OPTIONS") + ":");
 		// theme names should be in Roman characters
-		themeSelect = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
+		themeCombo = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
 		Map<String, String> themeMap = new LinkedHashMap<String, String>();
 		int selectedNum = 0;
 		for (int i = 0; i < themes.size(); i++) {
@@ -387,8 +399,8 @@ public class OptionsForm extends BaseForm {
 				selectedNum = i;
 			}
 		}
-		themeSelect.setItems(themeMap.values().toArray(new String[0]));
-		themeSelect.select(selectedNum);
+		themeCombo.setItems(themeMap.values().toArray(new String[0]));
+		themeCombo.select(selectedNum);
 
 		rl = new RowLayout(SWT.HORIZONTAL);
 		rl.spacing = 10;
@@ -560,6 +572,64 @@ public class OptionsForm extends BaseForm {
 		rd = new RowData();
 		rd.width = 40;
 		delBut.setLayoutData(rd);
+	}
+
+	private void createAudioTab() {
+		GridLayout gl = new GridLayout(3, false);
+		audioTab = new Composite(detGroup, SWT.NONE);
+		audioTab.setLayout(gl);
+
+		String[] items = new String[] { meaning("SMART"), meaning("ALWAYS"), meaning("NEVER") };
+
+		gd = new GridData();
+		gd.verticalSpan = 3;
+		Label playModeLabel = new Label(audioTab, SWT.NONE);
+		playModeLabel.setText(meaning("PLAY_MODE") + "  ");
+		playModeLabel.setLayoutData(gd);
+
+		new Label(audioTab, SWT.NONE).setText(lang.getMeaning("AUDHUBILLAH") + ":");
+		audMode = new Combo(audioTab, SWT.READ_ONLY | SWT.DROP_DOWN);
+		audMode.setItems(items);
+		String audhProp = props.getString("audio.playAudhubillah", "smart");
+		audMode.select("smart".equals(audhProp) ? 0 : "always".equals(audhProp) ? 1 : 2);
+		if ("always".equals(audhProp)) {
+			props.setProperty("audio.playBismillah", "always");
+		}
+		audMode.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (audMode.getSelectionIndex() == 1) {
+					bismMode.select(1);
+					bismMode.setEnabled(false);
+				} else {
+					bismMode.setEnabled(true);
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+
+		new Label(audioTab, SWT.NONE).setText(lang.getMeaning("BISMILLAH") + ":");
+		bismMode = new Combo(audioTab, SWT.READ_ONLY | SWT.DROP_DOWN);
+		bismMode.setItems(items);
+		String bismProp = props.getString("audio.playBismillah", "smart");
+		if ("always".equals(audhProp)) {
+			bismMode.select(1);
+			bismMode.setEnabled(false);
+		} else {
+			bismMode.select("smart".equals(bismProp) ? 0 : "always".equals(bismProp) ? 1 : 2);
+		}
+
+		new Label(audioTab, SWT.NONE).setText(lang.getMeaning("SADAGHALLAH") + ":");
+		sadMode = new Combo(audioTab, SWT.READ_ONLY | SWT.DROP_DOWN);
+		sadMode.setItems(items);
+		String sadProp = props.getString("audio.playSadaghallah", "smart");
+		sadMode.select("smart".equals(sadProp) ? 0 : "always".equals(sadProp) ? 1 : 2);
+
+		gd = new GridData(SWT.BEGINNING, SWT.BEGINNING);
 	}
 
 	public void open() {
