@@ -156,6 +156,7 @@
 			<text id="JUZ" value="Juz" />
 			<text id="HIZB" value="Hizb" />
 			<text id="QUARTER" value="Quarter" />
+            <text id="HIZB_QUARTER" value="Hizb Quarter"   />
 			<text id="MAKKI" value="Makki" />
 			<text id="MADANI" value="Madani" />
 			<text id="DESCENT" value="Descent" />
@@ -163,6 +164,9 @@
 			<text id="MINOR_SAJDA" value="Recommended sajda" /><!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="Mandatory sajda" /><!-- Wajib Sajda -->
 			<text id="LOCATION" value="Location" /><!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+            <text id="AUDHUBILLAH" value="A'udhubillah"   />
+            <text id="BISMILLAH" value="Bismillah"   />
+            <text id="SADAGHALLAH" value="Sadaqallah"   />
 		</special>
 	</word>
 
@@ -223,6 +227,7 @@
 			<text id="THEME_OPTIONS" value="Theme" />
 			<text id="GENERAL_OPTIONS" value="General" />
 			<text id="VIEW_OPTIONS" value="View" />
+            <text id="AUDIO_OPTIONS" value="Audio" />
 			<text id="TITLE" value="Application Options" />
 			<text id="SHOW_SPLASH" value="Display logo at startup" />
 			<text id="NEW_KEY" value="Enter a new key" />
@@ -238,6 +243,10 @@
 			<text id="T13N" value="Transliteration (if available)"   />
 			<text id="ENABLE_AUDIO" value="Enable audio support"   />
 			<text id="SURA_NAME_TREE" value="Display sura names in a tree"   />
+            <text id="SMART" value="Smart" />
+            <text id="ALWAYS" value="Always" />
+            <text id="NEVER" value="Never" />
+            <text id="PLAY_MODE" value="Play Mode" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configure Search Scope" />
@@ -337,10 +346,12 @@
 			<text id="NO_INTERVAL" value="No Interval"   />
 			<text id="NO_REPEAT" value="No Repeat"   />
             <text id="VOLUME" value="Volume"   />
+            <text id="TIMES" value="{1} times"   />
+            <text id="PLAY_SCOPE" value="Play Scope"   />
 		</form>
         <form id="GOTO_FORM">
-            <text id="TITLE" value="Goto"   />
-            <text id="GOTO" value="Goto"   />
+            <text id="TITLE" value="Go To"   />
+            <text id="GOTO" value="Go To"   />
             <text id="REVIEW" value="Review"   />
             <text id="JUZ" value="Juz"   />
             <text id="SURA_ORDER" value="Sura Order"   />

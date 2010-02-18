@@ -156,6 +156,7 @@
 			<text id="JUZ" value="جزء" />
 			<text id="HIZB" value="حزب" />
 			<text id="QUARTER" value="ربع" />
+            <text id="HIZB_QUARTER" value="ربع حزب"   />
 			<text id="MAKKI" value="مکّی" />
 			<text id="MADANI" value="مدنی" />
 			<text id="DESCENT" value="محل نزول" />
@@ -163,6 +164,9 @@
 			<text id="MINOR_SAJDA" value="سجده مستحب" />
 			<text id="MAJOR_SAJDA" value="سجده واجب" />
 			<text id="LOCATION" value="مکان" /><!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+            <text id="AUDHUBILLAH" value="اعوذ بالله" />
+            <text id="BISMILLAH" value="بسم الله" />
+            <text id="SADAGHALLAH" value="صدق الله" />
 		</special>
 	</word>
 
@@ -223,6 +227,7 @@
 			<text id="THEME_OPTIONS" value="مضمون" />
 			<text id="GENERAL_OPTIONS" value="عمومی" />
 			<text id="VIEW_OPTIONS" value="نمایش" />
+			<text id="AUDIO_OPTIONS" value="صوت" />
 			<text id="TITLE" value="تنظیمات برنامه" />
 			<text id="SHOW_SPLASH" value="نمایش تصویر ابتدای برنامه" />
 			<text id="NEW_KEY" value="یک کلید جدید وارد کنید" />
@@ -238,6 +243,10 @@
 			<text id="T13N" value="آوانگاری‌شده (اگر موجود است)" />
 			<text id="ENABLE_AUDIO" value="فعال‌سازی امکان قرائت" />
 			<text id="SURA_NAME_TREE" value="نمایش نام سوره‌ها به صورت درختی" />
+			<text id="SMART" value="هوشمندانه" />
+			<text id="ALWAYS" value="همیشه" />
+			<text id="NEVER" value="هرگز" />
+			<text id="PLAY_MODE" value="وضعیت پخش" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="تنظیم محدودهٔ جستجو" />
@@ -337,6 +346,8 @@
 			<text id="NO_INTERVAL" value="بدون وقفه"   />
 			<text id="NO_REPEAT" value="بدون تکرار"   />
             <text id="VOLUME" value="صدا"   />
+            <text id="TIMES" value="{1} بار"   />
+            <text id="PLAY_SCOPE" value="محدودهٔ پخش"   />
 		</form>
         <form id="GOTO_FORM">
             <text id="TITLE" value="برو به"   />
