@@ -13,11 +13,9 @@ package net.sf.zekr.common.resource;
  * configurations should be moved from quran-properties.xml into this class.
  * 
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
-public abstract class BaseQuranProperties {
-	
-	protected static int[][] uthmaniPages = {  // taken from Tanzil.info
+public interface BaseQuranProperties {
+	static int[][] uthmaniPages = {  // taken from Tanzil.info
 		// {suraNum, ayaNum}
 		{1, 1},		{2, 1},		{2, 6},		{2, 17},		{2, 25},
 		{2, 30}, 	{2, 38}, 	{2, 49}, 	{2, 58}, 	{2, 62},
@@ -142,7 +140,7 @@ public abstract class BaseQuranProperties {
 		{103, 1}, 	{106, 1}, 	{109, 1}, 	{112, 1}, 	{115, 1}
 	};
 
-	protected static int[][] rukus = { // // taken from Tanzil.info. {sura, aya}	
+	static int[][] rukus = { // // taken from Tanzil.info. {sura, aya}	
 		{1, 1}, 	{2, 1}, 	{2, 8}, 	{2, 21}, 	{2, 30},
 		{2, 40}, 	{2, 47}, 	{2, 60}, 	{2, 62}, 	{2, 72},
 		{2, 83}, 	{2, 87}, 	{2, 97}, 	{2, 104}, 	{2, 113},
@@ -257,7 +255,7 @@ public abstract class BaseQuranProperties {
 		{114, 1}
 	};
 	
-	protected static int[][] hizbQuads = {  // from Kuran0.08: http://kuran.sourceforge.net
+	static int[][] hizbQuads = {  // from Kuran0.08: http://kuran.sourceforge.net
 		 {  1,  1}, {  2, 26}, {  2, 44}, {  2, 60}, {  2, 75}, {  2, 92}, {  2,106}, {  2,124},  //Juz  1 = Hizb  1 + Hizb  2
 		 {  2,142}, {  2,158}, {  2,177}, {  2,189}, {  2,203}, {  2,219}, {  2,233}, {  2,243},  //Juz  2 = Hizb  3 + Hizb  4
 		 {  2,253}, {  2,263}, {  2,272}, {  2,283}, {  3, 15}, {  3, 33}, {  3, 52}, {  3, 75},  //Juz  3 = Hizb  5 + Hizb  6
