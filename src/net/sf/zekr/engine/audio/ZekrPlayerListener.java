@@ -96,8 +96,9 @@ public class ZekrPlayerListener implements BasicPlayerListener {
 			IQuranLocation loc = uvc.getLocation();
 			int prefetcher = config.getProps().getInt("audio.cache.prefetcher", 1);
 			logger.info(String.format("Pre-fetching next %s playable objects.", prefetcher));
+			IQuranLocation ql = loc;
 			for (int i = 0; i < prefetcher; i++) {
-				IQuranLocation ql = loc.getNext();
+				ql = ql.getNext();
 				if (ql == null) {
 					break;
 				}
