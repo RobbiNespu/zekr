@@ -690,6 +690,19 @@ Bug fixes:
 	Accelerator text is not added to menus anymore in Mac.
 	Failure of adding a new recitation pack is shown as error not warning. Warning should be only displayed for translation signature issues.
 
+Version 0.7.5 - [29-04-10]
+Features/Enhancements:
+	Show toString() error detail of QuranFormController.execute() failure. Will show cause if available.
+Bug fixes:
+	Will ignore a translation pack if no translation file found in the zip archive.
+	A bug fix for the new property key.commandAndControlAreSame in Mac. Its value was wrongly set as 'same' instead of 'true'.
+	Bug fix to stop playing in continuous play scope when last aya and last aya (114:6) is reached.
+	Bug fix regarding encoding of .properties file in .recit.zip packages.
+	An icon error which prevent opening "Manage Bookmark Sets" fixed.
+	Fixed a bug in Windows XP which caused exception when audio player was running and a modal Save or Open dialog was openned. See this report: https://bugs.eclipse.org/bugs/show_bug.cgi?id=302833
+	Added <absolute> to PathUtils in order to support absolute paths in audio properties files.
+	A bug with updating sura detail table resolved.
+	Bug fix for goto form when it's open and Ctrl+G is pressed.
 _____________________________________________________
 	TODO: Export search results
 

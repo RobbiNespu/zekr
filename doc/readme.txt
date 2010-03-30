@@ -38,7 +38,7 @@ For other libraries and dependencies come with standard Zekr releases see
 their corresponding licenses under doc directory:
 - Apache commons (including parts of commons-io-1.4, commons-lang-2.4,
     commons-logging-1.0.4, commons-collections-3.2.1, commons-codec-1.3,
-    and commons-configuration-1.5):
+    and commons-configuration-1.6):
     Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - Lucene libraries (lucene-core-3.0.0.jar, lucene-highlighter-3.0.0.jar,
     lucene-snowball-3.0.0.jar, and lucene-memory-3.0.0.jar): Apache License version 2.0,
