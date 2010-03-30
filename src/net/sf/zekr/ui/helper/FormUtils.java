@@ -118,6 +118,7 @@ public class FormUtils {
 		int i = 0;
 		for (Entry<String, String> entry : suraMap.entrySet()) {
 			items[i].setText(new String[] { entry.getKey(), entry.getValue() });
+			i++;
 		}
 		for (i = 0; i < table.getColumnCount(); i++) {
 			table.getColumn(i).pack();
@@ -256,6 +257,15 @@ public class FormUtils {
 	public static String getCurrentFormId() {
 		Shell shell = Display.getCurrent().getActiveShell();
 		return (String) (shell != null ? shell.getData(ZekrForm.FORM_ID) : null);
+	}
+
+	public static void disposeGracefully(Shell shell) {
+		try {
+			if (shell != null) {
+				shell.dispose();
+			}
+		} catch (Throwable th) {
+		}
 	}
 
 }
