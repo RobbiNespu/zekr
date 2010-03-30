@@ -89,14 +89,19 @@ public class GotoForm extends BaseForm implements FocusListener {
 	private List<String> suraNameList;
 
 	public GotoForm(Shell parent, QuranForm quranForm) {
-		display = parent.getDisplay();
-		this.parent = parent;
-		this.quranForm = quranForm;
-		uvc = config.getUserViewController();
+		try {
+			display = parent.getDisplay();
+			this.parent = parent;
+			this.quranForm = quranForm;
+			uvc = config.getUserViewController();
 
-		suraNameList = Collections.unmodifiableList(QuranPropertiesUtils.getLocalizedSuraNameList());
+			suraNameList = Collections.unmodifiableList(QuranPropertiesUtils.getLocalizedSuraNameList());
 
-		init();
+			init();
+		} catch (RuntimeException re) {
+			FormUtils.disposeGracefully(shell);
+			throw re;
+		}
 	}
 
 	private void init() {
