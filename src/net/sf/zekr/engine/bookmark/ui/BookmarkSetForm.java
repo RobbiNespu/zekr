@@ -98,28 +98,33 @@ public class BookmarkSetForm extends BaseForm {
 	}
 
 	public BookmarkSetForm(BookmarkSet bookmarkSet, Shell parent) {
-		this.parent = parent;
-		this.bookmarkSet = bookmarkSet;
-		bookmarkSetDirection = getBookmarkDirection();
+		try {
+			this.parent = parent;
+			this.bookmarkSet = bookmarkSet;
+			bookmarkSetDirection = getBookmarkDirection();
 
-		display = parent.getDisplay();
-		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.MAX | SWT.MIN | SWT.RESIZE);
+			display = parent.getDisplay();
+			shell = createShell(parent, SWT.DIALOG_TRIM | SWT.MAX | SWT.MIN | SWT.RESIZE);
 
-		GridLayout gl = new GridLayout(1, false);
-		shell.setLayout(gl);
-		shell.setText(meaning("TITLE", bookmarkSet.getId()));
-		shell.setImages(new Image[] { new Image(display, resource.getString("icon.bookmark.edit16")),
-				new Image(display, resource.getString("icon.bookmark.edit32")) });
+			GridLayout gl = new GridLayout(1, false);
+			shell.setLayout(gl);
+			shell.setText(meaning("TITLE", bookmarkSet.getId()));
+			shell.setImages(new Image[] { new Image(display, resource.getString("icon.bookmark.edit16")),
+					new Image(display, resource.getString("icon.bookmark.edit32")) });
 
-		shell.addDisposeListener(new DisposeListener() {
-			public void widgetDisposed(DisposeEvent e) {
-				Rectangle r = shell.getBounds();
-				config.getProps().setProperty("view.bookmark.bookarkSetForm.location",
-						new String[] { "" + r.x, "" + r.y, "" + r.width, "" + r.height });
-			}
-		});
+			shell.addDisposeListener(new DisposeListener() {
+				public void widgetDisposed(DisposeEvent e) {
+					Rectangle r = shell.getBounds();
+					config.getProps().setProperty("view.bookmark.bookarkSetForm.location",
+							new String[] { "" + r.x, "" + r.y, "" + r.width, "" + r.height });
+				}
+			});
 
-		makeForm();
+			makeForm();
+		} catch (RuntimeException re) {
+			FormUtils.disposeGracefully(shell);
+			throw re;
+		}
 	}
 
 	private int getBookmarkDirection() {

@@ -77,21 +77,26 @@ public class ManageBookmarkSetsForm extends BaseForm {
 	private Table table;
 
 	public ManageBookmarkSetsForm(Shell parent) {
-		this.parent = parent;
-		bookmark = config.getBookmark();
+		try {
+			this.parent = parent;
+			bookmark = config.getBookmark();
 
-		display = parent.getDisplay();
-		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
+			display = parent.getDisplay();
+			shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 
-		bmsg = config.getBookmarkSetGroup();
+			bmsg = config.getBookmarkSetGroup();
 
-		GridLayout gl = new GridLayout(1, false);
-		shell.setLayout(gl);
-		shell.setText(meaning("TITLE"));
-		shell.setImages(new Image[] { new Image(display, resource.getString("icon.bookmark.manage16")),
-				new Image(display, resource.getString("icon.bookmark.manage32")) });
+			GridLayout gl = new GridLayout(1, false);
+			shell.setLayout(gl);
+			shell.setText(meaning("TITLE"));
+			shell.setImages(new Image[] { new Image(display, resource.getString("icon.bookmark.manage16")),
+					new Image(display, resource.getString("icon.bookmark.manage32")) });
 
-		makeForm();
+			makeForm();
+		} catch (RuntimeException re) {
+			FormUtils.disposeGracefully(shell);
+			throw re;
+		}
 	}
 
 	private void makeForm() {

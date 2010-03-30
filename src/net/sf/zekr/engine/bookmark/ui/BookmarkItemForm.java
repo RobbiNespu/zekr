@@ -109,14 +109,19 @@ public class BookmarkItemForm extends BaseForm {
 	 */
 	public BookmarkItemForm(Shell parent, List<IQuranLocation> locationList, String bookmarkName,
 			int bookmarkSetDirection) {
-		this.parent = parent;
-		this.bookmarkSetDirection = bookmarkSetDirection;
-		bookmarkItem = new BookmarkItem();
-		bookmarkItem.setFolder(false);
-		bookmarkItem.setLocations(locationList);
-		bookmarkItem.setDescription("");
-		bookmarkItem.setName(bookmarkName != null ? bookmarkName : meaning("NEW_BOOKMARK"));
-		_init();
+		try {
+			this.parent = parent;
+			this.bookmarkSetDirection = bookmarkSetDirection;
+			bookmarkItem = new BookmarkItem();
+			bookmarkItem.setFolder(false);
+			bookmarkItem.setLocations(locationList);
+			bookmarkItem.setDescription("");
+			bookmarkItem.setName(bookmarkName != null ? bookmarkName : meaning("NEW_BOOKMARK"));
+			_init();
+		} catch (RuntimeException re) {
+			FormUtils.disposeGracefully(shell);
+			throw re;
+		}
 	}
 
 	private void _init() {

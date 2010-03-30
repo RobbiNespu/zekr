@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.TableItem;
 /**
  * @author Mohsen Saboorian
  */
+@SuppressWarnings("unchecked")
 public class BookmarkReferenceForm extends BaseForm {
 	public static final String FORM_ID = "BOOKMARK_REF";
 	private Shell parent;
@@ -38,10 +39,15 @@ public class BookmarkReferenceForm extends BaseForm {
 	private List referenceList;
 
 	public BookmarkReferenceForm(Shell parent, List refs, IQuranLocation location) {
-		this.parent = parent;
-		this.location = location;
-		this.referenceList = refs;
-		init();
+		try {
+			this.parent = parent;
+			this.location = location;
+			this.referenceList = refs;
+			init();
+		} catch (RuntimeException re) {
+			FormUtils.disposeGracefully(shell);
+			throw re;
+		}
 	}
 
 	private void init() {

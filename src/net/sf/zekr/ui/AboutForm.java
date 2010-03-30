@@ -43,9 +43,14 @@ public class AboutForm extends BaseForm {
 	private Label mem;
 
 	public AboutForm(Shell parent) {
-		this.parent = parent;
-		display = parent.getDisplay();
-		init();
+		try {
+			this.parent = parent;
+			display = parent.getDisplay();
+			init();
+		} catch (RuntimeException re) {
+			FormUtils.disposeGracefully(shell);
+			throw re;
+		}
 	}
 
 	public void init() {

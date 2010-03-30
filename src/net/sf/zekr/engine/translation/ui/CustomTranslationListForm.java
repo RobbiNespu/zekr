@@ -60,15 +60,20 @@ public class CustomTranslationListForm extends BaseForm {
 	private boolean okayed = false;
 
 	public CustomTranslationListForm(Shell parent) {
-		this.parent = parent;
-		display = parent.getDisplay();
-		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
+		try {
+			this.parent = parent;
+			display = parent.getDisplay();
+			shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 
-		shell.setLayout(new FillLayout());
-		shell.setText(meaning("TITLE"));
-		shell.setImage(new Image(display, resource.getString("icon.configTransList")));
+			shell.setLayout(new FillLayout());
+			shell.setText(meaning("TITLE"));
+			shell.setImage(new Image(display, resource.getString("icon.configTransList")));
 
-		init();
+			init();
+		} catch (RuntimeException re) {
+			FormUtils.disposeGracefully(shell);
+			throw re;
+		}
 	}
 
 	private void init() {
