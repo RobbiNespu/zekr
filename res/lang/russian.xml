@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <language author="Michael Kalinin" version="0.7">
     <locale localizedName="Русский" name="Russian" id="ru_RU" direction="ltr" />
     <word>
@@ -99,7 +99,7 @@
             <text id="MOVE_DOWN" value="Переместить вниз" />
             <text id="MULTI_TRANS" value="Многоязычный" />
             <text id="CONFIG_CUSTOM_TRANS" value="Настройка многоязычных переводов" />
-            <text id="GO" value="Перейти" />
+            <text id="GO" value="Переход" />
             <text id="CAUTION" value="Предупреждение" />
             <text id="ADVANCED" value="Расширенный" />
             <text id="QUERY_DETAIL" value="Детали запроса" />
@@ -156,6 +156,7 @@
             <text id="JUZ"      value="Джуз" />
             <text id="HIZB"     value="Хизб" />
             <text id="QUARTER"  value="Четверть" />
+			<text id="HIZB_QUARTER" value="Четверть хизба"   />
             <text id="MAKKI"    value="в Мекке" />
             <text id="MADANI"   value="в Медине" />
             <text id="DESCENT"  value="Ниспослана" />
@@ -163,7 +164,10 @@
             <text id="MINOR_SAJDA" value="Саджда мустахаб" /> <!-- Желательный земной поклон (мустахаб) -->
             <text id="MAJOR_SAJDA" value="Саджда ваджиб" /> <!-- Обязательный земной поклон (ваджиб) -->
             <text id="LOCATION" value="Расположение" /> <!-- означает расположение в Коране, например 2-12 означает суру "Корова", аят 12 -->
-        </special>
+            <text id="AUDHUBILLAH" value="Аузу-биллях"   />
+            <text id="BISMILLAH" value="Бисмиллях"   />
+            <text id="SADAGHALLAH" value="Садакаллах"   />        
+		</special>
     </word>
 
     <message>
@@ -200,13 +204,13 @@
 
     <forms>
         <global>
-            <text id="APP_NAME" value="Зикр" />
-            <text id="APP_FULL_NAME" value="Зикр. Коранический проект" />
-            <text id="FORM_TITLE" value="Зикр" />
+            <text id="APP_NAME" value="Zekr" />
+            <text id="APP_FULL_NAME" value="Zekr. Коранический проект" />
+            <text id="FORM_TITLE" value="Zekr" />
             <text id="COPYRIGHT_DISCLAIMER" value="Эта программа распространяется бесплатно в надежде на то, что она будет полезна, однако без каких-либо гарантий." />
         </global>
         <form id="QURAN_FORM">
-            <text id="TITLE" value="Зикр" />
+            <text id="TITLE" value="Zekr" />
             <text id="NEW_SCOPE" value="Создать новое правило" />
             <text id="EDIT_SCOPES" value="Редактировать правила" />
             <text id="NO_SCOPE" value="Без правил" />
@@ -223,6 +227,7 @@
             <text id="THEME_OPTIONS"    value="Тема"   />
             <text id="GENERAL_OPTIONS"  value="Общие"   />
             <text id="VIEW_OPTIONS"     value="Вид"   />
+			<text id="AUDIO_OPTIONS" value="Аудио" />
             <text id="TITLE" value="Настройки программы" />
             <text id="SHOW_SPLASH" value="Показывать логотип при запуске" />
             <text id="NEW_KEY" value="Введите новый ключ" />
@@ -237,7 +242,11 @@
             <text id="T9N" value="Перевод (если доступен)"   />
             <text id="T13N" value="Транслитерация (если доступна)"   />
             <text id="ENABLE_AUDIO" value="Включить поддержку аудио"   />
-            <text id="SURA_NAME_TREE" value="Показать названия сур в виде древа"   />           
+            <text id="SURA_NAME_TREE" value="Показать названия сур в виде древа"   />
+			<text id="SMART" value="Разумно" />
+            <text id="ALWAYS" value="Всегда" />
+            <text id="NEVER" value="Никогда" />
+            <text id="PLAY_MODE" value="Способ воспроизведения" />
         </form>
         <form id="SEARCH_SCOPE_FORM">
             <text id="TITLE" value="Настройка правил поиска" />
@@ -297,10 +306,10 @@
             <text id="INDEXING" value="Индексация" /><!-- Процесс индексации документа для быстрого поиска -->
             <text id="TAKE_TIME" value="Это действие может занять несколько минут в зависимости от размера индексируемого документа." />
             <text id="CHECKING" value="Проверка обновлений" />
-            <text id="ZEKR_IS_CHECKING" value="Зикр сейчас проверяет обновления" />
+            <text id="ZEKR_IS_CHECKING" value="Zekr сейчас проверяет обновления" />
         </form>
         <form id="ABOUT">
-            <text id="TITLE" value="О программе Зикр" />
+            <text id="TITLE" value="О программе Zekr" />
             <text id="VIEW_LOG" value="Просмотреть журнал отчетов" />
         </form>
         <form id="UPDATE">
@@ -336,6 +345,9 @@
 			<text id="REPEAT" value="Повторы"   />
 			<text id="NO_INTERVAL" value="Без интервала"   />
 			<text id="NO_REPEAT" value="Без повторов"   />
+			<text id="VOLUME" value="Громкость"   />
+            <text id="TIMES" value="{1} раз"   />
+            <text id="PLAY_SCOPE" value="Границы воспроизведения"   />
 		</form>
         <form id="GOTO_FORM">
             <text id="TITLE" value="Переход"   />

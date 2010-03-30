@@ -1,4 +1,4 @@
-#Tue Jan 12 14:08:23 GMT+03:30 2010
+#Fri Feb 19 00:12:28 GMT+03:30 2010
 eclipse.preferences.version=1
 encoding//doc/changes.txt=UTF-8
 encoding//doc/license/nanohttpd-license.txt=ISO-8859-1
@@ -14,7 +14,7 @@ encoding//res/audio/afasy-128kbps-online.properties=UTF-8
 encoding//res/audio/afasy-40kbps-offline.properties=UTF-8
 encoding//res/audio/afasy-dvd-offline.properties=UTF-8
 encoding//res/audio/ajmy-64kbps-online.properties=UTF-8
-encoding//res/audio/ayyub-online.properties=UTF-8
+encoding//res/audio/ayyub-128kbps-online.properties=UTF-8
 encoding//res/audio/basfar-192kbps-online.properties=UTF-8
 encoding//res/audio/ghamdi-40kbps-offline.properties=UTF-8
 encoding//res/audio/ghamdi-40kbps-online.properties=UTF-8
@@ -26,7 +26,6 @@ encoding//res/audio/mansouri-128kbps-offline.properties=UTF-8
 encoding//res/audio/mansouri-dvd-offline.properties=UTF-8
 encoding//res/audio/minshawi-16kbps-offline.properties=UTF-8
 encoding//res/audio/minshawi-16kbps-online.properties=UTF-8
-encoding//res/audio/muaiqly-128kbps-offline.properties=UTF-8
 encoding//res/audio/muaiqly-dvd-offline.properties=UTF-8
 encoding//res/audio/shatri-128kbps-offline.properties=UTF-8
 encoding//res/audio/shatri-128kbps-online.properties=UTF-8

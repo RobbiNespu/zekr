@@ -43,16 +43,16 @@
 	<property name="commons-io.jar" value="${libdir}/commons-io-1.4.jar" />
 	<property name="commons-collections.jar" value="${libdir}/commons-collections-3.2.1.jar" />
 	<property name="commons-codec.jar" value="${libdir}/commons-codec-1.3.jar" />
-    <property name="commons-configuration.jar" value="${libdir}/commons-configuration-1.5.jar" />
+    <property name="commons-configuration.jar" value="${libdir}/commons-configuration-1.6.jar" />
 
     <property name="jlayer.jar" value="${libdir}/jlayer-1.0.1.jar" />
     <property name="basicplayer.jar" value="${libdir}/basicplayer-3.0.jar" />
     <property name="tritonus-share.jar" value="${libdir}/tritonus-share-0.3.6.jar" />
 	<property name="tritonus-jorbis.jar" value="${libdir}/tritonus-jorbis-0.3.6.jar" />
-	<property name="jorbis.jar" value="${libdir}/jorbis-0.0.17.jar" />
-	<property name="jspeex.jar" value="${libdir}/jspeex-0.9.7.jar" />
-    <property name="mp3spi.jar" value="${libdir}/mp3spi-1.9.4.jar" />
     <property name="voirbisspi.jar" value="${libdir}/vorbisspi-1.0.3.jar" />
+    <property name="mp3spi.jar" value="${libdir}/mp3spi-1.9.4.jar" />
+	<property name="jspeex.jar" value="${libdir}/jspeex-0.9.7.jar" />
+	<property name="jorbis.jar" value="${libdir}/jorbis-0.0.17.jar" />
 
 	<path id="buildlibs">
 		<pathelement location="${log4j.jar}" />
@@ -71,12 +71,12 @@
 
         <pathelement location="${jlayer.jar}" />
         <pathelement location="${basicplayer.jar}" />
+        <pathelement location="${voirbisspi.jar}" />
+        <pathelement location="${mp3spi.jar}" />
         <pathelement location="${tritonus-share.jar}" />
 		<pathelement location="${tritonus-jorbis.jar}" />
-        <pathelement location="${jorbis.jar}" />
         <pathelement location="${jspeex.jar}" />
-        <pathelement location="${mp3spi.jar}" />
-        <pathelement location="${voirbisspi.jar}" />
+        <pathelement location="${jorbis.jar}" />
 	</path>
 
 	<target name="compile">

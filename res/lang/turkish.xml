@@ -336,6 +336,7 @@
 			<text id="REPEAT" value="Tekrar" />
 			<text id="NO_INTERVAL" value="Fasılasız" />
 			<text id="NO_REPEAT" value="Tekrar Yok" />
+            <text id="TIMES" value="{1} times"   />
 		</form>
 		<form id="GOTO_FORM">
 			<text id="TITLE" value="Git" />

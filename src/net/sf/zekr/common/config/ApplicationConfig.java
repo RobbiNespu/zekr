@@ -18,6 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -91,7 +92,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -683,38 +683,51 @@ public class ApplicationConfig implements ConfigNaming {
 	}
 
 	private TranslationData loadTranslationData(File transZipFile) throws IOException, ConfigurationException {
-		ZipFile zipFile = new ZipFile(transZipFile);
-		InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.TRANSLATION_DESC));
-		if (is == null) {
-			logger.warn("Will ignore invalid translation archive \"" + zipFile.getName() + "\".");
-			return null;
-		}
-		Reader reader = new InputStreamReader(is, "UTF-8");
-		PropertiesConfiguration pc = new PropertiesConfiguration();
-		pc.load(reader);
-		reader.close();
-		is.close();
-		zipFile.close();
+		TranslationData td = null;
+		ZipFile zipFile = null;
+		try {
+			zipFile = new ZipFile(transZipFile);
+			InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.TRANSLATION_DESC));
+			if (is == null) {
+				logger.warn("Will ignore invalid translation archive \"" + zipFile.getName() + "\".");
+				return null;
+			}
+			Reader reader = new InputStreamReader(is, "UTF-8");
+			PropertiesConfiguration pc = new PropertiesConfiguration();
+			pc.load(reader);
+			reader.close();
+			is.close();
 
-		TranslationData td = new TranslationData();
-		td.version = pc.getString(VERSION_ATTR);
-		td.id = pc.getString(ID_ATTR);
-		td.locale = new Locale(pc.getString(LANG_ATTR, "en"), pc.getString(COUNTRY_ATTR, "US"));
-		td.encoding = pc.getString(ENCODING_ATTR, "ISO-8859-1");
-		td.direction = pc.getString(DIRECTION_ATTR, "ltr");
-		td.file = pc.getString(FILE_ATTR);
-		td.name = pc.getString(NAME_ATTR);
-		td.localizedName = pc.getString(LOCALIZED_NAME_ATTR, td.name);
-		td.archiveFile = transZipFile;
-		td.delimiter = pc.getString(LINE_DELIMITER_ATTR, "\n");
-		String sig = pc.getString(SIGNATURE_ATTR);
-		td.signature = sig == null ? null : Base64.decodeBase64(sig.getBytes("US-ASCII"));
+			td = new TranslationData();
+			td.version = pc.getString(VERSION_ATTR);
+			td.id = pc.getString(ID_ATTR);
+			td.locale = new Locale(pc.getString(LANG_ATTR, "en"), pc.getString(COUNTRY_ATTR, "US"));
+			td.encoding = pc.getString(ENCODING_ATTR, "ISO-8859-1");
+			td.direction = pc.getString(DIRECTION_ATTR, "ltr");
+			td.file = pc.getString(FILE_ATTR);
+			td.name = pc.getString(NAME_ATTR);
+			td.localizedName = pc.getString(LOCALIZED_NAME_ATTR, td.name);
+			td.archiveFile = transZipFile;
+			td.delimiter = pc.getString(LINE_DELIMITER_ATTR, "\n");
+			String sig = pc.getString(SIGNATURE_ATTR);
+			td.signature = sig == null ? null : Base64.decodeBase64(sig.getBytes("US-ASCII"));
 
-		if (StringUtils.isBlank(td.id) || StringUtils.isBlank(td.name) || StringUtils.isBlank(td.file)
-				|| StringUtils.isBlank(td.version)) {
-			logger.warn("Invalid translation: \"" + td + "\".");
-			return null;
+			if (StringUtils.isBlank(td.id) || StringUtils.isBlank(td.name) || StringUtils.isBlank(td.file)
+					|| StringUtils.isBlank(td.version)) {
+				logger.warn("Invalid translation: \"" + td + "\".");
+				return null;
+			}
+
+			if (zipFile.getEntry(td.file) == null) {
+				logger.warn("Invalid translation format. File not exists in the archive: " + td.file);
+				return null;
+			}
+		} finally {
+			if (zipFile != null) {
+				ZipUtils.closeQuietly(zipFile);
+			}
 		}
+
 		return td;
 	}
 
@@ -1410,8 +1423,8 @@ public class ApplicationConfig implements ConfigNaming {
 		}
 	}
 
-	public AudioData addNewRecitationPack(final Display display, File zipFileToImport, String destDir,
-			ProgressListener progressListener) throws ZekrMessageException {
+	public AudioData addNewRecitationPack(File zipFileToImport, String destDir, ProgressListener progressListener)
+			throws ZekrMessageException {
 		try {
 			ZipFile zipFile = new ZipFile(zipFileToImport);
 			InputStream is = zipFile.getInputStream(new ZipEntry(ApplicationPath.RECITATION_DESC));
@@ -1424,11 +1437,16 @@ public class ApplicationConfig implements ConfigNaming {
 			String tempFileName = System.currentTimeMillis() + "-" + ApplicationPath.RECITATION_DESC;
 			tempFileName = System.getProperty("java.io.tmpdir") + "/" + tempFileName;
 			File recitPropsFile = new File(tempFileName);
-			FileWriter output = new FileWriter(recitPropsFile);
-			InputStreamReader input = new InputStreamReader(is, "UTF-8");
-			IOUtils.copy(input, output);
-			output.close();
-			input.close();
+			OutputStreamWriter output = null;
+			InputStreamReader input = null;
+			try {
+				output = new OutputStreamWriter(new FileOutputStream(recitPropsFile), "UTF-8");
+				input = new InputStreamReader(is, "UTF-8");
+				IOUtils.copy(input, output);
+			} finally {
+				IOUtils.closeQuietly(output);
+				IOUtils.closeQuietly(input);
+			}
 			logger.debug("Add new recitation: " + recitPropsFile);
 
 			AudioData newAudioData = loadAudioData(recitPropsFile, false);
@@ -1465,7 +1483,15 @@ public class ApplicationConfig implements ConfigNaming {
 			logger.info(String.format("Start uncompressing recitation: %s with size: %s to %s.",
 					zipFileToImport.getName(), FileUtils.byteCountToDisplaySize(zipFileToImport.length()), destDir));
 
-			boolean result = ZipUtils.extract(zipFileToImport, destDir, progressListener);
+			boolean result;
+			try {
+				result = ZipUtils.extract(zipFileToImport, destDir, progressListener);
+			} finally {
+				File file = new File(newRecitPropsFile.getParent(), ApplicationPath.RECITATION_DESC);
+				if (file.exists()) {
+					FileUtils.deleteQuietly(file);
+				}
+			}
 			if (result) {
 				logger.info("Uncompressing process done: " + zipFileToImport.getName());
 				audio.add(newAudioData);
@@ -1473,7 +1499,7 @@ public class ApplicationConfig implements ConfigNaming {
 				logger.info("Uncompressing process intrrrupted: " + zipFileToImport.getName());
 			}
 
-			FileUtils.deleteQuietly(new File(newRecitPropsFile.getParent(), ApplicationPath.RECITATION_DESC));
+			// FileUtils.deleteQuietly(new File(newRecitPropsFile.getParent(), ApplicationPath.RECITATION_DESC));
 
 			progressListener.finish(newAudioData);
 

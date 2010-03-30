@@ -63,7 +63,7 @@
 			<text id="IMPORT" value="وارد کردن" />
 			<text id="COPY" value="کپی" />
 			<text id="SEPARATE" value="مجزا" />
-			<text id="MIXED" value="درهم" />
+			<text id="MIXED" value="باهم" />
 			<text id="OPTIONS" value="تنظیمات" />
 			<text id="QUESTION" value="سؤال" />
 			<text id="FONT" value="قلم" />
@@ -144,8 +144,8 @@
 			<text id="PAUSED" value="درنگ"   />
 			<text id="STOPPED" value="توقف"   />
 			<text id="RECITER" value="قاری"   />
-			<text id="ONLINE" value="برخط"   />
-			<text id="OFFLINE" value="برون‌خط"   />
+			<text id="ONLINE" value="آنلاین"   />
+			<text id="OFFLINE" value="آفلاین"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />

@@ -37,6 +37,7 @@ public class KeyboardShortcut {
 
 	private Document doc;
 	private PropertiesConfiguration props;
+	private boolean commandAndControlAreSame;
 
 	{
 		controlMap.put("up", SWT.ARROW_UP);
@@ -59,6 +60,14 @@ public class KeyboardShortcut {
 	public KeyboardShortcut(PropertiesConfiguration props, Document shortcut) {
 		this.props = props;
 		doc = shortcut;
+
+		try {
+			commandAndControlAreSame = props.getBoolean("key.commandAndControlAreSame", true);
+		} catch (Exception e) {
+			// workaround for a bug in Zekr 0.7.5 beta 4
+			commandAndControlAreSame = true;
+			props.setProperty("key.commandAndControlAreSame", "true");
+		}
 	}
 
 	public void init() {
@@ -116,10 +125,11 @@ public class KeyboardShortcut {
 		key = StringUtils.replace(key, "\\+", "plus");
 		String[] keyParts = StringUtils.split(key, '+');
 		int accel = 0;
+
 		for (int j = 0; j < keyParts.length; j++) {
 			String part = keyParts[j].trim();
 			if ("ctrl".equals(part)) {
-				if (GlobalConfig.isMac && props.getBoolean("key.commandAndControlAreSame", true)) {
+				if (GlobalConfig.isMac && commandAndControlAreSame) {
 					accel |= SWT.COMMAND;
 				} else {
 					accel |= SWT.CTRL;

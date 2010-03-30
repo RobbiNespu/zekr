@@ -2,7 +2,7 @@
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
   <jar></jar>
-  <outfile>D:\Java\Programs\Zekr\dist\0.7.5\beta3\special\win32\zekr.exe</outfile>
+  <outfile>D:\Java\Programs\Zekr\dist\0.7.5\beta4a\special\win32\zekr.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
