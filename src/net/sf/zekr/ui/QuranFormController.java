@@ -44,6 +44,7 @@ import net.sf.zekr.ui.helper.FormUtils;
 import net.sf.zekr.ui.options.OptionsForm;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Event;
@@ -106,9 +107,13 @@ public class QuranFormController {
 		try {
 			Method method = getClass().getMethod(name, new Class<?>[0]);
 			method.invoke(this);
-		} catch (Exception e) {
-			MessageBoxUtils.showError("Error running action: " + name);
-			logger.error("Error calling action: " + name, e);
+		} catch (Throwable th) {
+			Throwable cause = ExceptionUtils.getCause(th);
+			if (cause != null) {
+				th = cause;
+			}
+			MessageBoxUtils.showError(String.format("Error running action: %s.\n%s", name, th));
+			logger.error("Error calling action: " + name, th);
 		}
 	}
 
@@ -118,9 +123,13 @@ public class QuranFormController {
 				try {
 					Method method = QuranFormController.this.getClass().getMethod(name, parameterType);
 					method.invoke(QuranFormController.this, methodParam);
-				} catch (Exception e) {
-					MessageBoxUtils.showError("Error running action: " + name);
-					logger.error("Error calling action: " + name, e);
+				} catch (Throwable th) {
+					Throwable cause = ExceptionUtils.getCause(th);
+					if (cause != null) {
+						th = cause;
+					}
+					MessageBoxUtils.showError(String.format("Error running action: %s.\n%s", name, th));
+					logger.error("Error calling action: " + name, th);
 				}
 			}
 		};
@@ -169,7 +178,8 @@ public class QuranFormController {
 	}
 
 	public void options() {
-		Shell shell = FormUtils.findShell(quranForm.display, OptionsForm.FORM_ID);
+		Shell shell = null;
+		shell = FormUtils.findShell(quranForm.display, OptionsForm.FORM_ID);
 		if (shell == null) {
 			new OptionsForm(quranForm.getShell()).open();
 		} else {
@@ -327,7 +337,8 @@ public class QuranFormController {
 	}
 
 	public void findBookmarkReferences() {
-		Shell shell = FormUtils.findShell(quranForm.display, BookmarkReferenceForm.FORM_ID);
+		Shell shell = null;
+		shell = FormUtils.findShell(quranForm.display, BookmarkReferenceForm.FORM_ID);
 		if (shell == null) {
 			IQuranLocation loc = uvc.getLocation();
 			logger.info("Find bookmark references to: " + loc);
@@ -340,7 +351,8 @@ public class QuranFormController {
 	}
 
 	public void manageBookmarks() {
-		Shell shell = FormUtils.findShell(quranForm.display, BookmarkSetForm.FORM_ID);
+		Shell shell = null;
+		shell = FormUtils.findShell(quranForm.display, BookmarkSetForm.FORM_ID);
 		if (shell == null) {
 			new BookmarkSetForm(quranForm.getShell()).open();
 		} else {
@@ -349,7 +361,8 @@ public class QuranFormController {
 	}
 
 	public void manageBookmarkSets() {
-		Shell shell = FormUtils.findShell(quranForm.display, ManageBookmarkSetsForm.FORM_ID);
+		Shell shell = null;
+		shell = FormUtils.findShell(quranForm.display, ManageBookmarkSetsForm.FORM_ID);
 		if (shell == null) {
 			new ManageBookmarkSetsForm(quranForm.getShell()).open();
 		} else {
@@ -361,8 +374,9 @@ public class QuranFormController {
 	 * Bring up bookmark item form.
 	 */
 	public void bookmarkThis() {
+		Shell shell = null;
 		try {
-			Shell shell = FormUtils.findShell(quranForm.display, BookmarkSetForm.FORM_ID);
+			shell = FormUtils.findShell(quranForm.display, BookmarkSetForm.FORM_ID);
 			if (shell == null) {
 
 				String titleMode = config.getProps().getString("bookmark.add.titleMode", "quran");
@@ -379,7 +393,7 @@ public class QuranFormController {
 				shell.forceActive();
 			}
 		} catch (IOException e) {
-			logger.error(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -423,7 +437,8 @@ public class QuranFormController {
 	}
 
 	public void configureMultiTrans() {
-		Shell shell = FormUtils.findShell(quranForm.display, CustomTranslationListForm.FORM_ID);
+		Shell shell = null;
+		shell = FormUtils.findShell(quranForm.display, CustomTranslationListForm.FORM_ID);
 		if (shell == null) {
 			new CustomTranslationListForm(quranForm.getShell()).show();
 		} else {
