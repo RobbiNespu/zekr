@@ -18,6 +18,10 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
+import net.sf.zekr.common.resource.SuraProperties;
+
 /**
  * Some utilities for working with zip files.
  * 
@@ -46,40 +50,43 @@ public class ZipUtils {
 			progressListener.start(zipFile.length());
 		}
 
-		while (e.hasMoreElements()) {
-			ZipEntry ze = e.nextElement();
-			if (ze.isDirectory()) {
-				File entry = new File(destDir + File.separator + ze.getName());
-				entry.mkdirs();
-				continue;
-			}
-
-			if (progressListener != null) {
-				long size = ze.getCompressedSize();
-				if (size < 0) {
-					size = ze.getSize();
+		try {
+			while (e.hasMoreElements()) {
+				ZipEntry ze = e.nextElement();
+				if (ze.isDirectory()) {
+					File entry = new File(destDir + File.separator + ze.getName());
+					entry.mkdirs();
+					continue;
 				}
-				if (!progressListener.progress(size)) {
-					interrupted = true;
-					break;
+
+				if (progressListener != null) {
+					long size = ze.getCompressedSize();
+					if (size < 0) {
+						size = ze.getSize();
+					}
+					if (!progressListener.progress(size)) {
+						interrupted = true;
+						break;
+					}
 				}
-			}
 
-			File f = new File(destDir + File.separator + ze.getName());
-			File p = new File(f.getParent());
-			if (!p.exists()) {
-				p.mkdirs();
-			}
-			f.createNewFile();
-			OutputStream os = new BufferedOutputStream(new FileOutputStream(f));
+				File f = new File(destDir + File.separator + ze.getName());
+				File p = new File(f.getParent());
+				if (!p.exists()) {
+					p.mkdirs();
+				}
+				f.createNewFile();
+				OutputStream os = new BufferedOutputStream(new FileOutputStream(f));
 
-			InputStream inStream = zf.getInputStream(ze);
-			while ((readSize = inStream.read(buffer)) != -1) { // read partially
-				os.write(buffer, 0, readSize); // write partially
+				InputStream inStream = zf.getInputStream(ze);
+				while ((readSize = inStream.read(buffer)) != -1) { // read partially
+					os.write(buffer, 0, readSize); // write partially
+				}
+				os.close();
 			}
-			os.close();
+		} finally {
+			zf.close();
 		}
-		zf.close();
 		return !interrupted;
 	}
 
@@ -94,5 +101,12 @@ public class ZipUtils {
 	 */
 	public static boolean extract(File zipFile, String destDir) throws IOException {
 		return extract(zipFile, destDir, null);
+	}
+
+	public static void closeQuietly(ZipFile zipFile) {
+		try {
+			zipFile.close();
+		} catch (Exception e) {
+		}
 	}
 }

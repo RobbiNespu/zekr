@@ -125,8 +125,9 @@ public class AudioPlayerUiController {
 			} else {
 				return loc.isLastAya() && loc.isLastSura();
 			}
+		} else {
+			return loc.isLastAya() && loc.isLastSura();
 		}
-		return false;
 	}
 
 	boolean playerPlaySpecialItemIfNeeded(boolean isLastInMode) {
@@ -389,6 +390,8 @@ public class AudioPlayerUiController {
 	}
 
 	public void updateRecitationListMenu() {
-		audioControllerForm.updateRecitationPopupMenu();
+		if (isAudioControllerFormOpen()) {
+			audioControllerForm.updateRecitationPopupMenu();
+		}
 	}
 }

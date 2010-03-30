@@ -41,7 +41,7 @@ public class NamedBufferedInputStream extends BufferedInputStream {
 
 	@Override
 	public String toString() {
-		return String.format("%s[%s]", super.toString(), name);
+		return String.format("%s[%s]", getClass().getSimpleName(), name);
 	}
 
 	@Override
