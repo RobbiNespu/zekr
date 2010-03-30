@@ -8,6 +8,7 @@
  */
 package net.sf.zekr.engine.audio.ui;
 
+import java.io.File;
 import java.util.List;
 
 import net.sf.zekr.common.config.GlobalConfig;
@@ -181,12 +182,16 @@ public class AudioPlayerForm extends BaseForm {
 		singleAyaImage = new Image(display, resource.getString("icon.player.singleAya"));
 		multiAyaImage = new Image(display, resource.getString("icon.player.multiAya"));
 
-		playImage = new Image(display, isRtl ? resource.getString("icon.player.playRtl") : resource
-				.getString("icon.player.play"));
-		pauseImage = new Image(display, resource.getString("icon.player.pause"));
-		stopImage = new Image(display, resource.getString("icon.player.stop"));
 		prevAyaImage = new Image(display, resource.getString("icon.player.prevAya"));
 		nextAyaImage = new Image(display, resource.getString("icon.player.nextAya"));
+
+		File playImageFile = new File(isRtl ? resource.getString("icon.player.playRtl") : resource
+				.getString("icon.player.play"));
+		File pauseImageFile = new File(resource.getString("icon.player.pause"));
+		File stopImageFile = new File(resource.getString("icon.player.stop"));
+		playImage = new Image(display, playImageFile.getAbsolutePath());
+		pauseImage = new Image(display, pauseImageFile.getAbsolutePath());
+		stopImage = new Image(display, stopImageFile.getAbsolutePath());
 	}
 
 	private void createTopRow() {

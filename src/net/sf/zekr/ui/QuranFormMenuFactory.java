@@ -74,13 +74,14 @@ import org.eclipse.swt.widgets.Shell;
  * @author Mohsen Saboorian
  */
 public class QuranFormMenuFactory {
+	private final static ResourceManager resource = ResourceManager.getInstance();
+	private static final Logger logger = Logger.getLogger(QuranFormMenuFactory.class);
+
 	Shell shell;
 	ApplicationConfig config;
 	LanguageEngine lang;
 	QuranForm quranForm;
 	Display display;
-	private final static ResourceManager resource = ResourceManager.getInstance();
-	private static final Logger logger = Logger.getLogger(QuranFormMenuFactory.class);
 
 	private boolean rtl;
 	private MenuItem quranLineLayoutItem;
@@ -125,6 +126,8 @@ public class QuranFormMenuFactory {
 	private PropertiesConfiguration props;
 	private PlayerController playerController;
 	private Menu recitationListMenu;
+	private String pauseIconFullPath;
+	private String playIconFullPath;
 
 	public QuranFormMenuFactory(QuranForm form, Shell shell) {
 		quranForm = form;
@@ -478,22 +481,12 @@ public class QuranFormMenuFactory {
 		showView.setMenu(showViewMenu);
 		detailPanelItem = createMenuItem(SWT.CHECK, showViewMenu, lang.getMeaning("DETAIL_PANEL"), "toggleDetailPanel",
 				null);
-		//				new SelectionAdapter() {
-		//					public void widgetSelected(SelectionEvent e) {
-		//						quranForm.togglePanel((String) e.widget.getData(), detailPanelItem.getSelection());
-		//					}
-		//				});
 		detailPanelItem.setSelection(props.getBoolean("view.panel.detail", true));
 
-		// fullscreen menu item
+		// full-screen menu item
 		new MenuItem(viewMenu, SWT.SEPARATOR);
 		fullScreenItem = createMenuItem(SWT.CHECK, viewMenu, lang.getMeaning("FULL_SCREEN"), "toggleFullScreen",
 				"icon.menu.fullScreen");
-		//		fullScreenItem.addSelectionListener(new SelectionAdapter() {
-		//			public void widgetSelected(SelectionEvent e) {
-		//				quranForm.setFullScreen(!quranForm.shell.getFullScreen(), true);
-		//			}
-		//		});
 
 		// ---- Audio ------
 		audioItem = new MenuItem(menu, SWT.CASCADE | direction);
@@ -502,6 +495,9 @@ public class QuranFormMenuFactory {
 		audioMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		audioItem.setMenu(audioMenu);
 
+		playIconFullPath = new File(resource.getString(rtl ? "icon.menu.playRtl" : "icon.menu.play")).getAbsolutePath();
+		pauseIconFullPath = new File(resource.getString("icon.menu.pause")).getAbsolutePath();
+		
 		playItem = createMenuItem(SWT.PUSH, audioMenu, lang.getMeaning("PLAY"), "playerTogglePlayPause",
 				rtl ? "icon.menu.playRtl" : "icon.menu.play");
 		playItem.setData(PlayStatus.PAUSE); // state
@@ -917,7 +913,7 @@ public class QuranFormMenuFactory {
 					}
 					addedList.add(tfile.getName());
 				} catch (ZekrMessageException zme) {
-					logger.warn(zme);
+					logger.warn("Loading translation pack failed", zme);
 					errorList.add(lang.getDynamicMeaning(zme.getMessage(), zme.getParams()));
 					continue;
 				}
@@ -1060,15 +1056,17 @@ public class QuranFormMenuFactory {
 											@Override
 											public void finish(AudioData ad) {
 												audioData = ad;
-												display.asyncExec(new Runnable() {
-													public void run() {
-														EventUtils.sendEvent(EventProtocol.IMPORT_PROGRESS_DONE);
-													}
-												});
+												if (progress) {
+													display.asyncExec(new Runnable() {
+														public void run() {
+															EventUtils.sendEvent(EventProtocol.IMPORT_PROGRESS_DONE);
+														}
+													});
+												}
 											}
 										};
 
-										config.addNewRecitationPack(display, file2Import, destDir, progressListener);
+										config.addNewRecitationPack(file2Import, destDir, progressListener);
 									} catch (ZekrMessageException zme) {
 										progress = false;
 										logger.error("Error importing: " + file2Import, zme);
@@ -1290,12 +1288,11 @@ public class QuranFormMenuFactory {
 	}
 
 	private void pausePlayer() {
-		changePlayerMenuState(PlayStatus.PAUSE, lang.getMeaning("PLAY"), resource.getString(rtl ? "icon.menu.playRtl"
-				: "icon.menu.play"));
+		changePlayerMenuState(PlayStatus.PAUSE, lang.getMeaning("PLAY"), playIconFullPath);
 	}
 
 	private void resumePlayer() {
-		changePlayerMenuState(PlayStatus.PLAY, lang.getMeaning("PAUSE"), resource.getString("icon.menu.pause"));
+		changePlayerMenuState(PlayStatus.PLAY, lang.getMeaning("PAUSE"), pauseIconFullPath);
 	}
 
 	private void changePlayerMenuState(PlayStatus data, String text, String image) {
