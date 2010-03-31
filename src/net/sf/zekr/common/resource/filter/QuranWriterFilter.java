@@ -28,6 +28,12 @@ public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
 
 	public String filter(QuranFilterContext qfc) {
 		String str = qfc.text;
+
+		boolean suppressFilter = ApplicationConfig.getInstance().getProps().getBoolean("text.filter.suppress", false);
+		if (suppressFilter) {
+			return str;
+		}
+
 		if (qfc.ayaNum == 1 && qfc.suraNum != 1 && qfc.suraNum != 9) {
 			int sp = -1;
 			for (int i = 0; i < 4; i++) { // ignore 4 whitespaces.
@@ -46,7 +52,7 @@ public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
 			str = RegexUtils.pregReplace(str, "([$HAMZA$DAL-$ZAIN$WAW][$SHADDA$FATHA]*)$TATWEEL($SUPERSCRIPT_ALEF)",
 					"$1$ZWNJ$2");
 		} else {
-			str = RegexUtils.pregReplace(str, "($SHADDA)([$KASRA$KASRATAN])","$2$1");
+			str = RegexUtils.pregReplace(str, "($SHADDA)([$KASRA$KASRATAN])", "$2$1");
 		}
 
 		str = StringUtils.replace(str, String.valueOf(ALEF) + MADDA, String.valueOf(ALEF_MADDA));
@@ -56,13 +62,14 @@ public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
 			str = highlightRegex.matcher(str).replaceAll("");
 		}
 
-		if ((qfc.params & HIGHLIGHT_WAQF_SIGN) == HIGHLIGHT_WAQF_SIGN)
+		if ((qfc.params & HIGHLIGHT_WAQF_SIGN) == HIGHLIGHT_WAQF_SIGN) {
 			// highlight waqf sign
 			if (ApplicationConfig.getInstance().getProps().getBoolean("text.filter.noSpaceBeforeWaqf", false)) {
 				str = highlightRegex.matcher(str).replaceAll(REPLACE_HIGHLIGHT_NOSPACE);
 			} else {
 				str = highlightRegex.matcher(str).replaceAll(REPLACE_HIGHLIGHT);
 			}
+		}
 		return str;
 	}
 }
