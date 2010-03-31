@@ -16,6 +16,8 @@ import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.theme.ThemeData;
 
+import org.apache.commons.io.IOUtils;
+
 /**
  * @author Mohsen Saboorian
  */
@@ -29,7 +31,8 @@ public class ThemeTemplate extends BaseViewTemplate {
 	}
 
 	/**
-	 * Transforms and persists all the theme CSS files if doesn't exists in the cache (<tt>Naming.CACHE_DIR</tt>).
+	 * Transforms and persists all the theme CSS files if doesn't exists in the cache (
+	 * <tt>Naming.CACHE_DIR</tt>).
 	 * 
 	 * @return result CSS, or null if no transformation done
 	 */
@@ -44,17 +47,18 @@ public class ThemeTemplate extends BaseViewTemplate {
 				logger.debug("Theme CSS doesn't exist, will create it: " + cssFileNames[i]);
 				File srcFile = new File(themeData.getPath() + "/" + resource.getString("theme.cssDir") + "/"
 						+ cssFileNames[i]);
-				if (config.getTranslation().getDefault() != null)
+				if (config.getTranslation().getDefault() != null) {
 					themeData.process(config.getTranslation().getDefault().locale.getLanguage());
-				else
+				} else {
 					themeData.process("en");
+				}
 				engine.putAll(themeData.processedProps);
 
 				try {
 					OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(destFile));
 					retStr = engine.getUpdated(srcFile.getPath());
 					osw.write(retStr);
-					osw.close();
+					IOUtils.closeQuietly(osw);
 				} catch (Exception e) {
 					Logger.getLogger(this.getClass()).log(e);
 				}
