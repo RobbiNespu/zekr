@@ -9,6 +9,8 @@
 package net.sf.zekr.ui;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
@@ -19,9 +21,13 @@ import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.filter.IQuranFilter;
 import net.sf.zekr.engine.audio.PlayableObject;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.theme.ThemeData;
 import net.sf.zekr.engine.translation.TranslationData;
+import net.sf.zekr.ui.helper.EventProtocol;
+import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -45,8 +51,9 @@ public class BrowserCallbackHandler {
 			try {
 				sura = Integer.parseInt(((String) args[1]).trim());
 				aya = Integer.parseInt(((String) args[2]).trim());
-				if (args.length > 3)
+				if (args.length > 3) {
 					page = Integer.parseInt(((String) args[3]).trim());
+				}
 			} catch (Exception e) {
 				return null; // do nothing
 			}
@@ -106,6 +113,27 @@ public class BrowserCallbackHandler {
 			} else {
 				form.searchPlayerController.stop();
 			}
+		} else if ("ZEKR::ZOOM".equals(method)) {
+			int zoom = (int) Double.parseDouble(args[1].toString());
+
+			ThemeData themeData = config.getTheme().getCurrent();
+			Map<String, String> props = themeData.props;
+
+			for (Entry<String, String> entry : props.entrySet()) {
+				String key = entry.getKey();
+				if (key.startsWith("trans_") && key.endsWith("fontSize")) {
+					int transFontSize = MapUtils.getIntValue(props, key, 10);
+					transFontSize += zoom;
+					props.put(key, String.valueOf(transFontSize));
+				}
+			}
+
+			String quranFontSizeKey = "quran_fontSize";
+			int quranFontSize = MapUtils.getIntValue(props, quranFontSizeKey, 10);
+			quranFontSize += zoom;
+			props.put(quranFontSizeKey, String.valueOf(quranFontSize));
+
+			EventUtils.sendEvent(EventProtocol.REFRESH_VIEW);
 		}
 		return null;
 	}
