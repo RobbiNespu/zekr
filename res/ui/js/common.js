@@ -34,6 +34,12 @@ function play(loc, isPlay) {
     }
 }
 
+function zoom(z) {
+    if (javaFunction) {
+        javaFunction('ZEKR::ZOOM', z);
+    }
+}
+
 function error(e) {
 	alert("An unexpected error occurred:\n" + "[" + e.name + ":" + e.number + "] " + e.message + "\n");
 }
