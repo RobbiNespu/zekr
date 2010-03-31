@@ -693,6 +693,8 @@ Bug fixes:
 Version 0.7.5 - [29-04-10]
 Features/Enhancements:
 	Show toString() error detail of QuranFormController.execute() failure. Will show cause if available.
+	Added zoom/unzoom buttons to Zekr Quran form. These buttons will increase or decrease Quran and translation font size by 1 pt.
+	Default font size of Quran increased to 19pt in both Uthman Taha and Sky themes. Default translaton size increased to 11pt. 
 Bug fixes:
 	Will ignore a translation pack if no translation file found in the zip archive.
 	A bug fix for the new property key.commandAndControlAreSame in Mac. Its value was wrongly set as 'same' instead of 'true'.

@@ -146,6 +146,8 @@
 			<text id="RECITER" value="Reciter"   />
             <text id="ONLINE" value="Online"   />
             <text id="OFFLINE" value="Offline"   />
+            <text id="SMALLER" value="Smaller"   />
+            <text id="LARGER" value="Larger"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />

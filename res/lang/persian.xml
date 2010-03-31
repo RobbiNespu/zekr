@@ -146,6 +146,8 @@
 			<text id="RECITER" value="قاری"   />
 			<text id="ONLINE" value="آنلاین"   />
 			<text id="OFFLINE" value="آفلاین"   />
+            <text id="SMALLER" value="کوچک‌تر"   />
+            <text id="LARGER" value="بزرگ‌تر"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
