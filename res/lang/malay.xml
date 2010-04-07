@@ -219,6 +219,7 @@
 			<text id="THEME_OPTIONS"     value="Tema"   />
 			<text id="GENERAL_OPTIONS"  value="Umum"   />
 			<text id="VIEW_OPTIONS"     value="Paparan"   />
+			<text id="AUDIO_OPTIONS" value="Audio" />
 			<text id="TITLE" value="Pilihan  Aplikasi" />
 			<text id="SHOW_SPLASH" value="Paparkan logo semasa startup" />
 			<text id="NEW_KEY" value="Masukan kekunci keyboard yang baru" />
@@ -234,7 +235,12 @@
 			<text id="T13N" value="Transliteration (if available)"   />
 			<text id="ENABLE_AUDIO" value="Hidupkan audio"   />
 			<text id="SURA_NAME_TREE" value="Paparkan nama surah dalam pepohon"   />
-			</form>
+			<text id="SMART" value="Pintar" />
+			<text id="ALWAYS" value="Selalu" />
+			<text id="NEVER" value="Tidak Penah" />
+			<text id="PLAY_MODE" value="Mod PemainF" />			
+		</form>
+
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Konfigurasi Skop Carian" />
 			<text id="SEARCH_SCOPE" value="Skop Carian" />
@@ -316,11 +322,11 @@
 			<text id="NEW_FINAL_AVAILABLE" value="Satu siaran yang lebih baru (akhir) tersedia untuk muat turun " />
 		</form>
 		<form id="PAGING_MODE">
-			<text id="TITLE" value="Paging Mode"   />
-			<text id="SURA" value="Sura"   />
+			<text id="TITLE" value="Mod Mukasurat"   />
+			<text id="SURA" value="Surah"   />
 			<text id="HIZB_QUARTER" value="Hizb Quarter"   />
-			<text id="JUZ" value="Juz"   />
-			<text id="CONST_AYA" value="Constant Aya Count"   />
+			<text id="JUZ" value="Juzuk"   />
+			<text id="CONST_AYA" value="Bilangan Ayat Konstan"   />
 			<text id="CUSTOM" value="Custom"   />
 			<text id="AYA_PER_SURA" value="Berapa banyak ayat sepatutnya muncul dalam setiap muka surat?"   />
 		</form>
@@ -332,6 +338,21 @@
 			<text id="REPEAT" value="Ulangi"   />
 			<text id="NO_INTERVAL" value="Tidak Jeda"   />
 			<text id="NO_REPEAT" value="Tidak Ulangi"   />
+			<text id="VOLUME" value="Volume"   />
+            <text id="TIMES" value="{1} kali"   />
+            <text id="PLAY_SCOPE" value="Skop"   />
 		</form>
+
+<form id="GOTO_FORM">
+            <text id="TITLE" value="Ke .."   />
+            <text id="GOTO" value="Ke .."   />
+            <text id="REVIEW" value="Papar"   />
+            <text id="JUZ" value="Juzuk"   />
+            <text id="SURA_ORDER" value="Susunan Surah"   />
+            <text id="HIZB_QUARTER" value="Hizb Quarter"   />
+            <text id="SURA_AYA" value="Surah:Ayat (e.g. 33:70)"   />
+            <text id="NORMAL" value="Normal"   />
+            <text id="REVELATION" value="Wahyu ({1})"   />
+        </form>
 	</forms>
 </language>

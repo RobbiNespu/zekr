@@ -144,8 +144,8 @@
 			<text id="PAUSED" value="Ara Verildi" />
 			<text id="STOPPED" value="Durduruldu" />
 			<text id="RECITER" value="Okuyan" />
-			<text id="ONLINE" value="Online/Bağlantılı" />
-			<text id="OFFLINE" value="Offline/Bağlantısız" />
+			<text id="ONLINE" value="İnternet" />
+			<text id="OFFLINE" value="Yerel" />
 		</common>
 		<special>
 			<text id="QURAN" value="Kur'an" />
@@ -156,6 +156,7 @@
 			<text id="JUZ" value="Cüz" />
 			<text id="HIZB" value="Hizip" />
 			<text id="QUARTER" value="Rubu'" />
+			<text id="HIZB_QUARTER" value="Hizip Rubu'"   />
 			<text id="MAKKI" value="Mekkî" />
 			<text id="MADANI" value="Medenî" />
 			<text id="DESCENT" value="Nüzûlü" />
@@ -163,6 +164,9 @@
 			<text id="MINOR_SAJDA" value="Müstehap Secde" />
 			<text id="MAJOR_SAJDA" value="Vacip Secde" />
 			<text id="LOCATION" value="Konum" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+			<text id="AUDHUBILLAH" value="Eûzü"   />
+			<text id="BISMILLAH" value="Besmele"   />
+			<text id="SADAGHALLAH" value="Sadaka'llâhü'l-azîm"   />
 		</special>
 	</word>
 
@@ -223,6 +227,7 @@
 			<text id="THEME_OPTIONS" value="Tema" />
 			<text id="GENERAL_OPTIONS" value="Genel" />
 			<text id="VIEW_OPTIONS" value="Görünüm" />
+			<text id="AUDIO_OPTIONS" value="Ses" />
 			<text id="TITLE" value="Program Seçenekleri" />
 			<text id="SHOW_SPLASH" value="Açılışta logoyu göster" />
 			<text id="NEW_KEY" value="Yeni bir sözcük giriniz" />
@@ -238,6 +243,10 @@
 			<text id="T13N" value="Yazım (Var ise)" />
 			<text id="ENABLE_AUDIO" value="Ses desteğini aç" />
 			<text id="SURA_NAME_TREE" value="Sûre adlarını liste olarak göster" />
+			<text id="SMART" value="Otomatik" />
+			<text id="ALWAYS" value="Dâima" />
+			<text id="NEVER" value="Asla" />
+			<text id="PLAY_MODE" value="Okuma Tarzı" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Arama Kapsamı Belirle" />
@@ -315,9 +324,9 @@
 			<text id="DOWNLOAD" value="İndir" />
 			<text id="MORE_INFO" value="Ayrıntılı bilgi" />
 			<text id="NO_UPDATE" value="Şu an en son sürümü kullanıyorsunuz." />
-			<text id="NEW_DEV_AVAILABLE" value="Daha yeni bir geliştirme sürümü (kararsız) indirilebilir durumda." />
-			<text id="NEW_BETA_AVAILABLE" value="Yeni bir beta sürümü (kararsız) indirilebilir durumda." />
-			<text id="NEW_FINAL_AVAILABLE" value="Yeni bir tam sürüm (final) indirilebilir durumda." />
+			<text id="NEW_DEV_AVAILABLE" value="Daha yeni bir geliştirme sürümü indirilebilir durumda." />
+			<text id="NEW_BETA_AVAILABLE" value="Yeni bir beta sürümü indirilebilir durumda." />
+			<text id="NEW_FINAL_AVAILABLE" value="Yeni bir tam sürüm indirilebilir durumda." />
 		</form>
 		<form id="PAGING_MODE">
 			<text id="TITLE" value="Sayfalandırma Tarzı" />
@@ -330,13 +339,15 @@
 		</form>
 		<form id="AUDIO_PLAYER_FORM">
 			<text id="TITLE" value="Okuyucu" />
-			<text id="SECOND_ABBR" value="s" /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECOND_ABBR" value="s." /> <!-- s stands for 'seconds', for example 1s -->
 			<text id="SECONDS" value="Saniye" /> <!--  tooltip for 's' (SECOND_ABBR) -->
 			<text id="INTERVAL" value="Fasıla" />
 			<text id="REPEAT" value="Tekrar" />
 			<text id="NO_INTERVAL" value="Fasılasız" />
 			<text id="NO_REPEAT" value="Tekrar Yok" />
-            <text id="TIMES" value="{1} times"   />
+			<text id="VOLUME" value="Ses Düzeyi"   />
+			<text id="TIMES" value="{1} kez"   />
+			<text id="PLAY_SCOPE" value="Okuma Kapsamı"   />
 		</form>
 		<form id="GOTO_FORM">
 			<text id="TITLE" value="Git" />

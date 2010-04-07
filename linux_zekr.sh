@@ -6,7 +6,7 @@
 # See http://zekr.org/faq.html#linux for more details.
 
 # uncomment and change the following line to a proper Mozilla-GTK2 installation directory.
-#export MOZILLA_FIVE_HOME=/usr/lib/firefox
+export MOZILLA_FIVE_HOME=/usr/lib/firefox
 
 if [ -z "$MOZILLA_FIVE_HOME" ]; then
 	echo "MOZILLA_FIVE_HOME environment variable is not set. Please set it to a Mozilla GTK2 1.4+ installation directory. See http://zekr.org/faq.html#linux for more info."

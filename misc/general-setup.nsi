@@ -8,7 +8,7 @@ SetCompressor /SOLID lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_NAME "zekr"
 !define VERSION 0.7.5.0
-!define RELEASE_VERSION "0.7.5beta4"
+!define RELEASE_VERSION "0.7.5"
 !define COMPANY zekr.org
 !define URL http://zekr.org
 
@@ -55,12 +55,9 @@ SetCompressor /SOLID lzma
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 # Variables
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.5\beta4\win32"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.5\final\win32"
 !define EXT_FILES "D:\Java\Programs\Zekr\dist\installer-files"
 Var StartMenuGroup
-Var JAVA_VER
-Var JRE_HOME
-Var JDK_HOME
 
 
 # Installer pages
@@ -215,8 +212,6 @@ Function .onInstSuccess
 	!insertmacro UNINSTALL.LOG_UPDATE_INSTALL
 FunctionEnd
 
-!define GET_JAVA_URL "http://java.sun.com/getjava"
-Var JAVA_INSTALLATION_MSG
 Function .onInit
     ;Detect already running installer
     System::Call 'kernel32::CreateMutexA(i 0, i 0, t "myMutex") i .r1 ?e'
@@ -225,33 +220,6 @@ Function .onInit
     MessageBox MB_OK|MB_ICONEXCLAMATION "The installer is already running."
     Abort
 
-    ;Detect JRE Version (should be 1.5.0+)
-    call GetJavaVersion
-    pop $0 ; major version
-    pop $1 ; minor version
-    pop $2 ; micro version
-
-    strcmp $0 "no" JavaNotInstalled
-        StrCpy $JAVA_VER "$0.$1"
-        IntCmp 150 "$0$1$2" FoundCorrectJavaVer FoundCorrectJavaVer JavaVerNotCorrect
-        FoundCorrectJavaVer:
-            ReadRegStr $JRE_HOME HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$JAVA_VER" "JavaHome"
-            ReadRegStr $JDK_HOME HKLM "SOFTWARE\JavaSoft\Java Development Kit\$JAVA_VER" "JavaHome"
-            Goto Done
-        JavaVerNotCorrect:
-            StrCpy $JAVA_INSTALLATION_MSG "The version of Java Runtime Environment (JRE) installed on your computer is $0.$1.$2$\n.Version 1.5.0 or newer is required to run this program properly.$\nDo you want to browse Java download site to get it now?"
-            MessageBox MB_YESNO|MB_ICONSTOP $JAVA_INSTALLATION_MSG IDNO DL_NO
-            GoTo DL_YES
-
-    JavaNotInstalled:
-        MessageBox MB_YESNO|MB_ICONSTOP "Can not find any Java Runtime Environment (JRE) on this computer.$\nDo you want to browse Java download site to get it now?" IDNO DL_NO
-        DL_NO:
-            GoTo Abrt
-        DL_YES:
-            Exec '"explorer.exe" ${GET_JAVA_URL}'
-    Abrt:
-        Abort
-    Done:
     
     InitPluginsDir
     StrCpy $StartMenuGroup Zekr
@@ -288,111 +256,6 @@ FunctionEnd
 ;Function launchZekr
 ;    ExecShell "" "$INSTDIR\zekr.exe"
 ;FunctionEnd
-
-Function GetJavaVersion
-  push $R0
-  push $R1
-  push $2
-  push $0
-  push $3
-  push $4
-  
-  ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
-  StrCmp $2 "" DetectTry2
-  ReadRegStr $3 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "MicroVersion"
-  StrCmp $3 "" DetectTry2
-#  ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "UpdateVersion"
-#  StrCmp $4 "" 0 GotFromUpdate
-  ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
-  Goto GotJRE
-
-DetectTry2:
-  ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
-  StrCmp $2 "" NoFound
-  ReadRegStr $3 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "MicroVersion"
-  StrCmp $3 "" NoFound
-#  ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "UpdateVersion"
-#  StrCmp $4 "" 0 GotFromUpdate
-  ReadRegStr $4 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
-GotJRE:
-  ; calc build version
-  strlen $0 $3
-  intcmp $0 1 0 0 GetFromMicro
-  ; get it from the path
-GetFromPath:
-  strlen $R0 $4
-  intop $R0 $R0 - 1
-  StrCpy $0 ""
-loopP:
-  StrCpy $R1 $4 1 $R0
-  StrCmp $R1 "" DotFoundP
-  StrCmp $R1 "_" UScoreFound
-  StrCmp $R1 "." DotFoundP
-  StrCpy $0 "$R1$0"
-  Goto GoLoopingP
-DotFoundP:
-  push ""
-  Exch 6
-  goto CalcMicro
-UScoreFound:
-  push $0
-  Exch 6
-  goto CalcMicro
-GoLoopingP:
-  intcmp $R0 0 DotFoundP DotFoundP
-  IntOp $R0 $R0 - 1
-  Goto loopP
-GetFromMicro:
-  strcpy $4 $3
-  goto GetFromPath
-/*GotFromUpdate:
-  push $4
-  Exch 6
-*/ 
-CalcMicro:
-  Push $3 ; micro
-  Exch 6
-  ; break version into major and minor
-  StrCpy $R0 0
-  StrCpy $0 ""
-loop:
-  StrCpy $R1 $2 1 $R0
-  StrCmp $R1 "" done
-  StrCmp $R1 "." DotFound
-  StrCpy $0 "$0$R1"
-  Goto GoLooping
-DotFound:
-  Push $0 ; major
-  Exch 5
-  StrCpy $0 ""
-GoLooping:
-  IntOp $R0 $R0 + 1
-  Goto loop
- 
-done:
-  Push $0 ; minor
-  Exch 7
-  ; restore register values
-  pop $0
-  pop $2
-  pop $R1
-  pop $R0
-  pop $3
-  pop $4
-  return
-NoFound:
-  pop $4
-  pop $3
-  pop $0
-  pop $2
-  pop $R1
-  pop $R0
-  push ""
-  push "installed"
-  push "java"
-  push "no"
-FunctionEnd
-
 
 # Installer Language Strings
 LangString ^UninstallLink ${LANG_ENGLISH} "Uninstall $(^Name)"

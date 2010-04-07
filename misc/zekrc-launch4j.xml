@@ -2,7 +2,7 @@
   <dontWrapJar>true</dontWrapJar>
   <headerType>console</headerType>
   <jar></jar>
-  <outfile>D:\Java\Programs\Zekr\dist\0.7.5\beta3\win32\zekrc.exe</outfile>
+  <outfile>D:\Java\Programs\Zekr\dist\0.7.5\final\win32\zekrc.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -49,7 +49,7 @@
     <fileVersion>0.7.5.0</fileVersion>
     <txtFileVersion>0.7.5.0</txtFileVersion>
     <fileDescription>Zekr - Open Qur'anic Project</fileDescription>
-    <copyright>© 2004-2010 zekr.org</copyright>
+    <copyright>(c) 2004-2010 zekr.org</copyright>
     <productVersion>0.7.5.0</productVersion>
     <txtProductVersion>0.7.5.0</txtProductVersion>
     <productName>Zekr</productName>

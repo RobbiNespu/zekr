@@ -1,9 +1,10 @@
-<zekr-update fullName="Zekr 0.7.5 beta 4" version="0.7.5beta4" status="BETA"
-    build="2010021900" date="19-01-2010" downloadUrl="http://zekr.org/download.html"
-    noteUrl="http://zekr.org/wiki/Zekr_0.7.5_beta_4">
-    <info><![CDATA[Zekr 0.7.5 beta 4 is available. This version comes with a lot of bug fixes and new features:
-Audio player enhancements: player scope, play mode for special items, pre-fetching, seeking support, shortcut for seek and volume control, quick import for complete recitation pack files (.recit.zip), audio player form enhancements.
-Key-binding redesigned: some new attributes added to shortcut.xml for more flexibility.
-Go To form enhancements: more flexible sura name filtering, syncing other inputs when Review button is pressed.
-A number of Mac Cocoa enhancements, including support for Application Menu.]]></info>
+<zekr-update fullName="Zekr 0.7.5" version="0.7.5" status="FINAL"
+    build="2010040100" date="01-04-2010" downloadUrl="http://zekr.org/download.html"
+    noteUrl="http://zekr.org/wiki/Zekr_0.7.5">
+    <info><![CDATA[Zekr 0.7.5 final is ready for download. This is the final version in 0.7.5 branch which has the following features comparing to 0.7.1:
+- A new pure-Java audio player introduced. This player has many features over previous flash-based player.
+- Customizable shortcuts are now supported.
+- A new advanced Go To dialog added.
+- A new audio pack (.recit.zip) introduced to ease importing of an offline recitation pack.
+- A number of Mac Cocoa enhancements.]]></info>
 </zekr-update>
