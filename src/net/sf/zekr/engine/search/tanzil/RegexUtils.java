@@ -75,6 +75,8 @@ public class RegexUtils extends LetterConstants {
 	static {
 		preProcess.put("[$FARSI_YEH$YEH_BARREE]", "$YEH");
 		preProcess.put("[$FARSI_KEHEH$SWASH_KAF]", "$KAF");
+		preProcess.put("$NOON$SUKUN", "$NOON");
+		preProcess.put("([$KASRA$KASRATAN])($SHADDA)", "$2$1");
 	}
 
 	static {
@@ -173,9 +175,11 @@ public class RegexUtils extends LetterConstants {
 	 * @return enriched pattern
 	 */
 	static String enrichPattern(String pattern, boolean ignoreHaraka) {
-		if (ignoreHaraka)
+		if (ignoreHaraka) {
 			pattern = pregReplace(pattern, "$HARAKA", "");
+		}
 
+		pattern = pregReplace("$TATWEEL", "", pattern);
 		pattern = regTrans(pattern); // allows using letter constants in pattern
 		pattern = handleSpaces(pattern);
 		pattern = applyRules(pattern, preProcess);
