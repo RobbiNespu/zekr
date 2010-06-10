@@ -65,8 +65,8 @@ public class SearchResultModel {
 	 * @param ayaComparator the {@link AbstractSearchResultComparator} to be used for sorting results
 	 * @param ascending
 	 */
-	public SearchResultModel(IQuranText quranText, List<SearchResultItem> results, String clause, String rawQuery, int totalMatch,
-			AbstractSearchResultComparator ayaComparator, boolean ascending) {
+	public SearchResultModel(IQuranText quranText, List<SearchResultItem> results, String clause, String rawQuery,
+			int totalMatch, AbstractSearchResultComparator ayaComparator, boolean ascending) {
 		this.quranText = quranText;
 		this.results = results;
 		this.totalMatch = totalMatch;
@@ -108,7 +108,14 @@ public class SearchResultModel {
 		return results.size();
 	}
 
+	/**
+	 * @return the total number of pages of the result, based on {@link #resultPerPage}. If {@link #results}
+	 *         size is 0, this method returns 1.
+	 */
 	public int getResultPageCount() {
+		if (results.size() == 0) {
+			return 1;
+		}
 		return (int) Math.ceil((double) results.size() / resultPerPage);
 	}
 
