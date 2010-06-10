@@ -706,6 +706,16 @@ Bug fixes:
 	Added <absolute> to PathUtils in order to support absolute paths in audio properties files.
 	A bug with updating sura detail table resolved.
 	Bug fix for goto form when it's open and Ctrl+G is pressed.
+
+Version 0.7.6 - [01-07-10]
+Features/Enhancements:
+	Updated quran-simple from tanzil "Simple" to "Simple Enhanced" version to ease reading.
+Bug fixes:
+	search result showed: "Page 1 of 0" when no result found. It not shows Page 1 of 1.
+	Fixed exception of Goto Form when invalida sura:aya combination entered in sura:aya box.
+	In recitation .properties files: audio.offlineBismillam should be changed to audio.offlineBismillah. Both these values are not recognized by Zekr for backward compatibility.
+	A bug in search caused Kasra+Shadda reverse ordering not to be recognized correctly.
+	
 _____________________________________________________
 	TODO: Export search results
 
@@ -732,3 +742,24 @@ _____________________________________________________
 	TODO: Quranic Ruku locations.
 
 	TODO: Remove dependency to common collections (too large library)
+
+	- bug: set volume of search result items to main audio controller audio volume
+	- there's an exception after importing a .recit.zip pack: org.eclipse.swt.SWTException: Widget is disposed
+	at org.eclipse.swt.SWT.error(Unknown Source)
+	at org.eclipse.swt.SWT.error(Unknown Source)
+	at org.eclipse.swt.SWT.error(Unknown Source)
+	at org.eclipse.swt.widgets.Widget.error(Unknown Source)
+	at org.eclipse.swt.widgets.Widget.checkWidget(Unknown Source)
+	at org.eclipse.swt.widgets.Widget.isListening(Unknown Source)
+	at net.sf.zekr.ui.helper.EventUtils.sendEvent(EventUtils.java:51)
+	at net.sf.zekr.ui.helper.EventUtils.sendEvent(EventUtils.java:28)
+	at net.sf.zekr.ui.QuranFormMenuFactory$17$1$1$2.run(QuranFormMenuFactory.java:1062)
+	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+	... 6 more
+
+	- search result shows: "Page 1 of 0" when no result found.
+	- grješniku, vidjećeš or other related terms cannot be found in simple search of korkut translation.
+	- Advanced Goto: throws exception when a sura number larger than 114 is entered in sura:aya box.
+	
+	- audio.offlineBismillam ===> audio.offlineBismillah
+	- in search results, shadda-kasra order is not reversed as in the normal text. It seems that some filtering rules are not applied to search results.
