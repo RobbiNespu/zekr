@@ -15,6 +15,7 @@ import java.util.List;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.JuzProperties;
+import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.SuraProperties;
 import net.sf.zekr.engine.page.IPagingData;
@@ -288,16 +289,17 @@ public class GotoForm extends BaseForm implements FocusListener {
 						if (suraAya.length == 1) {
 							try {
 								int sura = Integer.parseInt(suraAya[0]);
-								gotoSura(sura);
+								if (QuranLocation.isValidLocation(sura, 1)) {
+									gotoSura(sura);
+								}
 							} catch (NumberFormatException e1) {
 							}
 						} else if (suraAya.length > 1) {
 							try {
 								int sura = Integer.parseInt(suraAya[0]);
 								int aya = Integer.parseInt(suraAya[1]);
-								IQuranLocation location = QuranPropertiesUtils.getLocation(sura, aya);
-								if (location.isValid()) {
-									navTo(location);
+								if (QuranLocation.isValidLocation(sura, aya)) {
+									navTo(sura, aya);
 								}
 							} catch (NumberFormatException e1) {
 							}
