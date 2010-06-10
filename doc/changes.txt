@@ -711,7 +711,7 @@ Version 0.7.6 - [01-07-10]
 Features/Enhancements:
 	Updated quran-simple from tanzil "Simple" to "Simple Enhanced" version to ease reading.
 Bug fixes:
-	search result showed: "Page 1 of 0" when no result found. It not shows Page 1 of 1.
+	Search result showed: "Page 1 of 0" when no result found. It not shows Page 1 of 1.
 	Fixed exception of Goto Form when invalida sura:aya combination entered in sura:aya box.
 	In recitation .properties files: audio.offlineBismillam should be changed to audio.offlineBismillah. Both these values are not recognized by Zekr for backward compatibility.
 	A bug in search caused Kasra+Shadda reverse ordering not to be recognized correctly.

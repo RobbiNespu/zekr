@@ -41,7 +41,7 @@ window.res = null;
 		$DICT.getMeaning('PAGE'): <input id="pageNav" dir="ltr" title="$DICT.getMeaning('PAGE')" type="text" style="width: 3em" value="${PAGE_NUM}" />&nbsp;
 		<button type="button" onclick="navtoSuraAya()">&nbsp;$DICT.getMeaning('GO')&nbsp;</button>
 		</td>
-		<td align="center" width="8%">
+		<td align="center" width="8%" nowrap="nowrap">
 			<img alt="-" tabindex="0" class="handCursor" title="$DICT.getMeaning('SMALLER')" border="0" src="res/image/icon/zoom-out16.png" onclick="zoom(-1)">
 			|
 			<img alt="+" tabindex="0" class="handCursor" title="$DICT.getMeaning('LARGER')" border="0" src="res/image/icon/zoom-in16.png" onclick="zoom(1)">

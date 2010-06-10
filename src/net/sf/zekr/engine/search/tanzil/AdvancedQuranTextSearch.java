@@ -125,7 +125,7 @@ public class AdvancedQuranTextSearch {
 			String pattern = enricher.enrich(rawQuery);
 
 			String highlightPattern = pattern.replaceAll("[+!]", "|");
-			highlightPattern.replaceAll("^[|]+", "").replaceAll("!", "");// remove leading '|'s
+			highlightPattern.replaceAll("^[|]+", "").replaceAll("!", ""); // remove leading '|'s
 			logger.debug("Rewritten query: " + pattern);
 
 			pattern = StringUtils.replace(pattern, "!", "+!");
@@ -184,6 +184,7 @@ public class AdvancedQuranTextSearch {
 	 * @param highlightPattern
 	 * @param patternCount
 	 */
+	@SuppressWarnings("unchecked")
 	private void scoreSearchResult(List resultItems, String highlightPattern, int patternCount) {
 		for (int i = 0; i < resultItems.size(); i++) {
 			SearchResultItem sri = (SearchResultItem) resultItems.get(i);
@@ -193,6 +194,7 @@ public class AdvancedQuranTextSearch {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private List filterBucket(List intermediateResult, String pattern, boolean exclude, boolean firstTime)
 			throws SearchException {
 		try {
@@ -244,6 +246,7 @@ public class AdvancedQuranTextSearch {
 		s = "سلام علی";
 		s = "\"محسن\"";
 		s = "محسن";
+		s = "ذُكِّرُوا";
 		System.out.println(RegexUtils.enrichPattern(s, false));
 		System.out.println("Initialize AdvancedQuranTextSearch" + new Date());
 		AdvancedQuranTextSearch ats = new AdvancedQuranTextSearch(QuranText.getSimpleTextInstance(),
