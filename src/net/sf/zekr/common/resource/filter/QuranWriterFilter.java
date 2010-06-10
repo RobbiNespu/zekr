@@ -46,7 +46,7 @@ public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
 		str = StringUtils.remove(str, " " + SAJDA_PLACE);
 		str = StringUtils.remove(str, RUB_EL_HIZB + " ");
 
-		// Good for Uthmani text
+		// good for Uthmani text
 		if ((qfc.params & UTHMANI_TEXT) == UTHMANI_TEXT) {
 			str = RegexUtils.pregReplace(str, "($SHADDA|$FATHA)($SUPERSCRIPT_ALEF)", "$1$TATWEEL$2");
 			str = RegexUtils.pregReplace(str, "([$HAMZA$DAL-$ZAIN$WAW][$SHADDA$FATHA]*)$TATWEEL($SUPERSCRIPT_ALEF)",

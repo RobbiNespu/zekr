@@ -72,7 +72,9 @@ public class QuranLocation implements IQuranLocation {
 	/**
 	 * Checks if the location (sura, aya) actually exists.
 	 * 
-	 * @return <code>true</code> if this is a valid Quran location, <code>false</code> otherwise.
+	 * @param suraNum 1-based sura number
+	 * @param ayaNum 1-based aya number
+	 * @return <code>true</code> if this is a valid Qur'an location, <code>false</code> otherwise.
 	 */
 	public static boolean isValidLocation(int suraNum, int ayaNum) {
 		return new QuranLocation(suraNum, ayaNum).isValid();
