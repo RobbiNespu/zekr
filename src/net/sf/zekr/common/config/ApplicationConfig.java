@@ -938,11 +938,13 @@ public class ApplicationConfig implements ConfigNaming {
 		audioData.onlineUrl = pc.getString("audio.onlineUrl");
 
 		audioData.onlineAudhubillah = pc.getString("audio.onlineAudhubillah");
-		audioData.onlineBismillah = pc.getString("audio.onlineBismillam");
+		// keep backward compatibility for old typo in files (bismillam instead of bismillah)
+		audioData.onlineBismillah = pc.getString("audio.onlineBismillah", pc.getString("audio.onlineBismillam"));
 		audioData.onlineSadaghallah = pc.getString("audio.onlineSaghaghallah");
 
 		audioData.offlineAudhubillah = pc.getString("audio.offlineAudhubillah");
-		audioData.offlineBismillah = pc.getString("audio.offlineBismillam");
+		// keep backward compatibility for old typo in files (bismillam instead of bismillah)
+		audioData.offlineBismillah = pc.getString("audio.offlineBismillah", pc.getString("audio.offlineBismillam"));
 		audioData.offlineSadaghallah = pc.getString("audio.offlineSaghaghallah");
 		return audioData;
 	}
