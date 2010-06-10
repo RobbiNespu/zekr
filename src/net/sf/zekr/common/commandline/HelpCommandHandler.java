@@ -36,7 +36,8 @@ public class HelpCommandHandler extends CommandHandler {
 	}
 
 	public void execute() throws CommandException {
-		stdout.println("Zekr, Open Quranic Project, ver. " + GlobalConfig.ZEKR_VERSION + ".");
+		stdout.println("Zekr, Open Quranic Project, ver. " + GlobalConfig.ZEKR_VERSION + ", build "
+				+ GlobalConfig.ZEKR_BUILD_NUMBER + ".");
 		stdout.println(helpMessage);
 	}
 }
