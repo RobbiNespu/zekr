@@ -115,7 +115,7 @@ public class AudioCacheManager {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("Error providing playable object.", e);
 			return null;
 		}
 	}
@@ -147,7 +147,7 @@ public class AudioCacheManager {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("Error providing playable object.", e);
 			return null;
 		}
 	}
