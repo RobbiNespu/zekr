@@ -226,13 +226,12 @@ public class TranslationData extends AbstractQuranText implements Signable {
 		return fullTransText[absoluteAyaNum - 1];
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.resource.IQuranText#getTranslationData()
-	 */
-	public TranslationData getTranslationData() {
-		return this;
+	public boolean isTranslation() {
+		return true;
+	}
+
+	public String getLanguage() {
+		return locale.getLanguage();
 	}
 
 	/**

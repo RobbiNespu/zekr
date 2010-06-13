@@ -9,7 +9,6 @@
 package net.sf.zekr.common.resource;
 
 import net.sf.zekr.engine.search.SearchScope;
-import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * @author Mohsen Saboorian
@@ -115,8 +114,12 @@ public class RangedQuranText extends AbstractRangedQuranText {
 		return quran.getFullText();
 	}
 
-	public TranslationData getTranslationData() {
-		return quran.getTranslationData();
+	public boolean isTranslation() {
+		return quran.isTranslation();
+	}
+
+	public String getLanguage() {
+		return quran.getLanguage();
 	}
 
 	public String getBismillah(int suraNum) {

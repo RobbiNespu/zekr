@@ -11,17 +11,17 @@ package net.sf.zekr.common.resource;
 import net.sf.zekr.engine.translation.TranslationData;
 
 /**
- * A general interface for Quran text access. All classes/methods who need Quran access should have this
+ * A general interface for Qur'an text access. All classes/methods who need Qur'an access should have this
  * through <code>IQuranText</code> interface.<br>
- * This interface is applicable to translation as well as Quran.
+ * This interface is applicable to translation as well as Qur'an.
  * 
  * @author Mohsen Saboorian
  */
 public interface IQuranText {
-	/** Uthmani Quran text */
+	/** Uthmani Qur'an text */
 	public static final int UTHMANI_MODE = 0;
 
-	/** Simple (Imlaaei) Quran text */
+	/** Simple (Imlaaei) Qur'an text */
 	public static final int SIMPLE_MODE = 1;
 
 	/**
@@ -64,11 +64,14 @@ public interface IQuranText {
 	public String[][] getFullText();
 
 	/**
-	 * This method should only be implemented in subclasses which are aimed for Quran translation.
-	 * 
-	 * @return translation data
+	 * @return true if this is a {@link TranslationData} and false otherwise (if this is Arabic Qur'an text).
 	 */
-	public TranslationData getTranslationData();
+	public boolean isTranslation();
+
+	/**
+	 * @return language of this translation data (or "ar" if this is a Qur'an text).
+	 */
+	public String getLanguage();
 
 	/**
 	 * Return Bismillah (the beginning part of suras).<br />

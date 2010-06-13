@@ -86,8 +86,12 @@ public class FilteredQuranText extends AbstractQuranText {
 		throw new UnsupportedOperationException("Method not implemented.");
 	}
 
-	public TranslationData getTranslationData() {
-		return null;
+	public boolean isTranslation() {
+		return quranText.isTranslation();
+	}
+
+	public String getLanguage() {
+		return quranText.getLanguage();
 	}
 
 	private String filter(int suraNum, int ayaNum) {

@@ -158,8 +158,12 @@ public class QuranText extends AbstractQuranText {
 		return quranText;
 	}
 
-	public TranslationData getTranslationData() {
-		return null;
+	public boolean isTranslation() {
+		return false;
+	}
+
+	public String getLanguage() {
+		return "ar";
 	}
 
 	public String getBismillah(int suraNum) {
