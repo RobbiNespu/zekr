@@ -17,9 +17,8 @@ import net.sf.zekr.common.resource.SuraProperties;
 
 /**
  * @author Mohsen Saboorian
- * @since Zekr 1.0
  */
-public class MiscJavaApiTest extends TestCase {
+public class MiscTests extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();

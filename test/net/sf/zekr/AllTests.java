@@ -40,7 +40,7 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(ZekrLuceneAnalyzerTest.class));
 		suite.addTest(new TestSuite(RootHighlighterTest.class));
 
-		suite.addTest(new TestSuite(MiscJavaApiTest.class));
+		// suite.addTest(new TestSuite(MiscTests.class));
 		suite.addTest(new TestSuite(FormUtilsTest.class));
 		suite.addTest(new TestSuite(QuranPropertiesUtilsTest.class));
 		suite.addTest(new TestSuite(QuranLocationTest.class));
