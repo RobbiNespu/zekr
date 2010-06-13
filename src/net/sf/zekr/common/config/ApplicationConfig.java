@@ -248,8 +248,13 @@ public class ApplicationConfig implements ConfigNaming {
 		List<String> defaultStopWord = searchProps.getList("search.stopword");
 		Configuration replacePatternConf = searchProps.subset("search.pattern.replace");
 		List<String> defaultReplacePattern = searchProps.getList("search.pattern.replace");
-		searchInfo.setDefaultStopWord(defaultStopWord);
+		Configuration punctuationConf = searchProps.subset("search.pattern.punct");
+		String defaultPunctuation = searchProps.getString("search.pattern.punct");
+		Configuration diacriticsConf = searchProps.subset("search.pattern.diacr");
+		String defaultDiacritics = searchProps.getString("search.pattern.diacr");
+		Configuration letterConf = searchProps.subset("search.pattern.letter");
 
+		searchInfo.setDefaultStopWord(defaultStopWord);
 		for (Iterator<String> iterator = stopWordConf.getKeys(); iterator.hasNext();) {
 			String langCode = (String) iterator.next();
 			if (langCode.length() <= 0) {
@@ -267,6 +272,34 @@ public class ApplicationConfig implements ConfigNaming {
 			}
 			logger.debug("\tAdd replace patterns for: " + langCode);
 			searchInfo.addReplacePattern(langCode, replacePatternConf.getList(langCode));
+		}
+		searchInfo.setDefaultPunctuation(defaultPunctuation);
+		for (Iterator<String> iterator = punctuationConf.getKeys(); iterator.hasNext();) {
+			String langCode = (String) iterator.next();
+			if (langCode.length() <= 0) {
+				continue;
+			}
+			logger.debug("\tAdd punctuation pattern for: " + langCode);
+			searchInfo.setPunctuation(langCode, punctuationConf.getString(langCode));
+		}
+
+		searchInfo.setDefaultDiacritic(defaultDiacritics);
+		for (Iterator<String> iterator = diacriticsConf.getKeys(); iterator.hasNext();) {
+			String langCode = (String) iterator.next();
+			if (langCode.length() <= 0) {
+				continue;
+			}
+			logger.debug("\tAdd diacritics pattern for: " + langCode);
+			searchInfo.setDiacritic(langCode, diacriticsConf.getString(langCode));
+		}
+
+		for (Iterator<String> iterator = letterConf.getKeys(); iterator.hasNext();) {
+			String langCode = (String) iterator.next();
+			if (langCode.length() <= 0) {
+				continue;
+			}
+			logger.debug("\tAdd letters range pattern for: " + langCode);
+			searchInfo.setLetter(langCode, letterConf.getString(langCode));
 		}
 	}
 
