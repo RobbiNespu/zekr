@@ -54,10 +54,11 @@ public class AdvancedQuranSearchResultTemplate extends BaseViewTemplate {
 
 			IQuranText iqt = searchResult.getQuranText();
 			if (iqt instanceof TranslationData) {
+				TranslationData td = (TranslationData) iqt;
 				engine.put("TRANSLATE", langEngine.getMeaning("QURAN"));
 				engine.put("TRANSLATION", "true");
-				engine.put("TRANS_DIRECTION", iqt.getTranslationData().direction);
-				if ("rtl".equalsIgnoreCase(((TranslationData) iqt).getDirection())) {
+				engine.put("TRANS_DIRECTION", td.direction);
+				if ("rtl".equalsIgnoreCase(td.direction)) {
 					engine.put("ICON_PLAY", resource.getString("theme.icon.playRtl"));
 				} else {
 					engine.put("ICON_PLAY", resource.getString("theme.icon.play"));
