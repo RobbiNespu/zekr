@@ -98,9 +98,9 @@ public class SearchUtils implements ArabicCharacters {
 		if (searchInfo.containsLanguageReplacePattern(langCode)) {
 			rep.putAll(searchInfo.getReplacePattern(langCode));
 		}
-		String punct = searchInfo.getPunctuation(langCode);
+		Pattern punct = searchInfo.getPunctuation(langCode);
 		if (punct != null) {
-			rep.put(Pattern.compile(punct), "");
+			rep.put(punct, "");
 		}
 		text = RegexUtils.replaceAll(rep, text);
 		return text;
