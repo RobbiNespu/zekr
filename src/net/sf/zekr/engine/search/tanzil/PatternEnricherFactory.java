@@ -65,7 +65,7 @@ public class PatternEnricherFactory {
 			SearchInfo searchInfo = conf.getSearchInfo();
 			Map<Pattern, String> replacePatternMap = searchInfo.getReplacePattern(langCode);
 			// pattern = RegexUtils.replaceAll(replacePatternMap, pattern);
-			pattern = RegexUtils.replaceAllForEnrichment(replacePatternMap, pattern);
+			// pattern = RegexUtils.replaceAllForEnrichment(replacePatternMap, pattern);
 
 			// handle wildcards
 			pattern = RegexUtils.replaceAll(RegexUtils.genericWildcardRegs, pattern);
@@ -74,19 +74,25 @@ public class PatternEnricherFactory {
 
 			pattern = RegexUtils.handleSpaces(pattern);
 
-			String diacr = searchInfo.getDiacritic(langCode);
+			Pattern diacr = searchInfo.getDiacritic(langCode);
 			if (diacr != null) {
-				String letterRange = searchInfo.getLetter(langCode);
+				Pattern letterRange = searchInfo.getLetter(langCode);
+				String letterRangeStr;
 				if (letterRange == null) {
-					letterRange = "\\p{L}";
+					letterRangeStr = "\\p{L}";
+				} else {
+					letterRangeStr = letterRange.pattern();
 				}
-				pattern = pattern.replaceAll("(" + letterRange + ")", "$1" + diacr + "*");
+				pattern = pattern.replaceAll("(" + letterRangeStr + ")", "$1" + diacr.pattern() + "*");
 			}
 
-			String punct = searchInfo.getPunctuation(langCode);
+			// this method is important to be called before punctuation and after letters/diacritics replacement
+			pattern = RegexUtils.replaceAllForEnrichment(replacePatternMap, pattern);
+
+			Pattern punct = searchInfo.getPunctuation(langCode);
 			if (punct != null) {
-				punct = punct.replace("\\", "\\\\");
-				pattern = pattern.replaceAll("([ \"\\+])?([^ \"\\+]+)", "$1" + punct + "*$2" + punct + "*");
+				String punctStr = punct.pattern().replace("\\", "\\\\");
+				pattern = pattern.replaceAll("([ \"\\+])?([^ \"\\+]+)", "$1" + punctStr + "*$2" + punctStr + "*");
 			}
 
 			return pattern;
