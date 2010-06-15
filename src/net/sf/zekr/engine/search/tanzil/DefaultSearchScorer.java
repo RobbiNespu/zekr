@@ -25,11 +25,11 @@ import net.sf.zekr.engine.search.SearchResultItem;
 public class DefaultSearchScorer implements ISearchScorer {
 	public double score(SearchResultItem sri) {
 		double score = 0;
-		List parts = sri.matchedParts;
+		List<String> parts = sri.matchedParts;
 		if (parts == null) // result item matched because of exclusion
 			return 0;
 		for (int i = 0; i < parts.size(); i++) {
-			String part = (String) parts.get(i);
+			String part = parts.get(i);
 			int len = sri.text.length();
 			score += ((double) part.length()) / len;
 		}

@@ -12,10 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Implementations of this class will enrich a String into a regular expression to handle language character
+ * similarities for searching.
+ * 
  * @author Mohsen Saboorian
  */
 abstract public class PatternEnricher {
-	Map params = new HashMap();
+	Map<String, Object> params = new HashMap<String, Object>();
 
 	public void setParameter(String name, Object value) {
 		params.put(name, value);
