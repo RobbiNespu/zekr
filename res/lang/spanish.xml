@@ -5,7 +5,7 @@
 		<common>
 			<text id="OK" value="Aceptar" />
 			<text id="CANCEL" value="Cancelar" />
-			<text id="YES" value="Si" />
+			<text id="YES" value="Sí" />
 			<text id="NO" value="No" />
 			<text id="APPLY" value="Aplicar" />
 			<text id="START" value="Comenzar" />
@@ -20,7 +20,7 @@
 			<text id="CLOSE" value="Cerrar" />
 			<text id="INSERT" value="Insertar" />
 			<text id="DETAILS" value="Detalles" />
-			<text id="MORE" value="Mas" />
+			<text id="MORE" value="Más" />
 			<text id="NEXT" value="Siguiente" />
 			<text id="PREVIOUS" value="Anterior" />
 			<text id="REFRESH" value="Refrescar" />
@@ -28,7 +28,7 @@
 			<text id="SHOW" value="Mostar" />
 			<text id="NAME" value="Nombre" />
 			<text id="VALUE" value="Valor" />
-			<text id="NUMBER" value="Numero" />
+			<text id="NUMBER" value="Número" />
 			<text id="OPTION" value="Opción" />
 			<text id="FILE" value="Archivo" />
 			<text id="RELOAD" value="Volver a Leer" />
@@ -85,7 +85,7 @@
 			<text id="RTL" value="Derecha a Izquierda" />
 			<text id="LTR" value="Izquierda a Derecha" />
 			<text id="AUTHOR" value="Autor" />
-			<text id="VERSION" value="Version" />
+			<text id="VERSION" value="Versión" />
 			<text id="RANDOM_AYA" value="Aya &amp;Aleatoria" />
 			<text id="UNTITLED" value="Sin nombre" />
 			<text id="SET_DEFAULT" value="Por defecto" />
@@ -123,22 +123,32 @@
 			<text id="MENU_PREV_HIZBQ" value="Anterior Hi&amp;zb cuarto"   />
 			<text id="MENU_NEXT_SAJDA" value="Siguiente Sa&amp;jda"   />
 			<text id="MENU_PREV_SAJDA" value="Anterior Saj&amp;da"   />
-			<text id="MENU_NEXT_PAGE" value="Siguiente Pagina"   />
-			<text id="MENU_PREV_PAGE" value="Anterior Pagina"   />
-			<text id="CHECK4UPDATE" value="Buscar actualizacion"   />
+			<text id="MENU_NEXT_PAGE" value="Siguiente Página"   />
+			<text id="MENU_PREV_PAGE" value="Anterior Página"   />
+			<text id="CHECK4UPDATE" value="Buscar actualización"   />
 			<text id="ASCENDING" value="Ascendente"   />
 			<text id="DESCENDING" value="Descendente"   />
 			<text id="REVEL_ORDER" value="Orden de revelación"   />
 			<text id="FULL_SCREEN" value="Pantalla Completa"   />
 			<text id="WARNING" value="Peligro"   />
 			<text id="ONLINE_HELP" value="Ayuda en linea"   />		
-			<text id="PAGING_MODE" value="Modo de Pagina"   />
+			<text id="PAGING_MODE" value="Modo de Página"   />
 			<text id="PANEL" value="Panel"   />
 			<text id="DETAIL_PANEL" value="Detalles del Panel"   />
 			<text id="REPEAT" value="Repetir"   />
 			<text id="ROOT" value="Raiz"   /> <!-- word root -->
 			<text id="ADDRESS" value="Dirección"   />
 			<text id="BOOKMARK_THIS_AYA" value="Marcar esta aya"   />
+			<text id="AUDIO_PLAYER" value="Reproductor de Audio"   />
+			<text id="PLAYING" value="Reproduciendo"   />
+			<text id="PAUSED" value="Pausado"   />
+			<text id="STOPPED" value="Parado"   />
+			<text id="RECITER" value="Recitar"   />
+            <text id="ONLINE" value="En linea"   />
+            <text id="OFFLINE" value="Fuera de linea"   />
+            <text id="SMALLER" value="Pequeño"   />
+            <text id="LARGER" value="Grande"   />
+
 		</common>
 		<special>
 			<text id="QURAN" value="Coran" />
@@ -148,7 +158,8 @@
 			<text id="SAJDA" value="Sajda" />
 			<text id="JUZ" value="Juz" />
 			<text id="HIZB" value="Hizb" />
-			<text id="QUARTER" value="cuarto" />
+			<text id="QUARTER" value="Cuarto" />
+	   <text id="HIZB_QUARTER" value="Hizb cuarto"   />
 			<text id="MAKKI" value="Mecca" />
 			<text id="MADANI" value="Medina" />
 			<text id="DESCENT" value="Revelada en" />
@@ -156,6 +167,9 @@
 			<text id="MINOR_SAJDA" value="Menor sajda" /><!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="Mayor sajda" /><!-- Wajib Sajda -->
 			<text id="LOCATION" value="Localizacion" /><!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+	    <text id="AUDHUBILLAH" value="A'udhubillah"   />
+            <text id="BISMILLAH" value="Bismillah"   />
+            <text id="SADAGHALLAH" value="Sadaqallah"   />
 		</special>
 	</word>
 
@@ -166,9 +180,9 @@
 			<text id="SEARCH_PAGE" value="Página {1} de {2}" />
 			<text id="TOO_MANY_RESULT" value="Resultado de la busqueda en mas de {1} ayas" />
 			<text id="FILE_ALREADY_EXISTS" value="Un archivo con el nombre &quot;{1}&quot; ya existe. Quiere reemplazarlo?" />
-			<text id="RESTART_APP" value="Necesita reiniciar la aplicación para que los cambios tengan efecto." />
-			<text id="ACTION_PERFORMED" value="Accion realizada con exito."   />
-			<text id="TRANSLATION_ADDED" value="La siguiente traduccion fue añadida bajo {1} menu"   />
+			<text id="RESTART_APP" value="Necesita reiniciar la aplicación para que los cambios tengán efecto." />
+			<text id="ACTION_PERFORMED" value="Acción realizada con exito."   />
+			<text id="TRANSLATION_ADDED" value="La siguiente traduccion fue añadida bajo {1} menú"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Esta seguro?" />
@@ -192,7 +206,7 @@
 			<text id="APP_NAME" value="Zekr" />
 			<text id="APP_FULL_NAME" value="Proyecto del Coran Zekr" />
 			<text id="FORM_TITLE" value="Zekr" />
-			<text id="COPYRIGHT_DISCLAIMER" value="Este programa es de distribución libre, con la esperanza de que sea ayudado, pero sin ninguna tipo de garantía." />
+			<text id="COPYRIGHT_DISCLAIMER" value="Este programa es de distribución libre, cualquier colaboración es bien recibida, pero sin ningún tipo de garantía." />
 		</global>
 		<form id="QURAN_FORM">
 			<text id="TITLE" value="Zekr" />
@@ -212,22 +226,27 @@
 			<text id="THEME_OPTIONS" value="Tema"   />
 			<text id="GENERAL_OPTIONS" value="General"   />
 			<text id="VIEW_OPTIONS" value="Ver"   />
-			<text id="TITLE" value="Opciones de Aplicación" />
+	   <text id="AUDIO_OPTIONS" value="Audio" />
+                        <text id="TITLE" value="Opciones de Aplicación" />
 			<text id="SHOW_SPLASH" value="Mostrar logo al comenzar" />
-			<text id="NEW_KEY" value="Entrar nueva llave" />
+			<text id="NEW_KEY" value="Introducir nueva llave" />
 			<text id="THEME_SETTING" value="Configurar tema" />
 			<text id="PRESS_OK_TO_APPLY" value="Presionar &quot;Aceptar&quot; boton para aplicar los cambios." />
-			<text id="MAX_SEARCH_RESULT" value="Numero maximo de la busqueda" />
+			<text id="MAX_SEARCH_RESULT" value="Número máximo de la busqueda" />
 			<text id="RESIZEABLE_TASK_PANE" value="Redimensionar el panel" />
 			<text id="SURA_NAMES" value="Mostrar nombres de la sura en"   />
 			<text id="ARABIC" value="Arabe"   />
 			<text id="EN_T9N" value="Traducción Inglesa"   />
 			<text id="EN_T13N" value="Transliteración Inglesa"   />
-			<text id="T9N" value="Traducción (si esta disponible)"   />
-			<text id="T13N" value="Transliteración (si esta disponible)"   />
+			<text id="T9N" value="Traducción (si está disponible)"   />
+			<text id="T13N" value="Transliteración (si está disponible)"   />
 			<text id="ENABLE_AUDIO" value="Activar soporte de audio"   />
 			<text id="SURA_NAME_TREE" value="Mostrar nombres de suras en arbol"   />
-		</form>
+	    <text id="SMART" value="Inteligente" />
+            <text id="ALWAYS" value="Siempre" />
+            <text id="NEVER" value="Nunca" />
+            <text id="PLAY_MODE" value="Mode de reproducción" />
+                </form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Configurar ambito de busqueda" />
 			<text id="SEARCH_SCOPE" value="Ambito de busqueda" />
@@ -284,38 +303,61 @@
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="Por favor esperar" />
 			<text id="INDEXING" value="Indexando" /><!-- The process of indexing a document for faster search -->
-			<text id="TAKE_TIME" value="Esta acción puede requerir de varios minutos, dependiendo del tamaño del documento que esta siendo indexado." />
+			<text id="TAKE_TIME" value="Está acción puede requerir de varios minutos, dependiendo del tamaño del documento que esta siendo indexado." />
 			<text id="CHECKING" value="Buscando posibles actualizaciones" />
-			<text id="ZEKR_IS_CHECKING" value="Zekr esta buscando actualizaciones" />		
+			<text id="ZEKR_IS_CHECKING" value="Zekr está buscando actualizaciones" />		
 		</form>
 		<form id="ABOUT">
 			<text id="TITLE" value="Sobre Zekr" />
 			<text id="VIEW_LOG" value="Ver archivo de rastreo" />
 		</form>
 		<form id="UPDATE">
-			<text id="TITLE" value="Informacion actualizada" />
+			<text id="TITLE" value="Información actualizada" />
 			<text id="VERSION_INFO" value="Información de versión" />
-			<text id="BUILD_NUM" value="Numero de construcción" />
+			<text id="BUILD_NUM" value="Número de construcción" />
 			<text id="VERSION" value="Versión" />
 			<text id="RELEASE_NAME" value="Nombre de la versión" />
 			<text id="RELEASE_STATE" value="Estado de la construcción" />
 			<text id="RELEASE_DATE" value="Fecha de la version" />
 			<text id="RELEASE_NOTES" value="Notas de la versión" />
 			<text id="DOWNLOAD" value="Descarga" />
-			<text id="MORE_INFO" value="Mas informacion" />
+			<text id="MORE_INFO" value="Mas información" />
 			<text id="NO_UPDATE" value="Esta ya usando la ultima versión." />
-			<text id="NEW_DEV_AVAILABLE" value="Una nueva versión en desarrollo (inestable) esta disponible para descargar" />
-			<text id="NEW_BETA_AVAILABLE" value="Una nueva versión beta (inestable) esta disponible para descargar" />
-			<text id="NEW_FINAL_AVAILABLE" value="Una nueva versión (final) esta disponible para descargar" />
+			<text id="NEW_DEV_AVAILABLE" value="Una nueva versión en desarrollo (inestable) está disponible para descargar" />
+			<text id="NEW_BETA_AVAILABLE" value="Una nueva versión beta (inestable) está disponible para descargar" />
+			<text id="NEW_FINAL_AVAILABLE" value="Una nueva versión (final) está disponible para descargar" />
 		</form>	
 		<form id="PAGING_MODE">
-			<text id="TITLE" value="Modo de pagina"   />
+			<text id="TITLE" value="Modo de página"   />
 			<text id="SURA" value="Sura"   />
 			<text id="HIZB_QUARTER" value="Hizb cuarto"   />
 			<text id="JUZ" value="Juz"   />
-			<text id="CONST_AYA" value="Numero de ayas"   />
+			<text id="CONST_AYA" value="Número de ayas"   />
 			<text id="CUSTOM" value="Personalizar"   />
 			<text id="AYA_PER_SURA" value="¿Cuantas ayas deben aparecer en cada página?"   />
 		</form>
-	</forms>
+			<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="Reproductor de Audio"   />
+			<text id="SECOND_ABBR" value="s"   /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECONDS" value="Segundos"   /> <!--  tooltip for 's' (SECOND_ABBR) -->
+			<text id="INTERVAL" value="Intervalo"   />
+			<text id="REPEAT" value="Repetición"   />
+			<text id="NO_INTERVAL" value="Sin Intervalo"   />
+			<text id="NO_REPEAT" value="Sin Repetición"   />
+            <text id="VOLUME" value="Volumen"   />
+            <text id="TIMES" value="{1} Tiempo"   />
+            <text id="PLAY_SCOPE" value="Ambito de reproducción"   />
+		</form>
+        	<form id="GOTO_FORM">
+            		<text id="TITLE" value="Ir a"   />
+            		<text id="GOTO" value="Ir a"   />
+            		<text id="REVIEW" value="Revisar"   />
+            		<text id="JUZ" value="Juz"   />
+            		<text id="SURA_ORDER" value="Orden de Sura"   />
+            		<text id="HIZB_QUARTER" value="Hizb cuarto"   />
+            		<text id="SURA_AYA" value="Sura:Aya (e.g. 33:70)"   />
+            		<text id="NORMAL" value="Normal"   />
+            		<text id="REVELATION" value="Revelación ({1})"   />
+        	</form>
+		</forms>
 </language>

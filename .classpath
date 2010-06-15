@@ -14,7 +14,7 @@
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar" sourcepath="lib/src/commons-collections-3.2.1-src.zip"/>
 	<classpathentry kind="lib" path="lib/lucene-core-3.0.0.jar" sourcepath="lib/src/lucene-core-3.0.0-src.zip"/>
-	<classpathentry kind="lib" path="lib/lucene-snowball-3.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-snowball-3.0.0.jar" sourcepath="lib/src/lucene-snowball-3.0.0-src.zip"/>
 	<classpathentry kind="lib" path="lib/lucene-highlighter-3.0.0.jar" sourcepath="lib/src/lucene-highlighter-3.0.0-src.zip"/>
 	<classpathentry kind="lib" path="lib/lucene-memory-3.0.0.jar" sourcepath="lib/src/lucene-memory-3.0.0-src.zip"/>
 	<classpathentry kind="lib" path="lib/mp3spi-1.9.4.jar" sourcepath="lib/src/mp3spi-1.9.4-src.zip"/>
@@ -25,5 +25,6 @@
 	<classpathentry kind="lib" path="lib/basicplayer-3.0.jar" sourcepath="lib/src/basicplayer-3.0-src.zip"/>
 	<classpathentry kind="lib" path="lib/tritonus-share-0.3.6.jar"/>
 	<classpathentry kind="lib" path="lib/tritonus-jorbis-0.3.6.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-misc-3.0.0.jar" sourcepath="lib/src/lucene-misc-3.0.0-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
