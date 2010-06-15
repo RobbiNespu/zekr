@@ -214,8 +214,8 @@ public class RegexUtils extends LetterConstants {
 			if (StringUtils.isBlank(entry.getValue())) {
 				src = src.replaceAll("(" + entry.getKey().pattern() + ")", "$1*");
 			} else {
-				src = src.replaceAll("(" + entry.getKey().pattern() + "|" + entry.getValue() + ")", "["
-						+ entry.getKey().pattern() + "|" + entry.getValue() + "]");
+				src = src.replaceAll(entry.getKey().pattern() + "|" + entry.getValue(), "(" + entry.getKey().pattern()
+						+ "|" + entry.getValue() + ")");
 			}
 		}
 		return src;
