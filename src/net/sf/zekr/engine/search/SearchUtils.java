@@ -8,6 +8,7 @@
  */
 package net.sf.zekr.engine.search;
 
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -93,9 +94,13 @@ public class SearchUtils implements ArabicCharacters {
 		Locale locale = QuranPropertiesUtils.getSuraNameModeLocale();
 		String langCode = locale.getLanguage();
 		text = text.toLowerCase(locale);
-		Map<Pattern, String> rep = searchInfo.getDefaultReplacePattern();
+		Map<Pattern, String> rep = new LinkedHashMap<Pattern, String>(searchInfo.getDefaultReplacePattern());
 		if (searchInfo.containsLanguageReplacePattern(langCode)) {
 			rep.putAll(searchInfo.getReplacePattern(langCode));
+		}
+		String punct = searchInfo.getPunctuation(langCode);
+		if (punct != null) {
+			rep.put(Pattern.compile(punct), "");
 		}
 		text = RegexUtils.replaceAll(rep, text);
 		return text;
