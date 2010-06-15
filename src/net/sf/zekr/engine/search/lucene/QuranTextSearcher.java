@@ -195,7 +195,7 @@ public class QuranTextSearcher {
 			// analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
 			// resultTokenStream = new StandardTokenizer(Version.LUCENE_CURRENT, reader);
 
-			QueryParser parser = new QueryParser(Version.LUCENE_CURRENT, QuranTextIndexer.CONTENTS_FIELD, analyzer);
+			QueryParser parser = QueryParserFactory.create(Version.LUCENE_CURRENT, QuranTextIndexer.CONTENTS_FIELD, analyzer);
 
 			// allow search terms like "*foo" with leading star
 			parser.setAllowLeadingWildcard(true);
