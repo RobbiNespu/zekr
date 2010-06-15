@@ -497,7 +497,7 @@ public class QuranFormMenuFactory {
 
 		playIconFullPath = new File(resource.getString(rtl ? "icon.menu.playRtl" : "icon.menu.play")).getAbsolutePath();
 		pauseIconFullPath = new File(resource.getString("icon.menu.pause")).getAbsolutePath();
-		
+
 		playItem = createMenuItem(SWT.PUSH, audioMenu, lang.getMeaning("PLAY"), "playerTogglePlayPause",
 				rtl ? "icon.menu.playRtl" : "icon.menu.play");
 		playItem.setData(PlayStatus.PAUSE); // state
@@ -1059,7 +1059,11 @@ public class QuranFormMenuFactory {
 												if (progress) {
 													display.asyncExec(new Runnable() {
 														public void run() {
-															EventUtils.sendEvent(EventProtocol.IMPORT_PROGRESS_DONE);
+															try {
+																EventUtils.sendEvent(EventProtocol.IMPORT_PROGRESS_DONE);
+															} catch (Exception e) {
+																logger.implicitLog(e);
+															}
 														}
 													});
 												}
@@ -1077,8 +1081,11 @@ public class QuranFormMenuFactory {
 													String str = CollectionUtils.toString(errorList, GlobalConfig.LINE_SEPARATOR);
 													MessageBoxUtils.showError(str);
 												}
-
-												EventUtils.sendEvent(EventProtocol.IMPORT_PROGRESS_FAILED);
+												try {
+													EventUtils.sendEvent(EventProtocol.IMPORT_PROGRESS_FAILED);
+												} catch (Exception e) {
+													logger.implicitLog(e);
+												}
 											}
 										});
 									}
