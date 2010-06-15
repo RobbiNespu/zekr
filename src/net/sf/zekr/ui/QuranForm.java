@@ -1578,6 +1578,7 @@ public class QuranForm extends BaseForm {
 			try {
 				sr = ats.search(str);
 			} catch (SearchException se) {
+				logger.implicitLog(se);
 				MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + se.toString());
 				searchNav.setVisible(false);
 				return; // search failed
