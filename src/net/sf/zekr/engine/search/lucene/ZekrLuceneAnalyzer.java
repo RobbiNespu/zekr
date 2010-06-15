@@ -9,6 +9,9 @@
 package net.sf.zekr.engine.search.lucene;
 
 import java.io.Reader;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.search.SearchInfo;
@@ -68,7 +71,14 @@ public class ZekrLuceneAnalyzer extends Analyzer {
 		if (searchInfo.getStopWord(id) != null && searchInfo.getStopWord(id).size() > 0) {
 			resultTokenStream = new StopFilter(false, resultTokenStream, searchInfo.getStopWord(id));
 		}
-		resultTokenStream = new RegexReplaceFilter(resultTokenStream, searchInfo.getReplacePattern(id));
+		Map<Pattern, String> replacePattern = new LinkedHashMap<Pattern, String>(searchInfo.getReplacePattern(id));
+		if (searchInfo.getDiacritic(id) != null) {
+			replacePattern.put(searchInfo.getDiacritic(id), "");
+		}
+		if (searchInfo.getPunctuation(id) != null) {
+			replacePattern.put(searchInfo.getPunctuation(id), "");
+		}
+		resultTokenStream = new RegexReplaceFilter(resultTokenStream, replacePattern);
 		if (name != null) {
 			resultTokenStream = new SnowballFilter(resultTokenStream, name);
 		}
