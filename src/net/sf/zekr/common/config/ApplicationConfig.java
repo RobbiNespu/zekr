@@ -31,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -194,112 +195,123 @@ public class ApplicationConfig implements ConfigNaming {
 
 	@SuppressWarnings("unchecked")
 	private void initSearchInfo() {
-		logger.info("Load search info...");
+		try {
+			logger.info("Load search info...");
 
-		File usi = new File(ApplicationPath.USER_SEARCH_INFO);
-		if (!usi.exists()) {
-			logger.info("User search info does not exist at " + ApplicationPath.USER_SEARCH_INFO);
-			logger.info("Will make user search info with default values at " + ApplicationPath.MAIN_SEARCH_INFO);
-			String searchInfoFile = ApplicationPath.MAIN_SEARCH_INFO;
-			try {
-				logger.info("Save user search info file to " + ApplicationPath.USER_CONFIG);
-				FileUtils.copyFile(new File(searchInfoFile), usi);
-
-				logger.debug("Load " + searchInfoFile);
-				FileInputStream fis = new FileInputStream(searchInfoFile);
-				searchProps = ConfigUtils.loadConfig(fis, "UTF-8");
-			} catch (Exception e) {
-				logger.error("Error loading search info file " + searchInfoFile);
-				logger.implicitLog(e);
-			}
-		} else {
-			String searchInfoFile = ApplicationPath.USER_SEARCH_INFO;
-			try {
-				String ver = null;
-				boolean error = false;
+			File usi = new File(ApplicationPath.USER_SEARCH_INFO);
+			if (!usi.exists()) {
+				logger.info("User search info does not exist at " + ApplicationPath.USER_SEARCH_INFO);
+				logger.info("Will make user search info with default values at " + ApplicationPath.MAIN_SEARCH_INFO);
+				String searchInfoFile = ApplicationPath.MAIN_SEARCH_INFO;
 				try {
+					logger.info("Save user search info file to " + ApplicationPath.USER_CONFIG);
+					FileUtils.copyFile(new File(searchInfoFile), usi);
+
+					logger.debug("Load " + searchInfoFile);
 					FileInputStream fis = new FileInputStream(searchInfoFile);
-					searchProps = ConfigUtils.loadConfig(fis, "UTF-8", ApplicationPath.CONFIG_DIR);
-					ver = searchProps.getString("search.version");
+					searchProps = ConfigUtils.loadConfig(fis, "UTF-8");
 				} catch (Exception e) {
-					logger.error(String.format("Error loading user search info file %s."
-							+ " Will replace it with original search info file %s.", searchInfoFile,
-							ApplicationPath.MAIN_SEARCH_INFO), e);
-					error = true;
+					logger.error("Error loading search info file " + searchInfoFile);
+					logger.implicitLog(e);
 				}
-				if (!GlobalConfig.ZEKR_VERSION.equals(ver) || error) {
-					searchInfoFile = ApplicationPath.USER_CONFIG;
-					searchProps = ConfigUtils.loadConfig(new FileInputStream(searchInfoFile), "UTF-8");
-					String newName = String.format("%s_%s", res.getString("config.searchInfo.file"), String
-							.format(ver == null ? "old" : ver));
-					logger.info(String.format("Migrate search info from version %s to %s. Will rename old file to %s.", ver,
-							GlobalConfig.ZEKR_VERSION, newName));
-					FileUtils.copyFile(usi, new File(usi.getParent(), newName));
-					FileUtils.copyFile(new File(ApplicationPath.MAIN_SEARCH_INFO), usi);
+			} else {
+				String searchInfoFile = ApplicationPath.USER_SEARCH_INFO;
+				try {
+					String ver = null;
+					boolean error = false;
+					try {
+						FileInputStream fis = new FileInputStream(searchInfoFile);
+						searchProps = ConfigUtils.loadConfig(fis, "UTF-8", ApplicationPath.CONFIG_DIR);
+						ver = searchProps.getString("search.version");
+					} catch (Exception e) {
+						logger.error(String.format("Error loading user search info file %s."
+								+ " Will replace it with original search info file %s.", searchInfoFile,
+								ApplicationPath.MAIN_SEARCH_INFO), e);
+						error = true;
+					}
+					if (!GlobalConfig.ZEKR_VERSION.equals(ver) || error) {
+						searchInfoFile = ApplicationPath.USER_CONFIG;
+						searchProps = ConfigUtils.loadConfig(new FileInputStream(searchInfoFile), "UTF-8");
+						String newName = String.format("%s_%s", res.getString("config.searchInfo.file"), String
+								.format(ver == null ? "old" : ver));
+						logger.info(String.format("Migrate search info from version %s to %s. Will rename old file to %s.",
+								ver, GlobalConfig.ZEKR_VERSION, newName));
+						FileUtils.copyFile(usi, new File(usi.getParent(), newName));
+						FileUtils.copyFile(new File(ApplicationPath.MAIN_SEARCH_INFO), usi);
+					}
+				} catch (Exception e) {
+					logger.error("Error loading search info file " + searchInfoFile);
+					logger.implicitLog(e);
 				}
-			} catch (Exception e) {
-				logger.error("Error loading search info file " + searchInfoFile);
-				logger.implicitLog(e);
 			}
-		}
 
-		searchInfo = new SearchInfo();
-		Configuration stopWordConf = searchProps.subset("search.stopword");
-		List<String> defaultStopWord = searchProps.getList("search.stopword");
-		Configuration replacePatternConf = searchProps.subset("search.pattern.replace");
-		List<String> defaultReplacePattern = searchProps.getList("search.pattern.replace");
-		Configuration punctuationConf = searchProps.subset("search.pattern.punct");
-		String defaultPunctuation = searchProps.getString("search.pattern.punct");
-		Configuration diacriticsConf = searchProps.subset("search.pattern.diacr");
-		String defaultDiacritics = searchProps.getString("search.pattern.diacr");
-		Configuration letterConf = searchProps.subset("search.pattern.letter");
+			searchInfo = new SearchInfo();
+			Configuration stopWordConf = searchProps.subset("search.stopword");
+			List<String> defaultStopWord = searchProps.getList("search.stopword");
+			Configuration replacePatternConf = searchProps.subset("search.pattern.replace");
+			List<String> defaultReplacePattern = searchProps.getList("search.pattern.replace");
+			Configuration punctuationConf = searchProps.subset("search.pattern.punct");
+			String defaultPunctuation = searchProps.getString("search.pattern.punct");
+			Configuration diacriticsConf = searchProps.subset("search.pattern.diacr");
+			String defaultDiacritics = searchProps.getString("search.pattern.diacr");
+			Configuration letterConf = searchProps.subset("search.pattern.letter");
 
-		searchInfo.setDefaultStopWord(defaultStopWord);
-		for (Iterator<String> iterator = stopWordConf.getKeys(); iterator.hasNext();) {
-			String langCode = (String) iterator.next();
-			if (langCode.length() <= 0) {
-				continue;
+			searchInfo.setDefaultStopWord(defaultStopWord);
+			for (Iterator<String> iterator = stopWordConf.getKeys(); iterator.hasNext();) {
+				String langCode = (String) iterator.next();
+				if (langCode.length() <= 0) {
+					continue;
+				}
+				logger.debug("\tAdd stop words for: " + langCode);
+				searchInfo.addStopWord(langCode, stopWordConf.getList(langCode));
 			}
-			logger.debug("\tAdd stop words for: " + langCode);
-			searchInfo.addStopWord(langCode, stopWordConf.getList(langCode));
-		}
 
-		searchInfo.setDefaultReplacePattern(defaultReplacePattern);
-		for (Iterator iterator = replacePatternConf.getKeys(); iterator.hasNext();) {
-			String langCode = (String) iterator.next();
-			if (langCode.length() <= 0) {
-				continue;
+			searchInfo.setDefaultReplacePattern(defaultReplacePattern);
+			for (Iterator iterator = replacePatternConf.getKeys(); iterator.hasNext();) {
+				String langCode = (String) iterator.next();
+				if (langCode.length() <= 0) {
+					continue;
+				}
+				logger.debug("\tAdd replace patterns for: " + langCode);
+				searchInfo.addReplacePattern(langCode, replacePatternConf.getList(langCode));
 			}
-			logger.debug("\tAdd replace patterns for: " + langCode);
-			searchInfo.addReplacePattern(langCode, replacePatternConf.getList(langCode));
-		}
-		searchInfo.setDefaultPunctuation(defaultPunctuation);
-		for (Iterator<String> iterator = punctuationConf.getKeys(); iterator.hasNext();) {
-			String langCode = (String) iterator.next();
-			if (langCode.length() <= 0) {
-				continue;
-			}
-			logger.debug("\tAdd punctuation pattern for: " + langCode);
-			searchInfo.setPunctuation(langCode, punctuationConf.getString(langCode));
-		}
 
-		searchInfo.setDefaultDiacritic(defaultDiacritics);
-		for (Iterator<String> iterator = diacriticsConf.getKeys(); iterator.hasNext();) {
-			String langCode = (String) iterator.next();
-			if (langCode.length() <= 0) {
-				continue;
+			if (defaultPunctuation != null) {
+				searchInfo.setDefaultPunctuation(Pattern.compile(defaultPunctuation));
 			}
-			logger.debug("\tAdd diacritics pattern for: " + langCode);
-			searchInfo.setDiacritic(langCode, diacriticsConf.getString(langCode));
-		}
+			for (Iterator<String> iterator = punctuationConf.getKeys(); iterator.hasNext();) {
+				String langCode = (String) iterator.next();
+				if (langCode.length() <= 0) {
+					continue;
+				}
+				logger.debug("\tAdd punctuation pattern for: " + langCode);
+				searchInfo.setPunctuation(langCode, Pattern.compile(punctuationConf.getString(langCode)));
+			}
 
-		for (Iterator<String> iterator = letterConf.getKeys(); iterator.hasNext();) {
-			String langCode = (String) iterator.next();
-			if (langCode.length() <= 0) {
-				continue;
+			if (defaultDiacritics != null) {
+				searchInfo.setDefaultDiacritic(Pattern.compile(defaultDiacritics));
 			}
-			logger.debug("\tAdd letters range pattern for: " + langCode);
-			searchInfo.setLetter(langCode, letterConf.getString(langCode));
+			for (Iterator<String> iterator = diacriticsConf.getKeys(); iterator.hasNext();) {
+				String langCode = (String) iterator.next();
+				if (langCode.length() <= 0) {
+					continue;
+				}
+				logger.debug("\tAdd diacritics pattern for: " + langCode);
+				searchInfo.setDiacritic(langCode, Pattern.compile(diacriticsConf.getString(langCode)));
+			}
+
+			for (Iterator<String> iterator = letterConf.getKeys(); iterator.hasNext();) {
+				String langCode = (String) iterator.next();
+				if (langCode.length() <= 0) {
+					continue;
+				}
+				logger.debug("\tAdd letters range pattern for: " + langCode);
+				searchInfo.setLetter(langCode, Pattern.compile(letterConf.getString(langCode)));
+			}
+		} catch (Exception ex) {
+			logger.error("Search info not initialized correctly because of the next error."
+					+ " Zekr, however, will be launched.");
+			logger.implicitLog(ex);
 		}
 	}
 
