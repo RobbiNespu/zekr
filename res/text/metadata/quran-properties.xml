@@ -3,7 +3,7 @@
 	<sura-detail>
 		<sura index="1" ayaCount="7" name="الفاتحة" en="The Opening" tname="Al-Faatiha" descent="makki" />
 		<sura index="2" ayaCount="286" name="البقرة" en="The Cow" tname="Al-Baqara" descent="madani" />
-		<sura index="3" ayaCount="200" name="آل‌عمران" en="The Family of Imraan" tname="Aal-i-Imraan" descent="madani" />
+		<sura index="3" ayaCount="200" name="آل‌عمران" en="The Family of Imraan" tname="Aali Imraan" descent="madani" />
 		<sura index="4" ayaCount="176" name="النساء" en="The Women" tname="An-Nisaa" descent="madani" />
 		<sura index="5" ayaCount="120" name="المائدة" en="The Table" tname="Al-Maaida" descent="madani" />
 		<sura index="6" ayaCount="165" name="الأنعام" en="The Cattle" tname="Al-An'aam" descent="makki" />
