@@ -14,6 +14,8 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * @author Hamid Zarrabi-Zadeh
  * @author Mohsen Saboorian
@@ -42,17 +44,7 @@ public class RegexUtils extends LetterConstants {
 		arabicWildcardRegs.put("\\.", "P");
 		arabicWildcardRegs.put("\\*", "S");
 		arabicWildcardRegs.put("[?؟]", "Q");
-		arabicWildcardRegs.put("[QS]*S[QS]*", "SS");
-		arabicWildcardRegs.put("^\\s*[QS]*", "");
-	}
-
-	static Map<String, String> genericWildcardRegs = new LinkedHashMap<String, String>();
-	static {
-		genericWildcardRegs.put("\\.", "__PP__");
-		genericWildcardRegs.put("\\*", "__SS__");
-		genericWildcardRegs.put("[?؟]", "__QQ__");
-		genericWildcardRegs.put("(__QQ__|__SS__)*__S__(__QQ__|__SS__)*", "__SS__");
-		genericWildcardRegs.put("^\\s*(__QQ__|__SS__)*", "");
+		arabicWildcardRegs.put("[QS]*S[QS]*", "S");
 	}
 
 	// wildcards
@@ -64,13 +56,21 @@ public class RegexUtils extends LetterConstants {
 		arabicWildcards.put("P", "$LETTER");
 	}
 
-	static Map<String, String> genericWildcards = new LinkedHashMap<String, String>();
+	static Map<Pattern, String> genericWildcardRegs = new LinkedHashMap<Pattern, String>();
 	static {
-		genericWildcards.put("__SS__", "\\\\p{L}*");
-		genericWildcards.put("__QQ__", "\\\\p{L}?");
-		genericWildcards.put("__PP__", "\\\\p{L}");
+		genericWildcardRegs.put(Pattern.compile("\\."), "\\\\p{L}");
+		genericWildcardRegs.put(Pattern.compile("\\*"), "\\\\p{L}*");
+		genericWildcardRegs.put(Pattern.compile("[?؟]"), "\\\\p{L}?");
+		// genericWildcardRegs.put("(__QQ__|__SS__)*__S__(__QQ__|__SS__)*", "__SS__");
 	}
-
+	/*
+		static Map<String, String> genericWildcards = new LinkedHashMap<String, String>();
+		static {
+			genericWildcards.put("__SS__", "\\\\p{L}*");
+			genericWildcards.put("__QQ__", "\\\\p{L}?");
+			genericWildcards.put("__PP__", "\\\\p{L}");
+		}
+	*/
 	static Map<String, String> preProcess = new LinkedHashMap<String, String>();
 	static {
 		preProcess.put("[$FARSI_YEH$YEH_BARREE]", "$YEH");
@@ -134,10 +134,12 @@ public class RegexUtils extends LetterConstants {
 	}
 
 	static final String handleSpaces(String pattern) {
-		if ("".equals(pattern))
+		if ("".equals(pattern)) {
 			return pattern;
+		}
 		pattern = pattern.replaceAll("\\s+", " ");
 
+		// Zekr is not Java 1.4.2-compatible anymore
 		// replace spaces outside of quotations with + (Java 1.4 has problems dealing with equivalent Tanzil regex)
 		boolean openquote = false;
 		StringBuffer buf = new StringBuffer(pattern.length());
@@ -151,13 +153,14 @@ public class RegexUtils extends LetterConstants {
 		}
 		pattern = buf.toString();
 
-		//	pattern = pattern.replaceAll("^(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
+		//pattern = pattern.replaceAll("^(([^\"]*\"[^\"]*\")*)([^\"\\s]*) ", "$1$3+");
 		// pattern = StringUtils.replace(pattern, "_", " ");
 		pattern = pattern.replace('_', ' ');
+		pattern = pattern.replace('"', ' ');
 		// pattern = StringUtils.replace(pattern, "\"", " ");
 		// pattern = pattern.replace('+', ' ');
 		// pattern = pattern.replaceAll("\\+", "");
-		pattern = pattern.replaceAll("\"", "+");
+		// pattern = pattern.replaceAll("\"", "+");
 
 		// remove extra operators
 		pattern = pattern.replaceAll("^[+|]+", "").replaceAll("[+|!]+$", "");
@@ -202,6 +205,18 @@ public class RegexUtils extends LetterConstants {
 		for (Entry<Pattern, String> entry : replacePatternMap.entrySet()) {
 			Matcher m = ((Pattern) entry.getKey()).matcher(src);
 			src = m.replaceAll((String) entry.getValue());
+		}
+		return src;
+	}
+
+	public static String replaceAllForEnrichment(Map<Pattern, String> replacePatternMap, String src) {
+		for (Entry<Pattern, String> entry : replacePatternMap.entrySet()) {
+			if (StringUtils.isBlank(entry.getValue())) {
+				src = src.replaceAll("(" + entry.getKey().pattern() + ")", "$1*");
+			} else {
+				src = src.replaceAll("(" + entry.getKey().pattern() + "|" + entry.getValue() + ")", "["
+						+ entry.getKey().pattern() + "|" + entry.getValue() + "]");
+			}
 		}
 		return src;
 	}
