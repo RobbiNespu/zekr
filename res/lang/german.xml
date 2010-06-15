@@ -205,7 +205,7 @@
 			<text id="NATURAL_ORDER" value="Natürlicher Ordnung" />
 			<text id="RELEVANCE" value="Relevanz" />
 			<text id="AYA_LENGTH" value="Vers Länge"   />
-			<text id="SORT_BY" value="Ergebnisse sortieren nach" />
+			<text id="SORT_BY" value="Sortieren nach" />
 			<text id="TOGGLE_FULL_SCREEN" value="Vollbild"   />
 		</form>
 		<form id="OPTIONS_FORM">
