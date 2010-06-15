@@ -18,10 +18,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
-import net.sf.zekr.common.resource.QuranText;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.search.ISearchScorer;
@@ -31,7 +31,7 @@ import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.ZeroScorer;
 import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
-import net.sf.zekr.engine.search.tanzil.PatternEnricherFactory.ArabicPatternEnricher;
+import net.sf.zekr.engine.search.tanzil.PatternEnricherFactory.QuranPatternEnricher;
 import net.sf.zekr.engine.translation.TranslationData;
 
 import org.apache.commons.lang.StringUtils;
@@ -115,12 +115,10 @@ public class AdvancedQuranTextSearch {
 			logger.debug("Searching for query: " + rawQuery);
 			rawQuery = rawQuery.replaceAll("\\-", "!");
 
-			PatternEnricher enricher;
-			if (quranText instanceof TranslationData) { // it's translation
-				enricher = PatternEnricherFactory.getEnricher(((TranslationData) quranText).getLocale().getLanguage());
-			} else { // it's Quran
-				enricher = PatternEnricherFactory.getEnricher("ar");
-				enricher.setParameter(ArabicPatternEnricher.IGNORE_HARAKA, Boolean.FALSE);
+			boolean thisIsQuran = !quranText.isTranslation();
+			PatternEnricher enricher = PatternEnricherFactory.getEnricher(quranText.getLanguage(), thisIsQuran);
+			if (thisIsQuran) { // it's translation
+				enricher.setParameter(QuranPatternEnricher.IGNORE_HARAKA, Boolean.FALSE);
 			}
 			String pattern = enricher.enrich(rawQuery);
 
@@ -142,7 +140,7 @@ public class AdvancedQuranTextSearch {
 				if (exclude = p.charAt(0) == '!') {
 					p = p.substring(1);
 				}
-				intermediateResult = filterBucket(intermediateResult, p, exclude, i == 0);
+				intermediateResult = filterBucket(intermediateResult, p, exclude, i == 0, enricher);
 			}
 
 			// extract matched parts and clauses
@@ -195,8 +193,8 @@ public class AdvancedQuranTextSearch {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List filterBucket(List intermediateResult, String pattern, boolean exclude, boolean firstTime)
-			throws SearchException {
+	private List filterBucket(List intermediateResult, String pattern, boolean exclude, boolean firstTime,
+			PatternEnricher enricher) throws SearchException {
 		try {
 			List res = new ArrayList();
 			Pattern regex = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
@@ -212,6 +210,7 @@ public class AdvancedQuranTextSearch {
 					loc = sri.location;
 					line = sri.text;
 				}
+				// matcher = regex.matcher(enricher.enrich(line));
 				matcher = regex.matcher(line);
 				if (matcher.find() ^ exclude) {
 					if (firstTime) {
@@ -229,7 +228,7 @@ public class AdvancedQuranTextSearch {
 	}
 
 	private String getClause(String text, Matcher matcher) {
-		int a = text.substring(0, matcher.start()).lastIndexOf(' ');
+		int a = text.substring(0, matcher.start() + 1).lastIndexOf(' ');
 		int b = text.indexOf(' ', matcher.end() - 1);
 		return new String(text.substring(a + 1, b));
 	}
@@ -245,16 +244,23 @@ public class AdvancedQuranTextSearch {
 		s = "عنی إذا";
 		s = "سلام علی";
 		s = "\"محسن\"";
-		s = "محسن";
 		s = "ذُكِّرُوا";
-		System.out.println(RegexUtils.enrichPattern(s, false));
+		s = ".حسن";
+		s = "_حق_";
 		System.out.println("Initialize AdvancedQuranTextSearch" + new Date());
-		AdvancedQuranTextSearch ats = new AdvancedQuranTextSearch(QuranText.getSimpleTextInstance(),
-				new SimpleSearchResultHighlighter(), new DefaultSearchScorer());
-		System.out.println(s);
-		System.out.println("Before search: " + new Date());
+		// QuranText text = QuranText.getSimpleTextInstance();
+		TranslationData quranText = ApplicationConfig.getInstance().getTranslation().get("makarem");
+		PatternEnricher enricher = PatternEnricherFactory
+				.getEnricher(quranText.getLanguage(), !quranText.isTranslation());
+		System.out.println("Enriched query: " + enricher.enrich(s));
+		AdvancedQuranTextSearch ats = new AdvancedQuranTextSearch(quranText, new SimpleSearchResultHighlighter(),
+				new DefaultSearchScorer());
+		Date d1 = new Date();
+		System.out.println("Before search: " + d1);
 		SearchResultModel res = ats.search(s);
-		System.out.println("After search: " + new Date());
+		Date d2 = new Date();
+		System.out.println("Matches: " + res.getClause());
+		System.out.println("After search: " + d2 + ". Took: " + (d2.getTime() - d1.getTime()) / 1000.0 + "seconds.");
 		System.out.println(res.getTotalMatch() + " - " + res.getResults().size() + ":");
 		for (SearchResultItem sri : res.getResults()) {
 			System.out.println(sri);

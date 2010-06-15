@@ -32,13 +32,27 @@ public class SearchInfo {
 	private Map<String, Set<String>> stopWordMap = new LinkedHashMap<String, Set<String>>();
 
 	/**
-	 * A map from language ISO codes to another map in which there are a number of {@link Pattern} to
+	 * A map of language ISO codes to another map in which there are a number of {@link Pattern} to
 	 * {@link String} pairs (the former is a regex while the later is replace string.
 	 */
 	private Map<String, Map<Pattern, String>> replacePatternMap = new LinkedHashMap<String, Map<Pattern, String>>();
+	/**
+	 * A map of language ISO codes to a regular expressions matching language's punctuation marks.
+	 */
+	private Map<String, String> punctuationMap = new LinkedHashMap<String, String>();
+	/**
+	 * A map of language ISO codes to a regular expressions matching diacritics of the language.
+	 */
+	private Map<String, String> diacriticMap = new LinkedHashMap<String, String>();
+	/**
+	 * A map of language ISO codes to a regular expression matching letter range of that language.
+	 */
+	private Map<String, String> letterMap = new LinkedHashMap<String, String>();
 
 	private Set<String> defaultStopWordSet = new LinkedHashSet<String>();
 	private Map<Pattern, String> defaultReplacePatternMap = new LinkedHashMap<Pattern, String>();
+	private String defaultPunctuation;
+	private String defaultDiactitic;
 
 	public void addReplacePattern(String langCode, List<String> replacePatternList) {
 		Map<Pattern, String> patterns = addReplacePatterns(replacePatternList);
@@ -67,6 +81,26 @@ public class SearchInfo {
 	public void addStopWord(String langCode, List<String> stopWordList) {
 		Set<String> stopWordSet = new LinkedHashSet<String>(stopWordList);
 		stopWordMap.put(langCode, stopWordSet);
+	}
+
+	public void setPunctuation(String langCode, String punctuationPattern) {
+		punctuationMap.put(langCode, punctuationPattern);
+	}
+
+	public void setDiacritic(String langCode, String diacriticsPattern) {
+		diacriticMap.put(langCode, diacriticsPattern);
+	}
+
+	public void setLetter(String langCode, String letterRange) {
+		letterMap.put(langCode, letterRange);
+	}
+
+	public void setDefaultDiacritic(String defaultDiactitics) {
+		this.defaultDiactitic = defaultDiactitics;
+	}
+
+	public void setDefaultPunctuation(String defaultPunctuation) {
+		this.defaultPunctuation = defaultPunctuation;
 	}
 
 	public void setDefaultStopWord(List<String> defaultStopWord) {
@@ -116,5 +150,25 @@ public class SearchInfo {
 			ret = defaultStopWordSet;
 		}
 		return ret;
+	}
+
+	public String getDiacritic(String langCode) {
+		String ret = diacriticMap.get(langCode);
+		if (ret == null) {
+			ret = defaultDiactitic;
+		}
+		return ret;
+	}
+
+	public String getPunctuation(String langCode) {
+		String ret = punctuationMap.get(langCode);
+		if (ret == null) {
+			ret = defaultPunctuation;
+		}
+		return ret;
+	}
+
+	public String getLetter(String langCode) {
+		return letterMap.get(langCode);
 	}
 }
