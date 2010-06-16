@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -49,7 +49,6 @@ import net.sf.zekr.common.util.ProgressListener;
 import net.sf.zekr.common.util.ZipUtils;
 import net.sf.zekr.engine.audio.Audio;
 import net.sf.zekr.engine.audio.AudioCacheManager;
-import net.sf.zekr.engine.audio.AudioCacheManagerTimerTask;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.audio.DefaultPlayerController;
 import net.sf.zekr.engine.audio.PlayerController;
@@ -379,8 +378,9 @@ public class ApplicationConfig implements ConfigNaming {
 			if (!GlobalConfig.ZEKR_VERSION.equals(version)) {
 				logger.info("User config version (" + version + ") does not match with " + GlobalConfig.ZEKR_VERSION);
 
-				if (StringUtils.isBlank(version) || !version.startsWith("0.7.5")) { // config file is too old
-					logger.info("Previous version was too old: " + version);
+				if (StringUtils.isBlank(version) || !isCompatibleVersion(version)) { // config file is too old
+					logger.info(String.format("Previous version (%s) is too old and not compatible with %s", version,
+							GlobalConfig.ZEKR_VERSION));
 					logger.info("Cannot migrate old settings. Will reset settings.");
 
 					props = ConfigUtils.loadConfig(new File(ApplicationPath.MAIN_CONFIG), "UTF-8");
@@ -473,6 +473,28 @@ public class ApplicationConfig implements ConfigNaming {
 			shortcut = new KeyboardShortcut(props, doc);
 			shortcut.init();
 		}
+	}
+
+	/**
+	 * A threshold version is checked here. If user config version is newer or equal to this version, then
+	 * config file can be migrated. Otherwise, it's reset.
+	 * 
+	 * @param version
+	 * @return
+	 */
+	private boolean isCompatibleVersion(String version) {
+		try {
+			Pattern regex = Pattern.compile("(\\d+\\.\\d+\\.\\d+).*"); // e.g. 0.7.6 or 0.7.5beta2
+			Matcher m = regex.matcher(version);
+			if (m.find()) {
+				String versionPart = m.group(1);
+				return CommonUtils.compareVersions(versionPart, "0.7.5") >= 0;
+			}
+		} catch (Exception e) {
+			logger.implicitLog(e);
+			return false;
+		}
+		return false;
 	}
 
 	private void loadBookmarkSetGroup() {
@@ -930,6 +952,7 @@ public class ApplicationConfig implements ConfigNaming {
 		audioData = new AudioData();
 		audioData.id = pc.getString("audio.id");
 		audioData.file = audioFile;
+		// note that audio.version should be made up of digits and dots only, so 0.7.5beta1 is invalid.
 		audioData.version = pc.getString("audio.version");
 		if (StringUtils.isBlank(audioData.version)) { // old format
 			logger.warn("Not a valid recitation file. No version specified: " + audioFile);
@@ -996,10 +1019,10 @@ public class ApplicationConfig implements ConfigNaming {
 
 	private void setupAudioManager() {
 		audioCacheManager = new AudioCacheManager(props);
-		long period = props.getLong("audio.cache.timerPeriod", 3600000);
+		// long period = props.getLong("audio.cache.timerPeriod", 3600000);
 		// start after one minute, run every audio.cache.timerPeriod milliseconds
-		logger.debug("Setup audio cache timer task.");
-		new Timer("Audio Cache Task", true).schedule(new AudioCacheManagerTimerTask(audioCacheManager), 60000, period);
+		// logger.debug("Setup audio cache timer task.");
+		// new Timer("Audio Cache Task", true).schedule(new AudioCacheManagerTimerTask(audioCacheManager), 60000, period);
 
 		logger.debug("Initialize player controller.");
 		playerController = new DefaultPlayerController(props);
