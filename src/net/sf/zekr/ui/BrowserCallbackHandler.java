@@ -108,6 +108,7 @@ public class BrowserCallbackHandler {
 				} else {
 					logger.debug(String.format("Open search result playable object: %s.", playableObject));
 					form.searchPlayerController.open(playableObject);
+					form.searchPlayerController.setVolume(config.getPlayerController().getVolume());
 					form.searchPlayerController.play();
 				}
 			} else {
