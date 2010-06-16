@@ -38,6 +38,7 @@
 	<property name="lucene-highlighter.jar" value="${libdir}/lucene-highlighter-3.0.0.jar" />
 	<property name="lucene-snowball.jar" value="${libdir}/lucene-snowball-3.0.0.jar" />
 	<property name="lucene-memory.jar" value="${libdir}/lucene-memory-3.0.0.jar" />
+	<property name="lucene-misc.jar" value="${libdir}/lucene-misc-3.0.0.jar" />
 	<property name="commons-logging.jar" value="${libdir}/commons-logging-1.0.4.jar" />
 	<property name="commons-lang.jar" value="${libdir}/commons-lang-2.4.jar" />
 	<property name="commons-io.jar" value="${libdir}/commons-io-1.4.jar" />
@@ -61,6 +62,7 @@
 		<pathelement location="${lucene-highlighter.jar}" />
 		<pathelement location="${lucene-snowball.jar}" />
 		<pathelement location="${lucene-memory.jar}" />
+		<pathelement location="${lucene-misc.jar}" />
 		<pathelement location="${commons-logging.jar}" />
 		<pathelement location="${commons-lang.jar}" />
 		<pathelement location="${commons-io.jar}" />
