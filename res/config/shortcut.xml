@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<shortcut version="0.7.5">
+<shortcut version="0.7.6">
 <![CDATA[
 - if shortcut for right-to-left mode is different, specify rtlKey for mapping element.
 - use 'Alt', 'Ctrl', and 'Shift' modifiers only. Ctrl is treated as Cmd on Mac systems.

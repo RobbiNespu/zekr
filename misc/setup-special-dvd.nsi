@@ -7,15 +7,15 @@ SetCompressor lzma
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
 !define APP_NAME "zekr"
-!define VERSION 0.7.5.0
-!define RELEASE_VERSION "0.7.5beta4a"
+!define VERSION 0.7.6.0
+!define RELEASE_VERSION "0.7.6beta1"
 !define COMPANY zekr.org
 !define URL http://zekr.org
 
 # Constants
 !define EXT_FILES "D:\Java\Programs\Zekr\dist\installer-files"
-!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.5\beta4a\special\win32"
-!define RECITATIONDIR "F:\recitation"
+!define BASE_APP "D:\Java\Programs\Zekr\dist\0.7.6\beta1\special\win32"
+#!define RECITATIONDIR "F:\recitation"
 
 !define INSTDIR_REG_ROOT "HKLM"
 !define INSTDIR_REG_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
@@ -152,7 +152,7 @@ SectionGroup /e $(SEC2_NAME) SECGRP0000
         CreateDirectory $INSTDIR\res\audio\muaiqly
         CopyFiles "$EXEDIR\recitation\muaiqly\*" "$INSTDIR\res\audio\muaiqly" 1185657
         SetOutPath $INSTDIR\res\audio
-        File /nonfatal F:\recitation\muaiqly-128kbps-offline.properties
+        File /nonfatal F:\recitation\muaiqly-48kbps-offline.properties
         WriteRegStr HKLM "${REGKEY}\Components" Al-Muaiqly 1
         ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     SectionEnd
@@ -167,6 +167,32 @@ SectionGroup /e $(SEC2_NAME) SECGRP0000
         SetOutPath $INSTDIR\res\audio
         File /nonfatal F:\recitation\afasy-40kbps-offline.properties
         WriteRegStr HKLM "${REGKEY}\Components" Al-Afasy 1
+        ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+    SectionEnd
+
+    Section $(SEC24_NAME) SEC0004
+        ;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+        SetOutPath $INSTDIR
+        SetOverwrite on
+        ;File /nonfatal /r F:\recitation\ghamdi\*
+        CreateDirectory $INSTDIR\res\audio\ghamdi
+        CopyFiles "$EXEDIR\recitation\ghamdi\*" "$INSTDIR\res\audio\ghamdi" 520681
+        SetOutPath $INSTDIR\res\audio
+        File /nonfatal F:\recitation\ghamdi-40kbps-offline.properties
+        WriteRegStr HKLM "${REGKEY}\Components" Al-Ghamdi 1
+        ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+    SectionEnd
+
+    Section $(SEC25_NAME) SEC0005
+        ;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+        SetOutPath $INSTDIR
+        SetOverwrite on
+        ;File /nonfatal /r F:\recitation\huzaifi\*
+        CreateDirectory $INSTDIR\res\audio\huzaifi
+        CopyFiles "$EXEDIR\recitation\huzaifi\*" "$INSTDIR\res\audio\huzaifi" 520681
+        SetOutPath $INSTDIR\res\audio
+        File /nonfatal F:\recitation\huzaifi-32kbps-offline.properties
+        WriteRegStr HKLM "${REGKEY}\Components" Al-Huzaifi 1
         ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     SectionEnd
 SectionGroupEnd
@@ -187,7 +213,7 @@ SectionGroup /e $(SEC3_NAME) SECGRP0001
         SetOutPath $INSTDIR
         SetOverwrite on
         SetOutPath $INSTDIR\res\audio
-        File /nonfatal F:\recitation\muaiqly-128kbps-dvd-offline.properties
+        File /nonfatal F:\recitation\muaiqly-48kbps-dvd-offline.properties
         WriteRegStr HKLM "${REGKEY}\Components" Al-Muaiqly-dvd 1
         ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     SectionEnd
@@ -201,9 +227,29 @@ SectionGroup /e $(SEC3_NAME) SECGRP0001
         WriteRegStr HKLM "${REGKEY}\Components" Al-Afasy-dvd 1
         ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     SectionEnd
+
+    Section /o $(SEC34_NAME) SEC0014
+        ;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+        SetOutPath $INSTDIR
+        SetOverwrite on
+        SetOutPath $INSTDIR\res\audio
+        File /nonfatal F:\recitation\ghamdi-40kbps-dvd-offline.properties
+        WriteRegStr HKLM "${REGKEY}\Components" Al-Ghamdi-dvd 1
+        ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+    SectionEnd
+
+    Section /o $(SEC35_NAME) SEC0015
+        ;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+        SetOutPath $INSTDIR
+        SetOverwrite on
+        SetOutPath $INSTDIR\res\audio
+        File /nonfatal F:\recitation\huzaifi-32kbps-dvd-offline.properties
+        WriteRegStr HKLM "${REGKEY}\Components" Al-Huzaifi-dvd 1
+        ;!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+    SectionEnd
 SectionGroupEnd
 
-Section -post SEC0004
+Section -post SEC_MENU
     WriteRegStr HKLM "${REGKEY}" Path $INSTDIR
     SetOutPath $INSTDIR
     WriteUninstaller $INSTDIR\uninstall.exe
@@ -287,7 +333,7 @@ Section /o -un.$(SEC1_NAME) UNSEC0000
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
 
-Section -un.post UNSEC0004
+Section -un.post UNSEC_MENU
     DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
@@ -416,60 +462,84 @@ LangString SEC2_NAME ${LANG_FARSI} "ترتیل قرآن"
 LangString SEC21_NAME ${LANG_FARSI} "منصوری"
 LangString SEC22_NAME ${LANG_FARSI} "معیقلی"
 LangString SEC23_NAME ${LANG_FARSI} "عفاسی"
+LangString SEC24_NAME ${LANG_FARSI} "غامدی"
+LangString SEC25_NAME ${LANG_FARSI} "حذیفی"
 LangString SEC3_NAME ${LANG_FARSI} "ترتیل قرآن از روی دی‌وی‌دی"
 LangString SEC31_NAME ${LANG_FARSI} "منصوری-دی‌وی‌دی"
 LangString SEC32_NAME ${LANG_FARSI} "معیقلی-دی‌وی‌دی"
 LangString SEC33_NAME ${LANG_FARSI} "عفاسی-دی‌وی‌دی"
+LangString SEC34_NAME ${LANG_FARSI} "غامدی-دی‌وی‌دی"
+LangString SEC35_NAME ${LANG_FARSI} "حذیفی-دی‌وی‌دی"
 
 LangString SEC1_NAME ${LANG_ENGLISH} "Main"
 LangString SEC2_NAME ${LANG_ENGLISH} "Qur'an Recitations"
 LangString SEC21_NAME ${LANG_ENGLISH} "Mansouri"
 LangString SEC22_NAME ${LANG_ENGLISH} "Al-Muaiqly"
 LangString SEC23_NAME ${LANG_ENGLISH} "Al-Afasy"
+LangString SEC24_NAME ${LANG_ENGLISH} "Al-Ghamdi"
+LangString SEC25_NAME ${LANG_ENGLISH} "Al-Huzaifi"
 LangString SEC3_NAME ${LANG_ENGLISH} "Qur'an Recitations (play from DVD)"
 LangString SEC31_NAME ${LANG_ENGLISH} "Mansouri (DVD)"
 LangString SEC32_NAME ${LANG_ENGLISH} "Al-Muaiqly (DVD)"
 LangString SEC33_NAME ${LANG_ENGLISH} "Al-Afasy (DVD)"
+LangString SEC34_NAME ${LANG_ENGLISH} "Al-Ghamdi (DVD)"
+LangString SEC35_NAME ${LANG_ENGLISH} "Al-Huzaifi (DVD)"
 
 LangString SEC1_NAME ${LANG_ARABIC} "Main"
 LangString SEC2_NAME ${LANG_ARABIC} "Qur'an Recitations"
 LangString SEC21_NAME ${LANG_ARABIC} "Mansouri"
 LangString SEC22_NAME ${LANG_ARABIC} "Al-Muaiqly"
 LangString SEC23_NAME ${LANG_ARABIC} "Al-Afasy"
+LangString SEC24_NAME ${LANG_ARABIC} "Al-Ghamdi"
+LangString SEC25_NAME ${LANG_ARABIC} "Al-Huzaifi"
 LangString SEC3_NAME ${LANG_ARABIC} "Qur'an Recitations (play from DVD)"
 LangString SEC31_NAME ${LANG_ARABIC} "Mansouri (DVD)"
 LangString SEC32_NAME ${LANG_ARABIC} "Al-Muaiqly (DVD)"
 LangString SEC33_NAME ${LANG_ARABIC} "Al-Afasy (DVD)"
+LangString SEC34_NAME ${LANG_ARABIC} "Al-Ghamdi (DVD)"
+LangString SEC35_NAME ${LANG_ARABIC} "Al-Huzaifi (DVD)"
 
 LangString SEC0000_DESC ${LANG_FARSI} "فایل‌های اصلی برنامه"
 LangString SECGRP0000_DESC ${LANG_FARSI} "نصب ترتیل قرآن؛ فایل‌های ترتیل به‌طور کامل بر روی هارد دیسک نصب می‌شوند"
 LangString SEC0001_DESC ${LANG_FARSI} "ترتیل کامل قرآن با صدای کریم منصوری"
 LangString SEC0002_DESC ${LANG_FARSI} "ترتیل کامل قرآن با صدای ماهر معیقلی"
 LangString SEC0003_DESC ${LANG_FARSI} "ترتیل کامل قرآن با صدای مشاری بن راشد عفاسی"
+LangString SEC0004_DESC ${LANG_FARSI} "ترتیل کامل قرآن با صدای سعد غامدی"
+LangString SEC0005_DESC ${LANG_FARSI} "ترتیل کامل قرآن با صدای علی حذیفی"
 LangString SECGRP0001_DESC ${LANG_FARSI} "نصب ترتیل قرآن؛ برای پخش قرائت باید دی‌وی‌دی در درایو باشد"
 LangString SEC0011_DESC ${LANG_FARSI} "ترتیل کامل قرآن از روی دی‌وی‌دی با صدای کریم منصوری"
 LangString SEC0012_DESC ${LANG_FARSI} "ترتیل کامل قرآن از روی دی‌وی‌دی با صدای ماهر معیقلی"
 LangString SEC0013_DESC ${LANG_FARSI} "ترتیل کامل قرآن از روی دی‌وی‌دی با صدای مشاری بن راشد عفاسی"
+LangString SEC0014_DESC ${LANG_FARSI} "ترتیل کامل قرآن از روی دی‌وی‌دی با صدای سعد غامدی"
+LangString SEC0015_DESC ${LANG_FARSI} "ترتیل کامل قرآن از روی دی‌وی‌دی با صدای علی حذیفی"
 
 LangString SEC0000_DESC ${LANG_ENGLISH} "Main installation files"
 LangString SECGRP0000_DESC ${LANG_ENGLISH} "Install recitations; Recitation files are fully copied to your hard disk"
 LangString SEC0001_DESC ${LANG_ENGLISH} "Complete Qur'an recitation by Karim Mansouri"
 LangString SEC0002_DESC ${LANG_ENGLISH} "Complete Qur'an recitation by Mahir Al-Muaiqly"
 LangString SEC0003_DESC ${LANG_ENGLISH} "Complete Qur'an recitation by Mishary Al-Afasy"
+LangString SEC0004_DESC ${LANG_ENGLISH} "Complete Qur'an recitation by Saad Al-Ghamdi"
+LangString SEC0005_DESC ${LANG_ENGLISH} "Complete Qur'an recitation by Ali Al-Huzaifi"
 LangString SECGRP0001_DESC ${LANG_ENGLISH} "Install recitations (Zekr DVD must be in your drive in order to play these recitations)"
 LangString SEC0011_DESC ${LANG_ENGLISH} "Complete Qur'an recitation from DVD by Karim Mansouri"
 LangString SEC0012_DESC ${LANG_ENGLISH} "Complete Qur'an recitation from DVD by Mahir Al-Muaiqly"
 LangString SEC0013_DESC ${LANG_ENGLISH} "Complete Qur'an recitation from DVD by Mishary Al-Afasy"
+LangString SEC0014_DESC ${LANG_ENGLISH} "Complete Qur'an recitation from DVD by Saad Al-Ghamdi"
+LangString SEC0015_DESC ${LANG_ENGLISH} "Complete Qur'an recitation from DVD by Ali Al-Huzaifi"
 
 LangString SEC0000_DESC ${LANG_ARABIC} "Main installation files"
 LangString SECGRP0000_DESC ${LANG_ARABIC} "Install recitations; Recitation files are fully copied to your hard disk"
 LangString SEC0001_DESC ${LANG_ARABIC} "Complete Qur'an recitation by Karim Mansouri"
 LangString SEC0002_DESC ${LANG_ARABIC} "Complete Qur'an recitation by Mahir Al-Muaiqly"
 LangString SEC0003_DESC ${LANG_ARABIC} "Complete Qur'an recitation by Mishary Al-Afasy"
+LangString SEC0004_DESC ${LANG_ARABIC} "Complete Qur'an recitation by Saad Al-Ghamdi"
+LangString SEC0005_DESC ${LANG_ARABIC} "Complete Qur'an recitation by Ali Al-Huzaifi"
 LangString SECGRP0001_DESC ${LANG_ARABIC} "Install recitations (Zekr DVD must be in your drive in order to play these recitations)"
 LangString SEC0011_DESC ${LANG_ARABIC} "Complete Qur'an recitation from DVD by Karim Mansouri"
 LangString SEC0012_DESC ${LANG_ARABIC} "Complete Qur'an recitation from DVD by Mahir Al-Muaiqly"
 LangString SEC0013_DESC ${LANG_ARABIC} "Complete Qur'an recitation from DVD by Mishary Al-Afasy"
+LangString SEC0014_DESC ${LANG_ARABIC} "Complete Qur'an recitation from DVD by Saad Al-Ghamdi"
+LangString SEC0015_DESC ${LANG_ARABIC} "Complete Qur'an recitation from DVD by Ali Al-Huzaifi"
 
 Function StrRep
   Exch $R4 ; $R4 = Replacement String
