@@ -716,12 +716,15 @@ Features/Enhancements:
 		- Punctuation marks (search.pattern.punct): a single regular expression to match all punctuation marks of a language. \p{Punct} will match almost all European punctuations, and we should add more to this for non-European languages. This regex is used to insert before and after search keywords in order to work as a tokenizer (for example so that "salaam" search query matches text parts like: "salaam.").
 	Added QueryParserFactory and a new property to config.properties: view.search.advanced.queryParser. We use QueryParser by default as AnalyzingQueryParser doesn't recognize leading wildcards. User may change it himself. As a result of introducing new query parsers, we have now a new dependency: Added a new dependency: lucene-misc contrib project. This dependency is only used when parsers other than QueryParser are used.
 	Now supports punctuation removal in sura name filtering (in Goto dialog).
+	We now set default volume for search result player audio player.
+	Search results are now filtered. As a result, KASRA+SHADDA order is reversed in the final output to help Arabic newbie readers.
+	AudioCacheManagerTimerTask made inactive for now. It had no effect, as there was no offline caching for audio files.
 Bug fixes:
 	Search result showed: "Page 1 of 0" when no result found. It not shows Page 1 of 1.
-	Fixed exception of Goto Form when invalida sura:aya combination entered in sura:aya box.
+	Fixed exception of Goto Form when invalid sura:aya combination entered in sura:aya box.
 	In recitation .properties files: audio.offlineBismillam should be changed to audio.offlineBismillah. Both these values are not recognized by Zekr for backward compatibility.
 	A bug in search caused Kasra+Shadda reverse ordering not to be recognized correctly.
-	
+	Do not accept sura numbers below 1 in nav bar.
 _____________________________________________________
 	TODO: Export search results
 
@@ -749,19 +752,4 @@ _____________________________________________________
 
 	TODO: Remove dependency to common collections (too large library)
 
-	- bug: set volume of search result items to main audio controller audio volume
-	- there's an exception after importing a .recit.zip pack: org.eclipse.swt.SWTException: Widget is disposed
-	at org.eclipse.swt.SWT.error(Unknown Source)
-	at org.eclipse.swt.SWT.error(Unknown Source)
-	at org.eclipse.swt.SWT.error(Unknown Source)
-	at org.eclipse.swt.widgets.Widget.error(Unknown Source)
-	at org.eclipse.swt.widgets.Widget.checkWidget(Unknown Source)
-	at org.eclipse.swt.widgets.Widget.isListening(Unknown Source)
-	at net.sf.zekr.ui.helper.EventUtils.sendEvent(EventUtils.java:51)
-	at net.sf.zekr.ui.helper.EventUtils.sendEvent(EventUtils.java:28)
-	at net.sf.zekr.ui.QuranFormMenuFactory$17$1$1$2.run(QuranFormMenuFactory.java:1062)
-	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
-	... 6 more
-
-	- grješniku, vidjećeš or other related terms cannot be found in simple search of korkut translation.
-	- in search results, shadda-kasra order is not reversed as in the normal text. It seems that some filtering rules are not applied to search results.
+	TODO: all data from BaseQuranProperties should be moved to an xml file.

@@ -31,7 +31,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.SimpleFSDirectory;
 
 /**
- * This class manages Lucene indices for Quran and translations.
+ * This class manages Lucene indices for Qur'an and translations.
  * 
  * @author Mohsen Saboorian
  */
@@ -45,11 +45,11 @@ public class LuceneIndexManager {
 	}
 
 	/**
-	 * This method first checks if the Quran is previously indexed (first in user home and then in installation
-	 * directory). If not, it will try to index it, asking user where to index. If this is already indexed,
-	 * returns the directory where Quran indices are.
+	 * This method first checks if the Qur'an is previously indexed (first in user home and then in
+	 * installation directory). If not, it will try to index it, asking user where to index. If this is already
+	 * indexed, returns the directory where Qur'an indices are.
 	 * 
-	 * @return directory of the Quran index if indexing was successful (or found index somewhere),
+	 * @return directory of the Qur'an index if indexing was successful (or found index somewhere),
 	 *         <code>null</code> otherwise
 	 * @throws IndexingException if indexing or opening existing index failed
 	 */

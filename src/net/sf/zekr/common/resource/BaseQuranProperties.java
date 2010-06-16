@@ -1,5 +1,5 @@
 /*
- *               In the name of Allah
+w *               In the name of Allah
  * This file is part of The Zekr Project. Use is subject to
  * license terms.
  *
@@ -9,7 +9,7 @@
 package net.sf.zekr.common.resource;
 
 /**
- * This class contains some of Quran properties to be used in subclasses. All static Quran
+ * This class contains some of Qu'ran properties to be used in subclasses. All static Quran
  * configurations should be moved from quran-properties.xml into this class.
  * 
  * @author Mohsen Saboorian

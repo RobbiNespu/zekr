@@ -41,8 +41,8 @@ their corresponding licenses under doc directory:
     and commons-configuration-1.6):
     Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - Lucene libraries (lucene-core-3.0.0.jar, lucene-highlighter-3.0.0.jar,
-    lucene-snowball-3.0.0.jar, and lucene-memory-3.0.0.jar): Apache License version 2.0,
-    [zekr]/doc/apache-license-2.0.txt
+    lucene-snowball-3.0.0.jar, lucene-memory-3.0.0.jar, and lucene-misc-3.0.0.jar):
+    Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - log4j-1.2.8: Apache Software License version 1.1, [zekr]/doc/apache-software-license-1.1.txt
 - velocity-1.6.2: Apache License version 2.0, [zekr]/doc/apache-license-2.0.txt
 - swt.jar: Eclipse Public License 1.0, [zekr]/doc/epl-1.0.txt
