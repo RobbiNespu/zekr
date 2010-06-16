@@ -1234,7 +1234,7 @@ public class QuranForm extends BaseForm {
 		} else {
 			if (QuranPropertiesUtils.isValid(sura, aya)) {
 				navTo(sura, aya, changePage);
-			} else if (sura < QuranPropertiesUtils.QURAN_SURA_COUNT) {
+			} else if (sura > 0 && sura < QuranPropertiesUtils.QURAN_SURA_COUNT) {
 				navTo(sura, 1, changePage);
 			}
 		}
@@ -1433,7 +1433,7 @@ public class QuranForm extends BaseForm {
 		try {
 			if (pageChanged) {
 				quranBrowser.addProgressListener(qpl);
-				logger.info("Set Quran location to " + uvc.getLocation());
+				logger.info("Set Qur'an location to " + uvc.getLocation());
 				if (viewLayout == MIXED) {
 					quranUri = HtmlRepository.getMixedUri(uvc.getLocation());
 				} else if (viewLayout == MULTI_TRANS) {
