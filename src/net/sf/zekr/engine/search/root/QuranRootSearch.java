@@ -13,59 +13,26 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.filter.QuranFilterUtils;
 import net.sf.zekr.common.util.CollectionUtils;
 import net.sf.zekr.common.util.StringUtils;
-import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.root.RootAddress;
+import net.sf.zekr.engine.search.AbstractSearcher;
 import net.sf.zekr.engine.search.ISearchScorer;
 import net.sf.zekr.engine.search.SearchException;
 import net.sf.zekr.engine.search.SearchResultItem;
 import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.ZeroScorer;
-import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
-public class QuranRootSearch {
-	private final Logger logger = Logger.getLogger(this.getClass());
-	private final ApplicationConfig config = ApplicationConfig.getInstance();
+public class QuranRootSearch extends AbstractSearcher {
 	private RootHighlighter highlighter;
-	private SearchScope searchScope;
 	private IQuranText quranText;
 	private ISearchScorer searchScorer;
-
 	private List<IQuranLocation> locations;
-	private AbstractSearchResultComparator searchResultComparator;
-	private boolean ascending = true;
-
-	public SearchScope getSearchScope() {
-		return searchScope;
-	}
-
-	public void setSearchScope(SearchScope searchScope) {
-		this.searchScope = searchScope;
-		this.locations = CollectionUtils.toArrayList(QuranPropertiesUtils.getLocations());
-		if (searchScope != null) {
-			logger.debug("Initializing searchable locations.");
-			for (int i = locations.size() - 1; i >= 0; i--) {
-				if (!searchScope.includes(locations.get(i)))
-					locations.remove(i);
-			}
-			logger.debug("Searching through '" + locations.size() + "' ayas.");
-		}
-	}
-
-	public void setSearchResultComparator(AbstractSearchResultComparator searchResultComparator) {
-		this.searchResultComparator = searchResultComparator;
-	}
-
-	public void setSearchScorer(ISearchScorer searchScorer) {
-		this.searchScorer = searchScorer;
-	}
 
 	public QuranRootSearch(IQuranText quranText, ISearchScorer searchScorer) {
 		this.highlighter = new RootHighlighter();
@@ -77,15 +44,7 @@ public class QuranRootSearch {
 		setSearchScope(null);
 	}
 
-	public void setAscending(boolean ascending) {
-		this.ascending = ascending;
-	}
-
-	public boolean isAscending() {
-		return ascending;
-	}
-
-	public SearchResultModel search(String rootStr) throws SearchException {
+	protected SearchResultModel doSearch(String rootStr) throws SearchException {
 		logger.debug("Searching for root: " + rootStr);
 		List<SearchResultItem> resultItems = new ArrayList<SearchResultItem>();
 		Set<String> clauses = new LinkedHashSet<String>();
@@ -139,5 +98,22 @@ public class QuranRootSearch {
 
 		return new SearchResultModel(quranText, resultItems, CollectionUtils.toString(clauses, " "), rootStr,
 				totalResult, searchResultComparator, ascending);
+	}
+
+	public void setSearchScope(SearchScope searchScope) {
+		this.searchScope = searchScope;
+		this.locations = CollectionUtils.toArrayList(QuranPropertiesUtils.getLocations());
+		if (searchScope != null) {
+			logger.debug("Initializing searchable locations.");
+			for (int i = locations.size() - 1; i >= 0; i--) {
+				if (!searchScope.includes(locations.get(i)))
+					locations.remove(i);
+			}
+			logger.debug("Searching through '" + locations.size() + "' ayas.");
+		}
+	}
+
+	public void setSearchScorer(ISearchScorer searchScorer) {
+		this.searchScorer = searchScorer;
 	}
 }

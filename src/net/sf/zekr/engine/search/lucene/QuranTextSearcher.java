@@ -21,19 +21,19 @@ import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.engine.log.Logger;
+import net.sf.zekr.engine.search.AbstractSearcher;
+import net.sf.zekr.engine.search.ISearcher;
 import net.sf.zekr.engine.search.SearchException;
 import net.sf.zekr.engine.search.SearchResultItem;
 import net.sf.zekr.engine.search.SearchResultModel;
 import net.sf.zekr.engine.search.SearchScope;
 import net.sf.zekr.engine.search.SearchScopeItem;
 import net.sf.zekr.engine.search.SearchUtils;
-import net.sf.zekr.engine.search.comparator.AbstractSearchResultComparator;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.DocIdSet;
@@ -47,7 +47,6 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.search.highlight.Formatter;
 import org.apache.lucene.search.highlight.Highlighter;
-import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.util.DocIdBitSet;
 import org.apache.lucene.util.Version;
@@ -55,8 +54,7 @@ import org.apache.lucene.util.Version;
 /**
  * @author Mohsen Saboorian
  */
-public class QuranTextSearcher {
-	protected Logger logger = Logger.getLogger(this.getClass());
+public class QuranTextSearcher extends AbstractSearcher {
 	public static final int MAX_CLAUSE_COUNT = 10000;
 	public static final int MAX_SEARCH_RESULT = 10000;
 
@@ -71,10 +69,7 @@ public class QuranTextSearcher {
 	private List<SearchResultItem> results;
 	private int matchedItemCount;
 	private Query query;
-	private SearchScope searchScope;
 	private String rawQuery;
-	private boolean ascending;
-	private AbstractSearchResultComparator searchResultComparator;
 	private ZekrIndexReader zekrIndexReader;
 	private Set<String> highlightedTermList;
 
@@ -97,7 +92,7 @@ public class QuranTextSearcher {
 		sortResultOrder = Sort.RELEVANCE;
 		highlightFormatter = new ZekrHighlightFormatter();
 		try {
-			maxSearchResult = ApplicationConfig.getInstance().getProps().getInt("search.maxResult", MAX_SEARCH_RESULT);
+			maxSearchResult = config.getProps().getInt("search.maxResult", MAX_SEARCH_RESULT);
 		} catch (Exception e) {
 			// silently ignore, as the variable is already initialized
 		}
@@ -128,14 +123,6 @@ public class QuranTextSearcher {
 		return maxClauseCount;
 	}
 
-	public void setAscending(boolean ascending) {
-		this.ascending = ascending;
-	}
-
-	public boolean isAscending() {
-		return ascending;
-	}
-
 	public void setHighlightFormatter(IExtendedFormatter highlightFormatter) {
 		this.highlightFormatter = highlightFormatter;
 	}
@@ -164,11 +151,7 @@ public class QuranTextSearcher {
 		this.searchScope = searchScope;
 	}
 
-	public SearchScope getSearchScope() {
-		return searchScope;
-	}
-
-	public SearchResultModel search(String query) throws IOException, ParseException, InvalidTokenOffsetsException {
+	protected SearchResultModel doSearch(String query) throws SearchException {
 		rawQuery = query;
 		String s = SearchUtils.simplifyAdvancedSearchQuery(query);
 		results = internalSearch(s);
@@ -195,7 +178,8 @@ public class QuranTextSearcher {
 			// analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
 			// resultTokenStream = new StandardTokenizer(Version.LUCENE_CURRENT, reader);
 
-			QueryParser parser = QueryParserFactory.create(Version.LUCENE_CURRENT, QuranTextIndexer.CONTENTS_FIELD, analyzer);
+			QueryParser parser = QueryParserFactory.create(Version.LUCENE_CURRENT, QuranTextIndexer.CONTENTS_FIELD,
+					analyzer);
 
 			// allow search terms like "*foo" with leading star
 			parser.setAllowLeadingWildcard(true);
@@ -288,15 +272,6 @@ public class QuranTextSearcher {
 		}
 		return ret.toString();
 	}
-
-	public void setSearchResultComparator(AbstractSearchResultComparator searchResultComparator) {
-		this.searchResultComparator = searchResultComparator;
-	}
-
-	public AbstractSearchResultComparator getSearchResultComparator() {
-		return searchResultComparator;
-	}
-
 }
 
 /**
