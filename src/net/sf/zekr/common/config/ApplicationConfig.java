@@ -1008,12 +1008,14 @@ public class ApplicationConfig implements ConfigNaming {
 		audioData.onlineAudhubillah = pc.getString("audio.onlineAudhubillah");
 		// keep backward compatibility for old typo in files (bismillam instead of bismillah)
 		audioData.onlineBismillah = pc.getString("audio.onlineBismillah", pc.getString("audio.onlineBismillam"));
-		audioData.onlineSadaghallah = pc.getString("audio.onlineSaghaghallah");
+		// keep backward compatibility for old typo in files (saghaghallah instead of sadaghallah)
+		audioData.onlineSadaghallah = pc.getString("audio.onlineSadaghallah", pc.getString("audio.onlineSaghaghallah"));
 
 		audioData.offlineAudhubillah = pc.getString("audio.offlineAudhubillah");
 		// keep backward compatibility for old typo in files (bismillam instead of bismillah)
 		audioData.offlineBismillah = pc.getString("audio.offlineBismillah", pc.getString("audio.offlineBismillam"));
-		audioData.offlineSadaghallah = pc.getString("audio.offlineSaghaghallah");
+		// keep backward compatibility for old typo in files (saghaghallah instead of sadaghallah)
+		audioData.offlineSadaghallah = pc.getString("audio.offlineSadaghallah", pc.getString("audio.offlineSaghaghallah"));
 		return audioData;
 	}
 
