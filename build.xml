@@ -10,7 +10,7 @@
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.6/final" />
+	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/0.7.6/final/special" />
 	<property name="distdir" value="${dest_dir}/develdist" />
 
 	<property name="srcdir" value="src" />

@@ -10,15 +10,19 @@
 package net.sf.zekr;
 
 import java.io.File;
+import java.io.FileFilter;
 
-import junit.framework.TestCase;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.SuraProperties;
 
 /**
  * @author Mohsen Saboorian
  */
-public class MiscTests extends TestCase {
+public class MiscTests extends ZekrBaseTest {
+
+	public MiscTests() throws Exception {
+		super();
+	}
 
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -60,17 +64,58 @@ public class MiscTests extends TestCase {
 	}
 
 	public void testMissingAudioItemDetector() {
+		String[] paths = { "E:/recitation/muaiqly-48kbps-offline/%1$03d/%1$03d%2$03d.mp3",
+				"E:/recitation/ghamdi-40kbps-offline/%1$03d%2$03d.mp3" };
 		// ApplicationConfig.getInstance();
-		for (int sn = 1; sn <= 114; sn++) {
-			SuraProperties sura = QuranPropertiesUtils.getSura(sn);
-			int ayaCount = sura.getAyaCount();
-			for (int an = 1; an <= ayaCount; an++) {
-				String filePath = String.format("H:/recitation/afasy/%1$03d%2$03d.mp3", sn, an);
-				// String filePath = String.format("H:/recitation/mansouri/%1$03d/%1$03d%2$03d.mp3", sn, an);
-				File file = new File(filePath);
-				if (!file.exists()) {
-					System.out.println(filePath + " is missing.");
+		for (int i = 0; i < paths.length; i++) {
+			for (int sn = 1; sn <= 114; sn++) {
+				SuraProperties sura = QuranPropertiesUtils.getSura(sn);
+				int ayaCount = sura.getAyaCount();
+				for (int an = 1; an <= ayaCount; an++) {
+					String filePath = String.format(paths[i], sn, an);
+					// String filePath = String.format("H:/recitation/mansouri/%1$03d/%1$03d%2$03d.mp3", sn, an);
+					File file = new File(filePath);
+					if (!file.exists()) {
+						System.out.println(filePath + " is missing.");
+					}
 				}
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		String parentPath = "E:/recitation";
+		//		String[] paths = { "ghamdi-40kbps-offline", "mansouri-48kbps-offline", "shatri-48kbps-offline",
+		//				"afasy-40kbps-offline" };
+		String[] paths = { "abdulbasit-32kbps-offline" };
+		for (int i = 0; i < paths.length; i++) {
+			System.out.println("Moving files for " + paths[i]);
+			for (int sn = 1; sn <= 114; sn++) {
+				final int sura = sn;
+				File[] list = new File(parentPath, paths[i]).listFiles(new FileFilter() {
+					public boolean accept(File pathname) {
+						return pathname.getName().startsWith(String.format("%1$03d", sura));
+					}
+				});
+				String dir = String.format(paths[i] + "/%1$03d", sn);
+				new File(parentPath, dir).mkdirs();
+				for (File file : list) {
+					String newFile = parentPath + "/" + dir + "/" + file.getName();
+					if (!file.renameTo(new File(newFile))) {
+						System.out.println(String.format("Failed to move %s to %s.", file, newFile));
+					}
+
+				}
+				//				SuraProperties sura = QuranPropertiesUtils.getSura(sn);
+				//				int ayaCount = sura.getAyaCount();
+				//				for (int an = 1; an <= ayaCount; an++) {
+				//					String filePath = String.format(paths[i], sn, an);
+				//					// String filePath = String.format("H:/recitation/mansouri/%1$03d/%1$03d%2$03d.mp3", sn, an);
+				//					File file = new File(filePath);
+				//					if (!file.exists()) {
+				//						System.out.println(filePath + " is missing.");
+				//					}
+				//				}
 			}
 		}
 	}

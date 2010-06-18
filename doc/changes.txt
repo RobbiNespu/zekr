@@ -712,11 +712,11 @@ Features/Enhancements:
 	Updated quran-simple from tanzil "Simple" to "Simple Enhanced" version to ease reading.
 	Added the following new patterns to search-info.properties:
 		- Diacritics (search.pattern.diacr): a single regular expression to match all diacritics of a language. Diacritics are inserted after a language's letter range (with * regex operator) so that it matches possible texts with diacritics in the target search text.
-		- Letter range (search.pattern.letter): a single regular expression to match all letter of a language. Letters are basic alphabet of a language, different from digits, marks and diacritics. Diacritics may be applied after each letter in order to search for possible strings with diacritics in the text.
+		- Letter range (search.pattern.letter): a single regular expression to match all letters of a language. Letters are basic alphabet of a language, different from digits, marks and diacritics. Diacritics may be applied after each letter in order to search for possible strings with diacritics in the text.
 		- Punctuation marks (search.pattern.punct): a single regular expression to match all punctuation marks of a language. \p{Punct} will match almost all European punctuations, and we should add more to this for non-European languages. This regex is used to insert before and after search keywords in order to work as a tokenizer (for example so that "salaam" search query matches text parts like: "salaam.").
 	Added QueryParserFactory and a new property to config.properties: view.search.advanced.queryParser. We use QueryParser by default as AnalyzingQueryParser doesn't recognize leading wildcards. User may change it himself. As a result of introducing new query parsers, we have now a new dependency: Added a new dependency: lucene-misc contrib project. This dependency is only used when parsers other than QueryParser are used.
 	Now supports punctuation removal in sura name filtering (in Goto dialog).
-	We now set default volume for search result player audio player.
+	We now set default audio player volume for search result player audio player.
 	Search results are now filtered. As a result, KASRA+SHADDA order is reversed in the final output to help Arabic newbie readers.
 	AudioCacheManagerTimerTask made inactive for now. It had no effect, as there was no offline caching for audio files.
 Bug fixes:

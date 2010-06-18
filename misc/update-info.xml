@@ -1,10 +1,5 @@
-<zekr-update fullName="Zekr 0.7.5" version="0.7.5" status="FINAL"
-    build="2010040100" date="01-04-2010" downloadUrl="http://zekr.org/download.html"
-    noteUrl="http://zekr.org/wiki/Zekr_0.7.5">
-    <info><![CDATA[Zekr 0.7.5 final is ready for download. This is the final version in 0.7.5 branch which has the following features comparing to 0.7.1:
-- A new pure-Java audio player introduced. This player has many features over previous flash-based player.
-- Customizable shortcuts are now supported.
-- A new advanced Go To dialog added.
-- A new audio pack (.recit.zip) introduced to ease importing of an offline recitation pack.
-- A number of Mac Cocoa enhancements.]]></info>
+<zekr-update fullName="Zekr 0.7.6" version="0.7.6" status="FINAL"
+    build="2010061700" date="17-06-2010" downloadUrl="http://zekr.org/download.html"
+    noteUrl="http://zekr.org/wiki/Zekr_0.7.6">
+    <info><![CDATA[Zekr 0.7.6 final is ready for download. This is another release candidate for Zekr 1.0.0 with a number of bug fixes for basic search and a few for advanced search.]]></info>
 </zekr-update>
