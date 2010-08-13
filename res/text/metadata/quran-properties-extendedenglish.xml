@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<quran author="Yahya Saturday (Яхия Съботинов)" version="0.7.5-2.1">
+<quran author="Yahya Saturday (Яхия Съботинов)" version="0.7.6-2.2">
 	<sura-detail>
 		<sura index="1" ayaCount="7" name="الْفَاتِحَة" en="The Opening" tname="Al-Fātiḥaħ" descent="makki" />
 		<sura index="2" ayaCount="286" name="الْبَقَرَة" en="The Cow" tname="Al-Baqaraħ" descent="madani" />
@@ -42,7 +42,7 @@
 		<sura index="39" ayaCount="75" name="الزُّمَر" en="The Groups" tname="Az-Zumar" descent="makki" />
 		<sura index="40" ayaCount="85" name="غَافِر" en="The Forgiver" tname="Ghāfir" descent="makki" />
 		<sura index="41" ayaCount="54" name="فُصِّلَت" en="Explained in Detail" tname="Fuṣṣilat" descent="makki" />
-		<sura index="42" ayaCount="53" name="الشُّورَىٰ" en="Consultation" tname="Ash-Shūráa" descent="makki" />
+		<sura index="42" ayaCount="53" name="الشُّورَىٰ" en="Consultation" tname="Ash-Shūraá" descent="makki" />
 		<sura index="43" ayaCount="89" name="الزُّخْرُف" en="Ornaments of Gold" tname="Az-Zukhruf" descent="makki" />
 		<sura index="44" ayaCount="59" name="الدُّخَان" en="The Smoke" tname="Ad-Dukhān" descent="makki" />
 		<sura index="45" ayaCount="37" name="الْجَاثِيَة" en="Crouching" tname="Al-Jāthiyaħ" descent="makki" />
@@ -87,13 +87,13 @@
 		<sura index="84" ayaCount="25" name="الْإِنْشِقَاق" en="The Splitting Open" tname="Al-'Inshiqāq" descent="makki" />
 		<sura index="85" ayaCount="22" name="الْبُرُوج" en="The Constellations" tname="Al-Burūj" descent="makki" />
 		<sura index="86" ayaCount="17" name="الطَّارِق" en="The Morning Star" tname="Aṭ-Ṭāriq" descent="makki" />
-		<sura index="87" ayaCount="19" name="الْأَعْلَیٰ" en="The Most High" tname="Al-'A`láa" descent="makki" />
+		<sura index="87" ayaCount="19" name="الْأَعْلَیٰ" en="The Most High" tname="Al-'A`laá" descent="makki" />
 		<sura index="88" ayaCount="26" name="الْغَاشِيَة" en="The Overwhelming" tname="Al-Ghāshiyaħ" descent="makki" />
 		<sura index="89" ayaCount="30" name="الْفَجْر" en="The Dawn" tname="Al-Fajr" descent="makki" />
 		<sura index="90" ayaCount="20" name="الْبَلَد" en="The City" tname="Al-Balad" descent="makki" />
 		<sura index="91" ayaCount="15" name="الشَّمْس" en="The Sun" tname="Ash-Shams" descent="makki" />
 		<sura index="92" ayaCount="21" name="اللَّيْل" en="The Night" tname="Al-Layl" descent="makki" />
-		<sura index="93" ayaCount="11" name="الضُّحَیٰ" en="The Morning Hours" tname="Aḍ-Ḍuḥáa" descent="makki" />
+		<sura index="93" ayaCount="11" name="الضُّحَیٰ" en="The Morning Hours" tname="Aḍ-Ḍuḥaá" descent="makki" />
 		<sura index="94" ayaCount="8" name="الشَّرْح" en="The Consolation" tname="Ash-Sharḥ" descent="makki" />
 		<sura index="95" ayaCount="8" name="التِّين" en="The Fig" tname="At-Tīn" descent="makki" />
 		<sura index="96" ayaCount="19" name="الْعَلَق" en="The Clot" tname="Al-`Alaq" descent="makki" />

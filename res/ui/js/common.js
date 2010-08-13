@@ -34,9 +34,9 @@ function play(loc, isPlay) {
     }
 }
 
-function zoom(z) {
+function zoom(z, trans) {
     if (javaFunction) {
-        javaFunction('ZEKR::ZOOM', z);
+        javaFunction('ZEKR::ZOOM', z, trans);
     }
 }
 

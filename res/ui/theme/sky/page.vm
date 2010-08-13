@@ -9,11 +9,12 @@
 	#set($TD_CLASS="trans")
 	#set($BODY_ID="transBody")
 	#set($DIR=${TRANS_DIRECTION})
+	#set($IS_TRANS="true")
 #else
 	#set($TD_CLASS="quran")
 	#set($BODY_ID="quranBody")
 	#set($DIR="rtl")
-	#set($IS_QURAN="true")
+	#set($IS_TRANS="false")
 #end
 #if($DIRECTION == "rtl")
 	#set($LEAD="right")
@@ -42,9 +43,9 @@ window.res = null;
 		<button type="button" onclick="navtoSuraAya()">&nbsp;$DICT.getMeaning('GO')&nbsp;</button>
 		</td>
 		<td align="center" width="8%" nowrap="nowrap">
-			<img alt="-" tabindex="0" class="handCursor" title="$DICT.getMeaning('SMALLER')" border="0" src="res/image/icon/zoom-out16.png" onclick="zoom(-1)">
+			<img alt="-" tabindex="0" class="handCursor" title="$DICT.getMeaning('SMALLER')" border="0" src="res/image/icon/zoom-out16.png" onclick="zoom(-1, $IS_TRANS)">
 			|
-			<img alt="+" tabindex="0" class="handCursor" title="$DICT.getMeaning('LARGER')" border="0" src="res/image/icon/zoom-in16.png" onclick="zoom(1)">
+			<img alt="+" tabindex="0" class="handCursor" title="$DICT.getMeaning('LARGER')" border="0" src="res/image/icon/zoom-in16.png" onclick="zoom(1, $IS_TRANS)">
 		</td>
 		</tr>
 	</table>

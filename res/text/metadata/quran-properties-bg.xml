@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<quran author="Yahya Saturday (Яхия Съботинов)" version="0.7.5-1.1">
+<quran author="Yahya Saturday (Яхия Съботинов)" version="0.7.6-1.2">
 	<sura-detail>
 		<sura index="1" name="Откриване" tname="Ал-Фӓтих̣ах̃" />
 		<sura index="2" name="Кравата" tname="Ал-Бак͡ьарах̃" />
@@ -22,7 +22,7 @@
 		<sura index="19" name="Мариам" tname="Марйам" />
 		<sura index="20" name="Та-Ха" tname="Т̣ӓ-Хӓ" />
 		<sura index="21" name="Пророците" tname="Ал-'Ам̃бийӓ'" />
-		<sura index="22" name="Поклонението хадж" tname="Ал-Х̣ад͡ж͡ж" />
+		<sura index="22" name="Поклонението Хадж" tname="Ал-Х̣ад͡ж͡ж" />
 		<sura index="23" name="Вярващите" tname="Ал-Му'минӱн" />
 		<sura index="24" name="Светлината" tname="Ан-Нӱр" />
 		<sura index="25" name="Разграничаването" tname="Ал-Фурк͡ьӓн" />
@@ -42,7 +42,7 @@
 		<sura index="39" name="Тълпите" tname="Аз-Зумар" />
 		<sura index="40" name="Опрощаващия" tname="Г͡хӓфир" />
 		<sura index="41" name="Разяснените" tname="Фус̣с̣илат" />
-		<sura index="42" name="Съвещаването" tname="Аш-Шӱра́а" />
+		<sura index="42" name="Съвещаването" tname="Аш-Шӱраа́" />
 		<sura index="43" name="Украсата" tname="Аз-Зук͡хруф" />
 		<sura index="44" name="Димът" tname="Ад-Дук͡хӓн" />
 		<sura index="45" name="Коленопреклонната" tname="Ал-Д͡жӓс̱ийах̃" />
@@ -87,13 +87,13 @@
 		<sura index="84" name="Разцепването" tname="Ал-'Иншик͡ьӓк͡ь" />
 		<sura index="85" name="Съзвездията" tname="Ал-Бурӱд͡ж" />
 		<sura index="86" name="Вечерницата" tname="Ат̣-Т̣ӓрик͡ь" />
-		<sura index="87" name="Всевишния" tname="Ал-'Аˁла́а" />
+		<sura index="87" name="Всевишния" tname="Ал-'Аˁлаа́" />
 		<sura index="88" name="Всепокриващият ден" tname="Ал-Г͡хӓшийах̃" />
 		<sura index="89" name="Зората" tname="Ал-Фад͡жр" />
 		<sura index="90" name="Градът" tname="Ал-Балад" />
 		<sura index="91" name="Слънцето" tname="Аш-Шамс" />
 		<sura index="92" name="Нощта" tname="Ал-Лайл" />
-		<sura index="93" name="Утрото" tname="Ад̣-Д̣ух̣а́а" />
+		<sura index="93" name="Утрото" tname="Ад̣-Д̣ух̣аа́" />
 		<sura index="94" name="Разтварянето" tname="Ал-'Инширӓх̣" /><!-- الْإِنْشِرَاح по Цв. Теофанов (Аш-Шарх̣ по Zekr) -->
 		<sura index="95" name="Смоковницата" tname="Ат-Тӥн" />
 		<sura index="96" name="Съсирекът" tname="Ал-ˁАлак͡ь" />

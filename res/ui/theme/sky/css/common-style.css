@@ -52,8 +52,10 @@ div.bodyTop {
 
 .suraName {
 	font-weight: bold;
-	padding-top: 6px;
-	font-size: .75em;
+	/*padding-top: 6px;
+	font-size: .75em;*/
+	padding-top: 7px;
+	font-size: 12.5pt;
 	height: 40px;
 	background: url(${APP_PATH}res/image/sura-header.png) no-repeat center center;
 }
