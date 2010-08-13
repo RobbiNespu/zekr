@@ -251,14 +251,15 @@ public class AudioPlayerUiController {
 	}
 
 	public void toggleAudioControllerForm(boolean open) {
+		config.getProps().setProperty("audio.controller.show", open);
+		// quranForm.qmf.toggleAudioPanelState(open);
 		if (open) {
 			audioControllerForm = new AudioPlayerForm(quranForm, quranForm.getShell());
-			config.getProps().setProperty("audio.controller.show", open);
 			audioControllerForm.getShell().addDisposeListener(new DisposeListener() {
 				public void widgetDisposed(DisposeEvent e) {
 					if (!quranForm.isDisposed()) {
-						Point location = audioControllerForm.getShell().getLocation();
-						config.getProps().setProperty("audio.controller.location", new Object[] { location.x, location.y });
+						// Point location = audioControllerForm.getShell().getLocation();
+						// config.getProps().setProperty("audio.controller.location", new Object[] { location.x, location.y });
 						quranForm.qmf.toggleAudioPanelState(false);
 					}
 				}
@@ -331,7 +332,7 @@ public class AudioPlayerUiController {
 	 * 
 	 * @param seekPercent should be a float number between 0.0 and 1.0
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void seek(float seekPercent) {
 		Map audioInfo = playerController.getCurrentAudioInfo();
 		// boolean posValueJump;
