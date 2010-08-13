@@ -50,7 +50,7 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 				new Image(display, resource.getString("icon.form48")),
 				new Image(display, resource.getString("icon.form128")),
 				new Image(display, resource.getString("icon.form256")) });
-
+		
 		shell.addListener(EventProtocol.CUSTOM_ZEKR_EVENT, new Listener() {
 			public void handleEvent(Event e) {
 				if (e.data != null) {

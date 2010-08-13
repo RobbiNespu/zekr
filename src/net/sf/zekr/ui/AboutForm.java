@@ -58,11 +58,11 @@ public class AboutForm extends BaseForm {
 		GridData gd;
 
 		shell = createShell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-		shell.setImages(new Image[] { new Image(display, resource.getString("icon.form16")),
-				new Image(display, resource.getString("icon.form32")),
-				new Image(display, resource.getString("icon.form48")),
-				new Image(display, resource.getString("icon.form128")),
-				new Image(display, resource.getString("icon.form256")) });
+		shell.setImages(new Image[] { new Image(display, resource.getString("icon.about16")),
+				new Image(display, resource.getString("icon.about32")),
+				new Image(display, resource.getString("icon.about48")),
+				new Image(display, resource.getString("icon.about128")),
+				new Image(display, resource.getString("icon.about256")) });
 		shell.setText(meaning("TITLE"));
 		shell.setLayout(new FillLayout());
 

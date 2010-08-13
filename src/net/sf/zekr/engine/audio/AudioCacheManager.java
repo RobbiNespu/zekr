@@ -174,7 +174,7 @@ public class AudioCacheManager {
 				}
 			}, null);
 
-			List fileList = new ArrayList();
+			List<File> fileList = new ArrayList<File>();
 			for (File dir : audioDirectoryList) {
 				fileList.addAll(Arrays.asList(dir.listFiles()));
 			}
@@ -188,7 +188,7 @@ public class AudioCacheManager {
 							+ " were deleted.");
 					break;
 				}
-				File file = (File) fileList.get(i);
+				File file = fileList.get(i);
 				deleteSize += file.length();
 				logger.debug("Delete: " + file);
 				file.delete();

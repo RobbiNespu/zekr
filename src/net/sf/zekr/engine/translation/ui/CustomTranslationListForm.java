@@ -15,6 +15,7 @@ import java.util.Iterator;
 import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.util.I18N;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.MessageBoxUtils;
@@ -22,6 +23,7 @@ import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -58,6 +60,7 @@ public class CustomTranslationListForm extends BaseForm {
 	private java.util.List<String> sourceData = new ArrayList<String>();
 	private java.util.List<String> targetData = new ArrayList<String>();
 	private boolean okayed = false;
+	private boolean rtl;
 
 	public CustomTranslationListForm(Shell parent) {
 		try {
@@ -68,6 +71,8 @@ public class CustomTranslationListForm extends BaseForm {
 			shell.setLayout(new FillLayout());
 			shell.setText(meaning("TITLE"));
 			shell.setImage(new Image(display, resource.getString("icon.configTransList")));
+
+			rtl = lang.isRtl();
 
 			init();
 		} catch (RuntimeException re) {
@@ -127,9 +132,10 @@ public class CustomTranslationListForm extends BaseForm {
 		String[] sourceItems = new String[transCollection.size()];
 
 		int i = 0;
+		String transNameMode = config.getProps().getString("trans.name.mode", "english");
 		for (Iterator<TranslationData> iter = transCollection.iterator(); iter.hasNext(); i++) {
 			TranslationData td = iter.next();
-			sourceItems[i] = td.localizedName + " - " + td.locale;
+			sourceItems[i] = td.getName(transNameMode, rtl);
 			sourceData.add(td.id);
 		}
 		sourceList.setItems(sourceItems);
@@ -209,7 +215,7 @@ public class CustomTranslationListForm extends BaseForm {
 		String[] targetItems = new String[customList.size()];
 		for (i = 0; i < customList.size(); i++) {
 			TranslationData td = customList.get(i);
-			targetItems[i] = td.localizedName + " - " + td.locale;
+			targetItems[i] = td.getName(transNameMode, rtl);
 			targetData.add(td.id);
 		}
 		targetList.setItems(targetItems);
