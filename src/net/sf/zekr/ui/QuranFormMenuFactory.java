@@ -155,7 +155,7 @@ public class QuranFormMenuFactory {
 
 		// save as...
 		saveAsItem = createMenuItem(SWT.PUSH, fileMenu, lang.getMeaning("SAVE_AS") + "...", "savePageAs",
-				"icon.menu.export");
+				"icon.menu.save");
 		// disabled exporting if HTTP server is enabled
 		saveAsItem.setEnabled(!config.isHttpServerEnabled());
 
@@ -180,7 +180,7 @@ public class QuranFormMenuFactory {
 		// separator
 		new MenuItem(viewMenu, SWT.SEPARATOR);
 		transName = createMenuItem(SWT.CASCADE | direction, viewMenu, lang.getMeaning("TRANSLATION"),
-				"icon.menu.translation");
+				"icon.menu.transList");
 		transMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		transName.setMenu(transMenu);
 		createOrUpdateTranslationMenu();
@@ -191,11 +191,10 @@ public class QuranFormMenuFactory {
 		viewModeMenu = new Menu(shell, SWT.DROP_DOWN | direction);
 		viewMode.setMenu(viewModeMenu);
 		MenuItem suraViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "SURA"), null);
-		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE",
-				"CONST_AYA")
-				+ "...", null);
-		MenuItem hizbViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang
-				.getMeaningById("PAGING_MODE", "HIZB_QUARTER"), null);
+		MenuItem fixedAyaViewMode = createMenuItem(SWT.RADIO, viewModeMenu,
+				lang.getMeaningById("PAGING_MODE", "CONST_AYA") + "...", null);
+		MenuItem hizbViewMode = createMenuItem(SWT.RADIO, viewModeMenu,
+				lang.getMeaningById("PAGING_MODE", "HIZB_QUARTER"), null);
 		MenuItem juzViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "JUZ"), null);
 		MenuItem customViewMode = createMenuItem(SWT.RADIO, viewModeMenu, lang.getMeaningById("PAGING_MODE", "CUSTOM")
 				+ "...", null);
@@ -382,11 +381,11 @@ public class QuranFormMenuFactory {
 			}
 		};
 
-		quranBlockLayoutItem = createMenuItem(SWT.RADIO, quranViewMenu, lang.getMeaning("BLOCK"), "icon.menu.text_block");
+		quranBlockLayoutItem = createMenuItem(SWT.RADIO, quranViewMenu, lang.getMeaning("BLOCK"), "icon.menu.textBlock");
 		quranBlockLayoutItem.addListener(SWT.Selection, blockListener);
 		quranBlockLayoutItem.setData("quran");
 
-		transBlockLayoutItem = createMenuItem(SWT.RADIO, transViewMenu, lang.getMeaning("BLOCK"), "icon.menu.text_block");
+		transBlockLayoutItem = createMenuItem(SWT.RADIO, transViewMenu, lang.getMeaning("BLOCK"), "icon.menu.textBlock");
 		transBlockLayoutItem.addListener(SWT.Selection, blockListener);
 		transBlockLayoutItem.setData("trans");
 
@@ -414,12 +413,12 @@ public class QuranFormMenuFactory {
 		};
 
 		quranLineLayoutItem = createMenuItem(SWT.RADIO, quranViewMenu, lang.getMeaning("LINE_BY_LINE"),
-				"icon.menu.text_linebyline");
+				"icon.menu.textLineByLine");
 		quranLineLayoutItem.addListener(SWT.Selection, inlineListener);
 		quranLineLayoutItem.setData("quran");
 
 		transLineLayoutItem = createMenuItem(SWT.RADIO, transViewMenu, lang.getMeaning("LINE_BY_LINE"),
-				"icon.menu.text_linebyline");
+				"icon.menu.textLineByLine");
 		transLineLayoutItem.addListener(SWT.Selection, inlineListener);
 		transLineLayoutItem.setData("trans");
 
@@ -544,12 +543,12 @@ public class QuranFormMenuFactory {
 		tools.setMenu(toolsMenu);
 
 		Menu addMenu = new Menu(shell, SWT.DROP_DOWN | direction);
-		MenuItem addItem = createMenuItem(SWT.CASCADE, toolsMenu, lang.getMeaning("ADD"), "icon.menu.add");
+		MenuItem addItem = createMenuItem(SWT.CASCADE, toolsMenu, lang.getMeaning("ADD"), "icon.menu.addResource");
 		addItem.setMenu(addMenu);
 
 		// cascading menu for add...
 		MenuItem transAddItem = createMenuItem(SWT.PUSH, addMenu, lang.getMeaning("TRANSLATION") + "...",
-				"icon.menu.translation");
+				"icon.menu.addTrans");
 		transAddItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				importTrans();
@@ -572,7 +571,7 @@ public class QuranFormMenuFactory {
 		});
 
 		MenuItem recitationPackAddItem = createMenuItem(SWT.PUSH, addMenu, lang.getMeaning("RECITATION")
-				+ " (*.recit.zip) ...", "icon.menu.addRecitationPack");
+				+ " (*.recit.zip) ...", "icon.menu.addOfflineRecitation");
 		recitationPackAddItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				importRecitationPack();
@@ -677,14 +676,14 @@ public class QuranFormMenuFactory {
 
 	private boolean setFixedAyaMode() {
 		int aypp = config.getProps().getInt("view.pagingMode.ayaPerPage", 20);
-		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"), lang.getMeaningById("PAGING_MODE",
-				"AYA_PER_SURA"), String.valueOf(aypp));
+		String ayaStr = MessageBoxUtils.textBoxPrompt(lang.getMeaning("QUESTION"),
+				lang.getMeaningById("PAGING_MODE", "AYA_PER_SURA"), String.valueOf(aypp));
 		if (!StringUtils.isBlank(ayaStr)) {
 			try {
 				int aya = Integer.parseInt(ayaStr);
 				if (aya <= 0 || aya > QuranPropertiesUtils.QURAN_AYA_COUNT) {
-					MessageBoxUtils.showError(lang.getDynamicMeaning("NUMBER_LIMIT", new String[] { "1",
-							String.valueOf(QuranPropertiesUtils.QURAN_AYA_COUNT) }));
+					MessageBoxUtils.showError(lang.getDynamicMeaning("NUMBER_LIMIT",
+							new String[] { "1", String.valueOf(QuranPropertiesUtils.QURAN_AYA_COUNT) }));
 					logger.error("Aya-per-page out of bound: " + aya);
 					return false;
 				}
@@ -718,12 +717,11 @@ public class QuranFormMenuFactory {
 		}
 
 		List<TranslationData> trans = config.getTranslation().getAllTranslation();
+		String transNameMode = props.getString("trans.name.mode", "english");
 		for (TranslationData td : trans) {
 			String img = getTranslationValidityIcon(td);
-			final MenuItem transItem = createMenuItem(SWT.RADIO, transMenu, StringUtils.abbreviate((rtl ? I18N.RLE + ""
-					: "")
-					+ "[" + td.locale + "]" + " " + (rtl ? I18N.RLM + "" : "") + td.localizedName,
-					GlobalConfig.MAX_MENU_STRING_LENGTH)
+
+			final MenuItem transItem = createMenuItem(SWT.RADIO, transMenu, td.getName(transNameMode, rtl)
 					+ (rtl ? I18N.LRM + "" : ""), img);
 
 			transItem.setData(td.id);
@@ -887,8 +885,8 @@ public class QuranFormMenuFactory {
 
 			int result = MessageBoxUtils.radioQuestionPrompt(
 					new String[] { lang.getMeaningById("IMPORT_QUESTION", "ME_ONLY"),
-							lang.getMeaningById("IMPORT_QUESTION", "ALL_USERS") }, lang.getMeaningById("IMPORT_QUESTION",
-							"IMPORT_FOR"), lang.getMeaning("QUESTION"));
+							lang.getMeaningById("IMPORT_QUESTION", "ALL_USERS") },
+					lang.getMeaningById("IMPORT_QUESTION", "IMPORT_FOR"), lang.getMeaning("QUESTION"));
 
 			if (result == -1) {
 				return;
@@ -957,8 +955,8 @@ public class QuranFormMenuFactory {
 
 			int result = MessageBoxUtils.radioQuestionPrompt(
 					new String[] { lang.getMeaningById("IMPORT_QUESTION", "ME_ONLY"),
-							lang.getMeaningById("IMPORT_QUESTION", "ALL_USERS") }, lang.getMeaningById("IMPORT_QUESTION",
-							"IMPORT_FOR"), lang.getMeaning("QUESTION"));
+							lang.getMeaningById("IMPORT_QUESTION", "ALL_USERS") },
+					lang.getMeaningById("IMPORT_QUESTION", "IMPORT_FOR"), lang.getMeaning("QUESTION"));
 
 			if (result == -1) {
 				return;
@@ -1142,8 +1140,8 @@ public class QuranFormMenuFactory {
 
 			int result = MessageBoxUtils.radioQuestionPrompt(
 					new String[] { lang.getMeaningById("IMPORT_QUESTION", "ME_ONLY"),
-							lang.getMeaningById("IMPORT_QUESTION", "ALL_USERS") }, lang.getMeaningById("IMPORT_QUESTION",
-							"IMPORT_FOR"), lang.getMeaning("QUESTION"));
+							lang.getMeaningById("IMPORT_QUESTION", "ALL_USERS") },
+					lang.getMeaningById("IMPORT_QUESTION", "IMPORT_FOR"), lang.getMeaning("QUESTION"));
 
 			if (result == -1) {
 				return;
