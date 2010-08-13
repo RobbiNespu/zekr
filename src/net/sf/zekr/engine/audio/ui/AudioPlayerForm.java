@@ -20,6 +20,7 @@ import net.sf.zekr.engine.audio.PlayableObject;
 import net.sf.zekr.engine.audio.PlayerController;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.QuranForm;
+import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.swt.SWT;
@@ -35,6 +36,7 @@ import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -57,6 +59,7 @@ import org.eclipse.swt.widgets.Widget;
  * @author Mohsen Saboorian
  */
 public class AudioPlayerForm extends BaseForm {
+	private static final int WINDOW_VISIBILITY_THRESHOLD = 60;
 	public static final String FORM_ID = "AUDIO_PLAYER_FORM";
 	public static final int MAX_SEEK_VALUE = 1000;
 	public static final int MAX_VOLUME_VALUE = 100;
@@ -118,24 +121,38 @@ public class AudioPlayerForm extends BaseForm {
 		init();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private void init() {
 		shell = createShell(parent, SWT.CLOSE /*| SWT.ON_TOP */| SWT.TOOL
 				| (isRtl ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT));
 		List shellLocationList = config.getProps().getList("audio.controller.location");
 		if (shellLocationList.size() > 1) {
-			shellLocation = new Point(Integer.parseInt(shellLocationList.get(0).toString()), Integer
-					.parseInt(shellLocationList.get(1).toString()));
+			shellLocation = new Point(Integer.parseInt(shellLocationList.get(0).toString()),
+					Integer.parseInt(shellLocationList.get(1).toString()));
 		}
 		shell.addShellListener(new ShellAdapter() {
 			@Override
 			public void shellClosed(ShellEvent e) {
 				Point location = shell.getLocation();
+				Rectangle bounds = shell.getBounds();
+				// make sure player form is visible
+				Point screen = FormUtils.getScreenSize(display);
+				if (bounds.width + bounds.x < WINDOW_VISIBILITY_THRESHOLD) {
+					location.x = WINDOW_VISIBILITY_THRESHOLD - bounds.width;
+				} else if (screen.x - location.x < WINDOW_VISIBILITY_THRESHOLD) {
+					location.x = screen.x - WINDOW_VISIBILITY_THRESHOLD;
+				}
+				if (bounds.height + bounds.y < WINDOW_VISIBILITY_THRESHOLD) {
+					location.y = WINDOW_VISIBILITY_THRESHOLD - bounds.height;
+				} else if (screen.y - location.y < WINDOW_VISIBILITY_THRESHOLD) {
+					location.y = screen.y - WINDOW_VISIBILITY_THRESHOLD;
+				}
+
 				config.getProps().setProperty("audio.controller.location", new Object[] { location.x, location.y });
-				config.getProps().setProperty("audio.controller.show", "false");
+				// config.getProps().setProperty("audio.controller.show", "false");
 			}
 		});
-		config.getProps().setProperty("audio.controller.show", "true");
+		// config.getProps().setProperty("audio.controller.show", "true");
 
 		FillLayout fl = new FillLayout();
 		shell.setLayout(fl);
@@ -185,8 +202,8 @@ public class AudioPlayerForm extends BaseForm {
 		prevAyaImage = new Image(display, resource.getString("icon.player.prevAya"));
 		nextAyaImage = new Image(display, resource.getString("icon.player.nextAya"));
 
-		File playImageFile = new File(isRtl ? resource.getString("icon.player.playRtl") : resource
-				.getString("icon.player.play"));
+		File playImageFile = new File(isRtl ? resource.getString("icon.player.playRtl")
+				: resource.getString("icon.player.play"));
 		File pauseImageFile = new File(resource.getString("icon.player.pause"));
 		File stopImageFile = new File(resource.getString("icon.player.stop"));
 		playImage = new Image(display, playImageFile.getAbsolutePath());
