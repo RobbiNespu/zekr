@@ -305,7 +305,7 @@ public class RootTabForm {
 			logger.info("Navigate to page #" + pageNo + " of root search result.");
 			Browser searchBrowser = quranForm.viewLayout == QuranForm.TRANS_ONLY ? quranForm.transBrowser
 					: quranForm.quranBrowser;
-			searchBrowser.setUrl(HtmlRepository.getAdvancedSearchQuranUri(srm, pageNo - 1));
+			searchBrowser.setUrl(quranForm.quranUri = HtmlRepository.getAdvancedSearchQuranUri(srm, pageNo - 1));
 			quranForm.pageChanged = true;
 		} catch (HtmlGenerationException e) {
 			logger.log(e);
