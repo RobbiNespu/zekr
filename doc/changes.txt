@@ -725,12 +725,26 @@ Bug fixes:
 	In recitation .properties files: audio.offlineBismillam should be changed to audio.offlineBismillah. Both these values are not recognized by Zekr for backward compatibility.
 	A bug in search caused Kasra+Shadda reverse ordering not to be recognized correctly.
 	Do not accept sura numbers below 1 in nav bar.
+
+Version 1.0.0 - [12-08-10]
+Features/Enhancements:
+	All 13px icons change to 16px size.
+	A number of icons changed to have a more harmonic icon set in Zekr.
+	Zoom/Unzoom will only work on Quran OR translation if applied in separate layout. Otherwise both Quran and translation text size is increased/decreased.
+	Zoom/Unzoom will not change sura name font size.
+	Prevent AudioPlayerForm to get out of view (some limitations are applied to its location).
+	Show only language in translation list menu. Show the same info at multi-translation configuration form.
+	Added a new property: trans.name.mode = english | localized. It then shows either translation English name or its localized name wherever a translation data is referenced (e.g. in multi-translation config form or in translation menu). 
+	A new exe launcher added: http://winrun4j.sourceforge.net. zekr.exe and zekrc.exe parameters can be configured through related .ini files.
+Bug fixes:
+	Save As button will now save search result if current view shows a search result.
+	Changing between Block/Line-by-Line mode in Translation-only layout will now work.
+	Save AudioPlayerForm new location as it closes. It now saves the new location before Zekr is closed (previously it wasn't saved when Zekr was closed and AudioPlayerForm was in open state).
+	A few changes and bug fixes in quran-properties-en.xml, thanks to Yahya Saturday.
 _____________________________________________________
-	TODO: Export search results
 
 	TODO: aya change in nav bar should work even when a html is "saved as...".
 	TODO: GCJ bug with XSLT transformation
-	TODO: Display localized, English transliterated, or Arabic sura names
 	TODO: History support: back/forward.
 
 	TODO: Set a rule set for each translation text in CSS, for fixing the bug with Custom Mixed layout fonts.
@@ -741,7 +755,6 @@ _____________________________________________________
 	
 	TODO: Enriching bookmark sets.
 	
-	TODO: Multilingual translations for sura names on combos (an option should also be added to options menu).
 	TODO: Store search scopes, so that the next time it loads previous settings
 
 	TODO: Add a stand-alone (no dependency to ApplicationConfig) Error Form to show startup errors
