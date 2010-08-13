@@ -82,7 +82,7 @@ public class GlobalConfig {
 	 */
 	public static final String USER_LANGUAGE = System.getProperty("user.language");
 
-	public static final int MAX_MENU_STRING_LENGTH = 40;
+	public static final int MAX_MENU_STRING_LENGTH = 45;
 
 	/**
 	 * A unique number for each build. It contains full date plus hour. For example <tt>2008021020</tt> is used
