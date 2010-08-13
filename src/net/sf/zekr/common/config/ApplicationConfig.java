@@ -257,7 +257,7 @@ public class ApplicationConfig implements ConfigNaming {
 
 			searchInfo.setDefaultStopWord(defaultStopWord);
 			for (Iterator<String> iterator = stopWordConf.getKeys(); iterator.hasNext();) {
-				String langCode = (String) iterator.next();
+				String langCode = iterator.next();
 				if (langCode.length() <= 0) {
 					continue;
 				}
@@ -266,8 +266,8 @@ public class ApplicationConfig implements ConfigNaming {
 			}
 
 			searchInfo.setDefaultReplacePattern(defaultReplacePattern);
-			for (Iterator iterator = replacePatternConf.getKeys(); iterator.hasNext();) {
-				String langCode = (String) iterator.next();
+			for (Iterator<String> iterator = replacePatternConf.getKeys(); iterator.hasNext();) {
+				String langCode = iterator.next();
 				if (langCode.length() <= 0) {
 					continue;
 				}
@@ -279,7 +279,7 @@ public class ApplicationConfig implements ConfigNaming {
 				searchInfo.setDefaultPunctuation(Pattern.compile(defaultPunctuation));
 			}
 			for (Iterator<String> iterator = punctuationConf.getKeys(); iterator.hasNext();) {
-				String langCode = (String) iterator.next();
+				String langCode = iterator.next();
 				if (langCode.length() <= 0) {
 					continue;
 				}
@@ -291,7 +291,7 @@ public class ApplicationConfig implements ConfigNaming {
 				searchInfo.setDefaultDiacritic(Pattern.compile(defaultDiacritics));
 			}
 			for (Iterator<String> iterator = diacriticsConf.getKeys(); iterator.hasNext();) {
-				String langCode = (String) iterator.next();
+				String langCode = iterator.next();
 				if (langCode.length() <= 0) {
 					continue;
 				}
@@ -300,7 +300,7 @@ public class ApplicationConfig implements ConfigNaming {
 			}
 
 			for (Iterator<String> iterator = letterConf.getKeys(); iterator.hasNext();) {
-				String langCode = (String) iterator.next();
+				String langCode = iterator.next();
 				if (langCode.length() <= 0) {
 					continue;
 				}
@@ -688,13 +688,12 @@ public class ApplicationConfig implements ConfigNaming {
 		if (translation.getDefault() == null) {
 			logger.error(new ZekrBaseException("Could not find default translation: " + def));
 			logger.warn("Will use any English or other translations found.");
-			for (Iterator iter = translation.getAllTranslation().iterator(); iter.hasNext();) {
-				TranslationData transData = (TranslationData) iter.next();
-				if (transData.locale.getLanguage().equalsIgnoreCase("en")) {
-					logger.info("Trying to set default translation to: " + transData.getId());
+			for (TranslationData translationData : translation.getAllTranslation()) {
+				if (translationData.locale.getLanguage().equalsIgnoreCase("en")) {
+					logger.info("Trying to set default translation to: " + translationData.getId());
 					try {
-						transData.load();
-						translation.setDefault(transData);
+						translationData.load();
+						translation.setDefault(translationData);
 						props.setProperty("trans.default", translation.getDefault().id);
 						break;
 					} catch (TranslationException e) {
@@ -841,8 +840,8 @@ public class ApplicationConfig implements ConfigNaming {
 
 					td = new ThemeData();
 					td.props = new LinkedHashMap<String, String>(); // order is important for options table!
-					for (Iterator iter = pc.getKeys(); iter.hasNext();) {
-						String key = (String) iter.next();
+					for (Iterator<String> iter = pc.getKeys(); iter.hasNext();) {
+						String key = iter.next();
 						td.props.put(key, CollectionUtils.toString(pc.getList(key), ", "));
 					}
 					td.author = pc.getString("author");
