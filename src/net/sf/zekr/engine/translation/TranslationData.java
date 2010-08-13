@@ -17,9 +17,14 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.apache.commons.lang.StringUtils;
+
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.AbstractQuranText;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.util.CryptoUtils;
+import net.sf.zekr.common.util.I18N;
 import net.sf.zekr.engine.common.Signable;
 import net.sf.zekr.engine.log.Logger;
 
@@ -270,5 +275,13 @@ public class TranslationData extends AbstractQuranText implements Signable {
 
 	public int getMode() {
 		throw new UnsupportedOperationException("Method not implemented.");
+	}
+
+	public String getName(String transNameMode, boolean rtl) {
+		String s = "english".equals(transNameMode) ? name : localizedName;
+		s = StringUtils.abbreviate((rtl ? I18N.RLE + "" : "") + "[" + locale.getLanguage() + "]" + " "
+				+ (rtl ? I18N.RLM + "" : "") + s, GlobalConfig.MAX_MENU_STRING_LENGTH);
+
+		return s;
 	}
 }
