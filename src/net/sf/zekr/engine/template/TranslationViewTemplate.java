@@ -20,7 +20,7 @@ public class TranslationViewTemplate extends AbstractPageViewTemplate {
 
 	public TranslationViewTemplate(IQuranText trans, IUserView userView) {
 		super(trans, userView);
-		engine.put("TEXT_LAYOUT", config.getViewProp("view.quranLayout"));
+		engine.put("TEXT_LAYOUT", config.getViewProp("view.transLayout"));
 		engine.put("TRANSLATION", "true");
 		engine.put("AYA_LIST", new Page(trans, quranPage).getAyaList());
 	}
