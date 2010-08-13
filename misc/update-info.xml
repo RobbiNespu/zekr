@@ -1,5 +1,7 @@
-<zekr-update fullName="Zekr 0.7.6" version="0.7.6" status="FINAL"
-    build="2010061700" date="17-06-2010" downloadUrl="http://zekr.org/download.html"
-    noteUrl="http://zekr.org/wiki/Zekr_0.7.6">
-    <info><![CDATA[Zekr 0.7.6 final is ready for download. This is another release candidate for Zekr 1.0.0 with a number of bug fixes for basic search and a few for advanced search.]]></info>
+<zekr-update fullName="Zekr 1.0.0" version="1.0.0" status="FINAL"
+    build="2010081200" date="12-08-2010" downloadUrl="http://zekr.org/download.html"
+    noteUrl="http://zekr.org/wiki/Zekr_1.0.0">
+    <info><![CDATA[After about 6 years of development, Zekr 1.0.0 is finally availabe by Ramadan of 1431 Hijri.
+Please download and promote Zekr to spread Allah's words. Please pray for All Muslims specially for people of Gaza in the month of Allah.
+Happy Ramadan from Zekr.org.]]></info>
 </zekr-update>
