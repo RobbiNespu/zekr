@@ -188,7 +188,7 @@ public class QuranForm extends BaseForm {
 	protected boolean pageChanged;
 
 	/** The current Quran URI loaded in the browser */
-	private String quranUri;
+	String quranUri;
 
 	/** The current Translation URI loaded in the browser */
 	private String transUri;
@@ -1634,7 +1634,7 @@ public class QuranForm extends BaseForm {
 			pageNo = pageNo == 0 ? 1 : pageNo;
 			logger.info("Navigate to page #" + pageNo + " of advanced search result.");
 			Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
-			searchBrowser.setUrl(HtmlRepository.getAdvancedSearchQuranUri(asr, pageNo - 1));
+			searchBrowser.setUrl(quranUri = HtmlRepository.getAdvancedSearchQuranUri(asr, pageNo - 1));
 			pageChanged = true;
 		} catch (HtmlGenerationException e) {
 			logger.log(e);
@@ -1672,7 +1672,7 @@ public class QuranForm extends BaseForm {
 			pageNo = pageNo == 0 ? 1 : pageNo;
 			logger.info("Navigate to page #" + pageNo + " of search result.");
 			Browser searchBrowser = viewLayout == TRANS_ONLY ? transBrowser : quranBrowser;
-			searchBrowser.setUrl(HtmlRepository.getAdvancedSearchQuranUri(sr, pageNo - 1));
+			searchBrowser.setUrl(quranUri = HtmlRepository.getAdvancedSearchQuranUri(sr, pageNo - 1));
 			pageChanged = true;
 		} catch (HtmlGenerationException e) {
 			logger.log(e);
@@ -1871,9 +1871,9 @@ public class QuranForm extends BaseForm {
 	}
 
 	public void close() {
+		closeAudioSilently(); // the next line will save config file, so this call should precede saveConfigProps()
 		saveConfigProps();
 		config.updateFile();
-		closeAudioSilently();
 		if (clearOnExit) {
 			logger.info("Clear cache directory.");
 			config.getRuntime().clearCache();
