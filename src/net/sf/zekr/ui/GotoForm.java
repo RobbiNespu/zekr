@@ -467,8 +467,6 @@ public class GotoForm extends BaseForm implements FocusListener {
 						RevelationData revel = revelOrder;
 						if (revel != null) {
 							gotoSura(revel.getSuraOfOrder(order + 1));
-						} else {
-							gotoSura(order + 1);
 						}
 					}
 				}
