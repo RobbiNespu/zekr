@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.security.auth.login.AppConfigurationEntry;
+
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.FilteredQuranText;
@@ -81,8 +83,8 @@ public class BrowserCallbackHandler {
 			if (isQuranTarget) {
 				logger.info("Show translation: (" + sura + ", " + aya + ")");
 				TranslationData td = config.getTranslation().getDefault();
-				pe = new PopupBox(form.shell, form.meaning("TRANSLATION_SCOPE"), td.get(sura, aya), FormUtils
-						.toSwtDirection(td.direction));
+				pe = new PopupBox(form.shell, form.meaning("TRANSLATION_SCOPE"), td.get(sura, aya),
+						FormUtils.toSwtDirection(td.direction));
 			} else {
 				logger.info("Show quran: (" + sura + ", " + aya + ")");
 				try {
@@ -116,23 +118,34 @@ public class BrowserCallbackHandler {
 			}
 		} else if ("ZEKR::ZOOM".equals(method)) {
 			int zoom = (int) Double.parseDouble(args[1].toString());
+			String layout = config.getViewLayout();
+			boolean onlyTrans = false;
+			boolean onlyQuran = false;
+			if (ApplicationConfig.SEPARATE_LAYOUT.equals(layout)) {
+				onlyTrans = Boolean.parseBoolean(args[2].toString());
+				onlyQuran = !Boolean.parseBoolean(args[2].toString());
+			}
 
 			ThemeData themeData = config.getTheme().getCurrent();
 			Map<String, String> props = themeData.props;
 
-			for (Entry<String, String> entry : props.entrySet()) {
-				String key = entry.getKey();
-				if (key.startsWith("trans_") && key.endsWith("fontSize")) {
-					int transFontSize = MapUtils.getIntValue(props, key, 10);
-					transFontSize += zoom;
-					props.put(key, String.valueOf(transFontSize));
+			if (!onlyQuran) {
+				for (Entry<String, String> entry : props.entrySet()) {
+					String key = entry.getKey();
+					if (key.startsWith("trans_") && key.endsWith("fontSize")) {
+						int transFontSize = MapUtils.getIntValue(props, key, 10);
+						transFontSize += zoom;
+						props.put(key, String.valueOf(transFontSize));
+					}
 				}
 			}
 
-			String quranFontSizeKey = "quran_fontSize";
-			int quranFontSize = MapUtils.getIntValue(props, quranFontSizeKey, 10);
-			quranFontSize += zoom;
-			props.put(quranFontSizeKey, String.valueOf(quranFontSize));
+			if (!onlyTrans) {
+				String quranFontSizeKey = "quran_fontSize";
+				int quranFontSize = MapUtils.getIntValue(props, quranFontSizeKey, 10);
+				quranFontSize += zoom;
+				props.put(quranFontSizeKey, String.valueOf(quranFontSize));
+			}
 
 			EventUtils.sendEvent(EventProtocol.REFRESH_VIEW);
 		}
