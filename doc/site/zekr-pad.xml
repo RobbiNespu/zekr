@@ -35,9 +35,9 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>Zekr</Program_Name>
-		<Program_Version>0.7.5</Program_Version>
-		<Program_Release_Month>4</Program_Release_Month>
-		<Program_Release_Day>2</Program_Release_Day>
+		<Program_Version>1.0.0</Program_Version>
+		<Program_Release_Month>8</Program_Release_Month>
+		<Program_Release_Day>12</Program_Release_Day>
 		<Program_Release_Year>2010</Program_Release_Year>
 		<Program_Cost_Dollars>0</Program_Cost_Dollars>
 		<Program_Cost_Other_Code>USD</Program_Cost_Other_Code>
@@ -49,7 +49,7 @@
 		<Program_Language>English,Persian,Arabic,Bosnian,German,Malay,Macedonian,Indonesian,French,Russian,Dutch,Malay,Tatar,Tamil,Turkish,Kurdish,Urdu,Pashto,Uzbek</Program_Language>
 		<Program_Change_Info>Advanced Recitation Player, Advanced Go To, Paging, Full-screen, Advanced Search</Program_Change_Info>
 		<Program_Specific_Category>Home/Hobby</Program_Specific_Category>
-		<Program_Categories>Education, Research on Qur'an</Program_Categories>
+		<Program_Categories>Education, Research on Quran</Program_Categories>
 		<Program_System_Requirements>Java VM 1.5.0+</Program_System_Requirements>
 		<Includes_JAVA_VM>N</Includes_JAVA_VM>
 		<Includes_VB_Runtime>N</Includes_VB_Runtime>
@@ -57,12 +57,12 @@
 		<Program_Category_Class>Home &amp; Hobby::Religion</Program_Category_Class>
 		<File_Info>
 			<Filename_Versioned>zekr.exe</Filename_Versioned>
-			<Filename_Previous>zekr-0.7.1-setup.exe</Filename_Previous>
+			<Filename_Previous>zekr-0.7.6-setup.exe</Filename_Previous>
 			<Filename_Generic>zekr-setup.exe</Filename_Generic>
-			<Filename_Long>zekr-0.7.5-setup.exe</Filename_Long>
-			<File_Size_Bytes>7997491</File_Size_Bytes>
-			<File_Size_K>7811</File_Size_K>
-			<File_Size_MB>7.62</File_Size_MB>
+			<Filename_Long>zekr-1.0.0-setup.exe</Filename_Long>
+			<File_Size_Bytes>8074782</File_Size_Bytes>
+			<File_Size_K>7886</File_Size_K>
+			<File_Size_MB>7.8</File_Size_MB>
 		</File_Info>
 		<Expire_Info>
 			<Has_Expire_Info>N</Has_Expire_Info>
@@ -76,31 +76,31 @@
 	</Program_Info>
 	<Program_Descriptions>
 		<English>
-		    <Keywords>Qur'an, Qur'an View, Islamic, Islam, Qur'anic, Bible, Holy Qur'an, Qur'an Text, Qur'an translation, Search the Qur'an translation, Research on Qur'an, Search the Qur'an, View Qur'an sura by sura</Keywords>
-			<Char_Desc_45>Zekr - Open Qur'anic Platform</Char_Desc_45>
-			<Char_Desc_80>Zekr Open Source Qur'an Study Software</Char_Desc_80>
-			<Char_Desc_250>Zekr is an open source Qur'anic project to ease everyone's access to the Holy Qur'an. It is written in the hope that would bring Qur'an to every muslim's desktop.</Char_Desc_250>
-			<Char_Desc_450>Zekr is an open platform for research on the Holy Qur'an. It is a Qur'an based project, planned to be a universal, open source, cross-platform application to perform most of the usual refers to Qur'an. The main idea is to build an as generic as possible platform to be capable of having different add-ons and extensions.</Char_Desc_450>
-			<Char_Desc_2000>Zekr is an open platform for research on the Holy Qur'an. It is a Qur'an based project, planned to be a universal, open source, cross-platform application to perform most of the usual refers to Qur'an. The main idea is to build an as generic as possible platform to be capable of having different add-ons and extensions.</Char_Desc_2000>
+		    <Keywords>Quran, Read Quran, Islamic, Islam, Quranic, Holy Quran, Quran Text, Quran translation, Search Quran translation, Search Quran, Research on Quran, View Quran sura by sura, Listen to Quran MP3</Keywords>
+			<Char_Desc_45>Zekr Quran Study Software</Char_Desc_45>
+			<Char_Desc_80>Zekr Open Source Quran Study Software</Char_Desc_80>
+			<Char_Desc_250>Zekr is an open source Quran study software project to ease everyone's access to the Holy Quran. It is written in the hope that would bring Quran to every muslim's desktop.</Char_Desc_250>
+			<Char_Desc_450>Zekr is an open source Quran study software for research on the Holy Quran. It is a Quran based project, planned to be a universal, open source, cross-platform application to perform most of the usual refers to Quran. The main idea is to build an as generic as possible platform to be capable of having different add-ons and extensions.</Char_Desc_450>
+			<Char_Desc_2000>Zekr is an open source Quran study software for research on the Holy Quran. It is a Quran based project, planned to be a universal, open source, cross-platform application to perform most of the usual refers to Quran. The main idea is to build an as generic as possible platform to be capable of having different add-ons and extensions.</Char_Desc_2000>
 		</English>
 	</Program_Descriptions>
 	<Web_Info>
 		<Application_URLs>
 			<Application_Info_URL>http://zekr.org</Application_Info_URL>
 			<Application_Order_URL>http://zekr.org</Application_Order_URL>
-			<Application_Screenshot_URL>http://zekr.org/img/zekr-075-en-mixed.png</Application_Screenshot_URL>
+			<Application_Screenshot_URL>http://zekr.org/img/zekr-1.0.0-main-page.png</Application_Screenshot_URL>
 			<Application_Icon_URL>http://zekr.org/img/zekr-book128.png</Application_Icon_URL>
 			<Application_XML_File_URL>http://zekr.org/zekr-pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://sourceforge.net/projects/zekr/files/Zekr/zekr-0.7.5/final/zekr-0.7.5-setup.exe/download</Primary_Download_URL>
+			<Primary_Download_URL>http://sourceforge.net/projects/zekr/files/Zekr/zekr-1.0.0/zekr-1.0.0-setup.exe/download</Primary_Download_URL>
 			<Secondary_Download_URL></Secondary_Download_URL>
 			<Additional_Download_URL_1/>
 			<Additional_Download_URL_2/>
 		</Download_URLs>
 	</Web_Info>
 	<Permissions>
-		<Distribution_Permissions>The Zekr Qur'anic Project. Copyright (C) 2004-2010 zekr.org. This program is
+		<Distribution_Permissions>The Zekr Quranic Project. Copyright (C) 2004-2010 zekr.org. This program is
 free software; you can redistribute it and/or modify it under the terms of the
 GNU General Public License as published by the Free Software Foundation;
 either version 2 of the License, or (at your option) any later version. This
