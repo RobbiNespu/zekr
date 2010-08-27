@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Nedim Hadžić i Alma Aganović" version="0.7">
+<language author="Nedim Hadžić i Alma Aganović i Lejla Pehlivanović" version="0.7">
 	<locale localizedName="Bosanski" name="Bosnian" id="bs_BA" direction="ltr" />
 	<word>
 		<common>
@@ -20,7 +20,7 @@
 			<text id="CLOSE" value="Zatvori" />
 			<text id="INSERT" value="Ubaci" />
 			<text id="DETAILS" value="Detalji" />
-			<text id="MORE" value="Više" />
+			<text id="MORE" value="Više na Internetu" />
 			<text id="NEXT" value="Naprijed" />
 			<text id="PREVIOUS" value="Nazad" />
 			<text id="REFRESH" value="Osvježi" />
@@ -28,14 +28,14 @@
 			<text id="SHOW" value="Prikaži" />
 			<text id="NAME" value="Naziv" />
 			<text id="VALUE" value="Vrijednost" />
-			<text id="NUMBER" value="Broj" />
+			<text id="NUMBER" value="Redni broj" />
 			<text id="OPTION" value="Opcija" />
 			<text id="FILE" value="Datoteka" />
-			<text id="RELOAD" value="Ponovo učitaj" />
+			<text id="RELOAD" value="Osvježi stranicu" />
 			<text id="TYPE" value="Tip" />
 			<text id="MESSAGE" value="Poruka" />
-			<text id="BLOCK" value="Blok" />
-			<text id="LINE_BY_LINE" value="linija po linija" />
+			<text id="BLOCK" value="Linija iza linije" />
+			<text id="LINE_BY_LINE" value="Linija ispod linije" />
 			<text id="AND" value="i" />
 			<text id="COMMA" value="," />
 			<text id="SYNCHRONOUS" value="Sinhronizirano" />
@@ -52,7 +52,7 @@
 			<text id="PREV_AYA" value="Prethodni ajet" />
 			<text id="PREV_SURA" value="Prethodna sura" />
 			<text id="THEME" value="Tema" />
-			<text id="LAYOUT" value="Prikaz" />
+			<text id="LAYOUT" value="Prikaz teksta" />
 			<text id="TOOLS" value="Alati" />
 			<text id="ADD" value="Dodaj" />
 			<text id="DELETE" value="Izbriši" />
@@ -97,7 +97,7 @@
 			<text id="SHOW_REFS" value="Prikaži bilješke za odabrani ajet"/>
 			<text id="MOVE_UP" value="Idi gore" />
 			<text id="MOVE_DOWN" value="Idi dolje" />
-			<text id="MULTI_TRANS" value="Više prijevoda" /> <!-- NOTE: This element replaced with CUSTOM_MIXED (Prilagođeno miješani prevod) -->
+			<text id="MULTI_TRANS" value="Više prijevoda" /> <!-- NOTE: This element replaced with CUSTOM_MIXED (Prilagođeno miješani prijevod) -->
 			<text id="CONFIG_CUSTOM_TRANS" value="Podesi više prijevoda" />
 			<text id="GO" value="Idi" />
 			<text id="CAUTION" value="Upozorenje" />
@@ -111,8 +111,8 @@
 			<text id="DISCRETE" value="Diskretno" />
 			<text id="PLAY" value="Reproduciraj" />
 			<text id="PAUSE" value="Pauziraj" />
-			<text id="STOP" value="Stop" />
-			<text id="RECITATION" value="Učenje" />
+			<text id="STOP" value="Zaustavi" />
+			<text id="RECITATION" value="Učači" />
 			<text id="MENU_NEXT_AYA" value="Sljedeći Ajet" />
 			<text id="MENU_NEXT_SURA" value="Sljedeća Sura" />
 			<text id="MENU_PREV_AYA" value="Prethodni Ajet" />
@@ -134,11 +134,20 @@
 			<text id="ONLINE_HELP" value="Online pomoć" />
 			<text id="PAGING_MODE" value="Način straničenja" />
 			<text id="PANEL" value="Prikaz okvira" />
-			<text id="DETAIL_PANEL" value="Detalji" />
+			<text id="DETAIL_PANEL" value="Prikaži detalje" />
 			<text id="REPEAT" value="Ponovi" />
 			<text id="ROOT" value="Korijen" /> <!-- word root -->
 			<text id="ADDRESS" value="Adresa" />
 			<text id="BOOKMARK_THIS_AYA" value="Sačuvaj ovaj ajet u bilješke" />
+			<text id="AUDIO_PLAYER" value="Prikaži player"   />
+			<text id="PLAYING" value="Trenutno uči"   />
+			<text id="PAUSED" value="Pauzirano"   />
+			<text id="STOPPED" value="Učenje zaustavljeno"   />
+			<text id="RECITER" value="Učač"   />
+            <text id="ONLINE" value="Online"   />
+            <text id="OFFLINE" value="Offline"   />
+            <text id="SMALLER" value="Manje"   />
+            <text id="LARGER" value="Veće"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Kur'an" />
@@ -149,13 +158,17 @@
 			<text id="JUZ" value="Džuz" />
 			<text id="HIZB" value="Hizb" />
 			<text id="QUARTER" value="Četvrtina" />
-			<text id="MAKKI" value="Mekka" />
-			<text id="MADANI" value="Medina" />
-			<text id="DESCENT" value="Porijeklo" />
+            <text id="HIZB_QUARTER" value="Hizb četvrtina"   />
+			<text id="MAKKI" value="Mekki" />
+			<text id="MADANI" value="Medini" />
+			<text id="DESCENT" value="Objavljena u" />
 			<text id="AYA_COUNT" value="Broj ajeta" />
-			<text id="MINOR_SAJDA" value="Mustehab sedžda" /><!-- Mustahab Sajda -->
-			<text id="MAJOR_SAJDA" value="Vadžib sedžda" /><!-- Wajib Sajda -->
+			<text id="MINOR_SAJDA" value="Preporučena sedžda" /><!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="Obavezna sedžda" /><!-- Wajib Sajda -->
 			<text id="LOCATION" value="Mjesto" /><!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+            <text id="AUDHUBILLAH" value="E'uzubillah"   />
+            <text id="BISMILLAH" value="Bismillah"   />
+            <text id="SADAGHALLAH" value="Sadekallah"   />
 		</special>
 	</word>
 
@@ -169,6 +182,7 @@
 			<text id="RESTART_APP" value="Molimo restartujte aplikaciju da bi promjene imale efekta." />
 			<text id="ACTION_PERFORMED" value="Naredba uspješno izvršena." />
 			<text id="TRANSLATION_ADDED" value="Sljedeći prijevod je dodan u {1} meni" />
+			<text id="RECITATION_ADDED" value="Sljedeće učenje je dodano u {1} meni"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Sigurni ste?" />
@@ -179,10 +193,13 @@
 			<text id="FNF" value="Datoteka nije pronađena" />
 			<text id="ACTION_FAILED" value="Akcija nije uspjela!" />
 			<text id="INVALID_TRANSLATION_FORMAT" value="Neispravan format prijevoda: {1}" />
-			<text id="INVALID_TRANSLATION_SIGNATURE" value="Neispravan potpis prijevoda: {1}" />
+			<text id="INVALID_RECITATION_FORMAT" value="Neispravan format učenja: {1}"   />
+			<text id="NEWER_VERSION_INSTALLED" value="Resurs '{1}' je istekao ( ažurirati na: {2}). Novija verzija ({3}) je već instalirana." />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Neispravan potpis prijevoda: {1}"   />
 			<text id="TRANSLATION_LOAD_FAILED" value="Učitavam prijevod &quot;{1}&quot; neuspjelo učitavanje zbog sljedeće grešker: {2}" />
-			<text id="ENTER_VALID_NUMBER" value="Molim unesite ispravan broj." />
-			<text id="NUMBER_LIMIT" value="Molim unesite broj između '{1}' i '{2}'." />
+			<text id="RECITATION_LOAD_FAILED" value="Učitavam učenje &quot;{1}&quot; neuspjelo učitavanje zbog sljedeće grešker: {2}" />
+			<text id="ENTER_VALID_NUMBER" value="Molim unesite ispravan broj."   />
+			<text id="NUMBER_LIMIT" value="Molim unesite broj između '{1}' i '{2}'."   />
 		</error>
 		<hint></hint>
 	</message>
@@ -212,6 +229,7 @@
 			<text id="THEME_OPTIONS" value="Tema" />
 			<text id="GENERAL_OPTIONS" value="Općenito" />
 			<text id="VIEW_OPTIONS" value="Izgled" />
+			<text id="AUDIO_OPTIONS" value="Opcije zvuka" />
 			<text id="TITLE" value="Aplikacijske opcije" />
 			<text id="SHOW_SPLASH" value="Prikaži logo pri startu" />
 			<text id="NEW_KEY" value="Unesite novi ključ" />
@@ -227,6 +245,10 @@
 			<text id="T13N" value="Transliteracija (ako postoji)" />
 			<text id="ENABLE_AUDIO" value="Aktiviraj audio podršku" />
 			<text id="SURA_NAME_TREE" value="Prikaz imena sura u stablu" />
+			<text id="SMART" value="Po potrebi" />
+            <text id="ALWAYS" value="Uvijek" />
+            <text id="NEVER" value="Nikad" />
+            <text id="PLAY_MODE" value="Način reprodukcije" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="Podešavanje Opsega Pretrage " />
@@ -309,13 +331,36 @@
 			<text id="NEW_FINAL_AVAILABLE" value="Nova verzija je dostupna za preuzimanje" />
 		</form>
 		<form id="PAGING_MODE">
-			<text id="TITLE" value="Način straničenja" />
-			<text id="SURA" value="Sura" />
-			<text id="HIZB_QUARTER" value="Hizb četvrtina" />
-			<text id="JUZ" value="Džuz" />
-			<text id="CONST_AYA" value="Grupa ajeta" />
-			<text id="CUSTOM" value="Prilagođeno" />
-			<text id="AYA_PER_SURA" value="Broj ajeta po stranici?" />
+			<text id="TITLE" value="Način straničenja"   />
+			<text id="SURA" value="Sura"   />
+			<text id="HIZB_QUARTER" value="Hizb četvrtina"   />
+			<text id="JUZ" value="Džuz"   />
+			<text id="CONST_AYA" value="Određen opseg ajeta"   />
+			<text id="CUSTOM" value="Posebno"   />
+			<text id="AYA_PER_SURA" value="Koliko ajeta po stranici?"   />
 		</form>
+		<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="Reprodukcija zvuka"   />
+			<text id="SECOND_ABBR" value="sec"   /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECONDS" value="Sekunde"   /> <!--  tooltip for 's' (SECOND_ABBR) -->
+			<text id="INTERVAL" value="sa razmakom od"   />
+			<text id="REPEAT" value="Ponovi"   />
+			<text id="NO_INTERVAL" value="     - "   />
+			<text id="NO_REPEAT" value="    - "   />
+            <text id="VOLUME" value="Glasnoća"   />
+            <text id="TIMES" value="{1} puta"   />
+            <text id="PLAY_SCOPE" value="Opseg učenja"   />
+		</form>
+        <form id="GOTO_FORM">
+            <text id="TITLE" value="Idi na"   />
+            <text id="GOTO" value="Idi na"   />
+            <text id="REVIEW" value="Pregled"   />
+            <text id="JUZ" value="Džuz"   />
+            <text id="SURA_ORDER" value="Redoslijed sura"   />
+            <text id="HIZB_QUARTER" value="Hizb četvrtina"   />
+            <text id="SURA_AYA" value="Sura:ajet (npr. 33:70)"   />
+            <text id="NORMAL" value="Normalno"   />
+            <text id="REVELATION" value="Objavljeno ({1})"   />
+        </form>
 	</forms>
 </language>
