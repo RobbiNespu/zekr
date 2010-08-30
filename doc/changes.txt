@@ -741,7 +741,17 @@ Bug fixes:
 	Changing between Block/Line-by-Line mode in Translation-only layout will now work.
 	Save AudioPlayerForm new location as it closes. It now saves the new location before Zekr is closed (previously it wasn't saved when Zekr was closed and AudioPlayerForm was in open state).
 	A few changes and bug fixes in quran-properties-en.xml, thanks to Yahya Saturday.
+
+Version 1.0.1 - [12-09-10]
+Features/Enhancements:
+Bug fixes:
+	Do not create <userhome>/.zekr if a -workspace parameter is specified. It previously created .zekr with zekr.log inside it even if a new workspace was specified.
+	Automatically create zekr.log in the new workspace of -workspace parameter is specified.
 _____________________________________________________
+	
+	TODO: Make font and color changes easier.
+	TODO: Add KFGQPC Uthman Taha Naskh to Zekr.
+
 
 	TODO: aya change in nav bar should work even when a html is "saved as...".
 	TODO: GCJ bug with XSLT transformation
