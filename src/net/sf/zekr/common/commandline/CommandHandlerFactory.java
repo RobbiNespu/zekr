@@ -18,12 +18,14 @@ import java.util.List;
  * @since Zekr 1.0
  */
 public class CommandHandlerFactory implements CommandConstants {
+
 	/**
 	 * @param args arguments to be parsed
 	 * @return a list of <code>CommandHandler</code> items
 	 */
 	public static List<CommandHandler> getCommandHandler(String[] args) {
 		List<CommandHandler> commandHandlers = new ArrayList<CommandHandler>();
+		WorkspaceCommandHandler workspaceCommand = null;
 		for (int i = 0; i < args.length; i++) {
 			String command = args[i].trim();
 			if (HELP_COMMAND_VERBOSE.equals(command) || HELP_COMMAND.equals(command)) {
@@ -39,11 +41,17 @@ public class CommandHandlerFactory implements CommandConstants {
 			} else if (WORKSPACE_COMMAND.equals(command)) {
 				List<String> options = new ArrayList<String>();
 				i = fillOptions(options, args, i);
-				commandHandlers.add(new WorkspaceCommandHandler(command, options.toArray(new String[0])));
+				workspaceCommand = new WorkspaceCommandHandler(command, options.toArray(new String[0]));
 			} else {
 				commandHandlers.add(new OtherCommandHandler(command, null));
 			}
 		}
+
+		// -workspace has precedence over other options
+		if (workspaceCommand != null) {
+			commandHandlers.add(0, workspaceCommand);
+		}
+
 		return commandHandlers;
 	}
 
