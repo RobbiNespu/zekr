@@ -17,8 +17,6 @@ import net.sf.zekr.engine.log.Logger;
  * @since Zekr 1.0
  */
 public class CommandRunUtils {
-	private final static Logger logger = Logger.getLogger(CommandRunUtils.class);
-
 	/**
 	 * This method performs all command-related tasks, and catch and display any {@link CommandException}
 	 * occurred.
@@ -30,16 +28,17 @@ public class CommandRunUtils {
 	public static boolean performAll(String[] args) {
 		try {
 			List<CommandHandler> cmds = CommandHandlerFactory.getCommandHandler(args);
-			if (cmds.size() > 0) {
-				Command cmd = cmds.get(0);
+			boolean la = true;
+			for (CommandHandler cmd : cmds) {
 				cmd.execute();
-				return cmd.launchAfter();
+				la &= cmd.launchAfter();
 			}
+			return la;
 		} catch (CommandException e) {
+			Logger logger = Logger.getLogger(CommandRunUtils.class);
 			System.err.println(e);
 			logger.implicitLog(e);
 			return false;
 		}
-		return true;
 	}
 }
