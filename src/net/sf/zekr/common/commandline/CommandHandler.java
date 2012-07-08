@@ -29,4 +29,6 @@ public abstract class CommandHandler implements Command {
 	public boolean launchAfter() {
 		return false;
 	}
+
+	abstract public boolean isSingle();
 }

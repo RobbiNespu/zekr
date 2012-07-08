@@ -20,4 +20,9 @@ public class OtherCommandHandler extends CommandHandler {
 		stdout.println("Use `--help' option for more information.");
 	}
 
+	@Override
+	public boolean isSingle() {
+		return false;
+	}
+
 }

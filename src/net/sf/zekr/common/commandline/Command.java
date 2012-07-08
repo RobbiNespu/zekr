@@ -28,4 +28,13 @@ public interface Command {
 	 *         <code>false</code> otherwise.
 	 */
 	boolean launchAfter();
+
+	/**
+	 * Specifies whether this is a single option or not. Two single option cannot come together. The first
+	 * single option revokes next single options.
+	 * 
+	 * @return
+	 */
+	boolean isSingle();
+
 }

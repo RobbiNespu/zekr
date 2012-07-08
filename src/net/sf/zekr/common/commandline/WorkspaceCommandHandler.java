@@ -20,19 +20,27 @@ public class WorkspaceCommandHandler extends CommandHandler {
 	}
 
 	public void execute() throws CommandException {
-		if (options.length <= 0)
+		if (options.length <= 0) {
 			throw new CommandException("Workspace not specified");
+		}
 		String o = options[0];
 		File ws = new File(o);
-		if (!ws.exists())
-			throw new CommandException("Error setting workspace! Path not found: " + o);
-		if (!ws.isDirectory())
-			throw new CommandException("Error setting workspace! Not a directory: " + o);
+		if (!ws.exists() && !ws.mkdirs()) {
+			throw new CommandException("Could not create workspace: " + ws.getAbsolutePath());
+		}
+		if (!ws.isDirectory()) {
+			throw new CommandException("Error setting workspace! Not a directory: " + ws.getAbsolutePath());
+		}
 
 		Naming.setWorkspace(o);
 	}
 
 	public boolean launchAfter() {
 		return true;
+	}
+
+	@Override
+	public boolean isSingle() {
+		return false;
 	}
 }

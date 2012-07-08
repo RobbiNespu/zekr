@@ -40,4 +40,9 @@ public class HelpCommandHandler extends CommandHandler {
 				+ GlobalConfig.ZEKR_BUILD_NUMBER + ".");
 		stdout.println(helpMessage);
 	}
+
+	@Override
+	public boolean isSingle() {
+		return false;
+	}
 }

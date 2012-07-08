@@ -76,4 +76,9 @@ public class IndexCommandHandler extends CommandHandler {
 		}
 	}
 
+	@Override
+	public boolean isSingle() {
+		return false;
+	}
+
 }

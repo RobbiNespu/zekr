@@ -79,4 +79,10 @@ public class CleanCommandHandler extends CommandHandler {
 			}
 		}
 	}
+
+	@Override
+	public boolean isSingle() {
+		return false;
+	}
+
 }
