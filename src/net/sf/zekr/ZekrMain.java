@@ -29,12 +29,12 @@ import org.eclipse.swt.widgets.Display;
  * @author Mohsen Saboorian
  */
 public class ZekrMain {
-	private final static Logger logger = Logger.getLogger(ZekrMain.class);
-
 	/**
 	 * Will start the Zekr platform
 	 */
 	static void startZekr() {
+		Logger logger = Logger.getLogger(ZekrMain.class);
+
 		Date date1 = new Date();
 		Display display = new Display();
 		QuranForm quranForm = null;
@@ -46,7 +46,7 @@ public class ZekrMain {
 			logger.debug("Display splash screen...");
 			splash.show();
 			logger.info("Configure runtime configurations...");
-			ApplicationConfig.getInstance().getRuntime().configure();// TODO: some directories already created in
+			ApplicationConfig.getInstance().getRuntime().configure(); // TODO: some directories already created in
 
 			quranForm = new QuranForm(display);
 			EventUtils.sendEvent(EventProtocol.SPLASH_PROGRESS_FULLY + ":" + "UI Initialized");
@@ -76,13 +76,16 @@ public class ZekrMain {
 				t.printStackTrace();
 			}
 		} finally {
-			if (display != null) {
+			if (display != null && !display.isDisposed()) {
 				display.dispose();
 			}
 			if (logger != null) {
 				logger.memInfo();
 				logger.info("Zekr is now down.\n");
 			}
+			
+			// fix for OS X + Java 6 hanging on exit, suggested by Ali Rastegar
+			System.exit(0);
 		}
 	}
 
