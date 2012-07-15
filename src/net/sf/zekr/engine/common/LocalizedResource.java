@@ -25,10 +25,21 @@ import org.apache.commons.configuration.PropertiesConfiguration;
  * 
  * @author Mohsen Saboorian
  */
-abstract public class LocalizedResource {
+public class LocalizedResource {
 	/*** A map of language ISO code to localized name of reciter in that language */
 	public Map<String, String> localizedNameMap = new HashMap<String, String>();
 	public String name;
+	public String language;
+
+	
+	public String getLanguage() {
+		if(language==null) return "unknown";
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 
 	public Map<String, String> getLocalizedNameMap() {
 		return localizedNameMap;
