@@ -15,15 +15,15 @@ import javazoom.jlgui.basicplayer.BasicPlayer;
 /**
  * @author Mohsen Saboorian
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class ZekrBasicPlayer extends BasicPlayer {
-	private Map audioInfo;
+   private Map audioInfo;
 
-	public Map getAudioInfo() {
-		return audioInfo;
-	}
+   public Map getAudioInfo() {
+      return audioInfo;
+   }
 
-	public void setAudioInfo(Map audioInfo) {
-		this.audioInfo = audioInfo;
-	}
+   public void setAudioInfo(Map audioInfo) {
+      this.audioInfo = audioInfo;
+   }
 }

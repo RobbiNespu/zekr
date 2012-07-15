@@ -17,6 +17,7 @@ import java.util.Map;
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
+import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.log.Logger;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -32,271 +33,308 @@ import org.apache.commons.configuration.PropertiesConfiguration;
  * @author Mohsen Saboorian
  */
 public class DefaultPlayerController implements PlayerController {
-	private static Logger logger = Logger.getLogger(DefaultPlayerController.class);
+   private static Logger logger = Logger.getLogger(DefaultPlayerController.class);
 
-	private ZekrBasicPlayer player;
-	private int volume;
-	private boolean multiAya;
-	private int interval; // wait between two ayas (in milliseconds)
-	private int repeatTime;
-	private PropertiesConfiguration props;
-	private PlayingItem playingItem;
-	private String playScope;
-	private PlayableObject currentPlayableObject;
-	@SuppressWarnings("unchecked")
-	private Map currentAudioInfo;
-	private List<BasicPlayerListener> playerListenerList = new ArrayList<BasicPlayerListener>();
+   private ZekrBasicPlayer player;
+   private int volume;
+   private boolean multiAya;
+   private int interval; // wait between two ayas (in milliseconds)
+   private int repeatTime;
+   private PropertiesConfiguration props;
+   private PlayingItem playingItem;
+   private String playScope;
 
-	/**
-	 * A fixed size cache for {@link ZekrBasicPlayer} objects whose <code>open</code> method is already called.
-	 */
-	private Map<PlayableObject, ZekrBasicPlayer> playerCache;
+   private PlayableObject currentPlayableObject;
+   private int currentAudioIndex;
 
-	public DefaultPlayerController(PropertiesConfiguration props) {
-		this.props = props;
-		volume = props.getInt("audio.volume", 50);
-		repeatTime = props.getInt("audio.repeatTime", 1);
-		interval = props.getInt("audio.interval", 0);
-		multiAya = props.getBoolean("audio.continuousAya", true);
-		playScope = props.getString("audio.playScope", "continuous");
+   @SuppressWarnings("rawtypes")
+   private Map currentAudioInfo;
+   private List<BasicPlayerListener> playerListenerList = new ArrayList<BasicPlayerListener>();
 
-		final int prefetcher = props.getInt("audio.cache.prefetcher", 1);
-		playerCache = new LinkedHashMap<PlayableObject, ZekrBasicPlayer>() {
-			private static final long serialVersionUID = -9223127035368415046L;
+   /**
+    * A fixed size cache for {@link ZekrBasicPlayer} objects whose <code>open</code> method is already called.
+    */
+   private Map<PlayableObject, ZekrBasicPlayer> playerCache;
 
-			@Override
-			protected boolean removeEldestEntry(java.util.Map.Entry<PlayableObject, ZekrBasicPlayer> eldest) {
-				return size() > prefetcher;
-			}
-		};
-	}
+   public DefaultPlayerController(PropertiesConfiguration props) {
+      this.props = props;
+      volume = props.getInt("audio.volume", 50);
+      repeatTime = props.getInt("audio.repeatTime", 1);
+      interval = props.getInt("audio.interval", 0);
+      multiAya = props.getBoolean("audio.continuousAya", true);
+      playScope = props.getString("audio.playScope", "continuous");
 
-	@SuppressWarnings("unchecked")
-	public void open(PlayableObject playableObject, boolean openForCaching) throws PlayerException {
-		// check if exists in the cache
-		ZekrBasicPlayer localPlayer = playerCache.get(playableObject);
+      final int prefetcher = props.getInt("audio.cache.prefetcher", 1);
+      playerCache = new LinkedHashMap<PlayableObject, ZekrBasicPlayer>() {
+         private static final long serialVersionUID = -9223127035368415046L;
 
-		if (openForCaching) {
-			if (localPlayer == null) {
-				localPlayer = new ZekrBasicPlayer();
-				localPlayer.addBasicPlayerListener(new BasicPlayerAdapter(localPlayer) {
-					@Override
-					public void opened(Object stream, Map properties) {
-						zekrBasicPlayer.setAudioInfo(properties);
-						// trying to remove this listener from here causes ConcurrentModificationException
-					}
-				});
-				playerCache.put(playableObject, localPlayer);
-			} else {
-				logger.debug("Already exists in cache: " + playableObject);
-				return; // already exists in the cache
-			}
-		} else {
-			this.currentPlayableObject = playableObject;
-			boolean isAlreadyOpened = true;
-			if (localPlayer == null) {
-				isAlreadyOpened = false;
-				localPlayer = new ZekrBasicPlayer();
-				localPlayer.addBasicPlayerListener(new BasicPlayerAdapter(localPlayer) {
-					@Override
-					public void opened(Object stream, Map properties) {
-						currentAudioInfo = properties;
-						// trying to remove this listener from here causes ConcurrentModificationException
-					}
-				});
-			} else {
-				currentAudioInfo = localPlayer.getAudioInfo();
-				localPlayer.getListeners().clear();
-			}
-			this.player = localPlayer;
-			player.getListeners().addAll(playerListenerList);
-			if (isAlreadyOpened) {
-				return;
-			}
-		}
+         @Override
+         protected boolean removeEldestEntry(java.util.Map.Entry<PlayableObject, ZekrBasicPlayer> eldest) {
+            return size() > prefetcher;
+         }
+      };
+   }
 
-		try {
-			if (playableObject.getUrl() != null) {
-				localPlayer.open(playableObject.getUrl());
-			} else if (playableObject.getFile() != null) {
-				if (!playableObject.getFile().exists()) {
-					throw new PlayerException("File not found: " + playableObject.getFile());
-				}
-				localPlayer.open(playableObject.getFile());
-			} else {
-				localPlayer.open(playableObject.getInputStream());
-			}
-		} catch (BasicPlayerException e) {
-			if (openForCaching) {
-				logger.error("Error occurred while openning playable object for cache.", e);
-			} else {
-				throw new PlayerException("Error opening playable object: " + playableObject, e);
-			}
-		}
-	}
+   @SuppressWarnings("unchecked")
+   public void open(PlayableObject playableObject, boolean openForCaching) throws PlayerException {
+      // check if exists in the cache
+      ZekrBasicPlayer localPlayer = playerCache.get(playableObject);
 
-	public void open(PlayableObject playableObject) throws PlayerException {
-		open(playableObject, false);
-	}
+      if (openForCaching) {
+         if (localPlayer == null) {
+            localPlayer = new ZekrBasicPlayer();
+            localPlayer.addBasicPlayerListener(new BasicPlayerAdapter(localPlayer) {
+               @SuppressWarnings("rawtypes")
+               @Override
+               public void opened(Object stream, Map properties) {
+                  zekrBasicPlayer.setAudioInfo(properties);
+                  // trying to remove this listener from here causes ConcurrentModificationException
+               }
+            });
+            playerCache.put(playableObject, localPlayer);
+         } else {
+            logger.debug("Already exists in cache: " + playableObject);
+            return; // already exists in the cache
+         }
+      } else {
+         this.currentPlayableObject = playableObject;
+         boolean isAlreadyOpened = true;
+         if (localPlayer == null) {
+            isAlreadyOpened = false;
+            localPlayer = new ZekrBasicPlayer();
+            localPlayer.addBasicPlayerListener(new BasicPlayerAdapter(localPlayer) {
+               @SuppressWarnings("rawtypes")
+               @Override
+               public void opened(Object stream, Map properties) {
+                  currentAudioInfo = properties;
+                  // trying to remove this listener from here causes ConcurrentModificationException
+               }
+            });
+         } else {
+            currentAudioInfo = localPlayer.getAudioInfo();
+            localPlayer.getListeners().clear();
+         }
+         this.player = localPlayer;
+         player.getListeners().addAll(playerListenerList);
+         if (isAlreadyOpened) {
+            return;
+         }
+      }
 
-	public void pause() throws PlayerException {
-		try {
-			player.pause();
-		} catch (BasicPlayerException e) {
-			throw new PlayerException(e);
-		}
-	}
+      try {
+         if (playableObject.getUrl() != null) {
+            localPlayer.open(playableObject.getUrl());
+         } else if (playableObject.getFile() != null) {
+            if (!playableObject.getFile().exists()) {
+               throw new PlayerException("File not found: " + playableObject.getFile());
+            }
+            localPlayer.open(playableObject.getFile());
+         } else {
+            localPlayer.open(playableObject.getInputStream());
+         }
+      } catch (BasicPlayerException e) {
+         if (openForCaching) {
+            logger.error("Error occurred while openning playable object for cache.", e);
+         } else {
+            throw new PlayerException("Error opening playable object: " + playableObject, e);
+         }
+      }
+   }
 
-	private void updateVolumeSilently() {
-		try {
-			setGain(volume / 100.0);
-		} catch (PlayerException e) {
-		}
-	}
+   public void open(PlayableObject playableObject) throws PlayerException {
+      open(playableObject, false);
+   }
 
-	public void play() throws PlayerException {
-		try {
-			player.play();
-			updateVolumeSilently();
-		} catch (BasicPlayerException e) {
-			throw new PlayerException(e);
-		}
-	}
+   public void pause() throws PlayerException {
+      try {
+         player.pause();
+      } catch (BasicPlayerException e) {
+         throw new PlayerException(e);
+      }
+   }
 
-	public void resume() throws PlayerException {
-		try {
-			player.resume();
-			updateVolumeSilently();
-		} catch (BasicPlayerException e) {
-			throw new PlayerException(e);
-		}
-	}
+   private void updateVolumeSilently() {
+      try {
+         setGain(volume / 100.0);
+      } catch (PlayerException e) {
+      }
+   }
 
-	public long seek(long bytes) throws PlayerException {
-		try {
-			return player.seek(bytes);
-		} catch (BasicPlayerException e) {
-			throw new PlayerException(e);
-		}
-	}
+   public void play() throws PlayerException {
+      try {
+         player.play();
+         updateVolumeSilently();
+      } catch (BasicPlayerException e) {
+         throw new PlayerException(e);
+      }
+   }
 
-	public void setGain(double gain) throws PlayerException {
-		try {
-			player.setGain(gain);
-		} catch (BasicPlayerException e) {
-			throw new PlayerException(e);
-		}
+   public void resume() throws PlayerException {
+      try {
+         player.resume();
+         updateVolumeSilently();
+      } catch (BasicPlayerException e) {
+         throw new PlayerException(e);
+      }
+   }
 
-	}
+   public long seek(long bytes) throws PlayerException {
+      try {
+         return player.seek(bytes);
+      } catch (BasicPlayerException e) {
+         throw new PlayerException(e);
+      }
+   }
 
-	public void setPan(double pan) throws PlayerException {
-		try {
-			player.setPan(pan);
-		} catch (BasicPlayerException e) {
-			throw new PlayerException(e);
-		}
+   public void setGain(double gain) throws PlayerException {
+      try {
+         player.setGain(gain);
+      } catch (BasicPlayerException e) {
+         throw new PlayerException(e);
+      }
 
-	}
+   }
 
-	public void stop() throws PlayerException {
-		try {
-			if (player != null) {
-				player.stop();
-			}
-		} catch (BasicPlayerException e) {
-			throw new PlayerException(e);
-		}
-	}
+   public void setPan(double pan) throws PlayerException {
+      try {
+         player.setPan(pan);
+      } catch (BasicPlayerException e) {
+         throw new PlayerException(e);
+      }
 
-	public int getStatus() {
-		if (player == null) {
-			return ZekrBasicPlayer.UNKNOWN;
-		}
-		return player.getStatus();
-	}
+   }
 
-	public void addBasicPlayerListener(BasicPlayerListener bpl) {
-		playerListenerList.add(bpl);
-		// player.addBasicPlayerListener(bpl);
-	}
+   public void stop() throws PlayerException {
+      try {
+         if (player != null) {
+            player.stop();
+         }
+      } catch (BasicPlayerException e) {
+         throw new PlayerException(e);
+      }
+   }
 
-	public Collection<BasicPlayerListener> getListeners() {
-		return playerListenerList;
-	}
+   public int getStatus() {
+      if (player == null) {
+         return ZekrBasicPlayer.UNKNOWN;
+      }
+      return player.getStatus();
+   }
 
-	public void removeBasicPlayerListener(BasicPlayerListener bpl) {
-		playerListenerList.remove(bpl);
-	}
+   public void addBasicPlayerListener(BasicPlayerListener bpl) {
+      playerListenerList.add(bpl);
+      // player.addBasicPlayerListener(bpl);
+   }
 
-	/**
-	 * Sets volume. It is applied to the player thread only if player status is
-	 * {@link PlayerController#PLAYING} or {@link PlayerController#PAUSED}
-	 * 
-	 * @param volume a number between 0 to 100
-	 */
-	public void setVolume(int volume) {
-		this.volume = volume;
-		props.setProperty("audio.volume", volume);
+   public Collection<BasicPlayerListener> getListeners() {
+      return playerListenerList;
+   }
 
-		int stat = getStatus();
-		if (stat == PLAYING || stat == PAUSED) {
-			setGain(volume / 100.0);
-		}
-	}
+   public void removeBasicPlayerListener(BasicPlayerListener bpl) {
+      playerListenerList.remove(bpl);
+   }
 
-	/**
-	 * @return volume: a number between 0 to 100
-	 */
-	public int getVolume() {
-		return volume;
-	}
+   /**
+    * Sets volume. It is applied to the player thread only if player status is
+    * {@link PlayerController#PLAYING} or {@link PlayerController#PAUSED}
+    * 
+    * @param volume a number between 0 to 100
+    */
+   public void setVolume(int volume) {
+      this.volume = volume;
+      props.setProperty("audio.volume", volume);
 
-	public boolean isMultiAya() {
-		return !"aya".equals(playScope);
-		// return multiAya;
-	}
+      int stat = getStatus();
+      if (stat == PLAYING || stat == PAUSED) {
+         setGain(volume / 100.0);
+      }
+   }
 
-	public int getInterval() {
-		return interval;
-	}
+   /**
+    * @return volume: a number between 0 to 100
+    */
+   public int getVolume() {
+      return volume;
+   }
 
-	public void setInterval(int interval) {
-		this.interval = interval;
-		props.setProperty("audio.interval", interval);
-	}
+   public boolean isMultiAya() {
+      return !"aya".equals(playScope);
+      // return multiAya;
+   }
 
-	public int getRepeatTime() {
-		return repeatTime;
-	}
+   public int getInterval() {
+      return interval;
+   }
 
-	public void setRepeatTime(int repeatTime) {
-		this.repeatTime = repeatTime;
-		props.setProperty("audio.repeatTime", repeatTime);
-	}
+   public void setInterval(int interval) {
+      this.interval = interval;
+      props.setProperty("audio.interval", interval);
+   }
 
-	public PlayingItem getPlayingItem() {
-		return this.playingItem;
-	}
+   public int getRepeatTime() {
+      return repeatTime;
+   }
 
-	public void setPlayingItem(PlayingItem playingItem) {
-		this.playingItem = playingItem;
-	}
+   public void setRepeatTime(int repeatTime) {
+      this.repeatTime = repeatTime;
+      props.setProperty("audio.repeatTime", repeatTime);
+   }
 
-	public PlayableObject getCurrentPlayableObject() {
-		return currentPlayableObject;
-	}
+   public PlayingItem getPlayingItem() {
+      return this.playingItem;
+   }
 
-	public String getPlayScope() {
-		return playScope;
-	}
+   public void setPlayingItem(PlayingItem playingItem) {
+      this.playingItem = playingItem;
+   }
 
-	public void setPlayScope(String playScope) {
-		this.playScope = playScope;
-		props.setProperty("audio.playScope", playScope);
-	}
+   public PlayableObject getCurrentPlayableObject() {
+      return currentPlayableObject;
+   }
 
-	@SuppressWarnings("unchecked")
-	public Map getCurrentAudioInfo() {
-		return currentAudioInfo;
-	}
+   public String getPlayScope() {
+      return playScope;
+   }
+
+   public void setPlayScope(String playScope) {
+      this.playScope = playScope;
+      props.setProperty("audio.playScope", playScope);
+   }
+
+   @SuppressWarnings({ "rawtypes" })
+   public Map getCurrentAudioInfo() {
+      return currentAudioInfo;
+   }
+
+   @Override
+   public int getCurrentAudioIndex() {
+      return currentAudioIndex;
+   }
+
+   @Override
+   public void setCurrentAudioIndex(int currentAudioIndex) {
+      this.currentAudioIndex = currentAudioIndex;
+   }
+
+   @Override
+   public int getRecitationCount() {
+      return ApplicationConfig.getInstance().getAudio().getCurrentList().size();
+   }
+
+   @Override
+   public boolean isLastRecitation() {
+      return getCurrentAudioIndex() + 1 >= getRecitationCount();
+   }
+
+   @Override
+   public boolean gotoNextAudio() {
+      if (getCurrentAudioIndex() + 1 >= getRecitationCount()) {
+         // reset
+         currentAudioIndex = 0;
+         return true;
+      } else {
+         currentAudioIndex++;
+         return false;
+      }
+   }
 }
