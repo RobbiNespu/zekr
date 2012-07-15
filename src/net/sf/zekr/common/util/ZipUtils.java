@@ -18,10 +18,6 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.resource.QuranPropertiesUtils;
-import net.sf.zekr.common.resource.SuraProperties;
-
 /**
  * Some utilities for working with zip files.
  * 
@@ -39,7 +35,7 @@ public class ZipUtils {
 	 * @throws IOException
 	 * @return <code>true</code> if extraction done, and <code>false</code> otherwise
 	 */
-	public static boolean extract(File zipFile, String destDir, ProgressListener progressListener) throws IOException {
+	public static boolean extract(File zipFile, String destDir, IntallationProgressListener progressListener) throws IOException {
 		boolean interrupted = false;
 		ZipFile zf = new ZipFile(zipFile);
 		Enumeration<? extends ZipEntry> e = zf.entries();
