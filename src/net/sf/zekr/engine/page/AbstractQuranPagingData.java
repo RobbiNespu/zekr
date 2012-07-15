@@ -28,14 +28,9 @@ public abstract class AbstractQuranPagingData extends LocalizedResource implemen
 	protected final Logger logger = Logger.getLogger(this.getClass());
 	protected LanguageEngine lang = LanguageEngine.getInstance();
 	protected String id;
-	protected String name;
 
 	/** List of {@link QuranPage} items. */
 	protected ArrayList<QuranPage> pageList;
-
-	public String getName() {
-		return name;
-	}
 
 	public List<QuranPage> getPageList() {
 		return pageList;
@@ -78,6 +73,6 @@ public abstract class AbstractQuranPagingData extends LocalizedResource implemen
 	}
 
 	public String toString() {
-		return getId() + ": (" + getName() + ")";
+		return getId() + ": (" + getLocalizedName() + ")";
 	}
 }

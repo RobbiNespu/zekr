@@ -13,9 +13,12 @@ import java.util.ArrayList;
 
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.QuranLocation;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.engine.xml.XmlReader;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
 /**
@@ -28,7 +31,6 @@ import org.w3c.dom.NodeList;
  */
 public class CustomPagingData extends AbstractQuranPagingData implements IPagingData {
 	public File file;
-
 	private boolean loaded;
 
 	public CustomPagingData() {
@@ -54,19 +56,48 @@ public class CustomPagingData extends AbstractQuranPagingData implements IPaging
 			XmlReader xmlReader = new XmlReader(file);
 			Element root = xmlReader.getDocumentElement();
 			name = root.getAttribute("name");
-			logger.debug("Process pagination data: " + name);
+			NamedNodeMap attrList = root.getAttributes();
+			for (int i = 0; i < attrList.getLength(); i++) {
+				Attr a = (Attr) attrList.item(i);
+				String attrName = a.getName();
+				if (attrName.startsWith("name.")) {
+					String langId = attrName.substring(5);
+					localizedNameMap.put(langId, a.getValue());
+				}
+			}
+			logger.debug("Process pagination data: " + getName());
 			NodeList pageNodeList = root.getElementsByTagName("page");
 			QuranPage prevPage = null;
 			for (int i = 0; i < pageNodeList.getLength(); i++) {
 				QuranPage page = new QuranPage();
 				Element pageElem = (Element) pageNodeList.item(i);
 				page.setIndex(Integer.parseInt(pageElem.getAttribute("index")));
-				IQuranLocation fromLoc = new QuranLocation(Integer.parseInt(pageElem.getAttribute("sura")), Integer
-						.parseInt(pageElem.getAttribute("aya")));
+				int sura = Integer.parseInt(pageElem.getAttribute("sura"));
+				int aya = Integer.parseInt(pageElem.getAttribute("aya"));
+				IQuranLocation fromLoc = null;
+				if (QuranPropertiesUtils.isValid(sura, aya)) { // invalid locations should only be used as the last item
+					fromLoc = QuranPropertiesUtils.getLocation(sura, aya);
+				} else {
+					fromLoc = new QuranLocation(sura, aya);
+				}
 				page.setFrom(fromLoc);
 				if (prevPage != null) { // works from second element
-					prevPage.setTo(fromLoc.getPrev());
+					if (fromLoc.equals(prevPage.getFrom())) { // this only happens for non-pages
+						prevPage.setTo(fromLoc);
+					} else {
+						prevPage.setTo(fromLoc.getPrev());
+					}
 				}
+				if (prevPage != null && prevPage.getFrom() == null) { // fix previous invalid page
+					prevPage.setFrom(fromLoc);
+					prevPage.setTo(fromLoc);
+				}
+				//				} else {
+				//					if (prevPage != null) {  // fix this invalid page
+				//						page.setFrom(prevPage.getTo());
+				//						page.setTo(prevPage.getTo());
+				//					}
+				//				}
 				pageList.add(page);
 				prevPage = page;
 			}
@@ -94,6 +125,6 @@ public class CustomPagingData extends AbstractQuranPagingData implements IPaging
 	}
 
 	public String toString() {
-		return loaded ? getName() + " (" + size() + ")" : getId() + " [" + lang.getMeaning("NOT_LOADED") + "]";
+		return loaded ? getLocalizedName() + " (" + size() + ")" : getId() + " [" + lang.getMeaning("NOT_LOADED") + "]";
 	}
 }
