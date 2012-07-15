@@ -17,7 +17,6 @@ import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.ui.error.ErrorForm;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.Priority;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.swt.widgets.Display;
 
@@ -74,7 +73,8 @@ public class Logger {
 				+ System.getProperty("java.version") + " (" + System.getProperty("java.vm.version") + ") - "
 				+ System.getProperty("java.vm.info") + n + "User info:\t\t" + System.getProperty("user.home") + " - "
 				+ System.getProperty("user.dir") + " - " + System.getProperty("user.language") + "-"
-				+ System.getProperty("user.country") + n + "Encoding info:\t" + System.getProperty("file.encoding"));
+				+ System.getProperty("user.country") + n + "Encoding info:\t" + System.getProperty("file.encoding") + n
+				+ "Zekr info:\t\t" + "Worspace: " + Naming.getWorkspace());
 	}
 
 	/**
