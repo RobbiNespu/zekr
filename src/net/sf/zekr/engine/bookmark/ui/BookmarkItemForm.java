@@ -334,7 +334,7 @@ public class BookmarkItemForm extends BaseForm {
 							if (rect.contains(pt)) {
 								final int column = i;
 								if (column == 2) {
-									final Text t = new Text(table, SWT.NONE);
+									final Text t = new Text(table, SWT.LEFT_TO_RIGHT);
 									t.setText((String) item.getData("2"));
 									itemEditor = t;
 								} else {
