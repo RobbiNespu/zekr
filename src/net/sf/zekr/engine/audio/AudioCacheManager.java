@@ -52,9 +52,9 @@ public class AudioCacheManager {
 		userPath = PathUtils.resolve(props.getString("audio.cache.userPath", "<workspace>/audio/cache"), "");
 	}
 
-	public PlayableObject getPlayableObject(IQuranLocation location) throws PlayerException {
+	public PlayableObject getPlayableObject(IQuranLocation location, int audioIndex) throws PlayerException {
 		ApplicationConfig config = ApplicationConfig.getInstance();
-		return getPlayableObject(config.getAudio().getCurrent(), location.getSura(), location.getAya());
+		return getPlayableObject(config.getAudio().getCurrent(audioIndex), location.getSura(), location.getAya());
 	}
 
 	public void prefetchAudioFileImplicitly(AudioData audioData, int sura, int aya) {
