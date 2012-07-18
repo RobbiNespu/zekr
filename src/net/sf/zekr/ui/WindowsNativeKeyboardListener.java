@@ -11,7 +11,6 @@ package net.sf.zekr.ui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import net.sf.zekr.common.config.KeyboardAction;
 import net.sf.zekr.common.config.KeyboardShortcut;
