@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Mohsen Saboorian" version="0.7">
+<language author="Mohsen Saboorian" version="1.1.0">
 	<locale localizedName="English" name="English" id="en_US" direction="ltr" />
 	<word>
 		<common>
@@ -113,6 +113,7 @@
 			<text id="PAUSE" value="Pause" />
 			<text id="STOP" value="Stop" />
 			<text id="RECITATION" value="Recitation" />
+			<text id="ADDON_MANAGER" value="Add-on Manager" />
 			<text id="MENU_NEXT_AYA" value="Ne&amp;xt Aya" />
 			<text id="MENU_NEXT_SURA" value="Next Sura" />
 			<text id="MENU_PREV_AYA" value="Previous &amp;Aya" />
@@ -148,6 +149,13 @@
             <text id="OFFLINE" value="Offline"   />
             <text id="SMALLER" value="Smaller"   />
             <text id="LARGER" value="Larger"   />
+            <text id="SCOPED_SEARCH" value="Scoped Search"   />
+            <text id="DOCK_MODE" value="Dock Mode"   />
+            <text id="FLOAT" value="Float"   />
+            <text id="TASKPANE" value="Task Pane"   />
+            <text id="TOP" value="Top"   />
+            <text id="BOTTOM" value="Bottom"   />
+            <text id="HIDE_WHEN_MINIMIZED" value="Hide When Minimized"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Quran" />
@@ -183,6 +191,7 @@
 			<text id="ACTION_PERFORMED" value="Action performed successfully."   />
 			<text id="TRANSLATION_ADDED" value="The following translations added under {1} menu"   />
 			<text id="RECITATION_ADDED" value="The following recitations added under {1} menu"   />
+			<text id="RESOURCE_ADDED" value="The following new resource has been added"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Are you sure?" />
@@ -303,6 +312,12 @@
 			<text id="AVAILABLE" value="Available translations" />
 			<text id="CURRENT" value="Currently used translations" />
 		</form>
+		<form id="ADDON_MANAGER">
+			<text id="REMOVE_CUSTOM" value="Remove Resouce" />
+			<text id="ADD_CUSTOM" value="Add Resource" />
+			<text id="TITLE" value="Add-On Manager" />
+			<text id="CURRENT" value="Resources Currently Installed" />
+		</form>
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="Please Wait" />
 			<text id="INDEXING" value="Indexing" /><!-- The process of indexing a document for faster search -->
@@ -327,7 +342,7 @@
 			<text id="MORE_INFO" value="More info" />
 			<text id="NO_UPDATE" value="You are already using the newest version." />
 			<text id="NEW_DEV_AVAILABLE" value="A newer development version (unstable) is available for download" />
-			<text id="NEW_BETA_AVAILABLE" value="A newer beta version (unstable) is available for download" />
+			<text id="NEW_BETA_AVAILABLE" value="A newer beta version is available for download" />
 			<text id="NEW_FINAL_AVAILABLE" value="A newer release (final) is available for download" />
 		</form>
 		<form id="PAGING_MODE">

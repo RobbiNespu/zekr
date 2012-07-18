@@ -158,8 +158,7 @@
 			<text id="SAJDA" value="Sajda" />
 			<text id="JUZ" value="Juz" />
 			<text id="HIZB" value="Hizb" />
-			<text id="QUARTER" value="Cuarto" />
-	   <text id="HIZB_QUARTER" value="Hizb cuarto"   />
+			<text id="QUARTER" value="cuarto" />
 			<text id="MAKKI" value="Mecca" />
 			<text id="MADANI" value="Medina" />
 			<text id="DESCENT" value="Revelada en" />
@@ -167,9 +166,6 @@
 			<text id="MINOR_SAJDA" value="Menor sajda" /><!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="Mayor sajda" /><!-- Wajib Sajda -->
 			<text id="LOCATION" value="Localizacion" /><!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
-	    <text id="AUDHUBILLAH" value="A'udhubillah"   />
-            <text id="BISMILLAH" value="Bismillah"   />
-            <text id="SADAGHALLAH" value="Sadaqallah"   />
 		</special>
 	</word>
 

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<language author="TarikZengin, Muhammet Abay" version="0.7">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<language author="TarikZengin, Muhammet Abay" version="1.1.0">
 	<locale localizedName="Türkçe" name="Turkish" id="tr_TR" direction="ltr" />
 	<word>
 		<common>
@@ -20,7 +20,7 @@
 			<text id="CLOSE" value="Kapat" />
 			<text id="INSERT" value="Ekle" />
 			<text id="DETAILS" value="Ayrıntılar" />
-			<text id="MORE" value="Ayrıca" />
+			<text id="MORE" value="Diğerleri" />
 			<text id="NEXT" value="İleri" />
 			<text id="PREVIOUS" value="Geri" />
 			<text id="REFRESH" value="Yinele" />
@@ -78,7 +78,7 @@
 			<text id="DESCRIPTION" value="Açıklama" />
 			<text id="BOOKMARKS" value="Yer İmleri" />
 			<text id="CONFIGURE" value="Yapılandır" />
-			<text id="EDIT_BOOKMARK_SET" value="Yeri İmlerini Düzenle" />
+			<text id="EDIT_BOOKMARK_SET" value="Yer İmlerini Düzenle" />
 			<text id="MANAGE_BOOKMARK_SETS" value="Yer İmlerini Yönet" />
 			<text id="DIRECTION" value="Yön" />
 			<text id="LANG_DIRECTION" value="Dil Yönü" />
@@ -97,8 +97,8 @@
 			<text id="SHOW_REFS" value="Referansı Göster" />
 			<text id="MOVE_UP" value="Yukarı" />
 			<text id="MOVE_DOWN" value="Aşağı" />
-			<text id="MULTI_TRANS" value="Birden Fazla Meal" />  <!-- NOTE: This element replaced with CUSTOM_MIXED -->
-			<text id="CONFIG_CUSTOM_TRANS" value="Kişisel Mealler Listesi" />
+			<text id="MULTI_TRANS" value="Birden Fazla Meal" />
+			<text id="CONFIG_CUSTOM_TRANS" value="Özel Mealler Listesini Düzenle" />
 			<text id="GO" value="Git" />
 			<text id="CAUTION" value="Uyarı" />
 			<text id="ADVANCED" value="Gelişmiş" />
@@ -113,6 +113,7 @@
 			<text id="PAUSE" value="Ara Ver" />
 			<text id="STOP" value="Bitir" />
 			<text id="RECITATION" value="Tilavet" />
+			<text id="ADDON_MANAGER" value="Eklenti Yöneticisi" />
 			<text id="MENU_NEXT_AYA" value="Sonraki Âyet" />
 			<text id="MENU_NEXT_SURA" value="Sonraki Sûre" />
 			<text id="MENU_PREV_AYA" value="Önceki Âyet" />
@@ -146,6 +147,15 @@
 			<text id="RECITER" value="Okuyan" />
 			<text id="ONLINE" value="İnternet" />
 			<text id="OFFLINE" value="Yerel" />
+			<text id="SMALLER" value="Daha Küçük"   />
+			<text id="LARGER" value="Daha Büyük"   />
+			<text id="SCOPED_SEARCH" value="Kapsam Araması"   />
+			<text id="DOCK_MODE" value="Yerleşim Tarzı"   />
+			<text id="FLOAT" value="Yüzer Halde"   />
+			<text id="TASKPANE" value="Görev Panelinde"   />
+			<text id="TOP" value="Yukarıda"   />
+			<text id="BOTTOM" value="Aşağıda"   />
+			<text id="HIDE_WHEN_MINIMIZED" value="Simde Durumundayken Gizle"   />
 		</common>
 		<special>
 			<text id="QURAN" value="Kur'an" />
@@ -181,6 +191,7 @@
 			<text id="ACTION_PERFORMED" value="İşlem başarıyla tamamlandı." />
 			<text id="TRANSLATION_ADDED" value="Aşağıdaki meal, {1} menüsüne eklendi." />
 			<text id="RECITATION_ADDED" value="Aşağıdaki tilâvet, {1} menüsüne eklendi." />
+			<text id="RESOURCE_ADDED" value="Aşağıdaki yeni kaynak eklendi"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="Emin misiniz?" />
@@ -300,6 +311,12 @@
 			<text id="TITLE" value="Özel Mealler Listesini Düzenle" />
 			<text id="AVAILABLE" value="Kullanılabilecek mealler" />
 			<text id="CURRENT" value="Kullanılmakta olan mealler" />
+		</form>
+		<form id="ADDON_MANAGER">
+			<text id="REMOVE_CUSTOM" value="Kaynağı Kaldır" />
+			<text id="ADD_CUSTOM" value="Kaynak Ekle" />
+			<text id="TITLE" value="Eklenti Yöneticisi" />
+			<text id="CURRENT" value="Şu an kaynaklar yüklendi" />
 		</form>
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="Lütfen bekleyin..." />

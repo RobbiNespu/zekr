@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="Naail A.Rahman" version="0.1">
+<language author="Naail A.Rahman" version="1.1.0">
 	<locale localizedName="ދިވެހި" name="Dhivehi" id="dv_MV" direction="rtl" />
 	<word>
 		<common>
@@ -113,6 +113,7 @@
 			<text id="PAUSE" value="ޕޯސް ކުރޭ" />
 			<text id="STOP" value="ހުއްޓާ" />
 			<text id="RECITATION" value="ކިޔެވުން" />
+			<text id="ADDON_MANAGER" value="އެޑްއޮން މެނޭޖަރ" />
 			<text id="MENU_NEXT_AYA" value="ޖެހުނު އާޔަތް" />
 			<text id="MENU_NEXT_SURA" value="ޖެހުނު ސޫރަތް" />
 			<text id="MENU_PREV_AYA" value="އިސްވި އާޔަތް " />
@@ -138,6 +139,23 @@
 			<text id="REPEAT" value="ތަކުރާރުކުރޭ"   />
 			<text id="ROOT" value="މަސްދަރު"   /> <!-- word root -->
 			<text id="ADDRESS" value="އެޑްރެސް"   />
+			<text id="BOOKMARK_THIS_AYA" value="މި އާޔަތް ފާހަގަޖަހާ"   />
+			<text id="AUDIO_PLAYER" value="އޯޑިއޯ ޕްލެޔަރ"   />
+			<text id="PLAYING" value="ޕްލޭކުރަނީ"   />
+			<text id="PAUSED" value="ޕޯސްކޮއްފަ"   />
+			<text id="STOPPED" value="ހުއްޓާފަ"   />
+			<text id="RECITER" value="ޤާރީ"   />
+            <text id="ONLINE" value="އޮންލައިން"   />
+            <text id="OFFLINE" value="އޮފްލައިން"   />
+            <text id="SMALLER" value="ކުޑަކޮށް"   />
+            <text id="LARGER" value="ބޮޑުކޮށް"   />
+            <text id="SCOPED_SEARCH" value="ސްކޯޕް ހޯދާ"   />
+            <text id="DOCK_MODE" value="ޑޮކް ކުރަންވީގޮތް"   />
+            <text id="FLOAT" value="ފްލޯޓް"   />
+            <text id="TASKPANE" value="ޓަސްކް ޕޭން"   />
+            <text id="TOP" value="ޓޮޕް"   />
+            <text id="BOTTOM" value="ބޮޓޮމް"   />
+            <text id="HIDE_WHEN_MINIMIZED" value="ކުޑަކުރީމަ ފޮރުވާ"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن‎" />
@@ -148,6 +166,7 @@
 			<text id="JUZ" value="ފޮތް" />
 			<text id="HIZB" value="ހިޒްބް" />
 			<text id="QUARTER" value="ربع" />
+			<text id="HIZB_QUARTER" value="Hizb Quarter"   />
 			<text id="MAKKI" value="މައްކީ" />
 			<text id="MADANI" value="މަދަނީ" />
 			<text id="DESCENT" value="ބާވަތް" />
@@ -155,6 +174,9 @@
 			<text id="MINOR_SAJDA" value="މުސތަޚައްބު ސަޖިދަ" /><!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="ވވާޖިބް ސަޖިދަ" /><!-- Wajib Sajda -->
 			<text id="LOCATION" value="ސަރަހައްދު" /><!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+			<text id="AUDHUBILLAH" value="އައޫޒު"   />
+            <text id="BISMILLAH" value="ބިސްމި"   />
+            <text id="SADAGHALLAH" value="ސަދަގަﷲ"   />
 		</special>
 	</word>
 
@@ -168,6 +190,8 @@
 			<text id="RESTART_APP" value="ބަދަލުތައް ބެލުމައް ޕްރޮގްރާމް އަލުން ހުޅުވަންޖެހޭ" />
 			<text id="ACTION_PERFORMED" value="ކާމިޔާބާއެކު ފުރިހަމަ ކުރެވިއްޖެ"   />
 			<text id="TRANSLATION_ADDED" value="{1}ގެ ދަށުން މި ތަރުޖަމާތައް އެކުލަވާލެވިއްޖެ "   />
+			<text id="RECITATION_ADDED" value="{1} މެނޫ ގެ ދަށުން ތަރުޖަމާތައް އިތުރުކުރެވިއްޖެ"   />
+			<text id="RESOURCE_ADDED" value="ތިރީގަ މިވާ ތަކެތި އިތުރުކުރެވިއްޖެ"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="ޔަގީންތަ؟" />
@@ -178,8 +202,11 @@
 			<text id="FNF" value="ފައިލް ނުފެނުނު" />
 			<text id="ACTION_FAILED" value="ހަރަކާތް ފޭލުވެއްޖެ!" />
 			<text id="INVALID_TRANSLATION_FORMAT" value="{1}ތަރުޖަމާ ފޯމެޓް ކަމަކުނުދޭ: "   />
+			<text id="INVALID_RECITATION_FORMAT" value="{1}ކިޔެވުން ފޯމެޓް ކަމަކުނުދޭ: "   />
+			<text id="NEWER_VERSION_INSTALLED" value="Resource '{1}' is out of date (updated on: {2}). A newer version ({3}) is already installed." />
 			<text id="INVALID_TRANSLATION_SIGNATURE" value="{1}ސިގްނޭޗަރ ކަމަކުނުދޭ: "   />
 			<text id="TRANSLATION_LOAD_FAILED" value="{2}މި ސަބަބުތަކާހުރެ ތަރުޖަމާ ލޯޑެއް ނުކުރެވުނު: "   />
+			<text id="RECITATION_LOAD_FAILED" value="Loading recitation '{1}' failed because of the following error: {2}"   />
 			<text id="ENTER_VALID_NUMBER" value="ރަނގަޅު އަދަދެއް ލިޔޭ"   />
 			<text id="NUMBER_LIMIT" value="{1} އަކާ {2} އާއި ދެމެދުގެ އަދަދެއް ޖަހާ"   />
 		</error>
@@ -211,6 +238,7 @@
 			<text id="THEME_OPTIONS" value="ތީމް" />
 			<text id="GENERAL_OPTIONS" value="އާންމު" />
 			<text id="VIEW_OPTIONS" value="ފެންނަ ގޮތް" />
+			<text id="AUDIO_OPTIONS" value="Audio" />
 			<text id="TITLE" value="ޕްރޮގްރާމް އޮޕްޝަންސް" />
 			<text id="SHOW_SPLASH" value="ފަށާއިރު ލޯގޯ ދައްކާ" />
 			<text id="NEW_KEY" value="އާ ކީ ޖަހާ" />
@@ -226,6 +254,10 @@
 			<text id="T13N" value="ޓްރާންސްލިޓަރޭޝަން (ލިބެން ހުރިނަމަ) "   />
 			<text id="ENABLE_AUDIO" value="އަޑު ޖައްސާ"   />
 			<text id="SURA_NAME_TREE" value="ާސޫރަތްތަކުގެ ނަންތައް 'ޓްރީ' އެއް ގޮތުގަ ދައްކ"   />
+			<text id="SMART" value="ސްމާޓް" />
+      <text id="ALWAYS" value="އަބަދުވެސް" />
+      <text id="NEVER" value="އެއްވެސް އިރަކުނޫން" />
+      <text id="PLAY_MODE" value="ޕްލޭ ކުރާގޮޔް" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="ހޯދަންވީ ސަރަހައްދު ކޮނފިގަކުރޭ" />
@@ -280,6 +312,12 @@
 			<text id="AVAILABLE" value="ލިބެންހުރި ތަރުޖަމާތައް" />
 			<text id="CURRENT" value="ބޭނުންކުރަމުންދާ ތަރުޖަމާތައް" />
 		</form>
+		<form id="ADDON_MANAGER">
+			<text id="REMOVE_CUSTOM" value="ރިސޯސް އުނިކުރޭ" />
+			<text id="ADD_CUSTOM" value="ރިސޯސް އިތުރުކުރޭ" />
+			<text id="TITLE" value="އެޑްއޮން މެނޭޖަރ" />
+			<text id="CURRENT" value="އިނސްޓޯލް ކޮއްފަހުރި ރިސޯސްތައް" />
+		</form>
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="މަޑުކޮށްލާ" />
 			<text id="INDEXING" value="އިންޑެކްސް ކުރަނީ" /><!-- The process of indexing a document for faster search -->
@@ -310,11 +348,34 @@
 		<form id="PAGING_MODE">
 			<text id="TITLE" value="ސަފްޙާ ކުރާގޮތް"   />
 			<text id="SURA" value="ސޫރަތް"   />
-			<text id="HIZB_QUARTER" value=" ۞ ­ربع الحزب"   />
+			<text id="HIZB_QUARTER" value="۞ ­ربع الحزب"   />
 			<text id="JUZ" value="ފޮތް"   />
 			<text id="CONST_AYA" value="ކޮންސްޓަންޓް އާޔަތް އަދަދު"   />
 			<text id="CUSTOM" value="އަމިއްލަ"   />
 			<text id="AYA_PER_SURA" value="ކޮންމެ ސަފްޙާއެއްގައި ކިތައް އާޔަތް ހިމަނަންވީ؟"   />
 		</form>
+		<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="އޯޑިއޯ ޕލެޔަރ"   />
+			<text id="SECOND_ABBR" value="ސ"   /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECONDS" value="ސިކުންތު"   /> <!--  tooltip for 's' (SECOND_ABBR) -->
+			<text id="INTERVAL" value="ދަނޑިވަޅު"   />
+			<text id="REPEAT" value="ރިޕީޓް"   />
+			<text id="NO_INTERVAL" value="ނުހުއްޓާ"   />
+			<text id="NO_REPEAT" value="ރިޕީޓް ނުކުރޭ"   />
+            <text id="VOLUME" value="އަޑުބާރުމިން"   />
+            <text id="TIMES" value="{1} ފަހަރު"   />
+            <text id="PLAY_SCOPE" value="ކުޅެންވީ ތަން"   />
+		</form>
+        <form id="GOTO_FORM">
+            <text id="TITLE" value="ދާންވީތަން"   />
+            <text id="GOTO" value="ދާންވީތަން"   />
+            <text id="REVIEW" value="ރިވިއު"   />
+            <text id="JUZ" value="Juz"   />
+            <text id="SURA_ORDER" value="ސޫރަތް ތަރުތީބު"   />
+            <text id="HIZB_QUARTER" value="۞ ­ربع الحزب"   />
+            <text id="SURA_AYA" value="Sura:Aya (e.g. 33:70)"   />
+            <text id="NORMAL" value="ނޯމަލް"   />
+            <text id="REVELATION" value="Revelation ({1})"   />
+        </form>
 	</forms>
 </language>

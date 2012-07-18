@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language author="أحمد المحمودي,محمد بشير النعيمي" version="0.7">
+<language author="أحمد المحمودي,محمد بشير النعيمي" version="1.1.0">
 	<locale localizedName="عربي" name="Arabic" id="ar_SY" direction="rtl" />
 	<word>
 		<common>
@@ -113,6 +113,7 @@
 			<text id="PAUSE" value="توقّف مؤقت" />
 			<text id="STOP" value="توقّف" />
 			<text id="RECITATION" value="تلاوة" />
+			<text id="ADDON_MANAGER" value="مدير الإضافات" />
 			<text id="MENU_NEXT_AYA" value="الآية التالية" />
 			<text id="MENU_NEXT_SURA" value="السورية التالية" />
 			<text id="MENU_PREV_AYA" value="الآية السابقة" />
@@ -135,7 +136,7 @@
 			<text id="PAGING_MODE" value="نظام الصفحة" />
 			<text id="PANEL" value="لوحة" />
 			<text id="DETAIL_PANEL" value="لوحة التفاصيل" />
-			<text id="REPEAT" value="Repeat" />
+			<text id="REPEAT" value="تكرار" />
 			<text id="ROOT" value="جذر" />
 			<text id="ADDRESS" value="عنوان" />
 			<text id="BOOKMARK_THIS_AYA" value="أضف الآية للإشارات المرجعية" />
@@ -146,6 +147,15 @@
 			<text id="RECITER" value="القارئ"   />
             <text id="ONLINE" value="متصل"   />
             <text id="OFFLINE" value="غير متصل"   />
+            <text id="SMALLER" value="أصغر"   />
+            <text id="LARGER" value="أكبر"   />
+            <text id="SCOPED_SEARCH" value="بحث محدود"   />
+            <text id="DOCK_MODE" value="وضع المشغل"   />
+            <text id="FLOAT" value="طفر"   />
+            <text id="TASKPANE" value="الشريط الجانبي"   />
+            <text id="TOP" value="أعلى"   />
+            <text id="BOTTOM" value="أسفل"   />
+            <text id="HIDE_WHEN_MINIMIZED" value="Hide When Minimized"   />
 		</common>
 		<special>
 			<text id="QURAN" value="قرآن" />
@@ -156,6 +166,7 @@
 			<text id="JUZ" value="جزء" />
 			<text id="HIZB" value="حزب" />
 			<text id="QUARTER" value="ربع" />
+            <text id="HIZB_QUARTER" value="ربع حزب"   />
 			<text id="MAKKI" value="مكي" />
 			<text id="MADANI" value="مدني" />
 			<text id="DESCENT" value="نزول" />
@@ -163,6 +174,9 @@
 			<text id="MINOR_SAJDA" value="سجدة مستحبة" /> <!-- Mustahab Sajda -->
 			<text id="MAJOR_SAJDA" value="سجدة واجبة" /> <!-- Wajib Sajda -->
 			<text id="LOCATION" value="مسار" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+            <text id="AUDHUBILLAH" value="استعاذة"   />
+            <text id="BISMILLAH" value="بسمله"   />
+            <text id="SADAGHALLAH" value="صدق الله"   />
 		</special>
 	</word>
 
@@ -177,6 +191,7 @@
 			<text id="ACTION_PERFORMED" value="تم انجاز المهمة بنجاح." />
 			<text id="TRANSLATION_ADDED" value="الترجمة التالية تم اضافتها للقائمة {1}" />
 			<text id="RECITATION_ADDED" value="التلاوات التالية تمت اضافتها للقائمة {1}"   />
+			<text id="RESOURCE_ADDED" value="المورد التالي تم اضافته"   />
 		</inform>
 		<confirm>
 			<text id="YES_NO" value="هل أنت متأكد؟" />
@@ -190,8 +205,8 @@
 			<text id="INVALID_RECITATION_FORMAT" value="صيغة تلاوة غير صالحة: {1}"   />
 			<text id="NEWER_VERSION_INSTALLED" value="هنالك اصدار جديد من {1} (تم تحديثه في {2}) . اصدار جديد {3} تم تنصيبه بالفعل" />
 			<text id="INVALID_TRANSLATION_SIGNATURE" value="توقيع ترجمة غير صالح: {1}" />
-			<text id="TRANSLATION_LOAD_FAILED" value="تحميل الترجمة &quot;{1}&quot; فشل بسبب الخطأ التاليr2}" />
-			<text id="RECITATION_LOAD_FAILED" value="Loading recitation '{1}' failed because of the following error: {2}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="تحميل الترجمة '{1}' فشل بسبب الخطأ التالي: {2}" />
+			<text id="RECITATION_LOAD_FAILED" value="تحميل التلاوة '{1}' فشل بسبب الخطأ التالي: {2}"   />
 			<text id="ENTER_VALID_NUMBER" value="قم بادخال رقم صالح." />
 			<text id="NUMBER_LIMIT" value="قم بادخال رقم بين '{1}' و '{2}'." />
 		</error>
@@ -217,12 +232,13 @@
 			<text id="RELEVANCE" value="صلة" />
 			<text id="AYA_LENGTH" value="طول الآية" />
 			<text id="SORT_BY" value="ترتيب حسب" />
-			<text id="TOGGLE_FULL_SCREEN" value="Toggle full screen" />
+			<text id="TOGGLE_FULL_SCREEN" value="شاشة كاملة/عادية" />
 		</form>
 		<form id="OPTIONS_FORM">
 			<text id="THEME_OPTIONS" value="سمة" />
 			<text id="GENERAL_OPTIONS" value="عام" />
 			<text id="VIEW_OPTIONS" value="عرض" />
+            <text id="AUDIO_OPTIONS" value="صوتي" />
 			<text id="TITLE" value="خيارات البرنامج" />
 			<text id="SHOW_SPLASH" value="عرض الشاشة الترحيبية عند التشغيل" />
 			<text id="NEW_KEY" value="أدخل مفتاحا جديدا" />
@@ -238,6 +254,10 @@
 			<text id="T13N" value="بأحرف انكليزية في حال التوفر" />
 			<text id="ENABLE_AUDIO" value="تشغيل الصوت" />
 			<text id="SURA_NAME_TREE" value="شجرة أسماء السور" />
+            <text id="SMART" value="ذكي" />
+            <text id="ALWAYS" value="دائماً" />
+            <text id="NEVER" value="مطلقاً" />
+            <text id="PLAY_MODE" value="وضع تلاوة" />
 		</form>
 		<form id="SEARCH_SCOPE_FORM">
 			<text id="TITLE" value="إعداد مجال البحث" />
@@ -292,6 +312,12 @@
 			<text id="AVAILABLE" value="الترجمات متاحة" />
 			<text id="CURRENT" value="الترجمات حالية" />
 		</form>
+		<form id="ADDON_MANAGER">
+			<text id="REMOVE_CUSTOM" value="حذف مورد" />
+			<text id="ADD_CUSTOM" value="إضافة مورد" />
+			<text id="TITLE" value="مدير الإضافات" />
+			<text id="CURRENT" value="الموارد المثبتة حالياً" />
+		</form>
 		<form id="PROGRESS">
 			<text id="PLEASE_WAIT" value="إنتظر من فضلك" />
 			<text id="INDEXING" value="فهرسة" /><!-- The process of indexing a document for faster search -->
@@ -326,7 +352,7 @@
 			<text id="JUZ" value="جزء" />
 			<text id="CONST_AYA" value="عدد آيات" />
 			<text id="CUSTOM" value="تفصيل" />
-			<text id="AYA_PER_SURA" value="How many ayas should appear in each page?"   />
+			<text id="AYA_PER_SURA" value="عدد الآيات التي تظهر في الصفحة؟"   />
 		</form>
 		<form id="AUDIO_PLAYER_FORM">
 			<text id="TITLE" value="قارئ التلاوة"   />
@@ -336,6 +362,20 @@
 			<text id="REPEAT" value="تكرار"   />
 			<text id="NO_INTERVAL" value="بدون فاصل زمني"   />
 			<text id="NO_REPEAT" value="بدون تكرار"   />
+            <text id="VOLUME" value="جهارة"   />
+            <text id="TIMES" value="{1} مرات"   />
+            <text id="PLAY_SCOPE" value="نطاق التشغيل"   />
 		</form>
+        <form id="GOTO_FORM">
+            <text id="TITLE" value="ذهاب إلى"   />
+            <text id="GOTO" value="ذهاب إلى"   />
+            <text id="REVIEW" value="استعراض"   />
+            <text id="JUZ" value="جزء"   />
+            <text id="SURA_ORDER" value="ترتيب السورة"   />
+            <text id="HIZB_QUARTER" value="ربع حزب"   />
+            <text id="SURA_AYA" value="سورة:آية (مثال 33:70)"   />
+            <text id="NORMAL" value="عادي"   />
+            <text id="REVELATION" value="نزول ({1})"   />
+        </form>
 	</forms>
 </language>
