@@ -66,10 +66,10 @@ public class SearchResultNavigator {
 		paginationComp.setVisible(false);
 
 		final boolean isRTL = lang.getSWTDirection() == SWT.RIGHT_TO_LEFT && GlobalConfig.hasBidiSupport;
-		final Image prevPageImg = new Image(display, isRTL ? resource.getString("icon.nextNext") : resource
-				.getString("icon.prevPrev"));
-		final Image nextPageImg = new Image(display, isRTL ? resource.getString("icon.prevPrev") : resource
-				.getString("icon.nextNext"));
+		final Image prevPageImg = new Image(display, isRTL ? resource.getString("icon.nextNext")
+				: resource.getString("icon.prevPrev"));
+		final Image nextPageImg = new Image(display, isRTL ? resource.getString("icon.prevPrev")
+				: resource.getString("icon.nextNext"));
 
 		gd = new GridData(SWT.FILL, SWT.CENTER, true, true);
 		prevPageBut = new Button(paginationComp, SWT.PUSH);
@@ -140,4 +140,9 @@ public class SearchResultNavigator {
 		pageSpinner.setSelection(1);
 		pageNavigator.gotoPage(0); // 0 = first page
 	}
+
+	public void dispose() {
+		paginationComp.dispose();
+	}
+
 }
