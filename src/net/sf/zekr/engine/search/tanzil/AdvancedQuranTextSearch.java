@@ -87,7 +87,7 @@ public class AdvancedQuranTextSearch extends AbstractSearcher {
 		setSearchScope(null);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected SearchResultModel doSearch(String rawQuery) throws SearchException {
 		try {
 			logger.debug("Searching for query: " + rawQuery);
@@ -101,7 +101,7 @@ public class AdvancedQuranTextSearch extends AbstractSearcher {
 			String pattern = enricher.enrich(rawQuery);
 
 			String highlightPattern = pattern.replaceAll("[+!]", "|");
-			highlightPattern.replaceAll("^[|]+", "").replaceAll("!", ""); // remove leading '|'s
+			highlightPattern = highlightPattern.replaceAll("^[|]+", "").replaceAll("!", ""); // remove leading '|'s
 			logger.debug("Rewritten query: " + pattern);
 
 			pattern = StringUtils.replace(pattern, "!", "+!");
@@ -160,8 +160,8 @@ public class AdvancedQuranTextSearch extends AbstractSearcher {
 	 * @param highlightPattern
 	 * @param patternCount
 	 */
-	@SuppressWarnings("unchecked")
-	private void scoreSearchResult(List resultItems, String highlightPattern, int patternCount) {
+	@SuppressWarnings("rawtypes")
+   private void scoreSearchResult(List resultItems, String highlightPattern, int patternCount) {
 		for (int i = 0; i < resultItems.size(); i++) {
 			SearchResultItem sri = (SearchResultItem) resultItems.get(i);
 			sri.score = searchScorer.score(sri);
@@ -170,7 +170,7 @@ public class AdvancedQuranTextSearch extends AbstractSearcher {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private List filterBucket(List intermediateResult, String pattern, boolean exclude, boolean firstTime,
 			PatternEnricher enricher) throws SearchException {
 		try {
