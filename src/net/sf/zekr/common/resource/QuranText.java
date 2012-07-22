@@ -15,7 +15,6 @@ import java.io.RandomAccessFile;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.engine.translation.TranslationData;
 
 import org.apache.commons.collections.MapUtils;
 

@@ -13,7 +13,6 @@ import java.io.IOException;
 import net.sf.zekr.common.resource.filter.IQuranFilter;
 import net.sf.zekr.common.resource.filter.QuranFilterContext;
 import net.sf.zekr.common.resource.filter.QuranWriterFilter;
-import net.sf.zekr.engine.translation.TranslationData;
 
 /**
  * @author Mohsen Saboorian
