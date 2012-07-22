@@ -101,6 +101,7 @@ public class QuestionPromptForm extends BaseForm {
 						progessBar.setSelection(p);
 					} else if (EventProtocol.IMPORT_PROGRESS_DONE.equals(event.data)
 							|| EventProtocol.IMPORT_PROGRESS_FAILED.equals(event.data)) {
+						
 						if (EventProtocol.IMPORT_PROGRESS_DONE.equals(event.data)) {
 							progessBar.setSelection(100);
 						}

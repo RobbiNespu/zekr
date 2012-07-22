@@ -20,7 +20,6 @@ import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -451,7 +450,11 @@ public class MessageBoxUtils {
 		fd.setFilterExtensions(filterWildcards); // Windows wild card
 		fd.setText(lang.getMeaning("OPEN"));
 
-		FileFilter fileFilter = new WildcardFileFilter(filterWildcards);
+		
+		FileFilter fileFilter = new WildcardFileFilter(filterWildcards[0].split(";"));
+		//this needs to be like this due to a mismatch between the WildcardFileFilter concept
+		//of multi-extension wild card and the one use in the file dialog.
+		
 		List<File> fileList = new ArrayList<File>();
 
 		String res = fd.open();

@@ -10,9 +10,11 @@ package net.sf.zekr.ui;
 
 import net.sf.zekr.common.config.ResourceManager;
 import net.sf.zekr.ui.helper.EventProtocol;
+import net.sf.zekr.ui.helper.FormUtils;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TaskItem;
 
 /**
  * @author Mohsen Saboorian
@@ -44,4 +46,9 @@ public abstract class BaseForm extends ZekrForm implements EventProtocol {
 	public Display getDisplay() {
 		return display;
 	}
+
+	public TaskItem getTaskBarItem() {
+		return FormUtils.getTaskBarItem(display, shell);
+	}
+
 }
