@@ -32,197 +32,218 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TaskItem;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * Zekr update manager. This class is capable of checking for new updates available on the remote site of
- * Zekr.
+ * Zekr update manager. This class is capable of checking for new updates available on the remote site of Zekr.
  * 
  * @author Mohsen Saboorian
  */
 public class UpdateManager {
-	final private Logger logger = Logger.getLogger(this.getClass());
-	final private ApplicationConfig config = ApplicationConfig.getInstance();
-	final LanguageEngine lang = LanguageEngine.getInstance();
-	final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	final PropertiesConfiguration props = config.getProps();
+   public enum State {
+      IDLE, CHECKING
+   }
 
-	private Display display;
-	private QuranForm quranForm;
+   final private Logger logger = Logger.getLogger(this.getClass());
+   final private ApplicationConfig config = ApplicationConfig.getInstance();
+   final LanguageEngine lang = LanguageEngine.getInstance();
+   final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+   final PropertiesConfiguration props = config.getProps();
 
-	public boolean updateCheckFinished = false;
-	public boolean updateCheckFailed = false;
-	protected Exception failureCause;
-	private UpdateInfo updateInfo;
+   private Display display;
+   private QuranForm quranForm;
 
-	public UpdateManager(QuranForm quranForm) {
-		this.quranForm = quranForm;
-		display = quranForm.getDisplay();
-	}
+   public boolean updateCheckFinished = false;
+   public boolean updateCheckFailed = false;
+   protected Exception failureCause;
+   private UpdateInfo updateInfo;
+   private State state = State.IDLE;
 
-	/**
-	 * Checks whether this is time for checking for a new update.
-	 * 
-	 * @return <code>true</code> if this is the time for checking, <code>false</code> otherwise.
-	 */
-	public boolean isCheckNeeded() {
-		try {
-			Date lastUpdate = dateFormat.parse(config.getProps().getString("update.lastCheck", "01-01-2008"));
-			long interval = props.getInt("update.checkInterval", 14);
-			Date today = new Date();
-			long diffInMillis = today.getTime() - lastUpdate.getTime();
-			long days = diffInMillis / 86400000; // 24 * 60 * 60 * 1000
-			if (days >= interval) {
-				return true;
-			}
-		} catch (ParseException e) {
-			logger.implicitLog(e);
-		}
-		return false;
-	}
+   public UpdateManager(QuranForm quranForm) {
+      this.quranForm = quranForm;
+      display = quranForm.getDisplay();
+   }
 
-	public boolean check(final boolean manual) {
-		if (quranForm.getShell() == null || quranForm.getShell().isDisposed()) {
-			logger.warn("Cannot check for update as main shell is disposed.");
-		}
-		display.asyncExec(new Runnable() {
-			public void run() {
-				try {
-					logger.debug("Start update checking in a separate thread.");
+   /**
+    * Checks whether this is time for checking for a new update.
+    * 
+    * @return <code>true</code> if this is the time for checking, <code>false</code> otherwise.
+    */
+   public boolean isCheckNeeded() {
+      if (state != State.IDLE) {
+         // a checking is already started
+         return false;
+      }
+      try {
+         Date lastUpdate = dateFormat.parse(config.getProps().getString("update.lastCheck", "01-01-2008"));
+         long interval = props.getInt("update.checkInterval", 14);
+         Date today = new Date();
+         long diffInMillis = today.getTime() - lastUpdate.getTime();
+         long days = diffInMillis / 86400000; // 24 * 60 * 60 * 1000
+         if (days >= interval) {
+            return true;
+         }
+      } catch (ParseException e) {
+         logger.implicitLog(e);
+      }
+      return false;
+   }
 
-					if (manual) {
-						display.asyncExec(new ProgressThread(display, checkThread));
-					} else {
-						try {
-							Thread.sleep(2000); // wait some seconds to ensure that application is fully started up
-						} catch (InterruptedException e) {
-							// damp exception
-						}
-					}
+   public boolean check(final boolean manual) {
+      if (quranForm == null || quranForm.getShell() == null || quranForm.getShell().isDisposed()) {
+         logger.warn("Cannot check for update as main shell is disposed.");
+      }
+      display.asyncExec(new Runnable() {
+         public void run() {
+            try {
+               state = State.CHECKING;
+               logger.debug("Start update checking in a separate thread.");
 
-					checkThread.setDaemon(true);
-					checkThread.start();
+               TaskItem tbi = FormUtils.getTaskBarItem(display, quranForm.getShell());
+               if (tbi != null) {
+                  tbi.setProgressState(SWT.INDETERMINATE);
+               }
 
-					while (checkThread.isAlive()) {
-						if (!display.readAndDispatch()) {
-							display.sleep();
-						}
-					}
+               if (manual) {
+                  display.asyncExec(new ProgressThread(display, checkThread));
+               } else {
+                  try {
+                     Thread.sleep(2000); // wait some seconds to ensure that application is fully started up
+                  } catch (InterruptedException e) {
+                     // damp exception
+                  }
+               }
 
-					// set new update time regardless of the success or failure of check4update process
-					props.setProperty("update.lastCheck", dateFormat.format(new Date()));
+               checkThread.setDaemon(true);
+               checkThread.start();
 
-					// update checking should either fail (updateCheckFailed = true), or finish (updateCheckFinished)!
-					if (manual && updateCheckFailed) {
-						MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + failureCause);
-					} else if (updateCheckFinished) {
-						String msg;
-						if (Long.parseLong(updateInfo.build) > Long.parseLong(GlobalConfig.ZEKR_BUILD_NUMBER)) {
-							if (updateInfo.status.equals(UpdateInfo.BETA_RELEASE)) {
-								msg = meaning("NEW_BETA_AVAILABLE");
-							} else if (updateInfo.status.equals(UpdateInfo.FINAL_RELEASE)) {
-								msg = meaning("NEW_FINAL_AVAILABLE");
-							} else { // if (updateInfo.status.equals(UpdateInfo.DEV_RELEASE))
-								msg = meaning("NEW_DEV_AVAILABLE");
-							}
-							updateInfo.message = msg + ": " + updateInfo.fullName;
-							UpdateForm uf = new UpdateForm(updateInfo, quranForm.getShell());
-							Shell ufs = uf.getShell();
-							FormUtils.limitSize(ufs, 500, 380);
-							ufs.setLocation(FormUtils.getCenter(quranForm.getShell(), ufs));
-							uf.show();
-						} else {
-							if (manual) {
-								MessageBoxUtils.show(meaning("NO_UPDATE"), meaning("TITLE"), SWT.NONE);
-							}
-						}
-					}
-				} catch (Exception e) {
-					logger.error("Error occurred while checking for update.");
-					logger.implicitLog(e);
-				}
-			}
-		});
+               while (checkThread.isAlive()) {
+                  if (!display.readAndDispatch()) {
+                     display.sleep();
+                  }
+               }
 
-		return updateCheckFinished;
-	}
-	private class ProgressThread extends Thread {
-		private Thread updateThread;
-		private Display display;
+               // set new update time regardless of the success or failure of check4update process
+               props.setProperty("update.lastCheck", dateFormat.format(new Date()));
 
-		public ProgressThread(Display display, Thread updateThread) {
-			this.display = display;
-			this.updateThread = updateThread;
-		}
+               if (tbi != null) {
+                  tbi.setProgressState(SWT.DEFAULT);
+               }
 
-		public void run() {
-			ProgressForm pf = new ProgressForm(MessageBoxUtils.getShell(display), meaning("PLEASE_WAIT"), meaning("CHECKING")
-					+ "..." + "\n\n" + meaning("ZEKR_IS_CHECKING"));
-			pf.show();
-			while (!pf.getShell().isDisposed()) {
-				if (updateCheckFinished || updateCheckFailed) {
-					EventUtils.sendEvent(EventProtocol.END_WAITING);
-				}
-				if (!pf.getDisplay().readAndDispatch()) {
-					pf.getDisplay().sleep();
-				}
-			}
-			if (pf.getState() == ProgressForm.CALCELED && !updateThread.isInterrupted()) {
-				logger.debug("Update checking cancelled by user.");
-				updateThread.interrupt();
-			}
-		}
+               // update checking should either fail (updateCheckFailed = true), or finish (updateCheckFinished)!
+               if (manual && updateCheckFailed) {
+                  MessageBoxUtils.showError(lang.getMeaning("ACTION_FAILED") + "\n" + failureCause);
+               } else if (updateCheckFinished) {
+                  String msg;
+                  if (Long.parseLong(updateInfo.build) > Long.parseLong(GlobalConfig.ZEKR_BUILD_NUMBER)) {
+                     if (updateInfo.status.equals(UpdateInfo.BETA_RELEASE)) {
+                        msg = meaning("NEW_BETA_AVAILABLE");
+                     } else if (updateInfo.status.equals(UpdateInfo.FINAL_RELEASE)) {
+                        msg = meaning("NEW_FINAL_AVAILABLE");
+                     } else { // if (updateInfo.status.equals(UpdateInfo.DEV_RELEASE))
+                        msg = meaning("NEW_DEV_AVAILABLE");
+                     }
+                     updateInfo.message = msg + ": " + updateInfo.fullName;
+                     UpdateForm uf = new UpdateForm(updateInfo, quranForm.getShell());
+                     Shell ufs = uf.getShell();
+                     FormUtils.limitSize(ufs, 500, 380);
+                     ufs.setLocation(FormUtils.getCenter(quranForm.getShell(), ufs));
+                     uf.show();
+                  } else {
+                     if (manual) {
+                        MessageBoxUtils.show(meaning("NO_UPDATE"), meaning("TITLE"), SWT.NONE);
+                     }
+                  }
+               }
+            } catch (Exception e) {
+               logger.error("Error occurred while checking for update.");
+               logger.implicitLog(e);
+            } finally {
+               state = State.IDLE;
+            }
+         }
+      });
 
-		String meaning(String key) {
-			return lang.getMeaningById("PROGRESS", key);
-		}
-	}
+      return updateCheckFinished;
+   }
+   private class ProgressThread extends Thread {
+      private Thread updateThread;
+      private Display display;
 
-	private Thread checkThread = new Thread() {
-		public void run() {
-			try {
-				String uri = GlobalConfig.UPDATE_SITE + "/update-info.xml";
-				logger.info("Checking for any update on the remote site: " + uri);
-				InputStream is;
-				is = FileUtils.getContent(uri);
+      public ProgressThread(Display display, Thread updateThread) {
+         this.display = display;
+         this.updateThread = updateThread;
+      }
 
-				logger.debug("Parse update info XML.");
-				XmlReader xr = new XmlReader(is);
-				is.close();
+      public void run() {
+         ProgressForm pf = new ProgressForm(MessageBoxUtils.getShell(display), meaning("PLEASE_WAIT"), meaning("CHECKING")
+               + "..." + "\n\n" + meaning("ZEKR_IS_CHECKING"));
+         pf.show();
+         while (!pf.getShell().isDisposed()) {
+            if (updateCheckFinished || updateCheckFailed) {
+               EventUtils.sendEvent(EventProtocol.END_WAITING);
+            }
+            if (!pf.getDisplay().readAndDispatch()) {
+               pf.getDisplay().sleep();
+            }
+         }
+         if (pf.getState() == ProgressForm.CALCELED && !updateThread.isInterrupted()) {
+            logger.debug("Update checking cancelled by user.");
+            updateThread.interrupt();
+         }
+      }
 
-				Element root = xr.getDocumentElement();
-				updateInfo = new UpdateInfo();
-				updateInfo.fullName = root.getAttribute("fullName").trim();
-				updateInfo.version = root.getAttribute("version").trim();
-				updateInfo.status = root.getAttribute("status").trim();
-				updateInfo.build = root.getAttribute("build").trim();
-				updateInfo.downloadUrl = root.getAttribute("downloadUrl").trim();
-				updateInfo.noteUrl = root.getAttribute("noteUrl").trim();
-				try {
-					updateInfo.releaseDate = dateFormat.parse(root.getAttribute("date").trim());
-				} catch (ParseException e) {
-					logger.debug("Unable to parse date: " + root.getAttribute("date"));
-					// do nothing!
-				}
-				NodeList infoList = root.getElementsByTagName("info");
-				if (infoList.getLength() > 0) {
-					NodeList cn = infoList.item(0).getChildNodes();
-					if (cn.getLength() > 0) {
-						updateInfo.info = cn.item(0).getNodeValue();
-					}
-				}
-				updateCheckFinished = true;
-			} catch (Exception e) {
-				updateCheckFailed = true;
-				failureCause = e;
-				logger.error("Zekr failed to check for updates.");
-				logger.implicitLog(e);
-			}
-		}
-	};
+      String meaning(String key) {
+         return lang.getMeaningById("PROGRESS", key);
+      }
+   }
 
-	private String meaning(String key) {
-		return lang.getMeaningById("UPDATE", key);
-	}
+   private Thread checkThread = new Thread() {
+      public void run() {
+         try {
+            String uri = GlobalConfig.UPDATE_SITE + "/update-info.xml";
+            logger.info("Checking for any update on the remote site: " + uri);
+            InputStream is;
+            is = FileUtils.getContent(uri);
+
+            logger.debug("Parse update info XML.");
+            XmlReader xr = new XmlReader(is);
+            is.close();
+
+            Element root = xr.getDocumentElement();
+            updateInfo = new UpdateInfo();
+            updateInfo.fullName = root.getAttribute("fullName").trim();
+            updateInfo.version = root.getAttribute("version").trim();
+            updateInfo.status = root.getAttribute("status").trim();
+            updateInfo.build = root.getAttribute("build").trim();
+            updateInfo.downloadUrl = root.getAttribute("downloadUrl").trim();
+            updateInfo.noteUrl = root.getAttribute("noteUrl").trim();
+            try {
+               updateInfo.releaseDate = dateFormat.parse(root.getAttribute("date").trim());
+            } catch (ParseException e) {
+               logger.debug("Unable to parse date: " + root.getAttribute("date"));
+               // do nothing!
+            }
+            NodeList infoList = root.getElementsByTagName("info");
+            if (infoList.getLength() > 0) {
+               NodeList cn = infoList.item(0).getChildNodes();
+               if (cn.getLength() > 0) {
+                  updateInfo.info = cn.item(0).getNodeValue();
+               }
+            }
+            updateCheckFinished = true;
+         } catch (Exception e) {
+            updateCheckFailed = true;
+            failureCause = e;
+            logger.error("Zekr failed to check for updates.");
+            logger.implicitLog(e);
+         }
+      }
+   };
+
+   private String meaning(String key) {
+      return lang.getMeaningById("UPDATE", key);
+   }
 }
