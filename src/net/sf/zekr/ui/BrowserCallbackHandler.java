@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.security.auth.login.AppConfigurationEntry;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.FilteredQuranText;
@@ -104,7 +102,7 @@ public class BrowserCallbackHandler {
 			IQuranLocation loc = QuranPropertiesUtils.getLocation((String) args[1]);
 			boolean play = Boolean.parseBoolean((String) args[2]);
 			if (play) {
-				PlayableObject playableObject = config.getAudioCacheManager().getPlayableObject(loc);
+				PlayableObject playableObject = config.getAudioCacheManager().getPlayableObject(loc, 0);
 				if (playableObject == null) {
 					logger.error("Search result audio for this location cannot be loaded: " + loc);
 				} else {

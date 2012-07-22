@@ -17,271 +17,334 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.commons.lang.StringUtils;
-
-import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.AbstractQuranText;
 import net.sf.zekr.common.resource.QuranProperties;
 import net.sf.zekr.common.util.CryptoUtils;
 import net.sf.zekr.common.util.I18N;
+import net.sf.zekr.engine.addonmgr.AddOnManagerUtils;
+import net.sf.zekr.engine.addonmgr.Resource;
+import net.sf.zekr.engine.common.LocalizedResource;
 import net.sf.zekr.engine.common.Signable;
 import net.sf.zekr.engine.log.Logger;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Mohsen Saboorian
  */
-public class TranslationData extends AbstractQuranText implements Signable {
-	private static final Logger logger = Logger.getLogger(TranslationData.class);
+public class TranslationData extends AbstractQuranText implements Signable, Resource {
+   private static final Logger logger = Logger.getLogger(TranslationData.class);
 
-	/** Translation Id. */
-	public String id;
+   /** Translation Id. */
+   public String id;
 
-	/** Translation English name */
-	public String name;
+   /** Translation English name */
+   public String name;
 
-	/** Translation localized name */
-	public String localizedName;
+   /** Translation localized name */
+   public String localizedName;
 
-	/** Language (locale) Id (e.g. en_US) */
-	public Locale locale;
+   /** Language (locale) Id (e.g. en_US) */
+   public Locale locale;
 
-	/** Text direction: ltr or rtl */
-	public String direction;
+   /** Text direction: ltr or rtl */
+   public String direction;
 
-	/** String encoding */
-	public String encoding;
+   /** String encoding */
+   public String encoding;
 
-	/** Line delimiter String (each line contains an aya) */
-	public String delimiter;
+   /** Line delimiter String (each line contains an aya) */
+   public String delimiter;
 
-	public File archiveFile;
+   public File archiveFile;
 
-	/** Text file name */
-	public String file;
+   /** Text file name */
+   public String file;
 
-	private String[][] transText;
-	private String[] fullTransText;
+   private String[][] transText;
+   private String[] fullTransText;
 
-	/** signature of the text file */
-	public byte[] signature;
+   /** signature of the text file */
+   public byte[] signature;
 
-	public boolean verified = false;
-	private boolean loaded = false;
+   public boolean verified = false;
+   private boolean loaded = false;
 
-	/** descriptor version */
-	public String version;
+   /** descriptor version */
+   public String version;
 
-	private int verificationResult = UNKNOWN;
+   private int verificationResult = UNKNOWN;
 
-	public TranslationData() {
-	}
+   private LocalizedResource localizedResource;
+   private File resourceFile;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.util.IQuranText#get(int, int)
-	 */
-	public String get(int suraNum, int ayaNum) {
-		return transText[suraNum - 1][ayaNum - 1];
-	}
+   public TranslationData() {
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.util.IQuranText#getSura(int)
-	 */
-	public String[] getSura(int suraNum) {
-		return transText[suraNum - 1];
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see net.sf.zekr.common.util.IQuranText#get(int, int)
+    */
+   public String get(int suraNum, int ayaNum) {
+      return transText[suraNum - 1][ayaNum - 1];
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.util.IQuranText#getFullText()
-	 */
-	public String[][] getFullText() {
-		return transText;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see net.sf.zekr.common.util.IQuranText#getSura(int)
+    */
+   public String[] getSura(int suraNum) {
+      return transText[suraNum - 1];
+   }
 
-	public String toString() {
-		return id + "(" + locale + "):(" + archiveFile.getName() + ")";
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see net.sf.zekr.common.util.IQuranText#getFullText()
+    */
+   public String[][] getFullText() {
+      return transText;
+   }
 
-	/**
-	 * Loads the tranalation data file, if not already loaded.
-	 */
-	public void load() throws TranslationException {
-		if (!loaded) {
-			Date date1 = new Date();
-			loadAndVerify();
-			Date date2 = new Date();
-			logger.debug("Loading translation \"" + id + "\" took " + (date2.getTime() - date1.getTime()) + " ms.");
-			loaded = true;
-		} else {
-			logger.debug("Translation already loaded: " + id);
-		}
-	}
+   public String toString() {
+      return id + "(" + locale + "):(" + archiveFile.getName() + ")";
+   }
 
-	/**
-	 * Unloads the content of translation in order to let Java free more memory.
-	 */
-	public void unload() {
-		fullTransText = null;
-		transText = null;
-		loaded = false;
-	}
+   /**
+    * Loads the tranalation data file, if not already loaded.
+    */
+   public void load() throws TranslationException {
+      if (!loaded) {
+         Date date1 = new Date();
+         loadAndVerify();
+         Date date2 = new Date();
+         logger.debug("Loading translation \"" + id + "\" took " + (date2.getTime() - date1.getTime()) + " ms.");
+         loaded = true;
+      } else {
+         logger.debug("Translation already loaded: " + id);
+      }
+   }
 
-	private void loadAndVerify() throws TranslationException {
-		ZipFile zf = null;
-		try {
-			logger.info("Loading translation pack " + this + "...");
-			zf = new ZipFile(archiveFile);
-			ZipEntry ze = zf.getEntry(file);
-			if (ze == null) {
-				logger.error("Load failed. No proper entry found in \"" + archiveFile.getName() + "\".");
-				return;
-			}
+   /**
+    * Unloads the content of translation in order to let Java free more memory.
+    */
+   public void unloadTranslationDataFile() {
+      fullTransText = null;
+      transText = null;
+      loaded = false;
+   }
 
-			byte[] textBuf = new byte[(int) ze.getSize()];
-			if (!verify(zf.getInputStream(ze), textBuf))
-				logger.warn("Unauthorized translation data pack: " + this);
-			// throw new TranslationException("INVALID_TRANSLATION_SIGNATURE", new String[] { name });
+   private void loadAndVerify() throws TranslationException {
+      ZipFile zf = null;
+      try {
+         logger.info("Loading translation pack " + this + "...");
+         zf = new ZipFile(archiveFile);
+         ZipEntry ze = zf.getEntry(file);
+         if (ze == null) {
+            logger.error("Load failed. No proper entry found in \"" + archiveFile.getName() + "\".");
+            return;
+         }
 
-			refineText(new String(textBuf, encoding));
+         byte[] textBuf = new byte[(int) ze.getSize()];
+         if (!verify(zf.getInputStream(ze), textBuf))
+            logger.warn("Unauthorized translation data pack: " + this);
+         // throw new TranslationException("INVALID_TRANSLATION_SIGNATURE", new String[] { name });
 
-			logger.log("Translation pack " + this + " loaded successfully.");
-		} catch (IOException e) {
-			logger.error("Problem while loading translation pack " + this + ".");
-			logger.log(e);
-			throw new TranslationException(e);
-		} finally {
-			try {
-				zf.close();
-			} catch (Exception e) {
-				// do nothing
-			}
-		}
-	}
+         refineText(new String(textBuf, encoding));
 
-	/**
-	 * Verify the zip archive and close the zip file handle finally.
-	 * 
-	 * @return <code>true</code> if translation verified, <code>false</code> otherwise.
-	 * @throws IOException
-	 */
-	public boolean verify() throws IOException {
-		ZipFile zf = new ZipFile(archiveFile);
-		ZipEntry ze = zf.getEntry(file);
-		if (ze == null) {
-			logger.error("Load failed. No proper entry found in \"" + archiveFile.getName() + "\".");
-			return false;
-		}
+         logger.log("Translation pack " + this + " loaded successfully.");
+      } catch (IOException e) {
+         logger.error("Problem while loading translation pack " + this + ".");
+         logger.log(e);
+         throw new TranslationException(e);
+      } finally {
+         try {
+            zf.close();
+         } catch (Exception e) {
+            // do nothing
+         }
+      }
+   }
 
-		byte[] textBuf = new byte[(int) ze.getSize()];
-		boolean result;
-		result = verify(zf.getInputStream(ze), textBuf);
-		zf.close();
-		return result;
-	}
+   /**
+    * Verify the zip archive and close the zip file handle finally.
+    * 
+    * @return <code>true</code> if translation verified, <code>false</code> otherwise.
+    * @throws IOException
+    */
+   public boolean verify() throws IOException {
+      ZipFile zf = new ZipFile(archiveFile);
+      ZipEntry ze = zf.getEntry(file);
+      if (ze == null) {
+         logger.error("Load failed. No proper entry found in \"" + archiveFile.getName() + "\".");
+         return false;
+      }
 
-	private boolean verify(InputStream is, byte[] textBuf) throws IOException {
-		BufferedInputStream bis = new BufferedInputStream(is, 262144);
-		bis.read(textBuf, 0, textBuf.length);
+      byte[] textBuf = new byte[(int) ze.getSize()];
+      boolean result;
+      result = verify(zf.getInputStream(ze), textBuf);
+      zf.close();
+      return result;
+   }
 
-		logger.debug("Verifying translation text.");
-		try {
-			verified = CryptoUtils.verify(textBuf, signature);
-		} catch (Exception e) {
-			logger.warn("Error occurred during translation text verification. Text cannot be verified.", e);
-		}
-		if (verified) {
-			logger.debug("Translation is valid");
-			verificationResult = AUTHENTIC;
-		} else {
-			logger.debug("Translation is not valid.");
-			verificationResult = NOT_AUTHENTIC;
-		}
-		return verified;
-	}
+   private boolean verify(InputStream is, byte[] textBuf) throws IOException {
+      BufferedInputStream bis = new BufferedInputStream(is, 262144);
+      bis.read(textBuf, 0, textBuf.length);
 
-	private void refineText(String rawText) {
-		QuranProperties quranProps = QuranProperties.getInstance();
-		String[] sura;
-		fullTransText = rawText.split(delimiter);
-		transText = new String[114][];
-		int ayaTotalCount = 0;
-		for (int i = 0; i < 114; i++) {
-			int ayaCount = quranProps.getSura(i + 1).getAyaCount();
-			sura = new String[ayaCount];
-			for (int j = 0; j < ayaCount; j++) {
-				sura[j] = fullTransText[ayaTotalCount + j];
-			}
-			transText[i] = sura;
-			ayaTotalCount += ayaCount;
-		}
-	}
+      logger.debug("Verifying translation text.");
+      try {
+         verified = CryptoUtils.verify(textBuf, signature);
+      } catch (Exception e) {
+         logger.warn("Error occurred during translation text verification. Text cannot be verified.", e);
+      }
+      if (verified) {
+         logger.debug("Translation is valid");
+         verificationResult = AUTHENTIC;
+      } else {
+         logger.debug("Translation is not valid.");
+         verificationResult = NOT_AUTHENTIC;
+      }
+      return verified;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sf.zekr.common.resource.IQuranText#get(int)
-	 */
-	public String get(int absoluteAyaNum) {
-		return fullTransText[absoluteAyaNum - 1];
-	}
+   private void refineText(String rawText) {
+      QuranProperties quranProps = QuranProperties.getInstance();
+      String[] sura;
+      fullTransText = rawText.split(delimiter);
+      transText = new String[114][];
+      int ayaTotalCount = 0;
+      for (int i = 0; i < 114; i++) {
+         int ayaCount = quranProps.getSura(i + 1).getAyaCount();
+         sura = new String[ayaCount];
+         for (int j = 0; j < ayaCount; j++) {
+            sura[j] = fullTransText[ayaTotalCount + j];
+         }
+         transText[i] = sura;
+         ayaTotalCount += ayaCount;
+      }
+   }
 
-	public boolean isTranslation() {
-		return true;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see net.sf.zekr.common.resource.IQuranText#get(int)
+    */
+   public String get(int absoluteAyaNum) {
+      return fullTransText[absoluteAyaNum - 1];
+   }
 
-	public String getLanguage() {
-		return locale.getLanguage();
-	}
+   public boolean isTranslation() {
+      return true;
+   }
 
-	/**
-	 * This method always returns the first aya of sura 1 (Al-Fatiha).
-	 * 
-	 * @param suraNum sura number, counted from 1
-	 * @return sura 1, aya 1
-	 */
-	public String getBismillah(int suraNum) {
-		return get(1, 1);
-	}
+   public String getLanguage() {
+      return locale.getLanguage();
+   }
 
-	public String toText() {
-		return localizedName + " / " + name;
-	}
+   /**
+    * This method always returns the first aya of sura 1 (Al-Fatiha).
+    * 
+    * @param suraNum sura number, counted from 1
+    * @return sura 1, aya 1
+    */
+   public String getBismillah(int suraNum) {
+      return get(1, 1);
+   }
 
-	public String getDirection() {
-		return direction;
-	}
+   public String toText() {
+      return localizedName + " / " + name;
+   }
 
-	public Locale getLocale() {
-		return locale;
-	}
+   public String getDirection() {
+      return direction;
+   }
 
-	public String getId() {
-		return id;
-	}
+   public Locale getLocale() {
+      return locale;
+   }
 
-	public byte[] getSignature() {
-		return signature;
-	}
+   public String getId() {
+      return id;
+   }
 
-	public int getVerificationResult() {
-		return verificationResult;
-	}
+   public byte[] getSignature() {
+      return signature;
+   }
 
-	public int getMode() {
-		throw new UnsupportedOperationException("Method not implemented.");
-	}
+   public int getVerificationResult() {
+      return verificationResult;
+   }
 
-	public String getName(String transNameMode, boolean rtl) {
-		String s = "english".equals(transNameMode) ? name : localizedName;
-		s = StringUtils.abbreviate((rtl ? I18N.RLE + "" : "") + "[" + locale.getLanguage() + "]" + " "
-				+ (rtl ? I18N.RLM + "" : "") + s, GlobalConfig.MAX_MENU_STRING_LENGTH);
+   public int getMode() {
+      throw new UnsupportedOperationException("Method not implemented.");
+   }
 
-		return s;
-	}
+   public void setLocalizedResource(LocalizedResource r) {
+      this.localizedResource = r;
+   }
+
+   /* Methods from the Resource interface
+    * 
+    */
+
+   public LocalizedResource getLocalizedResource() {
+      return localizedResource;
+   }
+
+   public String getDescription() {
+      return AddOnManagerUtils.getResourceDescription(this);
+   }
+
+   public boolean isCurrent() {
+      return AddOnManagerUtils.isCurrent(this);
+   }
+
+   public boolean isLoaded() {
+      return AddOnManagerUtils.isLoaded(this);
+   }
+
+   @SuppressWarnings("rawtypes")
+   public Class getType() {
+      return this.getClass();
+   }
+
+   public File getFile() {
+      return resourceFile;
+   }
+
+   public void setFile(File resourceFile) {
+      this.resourceFile = resourceFile;
+   }
+
+   public Boolean isShared() {
+      return AddOnManagerUtils.isResourceShared(this);
+   }
+
+   public String getInstallationFolder() {
+      return AddOnManagerUtils.getInstallationFolder(this);
+   }
+
+   public void setIsShared(Boolean b) {
+      throw new RuntimeException("You cannot call this method on a installed resource " + this.getDescription());
+   }
+
+   public String getName(String transNameMode, boolean rtl) {
+      String s = "english".equals(transNameMode) ? name : localizedName;
+      s = StringUtils.abbreviate((rtl ? I18N.RLE + "" : "") + "[" + locale.getLanguage() + "]" + " " + (rtl ? I18N.RLM + "" : "")
+            + s, GlobalConfig.MAX_MENU_STRING_LENGTH);
+
+      return s;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public String getLocalizedName() {
+      return localizedName;
+   }
+
 }

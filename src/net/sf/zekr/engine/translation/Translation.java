@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.engine.translation;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,7 +17,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.engine.addonmgr.CandidateResource;
+import net.sf.zekr.engine.addonmgr.Resource;
+import net.sf.zekr.engine.addonmgr.ResourceManager;
 import net.sf.zekr.engine.log.Logger;
+
+import org.apache.commons.configuration.ConfigurationException;
 
 /**
  * A collection of all available translations as <code>{@link TranslationData}</code> objects.<br>
@@ -24,7 +32,7 @@ import net.sf.zekr.engine.log.Logger;
  * 
  * @author Mohsen Saboorian
  */
-public class Translation {
+public class Translation implements ResourceManager{
 	private final static Logger logger = Logger.getLogger(Translation.class);
 
 	TranslationData defaultTrans;
@@ -80,4 +88,36 @@ public class Translation {
 	public void setCustomGroup(List<TranslationData> customGroup) {
 		this.customGroup = customGroup;
 	}
+
+	public void loadResource(Resource r) throws ConfigurationException, IOException {
+		//I think this method should be extracted out here.
+		ApplicationConfig.getInstance().loadTranslationData(r.getFile());
+		//here probably I should send an event to refresh the GUI.
+	}
+
+	public void unloadResource(Resource r) {
+		if(!getDefault().getId().equals(r.getId()))
+			translations.remove(r.getId());
+			//here probably I should send an event to refresh the GUI.
+	}
+
+	public List<Resource> getLoadedResources() {
+		List<Resource> resourceList=new ArrayList<Resource>();
+		resourceList.addAll(getAllTranslation());
+		return resourceList;
+	}
+
+	public CandidateResource getNewCandidateResource(File file) {
+		return new CandidateResource(TranslationData.class,file);
+	}
+
+	public Resource getCurrentResource() {
+		return getDefault();
+	}
+
+	public void setCurrentResource(Resource r) {
+		this.setDefault((TranslationData)r);
+	}
+
+	
 }
