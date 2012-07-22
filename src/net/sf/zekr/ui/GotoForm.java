@@ -8,6 +8,8 @@
  */
 package net.sf.zekr.ui;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -88,6 +90,8 @@ public class GotoForm extends BaseForm implements FocusListener {
 
 	private Button reviewBut;
 	private List<String> suraNameList;
+
+	private static final NumberFormat NF = NumberFormat.getInstance();;
 
 	public GotoForm(Shell parent, QuranForm quranForm) {
 		try {
@@ -237,7 +241,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 		gd.heightHint = 100;
 		gd.horizontalSpan = 2;
 		suraAyaList = new org.eclipse.swt.widgets.List(smartBody, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
-		suraAyaList.setData("id", "suraAyaList");
+		suraAyaList.setData("id", "search"); // id is equal to searchCombo, so that it focuses on search combo the next time
 		suraAyaList.setLayoutData(gd);
 		suraAyaList.setItems(suraNameList.toArray(new String[0]));
 		suraAyaList.addSelectionListener(new SelectionAdapter() {
@@ -280,6 +284,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 		suraAyaBox.setText(loc.getSura() + ":" + loc.getAya());
 		suraAyaBox.addFocusListener(this);
 		focusList.add(suraAyaBox);
+
 		suraAyaBox.addTraverseListener(new TraverseListener() {
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == CUSTOM_TRAVERSE) {
@@ -288,20 +293,20 @@ public class GotoForm extends BaseForm implements FocusListener {
 						String[] suraAya = StringUtils.split(text, ":");
 						if (suraAya.length == 1) {
 							try {
-								int sura = Integer.parseInt(suraAya[0]);
+								int sura = NF.parse(suraAya[0]).intValue();
 								if (QuranLocation.isValidLocation(sura, 1)) {
 									gotoSura(sura);
 								}
-							} catch (NumberFormatException e1) {
+							} catch (ParseException e1) {
 							}
 						} else if (suraAya.length > 1) {
 							try {
-								int sura = Integer.parseInt(suraAya[0]);
-								int aya = Integer.parseInt(suraAya[1]);
+								int sura = NF.parse(suraAya[0]).intValue();
+								int aya = NF.parse(suraAya[1]).intValue();
 								if (QuranLocation.isValidLocation(sura, aya)) {
 									navTo(sura, aya);
 								}
-							} catch (NumberFormatException e1) {
+							} catch (ParseException e1) {
 							}
 						}
 					}
@@ -335,7 +340,10 @@ public class GotoForm extends BaseForm implements FocusListener {
 				if (e.detail == CUSTOM_TRAVERSE) {
 					String text = hizbQuarterSpinner.getText();
 					if (StringUtils.isNotBlank(text)) {
-						gotoHizbQuarter(Integer.parseInt(text));
+						try {
+							gotoHizbQuarter(NF.parse(text).intValue());
+						} catch (ParseException e1) {
+						}
 					}
 				}
 			}
@@ -367,7 +375,10 @@ public class GotoForm extends BaseForm implements FocusListener {
 				if (e.detail == CUSTOM_TRAVERSE) {
 					String text = juzSpinner.getText();
 					if (StringUtils.isNotBlank(text)) {
-						gotoJuz(Integer.parseInt(text));
+						try {
+							gotoJuz(NF.parse(text).intValue());
+						} catch (ParseException e1) {
+						}
 					}
 				}
 			}
@@ -398,7 +409,10 @@ public class GotoForm extends BaseForm implements FocusListener {
 				if (e.detail == CUSTOM_TRAVERSE) {
 					String text = pageSpinner.getText();
 					if (StringUtils.isNotBlank(text)) {
-						gotoPage(Integer.parseInt(text));
+						try {
+							gotoPage(NF.parse(text).intValue());
+						} catch (ParseException e1) {
+						}
 					}
 				}
 			}
@@ -606,7 +620,7 @@ public class GotoForm extends BaseForm implements FocusListener {
 		sura++;
 		int aya = 1;
 		try {
-			aya = Integer.parseInt(s[1]);
+			aya = NF.parse(s[1]).intValue();
 		} catch (Exception e) {
 			// do nothing
 		}
@@ -647,6 +661,10 @@ public class GotoForm extends BaseForm implements FocusListener {
 							newList.add(suraName + ":" + j);
 						}
 					} else {
+						try {
+							num = NF.parse(num).toString();
+						} catch (ParseException e) {
+						}
 						for (int j = 1; j <= sura.getAyaCount(); j++) {
 							if (String.valueOf(j).startsWith(num)) {
 								newList.add(suraName + ":" + j);
