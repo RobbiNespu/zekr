@@ -9,6 +9,8 @@ import net.sf.zekr.engine.log.Logger;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TaskBar;
+import org.eclipse.swt.widgets.TaskItem;
 
 public abstract class AbstractSplachScreen {
 	protected final Logger logger = Logger.getLogger(AbstractSplachScreen.class);
@@ -29,8 +31,8 @@ public abstract class AbstractSplachScreen {
 	}
 
 	/**
-	 * Shows a splash screen until the whole application is started. This can be done by disposing splash screen after
-	 * other parts of the application are started.
+	 * Shows a splash screen until the whole application is started. This can be done by disposing splash
+	 * screen after other parts of the application are started.
 	 */
 	protected abstract void showSplash();
 
@@ -40,5 +42,17 @@ public abstract class AbstractSplachScreen {
 	}
 
 	public abstract void dispose();
+
+	public TaskItem getTaskBarItem() {
+		TaskBar bar = display.getSystemTaskBar();
+		if (bar == null) {
+			return null;
+		}
+		TaskItem item = bar.getItem(shell);
+		if (item == null) {
+			item = bar.getItem(null);
+		}
+		return item;
+	}
 
 }

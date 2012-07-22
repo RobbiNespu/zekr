@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TaskItem;
 
 /**
  * @author Mohsen Saboorian
@@ -50,18 +51,34 @@ public class AdvancedSplashScreen extends AbstractSplachScreen {
 				new Image(display, resource.getString("icon.form48")),
 				new Image(display, resource.getString("icon.form128")),
 				new Image(display, resource.getString("icon.form256")) });
-		
+
+		final TaskItem tbi = getTaskBarItem();
+		if (tbi != null) {
+			tbi.setProgressState(SWT.NORMAL);
+		}
+
 		shell.addListener(EventProtocol.CUSTOM_ZEKR_EVENT, new Listener() {
 			public void handleEvent(Event e) {
 				if (e.data != null) {
 					if (((String) e.data).startsWith(EventProtocol.SPLASH_PROGRESS_FULLY)) {
 						progressMsg = ((String) e.data).substring(EventProtocol.SPLASH_PROGRESS_FULLY.length() + 1);
 						progBar.setSelection(progressCount = 100);
+
+						if (tbi != null) {
+							tbi.setProgress(progressCount);
+						}
+
 						shell.redraw();
 						shell.update();
 					} else if (((String) e.data).startsWith(EventProtocol.SPLASH_PROGRESS)) {
 						progressMsg = ((String) e.data).substring(EventProtocol.SPLASH_PROGRESS.length() + 1);
 						progBar.setSelection(progressCount += 7);
+
+						if (tbi != null) {
+							tbi.setProgress(progressCount);
+							tbi.reskin(SWT.ALL);
+						}
+
 						shell.redraw();
 						shell.update();
 					}
