@@ -2,7 +2,7 @@
 setlocal
 set JAVA_CMD=%JAVA_HOME%\bin\java.exe
 
-if JAVA_HOME=="" (
+if "%JAVA_HOME%"=="" (
 	set JAVA_CMD="java.exe"
 	goto continue
 )

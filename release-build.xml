@@ -55,6 +55,8 @@
 	<property name="jspeex.jar" value="${libdir}/jspeex-0.9.7.jar" />
 	<property name="jorbis.jar" value="${libdir}/jorbis-0.0.17.jar" />
 
+	<property name="jintellitype.jar" value="${libdir}/jintellitype-1.3.8.jar" />
+
 	<path id="buildlibs">
 		<pathelement location="${log4j.jar}" />
 		<pathelement location="${swt.jar}" />
@@ -79,6 +81,8 @@
 		<pathelement location="${tritonus-jorbis.jar}" />
         <pathelement location="${jspeex.jar}" />
         <pathelement location="${jorbis.jar}" />
+
+		<pathelement location="${jintellitype.jar}" />
 	</path>
 
 	<target name="compile">

@@ -6,11 +6,11 @@
 	<property name="package" value="net.sf.zekr" />
 	<property name="packagedir" value="net/sf/zekr" />
 	<property name="distfilename" value="zekr" />
-	<property name="component_version" value="1.0.0" />
+	<property name="component_version" value="1.1.0" />
 	<property name="component_path" value="${distfilename}/${component_version}" />
 
 	<!-- Directory setup -->
-	<property name="dest_dir" value="D:/java/Programs/Zekr/dist/1.0.0/final" />
+	<property name="dest_dir" value="E:/programs/mohsen/zekr/1.1.0/final" />
 	<property name="distdir" value="${dest_dir}/develdist" />
 
 	<property name="srcdir" value="src" />
@@ -83,6 +83,8 @@
 	<property name="tritonus-jorbis.jar" value="${libdir}/tritonus-jorbis-0.3.6.jar" />
 	<property name="jorbis.jar" value="${libdir}/jorbis-0.0.17.jar" />
 	<property name="jspeex.jar" value="${libdir}/jspeex-0.9.7.jar" />
+	
+	<property name="jintellitype.jar" value="${libdir}/jintellitype-1.3.8.jar" />
 
 	<!-- 3rd Party Dependencies  -->
 	<property name="junit.jar" value="${ext_libdir}/junit.jar" />
@@ -111,6 +113,8 @@
 		<pathelement location="${tritonus-jorbis.jar}" />
 		<pathelement location="${jorbis.jar}" />
 		<pathelement location="${jspeex.jar}" />
+
+		<pathelement location="${jintellitype.jar}" />
 	</path>
 
 	<path id="test.build.classpath">
@@ -129,7 +133,7 @@
 		<pathelement location="D:/Devel/Java/Tools/Native/Launch4J/launch4j-3.0.1-win32/launch4j.jar" />
 	</path>
 
-	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />
+	<!--<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="launch4j.classpath" />-->
 
 	<target name="createExeFile">
 		<launch4j configfile="misc/zekr-launch4j.xml" outfile="${dest_dir}/win32/zekr.exe" />
