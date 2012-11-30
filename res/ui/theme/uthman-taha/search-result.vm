@@ -4,15 +4,19 @@
  * license terms.
  *
  * @version 1
- *#
-#if($DIRECTION == "rtl")
+ *##if($DIRECTION == "rtl")
 	#set($TRAIL="left")
 	#set($LEAD="right")
 #else
 	#set($TRAIL="right")
 	#set($LEAD="left")
 #end
-<html>
+#if($TRANSLATION == "true")
+	#set($TRANSLATE = "$DICT.getMeaning('QURAN')")
+#else
+	#set($TRANSLATE = "$DICT.getMeaning('TRANSLATION')")
+#end
+<html><!-- TODO: add html5 doctype -->
 #parse("$THEME_DIR/head.vm")
 <body id="search" dir="$DIRECTION">
 <script>
@@ -48,16 +52,24 @@ res = new SearchResult();
 		</td>
 		<td class="searchBarTop" align="$ALIGN" width="50%">
 			#if ($TOO_MANY_RESULT)
-			<i style="color: red">$TOO_MANY_RESULT</i> <br>
+			<i style="color: red">$TOO_MANY_RESULT</i><br>
 			#end
 			$COUNT
 		</td>
 	</tr>
-	<tr><td colspan="2" class="queryDetail">
+	<tr><td class="queryDetail">
 		<span class="handCursor" title="$DICT.getMeaning('TOGGLE')" onclick="$('#clauses').toggle();s=$('#clauses').css('display')=='none'?'plus.png':'minus.png';$('#searchDetailImg').attr('src','res/image/icon/'+s);">
 			<img id="searchDetailImg" alt="toggle" title="$DICT.getMeaning('TOGGLE')" border="0" src="res/image/icon/plus.png">
 			<a href="javascript:void(0)" onclick="return false">$DICT.getMeaning("QUERY_DETAIL")</a></span>
 		<div id="clauses" style="display: none; padding: 0px 20px">$CLAUSE</div></td>
+
+		<td class="queryDetail">
+			<span class="handCursor" title="$DICT.getMeaning('TOGGLE')" id="qtToggler" status="close"
+			onclick="$('.itemChild').each(function() {$(this).toggle($('#qtToggler').attr('status')=='close');});
+					 s=''; if ($(this).attr('status')=='open') {s = 'expand.png'; $(this).attr('status', 'close');} else {s = 'collapse.png';$(this).attr('status', 'open');} $('.itemChildToggler').attr('src','res/image/icon/'+s);">
+			<img class="itemChildToggler" src="res/image/icon/expand.png" />
+			<a href="javascript:void(0)">$TRANSLATE</a>
+			</span></td>
 	</tr>
 
 	<tr><td id="searchResultSection" colspan="2" class="searchResult">

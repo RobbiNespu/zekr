@@ -22,9 +22,9 @@
 #macro (putSajdaSignIfAny)
 	#if ($AYA0.hasSajda())
 		#if ($AYA0.Sajda.Type == 0)
-			<span id="recommended" class="sajda" title="${AYA0.Sajda}">[&#1769;]</span>
+			<span id="recommended" class="sajda" title="${AYA0.Sajda}">&#1769;</span>
 		#elseif ($AYA0.Sajda.Type == 1)
-			<span id="mandatory" class="sajda" title="${AYA0.Sajda}">[[&#1769;]]</span>
+			<span id="mandatory" class="sajda" title="${AYA0.Sajda}">&#1769;</span>
 		#end
 	#end
 #end
@@ -62,12 +62,12 @@
 
 	#if ($AYA_NUM == 1)
 		<div class="bodyTop" align="center">
-			<div dir="${DIRECTION}" class="def suraName">
+			<div dir="${DIRECTION}" class="suraName">
 			$DICT.getMeaning("SURA"):
 			$SURA_NAME
 			</div>
 			#if ($SURA_NUM != 9 && $SURA_NUM != 1)
-				<div class="${A_CLASS} bismillah">$AYA0.Bismillah</div>
+				<div class="${A_CLASS} bismillah">#if($TRANSLATION)${UTILS.processAya($AYA0.Bismillah)}#else$AYA0.Bismillah#end</div>
 			#end
 		</div>
 	#end
@@ -85,27 +85,28 @@
 		<div class="quran" lang="ar">#putHizbSignIfPossible()
 		#set ($_LANG="ar")
 		#end
-		$A.Text
-		#if (($velocityCount == 1 && $quran_showSuraAyaSign == "true") || ($velocityCount == 2 && $trans_showSuraAyaSign == "true"))
+		#if($velocityCount != 1)${UTILS.processAya($A.Text)}#else$A.Text#end
+		#if(($velocityCount == 1 && $quran_showSuraAyaSign == "true") || ($velocityCount == 2 && $trans_showSuraAyaSign == "true"))
 		<span class="suraAyaNum">[$I18N.localize("${SURA_NUM}:${AYA_NUM}","${_LANG}")]</span> #end
 		</div>
 	#end #elseif ($CUSTOM == "true" && $MIXED == "true")
 		<div class="quran" lang="ar">#putHizbSignIfPossible()
 		$AYA0.Text
-		#if ($quran_showSuraAyaSign == "true")
+		#if($quran_showSuraAyaSign == "true")
 		<span class="suraAyaNum">[$I18N.localize("${SURA_NUM}:${AYA_NUM}","ar")]</span>
 		#end
 		#parse("$THEME_DIR/multi-trans.vm")
 		</div>
 	#else
-		#putHizbSignIfPossible() $AYA.Text
+		#putHizbSignIfPossible() #if($TRANSLATION != 1)${UTILS.processAya($AYA.Text)}#else$A.Text#end
 	#end
 	#if ($MIXED == "true")
-	<table><tr><td valign="middle">
+	<table cellpadding="0" cellspacing="0"><tr><td valign="middle">
 	#end
 	<nobr>
 		#putSajdaSignIfAny()
-		<span id="sign_${SURA_NUM}_${AYA_NUM}" title="${SURA_NAME} - $I18N.localize(${AYA_NUM})" class="ayaSign">$OPEN_PAREN$I18N.localize($AYA_NUM,"${_DL}")$CLOSE_PAREN</span>
+		<a id="sign_${SURA_NUM}_${AYA_NUM}" onclick="gotoSuraAya('${SURA_NUM}', '${AYA_NUM}', '0')" href="javascript:void(0)"
+		   title="${SURA_NAME} - $I18N.localize(${AYA_NUM})" class="ayaSign">$OPEN_PAREN$I18N.localize($AYA_NUM,"${_DL}")$CLOSE_PAREN</a>
 	</nobr>
 	#if ($MIXED == "true")
 	</td><td width="100%" valign="middle">

@@ -17,7 +17,7 @@ html,body {
 body {
 	font: 13pt Tahoma, Sans-serif, Arial, Verdana, Helvetica, Arial Unicode MS;
 	color: rgb(30, 40, 70);
-	background-color: threedface;
+	background-color: #fefeea;
 }
 body#search {
 	background: $quran_bgColor url('${APP_PATH}res/image/zekr-bg.png') no-repeat fixed center;
@@ -123,7 +123,7 @@ div.main {
 
 div.searchBody {
 	padding: 0px 10px 0px 10px;
-	text-align: center;
+	/*text-align: center;*/
 	_width: 100%;
 	padding-top: 40px;
 }
@@ -150,7 +150,8 @@ span.selectedSearchItemNum {
 }
 
 span.selectedAya {
-	color: rgb(0, 50, 250);
+	/*color: rgb(0, 50, 250);*/
+    background-color: rgb(226, 240, 229);
 }
 
 div.aya {
@@ -172,8 +173,13 @@ div.selectedAya p.ayaSep {
 	border-bottom: 2px solid #78b;
 }
 
-span.selectedAyaSign {
-	font-weight: bold;
+.selectedAyaSign, a.selectedAyaSign:visited, a.selectedAyaSign:link {
+	/*font-weight: bold;*/
+    color: #1f90f0;
+    -moz-text-shadow: -1px 1px 2px #ddd;
+    -webkit-text-shadow: -1px 1px 2px #ddd;
+    text-shadow: -1px 1px 2px #ddd;
+    text-decoration: none;
 }
 
 #quranSection, #searchableSection {
@@ -215,7 +221,7 @@ div.searchResult {
 }
 
 .searchResult div.even {
-	background-color: rgb(200, 210, 240);
+	background-color: #E5EAF7;
 }
 
 .searchResult span.highlight {

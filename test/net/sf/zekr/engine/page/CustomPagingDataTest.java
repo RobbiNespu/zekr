@@ -14,7 +14,9 @@ import net.sf.zekr.common.resource.QuranLocation;
 
 public class CustomPagingDataTest extends ZekrBaseTest {
 	private static final String UTHMAN_TAHA = "uthmani";
-	IPagingData cpd;
+	private static final String HINDI_NASKH = "hindi-naskh";
+	IPagingData cpd1;
+	IPagingData cpd2;
 
 	public CustomPagingDataTest() throws Exception {
 		super();
@@ -22,8 +24,10 @@ public class CustomPagingDataTest extends ZekrBaseTest {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		cpd = ApplicationConfig.getInstance().getQuranPaging().get(UTHMAN_TAHA);
-		cpd.load();
+		cpd1 = ApplicationConfig.getInstance().getQuranPaging().get(UTHMAN_TAHA);
+		cpd2 = ApplicationConfig.getInstance().getQuranPaging().get(HINDI_NASKH);
+		cpd1.load();
+		cpd2.load();
 	}
 
 	protected void tearDown() throws Exception {
@@ -31,30 +35,48 @@ public class CustomPagingDataTest extends ZekrBaseTest {
 	}
 
 	public final void testHizbQuadPagingData() {
-		assertNotNull(cpd);
+		assertNotNull(cpd1);
+		assertNotNull(cpd2);
 	}
 
 	public final void testGetName() {
-		assertNotNull(cpd.getName());
+		assertNotNull(cpd1.getName());
+		assertNotNull(cpd2.getName());
 	}
 
-	public final void testGetQuranPage() {
-		assertEquals(cpd.getQuranPage(10).getFrom(), new QuranLocation(2, 62));
-		assertEquals(cpd.getQuranPage(10).getTo(), new QuranLocation(2, 69));
+	public final void testGetQuranPage1() {
+		assertEquals(cpd1.getQuranPage(10).getFrom(), new QuranLocation(2, 62));
+		assertEquals(cpd1.getQuranPage(10).getTo(), new QuranLocation(2, 69));
 
-		assertEquals(cpd.getQuranPage(100).getFrom(), new QuranLocation(4, 135));
-		assertEquals(cpd.getQuranPage(100).getTo(), new QuranLocation(4, 140));
+		assertEquals(cpd1.getQuranPage(100).getFrom(), new QuranLocation(4, 135));
+		assertEquals(cpd1.getQuranPage(100).getTo(), new QuranLocation(4, 140));
 
-		assertEquals(cpd.getQuranPage(250).getFrom(), new QuranLocation(13, 6));
-		assertEquals(cpd.getQuranPage(250).getTo(), new QuranLocation(13, 13));
+		assertEquals(cpd1.getQuranPage(250).getFrom(), new QuranLocation(13, 6));
+		assertEquals(cpd1.getQuranPage(250).getTo(), new QuranLocation(13, 13));
+	}
+
+	public final void testGetQuranPage2() {
+		assertEquals(cpd2.getQuranPage(1).getFrom(), new QuranLocation(1, 1));
+		assertEquals(cpd2.getQuranPage(1).getTo(), new QuranLocation(1, 1));
+		assertEquals(cpd2.getQuranPage(2).getFrom(), new QuranLocation(1, 1));
+		assertEquals(cpd2.getQuranPage(2).getTo(), new QuranLocation(1, 7));
+		assertEquals(cpd2.getQuranPage(3).getTo(), new QuranLocation(2, 4));
+
+		// assertEquals(cpd2.getQuranPage(100).getFrom(), new QuranLocation(4, 135));
+		// assertEquals(cpd2.getQuranPage(100).getTo(), new QuranLocation(4, 140));
+
+		// assertEquals(cpd2.getQuranPage(250).getFrom(), new QuranLocation(13, 6));
+		// assertEquals(cpd2.getQuranPage(250).getTo(), new QuranLocation(13, 13));
 	}
 
 	public final void testGetId() {
-		assertEquals(cpd.getId(), UTHMAN_TAHA);
+		assertEquals(cpd1.getId(), UTHMAN_TAHA);
+		assertEquals(cpd2.getId(), HINDI_NASKH);
 	}
 
 	public final void testSize() {
-		assertEquals(cpd.size(), 604);
+		assertEquals(cpd1.size(), 604);
+		// assertEquals(cpd1.size(), 604);
 	}
 
 	public final void testGetPageNum() {
@@ -67,11 +89,11 @@ public class CustomPagingDataTest extends ZekrBaseTest {
 	}
 
 	public final void testGetContainerPage() {
-		assertEquals(cpd.getContainerPage(new QuranLocation(2, 1)), cpd.getQuranPage(2));
-		assertEquals(cpd.getContainerPage(new QuranLocation(5, 96)), cpd.getQuranPage(124));
-		assertEquals(cpd.getContainerPage(new QuranLocation(14, 2)), cpd.getQuranPage(255));
-		assertEquals(cpd.getContainerPage(new QuranLocation(36, 70)), cpd.getQuranPage(444));
-		assertEquals(cpd.getContainerPage(new QuranLocation(114, 6)), cpd.getQuranPage(604));
+		assertEquals(cpd1.getContainerPage(new QuranLocation(2, 1)), cpd1.getQuranPage(2));
+		assertEquals(cpd1.getContainerPage(new QuranLocation(5, 96)), cpd1.getQuranPage(124));
+		assertEquals(cpd1.getContainerPage(new QuranLocation(14, 2)), cpd1.getQuranPage(255));
+		assertEquals(cpd1.getContainerPage(new QuranLocation(36, 70)), cpd1.getQuranPage(444));
+		assertEquals(cpd1.getContainerPage(new QuranLocation(114, 6)), cpd1.getQuranPage(604));
 	}
 
 }

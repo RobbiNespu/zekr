@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language author="Carles Serres Merino" version="1.1.0">
+	<locale localizedName="Català" name="Catalan" id="ca_CA" direction="ltr" />
+	<word>
+		<common>
+			<text id="OK" value="D´acord" />
+			<text id="CANCEL" value="Cancel·la" />
+			<text id="YES" value="Sí" />
+			<text id="NO" value="No" />
+			<text id="APPLY" value="Aplica" />
+			<text id="START" value="Inicia" />
+			<text id="RESET" value="Reinicia" />
+			<text id="NEW" value="Nou" />
+			<text id="SAVE_AS" value="Desa com" />
+			<text id="HELP" value="Ajuda" />
+			<text id="EDIT" value="Edita" />
+			<text id="SEARCH" value="Cerca" />
+			<text id="GOTO" value="Vés a" />
+			<text id="VIEW" value="Veure" />
+			<text id="CLOSE" value="Tanca" />
+			<text id="INSERT" value="Insereix" />
+			<text id="DETAILS" value="Detalls" />
+			<text id="MORE" value="Més" />
+			<text id="NEXT" value="Següent" />
+			<text id="PREVIOUS" value="Anterior" />
+			<text id="REFRESH" value="Refresca" />
+			<text id="UPDATE" value="Actualitza" />
+			<text id="SHOW" value="Mostra" />
+			<text id="NAME" value="Nom" />
+			<text id="VALUE" value="Valor" />
+			<text id="NUMBER" value="Sura" />
+			<text id="OPTION" value="Opció" />
+			<text id="FILE" value="Arxiu" />
+			<text id="RELOAD" value="Torna a carregar" />
+			<text id="TYPE" value="Tipus" />
+			<text id="MESSAGE" value="Missatge" />
+			<text id="BLOCK" value="Pàgina única" />
+			<text id="LINE_BY_LINE" value="Línia per línia" />
+			<text id="AND" value="i" />
+			<text id="COMMA" value="," />
+			<text id="SYNCHRONOUS" value="Sincronitza" />
+			<text id="ERROR" value="Error" />
+			<text id="LANGUAGE" value="Llenguatge" />
+			<text id="ABOUT" value="Quant a..." />
+			<text id="PRINT" value="Imprimeix" />
+			<text id="HOMEPAGE" value="Pàgina d´inici" />
+			<text id="WHOLE_QURAN" value="L´Alcorà sencer" />
+			<text id="MATCH_DIACRITIC" value="Correspondre diacrític" />
+			<text id="MATCH_CASE" value="Respeta el cas" />
+			<text id="NEXT_AYA" value="Aleia següent" />
+			<text id="NEXT_SURA" value="Sura següent" />
+			<text id="PREV_AYA" value="Aleia anterior" />
+			<text id="PREV_SURA" value="Sura anterior" />
+			<text id="THEME" value="T&amp;ema" />
+			<text id="LAYOUT" value="Disseny de la Finestra Principal (L´Alcorà/Traduccions)" />
+			<text id="TOOLS" value="Eines" />
+			<text id="ADD" value="Afegeix" />
+			<text id="DELETE" value="Elimina" />
+			<text id="REMOVE" value="Suprimeix" />
+			<text id="TRANSLATION" value="Traducció" />
+			<text id="TRANSLATION_VIEWTYPE" value="Disseny de la T&amp;raducció"   />
+			<text id="OPEN" value="Obre" />
+			<text id="IMPORT" value="Importa" />
+			<text id="COPY" value="Copia" />
+			<text id="SEPARATE" value="Mostra per separat (en diferents finestres)" />
+			<text id="MIXED" value="Mostra barrejat (en la mateixa finestra)" />
+			<text id="OPTIONS" value="Opcions" />
+			<text id="QUESTION" value="Responeu la següent pregunta:" />
+			<text id="FONT" value="Fonts" />
+			<text id="GENERAL" value="General" />
+			<text id="EXIT" value="Surt" />
+			<text id="EXCLUDE" value="Exclou" />
+			<text id="TRUE" value="Cert" />
+			<text id="FALSE" value="Fals" />
+			<text id="SELECT" value="Índex de L´Alcorà (Escull una Sura)" />
+			<text id="EXPORT" value="Exporta" />
+			<text id="IMPORT" value="Importa" />
+			<text id="DESCRIPTION" value="Descripció" />
+			<text id="BOOKMARKS" value="Preferits" />
+			<text id="CONFIGURE" value="Configura" />
+			<text id="EDIT_BOOKMARK_SET" value="Edita Preferits" />
+			<text id="MANAGE_BOOKMARK_SETS" value="Organitza grups de preferits" />
+			<text id="DIRECTION" value="Sentit" />
+			<text id="LANG_DIRECTION" value="Sentit del llenguatge" />
+			<text id="RTL" value="De dreta a esquerra" />
+			<text id="LTR" value="De esquerra a dreta" />
+			<text id="AUTHOR" value="Autor" />
+			<text id="VERSION" value="Versió" />
+			<text id="RANDOM_AYA" value="&amp;Aleia aleatòria" />
+			<text id="UNTITLED" value="Sense nom" />
+			<text id="SET_DEFAULT" value="Per defecte" />
+			<text id="NOT_LOADED" value="No s´ha carregat" />
+			<text id="ID" value="ID" />
+			<text id="OVERWRITE" value="Sobreescriu" />
+			<text id="SAVE" value="Desa" />
+			<text id="PATH" value="Ubicació" />
+			<text id="SHOW_REFS" value="Mostra les referències" />
+			<text id="MOVE_UP" value="Mou cap amunt" />
+			<text id="MOVE_DOWN" value="Mou cap avall" />
+			<text id="MULTI_TRANS" value="Mostra múltiples traduccions (en la mateixa finestra)" /> <!-- NOTE: This element replaced with CUSTOM_MIXED -->
+			<text id="CONFIG_CUSTOM_TRANS" value="Configuració personalitzada de les traduccions" />
+			<text id="GO" value="Vés" />
+			<text id="CAUTION" value="Atenció!" />
+			<text id="ADVANCED" value="Avançat" />
+			<text id="QUERY_DETAIL" value="Detall de la consulta" />
+			<text id="PAGE" value="Pàgina" />
+			<text id="MULTILINE" value="Multilínea" />
+			<text id="TOGGLE" value="Intercanvia" />
+			<text id="AUDIO" value="Àudio"   />
+			<text id="CONTINUOUS" value="Continu"   />
+			<text id="DISCRETE" value="Discret"   />
+			<text id="PLAY" value="Reprodueix"   />
+			<text id="PAUSE" value="Pausa"   />
+			<text id="STOP" value="Atura"   />
+			<text id="RECITATION" value="Recitació"   />
+			<text id="ADDON_MANAGER" value="Administrador de complements" />
+			<text id="MENU_NEXT_AYA" value="Aleia &amp;següent"   />
+			<text id="MENU_NEXT_SURA" value="Sura següent"   />
+			<text id="MENU_PREV_AYA" value="Aleia &amp;anterior"   />
+			<text id="MENU_PREV_SURA" value="Sura anterior"   />
+			<text id="MENU_NEXT_JUZ" value="Juz se&amp;güent"   />
+			<text id="MENU_PREV_JUZ" value="Juz an&amp;terior"   />
+			<text id="MENU_NEXT_HIZBQ" value="Quart de Hiz&amp;b següent"   />
+			<text id="MENU_PREV_HIZBQ" value="Quart de Hi&amp;zb anterior"   />
+			<text id="MENU_NEXT_SAJDA" value="Prost&amp;ració següent"   /><!-- Next Sajda -->
+			<text id="MENU_PREV_SAJDA" value="Prostr&amp;ació anterior"   /><!-- Previous Sajda -->
+			<text id="MENU_NEXT_PAGE" value="Pàgina següent"   />
+			<text id="MENU_PREV_PAGE" value="Pàgina anterior"   />
+			<text id="CHECK4UPDATE" value="Comprova si hi ha actualizacions"   />
+			<text id="ASCENDING" value="Ascendent"   />
+			<text id="DESCENDING" value="Descendent"   />
+			<text id="REVEL_ORDER" value="Ordre en la revelació"   />
+			<text id="FULL_SCREEN" value="Pantalla sencera"   />
+			<text id="WARNING" value="Perill!"   />
+			<text id="ONLINE_HELP" value="Ajuda en línia"   />		
+			<text id="PAGING_MODE" value="Mode de pàgina"   />
+			<text id="PANEL" value="Índex de L´Alcorà"   />
+			<text id="DETAIL_PANEL" value="Motra Detalls (de la Sura escollida)"   />
+			<text id="REPEAT" value="Repeteix"   />
+			<text id="ROOT" value="Arrel"   /> <!-- word root -->
+			<text id="ADDRESS" value="Adreça"   />
+			<text id="BOOKMARK_THIS_AYA" value="Afegeix a preferits l´Aleia"   />
+			<text id="AUDIO_PLAYER" value="Reproductor d´Àudio"   />
+			<text id="PLAYING" value="Reproduint"   />
+			<text id="PAUSED" value="En pausa"   />
+			<text id="STOPPED" value="Aturat"   />
+			<text id="RECITER" value="Recita"   />
+            <text id="ONLINE" value="En línia"   />
+            <text id="OFFLINE" value="Fora de línia"   />
+            <text id="SMALLER" value="Curt"   />
+            <text id="LARGER" value="Llarg"   />
+			<text id="SCOPED_SEARCH" value="Cerca d´àmbit"   />
+            <text id="DOCK_MODE" value="Mostra el Reproductor d'Àudio..."   />
+            <text id="FLOAT" value="En una finestra flotant"   />
+            <text id="TASKPANE" value="En el tauler de tasques"   />
+            <text id="TOP" value="A la part superior"   />
+            <text id="BOTTOM" value="A la part inferior"   />
+            <text id="HIDE_WHEN_MINIMIZED" value="Amaga en estar minimitzat"   />
+		</common>
+		<special>
+			<text id="QURAN" value="L´Alcorà" />
+			<text id="QURAN_VIEWTYPE" value="Disseny de L´A&amp;lcorà"   />
+			<text id="SURA" value="Sura" />
+			<text id="AYA" value="Aleia" />
+			<text id="SAJDA" value="Prostració" /> <!-- Sajda -->
+			<text id="JUZ" value="Juz" />
+			<text id="HIZB" value="Hizb" />
+			<text id="QUARTER" value="Quart" />
+			<text id="HIZB_QUARTER" value="Quart de Hizb"   />
+			<text id="MAKKI" value="La Meca" />
+			<text id="MADANI" value="Medina" />
+			<text id="DESCENT" value="Revelada a" />
+			<text id="AYA_COUNT" value="Núm. d´Aleies" />
+			<text id="MINOR_SAJDA" value="Prostració recomanada" /> <!-- Mustahab Sajda -->
+			<text id="MAJOR_SAJDA" value="Prostració obligatòria" /> <!-- Wajib Sajda -->
+			<text id="LOCATION" value="Localització" /> <!-- means a Quran location, e.g. 2-12 for sura Al-Baghara, aya 12 -->
+			<text id="AUDHUBILLAH" value="Aüdhubillah"   /> <!-- aüdhu bi-l-lahi min ax-xaitani r-ragim = Jo prego refugi en Déu contra el dimoni lapidat. Q.19:18; Q.113:1; Q.114:1-4; Q.16:98. Amb aquesta fórmula s´obre la recitació d´un fragment de L´Alcorà -->
+            <text id="BISMILLAH" value="Bismillah"   />  <!-- bi-smi l-lahi r-rahmani r-rahim = En el nom de Déu Únic, Al-là, el Compassiu per excelència, el molt Misericordiós. Q.1:1 i 27:30. Totes les sures, excepte la sura 9, comencen amb aquesta fórmula anomenada bàsmala  -->
+            <text id="SADAGHALLAH" value="Sàdaqallah"   />  <!-- sàdaqa l-lahu l-azhim = Al-là ha confirmat sempre la seva veritat. Q.37:37. Amb aquesta fórmula es tanca la recitació d´un fragment de L´Alcorà -->
+		</special>
+	</word>
+
+	<message>
+		<inform>
+			<text id="SEARCH_RESULT_TITLE" value="Resultat de la cerca per a: &quot;{1}&quot;" />
+			<text id="SEARCH_RESULT_COUNT" value="{1} resultats trobats en {2} Aleies." />
+			<text id="SEARCH_PAGE" value="Pàgina {1} de {2}" />
+			<text id="TOO_MANY_RESULT" value="El resultat de cerca en més que {1} Aleies." />
+			<text id="FILE_ALREADY_EXISTS" value="Ja existeix un arxiu amb el nom &quot;{1}&quot;. Voleu substituir-lo?" />
+			<text id="RESTART_APP" value="Necessiteu reiniciar l´aplicació per que els canvis tinguin efecte." />
+			<text id="ACTION_PERFORMED" value="Acció realitzada amb èxit."   />
+			<text id="TRANSLATION_ADDED" value="La següent traducció s´ha afegit sota el menú {1}"   />
+			<text id="RECITATION_ADDED" value="Les recitacions següents s´han afegit al menú {1}"   />
+			<text id="RESOURCE_ADDED" value="El nou recurs s´ha afegit"   />
+		</inform>
+		<confirm>
+			<text id="YES_NO" value="Esteu segur?" />
+			<text id="DEL_YES_NO" value="Voleu esborrar permanentment {1} els elements?" />
+		</confirm>
+		<error>
+			<text id="GENERAL_ERROR" value="Error inesperat" />
+			<text id="FNF" value="Arxiu no trobat" />
+			<text id="ACTION_FAILED" value="Error en l´acció!" />
+			<text id="INVALID_TRANSLATION_FORMAT" value="Format de traducció no vàlid: {1}"   />
+			<text id="INVALID_RECITATION_FORMAT" value="Format de recitació no vàlid: {1}"   />
+			<text id="NEWER_VERSION_INSTALLED" value="El recurs &quot;{1}&quot; no està actualitzat (actualització: {2}). Una versió més recent({3}) ja està instal·lada." />
+			<text id="INVALID_TRANSLATION_SIGNATURE" value="Signatura de traducció no vàlida: {1}"   />
+			<text id="TRANSLATION_LOAD_FAILED" value="La traducción carregada &quot;{1}&quot; ha estat fallida a causa del següent error: {2}"   />		
+			<text id="RECITATION_LOAD_FAILED" value="La recitació &quot;{1}&quot; ha estat fallida a causa del següent error: {2}"   />
+			<text id="ENTER_VALID_NUMBER" value="Si us plau, introduïu un numero vàlid."   />
+			<text id="NUMBER_LIMIT" value="Si us plau, introduïu un numero entre &quot;{1}&quot; i &quot;{2}&quot;."   />
+		</error>
+		<hint></hint>
+	</message>
+
+	<forms>
+		<global>
+			<text id="APP_NAME" value="Zekr" />
+			<text id="APP_FULL_NAME" value="Projecte Zekr de L´Alcorà" />
+			<text id="FORM_TITLE" value="Zekr" />
+			<text id="COPYRIGHT_DISCLAIMER" value="Aquest programa és de distribució lliure. Qualsevol col·laboració és benvinguda. S´ofereix sense cap tipus de garantia." />
+		</global>
+		<form id="QURAN_FORM">
+			<text id="TITLE" value="Zekr" />
+			<text id="NEW_SCOPE" value="Nova àrea de cerca" />
+			<text id="EDIT_SCOPES" value="Edita les àrees de cerca" />
+			<text id="NO_SCOPE" value="No hi ha àrea de cerca" />
+			<text id="CURRENT_PAGE" value="Pàgina actual" />
+			<text id="QURAN_SCOPE" value="en L´Alcorà"   />
+			<text id="TRANSLATION_SCOPE" value="en la Traducció"   />
+			<text id="NATURAL_ORDER" value="Ordre natural" />
+			<text id="RELEVANCE" value="Rellevància" />
+			<text id="AYA_LENGTH" value="Longitud de l´Aleia"   />			
+			<text id="SORT_BY" value="Ordenat per" />
+			<text id="TOGGLE_FULL_SCREEN" value="Activar pantalla sencera"   />
+		</form>
+		<form id="OPTIONS_FORM">
+			<text id="THEME_OPTIONS" value="Tema"   />
+			<text id="GENERAL_OPTIONS" value="General"   />
+			<text id="VIEW_OPTIONS" value="Veure"   />
+			<text id="AUDIO_OPTIONS" value="Àudio" />
+            <text id="TITLE" value="Opcions de l´aplicació" />
+			<text id="SHOW_SPLASH" value="Mostra el logotip a l´inici" />
+			<text id="NEW_KEY" value="Introdueix una nova clau" />
+			<text id="THEME_SETTING" value="Ajustaments del tema" />
+			<text id="PRESS_OK_TO_APPLY" value="Premeu el botó &quot;D´acord&quot; perquè els canvis s´apliquin." />
+			<text id="MAX_SEARCH_RESULT" value="Número màxim de resultats de la cerca" />
+			<text id="RESIZEABLE_TASK_PANE" value="Tauler de tasques de dimensions variables" />
+			<text id="SURA_NAMES" value="Mostra els noms de la Sura a la"   />
+			<text id="ARABIC" value="Àrab"   />
+			<text id="EN_T9N" value="Traducció anglesa"   />
+			<text id="EN_T13N" value="Transliteració anglesa"   />
+			<text id="T9N" value="Traducció (si està disponible)"   />
+			<text id="T13N" value="Transliteració (si està disponible)"   />
+			<text id="ENABLE_AUDIO" value="Activa la compatibilitat amb l´àudio"   />
+			<text id="SURA_NAME_TREE" value="Mostra l´Índex de L´Alcorà (Sures)"   />
+			<text id="SMART" value="Intel·ligent" />
+            <text id="ALWAYS" value="Sempre" />
+            <text id="NEVER" value="Mai" />
+            <text id="PLAY_MODE" value="Mode de reproducció" />
+        </form>
+		<form id="SEARCH_SCOPE_FORM">
+			<text id="TITLE" value="Configura l´abast de la cerca" />
+			<text id="SEARCH_SCOPE" value="Abast de la cerca" />
+			<text id="FROM_SURA" value="Des de la Sura" />
+			<text id="FROM_AYA" value="Des de l´Aleia" />
+			<text id="TO_SURA" value="a la Sura" />
+			<text id="TO_AYA" value="a l´Aleia" />
+			<text id="ILLEGAL_SEARCH_SCOPE" value="Abast de la cerca no permès" />
+		</form>
+		<form id="MANAGE_SCOPES_FORM">
+			<text id="TITLE" value="Edita l´abast de la cerca" />
+		</form>
+		<form id="BOOKMARK_SET_FORM">
+			<text id="TITLE" value="Edita grup de preferits: {1}" />
+			<text id="NEW_BOOKMARK_FOLDER" value="Nova carpeta de preferits" />
+			<text id="NEW_BOOKMARK_ITEM" value="Nou element de preferits" />
+			<text id="UNIQUE_NAME" value="Nom únic" />
+			<text id="COMMA_SEPARATED" value="Separa els diferents autors per comes" />
+			<text id="ONLY_ENGLISH" value="Utilitza només els noms en anglès (p.ex. Anglès, Persa, Àrab,...)" />
+			<text id="DESC_TOOLTIP" value="Convencions, cites, referències, i per altres temes relacionats amb els preferits aneu aquí" />
+		</form>
+		<form id="BOOKMARK_SET_MANAGE_FORM">
+			<text id="TITLE" value="Organitza grups de preferits" />
+			<text id="DBL_CLICK" value="Doble clic en els elements per llegir i/o editar-los." />
+			<text id="SET_AS_DEFAULT" value="Voleu l´element &quot;{1}&quot; com el vostre grup preferit per defecte?" />
+			<text id="CANNOT_REMOVE_DEFAULT" value="No es pot treure el preferit per defecte." />
+			<text id="CANNOT_OVERWRITE_DEFAULT" value="No es pot sobreescriure el grup de preferits per defecte. Seleccioneu una altre grup de preferits per defecte, i intenteu d´importar-lo." />
+			<text id="ENTER_ID" value="Introduïu l´ID de preferit" />
+			<text id="NEW_BOOKMARK_SET" value="Nou grup de preferits" />
+			<text id="EXPORT4WEB" value="Exporta a la Web" />
+		</form>
+		<form id="BOOKMARK_ITEM_FORM">
+			<text id="TITLE" value="Edita preferit" />
+			<text id="QURAN_LOCATIONS" value="Localitzacions de L´Alcorà" />
+			<text id="NEW_BOOKMARK" value="Nou preferit" />
+			<text id="NEW_FOLDER" value="Nova carpeta" />
+		</form>
+		<form id="BOOKMARK_REF">
+			<text id="TITLE" value="Referències de preferits per: {1}" />
+		</form>
+		<form id="IMPORT_QUESTION">
+			<text id="IMPORT_FOR" value="Importa per als sigüents usuaris:" />
+			<text id="ME_ONLY" value="Només jo" />
+			<text id="ALL_USERS" value="Tots els usuaris(es necessiten permisos d´escritura en el directori d´instal·lació)" />
+			<text id="FOLLOWING_USERS" value="Índex per als següents usuaris" />
+		</form>
+		<form id="CONFIG_CUSTOM_TRANS">
+			<text id="REMOVE_CUSTOM" value="No utilitzis"   />
+			<text id="ADD_CUSTOM" value="Utilitza"   />
+			<text id="TITLE" value="Configuració personalitzada de les traduccions" />
+			<text id="AVAILABLE" value="Traduccions disponibles" />
+			<text id="CURRENT" value="Traduccions utilitzades actualment" />
+		</form>
+		<form id="ADDON_MANAGER">
+			<text id="REMOVE_CUSTOM" value="Elimina recurs" />
+			<text id="ADD_CUSTOM" value="Afegeix recurs" />
+			<text id="TITLE" value="Administrador de complements" />
+			<text id="CURRENT" value="Recursos actualment instal.lats" />
+		</form>
+		<form id="PROGRESS">
+			<text id="PLEASE_WAIT" value="Si us plau, esperi" />
+			<text id="INDEXING" value="Creant índex" /> <!-- The process of indexing a document for faster search -->
+			<text id="TAKE_TIME" value="Aquesta acció necessita d´un temps per completar-se, això depent de la grandària del document que s´està indexant." />
+			<text id="CHECKING" value="Comprova si hi ha actualitzacions" />
+			<text id="ZEKR_IS_CHECKING" value="Zekr está comprovant si hi ha actualitzacions" />		
+		</form>
+		<form id="ABOUT">
+			<text id="TITLE" value="Quant a The Zekr Project" />
+			<text id="VIEW_LOG" value="Veure fitxer de registre" />
+		</form>
+		<form id="UPDATE">
+			<text id="TITLE" value="Actualització d´informació" />
+			<text id="VERSION_INFO" value="Informació sobre la versió" />
+			<text id="BUILD_NUM" value="Número de compilació" />
+			<text id="VERSION" value="Versió" />
+			<text id="RELEASE_NAME" value="Nom de la versió" />
+			<text id="RELEASE_STATE" value="Estat de la compilació" />
+			<text id="RELEASE_DATE" value="Data de la versio" />
+			<text id="RELEASE_NOTES" value="Notes de la versió" />
+			<text id="DOWNLOAD" value="Descarrega" />
+			<text id="MORE_INFO" value="Més informació" />
+			<text id="NO_UPDATE" value="La última versió està ja intal·lada." />
+			<text id="NEW_DEV_AVAILABLE" value="Una nova versió en desenvolupament (inestable) està disponible per descarregar" />
+			<text id="NEW_BETA_AVAILABLE" value="Una nova versió beta (inestable) éstà disponible per descarregar" />
+			<text id="NEW_FINAL_AVAILABLE" value="Una nova versió (final) està disponible per descarregar" />
+		</form>	
+		<form id="PAGING_MODE">
+			<text id="TITLE" value="Mode de pàgina"   />
+			<text id="SURA" value="Sura"   />
+			<text id="HIZB_QUARTER" value="Quart de Hizb"   />
+			<text id="JUZ" value="Juz"   />
+			<text id="CONST_AYA" value="Número fix d´Aleies"   />
+			<text id="CUSTOM" value="Personalitzat"   />
+			<text id="AYA_PER_SURA" value="Quantes Aleies s´han de visualitzar en cada pàgina?"   />
+		</form>
+		<form id="AUDIO_PLAYER_FORM">
+			<text id="TITLE" value="Reproductor d´Àudio"   />
+			<text id="SECOND_ABBR" value="s"   /> <!-- s stands for 'seconds', for example 1s -->
+			<text id="SECONDS" value="Segons"   /> <!--  tooltip for 's' (SECOND_ABBR) -->
+			<text id="INTERVAL" value="Interval"   />
+			<text id="REPEAT" value="Repetició"   />
+			<text id="NO_INTERVAL" value="Sense interval"   />
+			<text id="NO_REPEAT" value="Sense repetició"   />
+            <text id="VOLUME" value="Volum"   />
+            <text id="TIMES" value="{1} Temps"   />
+            <text id="PLAY_SCOPE" value="Mode de reproducció"   />
+		</form>
+        <form id="GOTO_FORM">
+            <text id="TITLE" value="Vés a"   />
+            <text id="GOTO" value="Vés a"   />
+            <text id="REVIEW" value="Examina"   />
+            <text id="JUZ" value="Juz"   />
+            <text id="SURA_ORDER" value="Ordre de la Sura"   />
+            <text id="HIZB_QUARTER" value="Quart de Hizb"   />
+            <text id="SURA_AYA" value="Sura:Aleia (p.ex. 33:70)"   />
+            <text id="NORMAL" value="Normal"   />
+            <text id="REVELATION" value="Revelació ({1})"   />
+        </form>
+	</forms>
+</language>

@@ -4,8 +4,7 @@
  * license terms.
  *
  * @author Mohsen Saboorian
- *#
-#if($TRANSLATION == "true")
+ *##if($TRANSLATION == "true")
 	#set($TD_CLASS="trans")
 	#set($BODY_ID="transBody")
 	#set($DIR=${TRANS_DIRECTION})
@@ -23,7 +22,7 @@
 	#set($LEAD="left")
 	#set($TRAIL="right")
 #end
-<html>
+<html><!-- TODO: use HTML5 doctype -->
 #parse("$THEME_DIR/head.vm")
 <body id="${BODY_ID}" dir="${DIR}">
 <script>

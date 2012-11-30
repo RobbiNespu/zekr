@@ -781,7 +781,7 @@ public class AudioPlayerForm extends BaseForm {
          @Override
          public void mouseDown(MouseEvent e) {
             if (e.button == 1) {
-               muteAudio();
+               toggleMute();
             }
          }
       });
@@ -859,9 +859,13 @@ public class AudioPlayerForm extends BaseForm {
       e.gc.drawImage(img, 0, 0);
    }
 
-   private void muteAudio() {
-      volume = 0;
-      volumeProgressBar.setSelection(0);
+   private void toggleMute() {
+      if (volume == 0) {
+         volume = 15;
+      } else {
+         volume = 0;
+      }
+      volumeProgressBar.setSelection(volume);
       playerController.setVolume(volume);
       volumeCanvas.redraw();
    }
