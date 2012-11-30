@@ -60,9 +60,13 @@ public class QuranRoot {
 				String[] wordIndex = StringUtils.split(locStr[1], ',');
 				int absoluteAya = Integer.parseInt(locStr[0]);
 				IQuranLocation loc = QuranPropertiesUtils.getLocation(absoluteAya + 1);
+				try{
 				for (int k = 0; k < wordIndex.length; k++) {
-					ra = new RootAddress(loc, Integer.parseInt(wordIndex[k]));
+					ra = new RootAddress(loc, Integer.parseInt(wordIndex[k].replace("\r", "")));
 					rootAddrList.add(ra);
+				}
+				}catch(Exception e){
+					e.printStackTrace();
 				}
 				// TODO: load it for next release.
 				// if (reverseIndex[absoluteAya] == null) {

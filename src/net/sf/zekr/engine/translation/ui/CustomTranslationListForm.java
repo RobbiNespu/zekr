@@ -15,7 +15,6 @@ import java.util.Iterator;
 import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.common.util.I18N;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.BaseForm;
 import net.sf.zekr.ui.MessageBoxUtils;
@@ -23,7 +22,6 @@ import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
