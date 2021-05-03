@@ -97,7 +97,15 @@
 	</target>
 
 	<target name="dist" depends="compile">
-		<jar jarfile="${distdir}" basedir="${build_classdir}" />
+    <pathconvert property="class_path" pathsep=" ">
+      <path refid="buildlibs" />
+    </pathconvert>
+		<jar jarfile="${distdir}" basedir="${build_classdir}">
+			<manifest>
+				<attribute name="Main-Class" value="${main_class}" />
+        <attribute name="Class-Path" value="${class_path}" />
+			</manifest>
+    </jar>
 		<delete dir="${builddir}" />
 	</target>
 
