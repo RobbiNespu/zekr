@@ -25,8 +25,14 @@ $(document).ready(function() {
 	/*$(window).resize(function(e) {
 		refocus();
 	});*/
-	
+
 	// $("#suraNav").focus();
+
+    $('#quranSection a,#quranSection span').tipsy({fade: false, gravity: $.fn.tipsy.autoNS, opacity: 0.7});
+   
+    $(".commentHandle").click(function() {
+   	    $(this).next('.commentText:eq(0)').toggle(); 
+   	});
 });
 
 function refocus() {
@@ -83,18 +89,12 @@ function focusOnAya(suraNum, ayaNum) {
 		unHighlightAya(oldAyaId);
 	highlightAya(ayaId);
 
-	var oh = getObjectHeight(aya);
-	var bh = getBrowserHeight();
-	if (ayaNum != 1) {
-		$(aya).ScrollTo(400, 'original', bh > (oh + bh/5) ? bh/5 : 45);
-	} else {
-		$(aya).ScrollTo(400, 'original', 200);
-	}
-	oldAyaId = ayaId;
+	var bh = $(window).height();
 
-	// fire post-focus hooks
-	var args = arguments;
-	$(ayaFocusHooks).each(function() {
-		this.call(this, args);
-	});
+	// var x = $(aya).position().top;
+	// $("html,body").animate({scrollTop: ayaNum == 1 ? x - 200 : x - bh / 4}, 400, 'easeOutQuad'); //easeInCubic
+	var t = $(aya).offset().top;
+	$("html,body").animate({scrollTop: ayaNum == 1 ? t - 150 : t - bh / 4}, 400, 'easeOutQuad');
+
+	oldAyaId = ayaId;
 }

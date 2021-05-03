@@ -115,7 +115,7 @@ Version 0.4.0 b1 - [15-9-06]
 Features/Enhancements:
 	Added 2 new language packs: Turkish (smacker) and Malay (H N Jafa).
 	Quran/Translation quick navigation bar: aya selector
-	Seach page quick navigation bar
+	Search page quick navigation bar
 	Search for translation (as well as Quran) now available.
 	The Quran text file completely changed back to the old one (which had more diacritics).
 	Added jQuery+Interface(scroll) JavaScript libraries.
@@ -742,37 +742,37 @@ Bug fixes:
 	Save AudioPlayerForm new location as it closes. It now saves the new location before Zekr is closed (previously it wasn't saved when Zekr was closed and AudioPlayerForm was in open state).
 	A few changes and bug fixes in quran-properties-en.xml, thanks to Yahya Saturday.
 
-Version 1.0.1 - [12-09-10]
+Version 1.1.0m1 - [05-07-2012]
 Features/Enhancements:
+	Added Malayalam language pack, thanks to brother Irfan Naseef.
+	Added Uyghur language pack, thanks to brother Ediris.
+	Added Bengali language pack, thanks to brother Muhammad Fayzul Alam Munir.
+	Added Brazilian Portuguese language pack.
+	Added Sri Lanka Tamil language pack thanks to brother Abdul Haleem.
+	Added French sura properties (translation and transliteration) thanks to brother Abu Usamah.
+	Added TaskBarItem progress/status for Zekr startup, and check for update.
+	Used NumberFormat to support current locale numbers in Go to form (example: ۱۲:۱۳).
+	Audio player has now 4 different dock modes: float, top, bottom, task pane.
+	Multiple recitation is now supported: one may choose two or more recitations to be played one after the other. This is helpful for listening to translation after Qur'an recitataion.
+	Multi-translation view change: show translator's localized name at the end of each aya.
+	Added tipsy jquery tooltip library to pages.
+	Show translations under quran search results (and also Quran under translation search result). Also added a translation/quran expand/collapse all link to show or hide them under search results.
+	Support added for parenthetical commentaries/footnote: if commentary is added between double braces (i.e. text [[commentary part]] text), it's not shown in the text. On mouse hover commentary is shown.
+	Added native global keyboard handler to Windows version of Zekr (using JIntellitype library):
+		- shortcut.xml now supports Win modifier for winkey.
+		- Media keys which is widely present on keyboards are now supported: play/pause/stop and goto prev/next.
+		- Ctrl+Alt+Z is by default hides or reveals Zekr main window.
+	Added Zekr tray icon with 3 menu actions: play/pause, stop and quit.
+	Added a menu item under view: Hide When Minimized. When checked, Zekr is minimized to tray (main form hides).
+	Change aya signs in each Quran page to link, upon click, current location is changed to that aya, and if player is currently playing some aya, it stops it and starts playing the clicked aya.
 Bug fixes:
 	Do not create <userhome>/.zekr if a -workspace parameter is specified. It previously created .zekr with zekr.log inside it even if a new workspace was specified.
-	Automatically create zekr.log in the new workspace of -workspace parameter is specified.
-_____________________________________________________
-	
-	TODO: Make font and color changes easier.
-	TODO: Add KFGQPC Uthman Taha Naskh to Zekr.
+	Automatically create zekr.log in the new workspace of -workspace parameter is specified._____________________________________________________
 
-
-	TODO: aya change in nav bar should work even when a html is "saved as...".
-	TODO: GCJ bug with XSLT transformation
-	TODO: History support: back/forward.
-
-	TODO: Set a rule set for each translation text in CSS, for fixing the bug with Custom Mixed layout fonts.
-
-	TODO: Save as.. buttons on search result on linux
-	TODO: Save as.. should export something completely
-	TODO: Save as.. should have another CSS
-	
-	TODO: Enriching bookmark sets.
-	
-	TODO: Store search scopes, so that the next time it loads previous settings
-
-	TODO: Add a stand-alone (no dependency to ApplicationConfig) Error Form to show startup errors
-	TODO: Move all explicit references to *.vm in a template file to resource-path.propertis
-	TODO: Pluggable (plug-in based) search.
-	TODO: A simple help page for advanced search
-	TODO: Quranic Ruku locations.
-
-	TODO: Remove dependency to common collections (too large library)
-
-	TODO: all data from BaseQuranProperties should be moved to an xml file.
+Version 1.1.0 release - [19-07-2012]
+Features/Enhancements:
+	Click on mute button toggles mute state and sets volume to 15% if already muted.
+	Added state to update manager to prevent multiple auto-update checking. Also set update.enable = true by default. Will automatically check for an update every 4 weeks
+Bug fixes:
+	Bug fix for search result count in search.js.
+	Fixed sajda list order issue, as reported here: https://groups.google.com/d/msg/zekr/-/bCqUIqnww7sJ.

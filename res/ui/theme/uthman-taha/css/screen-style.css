@@ -136,6 +136,7 @@ div.searchBody {
 	padding-left: 6px;
 	padding-right: 6px;
 	margin: 3px 0px 3px 0;
+    text-decoration: none;
 }
 
 #searchResultSection div.selectedAya { /* selected aya for the search result item */
@@ -179,7 +180,6 @@ div.selectedAya p.ayaSep {
     -moz-text-shadow: -1px 1px 2px #ddd;
     -webkit-text-shadow: -1px 1px 2px #ddd;
     text-shadow: -1px 1px 2px #ddd;
-    text-decoration: none;
 }
 
 #quranSection, #searchableSection {

@@ -100,7 +100,7 @@ span.juzSign {
 }
 
 .waqfSign {
-	font-family: Sans-serif, Times New Roman; 
+	font-family: ${quran_fontName}, Sans-serif, Times New Roman; 
 	color: #e97d41;
 }
 

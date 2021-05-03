@@ -227,8 +227,8 @@ SearchResult = function() {
 	var list;
 	$(document).ready(function() {
 		try{
-			cnt = $("div.searchResult/div").size();
-			list = $("div.searchResult/div");
+			cnt = $("div.searchResult .item").size();
+			list = $("div.searchResult>div");
 		} catch(e) {error(e); return;}
 		focus();
 	});
@@ -244,13 +244,21 @@ SearchResult = function() {
 	function focus() {
 		if (cnt <= 0)
 			return;
-		var h = list.eq(num).height();
 
-		var bh = getBrowserHeight();
+		// var bh = getBrowserHeight();
+		var bh = $(window).height();
 		$("#result_" + (1+oldNum)).children("div").attr("className", "item");
-		$("#result_" + (1+num)).children("div").attr("className", "selectedAya").ScrollTo(500, 'original', bh > h  ? bh/5 : 0);
+		var ch = $("#result_" + (1+num)).children("div");
+		ch.attr("className", "selectedAya");
+		var x = ch.offset().top;
+		$("html,body").animate({scrollTop: x - bh / 4}, 400, 'easeOutQuad'); // easeInCubic
 
-		var suraAya = $("#itemNum_" + (1+num)).attr("title").split('-');
+		var tt = $("#itemNum_" + (1+num)).attr("title");
+		if (!tt) {
+			tt = $("#itemNum_" + (1+num)).attr("original-title");
+		}
+		
+		var suraAya = tt.split('-');
 		$("#suraNum").val(suraAya[0]);
 		$("#ayaNum").val(suraAya[1]);
 		
@@ -272,6 +280,7 @@ CurrentPageSearchResult = function() {
 	});
 
 	this.next = function() {
+	alert(cnt);
 		if (cnt <= 0) return;
 		oldNum = num;
 		num < cnt - 1 ? num++ : num = 0;
