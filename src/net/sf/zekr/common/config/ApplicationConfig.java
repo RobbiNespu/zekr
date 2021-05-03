@@ -253,9 +253,9 @@ public class ApplicationConfig implements ConfigNaming {
 
          searchInfo = new SearchInfo();
          Configuration stopWordConf = searchProps.subset("search.stopword");
-         List<String> defaultStopWord = searchProps.getList("search.stopword");
+         List<String> defaultStopWord = (List<String>)(List<?>) searchProps.getList("search.stopword");
          Configuration replacePatternConf = searchProps.subset("search.pattern.replace");
-         List<String> defaultReplacePattern = searchProps.getList("search.pattern.replace");
+         List<String> defaultReplacePattern = (List<String>)(List<?>) searchProps.getList("search.pattern.replace");
          Configuration punctuationConf = searchProps.subset("search.pattern.punct");
          String defaultPunctuation = searchProps.getString("search.pattern.punct");
          Configuration diacriticsConf = searchProps.subset("search.pattern.diacr");
@@ -269,7 +269,7 @@ public class ApplicationConfig implements ConfigNaming {
                continue;
             }
             logger.debug("\tAdd stop words for: " + langCode);
-            searchInfo.addStopWord(langCode, stopWordConf.getList(langCode));
+            searchInfo.addStopWord(langCode, (List<String>)(List<?>) stopWordConf.getList(langCode));
          }
 
          searchInfo.setDefaultReplacePattern(defaultReplacePattern);
@@ -279,7 +279,7 @@ public class ApplicationConfig implements ConfigNaming {
                continue;
             }
             logger.debug("\tAdd replace patterns for: " + langCode);
-            searchInfo.addReplacePattern(langCode, replacePatternConf.getList(langCode));
+            searchInfo.addReplacePattern(langCode, (List<String>)(List<?>) replacePatternConf.getList(langCode));
          }
 
          if (defaultPunctuation != null) {
@@ -725,7 +725,7 @@ public class ApplicationConfig implements ConfigNaming {
          // load custom translation list
          logger.info("Load custom translation list.");
          List<TranslationData> customList = translation.getCustomGroup();
-         List<String> customs = props.getList("trans.custom");
+         List<String> customs = (List<String>)(List<?>) props.getList("trans.custom");
          for (int i = 0; i < customs.size(); i++) {
             String tid = customs.get(i);
             if (tid == null || "".equals(tid.trim())) {
@@ -891,7 +891,7 @@ public class ApplicationConfig implements ConfigNaming {
    @SuppressWarnings("unchecked")
    private void extractAudioProps() {
       String def = props.getString("audio.default");
-      List<String> selectedList = props.getList("audio.default");
+      List<String> selectedList = (List<String>)(List<?>) props.getList("audio.default");
       if (org.apache.commons.collections.CollectionUtils.isNotEmpty(selectedList) && selectedList.size() > 1) {
          def = selectedList.get(0);
       }
