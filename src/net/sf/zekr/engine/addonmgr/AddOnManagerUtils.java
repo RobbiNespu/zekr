@@ -8,11 +8,6 @@
  */
 package net.sf.zekr.engine.addonmgr;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.InvalidParameterException;
-import java.util.List;
-
 import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.ApplicationPath;
@@ -21,8 +16,12 @@ import net.sf.zekr.common.util.IntallationProgressListener;
 import net.sf.zekr.engine.audio.AudioData;
 import net.sf.zekr.engine.common.LocalizedResource;
 import net.sf.zekr.engine.translation.TranslationData;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
-import org.apache.commons.configuration.ConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.security.InvalidParameterException;
+import java.util.List;
 
 public class AddOnManagerUtils {
 

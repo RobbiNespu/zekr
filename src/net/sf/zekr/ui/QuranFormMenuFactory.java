@@ -8,29 +8,11 @@
  */
 package net.sf.zekr.ui;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.sf.zekr.common.ZekrMessageException;
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.common.config.KeyboardShortcut;
-import net.sf.zekr.common.config.ResourceManager;
+import net.sf.zekr.common.config.*;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.runtime.Naming;
-import net.sf.zekr.common.util.CollectionUtils;
-import net.sf.zekr.common.util.HyperlinkUtils;
-import net.sf.zekr.common.util.I18N;
-import net.sf.zekr.common.util.IntallationProgressListener;
-import net.sf.zekr.common.util.ZipUtils;
+import net.sf.zekr.common.util.*;
 import net.sf.zekr.engine.addonmgr.InvalidResourceException;
 import net.sf.zekr.engine.addonmgr.Resource;
 import net.sf.zekr.engine.audio.AudioData;
@@ -43,32 +25,27 @@ import net.sf.zekr.engine.bookmark.ui.BookmarkSetForm;
 import net.sf.zekr.engine.bookmark.ui.BookmarkUtils;
 import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.log.Logger;
-import net.sf.zekr.engine.page.FixedAyaPagingData;
-import net.sf.zekr.engine.page.HizbQuarterPagingData;
-import net.sf.zekr.engine.page.IPagingData;
-import net.sf.zekr.engine.page.JuzPagingData;
-import net.sf.zekr.engine.page.SuraPagingData;
+import net.sf.zekr.engine.page.*;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.helper.CocoaUiEnhancer;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.*;
 
 /**
  * This is not a real factory class, but in fact hides menu creation and updating details from <code>QuranForm</code>.

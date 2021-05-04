@@ -9,24 +9,17 @@
 
 package net.sf.zekr.engine.language;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.xml.NodeList;
 import net.sf.zekr.engine.xml.XmlReadException;
 import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.SWT;
 import org.w3c.dom.Node;
+
+import java.io.File;
+import java.util.*;
 
 /**
  * LanguageEngine is a <i>singleton</i> class, designed to perform language related works. This class is

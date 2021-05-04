@@ -8,7 +8,7 @@
  */
 package net.sf.zekr.engine.server;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
 
 /**
  * An http server should be created through HttpServerFactory, not HttpServer abstract class.

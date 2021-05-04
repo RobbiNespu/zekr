@@ -59,7 +59,7 @@ import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.search.Sort;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;

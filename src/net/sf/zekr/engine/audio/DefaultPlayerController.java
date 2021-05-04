@@ -8,19 +8,14 @@
  */
 package net.sf.zekr.engine.audio;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.log.Logger;
+import org.apache.commons.configuration2.PropertiesConfiguration;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
+import java.util.*;
 
 /**
  * Default Zekr audio player which utilizes {@link BasicPlayer} for playing audio. This player is capable of

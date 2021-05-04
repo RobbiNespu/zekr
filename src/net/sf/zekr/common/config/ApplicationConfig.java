@@ -9,33 +9,6 @@
 
 package net.sf.zekr.common.config;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import net.sf.zekr.common.ZekrBaseException;
 import net.sf.zekr.common.ZekrMessageException;
 import net.sf.zekr.common.resource.IQuranLocation;
@@ -43,21 +16,12 @@ import net.sf.zekr.common.resource.QuranLocation;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.runtime.ApplicationRuntime;
 import net.sf.zekr.common.runtime.Naming;
-import net.sf.zekr.common.util.CollectionUtils;
-import net.sf.zekr.common.util.CommonUtils;
-import net.sf.zekr.common.util.ConfigUtils;
-import net.sf.zekr.common.util.IntallationProgressListener;
-import net.sf.zekr.common.util.ZipUtils;
+import net.sf.zekr.common.util.*;
 import net.sf.zekr.engine.addonmgr.AddOnManagerUtils;
 import net.sf.zekr.engine.addonmgr.CandidateResource;
 import net.sf.zekr.engine.addonmgr.InvalidResourceException;
 import net.sf.zekr.engine.addonmgr.Resource;
-import net.sf.zekr.engine.audio.Audio;
-import net.sf.zekr.engine.audio.AudioCacheManager;
-import net.sf.zekr.engine.audio.AudioData;
-import net.sf.zekr.engine.audio.DefaultPlayerController;
-import net.sf.zekr.engine.audio.PlayerController;
-import net.sf.zekr.engine.audio.RecitationPackConverter;
+import net.sf.zekr.engine.audio.*;
 import net.sf.zekr.engine.bookmark.BookmarkException;
 import net.sf.zekr.engine.bookmark.BookmarkSet;
 import net.sf.zekr.engine.bookmark.BookmarkSetGroup;
@@ -67,13 +31,7 @@ import net.sf.zekr.engine.language.LanguageEngine;
 import net.sf.zekr.engine.language.LanguagePack;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.engine.network.NetworkController;
-import net.sf.zekr.engine.page.CustomPagingData;
-import net.sf.zekr.engine.page.FixedAyaPagingData;
-import net.sf.zekr.engine.page.HizbQuarterPagingData;
-import net.sf.zekr.engine.page.IPagingData;
-import net.sf.zekr.engine.page.JuzPagingData;
-import net.sf.zekr.engine.page.QuranPaging;
-import net.sf.zekr.engine.page.SuraPagingData;
+import net.sf.zekr.engine.page.*;
 import net.sf.zekr.engine.revelation.Revelation;
 import net.sf.zekr.engine.revelation.RevelationData;
 import net.sf.zekr.engine.root.QuranRoot;
@@ -89,18 +47,26 @@ import net.sf.zekr.engine.xml.XmlReader;
 import net.sf.zekr.engine.xml.XmlUtils;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
-
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.configuration2.io.FileHandler;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.io.*;
+import java.security.InvalidParameterException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * This singleton class reads the config files by the first invocation of <code>getInstance()</code>. You can then read any option
@@ -214,7 +180,7 @@ public class ApplicationConfig implements ConfigNaming {
 
                logger.debug("Load " + searchInfoFile);
                FileInputStream fis = new FileInputStream(searchInfoFile);
-               searchProps = ConfigUtils.loadConfig(fis, "UTF-8");
+                  searchProps = ConfigUtils.loadConfig(fis, "UTF-8");
             } catch (Exception e) {
                logger.error("Error loading search info file " + searchInfoFile);
                logger.implicitLog(e);
@@ -559,7 +525,10 @@ public class ApplicationConfig implements ConfigNaming {
    public void saveConfig() {
       try {
          logger.info("Save user config file to " + ApplicationPath.USER_CONFIG);
-         props.save(new FileOutputStream(ApplicationPath.USER_CONFIG), "UTF-8");
+//         props.save(new FileOutputStream(ApplicationPath.USER_CONFIG), "UTF-8");
+         FileHandler handler = new FileHandler(props);
+         handler.setFile(new File(ApplicationPath.USER_CONFIG));
+         handler.save();
       } catch (Exception e) {
          logger.error("Error while saving config to " + ApplicationPath.USER_CONFIG + ": " + e);
       }
@@ -762,7 +731,9 @@ public class ApplicationConfig implements ConfigNaming {
          }
          Reader reader = new InputStreamReader(is, "UTF-8");
          PropertiesConfiguration pc = new PropertiesConfiguration();
-         pc.load(reader);
+         FileHandler handler = new FileHandler(pc);
+         //pc.load(reader);
+         handler.load();
          reader.close();
          is.close();
 
@@ -845,7 +816,9 @@ public class ApplicationConfig implements ConfigNaming {
                FileInputStream fis = new FileInputStream(targetThemeFile);
                reader = new InputStreamReader(fis, "UTF-8");
                PropertiesConfiguration pc = new PropertiesConfiguration();
-               pc.load(reader);
+               FileHandler handler = new FileHandler(pc);
+               //pc.load(reader);
+               handler.load();
                reader.close();
                fis.close();
 

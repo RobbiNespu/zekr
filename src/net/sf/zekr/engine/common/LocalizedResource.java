@@ -8,14 +8,13 @@
  */
 package net.sf.zekr.engine.common;
 
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.engine.language.LanguageEngine;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.engine.language.LanguageEngine;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * This class can be extended by resources (like recitation, translation, revelations) in order to add

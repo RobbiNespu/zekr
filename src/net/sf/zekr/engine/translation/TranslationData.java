@@ -8,15 +8,6 @@
  */
 package net.sf.zekr.engine.translation;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.Locale;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.AbstractQuranText;
 import net.sf.zekr.common.resource.QuranProperties;
@@ -27,8 +18,16 @@ import net.sf.zekr.engine.addonmgr.Resource;
 import net.sf.zekr.engine.common.LocalizedResource;
 import net.sf.zekr.engine.common.Signable;
 import net.sf.zekr.engine.log.Logger;
+import org.apache.commons.lang3.StringUtils;
 
-import org.apache.commons.lang.StringUtils;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Locale;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * @author Mohsen Saboorian

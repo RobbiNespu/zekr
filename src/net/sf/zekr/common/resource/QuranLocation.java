@@ -8,7 +8,7 @@
  */
 package net.sf.zekr.common.resource;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This data structure is the primitive structure of addressing somewhere in the Quran. Addressing is possible

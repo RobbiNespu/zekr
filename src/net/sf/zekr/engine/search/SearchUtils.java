@@ -8,16 +8,15 @@
  */
 package net.sf.zekr.engine.search;
 
+import net.sf.zekr.common.config.ApplicationConfig;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
+import net.sf.zekr.engine.search.tanzil.RegexUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import net.sf.zekr.common.config.ApplicationConfig;
-import net.sf.zekr.common.resource.QuranPropertiesUtils;
-import net.sf.zekr.engine.search.tanzil.RegexUtils;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * This file contains several useful <code>public static</code> methods for finding occurrences of a source

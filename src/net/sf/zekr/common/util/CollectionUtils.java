@@ -8,17 +8,12 @@
  */
 package net.sf.zekr.common.util;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.language.LanguageEngine;
+import org.apache.commons.lang3.StringUtils;
 
-import org.apache.commons.lang.StringUtils;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * @author Mohsen Saboorian

@@ -8,8 +8,9 @@
  */
 package net.sf.zekr.common.config;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.io.FileHandler;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class is used to handle dynamic resource bundles which use <i>Velocity</i> as the template engine.
@@ -23,7 +24,9 @@ public class ResourceManager {
 	private ResourceManager() {
 		try {
 			resource = new PropertiesConfiguration();
-			resource.load(new VelocityInputStream("res/resource-path.properties"), "utf-8");
+			//resource.load(new VelocityInputStream("res/resource-path.properties"), "utf-8");
+			FileHandler handler = new FileHandler(resource);
+			handler.load(new VelocityInputStream("res/resource-path.properties"), "utf-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

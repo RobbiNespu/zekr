@@ -8,24 +8,19 @@
  */
 package net.sf.zekr.engine.search.lucene;
 
-import java.io.Reader;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.search.SearchInfo;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.LowerCaseFilter;
-import org.apache.lucene.analysis.StopFilter;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.WhitespaceTokenizer;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.lucene.analysis.*;
 import org.apache.lucene.analysis.snowball.SnowballFilter;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.util.Version;
+
+import java.io.Reader;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * A wrapper class to analyze texts of different language. When using with some European languages,

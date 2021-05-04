@@ -8,22 +8,17 @@
  */
 package net.sf.zekr.engine.translation;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.addonmgr.CandidateResource;
 import net.sf.zekr.engine.addonmgr.Resource;
 import net.sf.zekr.engine.addonmgr.ResourceManager;
 import net.sf.zekr.engine.log.Logger;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
-import org.apache.commons.configuration.ConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
 
 /**
  * A collection of all available translations as <code>{@link TranslationData}</code> objects.<br>

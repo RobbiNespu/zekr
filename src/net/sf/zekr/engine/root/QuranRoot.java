@@ -8,15 +8,14 @@
  */
 package net.sf.zekr.engine.root;
 
+import net.sf.zekr.common.resource.IQuranLocation;
+import net.sf.zekr.common.resource.QuranPropertiesUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.zekr.common.resource.IQuranLocation;
-import net.sf.zekr.common.resource.QuranPropertiesUtils;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Data structure to hold Quran word root and their addresses.

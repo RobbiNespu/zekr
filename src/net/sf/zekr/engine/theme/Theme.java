@@ -19,7 +19,7 @@ import java.util.Map;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.common.util.ConfigUtils;
 
-import org.apache.commons.configuration.MapConfiguration;
+import org.apache.commons.configuration2.MapConfiguration;
 import org.apache.commons.io.IOUtils;
 
 /**

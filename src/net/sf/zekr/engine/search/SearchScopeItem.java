@@ -8,12 +8,11 @@
  */
 package net.sf.zekr.engine.search;
 
-import java.util.StringTokenizer;
-
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.resource.SuraProperties;
+import org.apache.commons.lang3.StringUtils;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.StringTokenizer;
 
 /**
  * @author Mohsen Saboorian

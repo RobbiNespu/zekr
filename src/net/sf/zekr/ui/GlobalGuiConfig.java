@@ -8,12 +8,11 @@
  */
 package net.sf.zekr.ui;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import net.sf.zekr.engine.log.Logger;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.io.FileHandler;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
+import java.io.InputStream;
 
 /**
  * This class is to be used for default GUI properties. In case that Zekr is about to port to a system with
@@ -30,7 +29,10 @@ public class GlobalGuiConfig {
 		PropertiesConfiguration prop = new PropertiesConfiguration();
 		try {
 			InputStream is = GlobalGuiConfig.class.getResourceAsStream("zekr-gui.properties");
-			prop.load(new InputStreamReader(is));
+			//prop.load(new InputStreamReader(is));
+			FileHandler handler = new FileHandler(prop);
+			//pc.load(reader);
+			handler.load();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

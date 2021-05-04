@@ -8,11 +8,10 @@
  */
 package net.sf.zekr.common.resource.filter;
 
-import java.util.regex.Pattern;
-
 import net.sf.zekr.engine.search.tanzil.RegexUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.regex.Pattern;
 
 /**
  * @author Mohsen Saboorian

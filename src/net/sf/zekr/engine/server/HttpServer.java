@@ -8,19 +8,18 @@
  */
 package net.sf.zekr.engine.server;
 
+import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.runtime.Naming;
+import net.sf.zekr.common.util.UriUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.common.runtime.Naming;
-import net.sf.zekr.common.util.UriUtils;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * An abstract HTTP server model. An HTTP server implementation can be accessed through

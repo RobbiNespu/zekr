@@ -8,32 +8,21 @@
  */
 package net.sf.zekr.engine.search.tanzil;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranText;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
 import net.sf.zekr.common.util.CollectionUtils;
-import net.sf.zekr.engine.search.AbstractSearcher;
-import net.sf.zekr.engine.search.ISearchScorer;
-import net.sf.zekr.engine.search.SearchException;
-import net.sf.zekr.engine.search.SearchResultItem;
-import net.sf.zekr.engine.search.SearchResultModel;
-import net.sf.zekr.engine.search.SearchScope;
-import net.sf.zekr.engine.search.ZeroScorer;
+import net.sf.zekr.engine.search.*;
 import net.sf.zekr.engine.search.tanzil.PatternEnricherFactory.QuranPatternEnricher;
 import net.sf.zekr.engine.translation.TranslationData;
+import org.apache.commons.lang3.StringUtils;
 
-import org.apache.commons.lang.StringUtils;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 class ZeroHighlighter implements ISearchResultHighlighter {
 	public String highlight(String text, String pattern) {

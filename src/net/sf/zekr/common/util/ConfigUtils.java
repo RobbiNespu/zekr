@@ -8,21 +8,17 @@
  */
 package net.sf.zekr.common.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Writer;
+import net.sf.zekr.common.config.GlobalConfig;
+import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.configuration2.io.FileHandler;
+import org.apache.commons.lang3.ObjectUtils;
+
+import java.io.*;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import net.sf.zekr.common.config.GlobalConfig;
-
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang.ObjectUtils;
 
 /**
  * @author Mohsen Saboorian
@@ -77,11 +73,13 @@ public class ConfigUtils {
 			throws ConfigurationException, IOException {
 		PropertiesConfiguration pc = new PropertiesConfiguration();
 		pc.setThrowExceptionOnMissing(false); // this is the default behavior. just for MOHKAM KARI!
-		pc.setEncoding("UTF-8");
-		if (basePath != null) {
-			pc.setBasePath(basePath);
-		}
-		pc.load(configStream);
+		//pc.setEncoding("UTF-8");
+		FileHandler handler = new FileHandler(pc);
+		//if (basePath != null) {
+			//pc.setBasePath(basePath);
+		//}
+		//pc.load(configStream);
+		handler.load(configStream,"UTF-8");
 		configStream.close();
 		return pc;
 	}

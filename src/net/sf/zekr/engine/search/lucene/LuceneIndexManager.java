@@ -8,13 +8,6 @@
  */
 package net.sf.zekr.engine.search.lucene;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.zekr.common.config.ApplicationPath;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.resource.FilteredQuranText;
@@ -23,12 +16,18 @@ import net.sf.zekr.common.resource.filter.QuranIndexerFilter;
 import net.sf.zekr.common.runtime.Naming;
 import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.MessageBoxUtils;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.SimpleFSDirectory;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class manages Lucene indices for Qur'an and translations.

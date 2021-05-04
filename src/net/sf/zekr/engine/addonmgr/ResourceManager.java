@@ -8,11 +8,11 @@
  */
 package net.sf.zekr.engine.addonmgr;
 
+import org.apache.commons.configuration2.ex.ConfigurationException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
-import org.apache.commons.configuration.ConfigurationException;
 
 public interface ResourceManager {
 

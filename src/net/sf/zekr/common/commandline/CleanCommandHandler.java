@@ -8,17 +8,16 @@
  */
 package net.sf.zekr.common.commandline;
 
+import net.sf.zekr.common.config.ApplicationPath;
+import net.sf.zekr.common.runtime.Naming;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import net.sf.zekr.common.config.ApplicationPath;
-import net.sf.zekr.common.runtime.Naming;
-
-import org.apache.commons.io.FileUtils;
 
 /**
  * Class for handling clean (<tt>-clean</tt>) command.

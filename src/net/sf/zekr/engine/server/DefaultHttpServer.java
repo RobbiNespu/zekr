@@ -8,17 +8,16 @@
  */
 package net.sf.zekr.engine.server;
 
+import net.sf.zekr.common.config.ResourceManager;
+import net.sf.zekr.engine.log.Logger;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
-
-import net.sf.zekr.common.config.ResourceManager;
-import net.sf.zekr.engine.log.Logger;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.io.FilenameUtils;
 
 /**
  * This class intends to implement a simple HTTP server based on NanoHTTPD. It loops infinitely until it is

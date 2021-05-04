@@ -8,14 +8,13 @@
  */
 package net.sf.zekr.common.util;
 
+import net.sf.zekr.common.config.GlobalConfig;
+import net.sf.zekr.common.runtime.Naming;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import net.sf.zekr.common.config.GlobalConfig;
-import net.sf.zekr.common.runtime.Naming;
-
-import org.apache.commons.io.FilenameUtils;
 
 /**
  * @author Mohsen Saboorian
@@ -56,7 +55,7 @@ public class PathUtils {
 	public static File resolve(String unresolvedPath, String unresolvedParentFolder) {
 		String baseDir;
 		File resolvedFile;
-		if (org.apache.commons.lang.StringUtils.isBlank(unresolvedPath)) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(unresolvedPath)) {
 			return null;
 		}
 		if (unresolvedPath.startsWith(WORKSPACE_RESOURCE)) {

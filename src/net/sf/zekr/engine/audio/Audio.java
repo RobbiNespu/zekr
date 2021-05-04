@@ -8,22 +8,16 @@
  */
 package net.sf.zekr.engine.audio;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.addonmgr.CandidateResource;
 import net.sf.zekr.engine.addonmgr.Resource;
 import net.sf.zekr.engine.addonmgr.ResourceManager;
-
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author Mohsen Saboorian

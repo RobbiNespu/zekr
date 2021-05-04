@@ -8,13 +8,12 @@
  */
 package net.sf.zekr.common.resource.filter;
 
-import java.util.regex.Pattern;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.engine.search.ArabicCharacters;
 import net.sf.zekr.engine.search.tanzil.RegexUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.regex.Pattern;
 
 public class QuranWriterFilter implements IQuranFilter, ArabicCharacters {
    private static final String REPLACE_HIGHLIGHT_NOSPACE = "<span class=\"waqfSign\">$1</span>";

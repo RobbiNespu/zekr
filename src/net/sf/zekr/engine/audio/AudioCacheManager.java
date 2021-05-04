@@ -8,29 +8,20 @@
  */
 package net.sf.zekr.engine.audio;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.util.PathUtils;
 import net.sf.zekr.engine.log.Logger;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.AbstractFileFilter;
+
+import java.io.*;
+import java.net.URI;
+import java.util.*;
 
 /**
  * This is immutable, hence thread-safe.

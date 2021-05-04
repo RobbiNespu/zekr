@@ -8,10 +8,6 @@
  */
 package net.sf.zekr.ui;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.FilteredQuranText;
@@ -26,11 +22,14 @@ import net.sf.zekr.engine.translation.TranslationData;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
 import net.sf.zekr.ui.helper.FormUtils;
-
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author Mohsen Saboorian

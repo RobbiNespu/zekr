@@ -8,22 +8,21 @@
  */
 package net.sf.zekr.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.GlobalConfig;
 import net.sf.zekr.common.config.KeyboardAction;
 import net.sf.zekr.common.config.KeyboardShortcut;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.helper.FormUtils;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mohsen Saboorian

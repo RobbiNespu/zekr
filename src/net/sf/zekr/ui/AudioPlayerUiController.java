@@ -8,28 +8,22 @@
  */
 package net.sf.zekr.ui;
 
-import java.util.Map;
-
 import net.sf.zekr.common.config.ApplicationConfig;
 import net.sf.zekr.common.config.IUserView;
 import net.sf.zekr.common.resource.IQuranLocation;
 import net.sf.zekr.common.resource.IQuranPage;
 import net.sf.zekr.common.resource.JuzProperties;
 import net.sf.zekr.common.resource.QuranPropertiesUtils;
-import net.sf.zekr.engine.audio.AudioCacheManager;
-import net.sf.zekr.engine.audio.AudioData;
-import net.sf.zekr.engine.audio.PlayableObject;
-import net.sf.zekr.engine.audio.PlayerController;
+import net.sf.zekr.engine.audio.*;
 import net.sf.zekr.engine.audio.PlayerController.PlayingItem;
-import net.sf.zekr.engine.audio.PlayerException;
-import net.sf.zekr.engine.audio.ZekrPlayerListener;
 import net.sf.zekr.engine.audio.ui.AudioPlayerForm;
 import net.sf.zekr.engine.audio.ui.AudioPlayerForm.DockMode;
 import net.sf.zekr.engine.log.Logger;
 import net.sf.zekr.ui.helper.EventProtocol;
 import net.sf.zekr.ui.helper.EventUtils;
+import org.apache.commons.configuration2.PropertiesConfiguration;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
+import java.util.Map;
 
 /**
  * @author Mohsen Saboorian

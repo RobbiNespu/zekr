@@ -8,6 +8,10 @@
  */
 package net.sf.zekr.common.config;
 
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.io.FileHandler;
+import org.eclipse.swt.SWT;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,9 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.eclipse.swt.SWT;
 
 /**
  * This class holds some global settings used by Zekr.
@@ -146,8 +147,10 @@ public class GlobalConfig {
 			if (file.exists()) {
 				InputStream fis = new FileInputStream(file);
 				PropertiesConfiguration props = new PropertiesConfiguration();
-				props.setEncoding("UTF-8");
-				props.load(fis);
+				//props.setEncoding("UTF-8");
+				//props.load(fis);
+				FileHandler handler = new FileHandler(props);
+				handler.load(fis,"UTF-8");
 				fis.close();
 				ZEKR_INSTALL_DIR = props.getString("zekr.install.dir", RUNTIME_DIR);
 			} else {
