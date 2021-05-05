@@ -84,7 +84,7 @@
 	<target name="compile">
         <mkdir dir="${build_classdir}" />
     <mkdir dir="dist" />
-		<javac srcdir="${src_dir}" encoding="UTF-8" source="1.8" target="1.8"
+		<javac srcdir="${src_dir}" encoding="UTF-8" source="11" target="11"
 			destdir="${build_classdir}" includes="${packagedir}/**" debug="true"
 			verbose="${verbose}">
 			<classpath refid="buildlibs" />
